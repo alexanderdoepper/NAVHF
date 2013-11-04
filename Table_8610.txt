@@ -1,0 +1,57 @@
+OBJECT Table 8610 Config. Questionnaire
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               ConfigQuestionArea@1001 : Record 8611;
+               ConfigQuestion@1000 : Record 8612;
+             BEGIN
+               ConfigQuestionArea.RESET;
+               ConfigQuestionArea.SETRANGE("Questionnaire Code",Code);
+               ConfigQuestionArea.DELETEALL;
+               ConfigQuestion.RESET;
+               ConfigQuestion.SETRANGE("Questionnaire Code",Code);
+               ConfigQuestion.DELETEALL;
+             END;
+
+    OnRename=BEGIN
+               ERROR(Text001);
+             END;
+
+    CaptionML=[ENU=Config. Questionnaire;
+               ESP=Cuestionario configuraci¢n;
+               DEA=Fragebogen konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=You cannot rename a configuration questionnaire.;ESP=No puede cambiar el nombre de un cuestionario de configuraci¢n.;DEA=Sie k”nnen einen Konfigurationsfragebogen nicht umbenennen.';
+
+    BEGIN
+    END.
+  }
+}
+

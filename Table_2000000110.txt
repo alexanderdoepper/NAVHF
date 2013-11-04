@@ -1,0 +1,46 @@
+OBJECT Table 2000000110 Active Session
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:38:29;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Sesi¢n activa;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User SID            ;GUID          ;TableRelation=User."User Security ID";
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=SID usuario }
+    { 2   ;   ;Server Instance ID  ;Integer       ;TableRelation="Server Instance"."Server Instance ID";
+                                                   CaptionML=ESP=Id. instancia de servidor }
+    { 3   ;   ;Session ID          ;Integer       ;CaptionML=ESP=Id. sesi¢n }
+    { 4   ;   ;Server Instance Name;Text250       ;CaptionML=ESP=Nombre instancia servidor }
+    { 5   ;   ;Server Computer Name;Text250       ;CaptionML=ESP=Nombre equipo servidor }
+    { 6   ;   ;User ID             ;Text132       ;CaptionML=ESP=Id. usuario }
+    { 7   ;   ;Client Type         ;Option        ;CaptionML=ESP=Tipo cliente;
+                                                   OptionCaptionML=ESP=Cliente Windows,Cliente SharePoint,Servicio web,Servicio cliente,NAS,Segundo plano,Cliente admin.,Cliente web,Desconocido;
+                                                   OptionString=Windows Client,SharePoint Client,Web Service,Client Service,NAS,Background,Management Client,Web Client,Unknown }
+    { 8   ;   ;Client Computer Name;Text250       ;CaptionML=ESP=Nombre equipo cliente }
+    { 9   ;   ;Login Datetime      ;DateTime      ;CaptionML=ESP=Valor Datetime inicio sesi¢n }
+    { 10  ;   ;Database Name       ;Text250       ;CaptionML=ESP=Nombre base de datos }
+  }
+  KEYS
+  {
+    {    ;Server Instance ID,Session ID           ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

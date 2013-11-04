@@ -1,0 +1,72 @@
+OBJECT Table 1100 Cost Journal Template
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               "Posting Report ID" := REPORT::"Cost Register";
+             END;
+
+    OnDelete=VAR
+               CostJnlBatch@1000 : Record 1102;
+             BEGIN
+               CostJnlBatch.SETRANGE("Journal Template Name",Name);
+               CostJnlBatch.DELETEALL(TRUE);
+             END;
+
+    CaptionML=[ENU=Cost Journal Template;
+               ESP=Plantilla diario costes;
+               DEA=Kosten-Buch.-Blattvorlage];
+    LookupPageID=Page1107;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;ValidateTableRelation=No;
+                                                   CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor¡a;
+                                                              DEA=Ursachencode] }
+    { 6   ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 7   ;   ;Posting Report ID   ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Report));
+                                                   CaptionML=[ENU=Posting Report ID;
+                                                              ESP=N§ informe para registro;
+                                                              DEA=Buchungsberichts-ID] }
+    { 8   ;   ;Posting Report Name ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Report),
+                                                                                                                Object ID=FIELD(Posting Report ID)));
+                                                   CaptionML=[ENU=Posting Report Name;
+                                                              ESP=Nombre informe para registro;
+                                                              DEA=Buchungsberichtsname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Name,Description                         }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

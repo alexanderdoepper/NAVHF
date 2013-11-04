@@ -1,0 +1,59 @@
+OBJECT Table 7360 Reservation Entry Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Reservation Entry Buffer;
+               ESP=Almacenaje mov. reserva;
+               DEA=Reservierungspostenpuffer];
+  }
+  FIELDS
+  {
+    { 4   ;   ;Quantity (Base)     ;Decimal       ;CaptionML=[ENU=Quantity (Base);
+                                                              ESP=Cantidad (base);
+                                                              DEA=Menge (Basis)];
+                                                   DecimalPlaces=0:5 }
+    { 10  ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart] }
+    { 11  ;   ;Source Subtype      ;Option        ;CaptionML=[ENU=Source Subtype;
+                                                              ESP=Subtipo origen;
+                                                              DEA=Herkunftsunterart];
+                                                   OptionCaptionML=[ENU=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    ESP=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    DEA=0,1,2,3,4,5,6,7,8,9,10];
+                                                   OptionString=0,1,2,3,4,5,6,7,8,9,10 }
+    { 12  ;   ;Source ID           ;Code20        ;CaptionML=[ENU=Source ID;
+                                                              ESP=Id. origen;
+                                                              DEA=Herkunfts-ID] }
+    { 13  ;   ;Source Batch Name   ;Code10        ;CaptionML=[ENU=Source Batch Name;
+                                                              ESP=Nombre secci¢n origen;
+                                                              DEA=Herkunftsbuch.-Blattname] }
+    { 14  ;   ;Source Prod. Order Line;Integer    ;CaptionML=[ENU=Source Prod. Order Line;
+                                                              ESP=L¡nea O.P. origen;
+                                                              DEA=Herkunfts-FA-Zeile] }
+    { 15  ;   ;Source Ref. No.     ;Integer       ;CaptionML=[ENU=Source Ref. No.;
+                                                              ESP=N§ ref. origen;
+                                                              DEA=Herkunftsref.-Nr.] }
+  }
+  KEYS
+  {
+    {    ;Source Type,Source Subtype,Source ID,Source Batch Name,Source Prod. Order Line,Source Ref. No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

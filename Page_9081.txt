@@ -1,0 +1,115 @@
+OBJECT Page 9081 Sales Hist. Bill-to FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Bill-to Customer Sales History;
+               ESP=Historial de ventas del cliente de facturaci¢n;
+               DEA=Verkaufshistorie fÅr Rechnung an Debitor];
+    SourceTable=Table18;
+    PageType=CardPart;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 21  ;1   ;Field     ;
+                CaptionML=[ENU=Customer No.;
+                           ESP=Nß cliente;
+                           DEA=Debitorennr.];
+                SourceExpr="No.";
+                OnDrillDown=BEGIN
+                              ShowDetails;
+                            END;
+                             }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU=Quotes;
+                           ESP=Ofertas;
+                           DEA=Angebote];
+                SourceExpr="Bill-To No. of Quotes";
+                DrillDownPageID=Sales Quotes }
+
+    { 5   ;1   ;Field     ;
+                CaptionML=[ENU=Blanket Orders;
+                           ESP=Pedidos abiertos;
+                           DEA=RahmenauftrÑge];
+                SourceExpr="Bill-To No. of Blanket Orders";
+                DrillDownPageID=Blanket Sales Orders }
+
+    { 7   ;1   ;Field     ;
+                CaptionML=[ENU=Orders;
+                           ESP=Pedidos;
+                           DEA=AuftrÑge];
+                SourceExpr="Bill-To No. of Orders";
+                DrillDownPageID=Sales Order List }
+
+    { 9   ;1   ;Field     ;
+                CaptionML=[ENU=Invoices;
+                           ESP=Facturas;
+                           DEA=Rechnungen];
+                SourceExpr="Bill-To No. of Invoices";
+                DrillDownPageID=Sales Invoice List }
+
+    { 11  ;1   ;Field     ;
+                CaptionML=[ENU=Return Orders;
+                           ESP=Devoluciones;
+                           DEA=Reklamationen];
+                SourceExpr="Bill-To No. of Return Orders";
+                DrillDownPageID=Sales Return Order List }
+
+    { 13  ;1   ;Field     ;
+                CaptionML=[ENU=Credit Memos;
+                           ESP=Abonos;
+                           DEA=Gutschriften];
+                SourceExpr="Bill-To No. of Credit Memos";
+                DrillDownPageID=Sales Credit Memos }
+
+    { 15  ;1   ;Field     ;
+                CaptionML=[ENU=Pstd. Shipments;
+                           ESP=Env°os registrados;
+                           DEA=Geb. Lieferungen];
+                SourceExpr="Bill-To No. of Pstd. Shipments";
+                DrillDownPageID=Posted Sales Shipments }
+
+    { 17  ;1   ;Field     ;
+                CaptionML=[ENU=Pstd. Invoices;
+                           ESP=Facturas registradas;
+                           DEA=Geb. Rechnungen];
+                SourceExpr="Bill-To No. of Pstd. Invoices";
+                DrillDownPageID=Posted Sales Invoices }
+
+    { 1   ;1   ;Field     ;
+                CaptionML=[ENU=Pstd. Return Receipts;
+                           ESP=Recep. devol. registradas;
+                           DEA=Geb. Retourenbelege];
+                SourceExpr="Bill-To No. of Pstd. Return R.";
+                DrillDownPageID=Posted Return Receipts }
+
+    { 19  ;1   ;Field     ;
+                CaptionML=[ENU=Pstd. Credit Memos;
+                           ESP=Abonos registrados;
+                           DEA=Geb. Gutschriften];
+                SourceExpr="Bill-To No. of Pstd. Cr. Memos";
+                DrillDownPageID=Posted Sales Credit Memos }
+
+  }
+  CODE
+  {
+
+    PROCEDURE ShowDetails@1102601000();
+    BEGIN
+      PAGE.RUN(PAGE::"Customer Card",Rec);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,117 @@
+OBJECT Report 900 Batch Post Assembly Orders
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Batch Post Assembly Orders;
+               ESP=Reg. lotes pedidos ensamblado;
+               DEA=Montageauftr„ge stapelbuchen];
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+    { 3252;    ;DataItem;                    ;
+               DataItemTable=Table900;
+               DataItemTableView=SORTING(Document Type,No.)
+                                 WHERE(Document Type=CONST(Order));
+               OnPreDataItem=BEGIN
+                               IF ReplacePostingDate AND (PostingDateReq = 0D) THEN
+                                 ERROR(Text000);
+
+                               CounterTotal := COUNT;
+                               Window.OPEN(Text001);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  Counter := Counter + 1;
+                                  Window.UPDATE(1,"No.");
+                                  Window.UPDATE(2,ROUND(Counter / CounterTotal * 10000,1));
+                                  CLEAR(AssemblyPost);
+                                  AssemblyPost.SetPostingDate(ReplacePostingDate,PostingDateReq);
+                                  IF AssemblyPost.RUN("Assembly Header") THEN BEGIN
+                                    CounterOK := CounterOK + 1;
+                                    IF MARKEDONLY THEN
+                                      MARK(FALSE);
+                                  END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                Window.CLOSE;
+                                MESSAGE(Text002,CounterOK,CounterTotal);
+                              END;
+
+               ReqFilterFields=No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   ReplacePostingDate := FALSE;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  Name=PostingDate;
+                  CaptionML=[ENU=Posting Date;
+                             ESP=Fecha registro;
+                             DEA=Buchungsdatum];
+                  SourceExpr=PostingDateReq }
+
+      { 4   ;2   ;Field     ;
+                  Name=ReplacePostingDate;
+                  CaptionML=[ENU=Replace Posting Date;
+                             ESP=Reemplazar fecha reg.;
+                             DEA=Buchungsdatum ersetzen];
+                  SourceExpr=ReplacePostingDate }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Enter the posting date.;ESP=Introduzca la fecha de registro.;DEA=Geben Sie das Buchungsdatum ein.';
+      Text001@1001 : TextConst 'ENU=Posting orders  #1########## @2@@@@@@@@@@@@@;ESP=Reg. pedidos    #1########## @2@@@@@@@@@@@@@;DEA=Bestellungen werden gebucht... #1########## @2@@@@@@@@@@@@@';
+      Text002@1002 : TextConst 'ENU=%1 orders out of a total of %2 have now been posted.;ESP=Se han registrado %1 pedidos de un total de %2.;DEA=%1 Bestellungen von insgesamt %2 wurden gebucht.';
+      AssemblyPost@1008 : Codeunit 900;
+      Window@1009 : Dialog;
+      PostingDateReq@1012 : Date;
+      CounterTotal@1013 : Integer;
+      Counter@1014 : Integer;
+      CounterOK@1015 : Integer;
+      ReplacePostingDate@1016 : Boolean;
+
+    PROCEDURE InitializeRequest@3(NewPostingDateReq@1000 : Date;NewReplacePostingDate@1001 : Boolean);
+    BEGIN
+      PostingDateReq := NewPostingDateReq;
+      ReplacePostingDate := NewReplacePostingDate;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

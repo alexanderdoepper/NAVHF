@@ -1,0 +1,103 @@
+OBJECT Table 7132 Item Budget Name
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               ItemBudgetEntry@1000 : Record 7134;
+               ItemAnalysisViewBudgetEntry@1001 : Record 7156;
+             BEGIN
+               ItemBudgetEntry.SETCURRENTKEY("Analysis Area","Budget Name");
+               ItemBudgetEntry.SETRANGE("Analysis Area","Analysis Area");
+               ItemBudgetEntry.SETRANGE("Budget Name",Name);
+               ItemBudgetEntry.DELETEALL(TRUE);
+
+               ItemAnalysisViewBudgetEntry.SETRANGE("Analysis Area","Analysis Area");
+               ItemAnalysisViewBudgetEntry.SETRANGE("Budget Name",Name);
+               ItemAnalysisViewBudgetEntry.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Item Budget Name;
+               ESP=Nombre ppto. producto;
+               DEA=Artikelbudgetname];
+    LookupPageID=Page7132;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Analysis Area       ;Option        ;CaptionML=[ENU=Analysis Area;
+                                                              ESP=µrea an lisis;
+                                                              DEA=Analysebereich];
+                                                   OptionCaptionML=[ENU=Sales,Purchase;
+                                                                    ESP=Ventas,Compra;
+                                                                    DEA=Verkauf,Einkauf];
+                                                   OptionString=Sales,Purchase }
+    { 2   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
+                                                              ESP=Bloqueado;
+                                                              DEA=Gesperrt] }
+    { 5   ;   ;Budget Dimension 1 Code;Code20     ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF "Budget Dimension 1 Code" <> xRec."Budget Dimension 1 Code" THEN BEGIN
+                                                                  IF Dim.CheckIfDimUsed("Budget Dimension 1 Code",17,Name,'',"Analysis Area") THEN
+                                                                    ERROR(Text000,Dim.GetCheckDimErr);
+                                                                  MODIFY;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Budget Dimension 1 Code;
+                                                              ESP=C¢d. dim. presupuesto 1;
+                                                              DEA=Budgetdimensionscode 1] }
+    { 6   ;   ;Budget Dimension 2 Code;Code20     ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF "Budget Dimension 2 Code" <> xRec."Budget Dimension 2 Code" THEN BEGIN
+                                                                  IF Dim.CheckIfDimUsed("Budget Dimension 2 Code",18,Name,'',"Analysis Area") THEN
+                                                                    ERROR(Text000,Dim.GetCheckDimErr);
+                                                                  MODIFY;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Budget Dimension 2 Code;
+                                                              ESP=C¢d. dim. presupuesto 2;
+                                                              DEA=Budgetdimensionscode 2] }
+    { 7   ;   ;Budget Dimension 3 Code;Code20     ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF "Budget Dimension 3 Code" <> xRec."Budget Dimension 3 Code" THEN BEGIN
+                                                                  IF Dim.CheckIfDimUsed("Budget Dimension 3 Code",19,Name,'',"Analysis Area") THEN
+                                                                    ERROR(Text000,Dim.GetCheckDimErr);
+                                                                  MODIFY;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Budget Dimension 3 Code;
+                                                              ESP=C¢d. dim. presupuesto 3;
+                                                              DEA=Budgetdimensionscode 3] }
+  }
+  KEYS
+  {
+    {    ;Analysis Area,Name                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=%1\You cannot use the same dimension twice in the same budget.;ESP=%1\No puede usar la misma dim. dos veces en el mismo ppto.;DEA=%1\Sie k”nnen in demselben Budget dieselbe Dimension nicht zweimal verwenden.';
+      Dim@1002 : Record 348;
+
+    BEGIN
+    END.
+  }
+}
+

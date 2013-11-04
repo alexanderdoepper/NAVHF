@@ -1,0 +1,314 @@
+OBJECT Table 382 CV Ledger Entry Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=CV Ledger Entry Buffer;
+               ESP=Mem. inter. mov. CV;
+               DEA=Deb.-/Kred.-Postenpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 3   ;   ;CV No.              ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=CV No.;
+                                                              ESP=N§ CV;
+                                                              DEA=Deb.-/Kred.-Nr.] }
+    { 4   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 5   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                                                    ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
+                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                                                   OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
+    { 6   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 7   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 11  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 13  ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 14  ;   ;Remaining Amount    ;Decimal       ;CaptionML=[ENU=Remaining Amount;
+                                                              ESP=Importe pendiente;
+                                                              DEA=Restbetrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 15  ;   ;Original Amt. (LCY) ;Decimal       ;CaptionML=[ENU=Original Amt. (LCY);
+                                                              ESP=Importe inicial (DL);
+                                                              DEA=Ursprungsbetrag (MW)];
+                                                   AutoFormatType=1 }
+    { 16  ;   ;Remaining Amt. (LCY);Decimal       ;CaptionML=[ENU=Remaining Amt. (LCY);
+                                                              ESP=Importe pendiente (DL);
+                                                              DEA=Restbetrag (MW)];
+                                                   AutoFormatType=1 }
+    { 17  ;   ;Amount (LCY)        ;Decimal       ;CaptionML=[ENU=Amount (LCY);
+                                                              ESP=Importe (DL);
+                                                              DEA=Betrag (MW)];
+                                                   AutoFormatType=1 }
+    { 18  ;   ;Sales/Purchase (LCY);Decimal       ;CaptionML=[ENU=Sales/Purchase (LCY);
+                                                              ESP=Ventas/Compras (DL);
+                                                              DEA=Verkauf/Einkauf (MW)];
+                                                   AutoFormatType=1 }
+    { 19  ;   ;Profit (LCY)        ;Decimal       ;CaptionML=[ENU=Profit (LCY);
+                                                              ESP=Bf§ bruto (DL);
+                                                              DEA=DB (MW)];
+                                                   AutoFormatType=1 }
+    { 20  ;   ;Inv. Discount (LCY) ;Decimal       ;CaptionML=[ENU=Inv. Discount (LCY);
+                                                              ESP=Dto. factura (DL);
+                                                              DEA=Rechnungsrabatt (MW)];
+                                                   AutoFormatType=1 }
+    { 21  ;   ;Bill-to/Pay-to CV No.;Code20       ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Bill-to/Pay-to CV No.;
+                                                              ESP=Fact./Pago a N§ CV;
+                                                              DEA=Rech./Zahl. an Deb.-/Kred.-Nr.] }
+    { 22  ;   ;CV Posting Group    ;Code10        ;TableRelation="Customer Posting Group";
+                                                   CaptionML=[ENU=CV Posting Group;
+                                                              ESP=Grupo reg. CV;
+                                                              DEA=Deb.-/Kred.-Buchungsgruppe] }
+    { 23  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 24  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 25  ;   ;Salesperson Code    ;Code10        ;TableRelation=Salesperson/Purchaser;
+                                                   CaptionML=[ENU=Salesperson Code;
+                                                              ESP=C¢d. vendedor;
+                                                              DEA=Verk„ufercode] }
+    { 27  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 28  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 33  ;   ;On Hold             ;Code3         ;CaptionML=[ENU=On Hold;
+                                                              ESP=Esperar;
+                                                              DEA=Abwarten] }
+    { 34  ;   ;Applies-to Doc. Type;Option        ;CaptionML=[ENU=Applies-to Doc. Type;
+                                                              ESP=Liq. por tipo documento;
+                                                              DEA=Ausgleich mit Belegart];
+                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                                                    ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
+                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                                                   OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
+    { 35  ;   ;Applies-to Doc. No. ;Code20        ;CaptionML=[ENU=Applies-to Doc. No.;
+                                                              ESP=Liq. por n§ documento;
+                                                              DEA=Ausgleich mit Belegnr.] }
+    { 36  ;   ;Open                ;Boolean       ;CaptionML=[ENU=Open;
+                                                              ESP=Pendiente;
+                                                              DEA=Offen] }
+    { 37  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
+                                                              ESP=Fecha vencimiento;
+                                                              DEA=F„lligkeitsdatum] }
+    { 38  ;   ;Pmt. Discount Date  ;Date          ;CaptionML=[ENU=Pmt. Discount Date;
+                                                              ESP=Fecha dto. P.P.;
+                                                              DEA=Skontodatum] }
+    { 39  ;   ;Original Pmt. Disc. Possible;Decimal;
+                                                   CaptionML=[ENU=Original Pmt. Disc. Possible;
+                                                              ESP=Dto. P.P. realizable inicial;
+                                                              DEA=Urspr. Skonto m”glich];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 40  ;   ;Pmt. Disc. Given (LCY);Decimal     ;CaptionML=[ENU=Pmt. Disc. Given (LCY);
+                                                              ESP=Dto. P.P. (DL);
+                                                              DEA=Skonto gew„hrt (MW)];
+                                                   AutoFormatType=1 }
+    { 43  ;   ;Positive            ;Boolean       ;CaptionML=[ENU=Positive;
+                                                              ESP=Positivo;
+                                                              DEA=Positiv] }
+    { 44  ;   ;Closed by Entry No. ;Integer       ;TableRelation="Cust. Ledger Entry";
+                                                   CaptionML=[ENU=Closed by Entry No.;
+                                                              ESP=Cerrado por n§ orden;
+                                                              DEA=Geschlossen von Lfd. Nr.] }
+    { 45  ;   ;Closed at Date      ;Date          ;CaptionML=[ENU=Closed at Date;
+                                                              ESP=Cerrado a la fecha;
+                                                              DEA=Geschlossen am] }
+    { 46  ;   ;Closed by Amount    ;Decimal       ;CaptionML=[ENU=Closed by Amount;
+                                                              ESP=Cerrado por importe;
+                                                              DEA=Geschlossen mit Betrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 47  ;   ;Applies-to ID       ;Code50        ;CaptionML=[ENU=Applies-to ID;
+                                                              ESP=Liq. por id.;
+                                                              DEA=Ausgleichs-ID] }
+    { 49  ;   ;Journal Batch Name  ;Code10        ;CaptionML=[ENU=Journal Batch Name;
+                                                              ESP=Nombre secci¢n diario;
+                                                              DEA=Buch.-Blattname] }
+    { 50  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor¡a;
+                                                              DEA=Ursachencode] }
+    { 51  ;   ;Bal. Account Type   ;Option        ;CaptionML=[ENU=Bal. Account Type;
+                                                              ESP=Tipo contrapartida;
+                                                              DEA=Gegenkontoart];
+                                                   OptionCaptionML=[ENU=G/L Account,Customer,Vendor,Bank Account,Fixed Asset;
+                                                                    ESP=Cuenta,Cliente,Proveedor,Banco,Activo;
+                                                                    DEA=Sachkonto,Debitor,Kreditor,Bankkonto,Anlage];
+                                                   OptionString=G/L Account,Customer,Vendor,Bank Account,Fixed Asset }
+    { 52  ;   ;Bal. Account No.    ;Code20        ;TableRelation=IF (Bal. Account Type=CONST(G/L Account)) "G/L Account"
+                                                                 ELSE IF (Bal. Account Type=CONST(Customer)) Customer
+                                                                 ELSE IF (Bal. Account Type=CONST(Vendor)) Vendor
+                                                                 ELSE IF (Bal. Account Type=CONST(Bank Account)) "Bank Account"
+                                                                 ELSE IF (Bal. Account Type=CONST(Fixed Asset)) "Fixed Asset";
+                                                   CaptionML=[ENU=Bal. Account No.;
+                                                              ESP=Cta. contrapartida;
+                                                              DEA=Gegenkontonr.] }
+    { 53  ;   ;Transaction No.     ;Integer       ;CaptionML=[ENU=Transaction No.;
+                                                              ESP=N§ asiento;
+                                                              DEA=Transaktionsnr.] }
+    { 54  ;   ;Closed by Amount (LCY);Decimal     ;CaptionML=[ENU=Closed by Amount (LCY);
+                                                              ESP=Cerrado por importe (DL);
+                                                              DEA=Geschlossen mit Betrag (MW)];
+                                                   AutoFormatType=1 }
+    { 58  ;   ;Debit Amount        ;Decimal       ;CaptionML=[ENU=Debit Amount;
+                                                              ESP=Importe debe;
+                                                              DEA=Sollbetrag];
+                                                   BlankZero=Yes;
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 59  ;   ;Credit Amount       ;Decimal       ;CaptionML=[ENU=Credit Amount;
+                                                              ESP=Importe haber;
+                                                              DEA=Habenbetrag];
+                                                   BlankZero=Yes;
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 60  ;   ;Debit Amount (LCY)  ;Decimal       ;CaptionML=[ENU=Debit Amount (LCY);
+                                                              ESP=Importe debe (DL);
+                                                              DEA=Sollbetrag (MW)];
+                                                   BlankZero=Yes;
+                                                   AutoFormatType=1 }
+    { 61  ;   ;Credit Amount (LCY) ;Decimal       ;CaptionML=[ENU=Credit Amount (LCY);
+                                                              ESP=Importe haber (DL);
+                                                              DEA=Habenbetrag (MW)];
+                                                   BlankZero=Yes;
+                                                   AutoFormatType=1 }
+    { 62  ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              ESP=Fecha emisi¢n documento;
+                                                              DEA=Belegdatum] }
+    { 63  ;   ;External Document No.;Code35       ;CaptionML=[ENU=External Document No.;
+                                                              ESP=N§ documento externo;
+                                                              DEA=Externe Belegnummer] }
+    { 64  ;   ;Calculate Interest  ;Boolean       ;CaptionML=[ENU=Calculate Interest;
+                                                              ESP=C lculo inter‚s;
+                                                              DEA=Zins berechnen] }
+    { 65  ;   ;Closing Interest Calculated;Boolean;CaptionML=[ENU=Closing Interest Calculated;
+                                                              ESP=C lculo inter‚s cerrado;
+                                                              DEA=Abschlusszinsen berechnet] }
+    { 66  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              ESP=Nos. serie;
+                                                              DEA=Nummernserie] }
+    { 67  ;   ;Closed by Currency Code;Code10     ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Closed by Currency Code;
+                                                              ESP=Cerrado por c¢d. divisa;
+                                                              DEA=Geschlossen von W„hrungscode] }
+    { 68  ;   ;Closed by Currency Amount;Decimal  ;CaptionML=[ENU=Closed by Currency Amount;
+                                                              ESP=Cerrado por importe en divisa;
+                                                              DEA=Geschlossen mit W„hrungsbetrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Closed by Currency Code" }
+    { 70  ;   ;Rounding Currency   ;Code10        ;CaptionML=[ENU=Rounding Currency;
+                                                              ESP=Divisa redondeo;
+                                                              DEA=Rundungsw„hrung] }
+    { 71  ;   ;Rounding Amount     ;Decimal       ;CaptionML=[ENU=Rounding Amount;
+                                                              ESP=Importe redondeo;
+                                                              DEA=Rundungsbetrag];
+                                                   AutoFormatType=1 }
+    { 72  ;   ;Rounding Amount (LCY);Decimal      ;CaptionML=[ENU=Rounding Amount (LCY);
+                                                              ESP=Redondeo importe (DL);
+                                                              DEA=Rundungsbetrag (MW)];
+                                                   AutoFormatType=1 }
+    { 73  ;   ;Adjusted Currency Factor;Decimal   ;CaptionML=[ENU=Adjusted Currency Factor;
+                                                              ESP=Factor divisa ajustada;
+                                                              DEA=Regul. W„hrungsfaktor];
+                                                   AutoFormatType=1 }
+    { 74  ;   ;Original Currency Factor;Decimal   ;CaptionML=[ENU=Original Currency Factor;
+                                                              ESP=Factor divisa original;
+                                                              DEA=Urspr. W„hrungsfaktor];
+                                                   AutoFormatType=1 }
+    { 75  ;   ;Original Amount     ;Decimal       ;CaptionML=[ENU=Original Amount;
+                                                              ESP=Importe inicial;
+                                                              DEA=Ursprungsbetrag];
+                                                   AutoFormatType=1 }
+    { 77  ;   ;Remaining Pmt. Disc. Possible;Decimal;
+                                                   CaptionML=[ENU=Remaining Pmt. Disc. Possible;
+                                                              ESP=Dto. P.P realizable pendiente;
+                                                              DEA=Restskonto m”glich];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 78  ;   ;Pmt. Disc. Tolerance Date;Date     ;CaptionML=[ENU=Pmt. Disc. Tolerance Date;
+                                                              ESP=Fecha tolerancia dto. pago;
+                                                              DEA=Skontotoleranzdatum] }
+    { 79  ;   ;Max. Payment Tolerance;Decimal     ;CaptionML=[ENU=Max. Payment Tolerance;
+                                                              ESP=M x. tolerancia pagos;
+                                                              DEA=Max. Zahlungstoleranz] }
+    { 81  ;   ;Accepted Payment Tolerance;Decimal ;CaptionML=[ENU=Accepted Payment Tolerance;
+                                                              ESP=Tolerancia pagos aceptada;
+                                                              DEA=Akzeptierte Zahlungstoleranz] }
+    { 82  ;   ;Accepted Pmt. Disc. Tolerance;Boolean;
+                                                   CaptionML=[ENU=Accepted Pmt. Disc. Tolerance;
+                                                              ESP=Tolerancia dto. P.P. aceptada;
+                                                              DEA=Akzeptierte Skontotoleranz] }
+    { 83  ;   ;Pmt. Tolerance (LCY);Decimal       ;CaptionML=[ENU=Pmt. Tolerance (LCY);
+                                                              ESP=Tolerancia pagos (DL);
+                                                              DEA=Zahlungstoleranz (MW)] }
+    { 84  ;   ;Amount to Apply     ;Decimal       ;CaptionML=[ENU=Amount to Apply;
+                                                              ESP=Importe pendiente de liquidar;
+                                                              DEA=Ausgleichsbetrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 90  ;   ;Prepayment          ;Boolean       ;CaptionML=[ENU=Prepayment;
+                                                              ESP=Prepago;
+                                                              DEA=Vorauszahlung] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,37 @@
+OBJECT Table 2000000130 Device
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Dispositivo;
+  }
+  FIELDS
+  {
+    { 1   ;   ;MAC Address         ;Code20        ;CaptionML=ESP=Direcci¢n MAC }
+    { 2   ;   ;Name                ;Text80        ;CaptionML=ESP=Nombre }
+    { 3   ;   ;Device Type         ;Option        ;CaptionML=ESP=Tipo de dispositivo;
+                                                   OptionCaptionML=ESP=Completo,Limitado;
+                                                   OptionString=Full,Limited }
+    { 4   ;   ;Enabled             ;Boolean       ;CaptionML=ESP=Activado }
+  }
+  KEYS
+  {
+    {    ;MAC Address                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

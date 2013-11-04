@@ -1,0 +1,43 @@
+OBJECT Table 11013 Electronic VAT Decl. Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Electronic VAT Decl. Setup;
+               DEA=Elektronische UmsatzsteuererklÑrung - Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Use Authentication  ;Boolean       ;CaptionML=[ENU=Use Authentication;
+                                                              DEA=Authentifizierung verwenden] }
+    { 5   ;   ;Use Proxy Server    ;Boolean       ;CaptionML=[ENU=Use Proxy Server;
+                                                              DEA=Proxyserver verwenden] }
+    { 6   ;   ;Proxy Server Authent. Required;Boolean;
+                                                   CaptionML=[ENU=Proxy Server Authent. Required;
+                                                              DEA=Proxyserverauth. erforderlich] }
+    { 7   ;   ;Proxy Server IP-Address/Port;Code250;
+                                                   CaptionML=[ENU=Proxy Server IP-Address/Port;
+                                                              DEA=Proxyserver-IP-Adresse/-Port] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

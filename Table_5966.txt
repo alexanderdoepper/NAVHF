@@ -1,0 +1,56 @@
+OBJECT Table 5966 Contract Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Contract Group;
+               ESP=Grupo contrato;
+               DEA=Servicevertragsgruppe];
+    LookupPageID=Page6062;
+    DrillDownPageID=Page6062;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Disc. on Contr. Orders Only;Boolean;CaptionML=[ENU=Disc. on Contr. Orders Only;
+                                                              ESP=S¢lo dto. en pedidos contrat.;
+                                                              DEA=Rabatt nur auf Vertr.-Auftr„ge] }
+    { 4   ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 5   ;   ;Contract Gain/Loss Amount;Decimal  ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Contract Gain/Loss Entry".Amount WHERE (Contract Group Code=FIELD(Code),
+                                                                                                            Change Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Contract Gain/Loss Amount;
+                                                              ESP=Imp. p‚rdidas/gananc. contrato;
+                                                              DEA=Gewinn-/Verlustbetrag (Vertr.)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

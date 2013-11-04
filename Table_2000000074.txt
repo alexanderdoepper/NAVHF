@@ -1,0 +1,44 @@
+OBJECT Table 2000000074 Profile Metadata
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:08;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Metadatos de perfil;
+  }
+  FIELDS
+  {
+    { 3   ;   ;Profile ID          ;Code30        ;TableRelation=Profile."Profile ID";
+                                                   CaptionML=ESP=Id. perfil }
+    { 6   ;   ;Page ID             ;Integer       ;TableRelation=AllObj."Object ID" WHERE (Object Type=CONST(Page));
+                                                   CaptionML=ESP=Id. p gina }
+    { 9   ;   ;Description         ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Page),
+                                                                                                                Object ID=FIELD(Page ID)));
+                                                   CaptionML=ESP=Descripci¢n }
+    { 12  ;   ;Date                ;Date          ;CaptionML=ESP=Fecha }
+    { 15  ;   ;Time                ;Time          ;CaptionML=ESP=Hora }
+    { 18  ;   ;Personalization ID  ;Code40        ;CaptionML=ESP=Id. de personalizaci¢n }
+    { 21  ;   ;Page Metadata Delta ;BLOB          ;CaptionML=ESP=P gina metadatos Delta }
+  }
+  KEYS
+  {
+    {    ;Profile ID,Page ID,Personalization ID   ;Clustered=Yes }
+    {    ;Date                                     }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

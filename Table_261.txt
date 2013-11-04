@@ -1,0 +1,87 @@
+OBJECT Table 261 Intrastat Jnl. Template
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               VALIDATE("Page ID");
+             END;
+
+    OnDelete=BEGIN
+               IntrastatJnlLine.SETRANGE("Journal Template Name",Name);
+               IntrastatJnlLine.DELETEALL;
+               IntrastatJnlBatch.SETRANGE("Journal Template Name",Name);
+               IntrastatJnlBatch.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Intrastat Jnl. Template;
+               ESP=Libro diario Intrastat;
+               DEA=Intrastat Buch.-Blattvorlage];
+    LookupPageID=Page326;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 5   ;   ;Checklist Report ID ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Report));
+                                                   CaptionML=[ENU=Checklist Report ID;
+                                                              ESP=N§ informe prueba Intrastat;
+                                                              DEA=Testberichts-ID] }
+    { 6   ;   ;Page ID             ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Page));
+                                                   OnValidate=BEGIN
+                                                                IF "Page ID" = 0 THEN
+                                                                  "Page ID" := PAGE::"Intrastat Journal";
+                                                                "Checklist Report ID" := REPORT::"Intrastat - Checklist";
+                                                                DACHReportSelection.SETRANGE(Usage, DACHReportSelection.Usage::"Intrastat Checklist");
+                                                                DACHReportSelection.SETFILTER("Report ID", '<>0');
+                                                                IF DACHReportSelection.FIND('-') THEN
+                                                                  "Checklist Report ID" := DACHReportSelection."Report ID";
+                                                              END;
+
+                                                   CaptionML=[ENU=Page ID;
+                                                              ESP=Id. p gina;
+                                                              DEA=Seiten-ID] }
+    { 15  ;   ;Checklist Report Name;Text250      ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Report),
+                                                                                                                Object ID=FIELD(Checklist Report ID)));
+                                                   CaptionML=[ENU=Checklist Report Name;
+                                                              ESP=Nombre informe prueba Intrastat;
+                                                              DEA=Testberichtsname];
+                                                   Editable=No }
+    { 16  ;   ;Page Name           ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Page),
+                                                                                                                Object ID=FIELD(Page ID)));
+                                                   CaptionML=[ENU=Page Name;
+                                                              ESP=Nombre p gina;
+                                                              DEA=Seitenname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      IntrastatJnlBatch@1000 : Record 262;
+      IntrastatJnlLine@1001 : Record 263;
+      DACHReportSelection@1140000 : Record 26100;
+
+    BEGIN
+    END.
+  }
+}
+

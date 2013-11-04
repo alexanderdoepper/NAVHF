@@ -1,0 +1,45 @@
+OBJECT Table 2000000120 User
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Usuario;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User Security ID    ;GUID          ;CaptionML=ESP=Id. de seguridad de usuario }
+    { 2   ;   ;User Name           ;Code50        ;CaptionML=ESP=Nombre usuario }
+    { 3   ;   ;Full Name           ;Text80        ;CaptionML=ESP=Nombre completo }
+    { 4   ;   ;State               ;Option        ;CaptionML=ESP=Estado;
+                                                   OptionCaptionML=ESP=Activado,Desactivado;
+                                                   OptionString=Enabled,Disabled }
+    { 5   ;   ;Expiry Date         ;DateTime      ;CaptionML=ESP=Fecha de expiraci¢n }
+    { 7   ;   ;Windows Security ID ;Text119       ;CaptionML=ESP=Id. seguridad Windows }
+    { 8   ;   ;Change Password     ;Boolean       ;CaptionML=ESP=Cambiar contrase¤a }
+    { 10  ;   ;License Type        ;Option        ;CaptionML=ESP=Tipo de licencia;
+                                                   OptionCaptionML=ESP=Usuario completo,Usuario limitado,Usuario solo dispositivo,Grupo Windows,Usuario externo;
+                                                   OptionString=Full User,Limited User,Device Only User,Windows Group,External User }
+  }
+  KEYS
+  {
+    {    ;User Security ID                        ;Clustered=Yes }
+    {    ;User Name                                }
+    {    ;Windows Security ID                      }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

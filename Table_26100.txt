@@ -1,0 +1,63 @@
+OBJECT Table 26100 DACH Report Selections
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=DACH Report Selections;
+               DEA=DACH-Berichtsauswahl];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Usage               ;Option        ;CaptionML=[ENU=Usage;
+                                                              DEA=Verwendung];
+                                                   OptionCaptionML=[ENU=Intrastat Checklist,Intrastat Form,Intrastat Disk,Intrastat Disklabel,,,,,,VAT Statement,Sales VAT Acc. Proof,VAT Statement Schedule,,,,,,Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,,,,,,Delivery Reminder Test,Issued Delivery Reminder,,,,,,S.Arch. Blanket Order,P.Arch. Blanket Order;
+                                                                    DEA=Intrastat-PrÅfung,Intrastat-Formular,Intrastat-Diskette,Intrastat-Diskettenetikett,,,,,,MwSt.-Abrechnung,UVA Kontennachweis,MwSt.-Abrechnungsschema,,,,,,Inventurauftrag - Test,Inventurauftrag,Geb. Inventurauftrag,Inventurerfassung,Geb. Inventurerfassung,,,,,,Lieferanmahnung - Test,Registrierte Lieferanmahnung,,,,,,Arch. Rahmenauftrag,Arch. Rahmenbestellung];
+                                                   OptionString=Intrastat Checklist,Intrastat Form,Intrastat Disk,Intrastat Disklabel,,,,,,VAT Statement,Sales VAT Acc. Proof,VAT Statement Schedule,,,,,,Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,,,,,,Delivery Reminder Test,Issued Delivery Reminder,,,,,,S.Arch. Blanket Order,P.Arch. Blanket Order }
+    { 2   ;   ;Sequence            ;Code10        ;CaptionML=[ENU=Sequence;
+                                                              DEA=Reihenfolge];
+                                                   Numeric=Yes }
+    { 3   ;   ;Report ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Report));
+                                                   OnValidate=BEGIN
+                                                                CALCFIELDS("Report Name");
+                                                              END;
+
+                                                   CaptionML=[ENU=Report ID;
+                                                              DEA=Berichts-ID] }
+    { 4   ;   ;Report Name         ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Report),
+                                                                                                                Object ID=FIELD(Report ID)));
+                                                   CaptionML=[ENU=Report Name;
+                                                              DEA=Berichtsname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Usage,Sequence                          ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DACHReportSelection2@1000 : Record 26100;
+
+    PROCEDURE NewRecord@1();
+    BEGIN
+      DACHReportSelection2.SETRANGE(Usage,Usage);
+      IF DACHReportSelection2.FINDLAST AND (DACHReportSelection2.Sequence <> '') THEN
+        Sequence := INCSTR(DACHReportSelection2.Sequence)
+      ELSE
+        Sequence := '1';
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

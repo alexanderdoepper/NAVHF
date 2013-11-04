@@ -1,0 +1,290 @@
+OBJECT Page 8629 Config. Wizard
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Welcome to RapidStart Services for Microsoft Dynamics NAV;
+               ESP=Bienvenido a los servicios RapidStart para Microsoft Dynamics NAV;
+               DEA=Willkommen bei RapidStart Services fÅr Microsoft Dynamics NAV];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    LinksAllowed=No;
+    SourceTable=Table8627;
+    PageType=Card;
+    PromotedActionCategoriesML=[ENU=New,Process,Report,Step 4,Step 5;
+                                ESP=Nuevo,Proceso,Informe,Paso 4,Paso 5;
+                                DEA=Neu,Vorgang,Bericht,Schritt 4,Schritt 5];
+    ShowFilter=No;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END ELSE BEGIN
+                   "Package File Name" := '';
+                   "Package Name" := '';
+                   "Package Code" := '';
+                   MODIFY;
+                 END;
+               END;
+
+    OnClosePage=BEGIN
+                  SelectDefaultRoleCenter("Your Profile Code");
+                END;
+
+    ActionList=ACTIONS
+    {
+      { 6       ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 8       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Actions;
+                                 ESP=Acciones;
+                                 DEA=Aktionen] }
+      { 13      ;2   ;Action    ;
+                      CaptionML=[ENU=Apply Package;
+                                 ESP=Aplicar paquete;
+                                 DEA=Paket Åbernehmen];
+                      Promoted=Yes;
+                      Enabled=ApplyVisible;
+                      PromotedIsBig=Yes;
+                      Image=Apply;
+                      PromotedCategory=Category4;
+                      OnAction=BEGIN
+                                 IF CompleteWizard THEN
+                                   ConfigVisible := TRUE
+                                 ELSE
+                                   ERROR(Text003);
+                               END;
+                                }
+      { 12      ;2   ;Action    ;
+                      CaptionML=[ENU=Configuration Worksheet;
+                                 ESP=Hoja de configuraci¢n;
+                                 DEA=Konfigurationsvorschlag];
+                      RunObject=Page 8632;
+                      Promoted=Yes;
+                      Enabled=ConfigVisible;
+                      PromotedIsBig=Yes;
+                      Image=SetupLines;
+                      PromotedCategory=Category4 }
+      { 14      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Setup;
+                                 ESP=Configuraci¢n;
+                                 DEA=Einrichtung] }
+      { 16      ;2   ;Action    ;
+                      CaptionML=[ENU=Users;
+                                 ESP=Usuarios;
+                                 DEA=Benutzer];
+                      RunObject=Page 9800;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=User;
+                      PromotedCategory=Category5 }
+      { 18      ;2   ;Action    ;
+                      CaptionML=[ENU=Users Personalization;
+                                 ESP=Personalizaci¢n de usuarios;
+                                 DEA=Benutzeranpassung];
+                      RunObject=Page 9173;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=UserSetup;
+                      PromotedCategory=Category5 }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 56  ;1   ;Group     ;
+                CaptionML=[ENU=Step 1. Enter your company details.;
+                           ESP=Paso 1. Especifique los detalles de la empresa.;
+                           DEA=Schritt 1. Geben Sie Ihre Unternehmensdetails ein.] }
+
+    { 5   ;2   ;Group     ;
+                GroupType=Group }
+
+    { 55  ;3   ;Field     ;
+                CaptionML=[ENU=Name (Required);
+                           ESP=Nombre (obligatorio);
+                           DEA=Name (notwendig)];
+                SourceExpr=Name }
+
+    { 54  ;3   ;Field     ;
+                SourceExpr=Address }
+
+    { 53  ;3   ;Field     ;
+                SourceExpr="Address 2" }
+
+    { 52  ;3   ;Field     ;
+                SourceExpr="Post Code" }
+
+    { 51  ;3   ;Field     ;
+                SourceExpr=City }
+
+    { 50  ;3   ;Field     ;
+                SourceExpr="Country/Region Code" }
+
+    { 48  ;3   ;Field     ;
+                SourceExpr="VAT Registration No." }
+
+    { 47  ;3   ;Field     ;
+                SourceExpr="Industrial Classification" }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr=Picture }
+
+    { 45  ;1   ;Group     ;
+                CaptionML=[ENU=Step 2. Enter communication details.;
+                           ESP=Paso 2. Especifique los detalles de comunicaci¢n.;
+                           DEA=Schritt 2. Geben Sie die Kommunikationsdetails ein.] }
+
+    { 44  ;2   ;Field     ;
+                Name=Phone No.2;
+                SourceExpr="Phone No." }
+
+    { 43  ;2   ;Field     ;
+                SourceExpr="Fax No." }
+
+    { 42  ;2   ;Field     ;
+                SourceExpr="E-Mail" }
+
+    { 41  ;2   ;Field     ;
+                SourceExpr="Home Page" }
+
+    { 37  ;1   ;Group     ;
+                CaptionML=[ENU=Step 3. Enter payment details.;
+                           ESP=Paso 3. Especifique los detalles de pago.;
+                           DEA=Schritt 3. Geben Sie die Zahlungsdetails ein.] }
+
+    { 36  ;2   ;Field     ;
+                SourceExpr="Bank Name" }
+
+    { 35  ;2   ;Field     ;
+                SourceExpr="Bank Branch No." }
+
+    { 34  ;2   ;Field     ;
+                SourceExpr="Bank Account No." }
+
+    { 33  ;2   ;Field     ;
+                SourceExpr="Payment Routing No." }
+
+    { 32  ;2   ;Field     ;
+                SourceExpr="Giro No." }
+
+    { 31  ;2   ;Field     ;
+                SourceExpr="SWIFT Code" }
+
+    { 27  ;2   ;Field     ;
+                SourceExpr=IBAN }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=Step 4. Select package.;
+                           ESP=Paso 4. Seleccione el paquete.;
+                           DEA=Schritt 4. WÑhlen Sie ein Paket aus.];
+                GroupType=Group }
+
+    { 2   ;2   ;Group     ;
+                GroupType=Group }
+
+    { 4   ;3   ;Field     ;
+                CaptionML=[ENU=Select the configuration package you want to load:;
+                           ESP=Seleccione el paquete de configuraci¢n que desea cargar:;
+                           DEA=WÑhlen Sie das Konfigurationspaket aus, das Sie laden mîchten:];
+                SourceExpr="Package File Name";
+                Editable=FALSE;
+                OnValidate=BEGIN
+                             IF "Package File Name" = '' THEN
+                               ApplyVisible := FALSE;
+
+                             CurrPage.UPDATE;
+                           END;
+
+                OnAssistEdit=VAR
+                               FileMgt@1000 : Codeunit 419;
+                               ConfigXMLExchange@1001 : Codeunit 8614;
+                             BEGIN
+                               IF ConfigVisible THEN
+                                 ERROR(Text005);
+
+                               "Package File Name" :=
+                                 COPYSTR(
+                                   FileMgt.OpenFileDialog(
+                                     Text004,'',ConfigXMLExchange.GetFileDialogFilter),1,MAXSTRLEN("Package File Name"));
+
+                               IF "Package File Name" <> '' THEN BEGIN
+                                 VALIDATE("Package File Name");
+                                 ApplyVisible := TRUE;
+                               END ELSE
+                                 ApplyVisible := FALSE;
+                             END;
+                              }
+
+    { 21  ;3   ;Field     ;
+                SourceExpr="Package Code" }
+
+    { 22  ;3   ;Field     ;
+                SourceExpr="Package Name";
+                Editable=FALSE }
+
+    { 19  ;3   ;Field     ;
+                CaptionML=[ENU=Choose Apply Package action to load the data from the configuration to Microsoft Dynamics NAV tables.;
+                           ESP=Haga clic en la acci¢n Aplicar paquete para cargar los datos de la configuraci¢n en las tablas de Microsoft Dynamics NAV.;
+                           DEA=WÑhlen Sie die Aktion 'Paket Åbernehmen', um die Daten aus der Konfiguration in Microsoft Dynamics NAV-Tabellen zu laden.] }
+
+    { 20  ;3   ;Field     ;
+                CaptionML=[ENU=Choose Configuration Worksheet if you want to edit and modify applied data.;
+                           ESP=Haga clic en Hoja de configuraci¢n si desea editar y modificar los datos aplicados.;
+                           DEA=WÑhlen Sie 'Konfigurationsvorschlag' aus, falls Sie die Åbernommenen Daten bearbeiten mîchten.] }
+
+    { 15  ;1   ;Group     ;
+                CaptionML=[ENU=Step 5. Select profile.;
+                           ESP=Paso 5. Seleccione el perfil.;
+                           DEA=Schritt 5. WÑhlen Sie das Profil aus.];
+                GroupType=Group }
+
+    { 11  ;2   ;Group     ;
+                GroupType=Group }
+
+    { 9   ;3   ;Group     ;
+                GroupType=Group }
+
+    { 7   ;4   ;Field     ;
+                Name=ProfileText;
+                CaptionML=[ENU=If you are finished setting up your company, select the profile that you want to use as your default, and then choose the OK button to close the Wizard.;
+                           ESP=If you are finished setting up your company, select the profile that you want to use as your default, and then choose the OK button to close the Wizard.;
+                           DEA=Falls Sie die Einrichtung Ihres Unternehmens abgeschlossen haben, wÑhlen Sie das Profil aus, das Sie standardmÑ·ig verwenden mîchten, und klicken Sie auf die SchaltflÑche 'OK', um den Assistenten zu schlie·en.] }
+
+    { 17  ;4   ;Field     ;
+                CaptionML=[ENU=Select the profile that you want to use after the setup has completed.;
+                           ESP=Seleccione el perfil que desea usar cuando se haya completado la configuraci¢n.;
+                           DEA=WÑhlen Sie nach dem Abschluss der Einrichtung das Profil aus, das Sie verwenden mîchten.];
+                SourceExpr="Your Profile Code";
+                ShowCaption=No }
+
+    { 3   ;3   ;Field     ;
+                CaptionML=[ENU=If you still need to change setup data, do not change the profile. Choose the OK button to close the wizard, and then use the configuration worksheet to continue setting up Microsoft Dynamics NAV.;
+                           ESP=Si todav°a necesita cambiar datos de configuraci¢n, no cambie el perfil. Haga clic en Aceptar para cerrar el asistente y, a continuaci¢n, use la hoja de configuraci¢n para continuar con la configuraci¢n de Microsoft Dynamics NAV.;
+                           DEA=Falls Sie noch Einrichtungsdaten Ñndern mÅssen, Ñndern Sie das Profil nicht. Klicken Sie auf die SchaltflÑche 'OK', um den Assistenten zu schlie·en, und verwenden Sie den Konfigurationsvorschlag, um die Einrichtung von Microsoft Dynamics NAV fortzusetzen.];
+                Style=Attention;
+                StyleExpr=TRUE }
+
+  }
+  CODE
+  {
+    VAR
+      Text003@1001 : TextConst 'ENU=Select a package to run the Apply Package function.;ESP=Debe seleccionar un paquete para ejecutar la funci¢n Aplicar paquete.;DEA=WÑhlen Sie ein Paket aus, um die Funktion ''Paket Åbernehmen'' auszufÅhren.';
+      Text004@1000 : TextConst 'ENU=Select a package file.;ESP=Seleccione un archivo de paquete.;DEA=WÑhlen Sie eine Paketdatei aus.';
+      ApplyVisible@1002 : Boolean;
+      ConfigVisible@1003 : Boolean;
+      Text005@1005 : TextConst 'ENU=A package has already been selected and applied.;ESP=Ya se ha seleccionado y aplicado un paquete.;DEA=Paket ist bereits ausgewÑhlt und Åbernommen.';
+
+    BEGIN
+    END.
+  }
+}
+

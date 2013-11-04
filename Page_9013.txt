@@ -1,0 +1,213 @@
+OBJECT Page 9013 Machine Operator Role Center
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 52      ;1   ;Action    ;
+                      CaptionML=[ENU=&Capacity Task List;
+                                 ESP=Lista tareas &capacidad;
+                                 DEA=&Auftragsvorratsliste];
+                      RunObject=Report 99000780;
+                      Image=Report }
+      { 16      ;1   ;Action    ;
+                      CaptionML=[ENU=Prod. Order - &Job Card;
+                                 ESP=Ord. prod. - Ficha traba&jo;
+                                 DEA=FA-Arbeits&schein];
+                      RunObject=Report 99000762;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 34      ;1   ;Action    ;
+                      CaptionML=[ENU=Released Production Orders;
+                                 ESP=àrdenes producci¢n lanzadas;
+                                 DEA=Freigegebene Fertigungsauftr„ge];
+                      RunObject=Page 9326 }
+      { 35      ;1   ;Action    ;
+                      CaptionML=[ENU=Finished Production Orders;
+                                 ESP=àrdenes producci¢n terminadas;
+                                 DEA=Beendete Fertigungsauftr„ge];
+                      RunObject=Page 9327 }
+      { 12      ;1   ;Action    ;
+                      CaptionML=[ENU=Items;
+                                 ESP=Productos;
+                                 DEA=Artikel];
+                      RunObject=Page 31;
+                      Image=Item }
+      { 37      ;1   ;Action    ;
+                      CaptionML=[ENU=Produced;
+                                 ESP=Producidos;
+                                 DEA=Produziert];
+                      RunObject=Page 31;
+                      RunPageView=WHERE(Replenishment System=CONST(Prod. Order)) }
+      { 94      ;1   ;Action    ;
+                      CaptionML=[ENU=Raw Materials;
+                                 ESP=Materias primas;
+                                 DEA=Rohmaterialien];
+                      RunObject=Page 31;
+                      RunPageView=WHERE(Low-Level Code=FILTER(>0),
+                                        Replenishment System=CONST(Purchase),
+                                        Production BOM No.=FILTER(='')) }
+      { 95      ;1   ;Action    ;
+                      CaptionML=[ENU=Stockkeeping Units;
+                                 ESP=Uds. de almacenam.;
+                                 DEA=Lagerhaltungsdaten];
+                      RunObject=Page 5701;
+                      Image=SKU }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Capacity Ledger Entries;
+                                 ESP=Movs. capacidad;
+                                 DEA=Kapazit„tsposten];
+                      RunObject=Page 5832;
+                      Image=CapacityLedger }
+      { 10      ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory Put-aways;
+                                 ESP=Ubicac. inventario;
+                                 DEA=Lagereinlagerungen];
+                      RunObject=Page 9315 }
+      { 11      ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory Picks;
+                                 ESP=Picking inventario;
+                                 DEA=Lagerkommissionierungen];
+                      RunObject=Page 9316 }
+      { 14      ;1   ;Action    ;
+                      CaptionML=[ENU=Consumption Journals;
+                                 ESP=Diarios consumo;
+                                 DEA=Verbrauchs Buch.-Bl„tter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Consumption),
+                                        Recurring=CONST(No)) }
+      { 15      ;1   ;Action    ;
+                      CaptionML=[ENU=Output Journals;
+                                 ESP=Diarios salida;
+                                 DEA=Istmeldungs Buch.-Bl„tter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Output),
+                                        Recurring=CONST(No)) }
+      { 19      ;1   ;Action    ;
+                      CaptionML=[ENU=Capacity Journals;
+                                 ESP=Diarios capacidad;
+                                 DEA=Kapazit„ts Buch.-Bl„tter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Capacity),
+                                        Recurring=CONST(No)) }
+      { 20      ;1   ;Action    ;
+                      CaptionML=[ENU=Recurring Capacity Journals;
+                                 ESP=Diarios peri¢dicos capacidad;
+                                 DEA=Wiederk. Kapazit„ts Buch.-Bl„tter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Capacity),
+                                        Recurring=CONST(Yes)) }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 1       ;0   ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 4       ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory P&ick;
+                                 ESP=P&icking inventario;
+                                 DEA=Lagerk&ommissionierung];
+                      RunObject=Page 7377;
+                      Promoted=No;
+                      Image=CreateInventoryPickup;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory Put-&away;
+                                 ESP=Ubic&ac. inventario;
+                                 DEA=Lager&einlagerung];
+                      RunObject=Page 7375;
+                      Promoted=No;
+                      Image=CreatePutAway;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 67      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Consumptio&n Journal;
+                                 ESP=Diario co&nsumo;
+                                 DEA=FA-Verb. B&uch.-Blatt];
+                      RunObject=Page 99000846;
+                      Image=ConsumptionJournal }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Output &Journal;
+                                 ESP=&Diario salida;
+                                 DEA=FA-Istmld. Bu&ch.-Bl.];
+                      RunObject=Page 99000823;
+                      Image=OutputJournal }
+      { 9       ;1   ;Action    ;
+                      CaptionML=[ENU=&Capacity Journal;
+                                 ESP=Diario &capacidad;
+                                 DEA=&Kapazit„t Buch.-Bl.];
+                      RunObject=Page 99000773;
+                      Image=CapacityJournal }
+      { 6       ;1   ;Separator  }
+      { 25      ;1   ;Action    ;
+                      CaptionML=[ENU=Register Absence - &Machine Center;
+                                 ESP=Registrar ausencia - Centro &m quina;
+                                 DEA=Fehlzeit erfassen - &Arbeitsplatz];
+                      RunObject=Report 99003800;
+                      Image=CalendarMachine }
+      { 26      ;1   ;Action    ;
+                      CaptionML=[ENU=Register Absence - &Work Center;
+                                 ESP=&Registrar ausencia - Centro trabajo;
+                                 DEA=Fehlzeit erfasse&n - Arb.-Pl.-Gr.];
+                      RunObject=Report 99003805;
+                      Image=CalendarWorkcenter }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1900316508;2;Part   ;
+                PagePartID=Page9047;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 3   ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1905989608;2;Part   ;
+                PagePartID=Page9152;
+                PartType=Page }
+
+    { 1901377608;2;Part   ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

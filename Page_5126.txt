@@ -1,0 +1,407 @@
+OBJECT Page 5126 Create Opportunity
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Create Opportunity;
+               ESP=Crear oportunidad;
+               DEA=Verkaufschance erstellen];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    LinksAllowed=No;
+    SourceTable=Table5092;
+    DataCaptionExpr=Caption;
+    PageType=NavigatePage;
+    OnInit=BEGIN
+             NextEnable := TRUE;
+             "Salesperson CodeEditable" := TRUE;
+             WizardCampaignDescriptionEdita := TRUE;
+             "Wizard Contact NameEditable" := TRUE;
+             WizardEstimatedClosingDateEnab := TRUE;
+             "WizardChancesofSuccess%Enable" := TRUE;
+             WizardEstimatedValueLCYEnable := TRUE;
+           END;
+
+    OnOpenPage=BEGIN
+                 FormWidth := CancelXPos + CancelWidth + 220;
+                 FrmXPos := ROUND((FrmWidth - FormWidth) / 2,1) + FrmXPos;
+                 FrmYPos := 3000;
+                 FrmHeight := CancelYPos + CancelHeight + 220;
+                 FrmWidth := FormWidth;
+
+                 UpdateEditable;
+
+                 ShowStep(TRUE);
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       WizardContactNameOnFormat(FORMAT("Wizard Contact Name"));
+                     END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 8       ;1   ;Action    ;
+                      Name=Back;
+                      CaptionML=[ENU=&Back;
+                                 ESP=&Atr†s;
+                                 DEA=&ZurÅck];
+                      Enabled=BackEnable;
+                      InFooterBar=Yes;
+                      Image=PreviousRecord;
+                      OnAction=BEGIN
+                                 ShowStep(FALSE);
+                                 PerformPrevWizardStatus;
+                                 ShowStep(TRUE);
+                                 CurrPage.UPDATE(TRUE);
+                               END;
+                                }
+      { 9       ;1   ;Action    ;
+                      Name=Next;
+                      CaptionML=[ENU=&Next;
+                                 ESP=&Siguiente;
+                                 DEA=&Weiter];
+                      Enabled=NextEnable;
+                      InFooterBar=Yes;
+                      Image=NextRecord;
+                      OnAction=BEGIN
+                                 CheckStatus;
+                                 ShowStep(FALSE);
+                                 PerformNextWizardStatus;
+                                 ShowStep(TRUE);
+                                 CurrPage.UPDATE(TRUE);
+                               END;
+                                }
+      { 10      ;1   ;Action    ;
+                      Name=Finish;
+                      CaptionML=[ENU=&Finish;
+                                 ESP=&Terminar;
+                                 DEA=B&eenden];
+                      Enabled=FinishEnable;
+                      InFooterBar=Yes;
+                      Image=Approve;
+                      OnAction=BEGIN
+                                 CheckStatus;
+                                 FinishWizard;
+                                 CurrPage.CLOSE;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 3   ;1   ;Group     ;
+                Name=Step3;
+                CaptionML=[ENU=Step 3;
+                           ESP=Paso 3;
+                           DEA=Schritt 3];
+                Visible=Step3Visible;
+                GroupType=Group;
+                InstructionalTextML=[ENU=You can now specify optional detailed information regarding the opportunity.;
+                                     ESP=Ahora puede especificar informaci¢n detallada opcional para esta oportunidad.;
+                                     DEA=Sie kînnen nun optional Detailinformationen fÅr diese Verkaufschance eingeben.] }
+
+    { 18  ;2   ;Field     ;
+                Lookup=No;
+                CaptionML=[ENU=What campaign is the interaction linked to?;
+                           ESP=®Con quÇ campa§a est† relacionada la interacci¢n?;
+                           DEA=Mit welcher Kampagne ist die AktivitÑt verknÅpft?];
+                SourceExpr="Wizard Campaign Description";
+                TableRelation=Campaign;
+                Editable=WizardCampaignDescriptionEdita;
+                MultiLine=Yes;
+                OnAssistEdit=VAR
+                               Campaign@1102601001 : Record 5071;
+                             BEGIN
+                               IF GETFILTER("Campaign No.") = '' THEN
+                                 IF PAGE.RUNMODAL(0,Campaign) = ACTION::LookupOK THEN BEGIN
+                                   VALIDATE("Campaign No.",Campaign."No.");
+                                   "Wizard Campaign Description" := Campaign.Description;
+                                 END;
+                             END;
+                              }
+
+    { 19  ;2   ;Field     ;
+                Lookup=No;
+                CaptionML=[ENU=Opportunities will be created for contacts linked to segment;
+                           ESP=Se crear†n oportunidades para los contactos del segmento;
+                           DEA=Verk.-Chancen fÅr Kontakte des folg. Segm. erst.:];
+                SourceExpr="Segment Description";
+                TableRelation="Segment Header";
+                Editable=FALSE;
+                MultiLine=Yes;
+                OnAssistEdit=VAR
+                               Segment@1102601000 : Record 5076;
+                             BEGIN
+                               IF SegHeader."No." = '' THEN
+                                 IF PAGE.RUNMODAL(0,Segment) = ACTION::LookupOK THEN BEGIN
+                                   VALIDATE("Segment No.",Segment."No.");
+                                   "Segment Description" := Segment.Description;
+                                 END;
+                             END;
+                              }
+
+    { 1   ;1   ;Group     ;
+                Name=Step1;
+                CaptionML=[ENU=Step 1;
+                           ESP=Paso 1;
+                           DEA=Schritt 1];
+                Visible=Step1Visible;
+                GroupType=Group;
+                InstructionalTextML=[ENU=This wizard helps you to create opportunities.;
+                                     ESP=Este asistente le ayuda a crear oportunidades.;
+                                     DEA=Dieser Assistent hilft Ihnen bei der Erstellung von Verkaufschancen.] }
+
+    { 23  ;2   ;Field     ;
+                CaptionML=[ENU=Describe the opportunity.;
+                           ESP=Describa la oportunidad.;
+                           DEA=Beschreiben Sie die Verkaufschance:];
+                SourceExpr=Description }
+
+    { 12  ;2   ;Field     ;
+                CaptionML=[ENU=What is the date of the opportunity?;
+                           ESP=®Cu†l es la fecha de la oportunidad?;
+                           DEA=Datum der Verkaufschance:];
+                SourceExpr="Creation Date" }
+
+    { 20  ;2   ;Field     ;
+                CaptionML=[ENU=What is the priority of the opportunity?;
+                           ESP=®Cu†l es la prioridad de la oportunidad?;
+                           DEA=Geben Sie die PrioritÑt der Verkaufschance an:];
+                SourceExpr=Priority }
+
+    { 34  ;1   ;Group     ;
+                Name=Step4;
+                CaptionML=[ENU=Step 4;
+                           ESP=Paso 4;
+                           DEA=Schritt 4];
+                Visible=Step4Visible;
+                GroupType=Group;
+                InstructionalTextML=[ENU=You can now specify the estimated values regarding the opportunity if you activate the first sales cycle stage.;
+                                     ESP=Ahora puede especificar los valores estimados de la oportunidad si activa la primera etapa del ciclo de ventas.;
+                                     DEA=Sie kînnen nun die erwarteten Werte der Verkaufschance eingeben, wenn Sie die erste Verkaufsprozess-Stufe aktivieren.] }
+
+    { 37  ;2   ;Field     ;
+                CaptionML=[ENU=Activate the First Stage.;
+                           ESP=Activa la primera etapa.;
+                           DEA=Erste Stufe aktivieren.];
+                SourceExpr="Activate First Stage";
+                OnValidate=BEGIN
+                             WizardEstimatedValueLCYEnable := "Activate First Stage";
+                             "WizardChancesofSuccess%Enable" := "Activate First Stage";
+                             WizardEstimatedClosingDateEnab := "Activate First Stage";
+
+                             IF NOT "Activate First Stage" THEN BEGIN
+                               OppEntry."Estimated Value (LCY)" := 0;
+                               OppEntry."Chances of Success %" := 0;
+                               OppEntry."Estimated Close Date" := 0D;
+                             END;
+                           END;
+                            }
+
+    { 25  ;2   ;Field     ;
+                CaptionML=[ENU=What is the estimated sales value (LCY)?;
+                           ESP=®Cu†l es el valor estimado venta (DL)?;
+                           DEA=Wie hoch ist der erwartete Verkaufswert (MW)?];
+                SourceExpr="Wizard Estimated Value (LCY)";
+                Enabled=WizardEstimatedValueLCYEnable }
+
+    { 27  ;2   ;Field     ;
+                CaptionML=[ENU=What are the chances of success (%)?;
+                           ESP=®Cu†les son las posibilidades de Çxito (%)?;
+                           DEA=Wie hoch sind die Erfolgschancen (%)?];
+                DecimalPlaces=0:0;
+                SourceExpr="Wizard Chances of Success %";
+                MaxValue=100;
+                Enabled="WizardChancesofSuccess%Enable" }
+
+    { 31  ;2   ;Field     ;
+                CaptionML=[ENU=What is the estimated closing date?;
+                           ESP=®Cu†l es la fecha estimada de cierre?;
+                           DEA=Erwartetes Abschlussdatum:];
+                SourceExpr="Wizard Estimated Closing Date";
+                Enabled=WizardEstimatedClosingDateEnab }
+
+    { 2   ;1   ;Group     ;
+                Name=Step2;
+                CaptionML=[ENU=Step 2;
+                           ESP=Paso 2;
+                           DEA=Schritt 2];
+                Visible=Step2Visible;
+                GroupType=Group;
+                InstructionalTextML=[ENU=You must now record the Contact, Salesperson and Sales Cycle of this Opportunity.;
+                                     ESP=Ahora debe registrar el contacto, vendedor y ciclo ventas de esta oportunidad.;
+                                     DEA=Sie mÅssen nun den Kontakt, den VerkÑufer und den Verkaufsprozess fÅr diese Verkaufschance erfassen.] }
+
+    { 17  ;2   ;Field     ;
+                Lookup=No;
+                CaptionML=[ENU=Which contact is involved?;
+                           ESP=®QuÇ contacto est† relacionado?;
+                           DEA=Auf welchen Kontakt bezieht sich diese Verkaufschance?];
+                SourceExpr="Wizard Contact Name";
+                TableRelation=Contact;
+                Editable="Wizard Contact NameEditable";
+                OnAssistEdit=VAR
+                               Cont@1102601001 : Record 5050;
+                             BEGIN
+                               IF (GETFILTER("Contact No.") = '') AND (GETFILTER("Contact Company No.") = '') THEN
+                                 IF (Cont."No." = '') AND ("Segment Description" = '') THEN BEGIN
+                                   IF Cont.GET("Contact No.") THEN ;
+                                   IF PAGE.RUNMODAL(0,Cont) = ACTION::LookupOK THEN BEGIN
+                                     VALIDATE("Contact No.",Cont."No.");
+                                     "Wizard Contact Name" := Cont.Name;
+                                   END;
+                                 END;
+                             END;
+                              }
+
+    { 28  ;2   ;Field     ;
+                CaptionML=[ENU=Which salesperson is involved with this opportunity?;
+                           ESP=®QuÇ vendedor est† relacionado con esta oportunidad?;
+                           DEA=Welchem VerkÑufer ist diese Verkaufschance zugeordnet?];
+                SourceExpr="Salesperson Code";
+                Editable="Salesperson CodeEditable" }
+
+    { 4   ;2   ;Field     ;
+                CaptionML=[ENU=What is the sales cycle code?;
+                           ESP=®Cu†l es el c¢d. ciclo venta?;
+                           DEA=Geben Sie den Code des Verkaufsprozesses an:];
+                SourceExpr="Sales Cycle Code" }
+
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=(Multiple);ESP=(Multiple);DEA=(Mehrere)';
+      Text001@1001 : TextConst 'ENU=untitled;ESP=SinT°tulo;DEA=unbenannt';
+      Cont@1003 : Record 5050;
+      SalesPurchPerson@1004 : Record 13;
+      Campaign@1005 : Record 5071;
+      SegHeader@1006 : Record 5076;
+      OppEntry@1016 : Record 5093;
+      FormWidth@1008 : Integer;
+      WizardEstimatedValueLCYEnable@19056332 : Boolean INDATASET;
+      "WizardChancesofSuccess%Enable"@19066071 : Boolean INDATASET;
+      WizardEstimatedClosingDateEnab@19069290 : Boolean INDATASET;
+      CancelXPos@19007686 : Integer;
+      CancelYPos@19003745 : Integer;
+      CancelHeight@19054177 : Integer;
+      CancelWidth@19035161 : Integer;
+      FrmXPos@19006598 : Integer;
+      FrmYPos@19016646 : Integer;
+      FrmHeight@19058551 : Integer;
+      FrmWidth@19057698 : Integer;
+      Step1Visible@19067551 : Boolean INDATASET;
+      Step2Visible@19067406 : Boolean INDATASET;
+      Step3Visible@19067629 : Boolean INDATASET;
+      Step4Visible@19067716 : Boolean INDATASET;
+      "Wizard Contact NameEditable"@19024232 : Boolean INDATASET;
+      "Salesperson CodeEditable"@19071610 : Boolean INDATASET;
+      "Sales Cycle CodeEditable"@19025168 : Boolean INDATASET;
+      WizardCampaignDescriptionEdita@19073396 : Boolean INDATASET;
+      FinishEnable@19079943 : Boolean INDATASET;
+      BackEnable@19029006 : Boolean INDATASET;
+      NextEnable@19007695 : Boolean INDATASET;
+
+    LOCAL PROCEDURE ShowStep@2(Visible@1001 : Boolean);
+    BEGIN
+      CASE "Wizard Step" OF
+        "Wizard Step"::"1":
+          BEGIN
+            Step1Visible := Visible;
+            IF Visible THEN BEGIN
+              FinishEnable := FALSE;
+              BackEnable := FALSE;
+              NextEnable := TRUE;
+            END;
+          END;
+        "Wizard Step"::"2":
+          BEGIN
+            Step2Visible := Visible;
+            IF Visible THEN BEGIN
+              FinishEnable := TRUE;
+              BackEnable := TRUE;
+              NextEnable := TRUE;
+              IF "Wizard Contact NameEditable" THEN BEGIN
+              END
+              ELSE
+                IF "Salesperson CodeEditable" THEN BEGIN
+                END
+                ELSE
+                  IF "Sales Cycle CodeEditable" THEN;
+            END;
+          END;
+        "Wizard Step"::"3":
+          BEGIN
+            Step3Visible := Visible;
+            IF Visible THEN BEGIN
+              FinishEnable := TRUE;
+              BackEnable := TRUE;
+              NextEnable := TRUE;
+            END;
+          END;
+        "Wizard Step"::"4":
+          BEGIN
+            Step4Visible := Visible;
+            IF Visible THEN BEGIN
+              FinishEnable := TRUE;
+              BackEnable := TRUE;
+              NextEnable := FALSE;
+            END;
+          END;
+      END;
+    END;
+
+    PROCEDURE Caption@1() : Text[260];
+    VAR
+      CaptionStr@1000 : Text[260];
+    BEGIN
+      IF Cont.GET(GETFILTER("Contact Company No.")) THEN
+        CaptionStr := COPYSTR(Cont."No." + ' ' + Cont.Name,1,MAXSTRLEN(CaptionStr));
+      IF Cont.GET(GETFILTER("Contact No.")) THEN
+        CaptionStr := COPYSTR(CaptionStr + ' ' + Cont."No." + ' ' + Cont.Name,1,MAXSTRLEN(CaptionStr));
+      IF SalesPurchPerson.GET(GETFILTER("Salesperson Code")) THEN
+        CaptionStr := COPYSTR(CaptionStr + ' ' + SalesPurchPerson.Code + ' ' + SalesPurchPerson.Name,1,MAXSTRLEN(CaptionStr));
+      IF Campaign.GET(GETFILTER("Campaign No.")) THEN
+        CaptionStr := COPYSTR(CaptionStr + ' ' + Campaign."No." + ' ' + Campaign.Description,1,MAXSTRLEN(CaptionStr));
+      IF SegHeader.GET(GETFILTER("Segment No.")) THEN
+        CaptionStr := COPYSTR(CaptionStr + ' ' + SegHeader."No." + ' ' + SegHeader.Description,1,MAXSTRLEN(CaptionStr));
+      IF CaptionStr = '' THEN
+        CaptionStr := Text001;
+
+      EXIT(CaptionStr);
+    END;
+
+    LOCAL PROCEDURE UpdateEditable@3();
+    BEGIN
+      "Wizard Contact NameEditable" := FALSE;
+      WizardCampaignDescriptionEdita := FALSE;
+
+      IF SalesPurchPerson.GET(GETFILTER("Salesperson Code")) THEN
+        "Salesperson CodeEditable" := FALSE;
+
+      WizardEstimatedValueLCYEnable := "Activate First Stage";
+      "WizardChancesofSuccess%Enable" := "Activate First Stage";
+      WizardEstimatedClosingDateEnab := "Activate First Stage";
+    END;
+
+    LOCAL PROCEDURE WizardContactNameOnFormat@19031225(Text@19070643 : Text[1024]);
+    BEGIN
+      IF SegHeader.GET(GETFILTER("Segment No.")) THEN
+        Text := Text000;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

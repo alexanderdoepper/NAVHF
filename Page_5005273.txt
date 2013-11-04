@@ -1,0 +1,158 @@
+OBJECT Page 5005273 Issued Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Issued Delivery Reminder;
+               DEA=Reg. Lieferanmahnung];
+    InsertAllowed=No;
+    ModifyAllowed=No;
+    SourceTable=Table5005272;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140034 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Reminder;
+                                 DEA=&Mahnung];
+                      Image=Reminder }
+      { 1140036 ;2   ;Action    ;
+                      CaptionML=[ENU=Vendor;
+                                 DEA=Kreditor];
+                      RunObject=Page 27;
+                      RunPageLink=No.=FIELD(Vendor No.);
+                      Image=Vendor }
+      { 1140037 ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mments;
+                                 DEA=Be&merkungen];
+                      RunObject=Page 5005277;
+                      RunPageView=SORTING(Document Type,No.,Line No.)
+                                  WHERE(Document Type=CONST(Issued Delivery Reminder));
+                      RunPageLink=No.=FIELD(No.);
+                      Image=ViewComments }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140033 ;1   ;Action    ;
+                      Name=PrintReport;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=&Print;
+                                 DEA=D&rucken];
+                      Promoted=Yes;
+                      Image=Print;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PrintDocumentProfessional.IssuedDeliveryRemindPrint(Rec,TRUE);
+                               END;
+                                }
+      { 1140038 ;1   ;Action    ;
+                      Name=Navigate;
+                      CaptionML=[ENU=&Navigate;
+                                 DEA=&Navigate];
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Navigate.SetDoc("Posting Date","No.");
+                                 Navigate.RUN;
+                               END;
+                                }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1903565206;1 ;Action    ;
+                      CaptionML=[ENU=Issued Delivery Reminder;
+                                 DEA=Reg. Lieferanmahnung];
+                      RunObject=Report 5005273;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein];
+                Editable=FALSE }
+
+    { 1140002;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140004;2;Field     ;
+                SourceExpr="Vendor No.";
+                Importance=Promoted }
+
+    { 1140021;2;Field     ;
+                SourceExpr=Name }
+
+    { 1140019;2;Field     ;
+                SourceExpr=Address }
+
+    { 1140017;2;Field     ;
+                SourceExpr="Address 2" }
+
+    { 1140015;2;Field     ;
+                CaptionML=[ENU=Post Code/City;
+                           DEA=PLZ Code/Ort];
+                SourceExpr="Post Code" }
+
+    { 1140014;2;Field     ;
+                SourceExpr=City }
+
+    { 1140011;2;Field     ;
+                SourceExpr=Contact }
+
+    { 1140006;2;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Document Date";
+                Importance=Promoted }
+
+    { 1140029;2;Field     ;
+                SourceExpr="Pre-Assigned No." }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Reminder Level";
+                Importance=Promoted }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Reminder Terms Code" }
+
+    { 1140023;2;Field     ;
+                SourceExpr="No. Printed" }
+
+    { 1140032;1;Part      ;
+                Name=Issued Delivery Reminder Lines;
+                SubPageLink=Document No.=FIELD(No.);
+                PagePartID=Page5005274;
+                Editable=FALSE }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      PrintDocumentProfessional@1140000 : Codeunit 5005396;
+      Navigate@1140001 : Page 344;
+
+    BEGIN
+    END.
+  }
+}
+

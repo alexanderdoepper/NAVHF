@@ -1,0 +1,219 @@
+OBJECT Table 11003 Data Export Record Definition
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Data Export Code,Data Exp. Rec. Type Code;
+    OnDelete=VAR
+               GDPdURecDefTable@1140000 : Record 11004;
+             BEGIN
+               GDPdURecDefTable.SETRANGE("Data Export Code","Data Export Code");
+               GDPdURecDefTable.SETRANGE("Data Exp. Rec. Type Code","Data Exp. Rec. Type Code");
+               GDPdURecDefTable.DELETEALL(TRUE);
+             END;
+
+    OnRename=BEGIN
+               ERROR(Text1140000,TABLECAPTION);
+             END;
+
+    CaptionML=[ENU=Data Export Record Definition;
+               DEA=Datensatzdefinition fÅr Datenexport];
+    LookupPageID=Page11003;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Data Export Code    ;Code10        ;TableRelation="Data Export";
+                                                   CaptionML=[ENU=Data Export Code;
+                                                              DEA=Datenexportcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Data Exp. Rec. Type Code;Code10    ;TableRelation="Data Export Record Type";
+                                                   OnValidate=VAR
+                                                                GDPdURecorfCode@1140000 : Record 11007;
+                                                              BEGIN
+                                                                IF GDPdURecorfCode.GET("Data Exp. Rec. Type Code") AND (Description = '') THEN
+                                                                  Description := GDPdURecorfCode.Description;
+                                                              END;
+
+                                                   CaptionML=[ENU=Data Export Record Type Code;
+                                                              DEA=Datensatztypcode fÅr Datenexport];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Export Path         ;Text250       ;OnValidate=BEGIN
+                                                                IF ISCLEAR(FileSysObject) THEN
+                                                                  CREATE(FileSysObject,FALSE,TRUE);
+
+                                                                IF ("Export Path" <> '') AND NOT FileSysObject.FolderExists("Export Path") THEN
+                                                                  IF CONFIRM(Text1140001,TRUE,"Export Path") THEN
+                                                                    FileSysObject.CreateFolder("Export Path")
+                                                              END;
+
+                                                   CaptionML=[ENU=Export Path;
+                                                              DEA=Exportpfad] }
+    { 5   ;   ;DTD File Name       ;Text50        ;CaptionML=[ENU=DTD File Name;
+                                                              DEA=Name der DTD-Datei];
+                                                   Editable=No }
+    { 6   ;   ;DTD File            ;BLOB          ;CaptionML=[ENU=DTD File;
+                                                              DEA=DTD-Datei] }
+  }
+  KEYS
+  {
+    {    ;Data Export Code,Data Exp. Rec. Type Code;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=You must not rename a %1.;DEA=Sie dÅrfen eine %1 nicht umbenennen.';
+      Text1140001@1140001 : TextConst 'ENU=Do you want to create the folder %1?;DEA=Mîchten Sie das Verzeichnis %1 anlegen?';
+      FileMgt@1140006 : Codeunit 419;
+      FileSysObject@1140002 : Automation "{420B2830-E718-11CF-893D-00A0C9054228} 1.0:{0D43FE01-F093-11CF-8940-00A0C9054228}:'Microsoft Scripting Runtime'.FileSystemObject";
+      Text1140002@1140003 : TextConst 'ENU=The %1 field is not the first field that is specified for the %2 table. You must change the data export setup to list the primary key field first.;DEA=Das Feld %1 ist nicht das erste Feld, das fÅr die Tabelle %2 angegeben ist. Sie mÅssen die Datenexporteinrichtung erst Ñndern, damit das PrimÑrschlÅsselfeld aufgelistet wird.';
+      Text1140003@1140004 : TextConst 'ENU=You cannot include the period field %1 in the table filter expression for the %2 table.;DEA=Sie kînnen das Periodenfeld %1 im Tabellenfilterausdruck fÅr die Tabelle %2 nicht einfÅgen.';
+      Text1140004@1140005 : TextConst 'ENU=The data export record source validated correctly.;DEA=Die Datensatzquelle fÅr den Datenexport wurde ordnungsgemÑ· ÅberprÅft.';
+      Text1140006@1140012 : TextConst 'ENU=Select DTD File;DEA=DTD-Datei auswÑhlen';
+      Text1140007@1140011 : TextConst 'ENU=DTD Files|*.dtd|All Files|*.*;DEA=DTD-Dateien|*.dtd|Alle Dateien|*.*';
+
+    PROCEDURE ValidateExportSources@1140001();
+    VAR
+      DataExportRecordSource@1140015 : Record 11004;
+      Key@1140004 : Record 2000000063;
+      KeyBuffer@1140003 : Record 11015;
+      Field@1140001 : Record 2000000041;
+      GDPdURecordDefField@1140014 : Record 11005;
+      ErrorsFound@1140000 : Boolean;
+      IsPrimary@1140012 : Boolean;
+      IsKey@1140011 : Boolean;
+      ShowMessage@1140013 : Boolean;
+      Count1@1140006 : Integer;
+      Count2@1140005 : Integer;
+      KeyArray@1140010 : ARRAY [20] OF Text[250];
+      PrimaryKeyText@1140008 : Text[250];
+      i@1140007 : Integer;
+      NoOfComma@1140009 : Integer;
+    BEGIN
+      ErrorsFound := FALSE;
+      KeyBuffer.DELETEALL;
+      REPORT.RUNMODAL(11017,FALSE,FALSE,Key);
+
+      DataExportRecordSource.SETRANGE("Data Export Code","Data Export Code");
+      DataExportRecordSource.SETRANGE("Data Exp. Rec. Type Code","Data Exp. Rec. Type Code");
+      IF DataExportRecordSource.FIND('-') THEN
+        REPEAT
+          Count1 := 0;
+          i := 1;
+          NoOfComma := 0;
+          PrimaryKeyText := '';
+          KeyBuffer.RESET;
+          KeyBuffer.SETRANGE("Table No",DataExportRecordSource."Table No.");
+          IF KeyBuffer.FINDFIRST THEN BEGIN
+            PrimaryKeyText := KeyBuffer.Key;
+            REPEAT
+              KeyArray[i] := SELECTSTR(1,PrimaryKeyText);
+              i := i + 1;
+              NoOfComma := STRPOS(PrimaryKeyText,',');
+              PrimaryKeyText := COPYSTR(PrimaryKeyText,NoOfComma + 1,MAXSTRLEN(PrimaryKeyText));
+              Count1 := Count1 + 1;
+            UNTIL NoOfComma = 0;
+            Count2 := Count1;
+          END;
+
+          i := 1;
+          IsKey := TRUE;
+          IsPrimary := TRUE;
+          ShowMessage := TRUE;
+          GDPdURecordDefField.RESET;
+          GDPdURecordDefField.SETRANGE("Data Export Code","Data Export Code");
+          GDPdURecordDefField.SETRANGE("Data Exp. Rec. Type Code","Data Exp. Rec. Type Code");
+          GDPdURecordDefField.SETRANGE("Table No.",DataExportRecordSource."Table No.");
+          IF GDPdURecordDefField.FIND('-') THEN
+            REPEAT
+              REPEAT
+                GDPdURecordDefField.CALCFIELDS("Field Name");
+                GDPdURecordDefField.CALCFIELDS("Table Name");
+                Field.RESET;
+                Field.SETRANGE(TableNo,GDPdURecordDefField."Table No.");
+                Field.SETRANGE("No.",GDPdURecordDefField."Field No.");
+                Field.FINDFIRST;
+                IF KeyArray[i] = Field.FieldName THEN BEGIN
+                  IF IsPrimary AND NOT IsKey AND ShowMessage THEN BEGIN
+                    ErrorsFound := TRUE;
+                    MESSAGE(Text1140002,GDPdURecordDefField."Field Name",GDPdURecordDefField."Table Name");
+                    ShowMessage := FALSE;
+                  END ELSE BEGIN
+                    IsPrimary := TRUE;
+                    IsKey := TRUE;
+                  END;
+                  Count1 := 0;
+                END ELSE BEGIN
+                  i := i + 1;
+                  Count1 := Count1 - 1;
+                  IF Count1 = 0 THEN
+                    IsKey := FALSE;
+                END;
+              UNTIL Count1 = 0;
+              i := 1;
+              Count1 := Count2;
+            UNTIL GDPdURecordDefField.NEXT = 0;
+
+          IF DataExportRecordSource.IsPeriodFieldInTableFilter THEN BEGIN
+            ErrorsFound := TRUE;
+            DataExportRecordSource.CALCFIELDS("Table Name");
+            MESSAGE(Text1140003,DataExportRecordSource."Period Field Name",DataExportRecordSource."Table Name");
+          END;
+
+        UNTIL DataExportRecordSource.NEXT = 0;
+
+      IF NOT ErrorsFound THEN
+        MESSAGE(Text1140004);
+    END;
+
+    PROCEDURE ImportFile@1140002(DataExportRecordDefinition@1140003 : Record 11003);
+    VAR
+      TempBlob@1140002 : Record 99008535;
+      FileMgt@1140000 : Codeunit 419;
+      FileName@1140001 : Text;
+    BEGIN
+      FileName := FileMgt.BLOBImport(TempBlob,FileName);
+      IF FileName = '' THEN
+        EXIT;
+      WHILE STRPOS(FileName,'\') <> 0 DO
+        FileName := COPYSTR(FileName,STRPOS(FileName,'\') + 1);
+      WITH DataExportRecordDefinition DO BEGIN
+        "DTD File Name" := FileName;
+        "DTD File" := TempBlob.Blob;
+        CALCFIELDS("DTD File");
+        MODIFY;
+      END;
+    END;
+
+    PROCEDURE ExportFile@1140000(DataExportRecordDefinition@1140002 : Record 11003;ShowDialog@1140003 : Boolean) : Text;
+    VAR
+      TempBlob@1140001 : Record 99008535;
+      FileMgt@1140000 : Codeunit 419;
+      ToFile@1140004 : Text;
+    BEGIN
+      WITH DataExportRecordDefinition DO BEGIN
+        CALCFIELDS("DTD File");
+        IF "DTD File".HASVALUE OR NOT ShowDialog THEN BEGIN
+          TempBlob.Blob := "DTD File";
+          ToFile := FileMgt.BLOBExport(TempBlob,"DTD File Name",ShowDialog);
+          EXIT(ToFile);
+        END;
+      END;
+      EXIT('');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,463 @@
+OBJECT Table 85 Acc. Schedule Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               IF xRec."Line No." = 0 THEN
+                 IF NOT AccSchedName.GET("Schedule Name") THEN BEGIN
+                   AccSchedName.INIT;
+                   AccSchedName.Name := "Schedule Name";
+                   IF AccSchedName.Name = '' THEN
+                     AccSchedName.Description := Text000;
+                   AccSchedName.INSERT;
+                 END;
+             END;
+
+    CaptionML=[ENU=Acc. Schedule Line;
+               ESP=L°n. esquema cuentas;
+               DEA=Kontenschemazeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Schedule Name       ;Code10        ;TableRelation="Acc. Schedule Name";
+                                                   CaptionML=[ENU=Schedule Name;
+                                                              ESP=Nombre previsi¢n;
+                                                              DEA=Schemaname] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 3   ;   ;Row No.             ;Code10        ;CaptionML=[ENU=Row No.;
+                                                              ESP=Nß fila;
+                                                              DEA=Rubrikennr.] }
+    { 4   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 5   ;   ;Totaling            ;Text250       ;TableRelation=IF (Totaling Type=CONST(Posting Accounts)) "G/L Account"
+                                                                 ELSE IF (Totaling Type=CONST(Total Accounts)) "G/L Account"
+                                                                 ELSE IF (Totaling Type=CONST(Cash Flow Entry Accounts)) "Cash Flow Account"
+                                                                 ELSE IF (Totaling Type=CONST(Cash Flow Total Accounts)) "Cash Flow Account"
+                                                                 ELSE IF (Totaling Type=CONST(Cost Type)) "Cost Type"
+                                                                 ELSE IF (Totaling Type=CONST(Cost Type Total)) "Cost Type";
+                                                   OnValidate=BEGIN
+                                                                CASE "Totaling Type" OF
+                                                                  "Totaling Type"::"Posting Accounts","Totaling Type"::"Total Accounts":
+                                                                    BEGIN
+                                                                      GLAcc.SETFILTER("No.",Totaling);
+                                                                      GLAcc.CALCFIELDS(Balance);
+                                                                    END;
+                                                                  "Totaling Type"::Formula,"Totaling Type"::"Set Base For Percent":
+                                                                    BEGIN
+                                                                      Totaling := UPPERCASE(Totaling);
+                                                                      CheckFormula(Totaling);
+                                                                    END;
+                                                                  "Totaling Type"::"Cost Type","Totaling Type"::"Cost Type Total":
+                                                                    BEGIN
+                                                                      CostType.SETFILTER("No.",Totaling);
+                                                                      CostType.CALCFIELDS(Balance);
+                                                                    END;
+                                                                  "Totaling Type"::"Cash Flow Entry Accounts","Totaling Type"::"Cash Flow Total Accounts":
+                                                                    BEGIN
+                                                                      CFAccount.SETFILTER("No.",Totaling);
+                                                                      CFAccount.CALCFIELDS(Amount);
+                                                                    END;
+                                                                END;
+                                                              END;
+
+                                                   OnLookup=BEGIN
+                                                              LookupTotaling;
+                                                            END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Totaling;
+                                                              ESP=Sumatorio;
+                                                              DEA=ZusammenzÑhlung] }
+    { 6   ;   ;Totaling Type       ;Option        ;OnValidate=BEGIN
+                                                                VALIDATE(Totaling);
+                                                              END;
+
+                                                   CaptionML=[ENU=Totaling Type;
+                                                              ESP=Tipo sumatorio;
+                                                              DEA=ZusammenzÑhlungsart];
+                                                   OptionCaptionML=[ENU=Posting Accounts,Total Accounts,Formula,,,Set Base For Percent,Cost Type,Cost Type Total,Cash Flow Entry Accounts,Cash Flow Total Accounts;
+                                                                    ESP=Cuentas auxiliares,Cuentas mayor,F¢rmula,,,Fijar base para porcentaje,Tipo coste,Total tipo coste,Cuentas mov. flujo efectivo,Cuentas total flujo efectivo;
+                                                                    DEA=Buchungskonten,Summenkonten,Formel,,,Festgelegte Basis fÅr Prozent,Kostenart,Kostenartsumme,Cashflowpostenkonten,Cashflowsummenkonten];
+                                                   OptionString=Posting Accounts,Total Accounts,Formula,,,Set Base For Percent,Cost Type,Cost Type Total,Cash Flow Entry Accounts,Cash Flow Total Accounts }
+    { 7   ;   ;New Page            ;Boolean       ;CaptionML=[ENU=New Page;
+                                                              ESP=Cambiar p†gina;
+                                                              DEA=Neue Seite] }
+    { 11  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 12  ;   ;Dimension 1 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 1 Filter;
+                                                              ESP=Filtro dimensi¢n 1;
+                                                              DEA=Dimensionsfilter 1];
+                                                   CaptionClass=GetCaptionClass(1) }
+    { 13  ;   ;Dimension 2 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 2 Filter;
+                                                              ESP=Filtro dimensi¢n 2;
+                                                              DEA=Dimensionsfilter 2];
+                                                   CaptionClass=GetCaptionClass(2) }
+    { 14  ;   ;G/L Budget Filter   ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="G/L Budget Name";
+                                                   CaptionML=[ENU=G/L Budget Filter;
+                                                              ESP=Filtro presupuesto CG;
+                                                              DEA=Finanzbudgetfilter] }
+    { 15  ;   ;Business Unit Filter;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Business Unit";
+                                                   CaptionML=[ENU=Business Unit Filter;
+                                                              ESP=Filtro empresa;
+                                                              DEA=Konzernmandantenfilter] }
+    { 16  ;   ;Show                ;Option        ;CaptionML=[ENU=Show;
+                                                              ESP=Muestra;
+                                                              DEA=Anzeigen];
+                                                   OptionCaptionML=[ENU=Yes,No,If Any Column Not Zero,When Positive Balance,When Negative Balance;
+                                                                    ESP=S°,No,Si ninguna columna es cero,Con saldo positivo,Con saldo negativo;
+                                                                    DEA=Ja,Nein,Wenn eine Spalte nicht 0 ist,Bei positivem Saldo,Bei negativem Saldo];
+                                                   OptionString=Yes,No,If Any Column Not Zero,When Positive Balance,When Negative Balance }
+    { 17  ;   ;Dimension 3 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 3 Filter;
+                                                              ESP=Filtro dimensi¢n 3;
+                                                              DEA=Dimensionsfilter 3];
+                                                   CaptionClass=GetCaptionClass(3) }
+    { 18  ;   ;Dimension 4 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 4 Filter;
+                                                              ESP=Filtro dimensi¢n 4;
+                                                              DEA=Dimensionsfilter 4];
+                                                   CaptionClass=GetCaptionClass(4) }
+    { 19  ;   ;Dimension 1 Totaling;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Dimension 1 Totaling;
+                                                              ESP=Total dimensi¢n 1;
+                                                              DEA=Dimensionssumme 1];
+                                                   CaptionClass=GetCaptionClass(5) }
+    { 20  ;   ;Dimension 2 Totaling;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Dimension 2 Totaling;
+                                                              ESP=Total dimensi¢n 2;
+                                                              DEA=Dimensionssumme 2];
+                                                   CaptionClass=GetCaptionClass(6) }
+    { 21  ;   ;Dimension 3 Totaling;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Dimension 3 Totaling;
+                                                              ESP=Total dimensi¢n 3;
+                                                              DEA=Dimensionssumme 3];
+                                                   CaptionClass=GetCaptionClass(7) }
+    { 22  ;   ;Dimension 4 Totaling;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Dimension 4 Totaling;
+                                                              ESP=Total dimensi¢n 4;
+                                                              DEA=Dimensionssumme 4];
+                                                   CaptionClass=GetCaptionClass(8) }
+    { 23  ;   ;Bold                ;Boolean       ;CaptionML=[ENU=Bold;
+                                                              ESP=Negrita;
+                                                              DEA=Fett] }
+    { 24  ;   ;Italic              ;Boolean       ;CaptionML=[ENU=Italic;
+                                                              ESP=It†lica;
+                                                              DEA=Kursiv] }
+    { 25  ;   ;Underline           ;Boolean       ;CaptionML=[ENU=Underline;
+                                                              ESP=Subrayar;
+                                                              DEA=Unterstrichen] }
+    { 26  ;   ;Show Opposite Sign  ;Boolean       ;CaptionML=[ENU=Show Opposite Sign;
+                                                              ESP=Muestra signo opuesto;
+                                                              DEA=Umgekehrtes Vorzeichen anz.] }
+    { 27  ;   ;Row Type            ;Option        ;CaptionML=[ENU=Row Type;
+                                                              ESP=Tipo fila;
+                                                              DEA=Zeilenart];
+                                                   OptionCaptionML=[ENU=Net Change,Balance at Date,Beginning Balance;
+                                                                    ESP=Saldo periodo,Saldo a la fecha,Saldo inicial;
+                                                                    DEA=Bewegung,Saldo bis Datum,Saldovortrag];
+                                                   OptionString=Net Change,Balance at Date,Beginning Balance }
+    { 28  ;   ;Amount Type         ;Option        ;CaptionML=[ENU=Amount Type;
+                                                              ESP=Tipo importe;
+                                                              DEA=Betragsart];
+                                                   OptionCaptionML=[ENU=Net Amount,Debit Amount,Credit Amount;
+                                                                    ESP=Saldo,Debe,Haber;
+                                                                    DEA=Nettobetrag,Sollbetrag,Habenbetrag];
+                                                   OptionString=Net Amount,Debit Amount,Credit Amount }
+    { 840 ;   ;Cash Flow Forecast Filter;Code20   ;FieldClass=FlowFilter;
+                                                   TableRelation="Cash Flow Forecast";
+                                                   CaptionML=[ENU=Cash Flow Filter;
+                                                              ESP=Filtro flujos efectivo;
+                                                              DEA=Cashflowfilter] }
+    { 1100;   ;Cost Center Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   TableRelation="Cost Center";
+                                                   CaptionML=[ENU=Cost Center Filter;
+                                                              ESP=Filtro centro coste;
+                                                              DEA=Kostenstellenfilter] }
+    { 1101;   ;Cost Object Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   TableRelation="Cost Object";
+                                                   CaptionML=[ENU=Cost Object Filter;
+                                                              ESP=Filtro objeto coste;
+                                                              DEA=KostentrÑgerfilter] }
+    { 1102;   ;Cost Center Totaling;Text80        ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Cost Center Totaling;
+                                                              ESP=Total centro coste;
+                                                              DEA=KostenstellenzusammenzÑhlung] }
+    { 1103;   ;Cost Object Totaling;Text80        ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Cost Object Totaling;
+                                                              ESP=Total objeto coste;
+                                                              DEA=KostentrÑgerzusammenzÑhlung] }
+    { 1104;   ;Cost Budget Filter  ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Cost Budget Name";
+                                                   CaptionML=[ENU=Cost Budget Filter;
+                                                              ESP=Filtro presupuesto costes;
+                                                              DEA=Kostenbudgetfilter] }
+  }
+  KEYS
+  {
+    {    ;Schedule Name,Line No.                  ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Default Schedule;ESP=Previsi¢n genÇr.;DEA=Standardkontenschema';
+      Text001@1001 : TextConst 'ENU=The parenthesis at position %1 is misplaced.;ESP=El parÇntesis en la posici¢n %1 es incorrecto.;DEA=Die Klammer an der Position %1 wurde falsch gesetzt.';
+      Text002@1002 : TextConst 'ENU=You cannot have two consecutive operators. The error occurred at position %1.;ESP=No se puede tener dos operaciones consecutivas. Revise la posici¢n %1.;DEA=Sie kînnen nicht zwei aufeinander folgende Operatoren haben. Der Fehler tritt an der Position %1 auf.';
+      Text003@1003 : TextConst 'ENU=There is an operand missing after position %1.;ESP=Falta un operando despuÇs de la posici¢n %1.;DEA=Es fehlt ein Operant nach der Position %1.';
+      Text004@1004 : TextConst 'ENU=There are more left parentheses than right parentheses.;ESP=Hay m†s parÇntesis de apertura que de cierre.;DEA=Es gibt mehr linke als rechte Klammern.';
+      Text005@1005 : TextConst 'ENU=There are more right parentheses than left parentheses.;ESP=Hay m†s parÇntesis de cierre que de apertura.;DEA=Es gibt mehr rechte als linke Klammern.';
+      Text006@1006 : TextConst 'ENU=1,6,,Dimension 1 Filter;ESP=1,6,,Filtro dimensi¢n 1;DEA=1,6,,Dimensionsfilter 1';
+      Text007@1007 : TextConst 'ENU=1,6,,Dimension 2 Filter;ESP=1,6,,Filtro dimensi¢n 2;DEA=1,6,,Dimensionsfilter 2';
+      Text008@1008 : TextConst 'ENU=1,6,,Dimension 3 Filter;ESP=1,6,,Filtro dimensi¢n 3;DEA=1,6,,Dimensionsfilter 3';
+      Text009@1009 : TextConst 'ENU=1,6,,Dimension 4 Filter;ESP=1,6,,Filtro dimensi¢n 4;DEA=1,6,,Dimensionsfilter 4';
+      Text010@1010 : TextConst 'ENU=,, Totaling;ESP=,, Totales;DEA=,, ZusammenzÑhlung';
+      Text011@1011 : TextConst 'ENU=1,5,,Dimension 1 Totaling;ESP=1,5,,Total dimensi¢n 1;DEA=1,5,,Dimensionssumme 1';
+      Text012@1012 : TextConst 'ENU=1,5,,Dimension 2 Totaling;ESP=1,5,,Total dimensi¢n 2;DEA=1,5,,Dimensionssumme 2';
+      Text013@1013 : TextConst 'ENU=1,5,,Dimension 3 Totaling;ESP=1,5,,Total dimensi¢n 3;DEA=1,5,,Dimensionssumme 3';
+      Text014@1014 : TextConst 'ENU=1,5,,Dimension 4 Totaling;ESP=1,5,,Total dimensi¢n 4;DEA=1,5,,Dimensionssumme 4';
+      AccSchedName@1015 : Record 84;
+      GLAcc@1016 : Record 15;
+      CFAccount@1841 : Record 841;
+      AnalysisView@1017 : Record 363;
+      GLSetup@1018 : Record 98;
+      CostType@1021 : Record 1103;
+      HasGLSetup@1019 : Boolean;
+      Text015@1020 : TextConst 'ENU=The %1 refers to %2 %3, which does not exist. The field %4 on table %5 has now been deleted.;ESP=El %1 se refiere a %2 %3, que no existe. El campo %4 en la tabla %5 ha sido borrado.;DEA=Der %1 bezieht sich auf die %2 %3, die nicht vorhanden ist. Das Feld %4 in der Tabelle %5 wurde jetzt gelîscht.';
+
+    PROCEDURE LookUpDimFilter@57(DimNo@1000 : Integer;VAR Text@1001 : Text[250]) : Boolean;
+    VAR
+      DimVal@1002 : Record 349;
+      DimValList@1003 : Page 560;
+    BEGIN
+      GetAccSchedSetup;
+      CASE DimNo OF
+        1:
+          DimVal.SETRANGE("Dimension Code",AnalysisView."Dimension 1 Code");
+        2:
+          DimVal.SETRANGE("Dimension Code",AnalysisView."Dimension 2 Code");
+        3:
+          DimVal.SETRANGE("Dimension Code",AnalysisView."Dimension 3 Code");
+        4:
+          DimVal.SETRANGE("Dimension Code",AnalysisView."Dimension 4 Code");
+      END;
+
+      DimValList.LOOKUPMODE(TRUE);
+      DimValList.SETTABLEVIEW(DimVal);
+      IF DimValList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        DimValList.GETRECORD(DimVal);
+        Text := DimValList.GetSelectionFilter;
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    PROCEDURE CheckFormula@1(Formula@1000 : Code[250]);
+    VAR
+      i@1001 : Integer;
+      ParenthesesLevel@1002 : Integer;
+      HasOperator@1003 : Boolean;
+    BEGIN
+      ParenthesesLevel := 0;
+      FOR i := 1 TO STRLEN(Formula) DO BEGIN
+        IF Formula[i] = '(' THEN
+          ParenthesesLevel := ParenthesesLevel + 1
+        ELSE
+          IF Formula[i] = ')' THEN
+            ParenthesesLevel := ParenthesesLevel - 1;
+        IF ParenthesesLevel < 0 THEN
+          ERROR(Text001,i);
+        IF Formula[i] IN ['+','-','*','/','^'] THEN BEGIN
+          IF HasOperator THEN
+            ERROR(Text002,i);
+
+          HasOperator := TRUE;
+
+          IF i = STRLEN(Formula) THEN
+            ERROR(Text003,i);
+
+          IF Formula[i + 1] = ')' THEN
+            ERROR(Text003,i);
+        END ELSE
+          HasOperator := FALSE;
+      END;
+      IF ParenthesesLevel > 0 THEN
+        ERROR(Text004);
+
+      IF ParenthesesLevel < 0 THEN
+        ERROR(Text005);
+    END;
+
+    PROCEDURE GetCaptionClass@7(AnalysisViewDimType@1000 : Integer) : Text[250];
+    BEGIN
+      GetAccSchedSetup;
+      CASE AnalysisViewDimType OF
+        1:
+          BEGIN
+            IF AnalysisView."Dimension 1 Code" <> '' THEN
+              EXIT('1,6,' + AnalysisView."Dimension 1 Code");
+
+            EXIT(Text006);
+          END;
+        2:
+          BEGIN
+            IF AnalysisView."Dimension 2 Code" <> '' THEN
+              EXIT('1,6,' + AnalysisView."Dimension 2 Code");
+
+            EXIT(Text007);
+          END;
+        3:
+          BEGIN
+            IF AnalysisView."Dimension 3 Code" <> '' THEN
+              EXIT('1,6,' + AnalysisView."Dimension 3 Code");
+
+            EXIT(Text008);
+          END;
+        4:
+          BEGIN
+            IF AnalysisView."Dimension 4 Code" <> '' THEN
+              EXIT('1,6,' + AnalysisView."Dimension 4 Code");
+
+            EXIT(Text009);
+          END;
+        5:
+          BEGIN
+            IF AnalysisView."Dimension 1 Code" <> '' THEN
+              EXIT('1,5,' + AnalysisView."Dimension 1 Code" + Text010);
+
+            EXIT(Text011);
+          END;
+        6:
+          BEGIN
+            IF AnalysisView."Dimension 2 Code" <> '' THEN
+              EXIT('1,5,' + AnalysisView."Dimension 2 Code" + Text010);
+
+            EXIT(Text012);
+          END;
+        7:
+          BEGIN
+            IF AnalysisView."Dimension 3 Code" <> '' THEN
+              EXIT('1,5,' + AnalysisView."Dimension 3 Code" + Text010);
+
+            EXIT(Text013);
+          END;
+        8:
+          BEGIN
+            IF AnalysisView."Dimension 4 Code" <> '' THEN
+              EXIT('1,5,' + AnalysisView."Dimension 4 Code" + Text010);
+
+            EXIT(Text014);
+          END;
+      END;
+    END;
+
+    LOCAL PROCEDURE GetAccSchedSetup@2();
+    BEGIN
+      IF "Schedule Name" <> AccSchedName.Name THEN
+        AccSchedName.GET("Schedule Name");
+      IF AccSchedName."Analysis View Name" <> '' THEN BEGIN
+        IF AccSchedName."Analysis View Name" <> AnalysisView.Code THEN
+          IF NOT AnalysisView.GET(AccSchedName."Analysis View Name") THEN BEGIN
+            MESSAGE(
+              Text015,
+              AccSchedName.TABLECAPTION,AnalysisView.TABLECAPTION,AccSchedName."Analysis View Name",
+              AccSchedName.FIELDCAPTION("Analysis View Name"),AccSchedName.TABLECAPTION);
+            AccSchedName."Analysis View Name" := '';
+            AccSchedName.MODIFY;
+          END;
+      END;
+
+      IF AccSchedName."Analysis View Name" = '' THEN BEGIN
+        IF NOT HasGLSetup THEN BEGIN
+          GLSetup.GET;
+          HasGLSetup := TRUE;
+        END;
+        CLEAR(AnalysisView);
+        AnalysisView."Dimension 1 Code" := GLSetup."Global Dimension 1 Code";
+        AnalysisView."Dimension 2 Code" := GLSetup."Global Dimension 2 Code";
+      END;
+    END;
+
+    PROCEDURE LookupTotaling@3();
+    VAR
+      GLAccList@1000 : Page 18;
+      CostTypeList@1001 : Page 1124;
+      CFAccList@1002 : Page 855;
+    BEGIN
+      CASE "Totaling Type" OF
+        "Totaling Type"::"Posting Accounts",
+        "Totaling Type"::"Total Accounts":
+          BEGIN
+            GLAccList.LOOKUPMODE(TRUE);
+            IF GLAccList.RUNMODAL = ACTION::LookupOK THEN
+              VALIDATE(Totaling,GLAccList.GetSelectionFilter);
+          END;
+        "Totaling Type"::"Cost Type",
+        "Totaling Type"::"Cost Type Total":
+          BEGIN
+            CostTypeList.LOOKUPMODE(TRUE);
+            IF CostTypeList.RUNMODAL = ACTION::LookupOK THEN
+              VALIDATE(Totaling,CostTypeList.GetSelectionFilter);
+          END;
+        "Totaling Type"::"Cash Flow Entry Accounts",
+        "Totaling Type"::"Cash Flow Total Accounts":
+          BEGIN
+            CFAccList.LOOKUPMODE(TRUE);
+            IF CFAccList.RUNMODAL = ACTION::LookupOK THEN
+              VALIDATE(Totaling,CFAccList.GetSelectionFilter);
+          END;
+      END;
+    END;
+
+    PROCEDURE LookupGLBudgetFilter@4(VAR Text@1000 : Text[10]) : Boolean;
+    VAR
+      GLBudgetNames@1001 : Page 121;
+    BEGIN
+      GLBudgetNames.LOOKUPMODE(TRUE);
+      IF GLBudgetNames.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        Text := GLBudgetNames.GetSelectionFilter;
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    PROCEDURE LookupCostBudgetFilter@5(VAR Text@1000 : Text[10]) : Boolean;
+    VAR
+      CostBudgetNames@1001 : Page 1116;
+    BEGIN
+      CostBudgetNames.LOOKUPMODE(TRUE);
+      IF CostBudgetNames.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        Text := CostBudgetNames.GetSelectionFilter;
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

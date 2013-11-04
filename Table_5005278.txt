@@ -1,0 +1,58 @@
+OBJECT Table 5005278 Delivery Reminder Text
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               DeliveryReminderLevel.GET("Reminder Terms Code","Reminder Level");
+             END;
+
+    CaptionML=[ENU=Delivery Reminder Text;
+               DEA=Lieferanmahnungstext];
+    LookupPageID=Page5005283;
+    DrillDownPageID=Page5005283;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Reminder Terms Code ;Code10        ;TableRelation="Delivery Reminder Term";
+                                                   CaptionML=[ENU=Reminder Terms Code;
+                                                              DEA=Mahnmethodencode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Reminder Level      ;Integer       ;TableRelation="Delivery Reminder Level".No. WHERE (Reminder Terms Code=FIELD(Reminder Terms Code));
+                                                   CaptionML=[ENU=Reminder Level;
+                                                              DEA=Mahnstufe];
+                                                   MinValue=1;
+                                                   NotBlank=Yes }
+    { 3   ;   ;Position            ;Option        ;CaptionML=[ENU=Position;
+                                                              DEA=Position];
+                                                   OptionCaptionML=[ENU=Beginning,Ending;
+                                                                    DEA=Vor,Nach];
+                                                   OptionString=Beginning,Ending }
+    { 4   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.] }
+    { 5   ;   ;Description         ;Text100       ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Reminder Terms Code,Reminder Level,Position,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderLevel@1140000 : Record 5005277;
+
+    BEGIN
+    END.
+  }
+}
+

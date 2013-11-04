@@ -1,0 +1,60 @@
+OBJECT Table 51 User Time Register
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=User Time Register;
+               ESP=Hist¢rico conexi¢n usuario;
+               DEA=Zeitprotokoll];
+    LookupPageID=Page71;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnValidate=VAR
+                                                                UserMgt@1000 : Codeunit 418;
+                                                              BEGIN
+                                                                UserMgt.ValidateUserID("User ID");
+                                                              END;
+
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 3   ;   ;Minutes             ;Decimal       ;CaptionML=[ENU=Minutes;
+                                                              ESP=Minutos;
+                                                              DEA=Minuten];
+                                                   DecimalPlaces=0:0;
+                                                   MinValue=0 }
+  }
+  KEYS
+  {
+    {    ;User ID,Date                            ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

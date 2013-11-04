@@ -1,0 +1,144 @@
+OBJECT Table 5769 Warehouse Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Warehouse Setup;
+               ESP=Configuraci¢n almacÇn;
+               DEA=Logistik Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Whse. Receipt Nos.  ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Receipt Nos.;
+                                                              ESP=Nß serie recep. alm.;
+                                                              DEA=Wareneingangsnummern] }
+    { 3   ;   ;Whse. Put-away Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Put-away Nos.;
+                                                              ESP=Nß serie ubic. alm.;
+                                                              DEA=Einlagerungsnummern] }
+    { 5   ;   ;Whse. Pick Nos.     ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Pick Nos.;
+                                                              ESP=Nß serie picking alm.;
+                                                              DEA=Kommissionierungsnummern] }
+    { 6   ;   ;Whse. Ship Nos.     ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Ship Nos.;
+                                                              ESP=Nß serie env°o alm.;
+                                                              DEA=Warenausgangsnummern] }
+    { 7   ;   ;Registered Whse. Pick Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Registered Whse. Pick Nos.;
+                                                              ESP=Nß serie picking alm. regis.;
+                                                              DEA=Registrierte Kommiss.-Nummern] }
+    { 10  ;   ;Registered Whse. Put-away Nos.;Code10;
+                                                   TableRelation="No. Series";
+                                                   CaptionML=[ENU=Registered Whse. Put-away Nos.;
+                                                              ESP=Nß serie ubic. alm. regis.;
+                                                              DEA=Registrierte Einlag.-Nummern] }
+    { 13  ;   ;Require Receive     ;Boolean       ;OnValidate=BEGIN
+                                                                IF NOT "Require Receive" THEN
+                                                                  "Require Put-away" := FALSE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Require Receive;
+                                                              ESP=Recepci¢n requerida;
+                                                              DEA=Wareneingang erforderlich] }
+    { 14  ;   ;Require Put-away    ;Boolean       ;OnValidate=BEGIN
+                                                                IF "Require Put-away" THEN
+                                                                  "Require Receive" := TRUE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Require Put-away;
+                                                              ESP=Ubicaci¢n requerida;
+                                                              DEA=Einlagerung erforderlich] }
+    { 15  ;   ;Require Pick        ;Boolean       ;OnValidate=BEGIN
+                                                                IF "Require Pick" THEN
+                                                                  "Require Shipment" := TRUE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Require Pick;
+                                                              ESP=Picking requerido;
+                                                              DEA=Kommissionierung erforderlich] }
+    { 16  ;   ;Require Shipment    ;Boolean       ;OnValidate=BEGIN
+                                                                IF NOT "Require Shipment" THEN
+                                                                  "Require Pick" := FALSE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Require Shipment;
+                                                              ESP=Env°o requerido;
+                                                              DEA=Warenausgang erforderlich] }
+    { 17  ;   ;Last Whse. Posting Ref. No.;Integer;CaptionML=[ENU=Last Whse. Posting Ref. No.;
+                                                              ESP=Èltimo nß ref. registro almacÇn;
+                                                              DEA=Letzte Lagerbuchungsref.-Nr.];
+                                                   Editable=No }
+    { 18  ;   ;Receipt Posting Policy;Option      ;CaptionML=[ENU=Receipt Posting Policy;
+                                                              ESP=Directiva registro recepci¢n;
+                                                              DEA=Wareneingangsbuchungsmethode];
+                                                   OptionCaptionML=[ENU=Posting errors are not processed,Stop and show the first posting error;
+                                                                    ESP=No se procesan errores reg.,Parar y mostrar el primer error de reg.;
+                                                                    DEA=Buchungsfehler werden nicht verarbeitet,Abbruch und ersten Buchungsfehler anzeigen];
+                                                   OptionString=Posting errors are not processed,Stop and show the first posting error }
+    { 19  ;   ;Shipment Posting Policy;Option     ;CaptionML=[ENU=Shipment Posting Policy;
+                                                              ESP=Directiva registro env°o;
+                                                              DEA=Warenausgangsbuchungsmethode];
+                                                   OptionCaptionML=[ENU=Posting errors are not processed,Stop and show the first posting error;
+                                                                    ESP=No se procesan errores reg.,Parar y mostrar el primer error de reg.;
+                                                                    DEA=Buchungsfehler werden nicht verarbeitet,Abbruch und ersten Buchungsfehler anzeigen];
+                                                   OptionString=Posting errors are not processed,Stop and show the first posting error }
+    { 7301;   ;Posted Whse. Receipt Nos.;Code10   ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Whse. Receipt Nos.;
+                                                              ESP=Nß serie recep. alm. regis.;
+                                                              DEA=Geb. Wareneingangsnummern] }
+    { 7303;   ;Posted Whse. Shipment Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Whse. Shipment Nos.;
+                                                              ESP=Nß serie env°o alm. regis.;
+                                                              DEA=Geb. Warenausgangsnummern] }
+    { 7304;   ;Whse. Internal Put-away Nos.;Code10;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Internal Put-away Nos.;
+                                                              ESP=Nß serie ubicac. interna alm.;
+                                                              DEA=Interne Einlag.-Anf.-Nummern] }
+    { 7306;   ;Whse. Internal Pick Nos.;Code10    ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Internal Pick Nos.;
+                                                              ESP=Nß serie picking interno alm.;
+                                                              DEA=Interne Kommiss.-Anf.-Nummern] }
+    { 7308;   ;Whse. Movement Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Whse. Movement Nos.;
+                                                              ESP=Nß serie movimiento almacÇn;
+                                                              DEA=Lagerplatzumlagerungsnummern] }
+    { 7309;   ;Registered Whse. Movement Nos.;Code10;
+                                                   TableRelation="No. Series";
+                                                   CaptionML=[ENU=Registered Whse. Movement Nos.;
+                                                              ESP=Nß serie mov. alm. regis.;
+                                                              DEA=Reg. Lagerplatzumlag.-Nummern] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE GetNextReference@1() : Integer;
+    BEGIN
+      LOCKTABLE;
+      GET;
+      "Last Whse. Posting Ref. No." := "Last Whse. Posting Ref. No." + 1;
+      MODIFY;
+      EXIT("Last Whse. Posting Ref. No.");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,250 @@
+OBJECT Table 5005355 Posted Phys. Invt. Order Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=BEGIN
+               PostedExpectPhysInvtTrackLine.RESET;
+               PostedExpectPhysInvtTrackLine.SETRANGE("Order No","Document No.");
+               PostedExpectPhysInvtTrackLine.SETRANGE("Order Line No.","Line No.");
+               PostedExpectPhysInvtTrackLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Posted Phys. Invt. Order Line;
+               DEA=Geb. Inventurauftragszeile];
+    PasteIsValid=No;
+    LookupPageID=Page5005361;
+    DrillDownPageID=Page5005361;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document No.        ;Code20        ;TableRelation="Post. Phys. Invt. Order Header";
+                                                   CaptionML=[ENU=Document No.;
+                                                              DEA=Belegnr.] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.] }
+    { 12  ;   ;In Recording Lines  ;Boolean       ;CaptionML=[ENU=In Recording Lines;
+                                                              DEA=In Erfassungszeilen enthalten];
+                                                   Editable=No }
+    { 20  ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              DEA=Artikelnr.] }
+    { 21  ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              DEA=Variantencode] }
+    { 22  ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              DEA=Lagerortcode] }
+    { 23  ;   ;Bin Code            ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
+                                                   CaptionML=[ENU=Bin Code;
+                                                              DEA=Lagerplatzcode] }
+    { 30  ;   ;Description         ;Text30        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+    { 31  ;   ;Description 2       ;Text30        ;CaptionML=[ENU=Description 2;
+                                                              DEA=Beschreibung 2] }
+    { 32  ;   ;Unit of Measure     ;Text10        ;CaptionML=[ENU=Unit of Measure;
+                                                              DEA=Einheit] }
+    { 40  ;   ;Base Unit of Measure Code;Code10   ;TableRelation="Unit of Measure";
+                                                   CaptionML=[ENU=Base Unit of Measure Code;
+                                                              DEA=Basiseinheitencode];
+                                                   Editable=No }
+    { 50  ;   ;Qty. Expected (Base);Decimal       ;CaptionML=[ENU=Qty. Expected (Base);
+                                                              DEA=Erwartete Menge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 51  ;   ;Qty. Exp. Calculated;Boolean       ;CaptionML=[ENU=Qty. Exp. Calculated;
+                                                              DEA=Berechnete erw. Menge];
+                                                   Editable=No }
+    { 52  ;   ;Qty. Exp. Track. Lines (Base);Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Post. Exp. Ph. In. Track. Line"."Quantity (Base)" WHERE (Order No=FIELD(Document No.),
+                                                                                                                             Order Line No.=FIELD(Line No.)));
+                                                   CaptionML=[ENU=Qty. Exp. Track. Lines (Base);
+                                                              DEA=Erw. Menge Verf.-Zeile (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 53  ;   ;Use Tracking Lines  ;Boolean       ;CaptionML=[ENU=Use Tracking Lines;
+                                                              DEA=Verfolgungszeilen verwenden] }
+    { 55  ;   ;Last Item Ledger Entry No.;Integer ;TableRelation="Item Ledger Entry";
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Last Item Ledger Entry No.;
+                                                              DEA=Letzte Artikelposten Lfd. Nr.];
+                                                   Editable=No }
+    { 60  ;   ;Unit Amount         ;Decimal       ;CaptionML=[ENU=Unit Amount;
+                                                              DEA=StÅckpreis];
+                                                   AutoFormatType=2 }
+    { 62  ;   ;Unit Cost           ;Decimal       ;CaptionML=[ENU=Unit Cost;
+                                                              DEA=Einstandspreis];
+                                                   AutoFormatType=2 }
+    { 70  ;   ;No. Finished Rec.-Lines;Integer    ;CaptionML=[ENU=No. Finished Rec.-Lines;
+                                                              DEA=Anzahl beendete Erfassungszeilen];
+                                                   Editable=No }
+    { 71  ;   ;Qty. Recorded (Base);Decimal       ;CaptionML=[ENU=Qty. Recorded (Base);
+                                                              DEA=Erfasste Menge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 72  ;   ;Quantity (Base)     ;Decimal       ;CaptionML=[ENU=Quantity (Base);
+                                                              DEA=Menge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 73  ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=" ,Positive Adjmt.,Negative Adjmt.";
+                                                                    DEA=" ,Zugang,Abgang"];
+                                                   OptionString=[ ,Positive Adjmt.,Negative Adjmt.];
+                                                   Editable=No }
+    { 74  ;   ;Pos. Qty. (Base)    ;Decimal       ;CaptionML=[ENU=Pos. Qty. (Base);
+                                                              DEA=Positive Menge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 75  ;   ;Neg. Qty. (Base)    ;Decimal       ;CaptionML=[ENU=Neg. Qty. (Base);
+                                                              DEA=Negative Menge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 76  ;   ;Without difference  ;Boolean       ;CaptionML=[ENU=Without difference;
+                                                              DEA=Ohne Differenz];
+                                                   Editable=No }
+    { 80  ;   ;Recorded without Order;Boolean     ;CaptionML=[ENU=Recorded without Order;
+                                                              DEA=Ohne Auftrag erfasst];
+                                                   Editable=No }
+    { 90  ;   ;Shortcut Dimension 1 Code;Code20   ;OnLookup=BEGIN
+                                                              DimManagement.LookupDimValueCode(1,"Shortcut Dimension 1 Code");
+                                                            END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
+                                                              DEA=Shortcutdimensionencode 1];
+                                                   CaptionClass='1,2,1' }
+    { 91  ;   ;Shortcut Dimension 2 Code;Code20   ;OnLookup=BEGIN
+                                                              DimManagement.LookupDimValueCode(2,"Shortcut Dimension 2 Code");
+                                                            END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
+                                                              DEA=Shortcutdimensionencode 2];
+                                                   CaptionClass='1,2,2' }
+    { 100 ;   ;Shelf/Bin No.       ;Code10        ;CaptionML=[ENU=Shelf/Bin No.;
+                                                              DEA=Regalnr.] }
+    { 110 ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              DEA=GeschÑftsbuchungsgruppe] }
+    { 111 ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              DEA=Produktbuchungsgruppe] }
+    { 112 ;   ;Inventory Posting Group;Code10     ;TableRelation="Inventory Posting Group";
+                                                   CaptionML=[ENU=Inventory Posting Group;
+                                                              DEA=Lagerbuchungsgruppe] }
+    { 130 ;   ;Intern Item Track. Pos. Qut.;Integer;
+                                                   CaptionML=[ENU=Intern Item Track. Pos. Qut.;
+                                                              DEA=Intern Art.-Verfolg. Pos. Menge];
+                                                   Editable=No }
+    { 131 ;   ;Intern Item Track. Neg. Qut.;Integer;
+                                                   CaptionML=[ENU=Intern Item Track. Neg. Qut.;
+                                                              DEA=Intern Art.-Verfolg. Neg. Menge] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+    { 5704;   ;Item Category Code  ;Code10        ;TableRelation="Item Category";
+                                                   CaptionML=[ENU=Item Category Code;
+                                                              DEA=Artikelkategoriencode] }
+    { 5707;   ;Product Group Code  ;Code10        ;TableRelation="Product Group".Code WHERE (Item Category Code=FIELD(Item Category Code));
+                                                   CaptionML=[ENU=Product Group Code;
+                                                              DEA=Produktgruppencode] }
+    { 7380;   ;Phys Invt Counting Period Code;Code10;
+                                                   TableRelation="Phys. Invt. Counting Period";
+                                                   CaptionML=[ENU=Phys Invt Counting Period Code;
+                                                              DEA=InventurhÑufigkeitscode];
+                                                   Editable=No }
+    { 7381;   ;Phys Invt Counting Period Type;Option;
+                                                   CaptionML=[ENU=Phys Invt Counting Period Type;
+                                                              DEA=InventurhÑufigk.-Codeherkunft];
+                                                   OptionCaptionML=[ENU=" ,Item,SKU";
+                                                                    DEA=" ,Artikel,Lagerhaltungsdaten"];
+                                                   OptionString=[ ,Item,SKU];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Document No.,Line No.                   ;Clustered=Yes }
+    {    ;Document No.,Entry Type,Without difference }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      PostedExpectPhysInvtTrackLine@1140001 : Record 5005362;
+      DimManagement@1140002 : Codeunit 408;
+      ItemTrackingMgt@1140004 : Codeunit 6500;
+
+    PROCEDURE EmptyLine@1140000() : Boolean;
+    BEGIN
+      EXIT(
+        ("Item No." = '') AND
+        ("Variant Code" = '') AND
+        ("Location Code" = '') AND
+        ("Bin Code" = '') );
+    END;
+
+    PROCEDURE ShowDimensions@1140001();
+    BEGIN
+      DimManagement.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Document No.","Line No."));
+    END;
+
+    PROCEDURE ShowPostPhysInvtRecordingLines@1140002();
+    VAR
+      PostedPhysInvtRecordingLine@1140000 : Record 5005357;
+    BEGIN
+      IF EmptyLine THEN
+        EXIT;
+      TESTFIELD("Item No.");
+
+      PostedPhysInvtRecordingLine.RESET;
+      PostedPhysInvtRecordingLine.SETCURRENTKEY("Order No.","Order Line No.");
+      PostedPhysInvtRecordingLine.SETRANGE("Order No.","Document No.");
+      PostedPhysInvtRecordingLine.SETRANGE("Order Line No.","Line No.");
+      PAGE.RUNMODAL(0,PostedPhysInvtRecordingLine);
+    END;
+
+    PROCEDURE ShowPostedItemTrackingLines@1140003();
+    BEGIN
+      IF EmptyLine THEN
+        EXIT;
+      TESTFIELD("Item No.");
+
+      ItemTrackingMgt.CallPostedItemTrackingForm(
+        DATABASE::"Posted Phys. Invt. Order Line",
+        0,
+        "Document No.",
+        '',
+        0,
+        "Line No.");
+    END;
+
+    PROCEDURE ShowPostExpPhysInvtTrackLines@1140004();
+    BEGIN
+      IF EmptyLine THEN
+        EXIT;
+      TESTFIELD("Item No.");
+
+      PostedExpectPhysInvtTrackLine.RESET;
+      PostedExpectPhysInvtTrackLine.SETRANGE("Order No","Document No.");
+      PostedExpectPhysInvtTrackLine.SETRANGE("Order Line No.","Line No.");
+
+      PAGE.RUNMODAL(0,PostedExpectPhysInvtTrackLine);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,48 @@
+OBJECT Table 5890 Error Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Error Buffer;
+               ESP=Error almacenaje;
+               DEA=Fehlerpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Error No.           ;Integer       ;CaptionML=[ENU=Error No.;
+                                                              ESP=N§ de error;
+                                                              DEA=Fehlernr.] }
+    { 2   ;   ;Error Text          ;Text250       ;CaptionML=[ENU=Error Text;
+                                                              ESP=Texto error;
+                                                              DEA=Fehlertext] }
+    { 3   ;   ;Source Table        ;Integer       ;CaptionML=[ENU=Source Table;
+                                                              ESP=Tabla origen;
+                                                              DEA=Herkunftstabelle] }
+    { 4   ;   ;Source No.          ;Code20        ;CaptionML=[ENU=Source No.;
+                                                              ESP=C¢d. procedencia mov.;
+                                                              DEA=Herkunftsnr.] }
+    { 5   ;   ;Source Ref. No.     ;Integer       ;CaptionML=[ENU=Source Ref. No.;
+                                                              ESP=N§ ref. origen;
+                                                              DEA=Herkunftsref.-Nr.] }
+  }
+  KEYS
+  {
+    {    ;Error No.                               ;Clustered=Yes }
+    {    ;Source Table,Source No.,Source Ref. No.  }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,45 @@
+OBJECT Table 11016 Number Series Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14.08.09;
+    Time=12:00:00;
+    Version List=NAVDACH6.00.01;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Number Series Buffer;
+               DEA=Nummernkreispuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Table No.           ;Integer       ;CaptionML=[ENU=Table No.;
+                                                              DEA=Tabellennr.] }
+    { 3   ;   ;Field No.           ;Integer       ;CaptionML=[ENU=Field No.;
+                                                              DEA=Feldnr.] }
+    { 4   ;   ;Table Name          ;Text30        ;CaptionML=[ENU=Table Name;
+                                                              DEA=Tabellenname] }
+    { 5   ;   ;Field Name          ;Text30        ;CaptionML=[ENU=Field Name;
+                                                              DEA=Feldname] }
+    { 6   ;   ;Field Value         ;Text30        ;CaptionML=[ENU=Field Value;
+                                                              DEA=Feldwert] }
+    { 7   ;   ;Checked             ;Boolean       ;CaptionML=[ENU=Checked;
+                                                              DEA=GeprÅft] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

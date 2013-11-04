@@ -1,0 +1,66 @@
+OBJECT Table 5973 Service Contract Account Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Service Contract Account Group;
+               ESP=Grupo cuenta contrato servicio;
+               DEA=Servicevertragskontengruppe];
+    LookupPageID=Page6070;
+    DrillDownPageID=Page6070;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Non-Prepaid Contract Acc.;Code20   ;TableRelation="G/L Account".No.;
+                                                   OnValidate=BEGIN
+                                                                IF "Non-Prepaid Contract Acc." <> '' THEN BEGIN
+                                                                  GlAcc.GET("Non-Prepaid Contract Acc.");
+                                                                  GlAcc.TESTFIELD("Gen. Prod. Posting Group");
+                                                                  GlAcc.TESTFIELD("VAT Prod. Posting Group");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Non-Prepaid Contract Acc.;
+                                                              ESP=Cuenta contrato no prepago;
+                                                              DEA=Nicht vorausbez. Vertragskonto] }
+    { 4   ;   ;Prepaid Contract Acc.;Code20       ;TableRelation="G/L Account".No.;
+                                                   OnValidate=BEGIN
+                                                                IF "Prepaid Contract Acc." <> '' THEN BEGIN
+                                                                  GlAcc.GET("Prepaid Contract Acc.");
+                                                                  GlAcc.TESTFIELD("Gen. Prod. Posting Group");
+                                                                  GlAcc.TESTFIELD("VAT Prod. Posting Group");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Prepaid Contract Acc.;
+                                                              ESP=Cuenta contrato prepago;
+                                                              DEA=Vorausbez. Vertragskonto] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      GlAcc@1000 : Record 15;
+
+    BEGIN
+    END.
+  }
+}
+

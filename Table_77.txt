@@ -1,0 +1,69 @@
+OBJECT Table 77 Report Selections
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Report Selections;
+               ESP=Selecci¢n informes;
+               DEA=Berichtsauswahl];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Usage               ;Option        ;CaptionML=[ENU=Usage;
+                                                              ESP=Utilizado;
+                                                              DEA=Verwendung];
+                                                   OptionCaptionML=[ENU=S.Quote,S.Order,S.Invoice,S.Cr.Memo,S.Test,P.Quote,P.Order,P.Invoice,P.Cr.Memo,P.Receipt,P.Ret.Shpt.,P.Test,B.Stmt,B.Recon.Test,B.Check,Reminder,Fin.Charge,Rem.Test,F.C.Test,Prod. Order,S.Blanket,P.Blanket,M1,M2,M3,M4,Inv1,Inv2,Inv3,SM.Quote,SM.Order,SM.Invoice,SM.Credit Memo,SM.Contract Quote,SM.Contract,SM.Test,S.Return,P.Return,S.Shipment,S.Ret.Rcpt.,S.Work Order,Invt. Period Test,SM.Shipment,S.Test Prepmt.,P.Test Prepmt.,S.Arch. Quote,S.Arch. Order,P.Arch. Quote,P.Arch. Order,S. Arch. Return Order,P. Arch. Return Order,Asm. Order,P.Assembly Order,S.Order Pick Instruction;
+                                                                    ESP=V.Ofe.,V.Ped.,V.Fac,V.Abo.,V.Prueba,C.Ofe.,C.Ped.,C.Fac.,C.Alb.,C.Env¡o Recep,C.Env¡o dev.,C.Prueba,B.Ext.,B.PruebaCon,B.Cheq,Recor,Ter-int,Recor.Prueba,Ter-int.Prueba,O.P.,V.P.abier,C.P.abier,M1,M2,M3,M4,Fra1,Fra2,Fra3,SM.Ofe,S.M.Ped,S.M.Factura,S.M. Ab,S.M.Ofer. cont.,S.M.Contrato,SM.Prueba,V.Dev,C.Dev,V.Alb,V.Rec.Dev,Ped.trab.v.,Periodo invent.Prueba,S.M.Alb,V.Prep.Prueba,C.Prep.Prueba,S.Arch ofe.,S.Arch ped.,P.Arch ofe.,P.Arch ped.,S.Arch devoluci¢n ped.,P.Arch devoluci¢n ped.,Pedido ensamblado,Pedido ensamblado compra,,,,,,,C.autofac,C.autoab.,Instrucci¢n. picking ped.ventas;
+                                                                    DEA=S.Quote,S.Order,S.Invoice,S.Cr.Memo,S.Test,P.Quote,P.Order,P.Invoice,P.Cr.Memo,P.Receipt,P.Ret.Shpt.,P.Test,B.Stmt,B.Recon.Test,B.Check,Reminder,Fin.Charge,Rem.Test,F.C.Test,Prod. Order,S.Blanket,P.Blanket,M1,M2,M3,M4,Inv1,Inv2,Inv3,SM.Quote,SM.Order,SM.Invoice,SM.Credit Memo,SM.Contract Quote,SM.Contract,SM.Test,S.Return,P.Return,S.Shipment,S.Ret.Rcpt.,S.Work Order,Invt. Period Test,SM.Shipment,S.Test Prepmt.,P.Test Prepmt.,S.Arch. Quote,S.Arch. Order,P.Arch. Quote,P.Arch. Order,S. Arch. Return Order,P. Arch. Return Order,Asm. Order,P.Assembly Order,S.Order Pick Instruction];
+                                                   OptionString=S.Quote,S.Order,S.Invoice,S.Cr.Memo,S.Test,P.Quote,P.Order,P.Invoice,P.Cr.Memo,P.Receipt,P.Ret.Shpt.,P.Test,B.Stmt,B.Recon.Test,B.Check,Reminder,Fin.Charge,Rem.Test,F.C.Test,Prod. Order,S.Blanket,P.Blanket,M1,M2,M3,M4,Inv1,Inv2,Inv3,SM.Quote,SM.Order,SM.Invoice,SM.Credit Memo,SM.Contract Quote,SM.Contract,SM.Test,S.Return,P.Return,S.Shipment,S.Ret.Rcpt.,S.Work Order,Invt. Period Test,SM.Shipment,S.Test Prepmt.,P.Test Prepmt.,S.Arch. Quote,S.Arch. Order,P.Arch. Quote,P.Arch. Order,S. Arch. Return Order,P. Arch. Return Order,Asm. Order,P.Assembly Order,S.Order Pick Instruction }
+    { 2   ;   ;Sequence            ;Code10        ;CaptionML=[ENU=Sequence;
+                                                              ESP=Secuencia;
+                                                              DEA=Reihenfolge];
+                                                   Numeric=Yes }
+    { 3   ;   ;Report ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Report));
+                                                   OnValidate=BEGIN
+                                                                CALCFIELDS("Report Name");
+                                                              END;
+
+                                                   CaptionML=[ENU=Report ID;
+                                                              ESP=Id. informe;
+                                                              DEA=Berichts-ID] }
+    { 4   ;   ;Report Name         ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Report),
+                                                                                                                Object ID=FIELD(Report ID)));
+                                                   CaptionML=[ENU=Report Name;
+                                                              ESP=Nombre informe;
+                                                              DEA=Berichtsname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Usage,Sequence                          ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ReportSelection2@1000 : Record 77;
+
+    PROCEDURE NewRecord@1();
+    BEGIN
+      ReportSelection2.SETRANGE(Usage,Usage);
+      IF ReportSelection2.FINDLAST AND (ReportSelection2.Sequence <> '') THEN
+        Sequence := INCSTR(ReportSelection2.Sequence)
+      ELSE
+        Sequence := '1';
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

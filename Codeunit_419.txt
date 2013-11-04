@@ -1,0 +1,439 @@
+OBJECT Codeunit 419 File Management
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text001@1004 : TextConst 'ENU=Default;ESP=GenÇrico;DEA=Standard';
+      Text002@1001 : TextConst 'ENU=You must enter a file path.;ESP=Debe insertar una ruta de archivo.;DEA=Geben Sie einen Dateipfad ein.';
+      Text003@1005 : TextConst 'ENU=You must enter a file name.;ESP=Debe introd. nombre fichero.;DEA=Geben Sie einen Dateinamen ein.';
+      Text004@1007 : TextConst 'ENU=The file %1 does not exist.;ESP=El fichero %1 no existe.;DEA=Die Datei %1 ist nicht vorhanden.';
+      Text006@1003 : TextConst 'ENU=Export;ESP=Exportar;DEA=Exportieren';
+      Text007@1002 : TextConst 'ENU=Import;ESP=Importar;DEA=Importieren';
+      Text009@1000 : TextConst 'ENU=All Files (*.*)|*.*;ESP=Todos los archivos (*.*)|*.*;DEA=Alle Dateien (*.*)|*.*';
+      PathHelper@1011 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Path";
+      ClientFileHelper@1012 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.File" RUNONCLIENT;
+      ServerFileHelper@1015 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.File";
+      DirectoryHelper@1013 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Directory" RUNONCLIENT;
+      Text010@1008 : TextConst 'ENU=The file %1 has not been uploaded.;ESP=No se ha cargado el archivo %1.;DEA=Die Datei ''%1'' wurde nicht hochgeladen.';
+      Text011@1009 : TextConst 'ENU=You must specify a source file name.;ESP=Debe especificar un nombre de archivo de origen.;DEA=Sie mÅssen einen Quelldateinamen angeben.';
+      Text012@1010 : TextConst 'ENU=You must specify a target file name.;ESP=Debe especificar un nombre de archivo de destino.;DEA=Sie mÅssen einen Zieldateinamen angeben.';
+      Text013@1014 : TextConst 'ENU=The file name %1 already exists.;ESP=El nombre de archivo %1 ya existe.;DEA=Der Dateiname %1 ist bereits vorhanden.';
+      XMLFileType@1006 : TextConst 'ENU=XML Files (*.xml)|*.xml;ESP=Archivos XML (*.xml)|*.xml;DEA=XML-Dateien (*.xml)|*.xml';
+      WordFileType@1016 : TextConst 'ENU=Word Files (*.doc)|*.doc;ESP=Archivos de Word (*.doc)|*.doc;DEA=Word-Dateien (*.doc)|*.doc';
+      Word2007FileType@1017 : TextConst 'ENU=Word Files (*.doc*)|*.doc*;ESP=Archivos de Word (*.doc*)|*.doc*;DEA=Word-Dateien (*.doc*)|*.doc*';
+      ExcelFileType@1018 : TextConst 'ENU=Excel Files (*.xls)|*.xls;ESP=Archivos de Excel (*.xls)|*.xls;DEA=Excel-Dateien (*.xls)|*.xls';
+      Excel2007FileType@1019 : TextConst 'ENU=Excel Files (*.xls*)|*.xls*;ESP=Archivos de Excel (*.xls*)|*.xls*;DEA=Excel-Dateien (*.xls*)|*.xls*';
+      XSDFileType@1020 : TextConst 'ENU=XSD Files (*.xsd)|*.xsd;ESP=Archivos XSD (*.xsd)|*.xsd;DEA=XSD-Dateien (*.xsd)|*.xsd';
+      HTMFileType@1021 : TextConst 'ENU=HTM Files (*.htm)|*.htm;ESP=Archivos HTM (*.htm)|*.htm;DEA=HTM-Dateien (*.htm)|*.htm';
+      XSLTFileType@1022 : TextConst 'ENU=XSLT Files (*.xslt)|*.xslt;ESP=Archivos XSLT (*.xslt)|*.xslt;DEA=XSLT-Dateien (*.xslt)|*.xslt';
+      TXTFileType@1023 : TextConst 'ENU=Text Files (*.txt)|*.txt;ESP=Archivos de texto (*.txt)|*.txt;DEA=Textdateien (*.txt)|*.txt';
+
+    PROCEDURE BLOBImport@3(VAR BLOBRef@1000 : TEMPORARY Record 99008535;Name@1002 : Text) : Text;
+    VAR
+      NVInStream@1001 : InStream;
+      NVOutStream@1004 : OutStream;
+      UploadResult@1006 : Boolean;
+      ErrorMessage@1007 : Text;
+    BEGIN
+      CLEARLASTERROR;
+
+      // There is no way to check if NVInStream is null before using it after calling the
+      // UPLOADINTOSTREAM therefore if result is false this is the only way we can throw the error.
+      UploadResult := UPLOADINTOSTREAM(Text007,'',Text009,Name,NVInStream);
+      IF UploadResult THEN BEGIN
+        BLOBRef.Blob.CREATEOUTSTREAM(NVOutStream);
+        COPYSTREAM(NVOutStream,NVInStream);
+        EXIT(Name);
+      END;
+      ErrorMessage := GETLASTERRORTEXT;
+      IF ErrorMessage <> '' THEN
+        ERROR(ErrorMessage);
+
+      EXIT('');
+    END;
+
+    PROCEDURE BLOBExport@4(VAR BLOBRef@1002 : TEMPORARY Record 99008535;Name@1001 : Text;CommonDialog@1000 : Boolean) : Text;
+    VAR
+      NVInStream@1003 : InStream;
+      ToFile@1004 : Text;
+      p@1005 : Integer;
+      Path@1006 : Text;
+    BEGIN
+      BLOBRef.Blob.CREATEINSTREAM(NVInStream);
+      IF STRPOS(Name,'*') = 0 THEN
+        ToFile := Name
+      ELSE BEGIN
+        ToFile := INSSTR(Name,Text001,1);
+        ToFile := DELCHR(ToFile,'=','*');
+      END;
+      WHILE STRPOS(ToFile,'\') <> 0 DO BEGIN
+        p := STRPOS(ToFile,'\');
+        ToFile := COPYSTR(ToFile,p + 1);
+      END;
+      Path := 'C:\TEMP';
+      IF NOT CommonDialog THEN
+        Path := Magicpath;
+      DOWNLOADFROMSTREAM(NVInStream,Text006,Path,GetToFilterText('',Name),ToFile);
+      EXIT(ToFile);
+    END;
+
+    PROCEDURE ServerTempFileName@5(FileExtension@1002 : Text) FileName : Text;
+    VAR
+      TempFile@1000 : File;
+    BEGIN
+      TempFile.CREATETEMPFILE;
+      FileName := TempFile.NAME + '.' + FileExtension;
+      TempFile.CLOSE;
+    END;
+
+    PROCEDURE ClientTempFileName@6(FileExtension@1002 : Text) ClientFileName : Text;
+    VAR
+      TempFile@1004 : File;
+      ClientTempPath@1000 : Text;
+    BEGIN
+      IF ClientTempPath = '' THEN BEGIN
+        TempFile.CREATETEMPFILE;
+        ClientFileName := TempFile.NAME + '.' + FileExtension;
+        TempFile.CLOSE;
+        TempFile.CREATE(ClientFileName);
+        TempFile.CLOSE;
+        ClientTempPath := GetDirectoryName(DownloadTempFile(ClientFileName));
+      END;
+      ClientFileName := ClientTempPath + '\' + FORMAT(CREATEGUID) + '.' + FileExtension;
+    END;
+
+    PROCEDURE DownloadTempFile@7(ServerFileName@1001 : Text) : Text;
+    VAR
+      FileName@1102601003 : Text;
+      Path@1102601004 : Text;
+    BEGIN
+      FileName := ServerFileName;
+      Path := Magicpath;
+      DOWNLOAD(ServerFileName,'',Path,Text009,FileName);
+      EXIT(FileName);
+    END;
+
+    PROCEDURE UploadFileSilent@10(ClientFilePath@1001 : Text) : Text;
+    VAR
+      ServerFileName@1006 : Text;
+      TempClientFile@1000 : Text;
+      FileName@1002 : Text;
+      FileExtension@1003 : Text;
+    BEGIN
+      IF NOT ClientFileHelper.Exists(ClientFilePath) THEN
+        ERROR(Text004,ClientFilePath);
+      FileName := GetFileName(ClientFilePath);
+      FileExtension := GetExtension(FileName);
+
+      TempClientFile := ClientTempFileName(FileExtension);
+      ClientFileHelper.Copy(ClientFilePath,TempClientFile,TRUE);
+
+      ServerFileName := ServerTempFileName(FileExtension);
+
+      IF NOT UPLOAD('',Magicpath,Text009,GetFileName(TempClientFile),ServerFileName) THEN
+        ERROR(Text010,ClientFilePath);
+
+      ClientFileHelper.Delete(TempClientFile);
+      EXIT(ServerFileName);
+    END;
+
+    PROCEDURE UploadFile@21(WindowTitle@1003 : Text[50];ClientFileName@1001 : Text) ServerFileName : Text;
+    VAR
+      Uploaded@1002 : Boolean;
+      Filter@1005 : Text;
+    BEGIN
+      CLEARLASTERROR;
+      Filter := GetToFilterText('',ClientFileName);
+
+      IF PathHelper.GetFileNameWithoutExtension(ClientFileName) = '' THEN
+        ClientFileName := '';
+
+      Uploaded := UPLOAD(WindowTitle,'',Filter,ClientFileName,ServerFileName);
+      IF Uploaded THEN
+        EXIT(ServerFileName);
+
+      IF GETLASTERRORTEXT <> '' THEN
+        ERROR('%1',GETLASTERRORTEXT)
+        ;
+
+      EXIT('');
+    END;
+
+    PROCEDURE Magicpath@9() : Text;
+    BEGIN
+      EXIT('<TEMP>');   // MAGIC PATH makes sure we don't get a prompt
+    END;
+
+    PROCEDURE DownloadHandler@2(FromFile@1000 : Text;DialogTitle@1001 : Text;ToFolder@1002 : Text;ToFilter@1003 : Text;ToFile@1004 : Text) : Boolean;
+    VAR
+      Downloaded@1005 : Boolean;
+    BEGIN
+      CLEARLASTERROR;
+      Downloaded := DOWNLOAD(FromFile,DialogTitle,ToFolder,ToFilter,ToFile);
+      IF NOT Downloaded THEN
+        IF GETLASTERRORTEXT <> '' THEN
+          ERROR('%1',GETLASTERRORTEXT);
+      EXIT(Downloaded);
+    END;
+
+    PROCEDURE DownloadToFile@13(ServerFileName@1002 : Text;ClientFileName@1000 : Text);
+    VAR
+      TempClientFileName@1001 : Text;
+    BEGIN
+      ValidateFileNames(ServerFileName,ClientFileName);
+      TempClientFileName := DownloadTempFile(ServerFileName);
+      MoveClientFile(TempClientFileName,ClientFileName);
+    END;
+
+    PROCEDURE AppendAllTextToClientFile@44(ServerFileName@1001 : Text;ClientFileName@1000 : Text);
+    BEGIN
+      ValidateFileNames(ServerFileName,ClientFileName);
+      ClientFileHelper.AppendAllText(ClientFileName,ServerFileHelper.ReadAllText(ServerFileName));
+    END;
+
+    PROCEDURE MoveAndRenameClientFile@11(OldFilePath@1001 : Text;NewFileName@1004 : Text;NewSubDirectoryName@1002 : Text) NewFilePath : Text;
+    VAR
+      directory@1003 : Text;
+    BEGIN
+      IF OldFilePath = '' THEN
+        ERROR(Text002);
+
+      IF NewFileName = '' THEN
+        ERROR(Text003);
+
+      IF NOT ClientFileHelper.Exists(OldFilePath) THEN
+        ERROR(Text004,OldFilePath);
+
+      // Get the directory from the OldFilePath, if directory is empty it will just use the current location.
+      directory := GetDirectoryName(OldFilePath);
+
+      // create the sub directory name is name is given
+      IF NewSubDirectoryName <> '' THEN BEGIN
+        directory := PathHelper.Combine(directory,NewSubDirectoryName);
+        DirectoryHelper.CreateDirectory(directory);
+      END;
+
+      NewFilePath := PathHelper.Combine(directory,NewFileName);
+      MoveClientFile(OldFilePath,NewFilePath);
+
+      EXIT(NewFilePath);
+    END;
+
+    PROCEDURE DeleteClientFile@12(FilePath@1001 : Text) : Boolean;
+    BEGIN
+      IF NOT ClientFileHelper.Exists(FilePath) THEN
+        EXIT(FALSE);
+
+      ClientFileHelper.Delete(FilePath);
+      EXIT(TRUE);
+    END;
+
+    PROCEDURE CopyClientFile@43(SourceFileName@1000 : Text;DestFileName@1001 : Text;OverWrite@1002 : Boolean);
+    BEGIN
+      ClientFileHelper.Copy(SourceFileName,DestFileName,OverWrite);
+    END;
+
+    PROCEDURE ClientFileExists@14(FilePath@1001 : Text) : Boolean;
+    BEGIN
+      EXIT(ClientFileHelper.Exists(FilePath));
+    END;
+
+    PROCEDURE ClientDirectoryExists@42(DirectoryPath@1001 : Text) : Boolean;
+    BEGIN
+      EXIT(DirectoryHelper.Exists(DirectoryPath));
+    END;
+
+    PROCEDURE MoveClientFile@15(SourceFileName@1001 : Text;TargetFileName@1002 : Text);
+    BEGIN
+      // System.IO.File.Move is not used due to a known issue in KB310316
+
+      IF NOT ClientFileHelper.Exists(SourceFileName) THEN
+        ERROR(Text004,SourceFileName);
+
+      DeleteClientFile(TargetFileName);
+      ClientFileHelper.Copy(SourceFileName,TargetFileName);
+      ClientFileHelper.Delete(SourceFileName);
+    END;
+
+    PROCEDURE GetFileName@16(FilePath@1001 : Text) : Text;
+    BEGIN
+      EXIT(PathHelper.GetFileName(FilePath));
+    END;
+
+    PROCEDURE GetDirectoryName@8(FileName@1001 : Text) : Text;
+    BEGIN
+      IF FileName = '' THEN
+        EXIT(FileName);
+
+      FileName := DELCHR(FileName,'<');
+      EXIT(PathHelper.GetDirectoryName(FileName));
+    END;
+
+    PROCEDURE BLOBImportFromServerFile@17(VAR TempBlob@1001 : Record 99008535;FilePath@1000 : Text);
+    VAR
+      OutStream@1004 : OutStream;
+      InStream@1003 : InStream;
+      InputFile@1002 : File;
+    BEGIN
+      IF NOT FILE.EXISTS(FilePath) THEN
+        ERROR(Text004,FilePath);
+
+      InputFile.OPEN(FilePath);
+      InputFile.CREATEINSTREAM(InStream);
+      TempBlob.Blob.CREATEOUTSTREAM(OutStream);
+      COPYSTREAM(OutStream,InStream);
+      InputFile.CLOSE;
+    END;
+
+    PROCEDURE BLOBExportToServerFile@18(VAR TempBlob@1001 : Record 99008535;FilePath@1000 : Text);
+    VAR
+      OutStream@1004 : OutStream;
+      InStream@1003 : InStream;
+      OutputFile@1002 : File;
+    BEGIN
+      IF FILE.EXISTS(FilePath) THEN
+        ERROR(Text013,FilePath);
+
+      OutputFile.WRITEMODE(TRUE);
+      OutputFile.CREATE(FilePath);
+      OutputFile.CREATEOUTSTREAM(OutStream);
+      TempBlob.Blob.CREATEINSTREAM(InStream);
+      COPYSTREAM(OutStream,InStream);
+      OutputFile.CLOSE;
+    END;
+
+    PROCEDURE GetToFilterText@19(FilterString@1002 : Text;FileName@1000 : Text) : Text;
+    VAR
+      OutExt@1001 : Text;
+    BEGIN
+      IF FilterString <> '' THEN
+        EXIT(FilterString);
+
+      CASE UPPERCASE(GetExtension(FileName)) OF
+        'DOC':
+          OutExt := WordFileType;
+        'DOCX':
+          OutExt := Word2007FileType;
+        'XLS':
+          OutExt := ExcelFileType;
+        'XLSX':
+          OutExt := Excel2007FileType;
+        'XSLT':
+          OutExt := XSLTFileType;
+        'XML':
+          OutExt := XMLFileType;
+        'XSD':
+          OutExt := XSDFileType;
+        'HTM':
+          OutExt := HTMFileType;
+        'TXT':
+          OutExt := TXTFileType;
+      END;
+      IF OutExt = '' THEN
+        EXIT(Text009);
+      EXIT(OutExt + '|' + Text009);  // Also give the option of the general selection
+    END;
+
+    PROCEDURE GetExtension@20(Name@1000 : Text) : Text;
+    VAR
+      FileExtension@1002 : Text;
+    BEGIN
+      FileExtension := PathHelper.GetExtension(Name);
+
+      IF FileExtension <> '' THEN
+        FileExtension := DELCHR(FileExtension,'<','.');
+
+      EXIT(FileExtension);
+    END;
+
+    PROCEDURE OpenFileDialog@1(WindowTitle@1000 : Text[50];DefaultFileName@1001 : Text;FilterString@1002 : Text) : Text;
+    VAR
+      OpenFileDialog@1006 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.OpenFileDialog" RUNONCLIENT;
+      DialagResult@1003 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.DialogResult" RUNONCLIENT;
+    BEGIN
+      OpenFileDialog := OpenFileDialog.OpenFileDialog;
+      OpenFileDialog.ShowReadOnly := FALSE;
+      OpenFileDialog.FileName := GetFileName(DefaultFileName);
+      OpenFileDialog.Title := WindowTitle;
+      OpenFileDialog.Filter := GetToFilterText(FilterString,DefaultFileName);
+      OpenFileDialog.InitialDirectory := GetDirectoryName(DefaultFileName);
+
+      DialagResult := OpenFileDialog.ShowDialog;
+      IF DialagResult.CompareTo(DialagResult.OK) = 0 THEN
+        EXIT(OpenFileDialog.FileName);
+      EXIT('');
+    END;
+
+    PROCEDURE SaveFileDialog@23(WindowTitle@1000 : Text[50];DefaultFileName@1001 : Text;FilterString@1002 : Text) : Text;
+    VAR
+      SaveFileDialog@1008 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.SaveFileDialog" RUNONCLIENT;
+      DialagResult@1003 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.DialogResult" RUNONCLIENT;
+    BEGIN
+      SaveFileDialog := SaveFileDialog.SaveFileDialog;
+      SaveFileDialog.CheckPathExists := TRUE;
+      SaveFileDialog.OverwritePrompt := TRUE;
+      SaveFileDialog.FileName := GetFileName(DefaultFileName);
+      SaveFileDialog.Title := WindowTitle;
+      SaveFileDialog.Filter := GetToFilterText(FilterString,DefaultFileName);
+      SaveFileDialog.InitialDirectory := GetDirectoryName(DefaultFileName);
+
+      DialagResult := SaveFileDialog.ShowDialog;
+      IF DialagResult.CompareTo(DialagResult.OK) = 0 THEN
+        EXIT(SaveFileDialog.FileName);
+      EXIT('');
+    END;
+
+    PROCEDURE CanRunDotNetOnClient@41() : Boolean;
+    VAR
+      ActiveSession@1000 : Record 2000000110;
+    BEGIN
+      IF ActiveSession.GET(SERVICEINSTANCEID,SESSIONID) THEN
+        EXIT(ActiveSession."Client Type" = ActiveSession."Client Type"::"Windows Client");
+
+      EXIT(FALSE);
+    END;
+
+    PROCEDURE IsValidFileName@22(FileName@1000 : Text) : Boolean;
+    VAR
+      String@1001 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.String";
+    BEGIN
+      IF FileName = '' THEN
+        EXIT(FALSE);
+
+      String := GetFileName(FileName);
+      IF String.IndexOfAny(PathHelper.GetInvalidFileNameChars) <> -1 THEN
+        EXIT(FALSE);
+
+      String := GetDirectoryName(FileName);
+      IF String.IndexOfAny(PathHelper.GetInvalidPathChars) <> -1 THEN
+        EXIT(FALSE);
+
+      EXIT(TRUE);
+    END;
+
+    LOCAL PROCEDURE ValidateFileNames@24(ServerFileName@1000 : Text;ClientFileName@1001 : Text);
+    BEGIN
+      IF NOT IsValidFileName(ServerFileName) THEN
+        ERROR(Text011);
+
+      IF NOT IsValidFileName(ClientFileName) THEN
+        ERROR(Text012);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

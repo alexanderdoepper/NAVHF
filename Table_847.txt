@@ -1,0 +1,184 @@
+OBJECT Table 847 Cash Flow Forecast Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cash Flow Forecast Entry;
+               ESP=Mov. previsi¢n flujos efectivo;
+               DEA=Cashflowplanungsposten];
+    LookupPageID=Page850;
+    DrillDownPageID=Page850;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnValidate=VAR
+                                                                UserMgt@1000 : Codeunit 418;
+                                                              BEGIN
+                                                                UserMgt.ValidateUserID("User ID");
+                                                              END;
+
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 10  ;   ;Cash Flow Forecast No.;Code20      ;TableRelation="Cash Flow Forecast";
+                                                   CaptionML=[ENU=Cash Flow Forecast No.;
+                                                              ESP=N§ previsi¢n flujos efectivo;
+                                                              DEA=Cashflowplanungsnr.] }
+    { 11  ;   ;Cash Flow Date      ;Date          ;CaptionML=[ENU=Cash Flow Date;
+                                                              ESP=Fecha flujos efectivo;
+                                                              DEA=Cashflowdatum] }
+    { 12  ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 13  ;   ;Cash Flow Account No.;Code20       ;TableRelation="Cash Flow Account";
+                                                   CaptionML=[ENU=Cash Flow Account No.;
+                                                              ESP=N§ cuenta flujos efectivo;
+                                                              DEA=Cashflowkontonr.] }
+    { 14  ;   ;Source Type         ;Option        ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart];
+                                                   OptionCaptionML=[ENU=" ,Receivables,Payables,Liquid Funds,Cash Flow Manual Expense,Cash Flow Manual Revenue,Sales Order,Purchase Order,Fixed Assets Budget,Fixed Assets Disposal,Service Orders,G/L Budget";
+                                                                    ESP=" ,Cobros,Pagos,Fondos l¡quidos,Gastos manuales flujos efectivo,Ingresos manuales flujos efectivo,Pedido ventas,Pedido compra,Presupuesto activos fijos,Venta/Baja activos fijos,Pedidos servicio,Presupuesto contable";
+                                                                    DEA=" ,Forderungen,Verbindlichkeiten,Liquide Mittel,Neutrale Ausgaben fr Cashflow,Neutrale Cashfloweinnahmen,Auftrag,Bestellung,Anlagenbudget,Anlagenabgang,Serviceauftr„ge,Finanzbudget"];
+                                                   OptionString=[ ,Receivables,Payables,Liquid Funds,Cash Flow Manual Expense,Cash Flow Manual Revenue,Sales Order,Purchase Order,Fixed Assets Budget,Fixed Assets Disposal,Service Orders,G/L Budget];
+                                                   Editable=No }
+    { 15  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 21  ;   ;Payment Discount    ;Decimal       ;CaptionML=[ENU=Payment Discount;
+                                                              ESP=Descuento P.P.;
+                                                              DEA=Skonto] }
+    { 22  ;   ;Associated Entry No.;Integer       ;CaptionML=[ENU=Associated Entry No.;
+                                                              ESP=Mov. asociado n§;
+                                                              DEA=Verknpfte lfd. Nr.] }
+    { 23  ;   ;Associated Document No.;Code20     ;CaptionML=[ENU=Associated Document No.;
+                                                              ESP=N§ doc. asociado;
+                                                              DEA=Verknpfte Belegnr.] }
+    { 24  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 25  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 26  ;   ;Recurring Method    ;Option        ;CaptionML=[ENU=Recurring Method;
+                                                              ESP=Periodicidad;
+                                                              DEA=Wiederholungsart];
+                                                   OptionCaptionML=[ENU=,Fixed,Variable;
+                                                                    ESP=,Fija,Variable;
+                                                                    DEA=,Fix,Variabel];
+                                                   OptionString=,Fixed,Variable;
+                                                   BlankZero=Yes }
+    { 29  ;   ;Amount (LCY)        ;Decimal       ;OnValidate=BEGIN
+                                                                Positive := "Amount (LCY)" > 0;
+                                                              END;
+
+                                                   CaptionML=[ENU=Amount (LCY);
+                                                              ESP=Importe (DL);
+                                                              DEA=Betrag (MW)] }
+    { 30  ;   ;Positive            ;Boolean       ;CaptionML=[ENU=Positive;
+                                                              ESP=Positivo;
+                                                              DEA=Positiv];
+                                                   Editable=No }
+    { 33  ;   ;Source No.          ;Code20        ;TableRelation=IF (Source Type=CONST(Liquid Funds)) "G/L Account"
+                                                                 ELSE IF (Source Type=CONST(Receivables)) Customer
+                                                                 ELSE IF (Source Type=CONST(Payables)) Vendor
+                                                                 ELSE IF (Source Type=CONST(Fixed Assets Budget)) "Fixed Asset"
+                                                                 ELSE IF (Source Type=CONST(Fixed Assets Disposal)) "Fixed Asset"
+                                                                 ELSE IF (Source Type=CONST(Sales Order)) "Sales Header".No. WHERE (Document Type=CONST(Order))
+                                                                 ELSE IF (Source Type=CONST(Purchase Order)) "Purchase Header".No. WHERE (Document Type=CONST(Order))
+                                                                 ELSE IF (Source Type=CONST(Service Orders)) "Service Header".No. WHERE (Document Type=CONST(Order))
+                                                                 ELSE IF (Source Type=CONST(Cash Flow Manual Expense)) "Cash Flow Manual Expense"
+                                                                 ELSE IF (Source Type=CONST(Cash Flow Manual Revenue)) "Cash Flow Manual Revenue"
+                                                                 ELSE IF (Source Type=CONST(G/L Budget)) "G/L Account";
+                                                   CaptionML=[ENU=Source No.;
+                                                              ESP=C¢d. procedencia mov.;
+                                                              DEA=Herkunftsnr.] }
+    { 35  ;   ;G/L Budget Name     ;Code10        ;TableRelation="G/L Budget Name";
+                                                   CaptionML=[ENU=G/L Budget Name;
+                                                              ESP=Nombre ppto. contable;
+                                                              DEA=Finanzbudgetname] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Cash Flow Account No.,Cash Flow Date,Cash Flow Forecast No.;
+                                                   SumIndexFields=Amount (LCY) }
+    {    ;Cash Flow Forecast No.,Cash Flow Account No.,Source Type,Cash Flow Date,Positive;
+                                                   SumIndexFields=Amount (LCY),Payment Discount }
+    {    ;Cash Flow Account No.,Cash Flow Forecast No.,Global Dimension 1 Code,Global Dimension 2 Code,Cash Flow Date;
+                                                   SumIndexFields=Amount (LCY),Payment Discount }
+    {    ;Cash Flow Forecast No.,Cash Flow Date    }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Entry No.,Description,Cash Flow Account No.,Cash Flow Date,Source Type }
+  }
+  CODE
+  {
+
+    PROCEDURE ShowDimensions@1001();
+    VAR
+      DimMgt@1000 : Codeunit 408;
+    BEGIN
+      DimMgt.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Entry No."));
+    END;
+
+    PROCEDURE DrillDownOnEntries@5(VAR CashFlowForecast@1000 : Record 840);
+    VAR
+      CFForecastEntry@1002 : Record 847;
+    BEGIN
+      CFForecastEntry.SETRANGE("Cash Flow Forecast No.",CashFlowForecast."No.");
+      CashFlowForecast.COPYFILTER("Cash Flow Date Filter",CFForecastEntry."Cash Flow Date");
+      CashFlowForecast.COPYFILTER("Source Type Filter",CFForecastEntry."Source Type");
+      CashFlowForecast.COPYFILTER("Account No. Filter",CFForecastEntry."Cash Flow Account No.");
+      CashFlowForecast.COPYFILTER("Positive Filter",CFForecastEntry.Positive);
+      PAGE.RUN(0,CFForecastEntry);
+    END;
+
+    PROCEDURE ShowSource@3();
+    VAR
+      CFManagement@1000 : Codeunit 841;
+    BEGIN
+      TESTFIELD("Source Type");
+      TESTFIELD("Source No.");
+      IF "Source Type" = "Source Type"::"G/L Budget" THEN
+        TESTFIELD("G/L Budget Name");
+
+      CFManagement.ShowSource("Source Type","Source No.","G/L Budget Name");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

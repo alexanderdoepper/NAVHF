@@ -1,0 +1,248 @@
+OBJECT Table 7312 Warehouse Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Warehouse Entry;
+               ESP=Movimiento almacÇn;
+               DEA=Lagerplatzposten];
+    LookupPageID=Page7318;
+    DrillDownPageID=Page7318;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Journal Batch Name  ;Code10        ;CaptionML=[ENU=Journal Batch Name;
+                                                              ESP=Nombre secci¢n diario;
+                                                              DEA=Buch.-Blattname] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.];
+                                                   BlankZero=Yes }
+    { 4   ;   ;Registering Date    ;Date          ;CaptionML=[ENU=Registering Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Registriert am] }
+    { 5   ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 6   ;   ;Zone Code           ;Code10        ;TableRelation=Zone.Code WHERE (Location Code=FIELD(Location Code));
+                                                   CaptionML=[ENU=Zone Code;
+                                                              ESP=C¢d. zona;
+                                                              DEA=Zonencode] }
+    { 7   ;   ;Bin Code            ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
+                                                   CaptionML=[ENU=Bin Code;
+                                                              ESP=C¢d. ubicaci¢n;
+                                                              DEA=Lagerplatzcode] }
+    { 8   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 9   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 10  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 11  ;   ;Qty. (Base)         ;Decimal       ;CaptionML=[ENU=Qty. (Base);
+                                                              ESP=Cantidad (Base);
+                                                              DEA=Menge (Basis)];
+                                                   DecimalPlaces=0:5 }
+    { 20  ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart] }
+    { 21  ;   ;Source Subtype      ;Option        ;CaptionML=[ENU=Source Subtype;
+                                                              ESP=Subtipo origen;
+                                                              DEA=Herkunftsunterart];
+                                                   OptionCaptionML=[ENU=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    ESP=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    DEA=0,1,2,3,4,5,6,7,8,9,10];
+                                                   OptionString=0,1,2,3,4,5,6,7,8,9,10 }
+    { 22  ;   ;Source No.          ;Code20        ;CaptionML=[ENU=Source No.;
+                                                              ESP=C¢d. procedencia mov.;
+                                                              DEA=Herkunftsnr.] }
+    { 23  ;   ;Source Line No.     ;Integer       ;CaptionML=[ENU=Source Line No.;
+                                                              ESP=Nß l°n. origen;
+                                                              DEA=Herkunftszeilennr.];
+                                                   BlankZero=Yes }
+    { 24  ;   ;Source Subline No.  ;Integer       ;CaptionML=[ENU=Source Subline No.;
+                                                              ESP=Nß subl°nea origen;
+                                                              DEA=Herkunftsunterzeilennr.] }
+    { 25  ;   ;Source Document     ;Option        ;CaptionML=[ENU=Source Document;
+                                                              ESP=Documento origen;
+                                                              DEA=Herkunftsbeleg];
+                                                   OptionCaptionML=[ENU=,S. Order,S. Invoice,S. Credit Memo,S. Return Order,P. Order,P. Invoice,P. Credit Memo,P. Return Order,Inb. Transfer,Outb. Transfer,Prod. Consumption,Item Jnl.,Phys. Invt. Jnl.,Reclass. Jnl.,Consumption Jnl.,Output Jnl.,BOM Jnl.,Serv. Order,Job Jnl.,Assembly Consumption,Assembly Order;
+                                                                    ESP=,P.venta,F. venta,Abono venta,Dev. venta,P. compra,F. compra,Abono compra,Dev.compra,Transfer. entrada,Transfer. salida,Consumo prod.,Diario prod.,Diario inventario,Diario reclasif.,Diario consumo,Diario salida,Diario L.M.,Ped. serv.,Diario proy.,Consumo ensamblado,Pedido ensamblado;
+                                                                    DEA=,Auftrag,Verkaufsrechnung,Verkaufsgutschrift,Verkaufsreklamation,Bestellung,Einkaufsrechnung,Einkaufsgutschrift,Einkaufsreklamation,Eingeh. Umlagerung,Ausgeh. Umlagerung,FA-Verbrauch,Artikel Buch.-Blatt,Inventur Buch.-Blatt,Umbuch. Buch.-Blatt,FA-Verbrauchs Buch.-Blatt,FA-Istmeldungs Buch.-Blatt,StÅckliste Buch.-Blatt,Serviceauftrag,Projekt Buch.-Blatt.,Verbrauch fÅr Montage,Montageauftrag];
+                                                   OptionString=,S. Order,S. Invoice,S. Credit Memo,S. Return Order,P. Order,P. Invoice,P. Credit Memo,P. Return Order,Inb. Transfer,Outb. Transfer,Prod. Consumption,Item Jnl.,Phys. Invt. Jnl.,Reclass. Jnl.,Consumption Jnl.,Output Jnl.,BOM Jnl.,Serv. Order,Job Jnl.,Assembly Consumption,Assembly Order;
+                                                   BlankZero=Yes }
+    { 26  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 29  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor°a;
+                                                              DEA=Ursachencode] }
+    { 33  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              ESP=Nos. serie;
+                                                              DEA=Nummernserie] }
+    { 35  ;   ;Bin Type Code       ;Code10        ;TableRelation="Bin Type";
+                                                   CaptionML=[ENU=Bin Type Code;
+                                                              ESP=C¢d. tipo ubicaci¢n;
+                                                              DEA=Lagerplatzartencode] }
+    { 40  ;   ;Cubage              ;Decimal       ;CaptionML=[ENU=Cubage;
+                                                              ESP=Cubicaje;
+                                                              DEA=Volumen];
+                                                   DecimalPlaces=0:5 }
+    { 41  ;   ;Weight              ;Decimal       ;CaptionML=[ENU=Weight;
+                                                              ESP=Peso;
+                                                              DEA=Gewicht];
+                                                   DecimalPlaces=0:5 }
+    { 45  ;   ;Journal Template Name;Code10       ;CaptionML=[ENU=Journal Template Name;
+                                                              ESP=Nombre libro diario;
+                                                              DEA=Buch.-Blattvorlagenname] }
+    { 50  ;   ;Whse. Document No.  ;Code20        ;CaptionML=[ENU=Whse. Document No.;
+                                                              ESP=Nß documento almacÇn;
+                                                              DEA=Logistikbelegnr.] }
+    { 51  ;   ;Whse. Document Type ;Option        ;CaptionML=[ENU=Whse. Document Type;
+                                                              ESP=Tipo documento almacÇn;
+                                                              DEA=Logistikbelegart];
+                                                   OptionCaptionML=[ENU=Whse. Journal,Receipt,Shipment,Internal Put-away,Internal Pick,Production,Whse. Phys. Inventory, ,Assembly;
+                                                                    ESP=Diario almacÇn,Recepci¢n,Env°o,Ubicaci¢n interna,Picking interno,Producci¢n,Inventario f°s. alm., ,Ensamblado;
+                                                                    DEA=Logistik Buch.-Blatt,Wareneingang,Warenausgang,Interne Einlag.-Anforderung,Interne Kommiss.-Anforderung,Fertigungsauftrag,Logistik Inventur, ,Montage];
+                                                   OptionString=Whse. Journal,Receipt,Shipment,Internal Put-away,Internal Pick,Production,Whse. Phys. Inventory, ,Assembly }
+    { 52  ;   ;Whse. Document Line No.;Integer    ;CaptionML=[ENU=Whse. Document Line No.;
+                                                              ESP=Nß l°n. documento almacÇn;
+                                                              DEA=Logistikbelegzeilennr.];
+                                                   BlankZero=Yes }
+    { 55  ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESP=Tipo movimiento;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=Negative Adjmt.,Positive Adjmt.,Movement;
+                                                                    ESP=Ajuste negativo,Ajuste positivo,Movimiento;
+                                                                    DEA=Abgang,Zugang,Lagerplatzumlagerung];
+                                                   OptionString=Negative Adjmt.,Positive Adjmt.,Movement }
+    { 60  ;   ;Reference Document  ;Option        ;CaptionML=[ENU=Reference Document;
+                                                              ESP=Documento referencia;
+                                                              DEA=Referenzbeleg];
+                                                   OptionCaptionML=[ENU=" ,Posted Rcpt.,Posted P. Inv.,Posted Rtrn. Rcpt.,Posted P. Cr. Memo,Posted Shipment,Posted S. Inv.,Posted Rtrn. Shipment,Posted S. Cr. Memo,Posted T. Receipt,Posted T. Shipment,Item Journal,Prod.,Put-away,Pick,Movement,BOM Journal,Job Journal,Assembly";
+                                                                    ESP=" ,Hist¢rico recep.,C. invent. regis.,Dev. recep. regis.,Abono c. regis.,Hist¢rico env°o,V. invent. regis.,Env°o dev. regis.,Abono v. regis.,Recep. transfer. regis.,Env°o t. regis.,Diario producto,Prod.,Ubic.,Picking,Mov.,Diario L.M.,Diario trabajo,Ensamblado";
+                                                                    DEA=" ,Geb. Wareneingang,Geb. Einkaufsrechnung,Geb. RÅcksendung,Geb. Einkaufsgutschrift,Geb. Warenausgang,Geb. Verkaufsrechnung,Geb. RÅcklieferung,Geb. Verkaufsgutschrift,Geb. Umlag.-Eingang,Geb. Umlag.-Ausgang,Artikel Buch.-Blatt,Fertigungsauftrag,Einlagerung,Kommissionierung,Lagerplatzumlagerung,StÅckliste Buch.-Blatt,Projekt Buch.-Blatt,Montage"];
+                                                   OptionString=[ ,Posted Rcpt.,Posted P. Inv.,Posted Rtrn. Rcpt.,Posted P. Cr. Memo,Posted Shipment,Posted S. Inv.,Posted Rtrn. Shipment,Posted S. Cr. Memo,Posted T. Receipt,Posted T. Shipment,Item Journal,Prod.,Put-away,Pick,Movement,BOM Journal,Job Journal,Assembly] }
+    { 61  ;   ;Reference No.       ;Code20        ;CaptionML=[ENU=Reference No.;
+                                                              ESP=Nß referencia;
+                                                              DEA=Referenznr.] }
+    { 67  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 5402;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 5404;   ;Qty. per Unit of Measure;Decimal   ;InitValue=1;
+                                                   CaptionML=[ENU=Qty. per Unit of Measure;
+                                                              ESP=Cdad. por unidad medida;
+                                                              DEA=Menge pro Einheit];
+                                                   DecimalPlaces=0:5 }
+    { 5407;   ;Unit of Measure Code;Code10        ;TableRelation="Item Unit of Measure".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 6500;   ;Serial No.          ;Code20        ;OnLookup=BEGIN
+                                                              ItemTrackingMgt.LookupLotSerialNoInfo("Item No.","Variant Code",0,"Serial No.");
+                                                            END;
+
+                                                   CaptionML=[ENU=Serial No.;
+                                                              ESP=Nß serie;
+                                                              DEA=Seriennr.] }
+    { 6501;   ;Lot No.             ;Code20        ;OnLookup=BEGIN
+                                                              ItemTrackingMgt.LookupLotSerialNoInfo("Item No.","Variant Code",1,"Lot No.");
+                                                            END;
+
+                                                   CaptionML=[ENU=Lot No.;
+                                                              ESP=Nß lote;
+                                                              DEA=Chargennr.] }
+    { 6502;   ;Warranty Date       ;Date          ;CaptionML=[ENU=Warranty Date;
+                                                              ESP=Fecha garant°a;
+                                                              DEA=Garantiedatum] }
+    { 6503;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
+                                                              ESP=Fecha caducidad;
+                                                              DEA=Ablaufdatum] }
+    { 7380;   ;Phys Invt Counting Period Code;Code10;
+                                                   TableRelation="Phys. Invt. Counting Period";
+                                                   CaptionML=[ENU=Phys Invt Counting Period Code;
+                                                              ESP=C¢d. perio. recuento inv. f°s.;
+                                                              DEA=InventurhÑufigkeitscode];
+                                                   Editable=No }
+    { 7381;   ;Phys Invt Counting Period Type;Option;
+                                                   CaptionML=[ENU=Phys Invt Counting Period Type;
+                                                              ESP=Tipo perio. recuento inv. f°s.;
+                                                              DEA=InventurhÑufigk.-Codeherkunft];
+                                                   OptionCaptionML=[ENU=" ,Item,SKU";
+                                                                    ESP=" ,Producto,UA";
+                                                                    DEA=" ,Artikel,Lagerhaltungsdaten"];
+                                                   OptionString=[ ,Item,SKU];
+                                                   Editable=No }
+    { 7382;   ;Dedicated           ;Boolean       ;CaptionML=[ENU=Dedicated;
+                                                              ESP=Dedicado;
+                                                              DEA=Dediziert];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Reference No.,Registering Date           }
+    {    ;Source Type,Source Subtype,Source No.    }
+    { No ;Serial No.,Item No.,Variant Code,Location Code,Bin Code;
+                                                   SumIndexFields=Qty. (Base) }
+    {    ;Item No.,Bin Code,Location Code,Variant Code,Unit of Measure Code,Lot No.,Serial No.,Entry Type,Dedicated;
+                                                   SumIndexFields=Qty. (Base),Cubage,Weight,Quantity;
+                                                   MaintainSIFTIndex=No }
+    {    ;Item No.,Location Code,Variant Code,Bin Type Code,Unit of Measure Code,Lot No.,Serial No.,Dedicated;
+                                                   SumIndexFields=Qty. (Base),Cubage,Weight;
+                                                   SIFTLevelsToMaintain=[{Item No.},
+                                                                         {Item No.,Location Code}] }
+    {    ;Bin Code,Location Code,Item No.         ;SumIndexFields=Cubage,Weight,Qty. (Base) }
+    {    ;Location Code,Item No.,Variant Code,Zone Code,Bin Code,Lot No.;
+                                                   SumIndexFields=Qty. (Base) }
+    {    ;Location Code                           ;SumIndexFields=Qty. (Base);
+                                                   MaintainSQLIndex=No;
+                                                   MaintainSIFTIndex=No }
+    { No ;Lot No.                                  }
+    { No ;Serial No.                               }
+    {    ;Item No.,Variant Code,Location Code,Bin Code }
+    {    ;Location Code,Bin Code,Item No.,Variant Code,Registering Date;
+                                                   SumIndexFields=Qty. (Base) }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Entry No.,Registering Date,Entry No.,Location Code,Item No. }
+  }
+  CODE
+  {
+    VAR
+      ItemTrackingMgt@1000 : Codeunit 6500;
+
+    BEGIN
+    END.
+  }
+}
+

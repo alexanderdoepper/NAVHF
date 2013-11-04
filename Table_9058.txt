@@ -1,0 +1,91 @@
+OBJECT Table 9058 Warehouse Worker WMS Cue
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Warehouse Worker WMS Cue;
+               ESP=Pila SGA trabajador almacÇn;
+               DEA=Lagermitarbeiter-LOG-Stapel];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Unassigned Picks    ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Pick),
+                                                                                                        Assigned User ID=FILTER(''),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Unassigned Picks;
+                                                              ESP=Picking sin asignar;
+                                                              DEA=Nicht zugewiesene Kommissionierungen];
+                                                   Editable=No }
+    { 3   ;   ;My Picks            ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Pick),
+                                                                                                        Assigned User ID=FIELD(User ID Filter),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=My Picks;
+                                                              ESP=Mis picking;
+                                                              DEA=Meine Kommissionierungen];
+                                                   Editable=No }
+    { 4   ;   ;Unassigned Put-aways;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Put-away),
+                                                                                                        Assigned User ID=FILTER(''),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Unassigned Put-aways;
+                                                              ESP=Ubic. sin asignar;
+                                                              DEA=Nicht zugewiesene Einlagerungen];
+                                                   Editable=No }
+    { 5   ;   ;My Put-aways        ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Put-away),
+                                                                                                        Assigned User ID=FIELD(User ID Filter),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=My Put-aways;
+                                                              ESP=Mis ubicaciones;
+                                                              DEA=Meine Einlagerungen];
+                                                   Editable=No }
+    { 6   ;   ;Unassigned Movements;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Movement),
+                                                                                                        Assigned User ID=FILTER(''),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Unassigned Movements;
+                                                              ESP=Movs. sin asignar;
+                                                              DEA=Nicht zugewiesene Umlagerungen];
+                                                   Editable=No }
+    { 7   ;   ;My Movements        ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Warehouse Activity Header" WHERE (Type=FILTER(Movement),
+                                                                                                        Assigned User ID=FIELD(User ID Filter),
+                                                                                                        Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=My Movements;
+                                                              ESP=Mis movimientos;
+                                                              DEA=Meine Umlagerungen];
+                                                   Editable=No }
+    { 22  ;   ;User ID Filter      ;Code50        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=User ID Filter;
+                                                              ESP=Filtro Id. usuario;
+                                                              DEA=Benutzer-ID-Filter] }
+    { 23  ;   ;Location Filter     ;Code10        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Location Filter;
+                                                              ESP=Filtro almacÇn;
+                                                              DEA=Lagerortfilter] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

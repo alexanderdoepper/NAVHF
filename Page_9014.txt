@@ -1,0 +1,220 @@
+OBJECT Page 9014 Job Resource Manager RC
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource &Statistics;
+                                 ESP=E&stad°sticas recurso;
+                                 DEA=Ressourcen&statistik];
+                      RunObject=Report 1105;
+                      Image=Report }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource &Utilization;
+                                 ESP=Consumo de rec&ursos;
+                                 DEA=Ressourcen&verwendung];
+                      RunObject=Report 1106;
+                      Image=Report }
+      { 9       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource - &Price List;
+                                 ESP=Recurso - Lista &precios;
+                                 DEA=Ressource - VK-&Preisliste];
+                      RunObject=Report 1101;
+                      Image=Report }
+      { 11      ;1   ;Action    ;
+                      CaptionML=[ENU=Resource - Cost &Breakdown;
+                                 ESP=Recurso - A&n†lisis costes;
+                                 DEA=Ressource - K&ostenanalyse];
+                      RunObject=Report 1107;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Resources;
+                                 ESP=Recursos;
+                                 DEA=Ressourcen];
+                      RunObject=Page 77 }
+      { 14      ;1   ;Action    ;
+                      CaptionML=[ENU=People;
+                                 ESP=Personas;
+                                 DEA=Personen];
+                      RunObject=Page 77;
+                      RunPageView=WHERE(Type=FILTER(Person)) }
+      { 15      ;1   ;Action    ;
+                      CaptionML=[ENU=Machines;
+                                 ESP=M†quinas;
+                                 DEA=Maschinen];
+                      RunObject=Page 77;
+                      RunPageView=WHERE(Type=FILTER(Machine)) }
+      { 20      ;1   ;Action    ;
+                      CaptionML=[ENU=Resource Groups;
+                                 ESP=Familia recursos;
+                                 DEA=Ressourcengruppen];
+                      RunObject=Page 72 }
+      { 35      ;1   ;Action    ;
+                      CaptionML=[ENU=Resource Journals;
+                                 ESP=Diarios de recursos;
+                                 DEA=Ressourcen Buch.-BlÑtter];
+                      RunObject=Page 272;
+                      RunPageView=WHERE(Recurring=CONST(No)) }
+      { 36      ;1   ;Action    ;
+                      CaptionML=[ENU=Recurring Resource Journals;
+                                 ESP=Diarios peri¢dicos recursos;
+                                 DEA=Wiederk. Ressource Buch.-BlÑtter];
+                      RunObject=Page 272;
+                      RunPageView=WHERE(Recurring=CONST(Yes)) }
+      { 10      ;1   ;Action    ;
+                      CaptionML=[ENU=Jobs;
+                                 ESP=Proyectos;
+                                 DEA=Projekte];
+                      RunObject=Page 89;
+                      Image=Job }
+      { 1       ;1   ;Action    ;
+                      CaptionML=[ENU=Time Sheets;
+                                 ESP=Hojas de horas;
+                                 DEA=Arbeitszeittabellen];
+                      RunObject=Page 951 }
+      { 4       ;1   ;Action    ;
+                      CaptionML=[ENU=Manager Time Sheets;
+                                 ESP=Hojas de horas del administrador;
+                                 DEA=Arbeitszeittabellen fÅr Manager];
+                      RunObject=Page 953 }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 61      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Administration;
+                                 ESP=Administraci¢n;
+                                 DEA=Verwaltung];
+                      Image=Administration }
+      { 29      ;2   ;Action    ;
+                      CaptionML=[ENU=Resource Costs;
+                                 ESP=Precio de coste del recurso;
+                                 DEA=Ressourcen Einst.-Pr.];
+                      RunObject=Page 203 }
+      { 30      ;2   ;Action    ;
+                      CaptionML=[ENU=Resource Prices;
+                                 ESP=Precio de venta del recurso;
+                                 DEA=Ressourcen VK-Preise];
+                      RunObject=Page 204 }
+      { 32      ;2   ;Action    ;
+                      CaptionML=[ENU=Resource Service Zones;
+                                 ESP=Zonas servicio recurso;
+                                 DEA=Ressourcenservicegebiete];
+                      RunObject=Page 6021;
+                      Image=Resource }
+      { 33      ;2   ;Action    ;
+                      CaptionML=[ENU=Resource Locations;
+                                 ESP=Situaciones recurso;
+                                 DEA=Ressourcenlagerorte];
+                      RunObject=Page 6015;
+                      Image=Resource }
+      { 34      ;2   ;Action    ;
+                      CaptionML=[ENU=Work Types;
+                                 ESP=Tipos de trabajo;
+                                 DEA=Arbeitstypen];
+                      RunObject=Page 208 }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 17      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=Adjust R&esource Costs/Prices;
+                                 ESP=Modificar pr&ecios recursos;
+                                 DEA=Ressourcenpreise ju&stieren];
+                      RunObject=Report 1195;
+                      Image=Report }
+      { 16      ;1   ;Action    ;
+                      CaptionML=[ENU=Resource P&rice Changes;
+                                 ESP=Cambios de p&recio en recursos;
+                                 DEA=Ressourcen-VK-Preisv&orschlÑge];
+                      RunObject=Page 493;
+                      Image=ResourcePrice }
+      { 3       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource Pr&ice Chg from Resource;
+                                 ESP=Cambio prec&io recurso de recurso;
+                                 DEA=Res.-VK-Pre&isvorschlag von Ressource];
+                      RunObject=Report 1191;
+                      Image=Report }
+      { 5       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource Pri&ce Chg from Prices;
+                                 ESP=Modificar pre&cios recursos desde precios;
+                                 DEA=Res.-VK-Preisvorschlag &von VK-Preisen];
+                      RunObject=Report 1192;
+                      Image=Report }
+      { 6       ;1   ;Action    ;
+                      CaptionML=[ENU=I&mplement Resource Price Changes;
+                                 ESP=I&mplementar cambios precio recurso;
+                                 DEA=Res.-VK-PreisvorschlÑge Åbern&ehmen];
+                      RunObject=Report 1193;
+                      Image=ImplementPriceChange }
+      { 12      ;1   ;Action    ;
+                      CaptionML=[ENU=Create Time Sheets;
+                                 ESP=Crear hojas de horas;
+                                 DEA=Arbeitszeittabellen erstellen];
+                      RunObject=Report 950;
+                      Image=NewTimesheet }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1904257908;2;Part   ;
+                PagePartID=Page9067;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 1907692008;2;Part   ;
+                PagePartID=Page9150;
+                PartType=Page }
+
+    { 19  ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1903012608;2;Part   ;
+                PagePartID=Page9175;
+                PartType=Page }
+
+    { 1901377608;2;Part   ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+    { 18  ;2   ;Part      ;
+                PagePartID=Page972;
+                PartType=Page }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

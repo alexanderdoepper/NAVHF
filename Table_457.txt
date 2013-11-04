@@ -1,0 +1,69 @@
+OBJECT Table 457 Posted Approval Comment Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               IF "Entry No." = 0 THEN
+                 "Entry No." := GetNextEntryNo;
+             END;
+
+    CaptionML=[ENU=Posted Approval Comment Line;
+               ESP=L¡n. coment. aprob. registrada;
+               DEA=Kommentarzeile gebuchte Genehmigung];
+    LookupPageID=Page661;
+    DrillDownPageID=Page661;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 4   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 5   ;   ;User ID             ;Code50        ;CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 6   ;   ;Date and Time       ;DateTime      ;CaptionML=[ENU=Date and Time;
+                                                              ESP=Fecha y hora;
+                                                              DEA=Datum und Uhrzeit] }
+    { 7   ;   ;Comment             ;Text80        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Table ID,Document No.,Date and Time      }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE GetNextEntryNo@4() : Integer;
+    VAR
+      PostedApprovalCommentLine@1000 : Record 457;
+    BEGIN
+      PostedApprovalCommentLine.SETCURRENTKEY("Entry No.");
+      IF PostedApprovalCommentLine.FINDLAST THEN
+        EXIT(PostedApprovalCommentLine."Entry No." + 1);
+
+      EXIT(1);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

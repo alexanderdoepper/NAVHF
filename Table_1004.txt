@@ -1,0 +1,130 @@
+OBJECT Table 1004 Job WIP Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job WIP Entry;
+               ESP=Mov. WIP proyecto;
+               DEA=WIP-Projektposten];
+    LookupPageID=Page1008;
+    DrillDownPageID=Page1008;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Job No.             ;Code20        ;TableRelation=Job;
+                                                   CaptionML=[ENU=Job No.;
+                                                              ESP=N§ proyecto;
+                                                              DEA=Projektnr.] }
+    { 3   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 4   ;   ;G/L Account No.     ;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=G/L Account No.;
+                                                              ESP=N§ cuenta;
+                                                              DEA=Sachkontonr.] }
+    { 5   ;   ;WIP Posting Date    ;Date          ;CaptionML=[ENU=WIP Posting Date;
+                                                              ESP=Fecha registro WIP;
+                                                              DEA=WIP-Buchungsdatum] }
+    { 6   ;   ;WIP Entry Amount    ;Decimal       ;CaptionML=[ENU=WIP Entry Amount;
+                                                              ESP=Importe movimiento WIP;
+                                                              DEA=WIP-Postenbetrag];
+                                                   AutoFormatType=1 }
+    { 7   ;   ;Job Posting Group   ;Code10        ;TableRelation="Job Posting Group";
+                                                   CaptionML=[ENU=Job Posting Group;
+                                                              ESP=Grupo contable proyecto;
+                                                              DEA=Projektbuchungsgruppe] }
+    { 8   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Applied Costs,Applied Sales,Recognized Costs,Recognized Sales,Accrued Costs,Accrued Sales;
+                                                                    ESP=Costes liquidados,Ventas liquidadas,Costes reconocidos,Ventas reconocidas,Costes acumulados,Ventas acumuladas;
+                                                                    DEA=Ausgeglichene Kosten,Ausgeglichene Verk„ufe,Deaktivierte Kosten,Deaktivierte Verk„ufe,Aufgelaufene Kosten,Aufgelaufene Verk„ufe];
+                                                   OptionString=Applied Costs,Applied Sales,Recognized Costs,Recognized Sales,Accrued Costs,Accrued Sales }
+    { 9   ;   ;G/L Bal. Account No.;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=G/L Bal. Account No.;
+                                                              ESP=Cta. contrapartida C/G;
+                                                              DEA=Sachposten-Gegenkontonr.] }
+    { 10  ;   ;WIP Method Used     ;Code20        ;TableRelation="Job WIP Method";
+                                                   CaptionML=[ENU=WIP Method Used;
+                                                              ESP=M‚todo WIP usado;
+                                                              DEA=Verwendete WIP-Methode];
+                                                   Editable=No }
+    { 11  ;   ;Job Complete        ;Boolean       ;CaptionML=[ENU=Job Complete;
+                                                              ESP=Proyecto completado;
+                                                              DEA=Auftrag abgeschlossen] }
+    { 12  ;   ;Job WIP Total Entry No.;Integer    ;TableRelation="Job WIP Total";
+                                                   CaptionML=[ENU=Job WIP Total Entry No.;
+                                                              ESP=N§ mov. total WIP proyecto;
+                                                              DEA=WIP-Projektgesamtpostennr.] }
+    { 13  ;   ;Reverse             ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Reverse;
+                                                              ESP=Revertir;
+                                                              DEA=Stornieren] }
+    { 14  ;   ;WIP Posting Method Used;Option     ;CaptionML=[ENU=WIP Posting Method Used;
+                                                              ESP=M‚todo registro WIP usado;
+                                                              DEA=Verwendete WIP-Buchungsmethode];
+                                                   OptionCaptionML=[ENU=Per Job,Per Job Ledger Entry;
+                                                                    ESP=Por proyecto,Por mov. proyecto;
+                                                                    DEA=Pro Projekt,Pro Projektposten];
+                                                   OptionString=Per Job,Per Job Ledger Entry }
+    { 60  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 61  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Job No.,Job Posting Group,WIP Posting Date,Type,Job Complete;
+                                                   SumIndexFields=WIP Entry Amount }
+    {    ;G/L Account No.                          }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DimMgt@1000 : Codeunit 408;
+
+    PROCEDURE DeleteEntriesForJob@3(Job@1000 : Record 167);
+    BEGIN
+      SETCURRENTKEY("Job No.");
+      SETRANGE("Job No.",Job."No.");
+      IF NOT ISEMPTY THEN
+        DELETEALL(TRUE);
+    END;
+
+    PROCEDURE ShowDimensions@2();
+    BEGIN
+      DimMgt.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Entry No."));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

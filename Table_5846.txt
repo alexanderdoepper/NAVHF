@@ -1,0 +1,164 @@
+OBJECT Table 5846 Inventory Report Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Inventory Report Entry;
+               ESP=Movimiento informe inventario;
+               DEA=Lagerberichtsposten];
+    LookupPageID=Page5846;
+    DrillDownPageID=Page5846;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 3   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.] }
+    { 5   ;   ;Location Filter     ;Code10        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Location Filter;
+                                                              ESP=Filtro almacÇn;
+                                                              DEA=Lagerortfilter] }
+    { 6   ;   ;Posting Date Filter ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Posting Date Filter;
+                                                              ESP=Filtro fecha registro;
+                                                              DEA=Buchungsdatumsfilter] }
+    { 8   ;   ;Inventory           ;Decimal       ;CaptionML=[ENU=Inventory;
+                                                              ESP=Inventario;
+                                                              DEA=Lagerbestand] }
+    { 9   ;   ;Inventory (Interim) ;Decimal       ;CaptionML=[ENU=Inventory (Interim);
+                                                              ESP=Inventario (provisional);
+                                                              DEA=Lager (Interim)] }
+    { 10  ;   ;WIP Inventory       ;Decimal       ;CaptionML=[ENU=WIP Inventory;
+                                                              ESP=Inventario WIP;
+                                                              DEA=Aktiviert Lager] }
+    { 11  ;   ;Direct Cost Applied Actual;Decimal ;CaptionML=[ENU=Direct Cost Applied Actual;
+                                                              ESP=Coste directo real aplicado;
+                                                              DEA=Ausgegl. direkte Ist-Kosten] }
+    { 12  ;   ;Overhead Applied Actual;Decimal    ;CaptionML=[ENU=Overhead Applied Actual;
+                                                              ESP=Coste general real aplicado;
+                                                              DEA=Ausgeglichene Ist-Gemeinkosten] }
+    { 13  ;   ;Purchase Variance   ;Decimal       ;CaptionML=[ENU=Purchase Variance;
+                                                              ESP=Desviaci¢n compras;
+                                                              DEA=Einkaufsabweichung] }
+    { 14  ;   ;Inventory Adjmt.    ;Decimal       ;CaptionML=[ENU=Inventory Adjmt.;
+                                                              ESP=Ajuste inventario;
+                                                              DEA=Lagerkorrektur] }
+    { 16  ;   ;Invt. Accrual (Interim);Decimal    ;CaptionML=[ENU=Invt. Accrual (Interim);
+                                                              ESP=Ajuste inventario (provision.);
+                                                              DEA=Lagerzugang (Interim)] }
+    { 17  ;   ;COGS                ;Decimal       ;CaptionML=[ENU=COGS;
+                                                              ESP=CV;
+                                                              DEA=LAGERVERBR] }
+    { 18  ;   ;COGS (Interim)      ;Decimal       ;CaptionML=[ENU=COGS (Interim);
+                                                              ESP=Coste ventas (provisional);
+                                                              DEA=LAGERVERBR (Interim)] }
+    { 19  ;   ;Material Variance   ;Decimal       ;CaptionML=[ENU=Material Variance;
+                                                              ESP=Desviac. material;
+                                                              DEA=Materialabweichung] }
+    { 20  ;   ;Capacity Variance   ;Decimal       ;CaptionML=[ENU=Capacity Variance;
+                                                              ESP=Desviaci¢n capacidad;
+                                                              DEA=Abweichung KapazitÑt] }
+    { 21  ;   ;Subcontracted Variance;Decimal     ;CaptionML=[ENU=Subcontracted Variance;
+                                                              ESP=Desviac. subcontratada;
+                                                              DEA=Abweichung Fremdarbeit] }
+    { 22  ;   ;Capacity Overhead Variance;Decimal ;CaptionML=[ENU=Capacity Overhead Variance;
+                                                              ESP=Desviaci¢n cost. gen. capdad.;
+                                                              DEA=Abw. KapazitÑtsgemeinkosten] }
+    { 23  ;   ;Mfg. Overhead Variance;Decimal     ;CaptionML=[ENU=Mfg. Overhead Variance;
+                                                              ESP=Desv. coste gen. fab.;
+                                                              DEA=Abweichung Prod.-Gemeinkosten] }
+    { 28  ;   ;Total               ;Decimal       ;CaptionML=[ENU=Total;
+                                                              ESP=Total;
+                                                              DEA=Gesamt] }
+    { 29  ;   ;G/L Total           ;Decimal       ;CaptionML=[ENU=G/L Total;
+                                                              ESP=Total C/G;
+                                                              DEA=Fibu gesamt] }
+    { 30  ;   ;Difference          ;Decimal       ;CaptionML=[ENU=Difference;
+                                                              ESP=Diferencia;
+                                                              DEA=Abweichung] }
+    { 31  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,G/L Account,Item";
+                                                                    ESP=" ,Cuenta,Producto";
+                                                                    DEA=" ,Sachkonto,Artikel"];
+                                                   OptionString=[ ,G/L Account,Item] }
+    { 32  ;   ;Direct Cost Applied WIP;Decimal    ;CaptionML=[ENU=Direct Cost Applied WIP;
+                                                              ESP=Coste directo WIP aplicado;
+                                                              DEA=Ausgegl. direkte Kosten WIP] }
+    { 33  ;   ;Overhead Applied WIP;Decimal       ;CaptionML=[ENU=Overhead Applied WIP;
+                                                              ESP=Coste general aplicado WIP;
+                                                              DEA=Gemeinkosten verrechnet WIP] }
+    { 35  ;   ;Inventory To WIP    ;Decimal       ;CaptionML=[ENU=Inventory To WIP;
+                                                              ESP=Inventario en WIP;
+                                                              DEA=Lager auf WIP] }
+    { 36  ;   ;WIP To Interim      ;Decimal       ;CaptionML=[ENU=WIP To Interim;
+                                                              ESP=WIP en provisional;
+                                                              DEA=WIP auf Interim] }
+    { 37  ;   ;Direct Cost Applied ;Decimal       ;CaptionML=[ENU=Direct Cost Applied;
+                                                              ESP=Coste directo aplic.;
+                                                              DEA=Direkte Kosten verrechnet] }
+    { 38  ;   ;Overhead Applied    ;Decimal       ;CaptionML=[ENU=Overhead Applied;
+                                                              ESP=Cost. gen. liqd.;
+                                                              DEA=Gemeinkosten verrechnet] }
+    { 39  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 40  ;   ;Warning             ;Text50        ;CaptionML=[ENU=Warning;
+                                                              ESP=Advertencia;
+                                                              DEA=Warnung] }
+    { 61  ;   ;Cost is Posted to G/L Warning;Boolean;
+                                                   CaptionML=[ENU=Cost is Posted to G/L Warning;
+                                                              ESP=Advertencia coste registrado en C/G;
+                                                              DEA=Einstandspreis ist auf Sachkonten gebucht - Warnung] }
+    { 62  ;   ;Expected Cost Posting Warning;Boolean;
+                                                   CaptionML=[ENU=Expected Cost Posting Warning;
+                                                              ESP=Advertencia registro coste esperado;
+                                                              DEA=Soll-Kosten buchen - Warnung] }
+    { 63  ;   ;Compression Warning ;Boolean       ;CaptionML=[ENU=Compression Warning;
+                                                              ESP=Advertencia compresi¢n;
+                                                              DEA=Komprimierung - Warnung] }
+    { 64  ;   ;Posting Group Warning;Boolean      ;CaptionML=[ENU=Posting Group Warning;
+                                                              ESP=Advertencia grupo contable;
+                                                              DEA=Buchungsgruppe - Warnung] }
+    { 65  ;   ;Direct Postings Warning;Boolean    ;CaptionML=[ENU=Direct Postings Warning;
+                                                              ESP=Advertencia registros directos;
+                                                              DEA=Direktbuchungen - Warnung] }
+    { 66  ;   ;Posting Date Warning;Boolean       ;CaptionML=[ENU=Posting Date Warning;
+                                                              ESP=Advertencia fecha registro;
+                                                              DEA=Buchungsdatum - Warnung] }
+    { 67  ;   ;Closing Period Overlap Warning;Boolean;
+                                                   CaptionML=[ENU=Closing Period Overlap Warning;
+                                                              ESP=Advertencia solap. periodos cierre;
+                                                              DEA=PeriodenabschlussÅberschneidung - Warnung] }
+    { 68  ;   ;Similar Accounts Warning;Boolean   ;CaptionML=[ENU=Similar Accounts Warning;
+                                                              ESP=Advertencia cuentas similares;
+                                                              DEA=éhnliche Konten - Warnung] }
+    { 69  ;   ;Deleted G/L Accounts Warning;Boolean;
+                                                   CaptionML=[ENU=Deleted G/L Accounts Warning;
+                                                              ESP=Advertencia cuentas eliminadas;
+                                                              DEA=Gelîschte Sachkonten - Warnung] }
+  }
+  KEYS
+  {
+    {    ;Type,Entry No.                          ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,168 @@
+OBJECT Page 5005354 Phys. Inventory Recording
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Phys. Inventory Recording;
+               DEA=Inventurerfassung];
+    SourceTable=Table5005352;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140025 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Recording;
+                                 DEA=Erfa&ssung];
+                      Image=Document }
+      { 1140027 ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mments;
+                                 DEA=Be&merkungen];
+                      RunObject=Page 5005366;
+                      RunPageLink=Document Type=CONST(Recording),
+                                  Order No.=FIELD(Order No.),
+                                  Recording No.=FIELD(Recording No.);
+                      Image=ViewComments }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140028 ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1140029 ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=E&xport Recording Lines;
+                                 DEA=Erfassungszeilen e&xportieren];
+                      Promoted=Yes;
+                      Image=Export;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PhysInvtRecordingHeader.COPY(Rec);
+
+                                 ExportPhysInvtRecLines2.Def(PhysInvtRecordingHeader);
+                                 ExportPhysInvtRecLines2.IMPORTFILE := FALSE;
+                                 ExportPhysInvtRecLines2.RUN;
+                                 CLEAR(ExportPhysInvtRecLines2);
+                               END;
+                                }
+      { 1140030 ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=I&mport Recording Lines;
+                                 DEA=Erfassungszeilen i&mportieren];
+                      Promoted=Yes;
+                      Image=Import;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PhysInvtRecordingHeader.COPY(Rec);
+
+                                 ImportPhysInvtRecLines2.Def(PhysInvtRecordingHeader);
+                                 ImportPhysInvtRecLines2.IMPORTFILE := TRUE;
+                                 ImportPhysInvtRecLines2.RUN;
+                                 CLEAR(ImportPhysInvtRecLines2);
+                               END;
+                                }
+      { 1140031 ;2   ;Separator  }
+      { 1140034 ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Fi&nish;
+                                 DEA=Bee&nden];
+                      RunObject=Codeunit 5005350;
+                      Promoted=Yes;
+                      Image=Approve;
+                      PromotedCategory=Process }
+      { 1140035 ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Reo&pen;
+                                 DEA=Stat&us zurÅcksetzen];
+                      RunObject=Codeunit 5005352;
+                      Promoted=Yes;
+                      Image=ReOpen;
+                      PromotedCategory=Process }
+      { 1140036 ;1   ;Action    ;
+                      Name=Print;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=&Print;
+                                 DEA=D&rucken];
+                      Promoted=Yes;
+                      Image=Print;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PrintDocumentComfort.PhysInvtRecPrint(Rec,TRUE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140014;2;Field     ;
+                SourceExpr="Order No." }
+
+    { 1140016;2;Field     ;
+                SourceExpr="Recording No." }
+
+    { 1140019;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140012;2;Field     ;
+                SourceExpr="Location Code" }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Person Responsible" }
+
+    { 1140010;2;Field     ;
+                SourceExpr=Status }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Person Recorded" }
+
+    { 1140004;2;Field     ;
+                SourceExpr="Date Recorded" }
+
+    { 1140006;2;Field     ;
+                SourceExpr="Time Recorded" }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Recording without order permit" }
+
+    { 1140024;1;Part      ;
+                Name=Lines;
+                SubPageView=SORTING(Order No.,Recording No.,Line No.);
+                SubPageLink=Order No.=FIELD(Order No.),
+                            Recording No.=FIELD(Recording No.);
+                PagePartID=Page5005356 }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      PhysInvtRecordingHeader@1140000 : Record 5005352;
+      PrintDocumentComfort@1140001 : Codeunit 5005396;
+      ExportPhysInvtRecLines2@1461000 : XMLport 5005350;
+      ImportPhysInvtRecLines2@1461001 : XMLport 5005351;
+
+    BEGIN
+    END.
+  }
+}
+

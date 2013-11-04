@@ -1,0 +1,80 @@
+OBJECT Table 293 Reminder Level
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Reminder Terms Code,No.;
+    OnDelete=BEGIN
+               ReminderText.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+               ReminderText.SETRANGE("Reminder Level","No.");
+               ReminderText.DELETEALL;
+
+               CurrencyForReminderLevel.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+               CurrencyForReminderLevel.SETRANGE("No.","No.");
+               CurrencyForReminderLevel.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Reminder Level;
+               ESP=Nivel recordatorio;
+               DEA=Mahnstufe];
+    LookupPageID=Page432;
+    DrillDownPageID=Page432;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Reminder Terms Code ;Code10        ;TableRelation="Reminder Terms";
+                                                   CaptionML=[ENU=Reminder Terms Code;
+                                                              ESP=C¢d. recordatorio;
+                                                              DEA=Mahnmethodencode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;No.                 ;Integer       ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.];
+                                                   MinValue=1;
+                                                   NotBlank=Yes }
+    { 3   ;   ;Grace Period        ;DateFormula   ;CaptionML=[ENU=Grace Period;
+                                                              ESP=Periodo gracia;
+                                                              DEA=Toleranzperiode] }
+    { 4   ;   ;Additional Fee (LCY);Decimal       ;CaptionML=[ENU=Additional Fee (LCY);
+                                                              ESP=Recargo fijo (DL);
+                                                              DEA=GebÅhr (MW)];
+                                                   MinValue=0;
+                                                   AutoFormatType=1 }
+    { 5   ;   ;Calculate Interest  ;Boolean       ;CaptionML=[ENU=Calculate Interest;
+                                                              ESP=C†lculo interÇs;
+                                                              DEA=Zins berechnen] }
+    { 6   ;   ;Due Date Calculation;DateFormula   ;CaptionML=[ENU=Due Date Calculation;
+                                                              ESP=C†lculo de fecha de vencimiento;
+                                                              DEA=FÑlligkeitsformel] }
+  }
+  KEYS
+  {
+    {    ;Reminder Terms Code,No.                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ReminderLevel@1000 : Record 293;
+      ReminderText@1001 : Record 294;
+      CurrencyForReminderLevel@1002 : Record 329;
+
+    PROCEDURE NewRecord@1();
+    BEGIN
+      ReminderLevel.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+      IF ReminderLevel.FINDLAST THEN;
+      "No." := ReminderLevel."No." + 1;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,140 @@
+OBJECT Table 955 Time Sheet Line Archive
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               TimeSheetDetailArchive@1001 : Record 956;
+               TimeSheetCmtLineArchive@1000 : Record 957;
+             BEGIN
+               TimeSheetDetailArchive.SETRANGE("Time Sheet No.","Time Sheet No.");
+               TimeSheetDetailArchive.SETRANGE("Time Sheet Line No.","Line No.");
+               TimeSheetDetailArchive.DELETEALL;
+
+               TimeSheetCmtLineArchive.SETRANGE("No.","Time Sheet No.");
+               TimeSheetCmtLineArchive.SETRANGE("Time Sheet Line No.","Line No.");
+               TimeSheetCmtLineArchive.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Time Sheet Line Archive;
+               ESP=Archivo l°nea hoja horas;
+               DEA=Archiv fÅr Arbeitszeittabellenzeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Time Sheet No.      ;Code20        ;TableRelation="Time Sheet Header Archive";
+                                                   CaptionML=[ENU=Time Sheet No.;
+                                                              ESP=Nß hoja horas;
+                                                              DEA=Arbeitszeittabelle - Nr.] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 3   ;   ;Time Sheet Starting Date;Date      ;CaptionML=[ENU=Time Sheet Starting Date;
+                                                              ESP=Fecha inicio hoja horas;
+                                                              DEA=Arbeitszeittabelle - Startdatum];
+                                                   Editable=No }
+    { 5   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,Resource,Job,Service,Absence,Assembly Order";
+                                                                    ESP="OptionString=[ ,Recurso,Tarea,Servicio,Ausencia,Pedido de ensamblado]]";
+                                                                    DEA=" ,Ressource,Projekt,Service,Abwesenheit,Montageauftrag"];
+                                                   OptionString=[ ,Resource,Job,Service,Absence,Assembly Order] }
+    { 6   ;   ;Job No.             ;Code20        ;TableRelation=Job;
+                                                   CaptionML=[ENU=Job No.;
+                                                              ESP=Nß proyecto;
+                                                              DEA=Projektnr.] }
+    { 7   ;   ;Job Task No.        ;Code20        ;TableRelation="Job Task"."Job Task No." WHERE (Job No.=FIELD(Job No.));
+                                                   CaptionML=[ENU=Job Task No.;
+                                                              ESP=Nß tarea proyecto;
+                                                              DEA=Projektaufgabennr.] }
+    { 9   ;   ;Cause of Absence Code;Code10       ;TableRelation="Cause of Absence";
+                                                   CaptionML=[ENU=Cause of Absence Code;
+                                                              ESP=C¢d. causa ausencia;
+                                                              DEA=Code Abwesenheitsgrund] }
+    { 10  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 11  ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
+                                                   CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 12  ;   ;Approver ID         ;Code50        ;TableRelation="User Setup";
+                                                   CaptionML=[ENU=Approver ID;
+                                                              ESP=Id. aprobador;
+                                                              DEA=Genehmiger-ID];
+                                                   Editable=No }
+    { 13  ;   ;Service Order No.   ;Code20        ;TableRelation=IF (Posted=CONST(No)) "Service Header".No. WHERE (Document Type=CONST(Order));
+                                                   CaptionML=[ENU=Service Order No.;
+                                                              ESP=Nß ped. servicio;
+                                                              DEA=Serviceauftragsnr.] }
+    { 14  ;   ;Service Order Line No.;Integer     ;CaptionML=[ENU=Service Order Line No.;
+                                                              ESP=Nß l°nea ped. servicio;
+                                                              DEA=Serviceauftragszeilennr.] }
+    { 15  ;   ;Total Quantity      ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Time Sheet Detail Archive".Quantity WHERE (Time Sheet No.=FIELD(Time Sheet No.),
+                                                                                                               Time Sheet Line No.=FIELD(Line No.)));
+                                                   CaptionML=[ENU=Total Quantity;
+                                                              ESP=Cantidad total;
+                                                              DEA=Gesamtmenge];
+                                                   Editable=No }
+    { 17  ;   ;Chargeable          ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Chargeable;
+                                                              ESP=Facturable;
+                                                              DEA=Fakturierbar] }
+    { 18  ;   ;Assembly Order No.  ;Code20        ;TableRelation=IF (Posted=CONST(No)) "Assembly Header".No. WHERE (Document Type=CONST(Order));
+                                                   CaptionML=[ENU=Assembly Order No.;
+                                                              ESP=Nß pedido ensamblado;
+                                                              DEA=Montageauftragsnr.] }
+    { 19  ;   ;Assembly Order Line No.;Integer    ;CaptionML=[ENU=Assembly Order Line No.;
+                                                              ESP=Nß l°nea pedido ensamblado;
+                                                              DEA=Montageauftragszeilennr.] }
+    { 20  ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
+                                                              ESP=Estado;
+                                                              DEA=Status];
+                                                   OptionCaptionML=[ENU=Open,Submitted,Rejected,Approved;
+                                                                    ESP=Abiertos,Enviados,Rechazados,Aprobados;
+                                                                    DEA=Offen,öbermittelt,Abgelehnt,Genehmigt];
+                                                   OptionString=Open,Submitted,Rejected,Approved;
+                                                   Editable=No }
+    { 21  ;   ;Approved By         ;Code50        ;TableRelation="User Setup";
+                                                   CaptionML=[ENU=Approved By;
+                                                              ESP=Aprobado por;
+                                                              DEA=Genehmigt von];
+                                                   Editable=No }
+    { 22  ;   ;Approval Date       ;Date          ;CaptionML=[ENU=Approval Date;
+                                                              ESP=Fecha aprobaci¢n;
+                                                              DEA=Genehmigungsdatum];
+                                                   Editable=No }
+    { 23  ;   ;Posted              ;Boolean       ;CaptionML=[ENU=Posted;
+                                                              ESP=Registrado;
+                                                              DEA=Gebucht];
+                                                   Editable=No }
+    { 26  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Time Sheet Comment Line" WHERE (No.=FIELD(Time Sheet No.),
+                                                                                                      Time Sheet Line No.=FIELD(Line No.)));
+                                                   CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Time Sheet No.,Line No.                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

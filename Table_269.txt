@@ -1,0 +1,46 @@
+OBJECT Table 269 G/L Account Net Change
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=G/L Account Net Change;
+               ESP=Saldo movs. en diario;
+               DEA=Sachkonto-Saldenabstimmung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;Net Change in Jnl.  ;Decimal       ;CaptionML=[ENU=Net Change in Jnl.;
+                                                              ESP=Saldo movs. en el diario;
+                                                              DEA=Bewegung im Buch.-Blatt];
+                                                   AutoFormatType=1 }
+    { 4   ;   ;Balance after Posting;Decimal      ;CaptionML=[ENU=Balance after Posting;
+                                                              ESP=Saldo despu‚s del registro;
+                                                              DEA=Saldo nach Buchung];
+                                                   AutoFormatType=1 }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

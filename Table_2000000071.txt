@@ -1,0 +1,47 @@
+OBJECT Table 2000000071 Object Metadata
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:02;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Metadatos objetos;
+  }
+  FIELDS
+  {
+    { 3   ;   ;Object Type         ;Option        ;CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=[ENU=TableData,Table,Form,Report,Dataport,Codeunit,XMLport,MenuSuite,Page,,System,FieldNumber;
+                                                                    ESP=DatosTabla,Tabla,,Informe,,Codeunit,XMLport,MenuSuite,P gina,Consulta,Sistema,N£mero campo;
+                                                                    DEA=TableData,Tabelle,Formular,Bericht,Dataport,Codeunit,XMLport,MenuSuite,Seite,,System,FieldNumber];
+                                                   OptionString=TableData,Table,,Report,,Codeunit,XMLport,MenuSuite,Page,Query,System,FieldNumber }
+    { 6   ;   ;Object ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=Id. objeto }
+    { 9   ;   ;Metadata            ;BLOB          ;Volatile=Yes;
+                                                   CaptionML=ESP=Metadatos }
+    { 15  ;   ;User Code           ;BLOB          ;Volatile=Yes;
+                                                   CaptionML=ESP=C¢digo usuario }
+    { 18  ;   ;User AL Code        ;BLOB          ;Volatile=Yes;
+                                                   CaptionML=ESP=C¢digo AL del usuario }
+    { 27  ;   ;Metadata Version    ;Integer       ;Volatile=Yes;
+                                                   CaptionML=ESP=Versi¢n de metadatos }
+  }
+  KEYS
+  {
+    {    ;Object Type,Object ID                   ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

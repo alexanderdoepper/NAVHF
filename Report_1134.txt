@@ -1,0 +1,250 @@
+OBJECT Report 1134 Copy Cost Budget
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Copy Cost Budget;
+               ESP=Copiar ppto. costes;
+               DEA=Kostenbudget kopieren];
+    ProcessingOnly=Yes;
+    OnInitReport=BEGIN
+                   IF NoOfCopies = 0 THEN
+                     NoOfCopies := 1;
+                   IF Factor = 0 THEN
+                     Factor := 1;
+                 END;
+
+    OnPreReport=BEGIN
+                  EVALUATE(DateFormula,DateChangeFormula);
+                END;
+
+  }
+  DATASET
+  {
+    { 3233;    ;DataItem;                    ;
+               DataItemTable=Table1109;
+               DataItemTableView=SORTING(Budget Name,Cost Type No.,Date);
+               OnPreDataItem=BEGIN
+                               IF Factor = 0 THEN
+                                 ERROR(Text000);
+
+                               IF NoOfCopies < 1 THEN
+                                 ERROR(Text001);
+
+                               IF (NoOfCopies > 1) AND (DateChangeFormula = '') THEN
+                                 ERROR(Text002);
+
+                               IF GETFILTER("Budget Name") = '' THEN
+                                 ERROR(Text008);
+
+                               IF CostBudgetEntryReqForm."Budget Name" = '' THEN
+                                 ERROR(Text009);
+
+                               IF CostBudgetEntryReqForm."Budget Name" <> '' THEN
+                                 CostBudgetNameTarget.GET(CostBudgetEntryReqForm."Budget Name")
+                               ELSE
+                                 CostBudgetNameTarget.GET(GETFILTER("Budget Name"));
+
+                               IF NOT CONFIRM(
+                                    Text004,FALSE,GETFILTER("Budget Name"),CostBudgetNameTarget.Name,Factor,NoOfCopies,GETFILTER(Date),DateChangeFormula)
+                               THEN
+                                 ERROR('');
+
+                               LOCKTABLE;
+
+                               IF CostBudgetEntryTarget.FINDLAST THEN
+                                 LastEntryNo := CostBudgetEntryTarget."Entry No.";
+
+                               NextEntryNo := LastEntryNo + 1;
+
+                               Window.OPEN(Text005);
+
+                               Window.UPDATE(1,COUNT);
+                               Window.UPDATE(2,NoOfCopies);
+                             END;
+
+               OnAfterGetRecord=VAR
+                                  CostAccMgt@1000 : Codeunit 1100;
+                                BEGIN
+                                  IF "Entry No." > LastEntryNo THEN
+                                    CurrReport.BREAK;
+
+                                  CostBudgetEntryTarget := "Cost Budget Entry";
+
+                                  CostBudgetEntryTarget.Description := STRSUBSTNO(Text006,GETFILTER("Budget Name"));
+                                  CostBudgetEntryTarget."Budget Name" := CostBudgetEntryReqForm."Budget Name";
+
+                                  IF CostBudgetEntryReqForm."Cost Type No." <> '' THEN
+                                    CostBudgetEntryTarget."Cost Type No." := CostBudgetEntryReqForm."Cost Type No.";
+                                  IF CostBudgetEntryReqForm."Cost Center Code" <> '' THEN
+                                    CostBudgetEntryTarget."Cost Center Code" := CostBudgetEntryReqForm."Cost Center Code";
+                                  IF CostBudgetEntryReqForm."Cost Object Code" <> '' THEN
+                                    CostBudgetEntryTarget."Cost Object Code" := CostBudgetEntryReqForm."Cost Object Code";
+
+                                  CostBudgetEntryTarget.Amount := ROUND(Amount * Factor,0.01);
+                                  CostBudgetEntryTarget.Allocated := FALSE;
+
+                                  FOR i := 1 TO NoOfCopies DO BEGIN
+                                    CostBudgetEntryTarget."Entry No." := NextEntryNo;
+                                    NextEntryNo := NextEntryNo + 1;
+                                    IF DateChangeFormula <> '' THEN
+                                      CostBudgetEntryTarget.Date := CALCDATE(DateFormula,Date);
+                                    CostBudgetEntryTarget.INSERT;
+                                    NoInserted := NoInserted + 1;
+
+                                    IF CostBudgetRegNo = 0 THEN
+                                      CostBudgetRegNo :=
+                                        CostAccMgt.InsertCostBudgetRegister(
+                                          CostBudgetEntryTarget."Entry No.",CostBudgetEntryTarget."Budget Name",CostBudgetEntryTarget.Amount)
+                                    ELSE
+                                      CostAccMgt.UpdateCostBudgetRegister(
+                                        CostBudgetRegNo,CostBudgetEntryTarget."Entry No.",CostBudgetEntryTarget.Amount);
+
+                                    IF (NoInserted MOD 100) = 0 THEN
+                                      Window.UPDATE(3,NoInserted);
+                                  END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                Window.CLOSE;
+
+                                IF NoInserted = 0 THEN BEGIN
+                                  MESSAGE(Text010);
+                                  ERROR('');
+                                END;
+
+                                IF NOT CONFIRM(Text007,TRUE,NoInserted,CostBudgetNameTarget.Name) THEN
+                                  ERROR('');
+                              END;
+
+               ReqFilterFields=Budget Name,Cost Type No.,Cost Center Code,Cost Object Code,Date }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnInit=BEGIN
+               CostBudgetEntryReqForm.INIT;
+             END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 21  ;2   ;Group     ;
+                  CaptionML=[ENU=Copy to...;
+                             ESP=Copiar a...;
+                             DEA=Kopieren nach...] }
+
+      { 1   ;3   ;Field     ;
+                  Name=Budget Name;
+                  Lookup=Yes;
+                  CaptionML=[ENU=Budget Name;
+                             ESP=Nombre ppto.;
+                             DEA=Budgetname];
+                  SourceExpr=CostBudgetEntryReqForm."Budget Name";
+                  TableRelation="Cost Budget Name" }
+
+      { 2   ;3   ;Field     ;
+                  Name=Cost Type No.;
+                  Lookup=Yes;
+                  CaptionML=[ENU=Cost Type No.;
+                             ESP=Nß tipo coste;
+                             DEA=Kostenartnr.];
+                  SourceExpr=CostBudgetEntryReqForm."Cost Type No.";
+                  TableRelation="Cost Type" }
+
+      { 4   ;3   ;Field     ;
+                  Name=Cost Center Code;
+                  Lookup=Yes;
+                  CaptionML=[ENU=Cost Center Code;
+                             ESP=C¢digo centro coste;
+                             DEA=Kostenstellencode];
+                  SourceExpr=CostBudgetEntryReqForm."Cost Center Code";
+                  TableRelation="Cost Center" }
+
+      { 5   ;3   ;Field     ;
+                  Name=Cost Object Code;
+                  Lookup=Yes;
+                  CaptionML=[ENU=Cost Object Code;
+                             ESP=C¢digo objeto coste;
+                             DEA=KostentrÑgercode];
+                  SourceExpr=CostBudgetEntryReqForm."Cost Object Code";
+                  TableRelation="Cost Object" }
+
+      { 3   ;2   ;Field     ;
+                  Name=Amount multiplication factor;
+                  CaptionML=[ENU=Amount multiplication factor;
+                             ESP=Factor multiplic. importe;
+                             DEA=Multiplikationsfaktor fÅr Betrag];
+                  SourceExpr=Factor }
+
+      { 8   ;2   ;Field     ;
+                  Name=No. of Copies;
+                  CaptionML=[ENU=No. of Copies;
+                             ESP=Nß copias;
+                             DEA=Anzahl Kopien];
+                  SourceExpr=NoOfCopies }
+
+      { 6   ;2   ;Field     ;
+                  Name=Date Change Formula;
+                  CaptionML=[ENU=Date Change Formula;
+                             ESP=F¢rmula de cambio fecha;
+                             DEA=Datumswechsel Formel];
+                  DateFormula=Yes;
+                  SourceExpr=DateChangeFormula }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      CostBudgetEntryReqForm@1000 : Record 1109;
+      CostBudgetEntryTarget@1001 : Record 1109;
+      CostBudgetNameTarget@1002 : Record 1110;
+      Window@1003 : Dialog;
+      DateChangeFormula@1004 : Code[10];
+      DateFormula@1005 : DateFormula;
+      LastEntryNo@1006 : Integer;
+      NextEntryNo@1007 : Integer;
+      NoOfCopies@1008 : Integer;
+      Factor@1009 : Decimal;
+      i@1010 : Integer;
+      NoInserted@1011 : Integer;
+      CostBudgetRegNo@1012 : Integer;
+      Text000@1013 : TextConst 'ENU=The multiplication factor must not be 0.;ESP=El factor de multiplicaci¢n no debe ser 0.;DEA=Der Multiplikationsfaktor darf nicht null sein.';
+      Text001@1014 : TextConst 'ENU=Number of copies must be at least 1.;ESP=El n£mero de copias debe ser al menos 1.;DEA=Die Kopienanzahl muss mindestens 1 betragen.';
+      Text002@1015 : TextConst 'ENU=If more than one copy is created, a formula for date change must be defined.;ESP=Si se crea m†s de una copia, es necesario definir una f¢rmula de cambio de fecha.;DEA=Bei Erstellung mehrerer Kopien muss eine Formel fÅr den Datumswechsel definiert werden.';
+      Text004@1017 : TextConst '@@@="%3=multiplication factor (decimal);%4=No of copies (integer)";ENU=Budget %1 will be copied to Budget %2. The budget amounts will be multiplied by a factor of %3. \%4 copies will be created and the date from range %5 will be incremented by %6.\\Do you want do copy the budget?;ESP=El ppto. %1 se copiar† en el ppto %2. Los importes de los pptos. se multiplicar†n por un factor %3. Se crear†n \%4 copias y la fecha del rango %5 se incrementar† en %6.\\®Desea copiar el presupuesto?;DEA=Das Budget ''%1'' wird in das Budget ''%2'' kopiert. Die BudgetbetrÑge werden mit dem Faktor %3 multipliziert. \%4 Kopien werden erstellt, und das Datum aus dem Bereich %5 wird um %6 erhîht.\\Mîchten Sie das Budget kopieren?';
+      Text005@1018 : TextConst 'ENU=Copying budget entries\No of entries #1#####\No of copies  #2#####\Copied        #3#####;ESP=Copiando movs. ppto.\Nß movs. #1#####\Nß copias  #2#####\Copiados        #3#####;DEA=Budgetposten werden kopiert...\Postenanzahl #1#####\Kopienanzahl #2#####\Kopiert      #3#####';
+      Text006@1019 : TextConst '@@@=%1 - Budget Name.;ENU=Copy of cost budget %1;ESP=Copia ppto. costes %1;DEA=Kopie des Kostenbudgets %1';
+      Text007@1020 : TextConst 'ENU=%1 entries generated in budget %2.\\Do you want to copy entries?;ESP=%1 movimientos generados en el presupuesto %2.\\®Desea copiar los movs.?;DEA=Im Budget ''%2'' wurden %1 Posten generiert.\\Mîchten Sie Posten kopieren?';
+      Text008@1021 : TextConst 'ENU=Define name of source budget.;ESP=Defina el nombre del presupuesto de origen.;DEA=Definieren Sie den Namen des Herkunftsbudgets.';
+      Text009@1022 : TextConst 'ENU=Define name of target budget.;ESP=Defina el nombre del presupuesto de destino.;DEA=Definieren Sie den Namen des Zielbudgets.';
+      Text010@1023 : TextConst 'ENU=No entries were copied.;ESP=No se ha copiado ning£n movimiento.;DEA=Keine EintrÑge kopiert.';
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

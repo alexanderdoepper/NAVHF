@@ -1,0 +1,102 @@
+OBJECT Report 8614 Get Config. Tables
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Get Config. Tables;
+               ESP=Obtener tablas de configuraci¢n;
+               DEA=Konfigurationstabellen holen];
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+    { 1   ;    ;DataItem;                    ;
+               DataItemTable=Table2000000001;
+               DataItemTableView=WHERE(Type=CONST(Table),
+                                       ID=FILTER(..99000999|2000000004|2000000005));
+               OnPreDataItem=BEGIN
+                               ConfigMgt.GetConfigTables(
+                                 Object,IncludeWithDataOnly,IncludeRelatedTables,IncludeDimensionTables,IncludeLicensedTablesOnly,TRUE);
+                               CurrReport.BREAK;
+                             END;
+
+               ReqFilterFields=ID,Name,Modified,Date,Version List }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 5   ;0   ;Container ;
+                  ContainerType=ContentArea }
+
+      { 4   ;1   ;Group     ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  CaptionML=[ENU=Include With Data Only;
+                             ESP=Incluir solo con datos;
+                             DEA=Nur mit Daten einschlieáen];
+                  SourceExpr=IncludeWithDataOnly }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=Include Related Tables;
+                             ESP=Incluir tablas relacionadas;
+                             DEA=Zugeh”rigen Tabellen einschlieáen];
+                  OptionCaptionML=[ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.;
+                                   ESP=Compra,Venta,Ajuste positivo,Ajuste negativo;
+                                   DEA=Einkauf,Verkauf,Zugang,Abgang];
+                  SourceExpr=IncludeRelatedTables }
+
+      { 2   ;2   ;Field     ;
+                  CaptionML=[ENU=Include Dimension Tables;
+                             ESP=Incluir tablas de dimensiones;
+                             DEA=Dimensionstabellen einschlieáen];
+                  SourceExpr=IncludeDimensionTables }
+
+      { 6   ;2   ;Field     ;
+                  CaptionML=[ENU=Include Licensed Tables Only;
+                             ESP=Incluir solo tablas con licencia;
+                             DEA=Nur lizenzierte Tabellen einschlieáen];
+                  SourceExpr=IncludeLicensedTablesOnly }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      ConfigMgt@1000 : Codeunit 8616;
+      IncludeRelatedTables@1001 : Boolean;
+      IncludeDimensionTables@1002 : Boolean;
+      IncludeWithDataOnly@1003 : Boolean;
+      IncludeLicensedTablesOnly@1004 : Boolean;
+
+    PROCEDURE InitializeRequest@1(NewIncludeWithDataOnly@1000 : Boolean;NewIncludeRelatedTables@1002 : Boolean;NewIncludeDimensionTables@1001 : Boolean;NewIncludeLicensedTablesOnly@1003 : Boolean);
+    BEGIN
+      IncludeWithDataOnly := NewIncludeWithDataOnly;
+      IncludeRelatedTables := NewIncludeRelatedTables;
+      IncludeDimensionTables := NewIncludeDimensionTables;
+      IncludeLicensedTablesOnly := NewIncludeLicensedTablesOnly;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

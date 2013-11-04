@@ -1,0 +1,106 @@
+OBJECT Table 849 Cash Flow Manual Revenue
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               DimMgt.UpdateDefaultDim(
+                 DATABASE::"Cash Flow Manual Revenue",Code,
+                 "Global Dimension 1 Code","Global Dimension 2 Code");
+             END;
+
+    OnDelete=BEGIN
+               DimMgt.DeleteDefaultDim(DATABASE::"Cash Flow Manual Revenue",Code);
+             END;
+
+    CaptionML=[ENU=Cash Flow Manual Revenue;
+               ESP=Ingresos manuales flujos efectivo;
+               DEA=Neutrale Cashfloweinnahmen];
+    LookupPageID=Page857;
+    DrillDownPageID=Page857;
+  }
+  FIELDS
+  {
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Cash Flow Account No.;Code20       ;TableRelation="Cash Flow Account";
+                                                   OnValidate=VAR
+                                                                CFAccount@1000 : Record 841;
+                                                              BEGIN
+                                                                IF "Cash Flow Account No." <> '' THEN BEGIN
+                                                                  CFAccount.GET("Cash Flow Account No.");
+                                                                  CFAccount.TESTFIELD("Account Type",CFAccount."Account Type"::Entry);
+                                                                  IF "Cash Flow Account No." <> xRec."Cash Flow Account No." THEN
+                                                                    Description := CFAccount.Name;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Cash Flow Account No.;
+                                                              ESP=N§ cuenta flujos efectivo;
+                                                              DEA=Cashflowkontonr.] }
+    { 4   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 5   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum] }
+    { 6   ;   ;Ending Date         ;Date          ;CaptionML=[ENU=Ending Date;
+                                                              ESP=Fecha final;
+                                                              DEA=Enddatum] }
+    { 7   ;   ;Recurring Frequency ;DateFormula   ;CaptionML=[ENU=Recurring Frequency;
+                                                              ESP=Frecuencia repetici¢n;
+                                                              DEA=Wiederholungsrate] }
+    { 8   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag] }
+    { 9   ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(1,"Global Dimension 1 Code");
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 10  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(2,"Global Dimension 2 Code");
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DimMgt@1002 : Codeunit 408;
+
+    PROCEDURE ValidateShortcutDimCode@1000(FieldNo@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.ValidateDimValueCode(FieldNo,ShortcutDimCode);
+      DimMgt.SaveDefaultDim(DATABASE::"Cash Flow Manual Expense",Code,FieldNo,ShortcutDimCode);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

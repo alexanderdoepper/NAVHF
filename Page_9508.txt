@@ -1,0 +1,87 @@
+OBJECT Page 9508 Debugger Variable List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Debugger Variable List;
+               ESP=Lista de variables de depurador;
+               DEA=Debugger-VariablenÅbersicht];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    ModifyAllowed=No;
+    LinksAllowed=No;
+    SourceTable=Table2000000102;
+    PageType=List;
+    PromotedActionCategoriesML=[ENU=New,Process,Report,Watch;
+                                ESP=Nuevo,Proceso,Informe,Inspecci¢n;
+                                DEA=Neu,Verarbeiten,Bericht,öberwachen];
+    ActionList=ACTIONS
+    {
+      { 6       ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 9       ;1   ;Separator  }
+      { 7       ;1   ;Action    ;
+                      Name=Add Watch;
+                      ShortCutKey=Ctrl+Insert;
+                      CaptionML=[ENU=Add Watch;
+                                 ESP=Agregar inspecci¢n;
+                                 DEA=öberwachung hinzufÅgen];
+                      ToolTipML=[ENU=Add the selected variable to the watch list.;
+                                 ESP=Agrega la variable seleccionada a la lista de observaci¢n.;
+                                 DEA=FÅgt die ausgewÑhlte Variable der öberwachungsÅbersicht hinzu.];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=AddWatch;
+                      PromotedCategory=Category4;
+                      OnAction=VAR
+                                 DebuggerManagement@1002 : Codeunit 9500;
+                               BEGIN
+                                 DebuggerManagement.AddWatch(Path,FALSE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                IndentationColumnName=Indentation;
+                ShowAsTree=Yes;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                CaptionML=[ENU=Name;
+                           ESP=Nombre;
+                           DEA=Name];
+                SourceExpr=Name }
+
+    { 4   ;2   ;Field     ;
+                CaptionML=[ENU=Value;
+                           ESP=Valor;
+                           DEA=Wert];
+                SourceExpr=Value }
+
+    { 5   ;2   ;Field     ;
+                CaptionML=[ENU=Type;
+                           ESP=Tipo;
+                           DEA=Art];
+                SourceExpr=Type }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

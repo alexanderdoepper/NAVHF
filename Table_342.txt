@@ -1,0 +1,48 @@
+OBJECT Table 342 Acc. Sched. Cell Value
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Acc. Sched. Cell Value;
+               ESP=Esq. cuenta valor celda;
+               DEA=Kontenschemazellenwert];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Row No.             ;Integer       ;CaptionML=[ENU=Row No.;
+                                                              ESP=N§ fila;
+                                                              DEA=Rubrikennr.] }
+    { 2   ;   ;Column No.          ;Integer       ;CaptionML=[ENU=Column No.;
+                                                              ESP=N§ columna;
+                                                              DEA=Spaltennr.] }
+    { 3   ;   ;Value               ;Decimal       ;CaptionML=[ENU=Value;
+                                                              ESP=Valor;
+                                                              DEA=Wert];
+                                                   AutoFormatType=1 }
+    { 4   ;   ;Has Error           ;Boolean       ;CaptionML=[ENU=Has Error;
+                                                              ESP=Con error;
+                                                              DEA=Fehler] }
+    { 5   ;   ;Period Error        ;Boolean       ;CaptionML=[ENU=Period Error;
+                                                              ESP=Error periodo;
+                                                              DEA=Periodenfehler] }
+  }
+  KEYS
+  {
+    {    ;Row No.,Column No.                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

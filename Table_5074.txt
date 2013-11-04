@@ -1,0 +1,56 @@
+OBJECT Table 5074 Delivery Sorter
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Sorter;
+               ESP=Ordenaci¢n entrega;
+               DEA=Versandsortierung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Integer       ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 2   ;   ;Attachment No.      ;Integer       ;TableRelation=Attachment;
+                                                   CaptionML=[ENU=Attachment No.;
+                                                              ESP=N§ anexo;
+                                                              DEA=Dateianhangsnr.] }
+    { 3   ;   ;Correspondence Type ;Option        ;CaptionML=[ENU=Correspondence Type;
+                                                              ESP=Tipo correspondencia;
+                                                              DEA=Korrespondenzart];
+                                                   OptionCaptionML=[ENU=" ,Hard Copy,E-Mail,Fax";
+                                                                    ESP=" ,Impresi¢n,Correo electr¢nico,Fax";
+                                                                    DEA=" ,Brief,E-Mail,Fax"];
+                                                   OptionString=[ ,Hard Copy,E-Mail,Fax] }
+    { 4   ;   ;Subject             ;Text50        ;CaptionML=[ENU=Subject;
+                                                              ESP=Asunto;
+                                                              DEA=Betreff] }
+    { 5   ;   ;Send Word Docs. as Attmt.;Boolean  ;CaptionML=[ENU=Send Word Docs. as Attmt.;
+                                                              ESP=Env¡a docs. Word como anexo;
+                                                              DEA=Word-Dokumente als Anh. senden] }
+    { 6   ;   ;Language Code       ;Code10        ;CaptionML=[ENU=Language Code;
+                                                              ESP=C¢d. idioma;
+                                                              DEA=Sprachcode] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Attachment No.,Correspondence Type,Subject,Send Word Docs. as Attmt. }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

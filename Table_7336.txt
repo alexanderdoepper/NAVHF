@@ -1,0 +1,86 @@
+OBJECT Table 7336 Bin Creation Wksh. Template
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               VALIDATE("Page ID");
+             END;
+
+    OnDelete=BEGIN
+               BinCreateWkshLine.SETRANGE("Worksheet Template Name",Name);
+               BinCreateWkshLine.DELETEALL(TRUE);
+               BinCreateWkshName.SETRANGE("Worksheet Template Name",Name);
+               BinCreateWkshName.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Bin Creation Wksh. Template;
+               ESP=Plant. hoj. trab. creac. ubic.;
+               DEA=Lagerpl. Erst.-Vorsch.-Vorlage];
+    LookupPageID=Page7368;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 6   ;   ;Page ID             ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Page));
+                                                   OnValidate=BEGIN
+                                                                IF "Page ID" = 0 THEN
+                                                                  VALIDATE(Type);
+                                                              END;
+
+                                                   CaptionML=[ENU=Page ID;
+                                                              ESP=Id. p gina;
+                                                              DEA=Seiten-ID] }
+    { 9   ;   ;Type                ;Option        ;OnValidate=BEGIN
+                                                                CASE Type OF
+                                                                  Type::Bin:
+                                                                    "Page ID" := PAGE::"Bin Creation Worksheet";
+                                                                  Type::"Bin Content":
+                                                                    "Page ID" := PAGE::"Bin Content Creation Worksheet";
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Bin,Bin Content;
+                                                                    ESP=Ubicaci¢n,Contenido ubic.;
+                                                                    DEA=Lagerplatz,Lagerplatzinhalt];
+                                                   OptionString=Bin,Bin Content }
+    { 16  ;   ;Page Name           ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Page),
+                                                                                                                Object ID=FIELD(Page ID)));
+                                                   CaptionML=[ENU=Page Name;
+                                                              ESP=Nombre p gina;
+                                                              DEA=Seitenname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      BinCreateWkshName@1000 : Record 7337;
+      BinCreateWkshLine@1001 : Record 7338;
+
+    BEGIN
+    END.
+  }
+}
+

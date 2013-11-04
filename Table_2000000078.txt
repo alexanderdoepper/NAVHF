@@ -1,0 +1,37 @@
+OBJECT Table 2000000078 Chart
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:09;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Gr fico;
+  }
+  FIELDS
+  {
+    { 3   ;   ;ID                  ;Code20        ;CaptionML=ESP=ID }
+    { 6   ;   ;Name                ;Text30        ;CaptionML=ESP=Nombre }
+    { 9   ;   ;BLOB                ;BLOB          ;CaptionML=ESP=BLOB }
+    { 12  ;   ;Company             ;Text30        ;TableRelation=Company.Name;
+                                                   CaptionML=ESP=Empresa }
+  }
+  KEYS
+  {
+    {    ;Company,ID                              ;Clustered=Yes }
+    {    ;ID                                       }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

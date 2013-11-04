@@ -1,0 +1,207 @@
+OBJECT Page 11004 Data Export Record Source
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Record Source;
+               DEA=Datensatzquelle fÅr Datenexport];
+    SourceTable=Table11004;
+    DelayedInsert=Yes;
+    PopulateAllFields=Yes;
+    DataCaptionFields=Data Exp. Rec. Type Code,Data Exp. Rec. Type Code;
+    PageType=List;
+    AutoSplitKey=Yes;
+    PromotedActionCategoriesML=[ENU=New,Process,Report,Indentation;
+                                DEA=Neu,Prozess,Bericht,EinrÅckung];
+    OnOpenPage=BEGIN
+                 MoveFiltersToFilterGroup(2);
+               END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;  ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140023 ;1   ;ActionGroup;
+                      CaptionML=[ENU=Process;
+                                 DEA=Vorgang];
+                      Image=Setup }
+      { 1140024 ;2   ;Action    ;
+                      CaptionML=[ENU=Validate;
+                                 DEA=öberprÅfen];
+                      Promoted=Yes;
+                      Image=Approve;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DataExportRecordDefinition@1140000 : Record 11003;
+                               BEGIN
+                                 DataExportRecordDefinition.GET("Data Export Code","Data Exp. Rec. Type Code");
+                                 DataExportRecordDefinition.ValidateExportSources;
+                               END;
+                                }
+      { 1140010 ;1   ;ActionGroup;
+                      Name=Indentation;
+                      CaptionML=[ENU=Indentation;
+                                 DEA=EinrÅckung] }
+      { 1140021 ;2   ;Action    ;
+                      CaptionML=[ENU=Indent;
+                                 DEA=EinrÅcken];
+                      ToolTipML=[ENU=Indent;
+                                 DEA=EinrÅcken];
+                      Promoted=Yes;
+                      Image=Indent;
+                      PromotedCategory=Category4;
+                      OnAction=BEGIN
+                                 VALIDATE(Indentation,Indentation + 1);
+                                 CurrPage.UPDATE;
+                               END;
+                                }
+      { 1140022 ;2   ;Action    ;
+                      CaptionML=[ENU=Unindent;
+                                 DEA=AusrÅcken];
+                      ToolTipML=[ENU=Unindent;
+                                 DEA=AusrÅcken];
+                      Promoted=Yes;
+                      Image=CancelIndent;
+                      PromotedCategory=Category4;
+                      OnAction=BEGIN
+                                 VALIDATE(Indentation,Indentation - 1);
+                                 CurrPage.UPDATE;
+                               END;
+                                }
+      { 1140012 ;2   ;Action    ;
+                      CaptionML=[ENU=Relationships;
+                                 DEA=Verbindungen];
+                      Promoted=Yes;
+                      Image=Relationship;
+                      PromotedCategory=Category4;
+                      OnAction=VAR
+                                 DataExportManagement@1140000 : Codeunit 11000;
+                               BEGIN
+                                 DataExportManagement.UpdateTableRelation(Rec);
+                                 CurrPage.UPDATE(FALSE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                IndentationColumnName=Indentation;
+                IndentationControls=Table Name;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Table No.";
+                LookupPageID=Objects;
+                OnValidate=BEGIN
+                             CurrPage.UPDATE;
+                           END;
+                            }
+
+    { 1140003;2;Field     ;
+                DrillDown=No;
+                SourceExpr="Table Name";
+                Enabled=FALSE }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Export Table Name" }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Period Field No." }
+
+    { 1140011;2;Field     ;
+                SourceExpr="Period Field Name" }
+
+    { 1140027;2;Field     ;
+                AssistEdit=Yes;
+                SourceExpr="Table Filter";
+                Editable=FALSE;
+                OnAssistEdit=VAR
+                               TableFilter@1140001 : Record 9805;
+                               TableFilterPage@1140000 : Page 9805;
+                               TableFilterText@1140002 : Text;
+                             BEGIN
+                               TableFilter.FILTERGROUP(2);
+                               TableFilter.SETRANGE("Table Number","Table No.");
+                               TableFilter.FILTERGROUP(0);
+                               TableFilterPage.SETTABLEVIEW(TableFilter);
+                               TableFilterPage.SetSourceTable(FORMAT("Table Filter"),"Table No.","Table Name");
+                               IF ACTION::OK = TableFilterPage.RUNMODAL THEN BEGIN
+                                 TableFilterText := TableFilterPage.CreateTextTableFilterWithoutTableName(FALSE);
+                                 IF TableFilterText = '' THEN
+                                   EVALUATE("Table Filter",'')
+                                 ELSE
+                                   EVALUATE("Table Filter",TableFilterPage.CreateTextTableFilter(FALSE));
+                                 VALIDATE("Table Filter");
+                               END;
+                             END;
+                              }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Date Filter Field No." }
+
+    { 1140029;2;Field     ;
+                SourceExpr="Key No.";
+                Editable=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Export File Name" }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Table Relation Defined";
+                OnAssistEdit=VAR
+                               DataExportManagement@1140000 : Codeunit 11000;
+                             BEGIN
+                               CurrPage.UPDATE(TRUE);
+                               COMMIT;
+                               DataExportManagement.UpdateTableRelation(Rec);
+                               CurrPage.UPDATE(FALSE);
+                             END;
+                              }
+
+    { 1140002;1;Part      ;
+                Name=Fields;
+                CaptionML=[ENU=Fields;
+                           DEA=Felder];
+                SubPageLink=Data Export Code=FIELD(Data Export Code),
+                            Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code),
+                            Table No.=FIELD(Table No.);
+                PagePartID=Page11027;
+                PartType=Page }
+
+    { 1140004; ;Container ;
+                ContainerType=FactBoxArea }
+
+    { 1140006;1;Part      ;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    PROCEDURE MoveFiltersToFilterGroup@1140001(FilterGroupNo@1140000 : Integer);
+    VAR
+      Filters@1140001 : Text;
+    BEGIN
+      FILTERGROUP(0);
+      Filters := GETVIEW;
+      FILTERGROUP(FilterGroupNo);
+      SETVIEW(Filters);
+      FILTERGROUP(0);
+      SETVIEW('');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

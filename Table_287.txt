@@ -1,0 +1,140 @@
+OBJECT Table 287 Customer Bank Account
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Customer No.,Code,Name;
+    CaptionML=[ENU=Customer Bank Account;
+               ESP=Banco cliente;
+               DEA=Debitor Bankkonto];
+    LookupPageID=Page424;
+    DrillDownPageID=Page424;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Customer No.;
+                                                              ESP=N§ cliente;
+                                                              DEA=Debitorennr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 5   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
+                                                              ESP=Nombre 2;
+                                                              DEA=Name 2] }
+    { 6   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
+                                                              ESP=Direcci¢n;
+                                                              DEA=Adresse] }
+    { 7   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
+                                                              ESP=Direcci¢n 2;
+                                                              DEA=Adresse 2] }
+    { 8   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidateCity(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=City;
+                                                              ESP=Poblaci¢n;
+                                                              DEA=Ort] }
+    { 9   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidatePostCode(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Post Code;
+                                                              ESP=C.P.;
+                                                              DEA=PLZ-Code] }
+    { 10  ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
+                                                              ESP=Contacto;
+                                                              DEA=Kontakt] }
+    { 11  ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Phone No.;
+                                                              ESP=N§ tel‚fono;
+                                                              DEA=Telefonnr.] }
+    { 12  ;   ;Telex No.           ;Text20        ;CaptionML=[ENU=Telex No.;
+                                                              ESP=N§ t‚lex;
+                                                              DEA=Telexnr.] }
+    { 13  ;   ;Bank Branch No.     ;Text20        ;CaptionML=[ENU=Bank Branch No.;
+                                                              ESP=C¢d. sucursal banco;
+                                                              DEA=BLZ] }
+    { 14  ;   ;Bank Account No.    ;Text30        ;CaptionML=[ENU=Bank Account No.;
+                                                              ESP=C¢d. cuenta banco;
+                                                              DEA=Bankkontonummer] }
+    { 15  ;   ;Transit No.         ;Text20        ;CaptionML=[ENU=Transit No.;
+                                                              ESP=N§ tr nsito;
+                                                              DEA=Transitnr.] }
+    { 16  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 17  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Country/Region Code;
+                                                              ESP=C¢d. pa¡s/regi¢n;
+                                                              DEA=L„nder-/Regionscode] }
+    { 18  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
+                                                              ESP=Provincia;
+                                                              DEA=Bundesregion] }
+    { 19  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
+                                                              ESP=N§ fax;
+                                                              DEA=Faxnr.] }
+    { 20  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
+                                                              ESP=N§ t‚lex respuesta;
+                                                              DEA=Telex Namengeber] }
+    { 21  ;   ;Language Code       ;Code10        ;TableRelation=Language;
+                                                   CaptionML=[ENU=Language Code;
+                                                              ESP=C¢d. idioma;
+                                                              DEA=Sprachcode] }
+    { 22  ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
+                                                   CaptionML=[ENU=E-Mail;
+                                                              ESP=Correo electr¢nico;
+                                                              DEA=E-Mail] }
+    { 23  ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
+                                                   CaptionML=[ENU=Home Page;
+                                                              ESP=P gina Web;
+                                                              DEA=Homepage] }
+    { 24  ;   ;IBAN                ;Code50        ;OnValidate=VAR
+                                                                CompanyInfo@1000 : Record 79;
+                                                              BEGIN
+                                                                CompanyInfo.CheckIBAN(IBAN);
+                                                              END;
+
+                                                   CaptionML=[ENU=IBAN;
+                                                              ESP=IBAN;
+                                                              DEA=IBAN] }
+    { 25  ;   ;SWIFT Code          ;Code20        ;CaptionML=[ENU=SWIFT Code;
+                                                              ESP=C¢digo SWIFT;
+                                                              DEA=SWIFT-Code] }
+  }
+  KEYS
+  {
+    {    ;Customer No.,Code                       ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      PostCode@1000 : Record 225;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,182 @@
+OBJECT Page 9803 Permissions
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Permissions;
+               ESP=Permisos;
+               DEA=Zugriffsrechte];
+    SourceTable=Table2000000005;
+    DataCaptionExpr="Role ID";
+    PageType=List;
+    RefreshOnActivate=Yes;
+    OnNewRecord=BEGIN
+                  "Read Permission" := "Read Permission"::" ";
+                  "Modify Permission" := "Modify Permission"::" ";
+                  "Insert Permission" := "Insert Permission"::" ";
+                  "Delete Permission" := "Delete Permission"::" ";
+                  "Execute Permission" := "Execute Permission"::" ";
+                  ActivateFields;
+                END;
+
+    OnAfterGetCurrRecord=BEGIN
+                           ActivateFields;
+                         END;
+
+    ActionList=ACTIONS
+    {
+      { 13      ;    ;ActionContainer;
+                      Name=PermissionActions;
+                      CaptionML=[ENU=Permissions;
+                                 ESP=Permisos;
+                                 DEA=Zugriffsrechte];
+                      ActionContainerType=ActionItems }
+      { 14      ;1   ;Action    ;
+                      Name=AllPermissions;
+                      CaptionML=[ENU=All Permissions;
+                                 ESP=Todos los permisos;
+                                 DEA=Alle Zugriffsrechte];
+                      ToolTipML=[ENU=Select permissions from all objects;
+                                 ESP=Seleccionar permisos de todos los objetos;
+                                 DEA=Zugriffsrechte aus allen Objekten auswÑhlen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=AddAction;
+                      OnAction=VAR
+                                 AllPermissionPage@1002 : Page 9804;
+                                 RoleId@1001 : Code[20];
+                               BEGIN
+                                 RoleId := GETFILTER("Role ID");
+                                 IF RoleId <> '' THEN BEGIN
+                                   AllPermissionPage.FilterByRole(RoleId);
+                                   AllPermissionPage.RUN;
+                                 END ELSE
+                                   ERROR(Text001);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                CaptionML=[ENU=Permission;
+                           ESP=Permiso;
+                           DEA=Zugriffsrecht];
+                GroupType=Repeater }
+
+    { 12  ;2   ;Field     ;
+                Name=Permission Set;
+                CaptionML=[ENU=Permission Set;
+                           ESP=Conjunto de permisos;
+                           DEA=Zugriffsrechtsatz];
+                SourceExpr="Role Name";
+                Visible=FALSE }
+
+    { 11  ;2   ;Field     ;
+                CaptionML=[ENU=Object Type;
+                           ESP=Tipo objeto;
+                           DEA=Objektart];
+                SourceExpr="Object Type";
+                OnValidate=BEGIN
+                             ActivateFields;
+                           END;
+                            }
+
+    { 10  ;2   ;Field     ;
+                CaptionML=[ENU=Object ID;
+                           ESP=Id. objeto;
+                           DEA=Objekt-ID];
+                SourceExpr="Object ID" }
+
+    { 9   ;2   ;Field     ;
+                DrillDown=No;
+                CaptionML=[ENU=Object Name;
+                           ESP=Nombre objeto;
+                           DEA=Objektname];
+                SourceExpr="Object Name";
+                Editable=FALSE }
+
+    { 8   ;2   ;Field     ;
+                CaptionML=[ENU=Read Permission;
+                           ESP=Lectura;
+                           DEA=Lesen Zugriffsrecht];
+                SourceExpr="Read Permission";
+                Enabled=IsTableData }
+
+    { 7   ;2   ;Field     ;
+                CaptionML=[ENU=Insert Permission;
+                           ESP=Inserci¢n;
+                           DEA=EinfÅgen Zugriffsrecht];
+                SourceExpr="Insert Permission";
+                Enabled=IsTableData }
+
+    { 6   ;2   ;Field     ;
+                CaptionML=[ENU=Modify Permission;
+                           ESP=Modificaci¢n;
+                           DEA=Bearbeiten Zugriffsrecht];
+                SourceExpr="Modify Permission";
+                Enabled=IsTableData }
+
+    { 5   ;2   ;Field     ;
+                CaptionML=[ENU=Delete Permission;
+                           ESP=Eliminaci¢n;
+                           DEA=Lîschen Zugriffsrecht];
+                SourceExpr="Delete Permission";
+                Enabled=IsTableData }
+
+    { 4   ;2   ;Field     ;
+                CaptionML=[ENU=Execute Permission;
+                           ESP=Ejecuci¢n;
+                           DEA=AusfÅhren Zugriffsrecht];
+                OptionCaptionML=[ENU=" ,Yes";
+                                 ESP=" ,S°";
+                                 DEA=" ,Ja"];
+                SourceExpr="Execute Permission";
+                Enabled=NOT IsTableData }
+
+    { 3   ;2   ;Field     ;
+                CaptionML=[ENU=Security Filter;
+                           ESP=Filtro seguridad;
+                           DEA=Sicherheitsfilter];
+                SourceExpr="Security Filter";
+                Enabled=IsTableData;
+                OnAssistEdit=VAR
+                               TableFilter@1000 : Record 9805;
+                               TableFilterPage@1001 : Page 9805;
+                             BEGIN
+                               TableFilter.FILTERGROUP(2);
+                               TableFilter.SETRANGE("Table Number","Object ID");
+                               TableFilter.FILTERGROUP(0);
+                               TableFilterPage.SETTABLEVIEW(TableFilter);
+                               TableFilterPage.SetSourceTable(FORMAT("Security Filter"),"Object ID","Object Name");
+                               IF ACTION::OK = TableFilterPage.RUNMODAL THEN
+                                 EVALUATE("Security Filter",TableFilterPage.CreateTextTableFilter(FALSE));
+                             END;
+                              }
+
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=Permission Set is not selected.;ESP=El Conjuntos de permisos no est† seleccionado.;DEA=Der Zugriffsrechtsatz wurde nicht ausgewÑhlt.';
+      IsTableData@1001 : Boolean INDATASET;
+
+    LOCAL PROCEDURE ActivateFields@1();
+    BEGIN
+      IsTableData := "Object Type" = "Object Type"::"Table Data";
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

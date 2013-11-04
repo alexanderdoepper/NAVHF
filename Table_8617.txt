@@ -1,0 +1,82 @@
+OBJECT Table 8617 Config. Package Error
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Package Error;
+               ESP=Error del paquete de configuraci¢n;
+               DEA=Paketfehler konfigurieren];
+    LookupPageID=Page8616;
+    DrillDownPageID=Page8616;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Package Code        ;Code20        ;TableRelation="Config. Package";
+                                                   CaptionML=[ENU=Package Code;
+                                                              ESP=C¢digo de paquete;
+                                                              DEA=Paketcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Table ID            ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 3   ;   ;Record No.          ;Integer       ;TableRelation="Config. Package Record".No. WHERE (Table ID=FIELD(Table ID));
+                                                   CaptionML=[ENU=Record No.;
+                                                              ESP=N§ registro;
+                                                              DEA=Datensatznummer];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 4   ;   ;Field ID            ;Integer       ;CaptionML=[ENU=Field ID;
+                                                              ESP=Id. campo;
+                                                              DEA=Feld-ID];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 5   ;   ;Field Name          ;Text30        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field.FieldName WHERE (TableNo=FIELD(Table ID),
+                                                                                             No.=FIELD(Field ID)));
+                                                   CaptionML=[ENU=Field Name;
+                                                              ESP=Nombre de campo;
+                                                              DEA=Feldname];
+                                                   Editable=No }
+    { 6   ;   ;Error Text          ;Text250       ;CaptionML=[ENU=Error Text;
+                                                              ESP=Texto error;
+                                                              DEA=Fehlertext];
+                                                   Editable=No }
+    { 7   ;   ;Field Caption       ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(Table ID),
+                                                                                                   No.=FIELD(Field ID)));
+                                                   CaptionML=[ENU=Field Caption;
+                                                              ESP=T¡tulo campo;
+                                                              DEA=Feldbezeichnung];
+                                                   Editable=No }
+    { 8   ;   ;Error Type          ;Option        ;CaptionML=[ENU=Error Type;
+                                                              ESP=Tipo de error;
+                                                              DEA=Fehlertyp];
+                                                   OptionCaptionML=[ENU=,TableRelation;
+                                                                    ESP=,TableRelation;
+                                                                    DEA=,TableRelation];
+                                                   OptionString=,TableRelation }
+  }
+  KEYS
+  {
+    {    ;Package Code,Table ID,Record No.,Field ID;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

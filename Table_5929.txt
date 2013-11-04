@@ -1,0 +1,40 @@
+OBJECT Table 5929 Service Shelf
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Service Shelf;
+               ESP=Estanter¡a servicio;
+               DEA=Servicelagerfach];
+    LookupPageID=Page5944;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code10        ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,133 @@
+OBJECT Table 5615 FA Allocation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               "Dimension Set ID" := 0;
+               "Global Dimension 1 Code" := '';
+               "Global Dimension 2 Code" := '';
+             END;
+
+    OnRename=BEGIN
+               ERROR(Text000,TABLECAPTION);
+             END;
+
+    CaptionML=[ENU=FA Allocation;
+               ESP=A/F Distribuci¢n;
+               DEA=Anlagenverteilung];
+    LookupPageID=Page5623;
+    DrillDownPageID=Page5623;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;TableRelation="FA Posting Group";
+                                                   CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.] }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Account No.         ;Code20        ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                IF "Account No." = '' THEN
+                                                                  EXIT;
+                                                                GLAcc.GET("Account No.");
+                                                                GLAcc.CheckGLAcc;
+                                                                IF "Allocation Type" < "Allocation Type"::Gain THEN
+                                                                  GLAcc.TESTFIELD("Direct Posting");
+                                                                Description := GLAcc.Name;
+                                                              END;
+
+                                                   CaptionML=[ENU=Account No.;
+                                                              ESP=N§ cuenta;
+                                                              DEA=Kontonr.] }
+    { 5   ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(1,"Global Dimension 1 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 6   ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(2,"Global Dimension 2 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 7   ;   ;Allocation %        ;Decimal       ;CaptionML=[ENU=Allocation %;
+                                                              ESP=% Distribuci¢n;
+                                                              DEA=Verteilung %];
+                                                   DecimalPlaces=1:1;
+                                                   MinValue=0;
+                                                   MaxValue=100 }
+    { 8   ;   ;Allocation Type     ;Option        ;CaptionML=[ENU=Allocation Type;
+                                                              ESP=Tipo distribuci¢n;
+                                                              DEA=Verteilungsart];
+                                                   OptionCaptionML=[ENU=Acquisition,Depreciation,Write-Down,Appreciation,Custom 1,Custom 2,Disposal,Maintenance,Gain,Loss,Book Value (Gain),Book Value (Loss);
+                                                                    ESP=Coste,Amortizaci¢n,Depreciaci¢n,Apreciaci¢n,Especial,Provisi¢n,Venta/Baja,Mantenimiento,Beneficio,P‚rdida,Valor neto (B§),Valor neto (P‚rd.);
+                                                                    DEA=Anschaffungskosten,Normal-AfA,Erh”hte AfA,Zuschreibung,Sonder-AfA,Benutzerdef. AfA,Verkauf,Wartung,Gewinn,Verlust,Buchwert (Gewinn),Buchwert (Verlust)];
+                                                   OptionString=Acquisition,Depreciation,Write-Down,Appreciation,Custom 1,Custom 2,Disposal,Maintenance,Gain,Loss,Book Value (Gain),Book Value (Loss) }
+    { 9   ;   ;Account Name        ;Text50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup("G/L Account".Name WHERE (No.=FIELD(Account No.)));
+                                                   CaptionML=[ENU=Account Name;
+                                                              ESP=Nombre cuenta;
+                                                              DEA=Kontoname];
+                                                   Editable=No }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Code,Allocation Type,Line No.           ;SumIndexFields=Allocation %;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=You cannot rename a %1.;ESP=No se puede cambiar el nombre a %1.;DEA=Sie k”nnen eine %1 nicht umbenennen.';
+      GLAcc@1001 : Record 15;
+      DimMgt@1003 : Codeunit 408;
+
+    LOCAL PROCEDURE ValidateShortcutDimCode@29(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);
+    BEGIN
+      DimMgt.ValidateShortcutDimValues(FieldNumber,ShortcutDimCode,"Dimension Set ID");
+    END;
+
+    PROCEDURE ShowDimensions@1();
+    BEGIN
+      "Dimension Set ID" :=
+        DimMgt.EditDimensionSet2(
+          "Dimension Set ID",STRSUBSTNO('%1 %2 %3',Code,"Allocation Type","Line No."),
+          "Global Dimension 1 Code","Global Dimension 2 Code");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

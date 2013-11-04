@@ -1,0 +1,65 @@
+OBJECT Table 410 IC G/L Account
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=IC G/L Account;
+               ESP=Cuenta IC;
+               DEA=IC-Sachkonto];
+    LookupPageID=Page607;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;Account Type        ;Option        ;CaptionML=[ENU=Account Type;
+                                                              ESP=Tipo mov.;
+                                                              DEA=Kontoart];
+                                                   OptionCaptionML=[ENU=Posting,Heading,Total,Begin-Total,End-Total;
+                                                                    ESP=Auxiliar,Mayor,Total,Inicio Total,Fin Total;
+                                                                    DEA=Konto,öberschrift,Summe,Von-Summe,Bis-Summe];
+                                                   OptionString=Posting,Heading,Total,Begin-Total,End-Total }
+    { 4   ;   ;Income/Balance      ;Option        ;CaptionML=[ENU=Income/Balance;
+                                                              ESP=Ingresos/Saldo;
+                                                              DEA=GuV/Bilanz];
+                                                   OptionCaptionML=[ENU=Income Statement,Balance Sheet;
+                                                                    ESP=Comercial,Balance;
+                                                                    DEA=GuV,Bilanz];
+                                                   OptionString=Income Statement,Balance Sheet }
+    { 5   ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
+                                                              ESP=Bloqueado;
+                                                              DEA=Gesperrt] }
+    { 6   ;   ;Map-to G/L Acc. No. ;Code20        ;TableRelation="G/L Account".No.;
+                                                   CaptionML=[ENU=Map-to G/L Acc. No.;
+                                                              ESP=Nß de cuenta de asignaci¢n;
+                                                              DEA=Zuordnen zu Sachkontonr.] }
+    { 7   ;   ;Indentation         ;Integer       ;CaptionML=[ENU=Indentation;
+                                                              ESP=Indentar;
+                                                              DEA=EinrÅckung] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;No.,Name,Income/Balance,Blocked,Map-to G/L Acc. No. }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,46 @@
+OBJECT Table 481 Dimension Set Tree Node
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Dimension Set Tree Node;
+               ESP=Nodo  rbol grupo dimensiones;
+               DEA=Dimensionssatz-Strukturknoten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Parent Dimension Set ID;Integer    ;CaptionML=[ENU=Parent Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones principal;
+                                                              DEA=šbergeordnete Dimensionssatz-ID] }
+    { 2   ;   ;Dimension Value ID  ;Integer       ;CaptionML=[ENU=Dimension Value ID;
+                                                              ESP=Id. valor de dimensi¢n;
+                                                              DEA=Dimensionswert-ID] }
+    { 3   ;   ;Dimension Set ID    ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID] }
+    { 4   ;   ;In Use              ;Boolean       ;CaptionML=[ENU=In Use;
+                                                              ESP=Utiliz ndose;
+                                                              DEA=In Verwendung] }
+  }
+  KEYS
+  {
+    {    ;Parent Dimension Set ID,Dimension Value ID;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

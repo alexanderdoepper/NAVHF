@@ -1,0 +1,199 @@
+OBJECT Table 5908 Warranty Ledger Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Warranty Ledger Entry;
+               ESP=Movimiento garant¡a;
+               DEA=Garantieposten];
+    LookupPageID=Page5913;
+    DrillDownPageID=Page5913;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 3   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 4   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 5   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Customer No.;
+                                                              ESP=N§ cliente;
+                                                              DEA=Debitorennr.] }
+    { 6   ;   ;Ship-to Code        ;Code10        ;TableRelation="Ship-to Address".Code WHERE (Customer No.=FIELD(Customer No.));
+                                                   CaptionML=[ENU=Ship-to Code;
+                                                              ESP=C¢d. direcci¢n env¡o cliente;
+                                                              DEA=Lief. an Code] }
+    { 7   ;   ;Bill-to Customer No.;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Bill-to Customer No.;
+                                                              ESP=Factura-a N§ cliente;
+                                                              DEA=Rech. an Deb.-Nr.] }
+    { 8   ;   ;Variant Code (Serviced);Code10     ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD("Item No. (Serviced)"));
+                                                   CaptionML=[ENU=Variant Code (Serviced);
+                                                              ESP=C¢d. variante (Servido);
+                                                              DEA=Variantencode (Serviceartikel)] }
+    { 9   ;   ;Service Item No. (Serviced);Code20 ;TableRelation="Service Item";
+                                                   CaptionML=[ENU=Service Item No. (Serviced);
+                                                              ESP=N§ prod. servicio (Servido);
+                                                              DEA=Serviceartikelnr.] }
+    { 10  ;   ;Item No. (Serviced) ;Code20        ;TableRelation=Item.No.;
+                                                   CaptionML=[ENU=Item No. (Serviced);
+                                                              ESP=N§ producto (Servido);
+                                                              DEA=Artikelnr. (Serviceartikel)] }
+    { 11  ;   ;Serial No. (Serviced);Code20       ;CaptionML=[ENU=Serial No. (Serviced);
+                                                              ESP=N§ serie (Servido);
+                                                              DEA=Seriennr. (Serviceartikel)] }
+    { 12  ;   ;Service Item Group (Serviced);Code10;
+                                                   TableRelation="Service Item Group";
+                                                   CaptionML=[ENU=Service Item Group (Serviced);
+                                                              ESP=Grupo prod. servicio (Servido);
+                                                              DEA=Serviceartikelgruppe] }
+    { 13  ;   ;Service Order No.   ;Code20        ;OnLookup=BEGIN
+                                                              CLEAR(ServOrderMgt);
+                                                              ServOrderMgt.ServHeaderLookup(1,"Service Order No.");
+                                                            END;
+
+                                                   CaptionML=[ENU=Service Order No.;
+                                                              ESP=N§ ped. servicio;
+                                                              DEA=Serviceauftragsnr.] }
+    { 14  ;   ;Service Contract No.;Code20        ;TableRelation="Service Contract Header"."Contract No." WHERE (Contract Type=CONST(Contract));
+                                                   CaptionML=[ENU=Service Contract No.;
+                                                              ESP=N§ contrato servicio;
+                                                              DEA=Servicevertragsnr.] }
+    { 15  ;   ;Fault Reason Code   ;Code10        ;TableRelation="Fault Reason Code";
+                                                   CaptionML=[ENU=Fault Reason Code;
+                                                              ESP=C¢d. auditor¡a defecto;
+                                                              DEA=Problemursachencode] }
+    { 16  ;   ;Fault Area Code     ;Code10        ;TableRelation="Fault Area";
+                                                   CaptionML=[ENU=Fault Area Code;
+                                                              ESP=C¢d.  rea defecto;
+                                                              DEA=Problembereichscode] }
+    { 17  ;   ;Fault Code          ;Code10        ;TableRelation="Fault Code".Code WHERE (Fault Area Code=FIELD(Fault Area Code),
+                                                                                          Symptom Code=FIELD(Symptom Code));
+                                                   CaptionML=[ENU=Fault Code;
+                                                              ESP=C¢d. defecto;
+                                                              DEA=Problemcode] }
+    { 18  ;   ;Symptom Code        ;Code10        ;TableRelation="Symptom Code";
+                                                   CaptionML=[ENU=Symptom Code;
+                                                              ESP=C¢d. s¡ntoma;
+                                                              DEA=Symptomcode] }
+    { 19  ;   ;Resolution Code     ;Code10        ;TableRelation="Resolution Code";
+                                                   CaptionML=[ENU=Resolution Code;
+                                                              ESP=C¢d. resoluci¢n;
+                                                              DEA=L”sungscode] }
+    { 20  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,Item,Resource,Service Cost";
+                                                                    ESP=" ,Producto,Recurso,Coste servicio";
+                                                                    DEA=" ,Artikel,Ressource,Servicekosten"];
+                                                   OptionString=[ ,Item,Resource,Service Cost] }
+    { 21  ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(" ")) "Standard Text"
+                                                                 ELSE IF (Type=CONST(Item)) Item
+                                                                 ELSE IF (Type=CONST(Resource)) Resource
+                                                                 ELSE IF (Type=CONST(Service Cost)) "Service Cost";
+                                                   CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 22  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 24  ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
+                                                   CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 25  ;   ;Unit of Measure Code;Code10        ;TableRelation=IF (Type=CONST(Item)) "Item Unit of Measure".Code WHERE (Item No.=FIELD(No.))
+                                                                 ELSE "Unit of Measure";
+                                                   CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 26  ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1 }
+    { 27  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 29  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              ESP=Grupo contable negocio;
+                                                              DEA=Gesch„ftsbuchungsgruppe] }
+    { 30  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              ESP=Grupo contable producto;
+                                                              DEA=Produktbuchungsgruppe] }
+    { 31  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,2,1' }
+    { 32  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,2,2' }
+    { 33  ;   ;Open                ;Boolean       ;CaptionML=[ENU=Open;
+                                                              ESP=Pendiente;
+                                                              DEA=Offen] }
+    { 35  ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor.No.;
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              ESP=N§ proveedor;
+                                                              DEA=Kreditorennr.] }
+    { 36  ;   ;Vendor Item No.     ;Text20        ;CaptionML=[ENU=Vendor Item No.;
+                                                              ESP=C¢d. producto proveedor;
+                                                              DEA=Kred.-Artikelnr.] }
+    { 38  ;   ;Variant Code        ;Code10        ;TableRelation=IF (Type=CONST(Item)) "Item Variant".Code WHERE (Item No.=FIELD(No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 39  ;   ;Service Order Line No.;Integer     ;CaptionML=[ENU=Service Order Line No.;
+                                                              ESP=N§ l¡nea ped. servicio;
+                                                              DEA=Serviceauftragszeilennr.] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Service Item No. (Serviced),Posting Date,Document No. }
+    {    ;Service Order No.,Posting Date,Document No. }
+    {    ;Service Contract No.,Posting Date,Document No. }
+    {    ;Document No.,Posting Date                }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Entry No.,Type,Document No.,Posting Date }
+  }
+  CODE
+  {
+    VAR
+      ServOrderMgt@1001 : Codeunit 5900;
+      DimMgt@1000 : Codeunit 408;
+
+    PROCEDURE ShowDimensions@1();
+    BEGIN
+      DimMgt.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Entry No."));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

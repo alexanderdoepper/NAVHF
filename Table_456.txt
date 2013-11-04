@@ -1,0 +1,119 @@
+OBJECT Table 456 Posted Approval Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               PostedApprovalComment@1000 : Record 457;
+             BEGIN
+               PostedApprovalComment.SETRANGE("Entry No.","Table ID");
+               PostedApprovalComment.SETRANGE("Document No.","Document No.");
+               PostedApprovalComment.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Posted Approval Entry;
+               ESP=Mov. aprobaci¢n registrado;
+               DEA=Gebuchte Genehmigung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 3   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 4   ;   ;Sequence No.        ;Integer       ;CaptionML=[ENU=Sequence No.;
+                                                              ESP=Nß secuencia;
+                                                              DEA=Reihenfolge] }
+    { 5   ;   ;Approval Code       ;Code20        ;CaptionML=[ENU=Approval Code;
+                                                              ESP=C¢digo aprobaci¢n;
+                                                              DEA=Genehmigungscode] }
+    { 6   ;   ;Sender ID           ;Code50        ;CaptionML=[ENU=Sender ID;
+                                                              ESP=Id. remitente;
+                                                              DEA=Absender-ID] }
+    { 7   ;   ;Salespers./Purch. Code;Code10      ;CaptionML=[ENU=Salespers./Purch. Code;
+                                                              ESP=C¢d. vendedor/comprador;
+                                                              DEA=Verk.-/EinkÑufercode] }
+    { 8   ;   ;Approver ID         ;Code50        ;CaptionML=[ENU=Approver ID;
+                                                              ESP=Id. aprobador;
+                                                              DEA=Genehmiger-ID] }
+    { 9   ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
+                                                              ESP=Estado;
+                                                              DEA=Status];
+                                                   OptionCaptionML=[ENU=Created,Open,Canceled,Rejected,Approved;
+                                                                    ESP=Creado,Abierto,Cancelado,Rechazado,Aprobado;
+                                                                    DEA=Erstellt,Offen,Storniert,Abgelehnt,Genehmigt];
+                                                   OptionString=Created,Open,Canceled,Rejected,Approved }
+    { 10  ;   ;Date-Time Sent for Approval;DateTime;
+                                                   CaptionML=[ENU=Date-Time Sent for Approval;
+                                                              ESP=Fecha-hora enviados para aprobaci¢n;
+                                                              DEA=Datum-Uhrzeit der Einsendung zur Genehmigung] }
+    { 11  ;   ;Last Date-Time Modified;DateTime   ;CaptionML=[ENU=Last Date-Time Modified;
+                                                              ESP=Fecha-hora £lt. modificaci¢n;
+                                                              DEA=Datum-Uhrzeit der letzten énderung] }
+    { 12  ;   ;Last Modified By ID ;Code50        ;CaptionML=[ENU=Last Modified By ID;
+                                                              ESP=Èltima modificaci¢n por id.;
+                                                              DEA=Zuletzt geÑndert von ID] }
+    { 13  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Posted Approval Comment Line" WHERE (Table ID=FIELD(Table ID),
+                                                                                                           Document No.=FIELD(Document No.)));
+                                                   CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung];
+                                                   Editable=No }
+    { 14  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
+                                                              ESP=Fecha vencimiento;
+                                                              DEA=FÑlligkeitsdatum] }
+    { 15  ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 16  ;   ;Amount (LCY)        ;Decimal       ;CaptionML=[ENU=Amount (LCY);
+                                                              ESP=Importe (DL);
+                                                              DEA=Betrag (MW)];
+                                                   AutoFormatType=1 }
+    { 17  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=WÑhrungscode] }
+    { 18  ;   ;Approval Type       ;Option        ;CaptionML=[ENU=Approval Type;
+                                                              ESP=Tipo aprobaci¢n;
+                                                              DEA=Genehmigungsart];
+                                                   OptionCaptionML=[ENU=" ,Sales Pers./Purchaser,Approver";
+                                                                    ESP=" ,Vendedor/Comprador,Aprobador";
+                                                                    DEA=" ,VerkÑufer/EinkÑufer,Genehmiger"];
+                                                   OptionString=[ ,Sales Pers./Purchaser,Approver] }
+    { 19  ;   ;Limit Type          ;Option        ;CaptionML=[ENU=Limit Type;
+                                                              ESP=Tipo l°mite;
+                                                              DEA=EinschrÑnkungsart];
+                                                   OptionCaptionML=[ENU=Approval Limits,Credit Limits,Request Limits,No Limits;
+                                                                    ESP=L°mites aprobaci¢n,L°mites crÇdito,L°mites solicitud,Sin l°mites;
+                                                                    DEA=Genehmigungsgrenzwerte,Kreditlimits,Anforderungslimits,Keine EinschrÑnkungen];
+                                                   OptionString=Approval Limits,Credit Limits,Request Limits,No Limits }
+    { 20  ;   ;Available Credit Limit (LCY);Decimal;
+                                                   CaptionML=[ENU=Available Credit Limit (LCY);
+                                                              ESP=L°mite crÇdito disponible (DL);
+                                                              DEA=VerfÅgbares Kreditlimit (MW)] }
+  }
+  KEYS
+  {
+    {    ;Table ID,Document No.,Sequence No.      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

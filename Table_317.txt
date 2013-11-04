@@ -1,0 +1,65 @@
+OBJECT Table 317 Payable Vendor Ledger Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Payable Vendor Ledger Entry;
+               ESP=Mov. pago proveedor;
+               DEA=Zahlbare Posten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Priority            ;Integer       ;CaptionML=[ENU=Priority;
+                                                              ESP=Prioridad;
+                                                              DEA=PrioritÑt] }
+    { 2   ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              ESP=Nß proveedor;
+                                                              DEA=Kontonr.] }
+    { 3   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 4   ;   ;Vendor Ledg. Entry No.;Integer     ;TableRelation="Vendor Ledger Entry";
+                                                   CaptionML=[ENU=Vendor Ledg. Entry No.;
+                                                              ESP=Nß mov. proveedor;
+                                                              DEA=Kreditorenposten Lfd. Nr.] }
+    { 5   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1 }
+    { 6   ;   ;Amount (LCY)        ;Decimal       ;CaptionML=[ENU=Amount (LCY);
+                                                              ESP=Importe (DL);
+                                                              DEA=Betrag (MW)];
+                                                   AutoFormatType=1 }
+    { 7   ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=WÑhrungscode] }
+    { 8   ;   ;Positive            ;Boolean       ;CaptionML=[ENU=Positive;
+                                                              ESP=Positivo;
+                                                              DEA=Positiv] }
+    { 9   ;   ;Future              ;Boolean       ;CaptionML=[ENU=Future;
+                                                              ESP=Futuro;
+                                                              DEA=KÅnftig] }
+  }
+  KEYS
+  {
+    {    ;Priority,Vendor No.,Currency Code,Positive,Future,Entry No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

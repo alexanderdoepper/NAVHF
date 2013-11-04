@@ -1,0 +1,202 @@
+OBJECT Page 5116 Salesperson/Purchaser Card
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Salesperson/Purchaser Card;
+               ESP=Ficha vendedor/comprador;
+               DEA=VerkÑufer-/EinkÑuferkarte];
+    SourceTable=Table13;
+    PageType=Card;
+    OnInsertRecord=BEGIN
+                     IF xRec.Code = '' THEN
+                       RESET;
+                   END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 19      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Salesperson;
+                                 ESP=Ve&ndedor;
+                                 DEA=&VerkÑufer];
+                      Image=SalesPerson }
+      { 28      ;2   ;Action    ;
+                      CaptionML=[ENU=Tea&ms;
+                                 ESP=E&quipos;
+                                 DEA=&Teams];
+                      RunObject=Page 5107;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=TeamSales }
+      { 25      ;2   ;Action    ;
+                      CaptionML=[ENU=Con&tacts;
+                                 ESP=Con&tactos;
+                                 DEA=Ko&ntakte];
+                      RunObject=Page 5052;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=CustomerContact }
+      { 23      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESP=Dimensiones;
+                                 DEA=Dimensionen];
+                      RunObject=Page 540;
+                      RunPageLink=Table ID=CONST(13),
+                                  No.=FIELD(Code);
+                      Image=Dimensions }
+      { 21      ;2   ;Action    ;
+                      ShortCutKey=F7;
+                      CaptionML=[ENU=Statistics;
+                                 ESP=Estad°sticas;
+                                 DEA=Statistik];
+                      RunObject=Page 5117;
+                      RunPageLink=Code=FIELD(Code);
+                      Promoted=Yes;
+                      Image=Statistics;
+                      PromotedCategory=Process }
+      { 26      ;2   ;Action    ;
+                      CaptionML=[ENU=C&ampaigns;
+                                 ESP=Campa&§as;
+                                 DEA=Ka&mpagnen];
+                      RunObject=Page 5087;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=Campaign }
+      { 27      ;2   ;Action    ;
+                      CaptionML=[ENU=S&egments;
+                                 ESP=&Segmentos;
+                                 DEA=Se&gmente];
+                      RunObject=Page 5093;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=Segment }
+      { 33      ;2   ;Separator ;
+                      CaptionML=[ENU="";
+                                 ESP="";
+                                 DEA=""] }
+      { 32      ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F7;
+                      CaptionML=[ENU=Interaction Log E&ntries;
+                                 ESP=&Movs. log interacci¢n;
+                                 DEA=Aktivit&Ñtenprotokollposten];
+                      RunObject=Page 5076;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=InteractionLog }
+      { 76      ;2   ;Action    ;
+                      CaptionML=[ENU=Postponed &Interactions;
+                                 ESP=&Interacciones aplazadas;
+                                 DEA=ZurÅckgestellte &AktivitÑten];
+                      RunObject=Page 5082;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=PostponedInteractions }
+      { 35      ;2   ;Action    ;
+                      CaptionML=[ENU=T&o-dos;
+                                 ESP=Ta&reas;
+                                 DEA=Aufga&ben];
+                      RunObject=Page 5096;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code),
+                                  System To-do Type=FILTER(Organizer|Salesperson Attendee);
+                      Image=TaskList }
+      { 78      ;2   ;ActionGroup;
+                      CaptionML=[ENU=Oppo&rtunities;
+                                 ESP=Opo&rtunidades;
+                                 DEA=Verkaufs&chancen];
+                      Image=OpportunityList }
+      { 34      ;3   ;Action    ;
+                      CaptionML=[ENU=List;
+                                 ESP=Lista;
+                                 DEA=öbersicht];
+                      RunObject=Page 5123;
+                      RunPageView=SORTING(Salesperson Code);
+                      RunPageLink=Salesperson Code=FIELD(Code);
+                      Image=OpportunitiesList }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 36      ;1   ;Action    ;
+                      CaptionML=[ENU=Create &Interact;
+                                 ESP=Crear &interacc.;
+                                 DEA=AktivitÑt &erst.];
+                      Promoted=Yes;
+                      Image=CreateInteraction;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CreateInteraction;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           ESP=General;
+                           DEA=Allgemein] }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr=Code }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Name }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Job Title" }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Commission %" }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="E-Mail" }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="Next To-do Date" }
+
+    { 1905885101;1;Group  ;
+                CaptionML=[ENU=Invoicing;
+                           ESP=Facturaci¢n;
+                           DEA=Fakturierung] }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="Global Dimension 1 Code" }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr="Global Dimension 2 Code" }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

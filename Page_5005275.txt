@@ -1,0 +1,74 @@
+OBJECT Page 5005275 Issued Delivery Reminders List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Issued Delivery Reminders List;
+               DEA=Reg. LieferanmahnungenÅbers.];
+    InsertAllowed=No;
+    ModifyAllowed=No;
+    SourceTable=Table5005272;
+    PageType=List;
+    CardPageID=Issued Delivery Reminder;
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1903330304;1 ;Action    ;
+                      CaptionML=[ENU=Navigate;
+                                 DEA=Navigate];
+                      RunObject=Page 344;
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1903565206;1 ;Action    ;
+                      CaptionML=[ENU=Issued Delivery Reminder;
+                                 DEA=Reg. Lieferanmahnung];
+                      RunObject=Report 5005273;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Name }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Post Code";
+                Visible=FALSE }
+
+    { 1140007;2;Field     ;
+                SourceExpr=City;
+                Visible=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr="No. Printed" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

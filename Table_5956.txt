@@ -1,0 +1,93 @@
+OBJECT Table 5956 Resource Skill
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=VAR
+               ResSkillMgt@1000 : Codeunit 5931;
+             BEGIN
+               ResSkillMgt.AddResSkill(Rec);
+             END;
+
+    CaptionML=[ENU=Resource Skill;
+               ESP=Cualificaci¢n recurso;
+               DEA=Ressourcenqualifikation];
+    LookupPageID=Page6019;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Resource,Service Item Group,Item,Service Item;
+                                                                    ESP=Recurso,Grupo prod. servicio,Producto,Producto servicio;
+                                                                    DEA=Ressource,Serviceartikelgruppe,Artikel,Serviceartikel];
+                                                   OptionString=Resource,Service Item Group,Item,Service Item }
+    { 2   ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(Resource)) Resource.No.
+                                                                 ELSE IF (Type=CONST(Service Item Group)) "Service Item Group".Code
+                                                                 ELSE IF (Type=CONST(Item)) Item.No.
+                                                                 ELSE IF (Type=CONST(Service Item)) "Service Item".No.;
+                                                   CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Skill Code          ;Code10        ;TableRelation="Skill Code";
+                                                   OnValidate=VAR
+                                                                ResSkillMgt@1000 : Codeunit 5931;
+                                                                ResSkill@1001 : Record 5956;
+                                                              BEGIN
+                                                                IF ("Skill Code" <> xRec."Skill Code") AND
+                                                                   (xRec."Skill Code" <> '') AND
+                                                                   (NOT ResSkill.GET(Type,"No.","Skill Code"))
+                                                                THEN BEGIN
+                                                                  IF NOT ResSkillMgt.ChangeResSkill(Rec,xRec."Skill Code") THEN
+                                                                    ERROR('');
+                                                                END
+                                                              END;
+
+                                                   CaptionML=[ENU=Skill Code;
+                                                              ESP=C¢d. cualificaci¢n;
+                                                              DEA=Qualifikationscode];
+                                                   NotBlank=Yes }
+    { 4   ;   ;Assigned From       ;Option        ;CaptionML=[ENU=Assigned From;
+                                                              ESP=Se asigna de;
+                                                              DEA=Zugewiesen von];
+                                                   OptionCaptionML=[ENU=" ,Service Item Group,Item";
+                                                                    ESP=" ,Grupo productos servicio,Producto";
+                                                                    DEA=" ,Serviceartikelgruppe,Artikel"];
+                                                   OptionString=[ ,Service Item Group,Item] }
+    { 5   ;   ;Source Type         ;Option        ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart];
+                                                   OptionCaptionML=[ENU=" ,Service Item Group,Item";
+                                                                    ESP=" ,Grupo productos servicio,Producto";
+                                                                    DEA=" ,Serviceartikelgruppe,Artikel"];
+                                                   OptionString=[ ,Service Item Group,Item] }
+    { 6   ;   ;Source Code         ;Code20        ;CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+  }
+  KEYS
+  {
+    {    ;Type,No.,Skill Code                     ;Clustered=Yes }
+    {    ;Skill Code,Type,No.                      }
+    {    ;Assigned From                            }
+    {    ;Source Type,Source Code                  }
+    {    ;Assigned From,Source Type,Source Code    }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

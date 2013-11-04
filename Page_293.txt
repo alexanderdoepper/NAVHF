@@ -1,0 +1,82 @@
+OBJECT Page 293 Req. Worksheet Templates
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Req. Worksheet Templates;
+               ESP=Libros hojas demanda;
+               DEA=Bestellvorschlagsvorlagen];
+    SourceTable=Table244;
+    PageType=List;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 15      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Te&mplate;
+                                 ESP=&Libro;
+                                 DEA=&Vorlage];
+                      Image=Template }
+      { 16      ;2   ;Action    ;
+                      CaptionML=[ENU=Requisition Worksheet Names;
+                                 ESP=Nombre hojas de demanda;
+                                 DEA=Bestellvorsch.-Namen];
+                      RunObject=Page 295;
+                      RunPageLink=Worksheet Template Name=FIELD(Name);
+                      Image=Description }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr=Name }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 11  ;2   ;Field     ;
+                SourceExpr=Recurring }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Page ID";
+                Visible=FALSE;
+                LookupPageID=Objects }
+
+    { 13  ;2   ;Field     ;
+                DrillDown=No;
+                SourceExpr="Page Name";
+                Visible=FALSE }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

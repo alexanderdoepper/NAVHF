@@ -1,0 +1,147 @@
+OBJECT Page 11003 Data Export Record Definitions
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Record Definitions;
+               DEA=Datensatzdefinitionen fÅr Datenexport];
+    SourceTable=Table11003;
+    DataCaptionFields=Data Export Code;
+    PageType=List;
+    PromotedActionCategoriesML=[ENU=New,Process,Report,Record Definition,DTD File;
+                                DEA=Neu,Prozess,Bericht,Datensatzdefinition,DTD-Datei];
+    OnOpenPage=BEGIN
+                 MoveFiltersToFilterGroup(2);
+               END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140012 ;1   ;ActionGroup;
+                      CaptionML=[ENU=Record Definition;
+                                 DEA=Datensatzdefinition];
+                      Image=XMLFile }
+      { 1140013 ;2   ;Action    ;
+                      Name=Data Export Record Source;
+                      CaptionML=[ENU=Record Source;
+                                 DEA=Datensatzquelle];
+                      RunObject=Page 11004;
+                      RunPageView=SORTING(Data Export Code,Data Exp. Rec. Type Code,Line No.);
+                      RunPageLink=Data Export Code=FIELD(Data Export Code),
+                                  Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code);
+                      Promoted=Yes;
+                      Image=EditLines;
+                      PromotedCategory=Category4 }
+      { 1140002 ;2   ;Action    ;
+                      CaptionML=[ENU=Validate;
+                                 DEA=öberprÅfen];
+                      Promoted=Yes;
+                      Image=Approve;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DataExportRecordDefinition@1140000 : Record 11003;
+                               BEGIN
+                                 DataExportRecordDefinition.GET("Data Export Code","Data Exp. Rec. Type Code");
+                                 DataExportRecordDefinition.ValidateExportSources;
+                               END;
+                                }
+      { 1140010 ;2   ;Action    ;
+                      CaptionML=[ENU=Export;
+                                 DEA=Exportieren];
+                      Promoted=Yes;
+                      Image=ExportFile;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DataExportRecord@1140001 : Record 11003;
+                                 ExportBusinessData@1140000 : Report 11015;
+                               BEGIN
+                                 DataExportRecord.SETRANGE("Data Export Code","Data Export Code");
+                                 DataExportRecord.SETRANGE("Data Exp. Rec. Type Code","Data Exp. Rec. Type Code");
+                                 ExportBusinessData.SETTABLEVIEW(DataExportRecord);
+                                 ExportBusinessData.RUN;
+                                 CLEAR(ExportBusinessData);
+                               END;
+                                }
+      { 1140009 ;1   ;ActionGroup;
+                      Name=DTD File;
+                      CaptionML=[ENU=DTD File;
+                                 DEA=DTD-Datei];
+                      Image=XMLFile }
+      { 1140006 ;2   ;Action    ;
+                      Name=Import;
+                      CaptionML=[ENU=Import;
+                                 DEA=Importieren];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Import;
+                      PromotedCategory=Category5;
+                      OnAction=BEGIN
+                                 ImportFile(Rec);
+                                 CurrPage.UPDATE;
+                               END;
+                                }
+      { 1140004 ;2   ;Action    ;
+                      Name=Export;
+                      CaptionML=[ENU=Export;
+                                 DEA=Exportieren];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Export;
+                      PromotedCategory=Category5;
+                      OnAction=BEGIN
+                                 ExportFile(Rec,TRUE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Data Export Code";
+                Visible=FALSE }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Data Exp. Rec. Type Code" }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Export Path" }
+
+    { 1140008;2;Field     ;
+                SourceExpr="DTD File Name" }
+
+  }
+  CODE
+  {
+
+    PROCEDURE MoveFiltersToFilterGroup@1140001(FilterGroupNo@1140000 : Integer);
+    VAR
+      Filters@1140001 : Text;
+    BEGIN
+      FILTERGROUP(0);
+      Filters := GETVIEW;
+      FILTERGROUP(FilterGroupNo);
+      SETVIEW(Filters);
+      FILTERGROUP(0);
+      SETVIEW('');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

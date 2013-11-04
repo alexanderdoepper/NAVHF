@@ -1,0 +1,569 @@
+OBJECT Table 5970 Filed Service Contract Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Permissions=TableData 5970=rimd,
+                TableData 5971=rimd;
+    OnDelete=BEGIN
+               FiledContractLine.RESET;
+               FiledContractLine.SETRANGE("Entry No.","Entry No.");
+               FiledContractLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Filed Service Contract Header;
+               ESP=Cab. contrato servicio archiv.;
+               DEA=Archiv. Servicevertragskopf];
+    LookupPageID=Page6073;
+    DrillDownPageID=Page6073;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Contract No.        ;Code20        ;CaptionML=[ENU=Contract No.;
+                                                              ESP=Nß contrato;
+                                                              DEA=Vertragsnr.] }
+    { 2   ;   ;Contract Type       ;Option        ;CaptionML=[ENU=Contract Type;
+                                                              ESP=Tipo contrato;
+                                                              DEA=Vertragsart];
+                                                   OptionCaptionML=[ENU=Quote,Contract;
+                                                                    ESP=Oferta,Contrato;
+                                                                    DEA=Angebot,Vertrag];
+                                                   OptionString=Quote,Contract }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
+                                                              ESP=Descripci¢n 2;
+                                                              DEA=Beschreibung 2] }
+    { 5   ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
+                                                              ESP=Estado;
+                                                              DEA=Status];
+                                                   OptionCaptionML=[ENU=" ,Signed,Canceled";
+                                                                    ESP=" ,Firmado,Cancelado";
+                                                                    DEA=" ,Unterzeichnet,GekÅndigt"];
+                                                   OptionString=[ ,Signed,Canceled];
+                                                   Editable=Yes }
+    { 6   ;   ;Change Status       ;Option        ;CaptionML=[ENU=Change Status;
+                                                              ESP=Cambiar estado;
+                                                              DEA=Status Ñndern];
+                                                   OptionCaptionML=[ENU=Open,Locked;
+                                                                    ESP=Abierto,Bloqueado;
+                                                                    DEA=Offen,Gesperrt];
+                                                   OptionString=Open,Locked }
+    { 7   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Customer No.;
+                                                              ESP=Nß cliente;
+                                                              DEA=Debitorennr.];
+                                                   NotBlank=Yes }
+    { 8   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   Editable=No }
+    { 9   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
+                                                              ESP=Direcci¢n;
+                                                              DEA=Adresse];
+                                                   Editable=No }
+    { 10  ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
+                                                              ESP=Direcci¢n 2;
+                                                              DEA=Adresse 2];
+                                                   Editable=No }
+    { 11  ;   ;Post Code           ;Code20        ;TableRelation="Post Code";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Post Code;
+                                                              ESP=C.P.;
+                                                              DEA=PLZ-Code];
+                                                   Editable=No }
+    { 12  ;   ;City                ;Text30        ;TableRelation="Post Code".City;
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=City;
+                                                              ESP=Poblaci¢n;
+                                                              DEA=Ort];
+                                                   Editable=No }
+    { 13  ;   ;Contact Name        ;Text50        ;CaptionML=[ENU=Contact Name;
+                                                              ESP=Nombre contacto;
+                                                              DEA=Kontaktname] }
+    { 14  ;   ;Your Reference      ;Text35        ;CaptionML=[ENU=Your Reference;
+                                                              ESP=Su/Ntra. ref.;
+                                                              DEA=Ihre Referenz] }
+    { 15  ;   ;Salesperson Code    ;Code10        ;TableRelation=Salesperson/Purchaser;
+                                                   CaptionML=[ENU=Salesperson Code;
+                                                              ESP=C¢d. vendedor;
+                                                              DEA=VerkÑufercode] }
+    { 16  ;   ;Bill-to Customer No.;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Bill-to Customer No.;
+                                                              ESP=Factura-a Nß cliente;
+                                                              DEA=Rech. an Deb.-Nr.] }
+    { 17  ;   ;Bill-to Name        ;Text50        ;CaptionML=[ENU=Bill-to Name;
+                                                              ESP=Fact. a-Nombre;
+                                                              DEA=Rech. an Name];
+                                                   Editable=No }
+    { 18  ;   ;Bill-to Address     ;Text50        ;CaptionML=[ENU=Bill-to Address;
+                                                              ESP=Fact. a-Direcci¢n;
+                                                              DEA=Rech. an Adresse];
+                                                   Editable=No }
+    { 19  ;   ;Bill-to Address 2   ;Text50        ;CaptionML=[ENU=Bill-to Address 2;
+                                                              ESP=Fact. a-Direcci¢n 2;
+                                                              DEA=Rech. an Adresse 2];
+                                                   Editable=No }
+    { 20  ;   ;Bill-to Post Code   ;Code20        ;TableRelation="Post Code";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Bill-to Post Code;
+                                                              ESP=Fact. a-C.P.;
+                                                              DEA=Rech. an PLZ-Code];
+                                                   Editable=No }
+    { 21  ;   ;Bill-to City        ;Text30        ;TableRelation="Post Code".City;
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Bill-to City;
+                                                              ESP=Fact. a-Poblaci¢n;
+                                                              DEA=Rech. an Ort];
+                                                   Editable=No }
+    { 22  ;   ;Ship-to Code        ;Code10        ;TableRelation="Ship-to Address".Code WHERE (Customer No.=FIELD(Customer No.));
+                                                   CaptionML=[ENU=Ship-to Code;
+                                                              ESP=C¢d. direcci¢n env°o cliente;
+                                                              DEA=Lief. an Code] }
+    { 23  ;   ;Ship-to Name        ;Text50        ;CaptionML=[ENU=Ship-to Name;
+                                                              ESP=Env°o a-Nombre;
+                                                              DEA=Lief. an Name];
+                                                   Editable=No }
+    { 24  ;   ;Ship-to Address     ;Text50        ;CaptionML=[ENU=Ship-to Address;
+                                                              ESP=Env°o a-Direcci¢n;
+                                                              DEA=Lief. an Adresse];
+                                                   Editable=No }
+    { 25  ;   ;Ship-to Address 2   ;Text50        ;CaptionML=[ENU=Ship-to Address 2;
+                                                              ESP=Env°o a-Direcci¢n 2;
+                                                              DEA=Lief. an Adresse 2];
+                                                   Editable=No }
+    { 26  ;   ;Ship-to Post Code   ;Code20        ;TableRelation="Post Code";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Ship-to Post Code;
+                                                              ESP=Env°o a-C.P.;
+                                                              DEA=Lief. an PLZ-Code];
+                                                   Editable=No }
+    { 27  ;   ;Ship-to City        ;Text30        ;TableRelation="Post Code".City;
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Ship-to City;
+                                                              ESP=Env°o a-Poblaci¢n;
+                                                              DEA=Lief. an Ort];
+                                                   Editable=No }
+    { 28  ;   ;Serv. Contract Acc. Gr. Code;Code10;TableRelation="Service Contract Account Group".Code;
+                                                   CaptionML=[ENU=Serv. Contract Acc. Gr. Code;
+                                                              ESP=C¢d. grupo cuenta contr. serv.;
+                                                              DEA=Servicevertragskontengrp.-Code] }
+    { 32  ;   ;Invoice Period      ;Option        ;CaptionML=[ENU=Invoice Period;
+                                                              ESP=Periodo factura;
+                                                              DEA=Fakturierungsintervall];
+                                                   OptionCaptionML=[ENU=Month,Two Months,Quarter,Half Year,Year,None;
+                                                                    ESP=Mes,Dos meses,Trimestre,Medio a§o,A§o,Ninguno;
+                                                                    DEA=Ein Monat,Zwei Monate,Quartal,Halbjahr,Jahr,Kein];
+                                                   OptionString=Month,Two Months,Quarter,Half Year,Year,None }
+    { 33  ;   ;Last Invoice Date   ;Date          ;CaptionML=[ENU=Last Invoice Date;
+                                                              ESP=Èlt. fecha factura;
+                                                              DEA=Letztes Rechnungsdatum];
+                                                   Editable=No }
+    { 34  ;   ;Next Invoice Date   ;Date          ;CaptionML=[ENU=Next Invoice Date;
+                                                              ESP=Siguiente fecha factura;
+                                                              DEA=NÑchstes Rechnungsdatum] }
+    { 35  ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum] }
+    { 36  ;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
+                                                              ESP=Fecha caducidad;
+                                                              DEA=Ablaufdatum] }
+    { 38  ;   ;First Service Date  ;Date          ;CaptionML=[ENU=First Service Date;
+                                                              ESP=Fecha primer servicio;
+                                                              DEA=Erstes Servicedatum] }
+    { 39  ;   ;Max. Labor Unit Price;Decimal      ;CaptionML=[ENU=Max. Labor Unit Price;
+                                                              ESP=Precio unit. mano obra m†ximo;
+                                                              DEA=Max. VK-Preis (Arbeit)];
+                                                   AutoFormatType=2;
+                                                   AutoFormatExpr="Currency Code" }
+    { 40  ;   ;Calcd. Annual Amount;Decimal       ;CaptionML=[ENU=Calcd. Annual Amount;
+                                                              ESP=Importe anual calculado;
+                                                              DEA=Berech. zu fakturieren (Jahr)] }
+    { 42  ;   ;Annual Amount       ;Decimal       ;CaptionML=[ENU=Annual Amount;
+                                                              ESP=Importe anual;
+                                                              DEA=Zu fakturieren (Jahr)];
+                                                   AutoFormatType=1 }
+    { 43  ;   ;Amount per Period   ;Decimal       ;CaptionML=[ENU=Amount per Period;
+                                                              ESP=Importe por periodo;
+                                                              DEA=Betrag p. Fakturierungsinterv.];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 44  ;   ;Combine Invoices    ;Boolean       ;CaptionML=[ENU=Combine Invoices;
+                                                              ESP=Agrupar facturas;
+                                                              DEA=Rechnungen zusammenfassen] }
+    { 45  ;   ;Prepaid             ;Boolean       ;CaptionML=[ENU=Prepaid;
+                                                              ESP=Prepago;
+                                                              DEA=Vorausbezahlt] }
+    { 46  ;   ;Next Invoice Period ;Text30        ;CaptionML=[ENU=Next Invoice Period;
+                                                              ESP=Siguiente periodo factura;
+                                                              DEA=NÑchstes Fakturierungsinterv.];
+                                                   Editable=No }
+    { 47  ;   ;Service Zone Code   ;Code10        ;TableRelation="Service Zone";
+                                                   CaptionML=[ENU=Service Zone Code;
+                                                              ESP=C¢d. zona servicio;
+                                                              DEA=Servicegebietscode] }
+    { 48  ;   ;Language Code       ;Code10        ;TableRelation=Language;
+                                                   CaptionML=[ENU=Language Code;
+                                                              ESP=C¢d. idioma;
+                                                              DEA=Sprachcode] }
+    { 50  ;   ;Cancel Reason Code  ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Cancel Reason Code;
+                                                              ESP=C¢d. auditor°a cancelaci¢n;
+                                                              DEA=Ursachencode bei KÅndigung] }
+    { 51  ;   ;Last Price Update Date;Date        ;CaptionML=[ENU=Last Price Update Date;
+                                                              ESP=Èlt. fecha actualiz. precio;
+                                                              DEA=Letztes Preisaktual.-Datum];
+                                                   Editable=No }
+    { 52  ;   ;Next Price Update Date;Date        ;CaptionML=[ENU=Next Price Update Date;
+                                                              ESP=Sig. fecha actualiz. precio;
+                                                              DEA=NÑchste Preisaktualisierung am] }
+    { 53  ;   ;Last Price Update % ;Decimal       ;CaptionML=[ENU=Last Price Update %;
+                                                              ESP=Èlt. % actualiz. precio;
+                                                              DEA=Letzte Preisaktual. %];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 55  ;   ;Response Time (Hours);Decimal      ;CaptionML=[ENU=Response Time (Hours);
+                                                              ESP=Tiempo respuesta (Horas);
+                                                              DEA=Reaktionszeit (Std.)];
+                                                   DecimalPlaces=0:5 }
+    { 56  ;   ;Contract Lines on Invoice;Boolean  ;CaptionML=[ENU=Contract Lines on Invoice;
+                                                              ESP=L°ns. contrato en factura;
+                                                              DEA=Vertragszeilen auf Rechnung] }
+    { 59  ;   ;Service Period      ;DateFormula   ;CaptionML=[ENU=Service Period;
+                                                              ESP=Pedidos servicio;
+                                                              DEA=Serviceintervall] }
+    { 60  ;   ;Payment Terms Code  ;Code10        ;TableRelation="Payment Terms";
+                                                   CaptionML=[ENU=Payment Terms Code;
+                                                              ESP=C¢d. tÇrminos pago;
+                                                              DEA=Zlg.-Bedingungscode] }
+    { 62  ;   ;Invoice after Service;Boolean      ;CaptionML=[ENU=Invoice after Service;
+                                                              ESP=Facturar despuÇs serv.;
+                                                              DEA=Rechnung nach Service] }
+    { 63  ;   ;Quote Type          ;Option        ;CaptionML=[ENU=Quote Type;
+                                                              ESP=Tipo oferta;
+                                                              DEA=Angebotsart];
+                                                   OptionCaptionML=[ENU=Quote 1.,Quote 2.,Quote 3.,Quote 4.,Quote 5.,Quote 6.,Quote 7.,Quote 8.;
+                                                                    ESP=Oferta 1.,Oferta 2.,Oferta 3.,Oferta 4.,Oferta 5.,Oferta 6.,Oferta 7.,Oferta 8.;
+                                                                    DEA=1. Angebot,2. Angebot,3. Angebot,4. Angebot,5. Angebot,6. Angebot,7. Angebot,8. Angebot];
+                                                   OptionString=Quote 1.,Quote 2.,Quote 3.,Quote 4.,Quote 5.,Quote 6.,Quote 7.,Quote 8. }
+    { 64  ;   ;Allow Unbalanced Amounts;Boolean   ;CaptionML=[ENU=Allow Unbalanced Amounts;
+                                                              ESP=Permite importes sin saldar;
+                                                              DEA=Nicht ausgegl. Betr. zulassen] }
+    { 65  ;   ;Contract Group Code ;Code10        ;TableRelation="Contract Group";
+                                                   CaptionML=[ENU=Contract Group Code;
+                                                              ESP=C¢d. grupo contrato;
+                                                              DEA=Vertragsgruppencode] }
+    { 66  ;   ;Service Order Type  ;Code10        ;TableRelation="Service Order Type";
+                                                   CaptionML=[ENU=Service Order Type;
+                                                              ESP=Tipo pedido servicio;
+                                                              DEA=Serviceauftragsart] }
+    { 67  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
+                                                              ESP=C¢d. dim. acceso dir. 1;
+                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionClass='1,2,1' }
+    { 68  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
+                                                              ESP=C¢d. dim. acceso dir. 2;
+                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionClass='1,2,2' }
+    { 69  ;   ;Accept Before       ;Date          ;CaptionML=[ENU=Accept Before;
+                                                              ESP=Aceptar antes;
+                                                              DEA=Verbindlich bis] }
+    { 71  ;   ;Automatic Credit Memos;Boolean     ;CaptionML=[ENU=Automatic Credit Memos;
+                                                              ESP=Abonos autom†ticos;
+                                                              DEA=Autom. Gutschriften] }
+    { 74  ;   ;Template No.        ;Code20        ;CaptionML=[ENU=Template No.;
+                                                              ESP=Nß plantilla;
+                                                              DEA=Vorlagennr.] }
+    { 75  ;   ;Price Update Period ;DateFormula   ;InitValue=1Y;
+                                                   CaptionML=[ENU=Price Update Period;
+                                                              ESP=Periodo actualiz. precio;
+                                                              DEA=Preisaktualisierungsintervall] }
+    { 79  ;   ;Price Inv. Increase Code;Code20    ;TableRelation="Standard Text";
+                                                   CaptionML=[ENU=Price Inv. Increase Code;
+                                                              ESP=C¢d. adicional fact. precio;
+                                                              DEA=Textcode fÅr Preiserhîhung] }
+    { 80  ;   ;Print Increase Text ;Boolean       ;CaptionML=[ENU=Print Increase Text;
+                                                              ESP=Impr. texto adicional;
+                                                              DEA=Text bei Erhîhung drucken] }
+    { 81  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=WÑhrungscode] }
+    { 82  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              ESP=Nos. serie;
+                                                              DEA=Nummernserie] }
+    { 83  ;   ;Probability         ;Decimal       ;InitValue=100;
+                                                   CaptionML=[ENU=Probability;
+                                                              ESP=Probabilidad;
+                                                              DEA=Wahrscheinlichkeit %];
+                                                   DecimalPlaces=0:5 }
+    { 85  ;   ;Responsibility Center;Code10       ;TableRelation="Responsibility Center";
+                                                   CaptionML=[ENU=Responsibility Center;
+                                                              ESP=Centro responsabilidad;
+                                                              DEA=ZustÑndigkeitseinheitencode] }
+    { 86  ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Phone No.;
+                                                              ESP=Nß telÇfono;
+                                                              DEA=Telefonnr.] }
+    { 87  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
+                                                              ESP=Nß fax;
+                                                              DEA=Faxnr.] }
+    { 88  ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
+                                                   CaptionML=[ENU=E-Mail;
+                                                              ESP=Correo electr¢nico;
+                                                              DEA=E-Mail] }
+    { 89  ;   ;Bill-to County      ;Text30        ;CaptionML=[ENU=Bill-to County;
+                                                              ESP=Fact. a-Provincia;
+                                                              DEA=Rech. an Bundesregion] }
+    { 90  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
+                                                              ESP=Provincia;
+                                                              DEA=Bundesregion] }
+    { 91  ;   ;Ship-to County      ;Text30        ;CaptionML=[ENU=Ship-to County;
+                                                              ESP=Env°o a-Provincia;
+                                                              DEA=Lief. an Bundesregion] }
+    { 92  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Country/Region Code;
+                                                              ESP=C¢d. pa°s/regi¢n;
+                                                              DEA=LÑnder-/Regionscode] }
+    { 93  ;   ;Bill-to Country/Region Code;Code10 ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Bill-to Country/Region Code;
+                                                              ESP=Fact. a-C¢d. pa°s/regi¢n;
+                                                              DEA=Rech. an LÑnder-/Regionscode] }
+    { 94  ;   ;Ship-to Country/Region Code;Code10 ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Ship-to Country/Region Code;
+                                                              ESP=Env°o a-C¢d. pa°s/regi¢n;
+                                                              DEA=Lief. an LÑnder-/Regionscode] }
+    { 95  ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
+                                                              ESP=Nombre 2;
+                                                              DEA=Name 2];
+                                                   Editable=No }
+    { 96  ;   ;Bill-to Name 2      ;Text50        ;CaptionML=[ENU=Bill-to Name 2;
+                                                              ESP=Fact. a-Nombre 2;
+                                                              DEA=Rech. an Name 2];
+                                                   Editable=No }
+    { 97  ;   ;Ship-to Name 2      ;Text50        ;CaptionML=[ENU=Ship-to Name 2;
+                                                              ESP=Env°o a-Nombre 2;
+                                                              DEA=Lief. an Name 2];
+                                                   Editable=No }
+    { 98  ;   ;Next Invoice Period Start;Date     ;CaptionML=[ENU=Next Invoice Period Start;
+                                                              ESP=Inicio siguiente periodo factura;
+                                                              DEA=NÑchstes Fakt.-Interv. Anfang];
+                                                   Editable=No }
+    { 99  ;   ;Next Invoice Period End;Date       ;CaptionML=[ENU=Next Invoice Period End;
+                                                              ESP=Fin siguiente periodo factura;
+                                                              DEA=NÑchstes Fakt.-Interv. Ende];
+                                                   Editable=No }
+    { 100 ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 101 ;   ;File Date           ;Date          ;CaptionML=[ENU=File Date;
+                                                              ESP=Fecha archivo;
+                                                              DEA=Archiviert am] }
+    { 102 ;   ;File Time           ;Time          ;CaptionML=[ENU=File Time;
+                                                              ESP=Hora archivo;
+                                                              DEA=Archiviert um] }
+    { 103 ;   ;Filed By            ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("Filed By");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Filed By;
+                                                              ESP=Archivado por;
+                                                              DEA=Archiviert von] }
+    { 104 ;   ;Reason for Filing   ;Option        ;CaptionML=[ENU=Reason for Filing;
+                                                              ESP=Raz¢n de archivo;
+                                                              DEA=Archivierungsgrund];
+                                                   OptionCaptionML=[ENU=" ,Contract Signed,Contract Canceled";
+                                                                    ESP=" ,Contrato firmado,Contrato cancelado";
+                                                                    DEA=" ,Vertrag unterzeichnet,Vertrag gekÅndigt"];
+                                                   OptionString=[ ,Contract Signed,Contract Canceled] }
+    { 105 ;   ;Contract Type Relation;Option      ;CaptionML=[ENU=Contract Type Relation;
+                                                              ESP=Relaci¢n tipo contrato;
+                                                              DEA=Vertragsartverbindung];
+                                                   OptionCaptionML=[ENU=Quote,Contract;
+                                                                    ESP=Oferta,Contrato;
+                                                                    DEA=Angebot,Vertrag];
+                                                   OptionString=Quote,Contract }
+    { 106 ;   ;Contract No. Relation;Code20       ;TableRelation="Service Contract Header"."Contract No." WHERE (Contract Type=FIELD(Contract Type Relation));
+                                                   CaptionML=[ENU=Contract No. Relation;
+                                                              ESP=Relaci¢n nß contrato;
+                                                              DEA=Vertragsnr.-Verbindung] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDimensions;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+    { 5050;   ;Contact No.         ;Code20        ;CaptionML=[ENU=Contact No.;
+                                                              ESP=Nß contacto;
+                                                              DEA=Kontaktnr.] }
+    { 5051;   ;Bill-to Contact No. ;Code20        ;CaptionML=[ENU=Bill-to Contact No.;
+                                                              ESP=Fact. a-Nß contacto;
+                                                              DEA=Rech. an Kontaktnr.] }
+    { 5052;   ;Bill-to Contact     ;Text50        ;CaptionML=[ENU=Bill-to Contact;
+                                                              ESP=Fact. a-Atenci¢n;
+                                                              DEA=Rech. an Kontakt] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Contract Type Relation,Contract No. Relation,File Date,File Time }
+    {    ;Contract Type,Contract No.               }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      FiledServContractHeader@1000 : Record 5970;
+      FiledContractLine@1001 : Record 5971;
+      DimMgt@1006 : Codeunit 408;
+      SigningQuotation@1003 : Boolean;
+      CancelContract@1004 : Boolean;
+      Text027@1005 : TextConst 'ENU=%1 to %2;ESP=%1 hasta %2;DEA=%1 b. %2';
+
+    PROCEDURE FileContract@1(ServContractHeader@1000 : Record 5965);
+    VAR
+      ServContractLine@1002 : Record 5964;
+      NextEntryNo@1001 : Integer;
+    BEGIN
+      WITH ServContractHeader DO BEGIN
+        TESTFIELD("Contract No.");
+
+        FiledContractLine.LOCKTABLE;
+        FiledServContractHeader.LOCKTABLE;
+
+        FiledServContractHeader.RESET;
+        IF FiledServContractHeader.FINDLAST THEN
+          NextEntryNo := FiledServContractHeader."Entry No." + 1
+        ELSE
+          NextEntryNo := 1;
+
+        FiledServContractHeader.INIT;
+        CALCFIELDS(
+          Name,Address,"Address 2","Post Code",City,County,"Country/Region Code","Name 2",
+          "Bill-to Name","Bill-to Address","Bill-to Address 2","Bill-to Post Code",
+          "Bill-to City","Bill-to County","Bill-to Country/Region Code","Bill-to Name 2",
+          "Calcd. Annual Amount");
+        IF "Ship-to Code" = '' THEN BEGIN
+          "Ship-to Name" := Name;
+          "Ship-to Address" := Address;
+          "Ship-to Address 2" := "Address 2";
+          "Ship-to Post Code" := "Post Code";
+          "Ship-to City" := City;
+          "Ship-to County" := County;
+          "Ship-to Country/Region Code" := "Country/Region Code";
+          "Ship-to Name 2" := "Name 2";
+        END ELSE
+          CALCFIELDS(
+            "Ship-to Name","Ship-to Address","Ship-to Address 2","Ship-to Post Code","Ship-to City",
+            "Ship-to County","Ship-to Country/Region Code","Ship-to Name 2");
+
+        FiledServContractHeader.TRANSFERFIELDS(ServContractHeader);
+
+        IF SigningQuotation THEN
+          FiledServContractHeader."Reason for Filing" :=
+            FiledServContractHeader."Reason for Filing"::"Contract Signed";
+
+        IF CancelContract THEN
+          FiledServContractHeader."Reason for Filing" :=
+            FiledServContractHeader."Reason for Filing"::"Contract Canceled";
+
+        FiledServContractHeader."Contract Type Relation" := "Contract Type";
+        FiledServContractHeader."Contract No. Relation" := "Contract No.";
+        FiledServContractHeader."Entry No." := NextEntryNo;
+        FiledServContractHeader."File Date" := TODAY;
+        FiledServContractHeader."File Time" := TIME;
+        FiledServContractHeader."Filed By" := USERID;
+        FiledServContractHeader.Name := Name;
+        FiledServContractHeader.Address := Address;
+        FiledServContractHeader."Address 2" := "Address 2";
+        FiledServContractHeader."Post Code" := "Post Code";
+        FiledServContractHeader.City := City;
+        FiledServContractHeader."Bill-to Name" := "Bill-to Name";
+        FiledServContractHeader."Bill-to Address" := "Bill-to Address";
+        FiledServContractHeader."Bill-to Address 2" := "Bill-to Address 2";
+        FiledServContractHeader."Bill-to Post Code" := "Bill-to Post Code";
+        FiledServContractHeader."Bill-to City" := "Bill-to City";
+        FiledServContractHeader."Ship-to Name" := "Ship-to Name";
+        FiledServContractHeader."Ship-to Address" := "Ship-to Address";
+        FiledServContractHeader."Ship-to Address 2" := "Ship-to Address 2";
+        FiledServContractHeader."Ship-to Post Code" := "Ship-to Post Code";
+        FiledServContractHeader."Ship-to City" := "Ship-to City";
+        FiledServContractHeader."Calcd. Annual Amount" := "Calcd. Annual Amount";
+        FiledServContractHeader."Bill-to County" := "Bill-to County";
+        FiledServContractHeader.County := County;
+        FiledServContractHeader."Ship-to County" := "Ship-to County";
+        FiledServContractHeader."Country/Region Code" := "Country/Region Code";
+        FiledServContractHeader."Bill-to Country/Region Code" := "Bill-to Country/Region Code";
+        FiledServContractHeader."Ship-to Country/Region Code" := "Ship-to Country/Region Code";
+        FiledServContractHeader."Name 2" := "Name 2";
+        FiledServContractHeader."Bill-to Name 2" := "Bill-to Name 2";
+        FiledServContractHeader."Ship-to Name 2" := "Ship-to Name 2";
+        FiledServContractHeader.INSERT;
+
+        ServContractLine.RESET;
+        ServContractLine.SETRANGE("Contract Type","Contract Type");
+        ServContractLine.SETRANGE("Contract No.","Contract No.");
+        IF ServContractLine.FIND('-') THEN
+          REPEAT
+            FiledContractLine.INIT;
+            FiledContractLine."Entry No." := FiledServContractHeader."Entry No.";
+            FiledContractLine.TRANSFERFIELDS(ServContractLine);
+            FiledContractLine.INSERT;
+          UNTIL ServContractLine.NEXT = 0;
+      END;
+    END;
+
+    PROCEDURE FileQuotationBeforeSigning@4(ServContract@1000 : Record 5965);
+    BEGIN
+      SigningQuotation := TRUE;
+      FileContract(ServContract);
+      SigningQuotation := FALSE;
+    END;
+
+    PROCEDURE FileContractBeforeCancellation@7(ServContract@1000 : Record 5965);
+    BEGIN
+      CancelContract := TRUE;
+      FileContract(ServContract);
+      CancelContract := FALSE;
+    END;
+
+    PROCEDURE NextInvoicePeriod@8() : Text[250];
+    BEGIN
+      IF ("Next Invoice Period Start" <> 0D) AND ("Next Invoice Period End" <> 0D) THEN
+        EXIT(STRSUBSTNO(Text027,"Next Invoice Period Start","Next Invoice Period End"));
+    END;
+
+    PROCEDURE ShowDimensions@2();
+    BEGIN
+      DimMgt.ShowDimensionSet("Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"Contract No."));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

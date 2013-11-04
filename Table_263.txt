@@ -1,0 +1,259 @@
+OBJECT Table 263 Intrastat Jnl. Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               IntraJnlTemplate.GET("Journal Template Name");
+               IntrastatJnlBatch.GET("Journal Template Name","Journal Batch Name");
+             END;
+
+    OnModify=BEGIN
+               IntrastatJnlBatch.GET("Journal Template Name","Journal Batch Name");
+               IntrastatJnlBatch.TESTFIELD(Reported,FALSE);
+             END;
+
+    OnRename=BEGIN
+               IntrastatJnlBatch.GET(xRec."Journal Template Name",xRec."Journal Batch Name");
+               IntrastatJnlBatch.TESTFIELD(Reported,FALSE);
+             END;
+
+    CaptionML=[ENU=Intrastat Jnl. Line;
+               ESP=L¡n. diario Intrastat;
+               DEA=Intrastat Buch.-Blattzeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Intrastat Jnl. Template";
+                                                   CaptionML=[ENU=Journal Template Name;
+                                                              ESP=Nombre libro diario;
+                                                              DEA=Buch.-Blattvorlagenname] }
+    { 2   ;   ;Journal Batch Name  ;Code10        ;TableRelation="Intrastat Jnl. Batch".Name WHERE (Journal Template Name=FIELD(Journal Template Name));
+                                                   CaptionML=[ENU=Journal Batch Name;
+                                                              ESP=Nombre secci¢n diario;
+                                                              DEA=Buch.-Blattname] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.] }
+    { 4   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Receipt,Shipment;
+                                                                    ESP=Recepci¢n,Env¡o;
+                                                                    DEA=Eingang,Versendungen];
+                                                   OptionString=Receipt,Shipment }
+    { 5   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 6   ;   ;Tariff No.          ;Code20        ;TableRelation="Tariff Number";
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD("Item No.",'');
+                                                                GetItemDescription;
+                                                              END;
+
+                                                   CaptionML=[ENU=Tariff No.;
+                                                              ESP=C¢d. arancelario;
+                                                              DEA=Zollpos.];
+                                                   NotBlank=Yes }
+    { 7   ;   ;Item Description    ;Text50        ;CaptionML=[ENU=Item Description;
+                                                              ESP=Descripci¢n producto;
+                                                              DEA=Artikelbeschreibung] }
+    { 8   ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Country/Region Code;
+                                                              ESP=C¢d. pa¡s/regi¢n;
+                                                              DEA=L„nder-/Regionscode] }
+    { 9   ;   ;Transaction Type    ;Code10        ;TableRelation="Transaction Type";
+                                                   CaptionML=[ENU=Transaction Type;
+                                                              ESP=Naturaleza transacci¢n;
+                                                              DEA=Art des Gesch„ftes] }
+    { 10  ;   ;Transport Method    ;Code10        ;TableRelation="Transport Method";
+                                                   CaptionML=[ENU=Transport Method;
+                                                              ESP=Modo transporte;
+                                                              DEA=Verkehrszweig] }
+    { 11  ;   ;Source Type         ;Option        ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart];
+                                                   OptionCaptionML=[ENU=,Item entry,Job entry;
+                                                                    ESP=,Mov. producto,Mov. proyecto;
+                                                                    DEA=,Artikelbuchung,Projektbuchung];
+                                                   OptionString=,Item entry,Job entry;
+                                                   BlankZero=Yes }
+    { 12  ;   ;Source Entry No.    ;Integer       ;TableRelation=IF (Source Type=CONST(Item entry)) "Item Ledger Entry"
+                                                                 ELSE IF (Source Type=CONST(Job entry)) "Job Ledger Entry";
+                                                   CaptionML=[ENU=Source Entry No.;
+                                                              ESP=N§ orden mov. procedencia;
+                                                              DEA=Herkunft Lfd. Nr.];
+                                                   Editable=No }
+    { 13  ;   ;Net Weight          ;Decimal       ;OnValidate=BEGIN
+                                                                IF Quantity <> 0 THEN
+                                                                  "Total Weight" := ROUND("Net Weight" * Quantity,0.00001)
+                                                                ELSE
+                                                                  "Total Weight" := 0;
+                                                              END;
+
+                                                   CaptionML=[ENU=Net Weight;
+                                                              ESP=Peso neto;
+                                                              DEA=Nettogewicht];
+                                                   DecimalPlaces=2:5 }
+    { 14  ;   ;Amount              ;Decimal       ;OnValidate=BEGIN
+                                                                IF "Cost Regulation %" <> 0 THEN
+                                                                  VALIDATE("Cost Regulation %")
+                                                                ELSE
+                                                                  "Statistical Value" := Amount + "Indirect Cost";
+                                                              END;
+
+                                                   CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   DecimalPlaces=0:0 }
+    { 15  ;   ;Quantity            ;Decimal       ;OnValidate=BEGIN
+                                                                IF (Quantity <> 0) AND Item.GET("Item No.") THEN
+                                                                  VALIDATE("Net Weight",Item."Net Weight")
+                                                                ELSE
+                                                                  VALIDATE("Net Weight",0);
+                                                              END;
+
+                                                   CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:0 }
+    { 16  ;   ;Cost Regulation %   ;Decimal       ;OnValidate=BEGIN
+                                                                "Indirect Cost" := ROUND(Amount * "Cost Regulation %" / 100,1);
+                                                                "Statistical Value" := ROUND(Amount + "Indirect Cost",1);
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Regulation %;
+                                                              ESP=% Coste territorio nacional;
+                                                              DEA=Kosten Zu-/Abschlag %];
+                                                   DecimalPlaces=2:2;
+                                                   MinValue=-100;
+                                                   MaxValue=100 }
+    { 17  ;   ;Indirect Cost       ;Decimal       ;OnValidate=BEGIN
+                                                                "Cost Regulation %" := 0;
+                                                                "Statistical Value" := Amount + "Indirect Cost";
+                                                              END;
+
+                                                   CaptionML=[ENU=Indirect Cost;
+                                                              ESP=Coste indirecto;
+                                                              DEA=Indirekte Kosten];
+                                                   DecimalPlaces=0:0 }
+    { 18  ;   ;Statistical Value   ;Decimal       ;CaptionML=[ENU=Statistical Value;
+                                                              ESP=Valor estad¡stico;
+                                                              DEA=Statistikwert];
+                                                   DecimalPlaces=0:0;
+                                                   Editable=No }
+    { 19  ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 20  ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   OnValidate=VAR
+                                                                CompanyInfo@1140000 : Record 79;
+                                                              BEGIN
+                                                                TESTFIELD("Source Type",0);
+
+                                                                IF "Item No." = '' THEN
+                                                                  CLEAR(Item)
+                                                                ELSE BEGIN
+                                                                  Item.GET("Item No.");
+                                                                  Item.TESTFIELD("Tariff No.");
+                                                                END;
+
+                                                                Name := Item.Description;
+                                                                "Tariff No." := Item."Tariff No.";
+                                                                IF Type = Type::Receipt THEN BEGIN
+                                                                  CompanyInfo.GET;
+                                                                  IF (Item."Country/Region of Origin Code" = CompanyInfo."Country/Region Code") OR
+                                                                     (Item."Country/Region of Origin Code" = '')
+                                                                  THEN
+                                                                    "Country/Region of Origin Code" := "Country/Region Code"
+                                                                  ELSE
+                                                                    "Country/Region of Origin Code" := Item."Country/Region of Origin Code";
+                                                                END;
+                                                                GetItemDescription;
+                                                              END;
+
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=N§ producto;
+                                                              DEA=Artikelnr.] }
+    { 21  ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 22  ;   ;Total Weight        ;Decimal       ;CaptionML=[ENU=Total Weight;
+                                                              ESP=Peso total;
+                                                              DEA=Totalgewicht];
+                                                   DecimalPlaces=0:0;
+                                                   Editable=No }
+    { 23  ;   ;Supplementary Units ;Boolean       ;CaptionML=[ENU=Supplementary Units;
+                                                              ESP=Unidades suplementarias;
+                                                              DEA=Besondere Maáeinheit];
+                                                   Editable=No }
+    { 24  ;   ;Internal Ref. No.   ;Text10        ;CaptionML=[ENU=Internal Ref. No.;
+                                                              ESP=N§ ref. interno;
+                                                              DEA=Interne Referenznr.];
+                                                   Editable=No }
+    { 25  ;   ;Country/Region of Origin Code;Code10;
+                                                   TableRelation=Country/Region;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD(Type,Type::Receipt);
+                                                              END;
+
+                                                   CaptionML=[ENU=Country/Region of Origin Code;
+                                                              ESP=C¢d. pa¡s/regi¢n de origen;
+                                                              DEA=Ursprungsland/-region] }
+    { 26  ;   ;Entry/Exit Point    ;Code10        ;TableRelation="Entry/Exit Point";
+                                                   CaptionML=[ENU=Entry/Exit Point;
+                                                              ESP=Puerto/Aeropuerto;
+                                                              DEA=Hafen] }
+    { 27  ;   ;Area                ;Code10        ;TableRelation=Area;
+                                                   CaptionML=[ENU=Area;
+                                                              ESP=C¢d. provincia;
+                                                              DEA=Bundesland] }
+    { 28  ;   ;Transaction Specification;Code10   ;TableRelation="Transaction Specification";
+                                                   CaptionML=[ENU=Transaction Specification;
+                                                              ESP=Especificaci¢n transacci¢n;
+                                                              DEA=Verfahren] }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Journal Batch Name,Line No.;
+                                                   SumIndexFields=Statistical Value;
+                                                   MaintainSIFTIndex=No;
+                                                   Clustered=Yes }
+    {    ;Source Type,Source Entry No.             }
+    {    ;Type,Country/Region Code,Tariff No.,Transaction Type,Transport Method,Area,Entry/Exit Point,Transaction Specification,Country/Region of Origin Code }
+    {    ;Internal Ref. No.                        }
+    {    ;Journal Template Name,Journal Batch Name,Type,Internal Ref. No. }
+    {    ;Journal Template Name,Journal Batch Name,Type,Country/Region Code,Tariff No.,Transaction Type,Transport Method,Area,Transaction Specification,Country/Region of Origin Code }
+    {    ;Type,Internal Ref. No.                   }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      IntraJnlTemplate@1000 : Record 261;
+      IntrastatJnlBatch@1001 : Record 262;
+      Item@1002 : Record 27;
+      TariffNumber@1003 : Record 260;
+
+    LOCAL PROCEDURE GetItemDescription@1();
+    BEGIN
+      IF "Tariff No." <> '' THEN BEGIN
+        TariffNumber.GET("Tariff No.");
+        "Item Description" := COPYSTR(TariffNumber.Description,1,MAXSTRLEN("Item Description"));
+        "Supplementary Units" := TariffNumber."Supplementary Units";
+      END ELSE
+        "Item Description" := '';
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

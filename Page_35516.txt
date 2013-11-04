@@ -1,0 +1,364 @@
+OBJECT Page 35516 Cash Receipt Journal FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cash Receipt Journal Details;
+               DEA=Zlg.-Eing. Buch.-Bl.-Details];
+    SourceTable=Table81;
+    PageType=CardPart;
+    OnFindRecord=BEGIN
+                   IF FIND(Which) THEN BEGIN
+                     GenJnlManagement.GetAccounts(Rec,AccName,BalAccName);
+                     UpdateBalance;
+                     UpdateInfoBox;
+                   END ELSE BEGIN
+                     PaymentAmt := 0;
+                     AccName := '';
+                     BalAccName := '';
+                     AgeDays := 0;
+                     PaymDiscDays := 0;
+                     DueDays := 0;
+                     OeRemainAmountFC := 0;
+                     PaymDiscDeductAmount := 0;
+                     RemainAfterPayment := 0;
+                     PMTDiscount := 0;
+                     AcceptedPaymentTol := 0;
+                     PostingDate := 0D;
+                     DueDate := 0D;
+                     PmtDiscDate := 0D;
+                     CustPaymtTerm := '';
+                   END;
+                   EXIT(FIND(Which));
+                 END;
+
+    OnAfterGetRecord=BEGIN
+                       GenJnlManagement.GetAccounts(Rec,AccName,BalAccName);
+
+                       UpdateBalance;
+                       UpdateInfoBox;
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1150027;1;Field     ;
+                CaptionML=[ENU=Name;
+                           DEA=Name];
+                SourceExpr=AccName;
+                Editable=FALSE }
+
+    { 1150029;1;Field     ;
+                CaptionML=[ENU=Payment Terms;
+                           DEA=Zahlungsbedingungen];
+                ToolTipML=[ENU=Payment term of customer;
+                           DEA=Zahlungsbedingungen Debitor];
+                SourceExpr=CustPaymtTerm;
+                Editable=FALSE }
+
+    { 1150021;1;Field     ;
+                CaptionML=[ENU=Open Amt.;
+                           DEA=Offener Betr.];
+                ToolTipML=[ENU=Remaining amount of open entry;
+                           DEA=Restbetrag des offenen Postens];
+                SourceExpr=OeRemainAmountFC;
+                Editable=FALSE }
+
+    { 1150022;1;Field     ;
+                CaptionML=[ENU=Payment;
+                           DEA=Zahlung];
+                ToolTipML=[ENU=Payment amount of actual line;
+                           DEA=Zahlungsbetrag der aktuellen Zeile];
+                SourceExpr=PaymentAmt;
+                Editable=FALSE }
+
+    { 1150023;1;Field     ;
+                CaptionML=[ENU=Remaining after Payment;
+                           DEA=Rest nach Zahlung];
+                SourceExpr=RemainAfterPaymentText;
+                CaptionClass=FORMAT(RemainAfterPaymentCaption);
+                Editable=FALSE }
+
+    { 1150010;1;Field     ;
+                CaptionML=[ENU=Pmt. Discount;
+                           DEA=Skonto];
+                ToolTipML=[ENU=Payment discount possible;
+                           DEA=Skonto m”glich];
+                SourceExpr=PMTDiscount;
+                Editable=FALSE }
+
+    { 1150011;1;Field     ;
+                CaptionML=[ENU=Deduction;
+                           DEA=Abzug];
+                ToolTipML=[ENU=Accepted payment discount;
+                           DEA=Akzeptierter Skonto];
+                SourceExpr=PaymDiscDeductAmount;
+                Editable=FALSE }
+
+    { 1150019;1;Field     ;
+                CaptionML=[ENU=Pmt. Tolerance;
+                           DEA=Zahlungstoleranz];
+                ToolTipML=[ENU=Accepted payment tolerance;
+                           DEA=Akzeptierte Zahlungstoleranz];
+                SourceExpr=AcceptedPaymentTol;
+                Editable=FALSE }
+
+    { 1150007;1;Field     ;
+                CaptionML=[ENU=Age;
+                           DEA=Alter];
+                ToolTipML=[ENU=Posting date of open entry;
+                           DEA=Buchungsdatum des offenen Postens];
+                BlankZero=Yes;
+                SourceExpr=PostingDate;
+                Editable=FALSE }
+
+    { 1150005;1;Field     ;
+                CaptionML=[ENU=Age Days;
+                           DEA=Alter Tage];
+                ToolTipML=[ENU=Number of days since posting date of open entry;
+                           DEA=Anz. Tage seit Buchung des offenen Postens];
+                BlankZero=Yes;
+                SourceExpr=AgeDays;
+                Editable=FALSE }
+
+    { 1150006;1;Field     ;
+                CaptionML=[ENU=Due;
+                           DEA=F„llig];
+                ToolTipML=[ENU=Due date of open entry;
+                           DEA=F„lligkeitsdatum des offenen Postens];
+                BlankZero=Yes;
+                SourceExpr=DueDate;
+                Editable=FALSE }
+
+    { 1150004;1;Field     ;
+                CaptionML=[ENU=Due Days;
+                           DEA=F„lligkeit Tage];
+                ToolTipML=[ENU=Number of days until due date of open entry;
+                           DEA=Anz. Tage bis F„lligkeit des offenen Postens];
+                BlankZero=Yes;
+                SourceExpr=DueDays;
+                Editable=FALSE }
+
+    { 1150014;1;Field     ;
+                CaptionML=[ENU=Cash Discount;
+                           DEA=Skonto];
+                ToolTipML=[ENU=Payment disc. date of open entry;
+                           DEA=Skontodatum des offenen Postens];
+                BlankZero=Yes;
+                SourceExpr=PmtDiscDate;
+                Editable=FALSE }
+
+    { 1150015;1;Field     ;
+                CaptionML=[ENU=Cash Discount Days;
+                           DEA=Skonto Tage];
+                ToolTipML=[ENU=Days to payment disc. date;
+                           DEA=Tage bis Skontodatum];
+                BlankZero=Yes;
+                SourceExpr=PaymDiscDays;
+                Editable=FALSE }
+
+    { 1150000;1;Field     ;
+                Name=TotalPayment;
+                CaptionML=[ENU=Payments;
+                           DEA=Zahlungen];
+                ToolTipML=[ENU=Total of payments in local currency;
+                           DEA=Zahlung gesamt in Landesw„hrung];
+                SourceExpr=TotalPayAmount;
+                AutoFormatType=1;
+                Editable=FALSE }
+
+    { 1150001;1;Field     ;
+                Name=Balance;
+                CaptionML=[ENU=Balance;
+                           DEA=Saldo];
+                ToolTipML=[ENU=Balance in LCY to actual line;
+                           DEA=Saldo in MW bis aktuelle Zeile];
+                SourceExpr=Balance;
+                AutoFormatType=1;
+                Editable=FALSE }
+
+    { 1150017;1;Field     ;
+                Name=TotalBalance;
+                CaptionML=[ENU=Total Balance;
+                           DEA=Gesamtsaldo];
+                ToolTipML=[ENU=Total balance in LCY;
+                           DEA=Gesamtsaldo in MW];
+                SourceExpr=TotalBalance;
+                AutoFormatType=1;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      GenJnlManagement@1002 : Codeunit 230;
+      AccName@1005 : Text[50];
+      BalAccName@1006 : Text[50];
+      RemainAfterPaymentCaption@1150001 : Text[30];
+      RemainAfterPaymentText@1150004 : Text[30];
+      Balance@1007 : Decimal;
+      TotalBalance@1008 : Decimal;
+      CustLedgEntry@1150019 : Record 21;
+      Cust@1150020 : Record 18;
+      AgeDays@1150021 : Integer;
+      PaymDiscDays@1150022 : Integer;
+      DueDays@1150023 : Integer;
+      OeRemainAmountFC@1150024 : Decimal;
+      PaymDiscDeductAmount@1150026 : Decimal;
+      RemainAfterPayment@1150027 : Decimal;
+      TotalPayAmount@1150028 : Decimal;
+      PMTDiscount@1150002 : Decimal;
+      AcceptedPaymentTol@1150003 : Decimal;
+      Text001@1150000 : TextConst 'ENU=Remaining after Payment;DEA=Rest nach Zahlung';
+      Text002@1150005 : TextConst 'ENU=<Precision,2:2><Standard Format,0>;DEA=<Precision,2:2><Standard Format,0>';
+      PaymentAmt@1150029 : Decimal;
+      PostingDate@1150030 : Date;
+      DueDate@1150031 : Date;
+      PmtDiscDate@1150032 : Date;
+      CustPaymtTerm@1150033 : Code[10];
+
+    LOCAL PROCEDURE UpdateBalance@1();
+    VAR
+      GenJnlLine@1150001 : Record 81;
+      LineNo@1150000 : Integer;
+    BEGIN
+      Balance := 0;
+      TotalBalance := 0;
+      TotalPayAmount := 0;
+      PaymentAmt := -Amount;
+
+      LineNo := "Line No.";
+
+      GenJnlLine.SETCURRENTKEY("Journal Template Name","Journal Batch Name","Account Type","Document Type");
+      GenJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+      GenJnlLine.SETRANGE("Journal Batch Name","Journal Batch Name");
+      IF GenJnlLine.FINDSET THEN
+        REPEAT
+          TotalBalance := TotalBalance + GenJnlLine."Balance (LCY)";
+          IF GenJnlLine."Line No." <= LineNo THEN
+            Balance := Balance + GenJnlLine."Balance (LCY)";
+          IF (GenJnlLine."Document Type" = GenJnlLine."Document Type"::Payment) AND
+             (GenJnlLine."Account Type" = GenJnlLine."Account Type"::Customer)
+          THEN
+            TotalPayAmount := TotalPayAmount - GenJnlLine."Amount (LCY)";
+        UNTIL GenJnlLine.NEXT = 0
+    END;
+
+    PROCEDURE UpdateInfoBox@2();
+    VAR
+      ExchRate@1150000 : Record 330;
+      Currency@1150001 : Record 4;
+    BEGIN
+      AgeDays := 0;
+      PaymDiscDays := 0;
+      DueDays := 0;
+      OeRemainAmountFC := 0;
+      PaymDiscDeductAmount := 0;
+      RemainAfterPayment := 0;
+      PMTDiscount := 0;
+      AcceptedPaymentTol := 0;
+      RemainAfterPaymentCaption := Text001;
+      RemainAfterPaymentText := FORMAT(0.0,0,Text002);
+      PostingDate := 0D;
+      DueDate := 0D;
+      PmtDiscDate := 0D;
+      CustPaymtTerm := '';
+
+      CustLedgEntry.INIT;
+      Cust.INIT;
+
+      IF "Applies-to Doc. No." = '' THEN
+        EXIT;
+      CustLedgEntry.SETCURRENTKEY("Document No.");
+      CustLedgEntry.SETRANGE("Document Type","Applies-to Doc. Type");
+      CustLedgEntry.SETRANGE("Document No.","Applies-to Doc. No.");
+      IF NOT CustLedgEntry.FINDFIRST THEN
+        EXIT;
+
+      IF Currency.READPERMISSION THEN
+        IF Currency.GET("Currency Code") THEN
+          Currency.InitRoundingPrecision;
+
+      IF NOT Cust.GET(CustLedgEntry."Customer No.") THEN;
+      CustPaymtTerm := Cust."Payment Terms Code";
+
+      // Calculate Days for Age, Payment Discount
+      IF "Posting Date" > 0D THEN BEGIN
+        PostingDate := CustLedgEntry."Posting Date";
+        DueDate := CustLedgEntry."Due Date";
+        PmtDiscDate := CustLedgEntry."Pmt. Discount Date";
+        IF CustLedgEntry."Posting Date" > 0D THEN
+          AgeDays := "Posting Date" - CustLedgEntry."Posting Date";
+        IF CustLedgEntry."Pmt. Discount Date" > 0D THEN
+          PaymDiscDays := CustLedgEntry."Pmt. Discount Date" - "Posting Date";
+        IF CustLedgEntry."Due Date" > 0D THEN
+          DueDays := CustLedgEntry."Due Date" - "Posting Date";
+      END;
+
+      CustLedgEntry.CALCFIELDS("Remaining Amount","Remaining Amt. (LCY)");
+      OeRemainAmountFC := CustLedgEntry."Remaining Amount";
+      PMTDiscount :=
+        ExchRate.ExchangeAmtFCYToFCY("Posting Date",CustLedgEntry."Currency Code",
+          "Currency Code",CustLedgEntry."Remaining Pmt. Disc. Possible");
+      PMTDiscount := ROUND(PMTDiscount,Currency."Amount Rounding Precision");
+
+      // calculate FC-amount of open entries and remaining amount
+      IF CustLedgEntry."Currency Code" <> "Currency Code" THEN BEGIN
+        OeRemainAmountFC :=
+          ExchRate.ExchangeAmtLCYToFCY("Posting Date","Currency Code",CustLedgEntry."Remaining Amt. (LCY)","Currency Factor");
+        OeRemainAmountFC := ROUND(OeRemainAmountFC,Currency."Amount Rounding Precision");
+      END;
+
+      IF (CustLedgEntry."Pmt. Discount Date" >= "Posting Date") OR
+         ((CustLedgEntry."Pmt. Disc. Tolerance Date" >= "Posting Date") AND
+          CustLedgEntry."Accepted Pmt. Disc. Tolerance")
+      THEN BEGIN
+        PaymDiscDeductAmount := CustLedgEntry."Remaining Pmt. Disc. Possible";
+        IF CustLedgEntry."Currency Code" <> "Currency Code" THEN
+          PaymDiscDeductAmount :=
+            ExchRate.ExchangeAmtFCYToFCY(
+              "Posting Date",CustLedgEntry."Currency Code","Currency Code",PaymDiscDeductAmount);
+      END;
+      PaymDiscDeductAmount := ROUND(PaymDiscDeductAmount,Currency."Amount Rounding Precision");
+
+      // Accepted Payment Tolerance
+      AcceptedPaymentTol := CustLedgEntry."Accepted Payment Tolerance";
+      IF CustLedgEntry."Currency Code" <> "Currency Code" THEN
+        AcceptedPaymentTol :=
+          ExchRate.ExchangeAmtFCYToFCY(
+            "Posting Date",CustLedgEntry."Currency Code","Currency Code",AcceptedPaymentTol);
+      AcceptedPaymentTol := ROUND(AcceptedPaymentTol,Currency."Amount Rounding Precision");
+
+      RemainAfterPayment :=
+        OeRemainAmountFC - -Amount - PaymDiscDeductAmount - AcceptedPaymentTol;
+      RemainAfterPaymentText := FORMAT(RemainAfterPayment,0,Text002);
+
+      IF ("Currency Code" <> CustLedgEntry."Currency Code") AND
+         (("Currency Code" <> '') AND (CustLedgEntry."Currency Code" <> ''))
+      THEN BEGIN
+        RemainAfterPaymentCaption := '';
+        RemainAfterPaymentText := '';
+        EXIT;
+      END;
+
+      // Pmt. Disc is not applied if entry is not closed
+      IF RemainAfterPayment > 0 THEN BEGIN
+        RemainAfterPayment := RemainAfterPayment + PaymDiscDeductAmount;
+        RemainAfterPaymentText := FORMAT(RemainAfterPayment,0,Text002);
+        PaymDiscDeductAmount := 0;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

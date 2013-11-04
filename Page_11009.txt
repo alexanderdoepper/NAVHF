@@ -1,0 +1,78 @@
+OBJECT Page 11009 Data Exp. Field List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Data Export Field List;
+               DEA=FeldÅbersicht fÅr Datenexport];
+    SourceTable=Table2000000041;
+    DataCaptionExpr=GetCaption;
+    SourceTableView=SORTING(TableNo,No.);
+    PageType=List;
+    OnAfterGetRecord=BEGIN
+                       IF Class = Class::FlowField THEN
+                         ClassColumnStyle := 'StandardAccent'
+                       ELSE
+                         ClassColumnStyle := 'Normal';
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                CaptionML=[ENU=Field No.;
+                           DEA=Feldnr.];
+                SourceExpr="No.";
+                StyleExpr=ClassColumnStyle }
+
+    { 1140003;2;Field     ;
+                CaptionML=[ENU=Field Name;
+                           DEA=Feldname];
+                SourceExpr="Field Caption";
+                StyleExpr=ClassColumnStyle }
+
+    { 1140005;2;Field     ;
+                CaptionML=[ENU=Type;
+                           DEA=Typ];
+                SourceExpr=Type;
+                StyleExpr=ClassColumnStyle }
+
+    { 1140002;2;Field     ;
+                CaptionML=[ENU=Class;
+                           DEA=Klasse];
+                SourceExpr=Class;
+                StyleExpr=ClassColumnStyle }
+
+  }
+  CODE
+  {
+    VAR
+      ClassColumnStyle@1140001 : Text[30];
+
+    LOCAL PROCEDURE GetCaption@1140000() : Text[250];
+    VAR
+      AllObjWithCaption@1140000 : Record 2000000058;
+    BEGIN
+      IF AllObjWithCaption.GET(AllObjWithCaption."Object Type"::Table,TableNo) THEN
+        EXIT(FORMAT(TableNo) + ' ' + AllObjWithCaption."Object Caption");
+
+      EXIT('');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

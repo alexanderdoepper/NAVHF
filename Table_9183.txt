@@ -1,0 +1,132 @@
+OBJECT Table 9183 Generic Chart Query Column
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Generic Chart Query Column;
+               ESP=Columna de consultas de gr fico gen‚rico;
+               DEA=Allgemeines Diagramm - Abfragespalte];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Query No.           ;Integer       ;CaptionML=[ENU=Query No.;
+                                                              ESP=N.§ consulta;
+                                                              DEA=Abfragenr.] }
+    { 2   ;   ;Query Column No.    ;Integer       ;CaptionML=[ENU=Query Column No.;
+                                                              ESP=N.§ columna consultas;
+                                                              DEA=Abfragespaltennr.] }
+    { 3   ;   ;Column Name         ;Text50        ;CaptionML=[ENU=Column Name;
+                                                              ESP=Nombre columna;
+                                                              DEA=Spaltenname] }
+    { 4   ;   ;Column Data Type    ;Option        ;CaptionML=[ENU=Column Data Type;
+                                                              ESP=Tipo de datos de columna;
+                                                              DEA=Spaltendatentyp];
+                                                   OptionCaptionML=[ENU=Date,Time,DateFormula,Decimal,Text,Code,Binary,Boolean,Integer,Option,BigInteger,DateTime;
+                                                                    ESP=Fecha,Hora,F¢rmulaFecha,Decimal,Texto,C¢digo,Binario,Booleano,N£meroEntero,Opci¢n,N£meroEnteroGrande,FechaHora;
+                                                                    DEA=Datum,Uhrzeit,Datumsformel,Dezimalzahl,Text,Code,Bin„r,Boolesch,Ganzzahl,Option,BigInteger,DateTime];
+                                                   OptionString=Date,Time,DateFormula,Decimal,Text,Code,Binary,Boolean,Integer,Option,BigInteger,DateTime }
+    { 5   ;   ;Column Type         ;Option        ;CaptionML=[ENU=Column Type;
+                                                              ESP=Tipo columna;
+                                                              DEA=Spaltenart];
+                                                   OptionCaptionML=[ENU=Filter Column,Column;
+                                                                    ESP=Columna filtro,Columna;
+                                                                    DEA=Filterspalte,Spalte];
+                                                   OptionString=Filter Column,Column }
+    { 6   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 7   ;   ;Aggregation Type    ;Option        ;CaptionML=[ENU=Aggregation Type;
+                                                              ESP=Tipo de agregaci¢n;
+                                                              DEA=Aggregationsart];
+                                                   OptionCaptionML=[ENU=None,Count,Sum,Min,Max,Avg;
+                                                                    ESP=Ninguno,Recuento,Suma,M¡n,M x,Medio;
+                                                                    DEA=Kein,Anzahl,Summe,Min,Max,Durchschn];
+                                                   OptionString=None,Count,Sum,Min,Max,Avg }
+  }
+  KEYS
+  {
+    {    ;Query No.,Query Column No.,Entry No.    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst '@@@=NONE;ENU=NONE;ESP=NONE;DEA=KEINE';
+      Text001@1001 : TextConst '@@@=COUNT;ENU=COUNT;ESP=COUNT;DEA=ANZAHL';
+      Text002@1002 : TextConst '@@@=SUM;ENU=SUM;ESP=SUM;DEA=SUMME';
+      Text003@1003 : TextConst '@@@=MIN;ENU=MIN;ESP=MIN;DEA=MIN';
+      Text004@1004 : TextConst '@@@=MAX;ENU=MAX;ESP=MAX;DEA=MAX';
+      Text005@1005 : TextConst '@@@=AVERAGE;ENU=AVERAGE;ESP=AVERAGE;DEA=DURCHSCHNITT';
+      Text006@1006 : TextConst '@@@=Date;ENU=Date;ESP=Fecha;DEA=Datum';
+      Text007@1007 : TextConst '@@@=Time;ENU=Time;ESP=Hora;DEA=Zeit';
+      Text008@1008 : TextConst '@@@=DateFormula;ENU=DateFormula;ESP=DateFormula;DEA=DateFormula';
+      Text009@1009 : TextConst '@@@=Decimal;ENU=Decimal;ESP=Decimal;DEA=Dezimal';
+      Text010@1010 : TextConst '@@@=Text;ENU=Text;ESP=Texto;DEA=Text';
+      Text011@1011 : TextConst '@@@=Code;ENU=Code;ESP=C¢digo;DEA=Code';
+      Text012@1012 : TextConst '@@@=Binary;ENU=Binary;ESP=Binario;DEA=Bin„r';
+      Text013@1013 : TextConst '@@@=Boolean;ENU=Boolean;ESP=Booleano;DEA=Boolean';
+      Text014@1014 : TextConst '@@@=Integer;ENU=Integer;ESP=Entero;DEA=Ganzzahl';
+      Text015@1015 : TextConst '@@@=Option;ENU=Option;ESP=Opci¢n;DEA=Option';
+      Text016@1016 : TextConst '@@@=BigInteger;ENU=BigInteger;ESP=BigInteger;DEA=BigInteger';
+      Text017@1017 : TextConst '@@@=DateTime;ENU=DateTime;ESP=DateTime;DEA=DateTime';
+
+    PROCEDURE SetAggregationType@34(InputTxt@1000 : Text);
+    BEGIN
+      CASE UPPERCASE(InputTxt) OF
+        Text000:
+          "Aggregation Type" := "Aggregation Type"::None;
+        Text001:
+          "Aggregation Type" := "Aggregation Type"::Count;
+        Text002:
+          "Aggregation Type" := "Aggregation Type"::Sum;
+        Text003:
+          "Aggregation Type" := "Aggregation Type"::Min;
+        Text004:
+          "Aggregation Type" := "Aggregation Type"::Max;
+        Text005:
+          "Aggregation Type" := "Aggregation Type"::Avg;
+      END;
+    END;
+
+    PROCEDURE SetColumnDataType@1(DType@1000 : Text);
+    BEGIN
+      CASE DType OF
+        Text006:
+          "Column Data Type" := "Column Data Type"::Date;
+        Text007:
+          "Column Data Type" := "Column Data Type"::Time;
+        Text008:
+          "Column Data Type" := "Column Data Type"::DateFormula;
+        Text009:
+          "Column Data Type" := "Column Data Type"::Decimal;
+        Text010:
+          "Column Data Type" := "Column Data Type"::Text;
+        Text011:
+          "Column Data Type" := "Column Data Type"::Code;
+        Text012:
+          "Column Data Type" := "Column Data Type"::Binary;
+        Text013:
+          "Column Data Type" := "Column Data Type"::Boolean;
+        Text014:
+          "Column Data Type" := "Column Data Type"::Integer;
+        Text015:
+          "Column Data Type" := "Column Data Type"::Option;
+        Text016:
+          "Column Data Type" := "Column Data Type"::BigInteger;
+        Text017:
+          "Column Data Type" := "Column Data Type"::DateTime;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

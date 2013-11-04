@@ -1,0 +1,57 @@
+OBJECT Table 7111 Analysis Report Name
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Name,Description;
+    CaptionML=[ENU=Analysis Report Name;
+               ESP=Nombre del informe de an lisis;
+               DEA=Analyseberichtsname];
+    LookupPageID=Page7116;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Analysis Area       ;Option        ;CaptionML=[ENU=Analysis Area;
+                                                              ESP=µrea an lisis;
+                                                              DEA=Analysebereich];
+                                                   OptionCaptionML=[ENU=Sales,Purchase,Inventory;
+                                                                    ESP=Ventas,Compra,Inventario;
+                                                                    DEA=Verkauf,Einkauf,Lager];
+                                                   OptionString=Sales,Purchase,Inventory }
+    { 2   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Analysis Line Template Name;Code10 ;TableRelation="Analysis Line Template".Name WHERE (Analysis Area=FIELD(Analysis Area));
+                                                   CaptionML=[ENU=Analysis Line Template Name;
+                                                              ESP=L¡nea an lisis: nombre plant.;
+                                                              DEA=Analysezeilenvorlagenname] }
+    { 5   ;   ;Analysis Column Template Name;Code10;
+                                                   TableRelation="Analysis Column Template".Name WHERE (Analysis Area=FIELD(Analysis Area));
+                                                   CaptionML=[ENU=Analysis Column Template Name;
+                                                              ESP=Nombre plant. an lisis columna;
+                                                              DEA=Analysespaltenvorlagenname] }
+  }
+  KEYS
+  {
+    {    ;Analysis Area,Name                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

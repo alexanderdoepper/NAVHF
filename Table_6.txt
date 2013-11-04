@@ -1,0 +1,56 @@
+OBJECT Table 6 Customer Price Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Customer Price Group;
+               ESP=Grupo precio cliente;
+               DEA=Debitorenpreisgruppe];
+    LookupPageID=Page7;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Price Includes VAT  ;Boolean       ;CaptionML=[ENU=Price Includes VAT;
+                                                              ESP=Precio IVA incluido;
+                                                              DEA=VK-Preis inkl. MwSt.] }
+    { 5   ;   ;Allow Invoice Disc. ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Allow Invoice Disc.;
+                                                              ESP=Permitir dto. factura;
+                                                              DEA=Rech.-Rabatt zulassen] }
+    { 6   ;   ;VAT Bus. Posting Gr. (Price);Code10;TableRelation="VAT Business Posting Group";
+                                                   CaptionML=[ENU=VAT Bus. Posting Gr. (Price);
+                                                              ESP=Gr.regis. IVA negocio (precio);
+                                                              DEA=MwSt.-Gesch„ftsbuch.-G.(Preis)] }
+    { 10  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 7001;   ;Allow Line Disc.    ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Allow Line Disc.;
+                                                              ESP=Permite dto. l¡nea;
+                                                              DEA=Zeilenrabatt zulassen] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Allow Invoice Disc.,Allow Line Disc. }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

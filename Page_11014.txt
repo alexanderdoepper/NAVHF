@@ -1,0 +1,38 @@
+OBJECT Page 11014 Data Export Record Types
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Record Types;
+               DEA=Datensatztypen fÅr Datenexport];
+    SourceTable=Table11007;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr=Code }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Description }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

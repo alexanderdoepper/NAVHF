@@ -1,0 +1,80 @@
+OBJECT Table 314 Resources Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Resources Setup;
+               ESP=Config. recursos;
+               DEA=Ressourcen Einr.];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Resource Nos.       ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Resource Nos.;
+                                                              ESP=Nß serie recurso;
+                                                              DEA=Ressourcennummern] }
+    { 950 ;   ;Time Sheet Nos.     ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Time Sheet Nos.;
+                                                              ESP=N£ms. hojas horas;
+                                                              DEA=Arbeitszeittabellennummern] }
+    { 951 ;   ;Time Sheet First Weekday;Option    ;OnValidate=BEGIN
+                                                                IF "Time Sheet First Weekday" <> xRec."Time Sheet First Weekday" THEN BEGIN
+                                                                  TimeSheetHeader.RESET;
+                                                                  IF NOT TimeSheetHeader.ISEMPTY THEN
+                                                                    ERROR(Text002,FIELDCAPTION("Time Sheet First Weekday"));
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Time Sheet First Weekday;
+                                                              ESP=Primer d°a laboral hoja horas;
+                                                              DEA=Erster Wochentag fÅr Arbeitszeittabelle];
+                                                   OptionCaptionML=[ENU=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday;
+                                                                    ESP=Lunes,Martes,MiÇrcoles,Jueves,Viernes,S†bado,Domingo;
+                                                                    DEA=Montag,Dienstag,Mittwoch,Donnerstag,Freitag,Samstag,Sonntag];
+                                                   OptionString=Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday }
+    { 952 ;   ;Time Sheet by Job Approval;Option  ;OnValidate=BEGIN
+                                                                IF "Time Sheet by Job Approval" <> xRec."Time Sheet by Job Approval" THEN BEGIN
+                                                                  TimeSheetLine.RESET;
+                                                                  TimeSheetLine.SETRANGE(Type,TimeSheetLine.Type::Job);
+                                                                  TimeSheetLine.SETRANGE(Status,TimeSheetLine.Status::Submitted);
+                                                                  IF NOT TimeSheetLine.ISEMPTY THEN
+                                                                    ERROR(Text001,FIELDCAPTION("Time Sheet by Job Approval"));
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Time Sheet by Job Approval;
+                                                              ESP=Hojas horas por aprob. proyecto;
+                                                              DEA=Arbeitszeittabelle nach Projektgenehmigung];
+                                                   OptionCaptionML=[ENU=Never,Machine Only,Always;
+                                                                    ESP=Nunca,Solo m†quina,Siempre;
+                                                                    DEA=Nie,Nur Maschine,Immer];
+                                                   OptionString=Never,Machine Only,Always }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      TimeSheetHeader@1002 : Record 950;
+      TimeSheetLine@1000 : Record 951;
+      Text001@1001 : TextConst 'ENU="%1 cannot be changed, because there is at least one submitted time sheet line with Type=Job.";ESP="%1 no se puede cambiar porque existe al menos una l°nea de hoja de horas enviada con Tipo=Proyecto.";DEA=''%1'' kann nicht geÑndert werden, da mindestens eine Åbermittelte Arbeitszeittabelle mit der Zeilenart ''Projekt'' vorhanden ist.';
+      Text002@1003 : TextConst 'ENU=%1 cannot be changed, because there is at least one time sheet.;ESP=%1 no se puede cambiar porque existe al menos una hoja de horas.;DEA=''%1'' kann nicht geÑndert werden, da mindestens eine Arbeitszeittabelle vorhanden ist.';
+
+    BEGIN
+    END.
+  }
+}
+

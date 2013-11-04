@@ -1,0 +1,48 @@
+OBJECT Table 5005275 Delivery Reminder Comment Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Comment Line;
+               DEA=Lieferanmahnung-Bemerkungen];
+    LookupPageID=Page5005278;
+    DrillDownPageID=Page5005278;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=Delivery Reminder,Issued Delivery Reminder;
+                                                                    DEA=Lieferanmahnung,Registrierte Lieferanmahnung];
+                                                   OptionString=Delivery Reminder,Issued Delivery Reminder }
+    { 2   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              DEA=Nr.] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.] }
+    { 4   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              DEA=Datum] }
+    { 5   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code] }
+    { 6   ;   ;Comment             ;Text80        ;CaptionML=[ENU=Comment;
+                                                              DEA=Bemerkung] }
+  }
+  KEYS
+  {
+    {    ;Document Type,No.,Line No.              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

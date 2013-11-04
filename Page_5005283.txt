@@ -1,0 +1,52 @@
+OBJECT Page 5005283 Delivery Reminder Text
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Text;
+               DEA=Lieferanmahnungstext];
+    SaveValues=Yes;
+    MultipleNewLines=Yes;
+    SourceTable=Table5005278;
+    DelayedInsert=Yes;
+    DataCaptionFields=Reminder Level,Position;
+    PageType=List;
+    AutoSplitKey=Yes;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Reminder Terms Code";
+                Visible=FALSE }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Reminder Level";
+                Visible=FALSE }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Position;
+                Visible=FALSE }
+
+    { 1140007;2;Field     ;
+                SourceExpr=Description }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

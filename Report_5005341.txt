@@ -1,0 +1,129 @@
+OBJECT Report 5005341 Issue Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Issue Delivery Reminder;
+               DEA=Lieferanmahnung registrieren];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IF ReplacePostingDate AND (PostingDateReq = 0D) THEN
+                    ERROR(Text1140000);
+                END;
+
+    OnPostReport=BEGIN
+                   COMMIT;
+
+                   IF PrintDoc THEN BEGIN
+                     IssuedDeliveryReminderHeader.MARKEDONLY := TRUE;
+                     IF IssuedDeliveryReminderHeader.FIND('-') THEN
+                       REPEAT
+                         PrintDocumentProfessional.IssuedDeliveryRemindPrint(IssuedDeliveryReminderHeader,FALSE);
+                       UNTIL IssuedDeliveryReminderHeader.NEXT = 0;
+                   END;
+
+                   COMMIT;
+
+                   "Delivery Reminder Header".MARKEDONLY := TRUE;
+                   IF (NoOfRecords <> 1) AND "Delivery Reminder Header".FIND('-') THEN
+                     IF CONFIRM(
+                          Text1140001 +
+                          Text1140002,
+                          TRUE)
+                     THEN
+                       PAGE.RUNMODAL(0,"Delivery Reminder Header");
+                 END;
+
+  }
+  DATASET
+  {
+    { 3066;    ;DataItem;                    ;
+               DataItemTable=Table5005270;
+               OnPreDataItem=BEGIN
+                               NoOfRecords := COUNT;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IssueDeliveryReminder.Set("Delivery Reminder Header",ReplacePostingDate,PostingDateReq);
+
+                                  IF NoOfRecords = 1 THEN BEGIN
+                                    IssueDeliveryReminder.RUN;
+                                    MARK := FALSE;
+                                    IssueDeliveryReminder.GetIssDelivReminHeader(IssuedDeliveryReminderHeader);
+                                    IssuedDeliveryReminderHeader.MARK := TRUE;
+                                  END ELSE BEGIN
+                                    IF IssueDeliveryReminder.RUN THEN BEGIN
+                                      IssueDeliveryReminder.GetIssDelivReminHeader(IssuedDeliveryReminderHeader);
+                                      IssuedDeliveryReminderHeader.MARK := TRUE;
+                                    END ELSE
+                                      MARK := TRUE;
+                                  END;
+                                END;
+
+               ReqFilterFields=No.,Vendor No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  Name=PrintDoc;
+                  CaptionML=[ENU=Print;
+                             DEA=Drucken];
+                  SourceExpr=PrintDoc }
+
+      { 2   ;2   ;Field     ;
+                  Name=ReplacePostingDate;
+                  CaptionML=[ENU=Replace Posting Date;
+                             DEA=Buchungsdatum ersetzen];
+                  SourceExpr=ReplacePostingDate }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=Posting Date;
+                             DEA=Buchungsdatum];
+                  SourceExpr=PostingDateReq }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Please enter the posting date.;DEA=Bitte das Buchungsdatum eingeben.';
+      Text1140001@1140001 : TextConst 'ENU=It wa not possible to issue some of the selected Delivery Reminders.\\;DEA=Es war nicht m”glich, einige der ausgew„hlten Lieferanmahnungen zu registrieren\\';
+      Text1140002@1140002 : TextConst 'ENU=Would you like to see these Delivery Reminders?;DEA=M”chten Sie diese Lieferanmahnungen sehen?';
+      IssuedDeliveryReminderHeader@1140003 : Record 5005272;
+      IssueDeliveryReminder@1140004 : Codeunit 5005270;
+      PrintDocumentProfessional@1140005 : Codeunit 5005396;
+      PostingDateReq@1140006 : Date;
+      ReplacePostingDate@1140007 : Boolean;
+      PrintDoc@1140008 : Boolean;
+      NoOfRecords@1140009 : Integer;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

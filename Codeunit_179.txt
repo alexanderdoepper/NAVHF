@@ -1,0 +1,82 @@
+OBJECT Codeunit 179 Reversal-Post
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    TableNo=179;
+    OnRun=VAR
+            GLReg@1003 : Record 45;
+            GenJnlTemplate@1002 : Record 80;
+            GenJnlPostLine@1001 : Codeunit 12;
+            Txt@1004 : Text[1024];
+            WarningText@1000 : Text[250];
+            Number@1005 : Integer;
+          BEGIN
+            RESET;
+            SETRANGE("Entry Type","Entry Type"::"Fixed Asset");
+            IF FINDFIRST THEN
+              WarningText := Text007;
+            SETRANGE("Entry Type");
+            IF PrintRegister THEN
+              Txt := Text004 + WarningText + '\' + Text005
+            ELSE
+              Txt := Text004 + WarningText + '\' + Text002;
+            IF NOT FINDFIRST THEN
+              ERROR(Text006);
+            IF CONFIRM(Txt,FALSE) THEN BEGIN
+              ReversalEntry := Rec;
+              IF "Reversal Type" = "Reversal Type"::Transaction THEN
+                ReversalEntry.SetReverseFilter("Transaction No.","Reversal Type")
+              ELSE
+                ReversalEntry.SetReverseFilter("G/L Register No.","Reversal Type");
+              ReversalEntry.CheckEntries;
+              GET(1);
+              IF "Reversal Type" = "Reversal Type"::Register THEN
+                Number := "G/L Register No."
+              ELSE
+                Number := "Transaction No.";
+              IF NOT ReversalEntry.VerifyReversalEntries(Rec,Number,"Reversal Type") THEN
+                ERROR(Text008);
+              GenJnlPostLine.Reverse(ReversalEntry,Rec);
+              IF PrintRegister THEN BEGIN
+                GenJnlTemplate.VALIDATE(Type);
+                IF GenJnlTemplate."Posting Report ID" <> 0 THEN
+                  IF GLReg.FINDLAST THEN BEGIN;
+                    GLReg.SETRECFILTER;
+                    REPORT.RUN(GenJnlTemplate."Posting Report ID",FALSE,FALSE,GLReg);
+                  END;
+              END;
+              DELETEALL;
+              MESSAGE(Text003);
+            END;
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text002@1007 : TextConst 'ENU=Do you want to reverse the entries?;ESP=®Desea revertir estos movimientos?;DEA=Sollen die Posten storniert werden?';
+      Text003@1005 : TextConst 'ENU=The entries were successfully reversed.;ESP=Movimientos revertidos correctamente.;DEA=Die Posten wurden erfolgreich storniert.';
+      Text004@1012 : TextConst 'ENU=To reverse these entries, correcting entries will be posted.;ESP=Para revertir los movimientos, se registrar†n los movimientos que los corrijan.;DEA=Zum Stornieren der Posten werden Korrekturposten gebucht.';
+      Text005@1000 : TextConst 'ENU=Do you want to reverse the entries and print the report?;ESP=®Desea revertir los movimientos e imprimir el informe?;DEA=Mîchten Sie die Posten stornieren und den Bericht drucken?';
+      Text006@1001 : TextConst 'ENU=There is nothing to reverse.;ESP=No hay movimientos para revertir.;DEA=Es kann nichts storniert werden.';
+      Text007@1004 : TextConst 'ENU=\There are one or more FA Ledger Entries. You should consider using the fixed asset function Cancel Entries.;ESP=\Hay uno o varios movimientos de A/F. Es recomendable usar la funci¢n de activos fijos de cancelar movimientos.;DEA=\Es ist mindestens ein Anlagenposten vorhanden. Verwenden Sie ggf. die Funktion ''Posten stornieren'' fÅr Anlagen.';
+      Text008@1003 : TextConst 'ENU=Changes have been made to posted entries after the window was opened.\Close and reopen the window to continue.;ESP=Se han modificado entradas registradas despuÇs de abrir la ventana.\Cierre la ventana y vuelva a abrirla para continuar.;DEA=Nach dem ôffnen des Fensters wurden énderungen an gebuchten Posten vorgenommen.\Schlie·en Sie das Fenster, und îffnen Sie es anschlie·end erneut, um den Vorgang fortzusetzen.';
+      ReversalEntry@1002 : Record 179;
+      PrintRegister@1009 : Boolean;
+
+    PROCEDURE SetPrint@1000(NewPrintRegister@1001 : Boolean);
+    BEGIN
+      PrintRegister := NewPrintRegister;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

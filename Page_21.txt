@@ -1,0 +1,903 @@
+OBJECT Page 21 Customer Card
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Customer Card;
+               ESP=Ficha cliente;
+               DEA=Debitorenkarte];
+    SourceTable=Table18;
+    PageType=Card;
+    RefreshOnActivate=Yes;
+    OnInit=BEGIN
+             ContactEditable := TRUE;
+             MapPointVisible := TRUE;
+           END;
+
+    OnOpenPage=VAR
+                 MapMgt@1000 : Codeunit 802;
+               BEGIN
+                 ActivateFields;
+                 IF NOT MapMgt.TestSetup THEN
+                   MapPointVisible := FALSE;
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       ActivateFields;
+                       StyleTxt := SetStyle;
+                     END;
+
+    OnAfterGetCurrRecord=BEGIN
+                           ActivateFields;
+                           StyleTxt := SetStyle;
+                         END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 74      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Customer;
+                                 ESP=&Cliente;
+                                 DEA=D&ebitor];
+                      Image=Customer }
+      { 84      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESP=Dimensiones;
+                                 DEA=Dimensionen];
+                      RunObject=Page 540;
+                      RunPageLink=Table ID=CONST(18),
+                                  No.=FIELD(No.);
+                      Image=Dimensions }
+      { 99      ;2   ;Action    ;
+                      CaptionML=[ENU=Bank Accounts;
+                                 ESP=Bancos;
+                                 DEA=Bankkonten];
+                      RunObject=Page 424;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=BankAccount }
+      { 81      ;2   ;Action    ;
+                      CaptionML=[ENU=Ship-&to Addresses;
+                                 ESP=Di&recci¢n env°o;
+                                 DEA=&Lief. an Adressen];
+                      RunObject=Page 301;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=ShipAddress }
+      { 14      ;2   ;Action    ;
+                      CaptionML=[ENU=C&ontact;
+                                 ESP=&Contacto;
+                                 DEA=Ko&ntakt];
+                      Image=ContactPerson;
+                      OnAction=BEGIN
+                                 ShowContact;
+                               END;
+                                }
+      { 94      ;2   ;Action    ;
+                      CaptionML=[ENU=Cross Re&ferences;
+                                 ESP=Referencias cru&zadas;
+                                 DEA=Re&ferenzen];
+                      RunObject=Page 5723;
+                      RunPageView=SORTING(Cross-Reference Type,Cross-Reference Type No.);
+                      RunPageLink=Cross-Reference Type=CONST(Customer),
+                                  Cross-Reference Type No.=FIELD(No.);
+                      Image=Change }
+      { 78      ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mments;
+                                 ESP=C&omentarios;
+                                 DEA=Be&merkungen];
+                      RunObject=Page 124;
+                      RunPageLink=Table Name=CONST(Customer),
+                                  No.=FIELD(No.);
+                      Image=ViewComments }
+      { 118     ;2   ;Action    ;
+                      CaptionML=[ENU=Online Map;
+                                 ESP=Online Map;
+                                 DEA=Online Map];
+                      Image=Map;
+                      OnAction=BEGIN
+                                 DisplayMap;
+                               END;
+                                }
+      { 5       ;1   ;ActionGroup;
+                      CaptionML=[ENU=History;
+                                 ESP=Historial;
+                                 DEA=Historie];
+                      Image=History }
+      { 80      ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F7;
+                      CaptionML=[ENU=Ledger E&ntries;
+                                 ESP=&Movimientos;
+                                 DEA=&Posten];
+                      RunObject=Page 25;
+                      RunPageView=SORTING(Customer No.);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=CustomerLedger;
+                      PromotedCategory=Process }
+      { 76      ;2   ;Action    ;
+                      ShortCutKey=F7;
+                      CaptionML=[ENU=Statistics;
+                                 ESP=Estad°sticas;
+                                 DEA=Statistik];
+                      RunObject=Page 151;
+                      RunPageLink=No.=FIELD(No.),
+                                  Date Filter=FIELD(Date Filter),
+                                  Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                                  Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                      Promoted=Yes;
+                      Image=Statistics;
+                      PromotedCategory=Process }
+      { 79      ;2   ;Action    ;
+                      CaptionML=[ENU=S&ales;
+                                 ESP=Ve&ntas;
+                                 DEA=&Verkauf];
+                      RunObject=Page 155;
+                      RunPageLink=No.=FIELD(No.),
+                                  Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                                  Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                      Image=Sales }
+      { 77      ;2   ;Action    ;
+                      CaptionML=[ENU=Entry Statistics;
+                                 ESP=Estad°sticas documentos;
+                                 DEA=Buchungsstatistik];
+                      RunObject=Page 302;
+                      RunPageLink=No.=FIELD(No.),
+                                  Date Filter=FIELD(Date Filter),
+                                  Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                                  Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                      Image=EntryStatistics }
+      { 112     ;2   ;Action    ;
+                      CaptionML=[ENU=Statistics by C&urrencies;
+                                 ESP=Estad°sticas por di&visas;
+                                 DEA=Statistik nach &WÑhrungen];
+                      RunObject=Page 481;
+                      RunPageLink=No.=FIELD(No.),
+                                  Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                                  Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter),
+                                  Date Filter=FIELD(Date Filter);
+                      Image=Currencies }
+      { 6500    ;2   ;Action    ;
+                      CaptionML=[ENU=Item &Tracking Entries;
+                                 ESP=Movs. &seguim. prod.;
+                                 DEA=Artikel&verfolgungsposten];
+                      Image=ItemTrackingLedger;
+                      OnAction=VAR
+                                 ItemTrackingMgt@1000 : Codeunit 6500;
+                               BEGIN
+                                 ItemTrackingMgt.CallItemTrackingEntryForm(1,"No.",'','','','','');
+                               END;
+                                }
+      { 140     ;2   ;Separator  }
+      { 82      ;1   ;ActionGroup;
+                      CaptionML=[ENU=S&ales;
+                                 ESP=Ve&ntas;
+                                 DEA=&Verkauf];
+                      Image=Sales }
+      { 83      ;2   ;Action    ;
+                      CaptionML=[ENU=Invoice &Discounts;
+                                 ESP=Dto. &factura;
+                                 DEA=&Rechnungsrabatte];
+                      RunObject=Page 23;
+                      RunPageLink=Code=FIELD(Invoice Disc. Code);
+                      Image=CalculateInvoiceDiscount }
+      { 113     ;2   ;Action    ;
+                      CaptionML=[ENU=Prices;
+                                 ESP=Precios;
+                                 DEA=Preise];
+                      RunObject=Page 7002;
+                      RunPageView=SORTING(Sales Type,Sales Code);
+                      RunPageLink=Sales Type=CONST(Customer),
+                                  Sales Code=FIELD(No.);
+                      Image=Price }
+      { 136     ;2   ;Action    ;
+                      CaptionML=[ENU=Line Discounts;
+                                 ESP=Descuentos l°nea;
+                                 DEA=Zeilenrabatte];
+                      RunObject=Page 7004;
+                      RunPageView=SORTING(Sales Type,Sales Code);
+                      RunPageLink=Sales Type=CONST(Customer),
+                                  Sales Code=FIELD(No.);
+                      Image=LineDiscount }
+      { 162     ;2   ;Action    ;
+                      CaptionML=[ENU=Prepa&yment Percentages;
+                                 ESP=Porcentajes &prepago;
+                                 DEA=&VorauszahlungsprozentsÑtze];
+                      RunObject=Page 664;
+                      RunPageView=SORTING(Sales Type,Sales Code);
+                      RunPageLink=Sales Type=CONST(Customer),
+                                  Sales Code=FIELD(No.);
+                      Image=PrepaymentPercentages }
+      { 148     ;2   ;Action    ;
+                      CaptionML=[ENU=S&td. Cust. Sales Codes;
+                                 ESP=&C¢d. est†nd. vtas. clie.;
+                                 DEA=S&td.-Debitorverkaufscodes];
+                      RunObject=Page 173;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=CodesList }
+      { 7       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Documents;
+                                 ESP=Documentos;
+                                 DEA=Belege];
+                      Image=Documents }
+      { 85      ;2   ;Action    ;
+                      CaptionML=[ENU=Quotes;
+                                 ESP=Ofertas;
+                                 DEA=Angebote];
+                      RunObject=Page 9300;
+                      RunPageView=SORTING(Document Type,Sell-to Customer No.);
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Image=Quote }
+      { 86      ;2   ;Action    ;
+                      CaptionML=[ENU=Orders;
+                                 ESP=Pedidos;
+                                 DEA=AuftrÑge];
+                      RunObject=Page 9305;
+                      RunPageView=SORTING(Document Type,Sell-to Customer No.);
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Image=Document }
+      { 121     ;2   ;Action    ;
+                      CaptionML=[ENU=Return Orders;
+                                 ESP=Devoluciones;
+                                 DEA=Reklamationen];
+                      RunObject=Page 9304;
+                      RunPageView=SORTING(Document Type,Sell-to Customer No.);
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Image=ReturnOrder }
+      { 151     ;2   ;ActionGroup;
+                      CaptionML=[ENU=Issued Documents;
+                                 ESP=Documentos emitidos;
+                                 DEA=Registrierte Belege];
+                      Image=Documents }
+      { 152     ;3   ;Action    ;
+                      CaptionML=[ENU=Issued &Reminders;
+                                 ESP=A&visos emitidos;
+                                 DEA=Registrierte &Mahnungen];
+                      RunObject=Page 440;
+                      RunPageView=SORTING(Customer No.,Posting Date);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=OrderReminder }
+      { 153     ;3   ;Action    ;
+                      CaptionML=[ENU=Issued &Finance Charge Memos;
+                                 ESP=Docs. de &financiaci¢n emitidos;
+                                 DEA=Registrierte &Zinsrechnungen];
+                      RunObject=Page 452;
+                      RunPageView=SORTING(Customer No.,Posting Date);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=FinChargeMemo }
+      { 114     ;2   ;Action    ;
+                      CaptionML=[ENU=Blanket Orders;
+                                 ESP=Pedidos abiertos;
+                                 DEA=RahmenauftrÑge];
+                      RunObject=Page 9303;
+                      RunPageView=SORTING(Document Type,Sell-to Customer No.);
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Image=BlanketOrder }
+      { 147     ;2   ;Action    ;
+                      CaptionML=[ENU=&Jobs;
+                                 ESP=Pro&yectos;
+                                 DEA=Proje&kte];
+                      RunObject=Page 89;
+                      RunPageView=SORTING(Bill-to Customer No.);
+                      RunPageLink=Bill-to Customer No.=FIELD(No.);
+                      Image=Job }
+      { 9       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Credit Card;
+                                 ESP=Tarjeta de crÇdito;
+                                 DEA=Kreditkarte];
+                      Image=CreditCard }
+      { 17      ;2   ;ActionGroup;
+                      CaptionML=[ENU=Credit Cards;
+                                 ESP=Tarjetas de crÇdito;
+                                 DEA=Kreditkarten];
+                      Image=CreditCard }
+      { 149     ;3   ;Action    ;
+                      CaptionML=[ENU=C&redit Cards;
+                                 ESP=Tarjetas de c&rÇdito;
+                                 DEA=K&reditkarten];
+                      RunObject=Page 828;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=CreditCard }
+      { 165     ;3   ;Action    ;
+                      CaptionML=[ENU=Credit Cards Transaction Lo&g Entries;
+                                 ESP=Movimientos de re&gistro de transacci¢n de tarjetas de crÇdito;
+                                 DEA=Transaktionspro&tokolleintrÑge fÅr Kreditkarten];
+                      RunObject=Page 829;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=CreditCardLog }
+      { 13      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Service;
+                                 ESP=Servicio;
+                                 DEA=Service];
+                      Image=ServiceItem }
+      { 128     ;2   ;Action    ;
+                      CaptionML=[ENU=Service Orders;
+                                 ESP=Pedidos servicio;
+                                 DEA=ServiceauftrÑge];
+                      RunObject=Page 9318;
+                      RunPageView=SORTING(Document Type,Customer No.);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=Document }
+      { 126     ;2   ;Action    ;
+                      CaptionML=[ENU=Ser&vice Contracts;
+                                 ESP=Con&tratos servicios;
+                                 DEA=S&ervicevertrÑge];
+                      RunObject=Page 6065;
+                      RunPageView=SORTING(Customer No.,Ship-to Code);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=ServiceAgreement }
+      { 127     ;2   ;Action    ;
+                      CaptionML=[ENU=Service &Items;
+                                 ESP=&Productos servicio;
+                                 DEA=Service&artikel];
+                      RunObject=Page 5988;
+                      RunPageView=SORTING(Customer No.,Ship-to Code,Item No.,Serial No.);
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Image=ServiceItem }
+      { 1900000005;0 ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 1902575205;1 ;Action    ;
+                      CaptionML=[ENU=Blanket Sales Order;
+                                 ESP=Pedido abierto venta;
+                                 DEA=Rahmenauftrag];
+                      RunObject=Page 507;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=BlanketOrder;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1900246505;1 ;Action    ;
+                      CaptionML=[ENU=Sales Quote;
+                                 ESP=Oferta venta;
+                                 DEA=Verkaufsangebot];
+                      RunObject=Page 41;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=Quote;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1906384905;1 ;Action    ;
+                      CaptionML=[ENU=Sales Invoice;
+                                 ESP=Factura venta;
+                                 DEA=Verkaufsrechnung];
+                      RunObject=Page 43;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=Yes;
+                      Image=Invoice;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1904747105;1 ;Action    ;
+                      CaptionML=[ENU=Sales Order;
+                                 ESP=Pedido venta;
+                                 DEA=Verkaufsauftrag];
+                      RunObject=Page 42;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=Yes;
+                      Image=Document;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1902583505;1 ;Action    ;
+                      CaptionML=[ENU=Sales Credit Memo;
+                                 ESP=Abono venta;
+                                 DEA=Verkaufsgutschrift];
+                      RunObject=Page 44;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=CreditMemo;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1905163705;1 ;Action    ;
+                      CaptionML=[ENU=Sales Return Order;
+                                 ESP=Devoluci¢n venta;
+                                 DEA=Verkaufsreklamation];
+                      RunObject=Page 6630;
+                      RunPageLink=Sell-to Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=ReturnOrder;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1905185205;1 ;Action    ;
+                      CaptionML=[ENU=Service Quote;
+                                 ESP=Oferta servicio;
+                                 DEA=Serviceangebot];
+                      RunObject=Page 5964;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=Quote;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1902079405;1 ;Action    ;
+                      CaptionML=[ENU=Service Invoice;
+                                 ESP=Factura servicio;
+                                 DEA=Servicerechnung];
+                      RunObject=Page 5933;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=Invoice;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1907102005;1 ;Action    ;
+                      CaptionML=[ENU=Service Order;
+                                 ESP=Pedido servicio;
+                                 DEA=Serviceauftrag];
+                      RunObject=Page 5900;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1901662105;1 ;Action    ;
+                      CaptionML=[ENU=Service Credit Memo;
+                                 ESP=Abono servicio;
+                                 DEA=Servicegutschrift];
+                      RunObject=Page 5935;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=CreditMemo;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1903839805;1 ;Action    ;
+                      CaptionML=[ENU=Reminder;
+                                 ESP=Recordatorio;
+                                 DEA=Mahnung];
+                      RunObject=Page 434;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=Yes;
+                      Image=Reminder;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1901102005;1 ;Action    ;
+                      CaptionML=[ENU=Financial Charge Memo;
+                                 ESP=Documento de interÇs;
+                                 DEA=Zinsrechnung];
+                      RunObject=Page 446;
+                      RunPageLink=Customer No.=FIELD(No.);
+                      Promoted=No;
+                      Image=FinChargeMemo;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 163     ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 ESP=Acci&ones;
+                                 DEA=F&unktionen];
+                      Image=Action }
+      { 167     ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Apply Template;
+                                 ESP=Aplicar plantilla;
+                                 DEA=Vorlage anwenden];
+                      Promoted=Yes;
+                      Image=ApplyTemplate;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 ConfigTemplateMgt@1000 : Codeunit 8612;
+                                 RecRef@1001 : RecordRef;
+                               BEGIN
+                                 RecRef.GETTABLE(Rec);
+                                 ConfigTemplateMgt.UpdateFromTemplateSelection(RecRef);
+                               END;
+                                }
+      { 1900839804;1 ;Action    ;
+                      CaptionML=[ENU=Cash Receipt Journal;
+                                 ESP=Diario cobros;
+                                 DEA=Zahlungseingangs Buch.-Blatt];
+                      RunObject=Page 255;
+                      Promoted=Yes;
+                      Image=CashReceiptJournal;
+                      PromotedCategory=Process }
+      { 1905171704;1 ;Action    ;
+                      CaptionML=[ENU=Sales Journal;
+                                 ESP=Diario ventas;
+                                 DEA=Verkaufs Buch.-Blatt];
+                      RunObject=Page 253;
+                      Promoted=Yes;
+                      Image=Journals;
+                      PromotedCategory=Process }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1906813206;1 ;Action    ;
+                      CaptionML=[ENU=Customer Detailed Aging;
+                                 ESP=Deuda pendiente cliente;
+                                 DEA=Debitor - FÑllige Posten];
+                      RunObject=Report 106;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+      { 1907586706;1 ;Action    ;
+                      CaptionML=[ENU=Customer - Labels;
+                                 ESP=Cliente - Etiquetas;
+                                 DEA=Debitor - Etiketten];
+                      RunObject=Report 110;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+      { 1902299006;1 ;Action    ;
+                      CaptionML=[ENU=Customer - Balance to Date;
+                                 ESP=Cliente - Saldo por fechas;
+                                 DEA=Debitorenposten per];
+                      RunObject=Report 121;
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           ESP=General;
+                           DEA=Allgemein] }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="No.";
+                Importance=Promoted;
+                OnAssistEdit=BEGIN
+                               IF AssistEdit(xRec) THEN
+                                 CurrPage.UPDATE;
+                             END;
+                              }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Name;
+                Importance=Promoted }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr=Address }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Address 2" }
+
+    { 90  ;2   ;Field     ;
+                SourceExpr="Post Code";
+                Importance=Promoted }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr=City }
+
+    { 91  ;2   ;Field     ;
+                SourceExpr="Country/Region Code" }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 122 ;2   ;Field     ;
+                SourceExpr="Primary Contact No." }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr=Contact;
+                Importance=Promoted;
+                Editable=ContactEditable;
+                OnValidate=BEGIN
+                             ContactOnAfterValidate;
+                           END;
+                            }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Search Name" }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="Balance (LCY)";
+                OnDrillDown=VAR
+                              DtldCustLedgEntry@1001 : Record 379;
+                              CustLedgEntry@1002 : Record 21;
+                            BEGIN
+                              DtldCustLedgEntry.SETRANGE("Customer No.","No.");
+                              COPYFILTER("Global Dimension 1 Filter",DtldCustLedgEntry."Initial Entry Global Dim. 1");
+                              COPYFILTER("Global Dimension 2 Filter",DtldCustLedgEntry."Initial Entry Global Dim. 2");
+                              COPYFILTER("Currency Filter",DtldCustLedgEntry."Currency Code");
+                              CustLedgEntry.DrillDownOnEntries(DtldCustLedgEntry);
+                            END;
+                             }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Credit Limit (LCY)";
+                StyleExpr=StyleTxt;
+                OnValidate=BEGIN
+                             StyleTxt := SetStyle;
+                           END;
+                            }
+
+    { 24  ;2   ;Field     ;
+                SourceExpr="Salesperson Code" }
+
+    { 64  ;2   ;Field     ;
+                SourceExpr="Responsibility Center" }
+
+    { 93  ;2   ;Field     ;
+                SourceExpr="Service Zone Code" }
+
+    { 26  ;2   ;Field     ;
+                SourceExpr=Blocked }
+
+    { 28  ;2   ;Field     ;
+                SourceExpr="Last Date Modified" }
+
+    { 1902768601;1;Group  ;
+                CaptionML=[ENU=Communication;
+                           ESP=Comunicaci¢n;
+                           DEA=Kommunikation] }
+
+    { 103 ;2   ;Field     ;
+                Name=Phone No.2;
+                SourceExpr="Phone No.";
+                Importance=Promoted }
+
+    { 104 ;2   ;Field     ;
+                SourceExpr="Fax No." }
+
+    { 107 ;2   ;Field     ;
+                SourceExpr="E-Mail";
+                Importance=Promoted }
+
+    { 109 ;2   ;Field     ;
+                SourceExpr="Home Page" }
+
+    { 154 ;2   ;Field     ;
+                SourceExpr="IC Partner Code" }
+
+    { 1905885101;1;Group  ;
+                CaptionML=[ENU=Invoicing;
+                           ESP=Facturaci¢n;
+                           DEA=Fakturierung] }
+
+    { 34  ;2   ;Field     ;
+                SourceExpr="Bill-to Customer No." }
+
+    { 36  ;2   ;Field     ;
+                SourceExpr="Invoice Copies" }
+
+    { 42  ;2   ;Field     ;
+                SourceExpr="Invoice Disc. Code" }
+
+    { 156 ;2   ;Field     ;
+                SourceExpr="Copy Sell-to Addr. to Qte From" }
+
+    { 70  ;2   ;Field     ;
+                SourceExpr="Gen. Bus. Posting Group";
+                Importance=Promoted }
+
+    { 58  ;2   ;Field     ;
+                SourceExpr="VAT Bus. Posting Group" }
+
+    { 38  ;2   ;Field     ;
+                SourceExpr="Customer Posting Group";
+                Importance=Promoted }
+
+    { 40  ;2   ;Field     ;
+                SourceExpr="Customer Price Group";
+                Importance=Promoted }
+
+    { 44  ;2   ;Field     ;
+                SourceExpr="Customer Disc. Group";
+                Importance=Promoted }
+
+    { 46  ;2   ;Field     ;
+                SourceExpr="Allow Line Disc." }
+
+    { 129 ;2   ;Field     ;
+                SourceExpr="Prices Including VAT" }
+
+    { 160 ;2   ;Field     ;
+                SourceExpr="Prepayment %" }
+
+    { 1901677601;1;Group  ;
+                CaptionML=[ENU=Payments;
+                           ESP=Pagos;
+                           DEA=Zahlungen] }
+
+    { 48  ;2   ;Field     ;
+                SourceExpr="Application Method" }
+
+    { 50  ;2   ;Field     ;
+                SourceExpr="Payment Terms Code";
+                Importance=Promoted }
+
+    { 11  ;2   ;Field     ;
+                SourceExpr="Payment Method Code";
+                Importance=Promoted }
+
+    { 15  ;2   ;Field     ;
+                SourceExpr="Reminder Terms Code";
+                Importance=Promoted }
+
+    { 52  ;2   ;Field     ;
+                SourceExpr="Fin. Charge Terms Code";
+                Importance=Promoted }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Cash Flow Payment Terms Code" }
+
+    { 54  ;2   ;Field     ;
+                SourceExpr="Print Statements" }
+
+    { 60  ;2   ;Field     ;
+                SourceExpr="Last Statement No." }
+
+    { 143 ;2   ;Field     ;
+                SourceExpr="Block Payment Tolerance";
+                OnValidate=BEGIN
+                             IF "Block Payment Tolerance" THEN BEGIN
+                               IF CONFIRM(Text002,FALSE) THEN
+                                 PaymentToleranceMgt.DelTolCustLedgEntry(Rec);
+                             END ELSE BEGIN
+                               IF CONFIRM(Text001,FALSE) THEN
+                                 PaymentToleranceMgt.CalcTolCustLedgEntry(Rec);
+                             END;
+                           END;
+                            }
+
+    { 1906801201;1;Group  ;
+                CaptionML=[ENU=Shipping;
+                           ESP=Env°o;
+                           DEA=Lieferung] }
+
+    { 95  ;2   ;Field     ;
+                SourceExpr="Location Code";
+                Importance=Promoted }
+
+    { 32  ;2   ;Field     ;
+                SourceExpr="Combine Shipments" }
+
+    { 158 ;2   ;Field     ;
+                SourceExpr=Reserve }
+
+    { 123 ;2   ;Field     ;
+                SourceExpr="Shipping Advice";
+                Importance=Promoted }
+
+    { 30  ;2   ;Field     ;
+                SourceExpr="Shipment Method Code";
+                Importance=Promoted }
+
+    { 101 ;2   ;Field     ;
+                SourceExpr="Shipping Agent Code";
+                Importance=Promoted }
+
+    { 131 ;2   ;Field     ;
+                SourceExpr="Shipping Agent Service Code" }
+
+    { 119 ;2   ;Field     ;
+                SourceExpr="Shipping Time" }
+
+    { 141 ;2   ;Field     ;
+                DrillDown=No;
+                SourceExpr="Base Calendar Code" }
+
+    { 146 ;2   ;Field     ;
+                Name=Customized Calendar;
+                CaptionML=[ENU=Customized Calendar;
+                           ESP=Calendario personalizado;
+                           DEA=Spezifischer Kalender];
+                SourceExpr=CalendarMgmt.CustomizedCalendarExistText(CustomizedCalendar."Source Type"::Customer,"No.",'',"Base Calendar Code");
+                Editable=FALSE;
+                OnDrillDown=BEGIN
+                              CurrPage.SAVERECORD;
+                              TESTFIELD("Base Calendar Code");
+                              CalendarMgmt.ShowCustomizedCalendar(CustomizedCalEntry."Source Type"::Customer,"No.",'',"Base Calendar Code");
+                            END;
+                             }
+
+    { 1907468901;1;Group  ;
+                CaptionML=[ENU=Foreign Trade;
+                           ESP=Comercio exterior;
+                           DEA=Au·enhandel] }
+
+    { 67  ;2   ;Field     ;
+                SourceExpr="Currency Code";
+                Importance=Promoted }
+
+    { 66  ;2   ;Field     ;
+                SourceExpr="Language Code" }
+
+    { 69  ;2   ;Field     ;
+                SourceExpr="VAT Registration No." }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1903720907;1;Part   ;
+                SubPageLink=No.=FIELD(No.),
+                            Currency Filter=FIELD(Currency Filter),
+                            Date Filter=FIELD(Date Filter),
+                            Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                            Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                PagePartID=Page9080;
+                Visible=TRUE;
+                PartType=Page }
+
+    { 1907234507;1;Part   ;
+                SubPageLink=No.=FIELD(No.),
+                            Currency Filter=FIELD(Currency Filter),
+                            Date Filter=FIELD(Date Filter),
+                            Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                            Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                PagePartID=Page9081;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1902018507;1;Part   ;
+                SubPageLink=No.=FIELD(No.),
+                            Currency Filter=FIELD(Currency Filter),
+                            Date Filter=FIELD(Date Filter),
+                            Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                            Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                PagePartID=Page9082;
+                Visible=TRUE;
+                PartType=Page }
+
+    { 1905532107;1;Part   ;
+                SubPageLink=Table ID=CONST(18),
+                            No.=FIELD(No.);
+                PagePartID=Page9083;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1907829707;1;Part   ;
+                SubPageLink=No.=FIELD(No.),
+                            Currency Filter=FIELD(Currency Filter),
+                            Date Filter=FIELD(Date Filter),
+                            Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                            Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                PagePartID=Page9085;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1902613707;1;Part   ;
+                SubPageLink=No.=FIELD(No.),
+                            Currency Filter=FIELD(Currency Filter),
+                            Date Filter=FIELD(Date Filter),
+                            Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
+                            Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
+                PagePartID=Page9086;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1900383207;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      CustomizedCalEntry@1001 : Record 7603;
+      Text001@1003 : TextConst 'ENU=Do you want to allow payment tolerance for entries that are currently open?;ESP=®Desea permitir la tolerancia de pago para movimientos pendientes?;DEA=Mîchten Sie Zahlungstoleranzen fÅr momentan offene Posten zulassen?';
+      CustomizedCalendar@1005 : Record 7602;
+      Text002@1006 : TextConst 'ENU=Do you want to remove payment tolerance from entries that are currently open?;ESP=®Confirma que desea eliminar la tolerancia pago de los movimientos actualmente pendientes?;DEA=Mîchten Sie Zahlungstoleranzen fÅr momentan offene Posten lîschen?';
+      CalendarMgmt@1002 : Codeunit 7600;
+      PaymentToleranceMgt@1000 : Codeunit 426;
+      StyleTxt@1004 : Text;
+      MapPointVisible@19022708 : Boolean INDATASET;
+      ContactEditable@19051436 : Boolean INDATASET;
+
+    PROCEDURE ActivateFields@3();
+    BEGIN
+      ContactEditable := "Primary Contact No." = '';
+    END;
+
+    LOCAL PROCEDURE ContactOnAfterValidate@19013243();
+    BEGIN
+      ActivateFields;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

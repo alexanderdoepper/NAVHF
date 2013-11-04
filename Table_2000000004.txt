@@ -1,0 +1,34 @@
+OBJECT Table 2000000004 Permission Set
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:07;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    DataCaptionFields=Role ID,Name;
+    CaptionML=ESP=Conjunto de permisos;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Role ID             ;Code20        ;CaptionML=ESP=Id. rol }
+    { 2   ;   ;Name                ;Text30        ;CaptionML=ESP=Nombre }
+  }
+  KEYS
+  {
+    {    ;Role ID                                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

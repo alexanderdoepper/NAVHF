@@ -1,0 +1,202 @@
+OBJECT Table 5531 Inventory Page Data
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Inventory Page Data;
+               ESP=Datos p†gina inventario;
+               DEA=Lagerseitendaten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code20        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   Editable=No }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.];
+                                                   Editable=No }
+    { 3   ;   ;Period Type         ;Option        ;CaptionML=[ENU=Period Type;
+                                                              ESP=Tipo periodo;
+                                                              DEA=Periodentyp];
+                                                   OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year;
+                                                                    ESP=D°a,Semana,Mes,Trimestre,A§o;
+                                                                    DEA=Tag,Woche,Monat,Quartal,Jahr];
+                                                   OptionString=Day,Week,Month,Quarter,Year;
+                                                   Editable=No }
+    { 4   ;   ;Period Start        ;Date          ;CaptionML=[ENU=Period Start;
+                                                              ESP=Inicio periodo;
+                                                              DEA=Periodenanfang];
+                                                   Editable=No }
+    { 5   ;   ;Period End          ;Date          ;CaptionML=[ENU=Period End;
+                                                              ESP=Fin periodo;
+                                                              DEA=Periodenende];
+                                                   Editable=No }
+    { 6   ;   ;Period No.          ;Integer       ;CaptionML=[ENU=Period No.;
+                                                              ESP=Nß periodo;
+                                                              DEA=Periodennr.];
+                                                   Editable=No }
+    { 7   ;   ;Level               ;Integer       ;CaptionML=[ENU=Level;
+                                                              ESP=Nivel;
+                                                              DEA=Ebene];
+                                                   Editable=No }
+    { 9   ;   ;Source Line ID      ;RecordID      ;CaptionML=[ENU=Source Line ID;
+                                                              ESP=Id. l°nea origen;
+                                                              DEA=Herkunftszeilen-ID];
+                                                   Editable=No }
+    { 10  ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.];
+                                                   Editable=No }
+    { 11  ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode];
+                                                   Editable=No }
+    { 12  ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode];
+                                                   Editable=No }
+    { 13  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung];
+                                                   Editable=No }
+    { 14  ;   ;Availability Date   ;Date          ;CaptionML=[ENU=Availability Date;
+                                                              ESP=Fecha disponibilidad;
+                                                              DEA=VerfÅgbarkeitsdatum];
+                                                   Editable=No }
+    { 15  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,Purchase,Sale,Purch. Return,Sales Return,Transfer,Component,Production,Service,Job,Forecast,Blanket Sales Order,Plan,Plan Revert,Assembly Order,Assembly Component";
+                                                                    ESP=" ,Compra,Venta,Devoluci¢n compra,Devoluci¢n venta,Transferencia,Componente,Producci¢n,Servicio,Proyecto,Previsi¢n,Pedido ventas abierto,Plan,Revertir plan,Pedido de ensamblado,Componente de ensamblado";
+                                                                    DEA=" ,Einkauf,Verkauf,Eink.-Reklamation,VerkaufsrÅcksendung,Umlagerung,Komponente,Fertigung,Service,Projekt,Planung,Rahmenauftrag,Plan,Plan wiederherstellen,Montageauftrag,Montagekomponente"];
+                                                   OptionString=[ ,Purchase,Sale,Purch. Return,Sales Return,Transfer,Component,Production,Service,Job,Forecast,Blanket Sales Order,Plan,Plan Revert,Assembly Order,Assembly Component];
+                                                   Editable=No }
+    { 16  ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.];
+                                                   Editable=No }
+    { 19  ;   ;Source              ;Text50        ;CaptionML=[ENU=Source;
+                                                              ESP=Origen;
+                                                              DEA=Herkunft];
+                                                   Editable=No }
+    { 20  ;   ;Remaining Quantity (Base);Decimal  ;CaptionML=[ENU=Remaining Quantity (Base);
+                                                              ESP=Cantidad pendiente (base);
+                                                              DEA=Restmenge (Basis)];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 21  ;   ;Positive            ;Boolean       ;CaptionML=[ENU=Positive;
+                                                              ESP=Positivo;
+                                                              DEA=Positiv];
+                                                   Editable=No }
+    { 22  ;   ;Gross Requirement   ;Decimal       ;CaptionML=[ENU=Gross Requirement;
+                                                              ESP=Necesidades brutas;
+                                                              DEA=Bruttobedarf];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 23  ;   ;Scheduled Receipt   ;Decimal       ;CaptionML=[ENU=Scheduled Receipt;
+                                                              ESP=Recepci¢n programada;
+                                                              DEA=Geplanter Zugang];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 24  ;   ;Forecast            ;Decimal       ;CaptionML=[ENU=Forecast;
+                                                              ESP=Previsi¢n;
+                                                              DEA=Absatzplanung];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 25  ;   ;Remaining Forecast  ;Decimal       ;CaptionML=[ENU=Remaining Forecast;
+                                                              ESP=Previsi¢n pendiente;
+                                                              DEA=Restliche Planung];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 26  ;   ;Action Message Qty. ;Decimal       ;CaptionML=[ENU=Action Message Qty.;
+                                                              ESP=Cdad. mensajes acci¢n;
+                                                              DEA=Ereignismeldungsmenge];
+                                                   DecimalPlaces=0:5;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 29  ;   ;Action Message      ;Option        ;CaptionML=[ENU=Action Message;
+                                                              ESP=Mensaje acci¢n;
+                                                              DEA=Ereignismeldung];
+                                                   OptionCaptionML=[ENU=" ,New,Change Qty.,Reschedule,Resched. & Chg. Qty.,Cancel";
+                                                                    ESP=" ,Nuevo,Cambiar cdad.,Reprogramar,Reprog. y cambiar cdad.,Cancelar";
+                                                                    DEA=" ,Neu,Menge Ñndern,Neu berechnen,Neu berechnen & Menge Ñndern,Stornieren"];
+                                                   OptionString=[ ,New,Change Qty.,Reschedule,Resched. & Chg. Qty.,Cancel];
+                                                   Editable=No }
+    { 30  ;   ;Source Document ID  ;RecordID      ;CaptionML=[ENU=Source Document ID;
+                                                              ESP=Id. documento origen;
+                                                              DEA=Herkunftsbeleg-ID];
+                                                   Editable=No }
+    { 31  ;   ;Attached to Line No.;Integer       ;CaptionML=[ENU=Attached to Line No.;
+                                                              ESP=Nß l°nea texto adicional;
+                                                              DEA=Gehîrt zu Zeilennr.];
+                                                   Editable=No }
+    { 34  ;   ;Ref. Order No.      ;Code20        ;CaptionML=[ENU=Ref. Order No.;
+                                                              ESP=Nß orden ref.;
+                                                              DEA=Ref.-Nr.];
+                                                   Editable=No }
+    { 36  ;   ;Projected Inventory ;Decimal       ;CaptionML=[ENU=Projected Inventory;
+                                                              ESP=Inventario proyectado;
+                                                              DEA=Voraussichtlicher Lagerbestand];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 37  ;   ;Forecasted Projected Inventory;Decimal;
+                                                   CaptionML=[ENU=Forecasted Projected Inventory;
+                                                              ESP=Inventario proyectado previsto;
+                                                              DEA=Geplanter voraussichtlicher Lagerbestand];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 38  ;   ;Suggested Projected Inventory;Decimal;
+                                                   CaptionML=[ENU=Suggested Projected Inventory;
+                                                              ESP=Inventario proyectado propuesto;
+                                                              DEA=Vorgeschlagener voraussichtlicher Lagerbestand];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Line No.                                 }
+    {    ;Code,Line No.                           ;Clustered=Yes }
+    {    ;Period Start,Line No.                    }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE UpdateInventorys@1(VAR RunningInventory@1000 : Decimal;VAR RunningInventoryForecast@1003 : Decimal;VAR RunningInventorySuggestion@1004 : Decimal);
+    BEGIN
+      "Projected Inventory" :=
+        RunningInventory + "Gross Requirement" + "Scheduled Receipt";
+      "Forecasted Projected Inventory" :=
+        RunningInventoryForecast + "Gross Requirement" + "Scheduled Receipt" + "Remaining Forecast";
+      "Suggested Projected Inventory" :=
+        RunningInventorySuggestion + "Gross Requirement" + "Scheduled Receipt" + "Remaining Forecast" + "Action Message Qty.";
+
+      IF Level = 1 THEN BEGIN
+        RunningInventory := "Projected Inventory";
+        RunningInventoryForecast := "Forecasted Projected Inventory";
+        RunningInventorySuggestion := "Suggested Projected Inventory"
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

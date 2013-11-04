@@ -1,0 +1,298 @@
+OBJECT Codeunit 5005271 Create Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There is not enough space to insert the text.;DEA=Es ist nicht gengend Platz, um den Text einzufgen.';
+      DeliveryReminderLine@1140001 : Record 5005271;
+      DeliveryReminderLevel@1140002 : Record 5005277;
+      DeliveryReminderText@1140003 : Record 5005278;
+      PurchaseSetup@1140004 : Record 312;
+      LineOffset@1140005 : Integer;
+      NextLineNo@1140006 : Integer;
+      OK@1140007 : Boolean;
+      RemindingDate@1140010 : Date;
+      LineLevel@1140011 : Integer;
+      MaxLineLevel@1140012 : Integer;
+
+    PROCEDURE Remind@1140000(PurchLine@1140000 : Record 39;DeliveryReminderTerms@1140001 : Record 5005276;VAR DeliveryReminderLevel@1140002 : Record 5005277;DateOfTheCurrentDay@1140003 : Date) RetValue@1140004 : Boolean;
+    VAR
+      DelivReminLedgerEntries@1140005 : Record 5005274;
+    BEGIN
+      PurchaseSetup.GET;
+      PurchaseSetup.TESTFIELD("Default Del. Rem. Date Field");
+      CASE PurchaseSetup."Default Del. Rem. Date Field" OF
+        PurchaseSetup."Default Del. Rem. Date Field"::"Requested Receipt Date":
+          RemindingDate := PurchLine."Requested Receipt Date";
+        PurchaseSetup."Default Del. Rem. Date Field"::"Promised Receipt Date":
+          RemindingDate := PurchLine."Promised Receipt Date";
+        PurchaseSetup."Default Del. Rem. Date Field"::"Expected Receipt Date":
+          RemindingDate := PurchLine."Expected Receipt Date";
+      END;
+
+      IF (RemindingDate = 0D) OR (RemindingDate >= DateOfTheCurrentDay) THEN
+        EXIT(FALSE);
+      IF PurchLine."Outstanding Quantity" <= 0 THEN
+        EXIT(FALSE);
+
+      MaxLineLevel := 0;
+      DelivReminLedgerEntries.RESET;
+      DelivReminLedgerEntries.SETCURRENTKEY("Order No.","Order Line No.","Posting Date");
+      DelivReminLedgerEntries.SETRANGE("Order No.",PurchLine."Document No.");
+      DelivReminLedgerEntries.SETRANGE("Order Line No.",PurchLine."Line No.");
+      IF DelivReminLedgerEntries.FINDLAST THEN BEGIN
+        RemindingDate := DelivReminLedgerEntries."Document Date";
+        LineLevel := DelivReminLedgerEntries."Reminder Level" + 1
+      END ELSE
+        LineLevel := 1;
+
+      IF LineLevel > MaxLineLevel THEN
+        MaxLineLevel := LineLevel;
+
+      IF (MaxLineLevel > DeliveryReminderTerms."Max. No. of Delivery Reminders")
+         AND (DeliveryReminderTerms."Max. No. of Delivery Reminders" <> 0)
+      THEN
+        EXIT(FALSE);
+
+      DeliveryReminderLevel.SETRANGE("Reminder Terms Code",DeliveryReminderTerms.Code);
+      DeliveryReminderLevel.SETRANGE("No.",1,MaxLineLevel);
+      IF NOT DeliveryReminderLevel.FIND('+') THEN
+        DeliveryReminderLevel.INIT;
+
+      EXIT(CALCDATE(DeliveryReminderLevel."Due Date Calculation",RemindingDate) < DateOfTheCurrentDay);
+    END;
+
+    PROCEDURE CreateDelivReminHeader@1140001(VAR DeliveryReminderHeader@1140000 : Record 5005270;PurchHeader@1140001 : Record 38;DeliveryReminderTerms@1140002 : Record 5005276;DeliveryReminderLevel@1140003 : Record 5005277;DateOfTheCurrentDay@1140004 : Date);
+    BEGIN
+      DeliveryReminderHeader.INIT;
+      DeliveryReminderHeader."No." := '';
+      DeliveryReminderHeader.INSERT(TRUE);
+      DeliveryReminderHeader.VALIDATE("Vendor No.",PurchHeader."Buy-from Vendor No.");
+      DeliveryReminderHeader."Posting Date" := WORKDATE;
+      DeliveryReminderHeader."Document Date" := WORKDATE;
+      DeliveryReminderHeader.MODIFY;
+    END;
+
+    PROCEDURE CreateDelivRemindLine@1140002(DeliveryReminderHeader@1140000 : Record 5005270;PurchHeader@1140001 : Record 38;PurchLine@1140002 : Record 39;DeliveryReminderTerms@1140003 : Record 5005276;DeliveryReminderLevel@1140004 : Record 5005277;DateOfTheCurrentDay@1140005 : Date);
+    VAR
+      DeliveryReminderLine@1140006 : Record 5005271;
+      NextLineNo@1140007 : Integer;
+    BEGIN
+      PurchaseSetup.GET;
+      PurchaseSetup.TESTFIELD("Default Del. Rem. Date Field");
+
+      DeliveryReminderLine.RESET;
+      DeliveryReminderLine.SETRANGE("Document No.",DeliveryReminderHeader."No.");
+      IF DeliveryReminderLine.FINDLAST THEN
+        NextLineNo := DeliveryReminderLine."Line No." + 10000
+      ELSE
+        NextLineNo := 10000;
+
+      DeliveryReminderLine.INIT;
+      DeliveryReminderLine."Document No." := DeliveryReminderHeader."No.";
+      DeliveryReminderLine."Line No." := NextLineNo;
+      DeliveryReminderLine."Order No." := PurchLine."Document No.";
+      DeliveryReminderLine."Order Line No." := PurchLine."Line No.";
+      DeliveryReminderLine.Type := PurchLine.Type;
+      DeliveryReminderLine."No." := PurchLine."No.";
+      DeliveryReminderLine.Description := PurchLine.Description;
+      DeliveryReminderLine."Description 2" := PurchLine."Description 2";
+      DeliveryReminderLine."Vendor Item No." := PurchLine."Vendor Item No.";
+      DeliveryReminderLine."Unit of Measure" := PurchLine."Unit of Measure";
+      DeliveryReminderLine."Reorder Quantity" := PurchLine.Quantity;
+      DeliveryReminderLine."Remaining Quantity" := PurchLine."Outstanding Quantity";
+      DeliveryReminderLine.Quantity := PurchLine."Outstanding Quantity";
+      DeliveryReminderLine.VALIDATE("Reminder Level",LineLevel);
+      DeliveryReminderLine."Order Date" := PurchHeader."Order Date";
+      DeliveryReminderLine."Requested Receipt Date" := PurchLine."Requested Receipt Date";
+      DeliveryReminderLine."Promised Receipt Date" := PurchLine."Promised Receipt Date";
+      DeliveryReminderLine."Expected Receipt Date" := PurchLine."Expected Receipt Date";
+      DeliveryReminderLine."Del. Rem. Date Field" := PurchaseSetup."Default Del. Rem. Date Field";
+      CASE DeliveryReminderLine."Del. Rem. Date Field" OF
+        DeliveryReminderLine."Del. Rem. Date Field"::"Requested Receipt Date":
+          IF PurchLine."Requested Receipt Date" <> 0D THEN
+            DeliveryReminderLine."Days overdue" := DateOfTheCurrentDay - PurchLine."Requested Receipt Date";
+        DeliveryReminderLine."Del. Rem. Date Field"::"Promised Receipt Date":
+          IF PurchLine."Promised Receipt Date" <> 0D THEN
+            DeliveryReminderLine."Days overdue" := DateOfTheCurrentDay - PurchLine."Promised Receipt Date";
+        DeliveryReminderLine."Del. Rem. Date Field"::"Expected Receipt Date":
+          IF PurchLine."Expected Receipt Date" <> 0D THEN
+            DeliveryReminderLine."Days overdue" := DateOfTheCurrentDay - PurchLine."Expected Receipt Date";
+      END;
+      DeliveryReminderLine.INSERT;
+    END;
+
+    PROCEDURE HeaderReminderLevelRefresh@1140003(VAR DeliveryReminderHeader@1140000 : Record 5005270);
+    VAR
+      DeliveryReminderLine@1140001 : Record 5005271;
+    BEGIN
+      DeliveryReminderHeader."Reminder Level" := 0;
+      DeliveryReminderLine.RESET;
+      DeliveryReminderLine.SETRANGE("Document No.",DeliveryReminderHeader."No.");
+      IF DeliveryReminderLine.FIND('-') THEN
+        REPEAT
+          IF DeliveryReminderLine."Reminder Level" > DeliveryReminderHeader."Reminder Level" THEN
+            DeliveryReminderHeader."Reminder Level" := DeliveryReminderLine."Reminder Level";
+        UNTIL DeliveryReminderLine.NEXT = 0;
+      DeliveryReminderHeader.VALIDATE("Reminder Level");
+      DeliveryReminderHeader.MODIFY;
+    END;
+
+    PROCEDURE SuggestLines@1140004(VAR DeliveryReminderHeader@1140000 : Record 5005270);
+    VAR
+      PurchHeader@1140001 : Record 38;
+      PurchLine@1140002 : Record 39;
+      DeliveryReminderTerms@1140003 : Record 5005276;
+      DeliveryReminderLevel@1140004 : Record 5005277;
+      DateOfTheCurrentDay@1140005 : Date;
+    BEGIN
+      DeliveryReminderHeader.TESTFIELD("Vendor No.");
+      DeliveryReminderHeader.TESTFIELD("Reminder Terms Code");
+      DeliveryReminderTerms.GET(DeliveryReminderHeader."Reminder Terms Code");
+      DateOfTheCurrentDay := WORKDATE;
+
+      PurchHeader.RESET;
+      PurchHeader.SETCURRENTKEY("Document Type","Buy-from Vendor No.");
+      PurchHeader.SETRANGE("Document Type",PurchLine."Document Type"::Order);
+      PurchHeader.SETRANGE("Buy-from Vendor No.",DeliveryReminderHeader."Vendor No.");
+      IF PurchHeader.FIND('-') THEN
+        REPEAT
+          PurchLine.RESET;
+          PurchLine.SETRANGE("Document No.",PurchHeader."No.");
+          IF PurchLine.FIND('-') THEN
+            REPEAT
+              IF Remind(PurchLine,DeliveryReminderTerms,DeliveryReminderLevel,DateOfTheCurrentDay) THEN
+                CreateDelivRemindLine(DeliveryReminderHeader,PurchHeader,PurchLine,DeliveryReminderTerms,DeliveryReminderLevel,
+                  DateOfTheCurrentDay);
+            UNTIL PurchLine.NEXT = 0;
+        UNTIL PurchHeader.NEXT = 0;
+
+      HeaderReminderLevelRefresh(DeliveryReminderHeader);
+      InsertBeginTexts(DeliveryReminderHeader);
+      InsertEndTexts(DeliveryReminderHeader);
+    END;
+
+    PROCEDURE UpdateLines@1140005(DeliveryReminder@1140000 : Record 5005270);
+    BEGIN
+      DeliveryReminderLine.RESET;
+      DeliveryReminderLine.SETRANGE("Document No.",DeliveryReminder."No.");
+      OK := DeliveryReminderLine.FIND('-');
+      WHILE OK DO BEGIN
+        OK :=
+          (DeliveryReminderLine.Type = DeliveryReminderLine.Type::" ") AND
+          (DeliveryReminderLine."Attached to Line No." = 0);
+        IF OK THEN BEGIN
+          DeliveryReminderLine.DELETE(TRUE);
+          OK := DeliveryReminderLine.NEXT <> 0;
+        END;
+      END;
+      OK := DeliveryReminderLine.FIND('+');
+      WHILE OK DO BEGIN
+        OK :=
+          (DeliveryReminderLine.Type = DeliveryReminderLine.Type::" ") AND
+          (DeliveryReminderLine."Attached to Line No." = 0);
+        IF OK THEN BEGIN
+          DeliveryReminderLine.DELETE(TRUE);
+          OK := DeliveryReminderLine.NEXT(-1) <> 0;
+        END;
+      END;
+
+      InsertBeginTexts(DeliveryReminder);
+      InsertEndTexts(DeliveryReminder);
+    END;
+
+    LOCAL PROCEDURE InsertBeginTexts@1140006(DeliveryReminder@1140000 : Record 5005270);
+    BEGIN
+      DeliveryReminderLevel.SETRANGE("Reminder Terms Code",DeliveryReminder."Reminder Terms Code");
+      DeliveryReminderLevel.SETRANGE("No.",1,DeliveryReminder."Reminder Level");
+      IF DeliveryReminderLevel.FINDLAST THEN BEGIN
+        DeliveryReminderText.RESET;
+        DeliveryReminderText.SETRANGE("Reminder Terms Code",DeliveryReminder."Reminder Terms Code");
+        DeliveryReminderText.SETRANGE("Reminder Level",DeliveryReminderLevel."No.");
+        DeliveryReminderText.SETRANGE(Position,DeliveryReminderText.Position::Beginning);
+
+        DeliveryReminderLine.RESET;
+        DeliveryReminderLine.SETRANGE("Document No.",DeliveryReminder."No.");
+        DeliveryReminderLine."Document No." := DeliveryReminder."No.";
+        IF DeliveryReminderLine.FIND('-') THEN BEGIN
+          LineOffset := DeliveryReminderLine."Line No." DIV (DeliveryReminderText.COUNT + 2);
+          IF LineOffset = 0 THEN
+            ERROR(Text1140000);
+        END ELSE
+          LineOffset := 10000;
+        NextLineNo := 0;
+        InsertTextLines(DeliveryReminder);
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertEndTexts@1140007(DeliveryReminder@1140000 : Record 5005270);
+    BEGIN
+      DeliveryReminderLevel.SETRANGE("Reminder Terms Code",DeliveryReminder."Reminder Terms Code");
+      DeliveryReminderLevel.SETRANGE("No.",1,DeliveryReminder."Reminder Level");
+      IF DeliveryReminderLevel.FINDLAST THEN BEGIN
+        DeliveryReminderText.SETRANGE("Reminder Terms Code",DeliveryReminder."Reminder Terms Code");
+        DeliveryReminderText.SETRANGE("Reminder Level",DeliveryReminderLevel."No.");
+        DeliveryReminderText.SETRANGE(Position,DeliveryReminderText.Position::Ending);
+        DeliveryReminderLine.RESET;
+        DeliveryReminderLine.SETRANGE("Document No.",DeliveryReminder."No.");
+        DeliveryReminderLine."Document No." := DeliveryReminder."No.";
+        IF DeliveryReminderLine.FIND('+') THEN
+          NextLineNo := DeliveryReminderLine."Line No."
+        ELSE
+          NextLineNo := 0;
+        LineOffset := 10000;
+        InsertTextLines(DeliveryReminder);
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertTextLines@1140008(DeliveryReminder@1140000 : Record 5005270);
+    BEGIN
+      IF DeliveryReminderText.FIND('-') THEN BEGIN
+        IF DeliveryReminderText.Position = DeliveryReminderText.Position::Ending THEN
+          InsertBlankLine;
+        REPEAT
+          NextLineNo := NextLineNo + LineOffset;
+          DeliveryReminderLine.INIT;
+          DeliveryReminderLine."Line No." := NextLineNo;
+          DeliveryReminderLine.Type := DeliveryReminderLine.Type::" ";
+          DeliveryReminderLine.Description :=
+            COPYSTR(
+              STRSUBSTNO(
+                DeliveryReminderText.Description,
+                DeliveryReminder."Document Date",
+                DeliveryReminder."Due Date",
+                DeliveryReminder."Reminder Terms Code"),
+              1,
+              MAXSTRLEN(DeliveryReminderLine.Description));
+          DeliveryReminderLine.INSERT;
+        UNTIL DeliveryReminderText.NEXT = 0;
+        IF DeliveryReminderText.Position = DeliveryReminderText.Position::Beginning THEN
+          InsertBlankLine;
+      END;
+    END;
+
+    PROCEDURE InsertBlankLine@1140009();
+    BEGIN
+      NextLineNo := NextLineNo + LineOffset;
+      DeliveryReminderLine.INIT;
+      DeliveryReminderLine."Line No." := NextLineNo;
+      DeliveryReminderLine.INSERT;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

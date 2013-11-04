@@ -1,0 +1,50 @@
+OBJECT Table 47 Aging Band Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Aging Band Buffer;
+               ESP=Memoria rango antigÅedad;
+               DEA=SaldenrÅckblickpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Currency Code       ;Code20        ;CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=WÑhrungscode] }
+    { 2   ;   ;Column 1 Amt.       ;Decimal       ;CaptionML=[ENU=Column 1 Amt.;
+                                                              ESP=Importe col. 1;
+                                                              DEA=Spalte 1 Betrag] }
+    { 3   ;   ;Column 2 Amt.       ;Decimal       ;CaptionML=[ENU=Column 2 Amt.;
+                                                              ESP=Importe col. 2;
+                                                              DEA=Spalte 2 Betrag] }
+    { 4   ;   ;Column 3 Amt.       ;Decimal       ;CaptionML=[ENU=Column 3 Amt.;
+                                                              ESP=Importe col. 3;
+                                                              DEA=Spalte 3 Betrag] }
+    { 5   ;   ;Column 4 Amt.       ;Decimal       ;CaptionML=[ENU=Column 4 Amt.;
+                                                              ESP=Importe col. 4;
+                                                              DEA=Spalte 4 Betrag] }
+    { 6   ;   ;Column 5 Amt.       ;Decimal       ;CaptionML=[ENU=Column 5 Amt.;
+                                                              ESP=Importe col. 5;
+                                                              DEA=Spalte 5 Betrag] }
+  }
+  KEYS
+  {
+    {    ;Currency Code                           ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

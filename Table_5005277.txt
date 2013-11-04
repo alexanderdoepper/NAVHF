@@ -1,0 +1,59 @@
+OBJECT Table 5005277 Delivery Reminder Level
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=BEGIN
+               DeliveryReminderText.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+               DeliveryReminderText.SETRANGE("Reminder Level","No.");
+               DeliveryReminderText.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Delivery Reminder Level;
+               DEA=Lieferanmahnungsstufe];
+    LookupPageID=Page5005281;
+    DrillDownPageID=Page5005281;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Reminder Terms Code ;Code10        ;TableRelation="Delivery Reminder Term";
+                                                   CaptionML=[ENU=Reminder Terms Code;
+                                                              DEA=Mahnmethodencode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;No.                 ;Integer       ;CaptionML=[ENU=No.;
+                                                              DEA=Nr.];
+                                                   MinValue=1;
+                                                   NotBlank=Yes }
+    { 3   ;   ;Due Date Calculation;DateFormula   ;CaptionML=[ENU=Due Date Calculation;
+                                                              DEA=F„lligkeitsformel] }
+  }
+  KEYS
+  {
+    {    ;Reminder Terms Code,No.                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderLevel@1140000 : Record 5005277;
+      DeliveryReminderText@1140001 : Record 5005278;
+
+    PROCEDURE NewRecord@1140000();
+    BEGIN
+      DeliveryReminderLevel.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+      IF DeliveryReminderLevel.FINDLAST THEN;
+      "No." := DeliveryReminderLevel."No." + 1;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

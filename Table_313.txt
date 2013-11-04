@@ -1,0 +1,246 @@
+OBJECT Table 313 Inventory Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Permissions=TableData 5896=m;
+    CaptionML=[ENU=Inventory Setup;
+               ESP=Config. inventario;
+               DEA=Lager Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Automatic Cost Posting;Boolean     ;OnValidate=VAR
+                                                                GLSetup@1000 : Record 98;
+                                                              BEGIN
+                                                                IF "Automatic Cost Posting" THEN BEGIN
+                                                                  IF GLSetup.GET THEN
+                                                                    IF NOT GLSetup."Use Legacy G/L Entry Locking" THEN
+                                                                      MESSAGE(Text006,
+                                                                        FIELDCAPTION("Automatic Cost Posting"),
+                                                                        "Automatic Cost Posting",
+                                                                        GLSetup.FIELDCAPTION("Use Legacy G/L Entry Locking"),
+                                                                        GLSetup.TABLECAPTION,
+                                                                        GLSetup."Use Legacy G/L Entry Locking");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Automatic Cost Posting;
+                                                              ESP=Variaci¢n existencias autom†t.;
+                                                              DEA=Automatische Lagerbuchung] }
+    { 3   ;   ;Location Mandatory  ;Boolean       ;CaptionML=[ENU=Location Mandatory;
+                                                              ESP=AlmacÇn obligatorio;
+                                                              DEA=Lagerort notwendig] }
+    { 4   ;   ;Item Nos.           ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Item Nos.;
+                                                              ESP=Nß serie producto;
+                                                              DEA=Artikelnummern] }
+    { 30  ;   ;Automatic Cost Adjustment;Option   ;OnValidate=BEGIN
+                                                                IF "Automatic Cost Adjustment" <> "Automatic Cost Adjustment"::Never THEN BEGIN
+                                                                  Item.SETCURRENTKEY("Cost is Adjusted","Allow Online Adjustment");
+                                                                  Item.SETRANGE("Cost is Adjusted",FALSE);
+                                                                  Item.SETRANGE("Allow Online Adjustment",FALSE);
+
+                                                                  UpdateInvtAdjmtEntryOrder;
+
+                                                                  InvtAdjmtEntryOrder.SETCURRENTKEY("Cost is Adjusted","Allow Online Adjustment");
+                                                                  InvtAdjmtEntryOrder.SETRANGE("Cost is Adjusted",FALSE);
+                                                                  InvtAdjmtEntryOrder.SETRANGE("Allow Online Adjustment",FALSE);
+                                                                  InvtAdjmtEntryOrder.SETRANGE("Is Finished",TRUE);
+
+                                                                  IF NOT (Item.ISEMPTY AND InvtAdjmtEntryOrder.ISEMPTY) THEN
+                                                                    MESSAGE(Text000);
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Automatic Cost Adjustment;
+                                                              ESP=Ajuste autom†tico coste;
+                                                              DEA=Automatische Lagerregulierung];
+                                                   OptionCaptionML=[ENU=Never,Day,Week,Month,Quarter,Year,Always;
+                                                                    ESP=Nunca,D°a,Semana,Mes,Trimestre,A§o,Siempre;
+                                                                    DEA=Nie,Tag,Woche,Monat,Quartal,Jahr,Immer];
+                                                   OptionString=Never,Day,Week,Month,Quarter,Year,Always }
+    { 5700;   ;Transfer Order Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Transfer Order Nos.;
+                                                              ESP=Nß serie ped. transfer.;
+                                                              DEA=Umlag.-Auftragsnummern] }
+    { 5701;   ;Posted Transfer Shpt. Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Transfer Shpt. Nos.;
+                                                              ESP=Nß serie env°os transf. regis.;
+                                                              DEA=Geb. Umlag.-Ausgangsnummern] }
+    { 5702;   ;Posted Transfer Rcpt. Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Transfer Rcpt. Nos.;
+                                                              ESP=Nß serie recep. transf. regis.;
+                                                              DEA=Geb. Umlag.-Eingangsnummern] }
+    { 5703;   ;Copy Comments Order to Shpt.;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Comments Order to Shpt.;
+                                                              ESP=Copiar coment. ped. a alb. venta;
+                                                              DEA=Bem. Uml.-Auftr. in Ausg. kop.] }
+    { 5704;   ;Copy Comments Order to Rcpt.;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Comments Order to Rcpt.;
+                                                              ESP=Copiar coment. ped. a alb. compra;
+                                                              DEA=Bem. Uml.-Auftr. in Eing. kop.] }
+    { 5718;   ;Nonstock Item Nos.  ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Nonstock Item Nos.;
+                                                              ESP=Nß serie prods. sin stock;
+                                                              DEA=Katalogartikelnummern] }
+    { 5790;   ;Outbound Whse. Handling Time;DateFormula;
+                                                   CaptionML=[ENU=Outbound Whse. Handling Time;
+                                                              ESP=Tiempo manip. alm. salida;
+                                                              DEA=Ausgeh. Lagerdurchlaufzeit] }
+    { 5791;   ;Inbound Whse. Handling Time;DateFormula;
+                                                   CaptionML=[ENU=Inbound Whse. Handling Time;
+                                                              ESP=Tiempo manip. alm. entrada;
+                                                              DEA=Eingeh. Lagerdurchlaufzeit] }
+    { 5800;   ;Expected Cost Posting to G/L;Boolean;
+                                                   OnValidate=VAR
+                                                                ChangeExpCostPostToGL@1000 : Codeunit 5811;
+                                                              BEGIN
+                                                                IF "Expected Cost Posting to G/L" <> xRec."Expected Cost Posting to G/L" THEN BEGIN
+                                                                  IF ItemLedgEntry.FINDFIRST THEN BEGIN
+                                                                    ChangeExpCostPostToGL.ChangeExpCostPostingToGL(Rec,"Expected Cost Posting to G/L");
+                                                                    FIND;
+                                                                  END;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Expected Cost Posting to G/L;
+                                                              ESP=Regis. cte. previsto en contab.;
+                                                              DEA=Soll-Kosten buchen] }
+    { 5804;   ;Average Cost Calc. Type;Option     ;InitValue=Item;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD("Average Cost Calc. Type");
+                                                                IF "Average Cost Calc. Type" <> xRec."Average Cost Calc. Type" THEN
+                                                                  UpdateAvgCostItemSettings(FIELDCAPTION("Average Cost Calc. Type"),FORMAT("Average Cost Calc. Type"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Average Cost Calc. Type;
+                                                              ESP=Tipo c†lculo cte. medio;
+                                                              DEA=Einst.-Pr.(durchschn.)Ber.-Art];
+                                                   OptionCaptionML=[ENU=" ,Item,Item & Location & Variant";
+                                                                    ESP=" ,Producto,Producto y almacÇn y variante";
+                                                                    DEA=" ,Artikel,Artikel & Lagerort & Variante"];
+                                                   OptionString=[ ,Item,Item & Location & Variant];
+                                                   NotBlank=Yes }
+    { 5805;   ;Average Cost Period ;Option        ;InitValue=Day;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD("Average Cost Period");
+                                                                IF "Average Cost Period" <> xRec."Average Cost Period" THEN
+                                                                  UpdateAvgCostItemSettings(FIELDCAPTION("Average Cost Period"),FORMAT("Average Cost Period"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Average Cost Period;
+                                                              ESP=Periodo coste medio;
+                                                              DEA=Durchschnittskostenperiode];
+                                                   OptionCaptionML=[ENU=" ,Day,Week,Month,Quarter,Year,Accounting Period";
+                                                                    ESP=" ,D°a,Semana,Mes,Trimestre,A§o,Periodo contable";
+                                                                    DEA=" ,Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode"];
+                                                   OptionString=[ ,Day,Week,Month,Quarter,Year,Accounting Period];
+                                                   NotBlank=Yes }
+    { 7101;   ;Item Group Dimension Code;Code20   ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Item Group Dimension Code;
+                                                              ESP=C¢d. dimensi¢n grupo productos;
+                                                              DEA=Artikelgruppen-Dimensionscode] }
+    { 7300;   ;Inventory Put-away Nos.;Code10     ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Inventory Put-away Nos.;
+                                                              ESP=Nß serie ubic. inventario;
+                                                              DEA=Einlagerungsnummern] }
+    { 7301;   ;Inventory Pick Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Inventory Pick Nos.;
+                                                              ESP=Nß serie pick. invent.;
+                                                              DEA=Kommissionierungsnummern] }
+    { 7302;   ;Posted Invt. Put-away Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Invt. Put-away Nos.;
+                                                              ESP=Nß serie ubic. exist. regis.;
+                                                              DEA=Geb. Einlagerungsnummern] }
+    { 7303;   ;Posted Invt. Pick Nos.;Code10      ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Invt. Pick Nos.;
+                                                              ESP=Nß serie pick. exist. regis.;
+                                                              DEA=Geb. Kommissionierungsnummern] }
+    { 7304;   ;Inventory Movement Nos.;Code10     ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Inventory Movement Nos.;
+                                                              ESP=N£ms. movimientos inventario;
+                                                              DEA=Nummern fÅr Lagerbewegung] }
+    { 7305;   ;Registered Invt. Movement Nos.;Code10;
+                                                   TableRelation="No. Series";
+                                                   CaptionML=[ENU=Registered Invt. Movement Nos.;
+                                                              ESP=N£ms. movimientos inventario registrados.;
+                                                              DEA=Reg. Nummern fÅr Lagerbewegung] }
+    { 7306;   ;Internal Movement Nos.;Code10      ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Internal Movement Nos.;
+                                                              ESP=N£ms. movimientos internos;
+                                                              DEA=Interne Umlagerungsnummern] }
+    { 5005350;;Phys. Inv. Order Nos.;Code10       ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Phys. Inv. Order Nos.;
+                                                              DEA=Inventurauftrag Nummern] }
+    { 5005352;;Posted Phys. Inv. Order Nos.;Code10;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Phys. Inv. Order Nos.;
+                                                              DEA=Geb. Inventurauftrag Nummern] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ItemLedgEntry@1000 : Record 32;
+      Text000@1001 : TextConst 'ENU=Some unadjusted value entries will not be covered with the new setting. You must run the Adjust Cost - Item Entries batch job once to adjust these.;ESP=La nueva configuraci¢n no cubrir† algunos movs. valor sin ajustar. Debe ejecutar el trabajo por lotes Valorar stock - movs. producto una vez para ajustarlos.;DEA=Einige nicht regulierte Wertposten werden mit der neuen Einstellung nicht abgedeckt. FÅhren Sie zu deren Regulierung einmalig den Batchauftrag ''Lagerreg. fakt. Einst. Preise'' aus.';
+      Item@1002 : Record 27;
+      InvtAdjmtEntryOrder@1003 : Record 5896;
+      Text001@1005 : TextConst 'ENU=If you change the %1, the program must adjust all item entries.;ESP=Si cambia %1, el programa debe ajustar todos los movs. prod.;DEA=Wenn Sie die %1 Ñndern, muss das Programm alle Artikelposten regulieren.';
+      Text002@1006 : TextConst 'ENU=The adjustment of all entries can take several hours.\;ESP=El ajuste de todos los movs. puede tardar diversas horas.\;DEA=Die Regulierung aller Artikel kann mehrere Stunden in Anspruch nehmen.\';
+      Text003@1007 : TextConst 'ENU=Do you really want to change the %1?;ESP=®Quiere realmente cambiar %1?;DEA=Mîchten Sie die %1 wirklich Ñndern?';
+      Text004@1008 : TextConst 'ENU=The program has cancelled the change that would have caused an adjustment of all items.;ESP=El programa ha cancelado el cambio que habr°a causado un ajuste de todos los productos.;DEA=Das Programm hat die énderung abgebrochen, die zu einer Regulierung aller Artikel gefÅhrt hÑtte.';
+      Text005@1009 : TextConst 'ENU=%1 has been changed to %2. You should now run %3.;ESP=Se ha cambiado %1 a %2. Ahora deber°a ejecutar %3.;DEA=%1 wurde zu %2 geÑndert. Sie sollten jetzt %3 ausfÅhren.';
+      ObjTransl@1011 : Record 377;
+      Text006@1004 : TextConst 'ENU=The field %1 should not be set to %2 if field %3 in %4 table is set to %5 because of possibility of deadlocks.;ESP=El campo %1 no debe estar establecido en %2 si el campo %3 de la tabla %4 est† definido en %5 debido a la posibilidad de bloqueos.;DEA=Das Feld ''%1'' darf nicht auf ''%2'' festgelegt werden, wenn das Feld ''%3'' in der Tabelle ''%4'' auf ''%5'' festgelegt ist, da dies zu einem Deadlock fÅhren kann.';
+
+    LOCAL PROCEDURE UpdateInvtAdjmtEntryOrder@2();
+    VAR
+      InvtAdjmtEntryOrder@1000 : Record 5896;
+    BEGIN
+      InvtAdjmtEntryOrder.SETCURRENTKEY("Cost is Adjusted","Allow Online Adjustment");
+      InvtAdjmtEntryOrder.SETRANGE("Cost is Adjusted",FALSE);
+      InvtAdjmtEntryOrder.SETRANGE("Allow Online Adjustment",FALSE);
+      InvtAdjmtEntryOrder.SETRANGE("Is Finished",FALSE);
+      InvtAdjmtEntryOrder.SETRANGE("Order Type",InvtAdjmtEntryOrder."Order Type"::Production);
+      InvtAdjmtEntryOrder.MODIFYALL("Allow Online Adjustment",TRUE);
+    END;
+
+    PROCEDURE UpdateAvgCostItemSettings@1(FieldCaption@1000 : Text[80];FieldValue@1001 : Text[80]);
+    BEGIN
+      IF NOT
+         CONFIRM(
+           STRSUBSTNO(
+             Text001 +
+             Text002 +
+             Text003,FieldCaption),FALSE)
+      THEN
+        ERROR(Text004);
+
+      CODEUNIT.RUN(CODEUNIT::"Change Average Cost Setting",Rec);
+
+      MESSAGE(
+        Text005,FieldCaption,FieldValue,
+        ObjTransl.TranslateObject(ObjTransl."Object Type"::Report,REPORT::"Adjust Cost - Item Entries"));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

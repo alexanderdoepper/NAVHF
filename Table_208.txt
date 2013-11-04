@@ -1,0 +1,95 @@
+OBJECT Table 208 Job Posting Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job Posting Group;
+               ESP=Grupo contable proyecto;
+               DEA=Projektbuchungsgruppe];
+    LookupPageID=Page211;
+    DrillDownPageID=Page211;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;WIP Costs Account   ;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=WIP Costs Account;
+                                                              ESP=Cuenta costes WIP;
+                                                              DEA=Konto f. Kosten n. abgs. Arb.] }
+    { 3   ;   ;WIP Accrued Costs Account;Code20   ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=WIP Accrued Costs Account;
+                                                              ESP=Cta. costes acumulados trabajo en curso;
+                                                              DEA=Konto f. aufgel. Kosten n. abgs. Arb.] }
+    { 4   ;   ;Job Costs Applied Account;Code20   ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Job Costs Applied Account;
+                                                              ESP=Cta. aplicada costes proyecto;
+                                                              DEA=Projektkostenausgleich-Konto] }
+    { 5   ;   ;Job Costs Adjustment Account;Code20;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Job Costs Adjustment Account;
+                                                              ESP=Cta. ajuste costes proyecto;
+                                                              DEA=Projektkostenregulierung-Konto] }
+    { 6   ;   ;G/L Expense Acc. (Contract);Code20 ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=G/L Expense Acc. (Contract);
+                                                              ESP=Cta. gastos C/G (contrato);
+                                                              DEA=Aufwandssachkonto (Vertrag)] }
+    { 7   ;   ;Job Sales Adjustment Account;Code20;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Job Sales Adjustment Account;
+                                                              ESP=Cuenta ajuste ventas proy.;
+                                                              DEA=Projektverkaufsregulierungs-Konto] }
+    { 8   ;   ;WIP Accrued Sales Account;Code20   ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=WIP Accrued Sales Account;
+                                                              ESP=Cta. ventas acumuladas WIP;
+                                                              DEA=Konto f. aufgel. VerkÑufe n. abgs. Arb.] }
+    { 9   ;   ;WIP Invoiced Sales Account;Code20  ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=WIP Invoiced Sales Account;
+                                                              ESP=Cta. ventas facturadas WIP;
+                                                              DEA=Konto f. fakt. VerkÑufe n. abgs. Arb.] }
+    { 10  ;   ;Job Sales Applied Account;Code20   ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Job Sales Applied Account;
+                                                              ESP=Cuenta liq. ventas proy.;
+                                                              DEA=Projektverkaufsausgleich-Konto] }
+    { 11  ;   ;Recognized Costs Account;Code20    ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Recognized Costs Account;
+                                                              ESP=Cuenta costes reconocidos;
+                                                              DEA=Konto deklarierte Kosten] }
+    { 12  ;   ;Recognized Sales Account;Code20    ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Recognized Sales Account;
+                                                              ESP=Cuenta ventas reconocidas;
+                                                              DEA=Konto deklarierte VerkÑufe] }
+    { 13  ;   ;Item Costs Applied Account;Code20  ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Item Costs Applied Account;
+                                                              ESP=Cta. de costes liq. productos;
+                                                              DEA=Konto fÅr ausgeglichene Artikelpreise] }
+    { 14  ;   ;Resource Costs Applied Account;Code20;
+                                                   TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Resource Costs Applied Account;
+                                                              ESP=Cta. de costes liq. recursos;
+                                                              DEA=Konto fÅr ausgeglichene Ressourcenpreise] }
+    { 15  ;   ;G/L Costs Applied Account;Code20   ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=G/L Costs Applied Account;
+                                                              ESP=Cta. de costes liq. contab.;
+                                                              DEA=Konto fÅr ausgeglichene Fibu-Kosten] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

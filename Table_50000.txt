@@ -1,0 +1,39 @@
+OBJECT Table 50000 CIC Setup (private)
+{
+  OBJECT-PROPERTIES
+  {
+    Date=18.04.13;
+    Time=18:00:00;
+    Version List=CIC002;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Integer        }
+    { 3   ;   ;domesticVatSpecification;Boolean   ;Description=CIC002, This flag enables the displayo of the domestic VAT Specification in the Invoice and Credit Memo reports. }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    {
+      CICERO CONSULTING
+
+      VERSION TICKET NAME DATE       DESCRIPTION
+      CIC001  xxxxxx SEG  2013-03-07 Created this table with the maxLineLength field.
+      CIC002  xxxxxx SEG  2013-04-16 Added the "domesticVatSpecification" field.
+      CIC003  xxxxxx SEG  2013-04-18 Removed the maxLineLength field again.
+    }
+    END.
+  }
+}
+

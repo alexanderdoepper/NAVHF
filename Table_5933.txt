@@ -1,0 +1,117 @@
+OBJECT Table 5933 Service Order Posting Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Service Order Posting Buffer;
+               ESP=Buffer regis. ped. serv.;
+               DEA=Serviceauftragsbuchungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Service Order No.   ;Code20        ;CaptionML=[ENU=Service Order No.;
+                                                              ESP=N§ ped. servicio;
+                                                              DEA=Serviceauftragsnr.] }
+    { 2   ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESP=Tipo movimiento;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=Usage,Sale;
+                                                                    ESP=Consumo,Venta;
+                                                                    DEA=Verbrauch,Verkauf];
+                                                   OptionString=Usage,Sale }
+    { 3   ;   ;Posting Group Type  ;Option        ;CaptionML=[ENU=Posting Group Type;
+                                                              ESP=Tipo Gr. Contable;
+                                                              DEA=Buchungsgruppenart];
+                                                   OptionCaptionML=[ENU=" ,Resource,Item,Service Cost,Service Contract";
+                                                                    ESP=" ,Recurso,Producto,Coste servicio,Contrato servicio";
+                                                                    DEA=" ,Ressource,Artikel,Servicekosten,Servicevertrag"];
+                                                   OptionString=[ ,Resource,Item,Service Cost,Service Contract] }
+    { 4   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 6   ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 7   ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 8   ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              ESP=Grupo contable negocio;
+                                                              DEA=Gesch„ftsbuchungsgruppe] }
+    { 9   ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              ESP=Grupo contable producto;
+                                                              DEA=Produktbuchungsgruppe] }
+    { 10  ;   ;Unit of Measure Code;Code10        ;CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 11  ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
+                                                   CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 13  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 14  ;   ;Total Cost          ;Decimal       ;CaptionML=[ENU=Total Cost;
+                                                              ESP=Coste total;
+                                                              DEA=Einstandsbetrag];
+                                                   AutoFormatType=1 }
+    { 15  ;   ;Total Price         ;Decimal       ;CaptionML=[ENU=Total Price;
+                                                              ESP=Importe venta;
+                                                              DEA=Verkaufsbetrag];
+                                                   AutoFormatType=1 }
+    { 16  ;   ;Appl.-to Service Entry;Integer     ;CaptionML=[ENU=Appl.-to Service Entry;
+                                                              ESP=Liquidar a-mov. servicio;
+                                                              DEA=Ausgleich mit Serviceposten] }
+    { 17  ;   ;Service Contract No.;Code20        ;CaptionML=[ENU=Service Contract No.;
+                                                              ESP=N§ contrato servicio;
+                                                              DEA=Servicevertragsnr.] }
+    { 18  ;   ;Service Item No.    ;Code20        ;CaptionML=[ENU=Service Item No.;
+                                                              ESP=N§ prod. servicio;
+                                                              DEA=Serviceartikelnr.] }
+    { 21  ;   ;Qty. to Invoice     ;Decimal       ;CaptionML=[ENU=Qty. to Invoice;
+                                                              ESP=Cdad. a facturar;
+                                                              DEA=Zu fakturieren];
+                                                   AutoFormatType=1 }
+    { 22  ;   ;Location Code       ;Code20        ;CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almac‚n;
+                                                              DEA=Lagerortcode] }
+    { 23  ;   ;Dimension Entry No. ;Integer       ;CaptionML=[ENU=Dimension Entry No.;
+                                                              ESP=N§ mov. dimensi¢n;
+                                                              DEA=Dimension Lfd. Nr.] }
+    { 24  ;   ;Line Discount %     ;Decimal       ;CaptionML=[ENU=Line Discount %;
+                                                              ESP=% Descuento l¡nea;
+                                                              DEA=Zeilenrabatt %] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Service Order No.,Entry Type,Posting Group Type,No.,Gen. Bus. Posting Group,Gen. Prod. Posting Group,Global Dimension 1 Code,Global Dimension 2 Code,Unit of Measure Code,Service Item No.,Location Code,Appl.-to Service Entry;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

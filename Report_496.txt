@@ -1,0 +1,269 @@
+OBJECT Report 496 Batch Post Purchase Orders
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Batch Post Purchase Orders;
+               ESP=Reg. lotes pedidos compra;
+               DEA=Bestellungen stapelbuchen];
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+    { 4458;    ;DataItem;                    ;
+               DataItemTable=Table38;
+               DataItemTableView=SORTING(Document Type,No.)
+                                 WHERE(Document Type=CONST(Order));
+               ReqFilterHeadingML=[ENU=Purchase Order;
+                                   DEA=Purchase Order];
+               OnPreDataItem=BEGIN
+                               IF ReplacePostingDate AND (PostingDateReq = 0D) THEN
+                                 ERROR(Text000);
+
+                               Approvaltemplate.SETCURRENTKEY("Table ID","Document Type",Enabled);
+                               Approvaltemplate.SETRANGE("Table ID",DATABASE::"Purchase Header");
+                               Approvaltemplate.SETRANGE("Document Type","Purchase Header"."Document Type"::Order);
+                               Approvaltemplate.SETRANGE(Enabled,TRUE);
+                               IF Approvaltemplate.FINDFIRST THEN
+                                 "Purchase Header".SETRANGE(Status,"Purchase Header".Status::Released);
+
+                               CounterTotal := COUNT;
+                               Window.OPEN(Text001);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF CalcInvDisc THEN
+                                    CalculateInvoiceDiscount;
+
+                                  Counter := Counter + 1;
+                                  Window.UPDATE(1,"No.");
+                                  Window.UPDATE(2,ROUND(Counter / CounterTotal * 10000,1));
+                                  "Purchase Header".Receive := ReceiveReq;
+                                  "Purchase Header".Invoice := InvReq;
+                                  CLEAR(PurchPost);
+                                  PurchPost.SetPostingDate(ReplacePostingDate,ReplaceDocumentDate,PostingDateReq);
+                                  IF IsApprovedForPostingBatch THEN
+                                    IF PurchPost.RUN("Purchase Header") THEN BEGIN
+                                      CounterOK := CounterOK + 1;
+                                      IF MARKEDONLY THEN
+                                        MARK(FALSE);
+                                    END;
+
+                                  IF Print THEN
+                                    CASE "Document Type" OF
+                                      "Document Type"::Order:
+                                        BEGIN
+                                          IF Receive THEN BEGIN
+                                            PurchRcptHeader."No." := "Last Receiving No.";
+                                            PurchRcptHeader.SETRECFILTER;
+                                            PrintReport(ReportSelection.Usage::"P.Receipt");
+                                          END;
+                                          IF Invoice THEN BEGIN
+                                            PurchInvHeader."No." := "Last Posting No.";
+                                            PurchInvHeader.SETRECFILTER;
+                                            PrintReport(ReportSelection.Usage::"P.Invoice");
+                                          END;
+                                        END;
+                                      "Document Type"::Invoice:
+                                        BEGIN
+                                          IF "Last Posting No." = '' THEN
+                                            PurchInvHeader."No." := "No."
+                                          ELSE
+                                            PurchInvHeader."No." := "Last Posting No.";
+                                          PurchInvHeader.SETRECFILTER;
+                                          PrintReport(ReportSelection.Usage::"P.Invoice");
+                                        END;
+                                      "Document Type"::"Credit Memo":
+                                        BEGIN
+                                          IF "Last Posting No." = '' THEN
+                                            PurchCrMemoHeader."No." := "No."
+                                          ELSE
+                                            PurchCrMemoHeader."No." := "Last Posting No.";
+                                          PurchCrMemoHeader.SETRECFILTER;
+                                          PrintReport(ReportSelection.Usage::"P.Cr.Memo");
+                                        END;
+                                    END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                Window.CLOSE;
+                                MESSAGE(Text002,CounterOK,CounterTotal);
+                              END;
+
+               ReqFilterFields=No.,Status }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   InitValue;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  Name=Receive;
+                  CaptionML=[ENU=Receive;
+                             ESP=Recepci¢n;
+                             DEA=Lieferung];
+                  SourceExpr=ReceiveReq }
+
+      { 2   ;2   ;Field     ;
+                  Name=Invoice;
+                  CaptionML=[ENU=Invoice;
+                             ESP=Factura;
+                             DEA=Rechnung];
+                  SourceExpr=InvReq }
+
+      { 3   ;2   ;Field     ;
+                  Name=PostingDate;
+                  CaptionML=[ENU=Posting Date;
+                             ESP=Fecha registro;
+                             DEA=Buchungsdatum];
+                  SourceExpr=PostingDateReq }
+
+      { 4   ;2   ;Field     ;
+                  Name=ReplacePostingDate;
+                  CaptionML=[ENU=Replace Posting Date;
+                             ESP=Reemplazar fecha reg.;
+                             DEA=Buchungsdatum ersetzen];
+                  SourceExpr=ReplacePostingDate;
+                  OnValidate=BEGIN
+                               IF ReplacePostingDate THEN
+                                 MESSAGE(Text003);
+                             END;
+                              }
+
+      { 5   ;2   ;Field     ;
+                  Name=ReplaceDocumentDate;
+                  CaptionML=[ENU=Replace Document Date;
+                             ESP=Reemplazar fecha documento;
+                             DEA=Belegdatum ersetzen];
+                  SourceExpr=ReplaceDocumentDate }
+
+      { 7   ;2   ;Field     ;
+                  Name=CalcInvDiscount;
+                  CaptionML=[ENU=Calc. Inv. Discount;
+                             ESP=Calc. dto. factura y P.P.;
+                             DEA=Rechnungsrab. berechnen];
+                  SourceExpr=CalcInvDisc;
+                  OnValidate=BEGIN
+                               PurchSetup.GET;
+                               PurchSetup.TESTFIELD("Calc. Inv. Discount",FALSE);
+                             END;
+                              }
+
+      { 1150000;2;Field     ;
+                  CaptionML=[ENU=Print;
+                             DEA=Drucken];
+                  SourceExpr=Print }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Please enter the posting date.;ESP=Introduzca la fecha registro.;DEA=Bitte das Buchungsdatum eingeben.';
+      Text001@1001 : TextConst 'ENU=Posting orders  #1########## @2@@@@@@@@@@@@@;ESP=Reg. pedidos    #1########## @2@@@@@@@@@@@@@;DEA=Bestellungen werden gebucht #1########## @2@@@@@@@@@@@@@';
+      Text002@1002 : TextConst 'ENU=%1 orders out of a total of %2 have now been posted.;ESP=Se han registrado %1 pedidos de un total de %2.;DEA=%1 Bestellungen von insgesamt %2 wurden gebucht.';
+      PurchLine@1003 : Record 39;
+      PurchSetup@1004 : Record 312;
+      Approvaltemplate@1018 : Record 464;
+      PurchCalcDisc@1005 : Codeunit 70;
+      PurchPost@1006 : Codeunit 90;
+      Window@1007 : Dialog;
+      ReceiveReq@1008 : Boolean;
+      InvReq@1009 : Boolean;
+      PostingDateReq@1010 : Date;
+      CounterTotal@1011 : Integer;
+      Counter@1012 : Integer;
+      CounterOK@1013 : Integer;
+      ReplacePostingDate@1014 : Boolean;
+      ReplaceDocumentDate@1015 : Boolean;
+      CalcInvDisc@1016 : Boolean;
+      Text003@1017 : TextConst 'ENU=The exchange rate associated with the new posting date on the purchase header will not apply to the purchase lines.;ESP=El tipo de cambio asociado con la nueva fecha de registro indicada en el encabezado de compra no se aplicar† a las l°neas de compra.;DEA=Der mit dem neuen Buchungsdatum im Einkaufskopf verknÅpfte Wechselkurs wird nicht auf die Einkaufszeilen angewendet.';
+      Print@1150000 : Boolean;
+      ReportSelection@1150004 : Record 77;
+      PurchInvHeader@1150003 : Record 122;
+      PurchCrMemoHeader@1150002 : Record 124;
+      PurchRcptHeader@1150001 : Record 120;
+
+    PROCEDURE CalculateInvoiceDiscount@1();
+    BEGIN
+      PurchLine.RESET;
+      PurchLine.SETRANGE("Document Type","Purchase Header"."Document Type");
+      PurchLine.SETRANGE("Document No.","Purchase Header"."No.");
+      IF PurchLine.FINDFIRST THEN
+        IF PurchCalcDisc.RUN(PurchLine) THEN BEGIN
+          "Purchase Header".GET("Purchase Header"."Document Type","Purchase Header"."No.");
+          COMMIT;
+        END;
+    END;
+
+    LOCAL PROCEDURE PrintReport@1150000(ReportUsage@1000 : Integer);
+    BEGIN
+      ReportSelection.RESET;
+      ReportSelection.SETRANGE(Usage,ReportUsage);
+      ReportSelection.FIND('-');
+      REPEAT
+        ReportSelection.TESTFIELD("Report ID");
+        CASE ReportUsage OF
+          ReportSelection.Usage::"P.Invoice":
+            REPORT.RUN(ReportSelection."Report ID",FALSE,FALSE,PurchInvHeader);
+          ReportSelection.Usage::"P.Cr.Memo":
+            REPORT.RUN(ReportSelection."Report ID",FALSE,FALSE,PurchCrMemoHeader);
+          ReportSelection.Usage::"P.Receipt":
+            REPORT.RUN(ReportSelection."Report ID",FALSE,FALSE,PurchRcptHeader);
+          // ReportSelection.Usage::"P.Ret.Shpt.":
+          //  REPORT.RUN(ReportSelection."Report ID",FALSE,FALSE,PurchShptHeader);
+        END;
+      UNTIL ReportSelection.NEXT = 0;
+    END;
+
+    PROCEDURE InitializeRequest@2(NewReceiveReq@1006 : Boolean;NewInvReq@1003 : Boolean;NewPostingDateReq@1001 : Date;NewReplacePostingDate@1002 : Boolean;NewReplaceDocumentDate@1004 : Boolean;NewCalcInvDisc@1005 : Boolean);
+    BEGIN
+      InitValue;
+      ReceiveReq := NewReceiveReq;
+      InvReq := NewInvReq;
+      PostingDateReq := NewPostingDateReq;
+      ReplacePostingDate := NewReplacePostingDate;
+      ReplaceDocumentDate := NewReplaceDocumentDate;
+      IF NewCalcInvDisc THEN
+        PurchSetup.TESTFIELD("Calc. Inv. Discount",FALSE);
+      CalcInvDisc := NewCalcInvDisc;
+    END;
+
+    LOCAL PROCEDURE InitValue@3();
+    BEGIN
+      PurchSetup.GET;
+      CalcInvDisc := PurchSetup."Calc. Inv. Discount";
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

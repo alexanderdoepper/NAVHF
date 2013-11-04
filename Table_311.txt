@@ -1,0 +1,275 @@
+OBJECT Table 311 Sales & Receivables Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Sales & Receivables Setup;
+               ESP=Conf. ventas y cobros;
+               DEA=Debitoren & Verkauf Einr.];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Discount Posting    ;Option        ;CaptionML=[ENU=Discount Posting;
+                                                              ESP=Registro dto.;
+                                                              DEA=Rabattbuchung];
+                                                   OptionCaptionML=[ENU=No Discounts,Invoice Discounts,Line Discounts,All Discounts;
+                                                                    ESP=Ninguno,Dto. factura,Dto. l°nea,Todos;
+                                                                    DEA=Keine Rabatte,Rechnungsrabatte,Zeilenrabatte,Alle Rabatte];
+                                                   OptionString=No Discounts,Invoice Discounts,Line Discounts,All Discounts }
+    { 4   ;   ;Credit Warnings     ;Option        ;CaptionML=[ENU=Credit Warnings;
+                                                              ESP=Advertencia crÇdito;
+                                                              DEA=Kreditlimitwarnung];
+                                                   OptionCaptionML=[ENU=Both Warnings,Credit Limit,Overdue Balance,No Warning;
+                                                                    ESP=Ambos,L°mite crÇdito,Saldo vencido,Ninguno;
+                                                                    DEA=Beide Warnungen,Kreditlimit,FÑlliger Saldo,Keine Warnung];
+                                                   OptionString=Both Warnings,Credit Limit,Overdue Balance,No Warning }
+    { 5   ;   ;Stockout Warning    ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Stockout Warning;
+                                                              ESP=Advertencia falta stock;
+                                                              DEA=Bestandswarnung] }
+    { 6   ;   ;Shipment on Invoice ;Boolean       ;CaptionML=[ENU=Shipment on Invoice;
+                                                              ESP=Albar†n al facturar;
+                                                              DEA=Lieferschein b. VK-Rechnung] }
+    { 7   ;   ;Invoice Rounding    ;Boolean       ;CaptionML=[ENU=Invoice Rounding;
+                                                              ESP=Redondeo factura;
+                                                              DEA=Rechnungsrundung] }
+    { 8   ;   ;Ext. Doc. No. Mandatory;Boolean    ;CaptionML=[ENU=Ext. Doc. No. Mandatory;
+                                                              ESP=Nß doc. externo obligatorio;
+                                                              DEA=Ext. Belegnr. erforderlich] }
+    { 9   ;   ;Customer Nos.       ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Customer Nos.;
+                                                              ESP=Nß serie cliente;
+                                                              DEA=Debitorennummern] }
+    { 10  ;   ;Quote Nos.          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Quote Nos.;
+                                                              ESP=Nß serie oferta;
+                                                              DEA=Angebotsnummern] }
+    { 11  ;   ;Order Nos.          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Order Nos.;
+                                                              ESP=Nß ser. pedido;
+                                                              DEA=Auftragsnummern] }
+    { 12  ;   ;Invoice Nos.        ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Invoice Nos.;
+                                                              ESP=Nß serie factura;
+                                                              DEA=Rechnungsnummern] }
+    { 13  ;   ;Posted Invoice Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Invoice Nos.;
+                                                              ESP=Nß serie fact. registrada;
+                                                              DEA=Gebuchte Rechnungsnummern] }
+    { 14  ;   ;Credit Memo Nos.    ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Credit Memo Nos.;
+                                                              ESP=Nß serie abono;
+                                                              DEA=Gutschriftsnummern] }
+    { 15  ;   ;Posted Credit Memo Nos.;Code10     ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Credit Memo Nos.;
+                                                              ESP=Nß serie abono registrado;
+                                                              DEA=Gebuchte Gutschriftsnummern] }
+    { 16  ;   ;Posted Shipment Nos.;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Shipment Nos.;
+                                                              ESP=Nß serie alb. venta registrado;
+                                                              DEA=Gebuchte Lieferungsnummern] }
+    { 17  ;   ;Reminder Nos.       ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Reminder Nos.;
+                                                              ESP=Nß serie recordatorio;
+                                                              DEA=Mahnungsnummern] }
+    { 18  ;   ;Issued Reminder Nos.;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Issued Reminder Nos.;
+                                                              ESP=Nß serie recordatorio emitido;
+                                                              DEA=Registrierte Mahnungsnummern] }
+    { 19  ;   ;Fin. Chrg. Memo Nos.;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Fin. Chrg. Memo Nos.;
+                                                              ESP=Nß serie doc. interÇs;
+                                                              DEA=Zinsrechnungsnummern] }
+    { 20  ;   ;Issued Fin. Chrg. M. Nos.;Code10   ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Issued Fin. Chrg. M. Nos.;
+                                                              ESP=Nß serie doc. interÇs emitido;
+                                                              DEA=Regist. Zinsrechnungsnummern] }
+    { 21  ;   ;Posted Prepmt. Inv. Nos.;Code10    ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Prepmt. Inv. Nos.;
+                                                              ESP=Nß fact. prepago registrada;
+                                                              DEA=Geb. Vorauszahlungs-Rechnungsnr.] }
+    { 22  ;   ;Posted Prepmt. Cr. Memo Nos.;Code10;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Prepmt. Cr. Memo Nos.;
+                                                              ESP=Nß abono prepago registrado;
+                                                              DEA=Geb. Vorauszahlungs-Gutschriftennr.] }
+    { 23  ;   ;Blanket Order Nos.  ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Blanket Order Nos.;
+                                                              ESP=Nß serie pedido abierto;
+                                                              DEA=Rahmenauftragsnummern] }
+    { 24  ;   ;Calc. Inv. Discount ;Boolean       ;CaptionML=[ENU=Calc. Inv. Discount;
+                                                              ESP=Calc. dto. factura;
+                                                              DEA=Rechnungsrab. berechnen] }
+    { 25  ;   ;Appln. between Currencies;Option   ;CaptionML=[ENU=Appln. between Currencies;
+                                                              ESP=Liquidaci¢n entre divisas;
+                                                              DEA=WÑhrungsausgleich];
+                                                   OptionCaptionML=[ENU=None,EMU,All;
+                                                                    ESP=Ninguna,UME,Todas;
+                                                                    DEA=Kein,EWU,Alle];
+                                                   OptionString=None,EMU,All }
+    { 26  ;   ;Copy Comments Blanket to Order;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Comments Blanket to Order;
+                                                              ESP=Copiar coment. ped. abto a ped.;
+                                                              DEA=Bem. Rahmenauf. in Auftr. kop.] }
+    { 27  ;   ;Copy Comments Order to Invoice;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Comments Order to Invoice;
+                                                              ESP=Copiar coment. pedido a factura;
+                                                              DEA=Bem. Auftrag in Rechnung kop.] }
+    { 28  ;   ;Copy Comments Order to Shpt.;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Comments Order to Shpt.;
+                                                              ESP=Copiar coment. ped. a alb. venta;
+                                                              DEA=Bem. Auftrag in Lieferung kop.] }
+    { 29  ;   ;Allow VAT Difference;Boolean       ;CaptionML=[ENU=Allow VAT Difference;
+                                                              ESP=Permitir diferen. IVA;
+                                                              DEA=MwSt.-Differenz zulassen] }
+    { 30  ;   ;Calc. Inv. Disc. per VAT ID;Boolean;CaptionML=[ENU=Calc. Inv. Disc. per VAT ID;
+                                                              ESP=Calc. dto. fra. por ID IVA;
+                                                              DEA=Rech.Rab. pro MwSt.Kennz. ber.] }
+    { 31  ;   ;Logo Position on Documents;Option  ;CaptionML=[ENU=Logo Position on Documents;
+                                                              ESP=Posici¢n logo documentos;
+                                                              DEA=Logoposition auf Belegen];
+                                                   OptionCaptionML=[ENU=No Logo,Left,Center,Right;
+                                                                    ESP=Sin logo,Izquierda,Centro,Derecha;
+                                                                    DEA=Kein Logo,Links,Mitte,Rechts];
+                                                   OptionString=No Logo,Left,Center,Right }
+    { 32  ;   ;Check Prepmt. when Posting;Boolean ;CaptionML=[ENU=Check Prepmt. when Posting;
+                                                              ESP=Comprobar prepago al registrar;
+                                                              DEA=Vorauszahlung beim Buchen prÅfen] }
+    { 35  ;   ;Default Posting Date;Option        ;CaptionML=[ENU=Default Posting Date;
+                                                              ESP=Fecha registro predeterminada;
+                                                              DEA=Standardbuchungsdatum];
+                                                   OptionCaptionML=[ENU=Work Date,No Date;
+                                                                    ESP=Fecha de trabajo,Sin fecha;
+                                                                    DEA=Arbeitsdatum,Kein Datum];
+                                                   OptionString=Work Date,No Date }
+    { 36  ;   ;Default Quantity to Ship;Option    ;CaptionML=[ENU=Default Quantity to Ship;
+                                                              ESP=Cantidad predeterminada para enviar;
+                                                              DEA=Zu liefernde Standardmenge];
+                                                   OptionCaptionML=[ENU=Remainder,Blank;
+                                                                    ESP=Restante,En blanco;
+                                                                    DEA=Rest,Leer];
+                                                   OptionString=Remainder,Blank }
+    { 37  ;   ;Archive Quotes and Orders;Boolean  ;CaptionML=[ENU=Archive Quotes and Orders;
+                                                              ESP=Archivar ofertas y pedidos;
+                                                              DEA=Angebote und AuftrÑge archivieren] }
+    { 38  ;   ;Post with Job Queue ;Boolean       ;CaptionML=[ENU=Post with Job Queue;
+                                                              ESP=Registrar con cola de proyectos;
+                                                              DEA=Mit Aufgabenwarteschlange buchen] }
+    { 39  ;   ;Job Queue Category Code;Code10     ;TableRelation="Job Queue Category";
+                                                   CaptionML=[ENU=Job Queue Category Code;
+                                                              ESP=C¢d. categor°a cola proyectos;
+                                                              DEA=Aufgabenwarteschlange - Kategoriencode] }
+    { 40  ;   ;Job Queue Priority for Post;Integer;InitValue=1000;
+                                                   OnValidate=BEGIN
+                                                                IF "Job Queue Priority for Post" < 0 THEN
+                                                                  ERROR(Text001);
+                                                              END;
+
+                                                   CaptionML=[ENU=Job Queue Priority for Post;
+                                                              ESP=Prioridad cola proyectos para registro;
+                                                              DEA=Aufgabenwarteschlange - PrioritÑt fÅr Buchung];
+                                                   MinValue=0 }
+    { 41  ;   ;Post & Print with Job Queue;Boolean;CaptionML=[ENU=Post & Print with Job Queue;
+                                                              ESP=Registrar e imprimir con cola de proyectos;
+                                                              DEA=Mit Aufgabenwarteschlange buchen & drucken] }
+    { 42  ;   ;Job Q. Prio. for Post & Print;Integer;
+                                                   InitValue=1000;
+                                                   OnValidate=BEGIN
+                                                                IF "Job Queue Priority for Post" < 0 THEN
+                                                                  ERROR(Text001);
+                                                              END;
+
+                                                   CaptionML=[ENU=Job Queue Priority for Post & Print;
+                                                              ESP=Prioridad cola proyectos para registro e impresi¢n;
+                                                              DEA=Aufgabenwarteschlange - PrioritÑt fÅr Buchung & Druck];
+                                                   MinValue=0 }
+    { 43  ;   ;Notify On Success   ;Boolean       ;CaptionML=[ENU=Notify On Success;
+                                                              ESP=Notificar operaci¢n correcta;
+                                                              DEA=Bei Erfolg benachrichtigen] }
+    { 5800;   ;Posted Return Receipt Nos.;Code10  ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Posted Return Receipt Nos.;
+                                                              ESP=Nß serie recep. devol. regis.;
+                                                              DEA=Gebuchte RÅcksendungsnummern] }
+    { 5801;   ;Copy Cmts Ret.Ord. to Ret.Rcpt;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Cmts Ret.Ord. to Ret.Rcpt;
+                                                              ESP=Copiar coment. dev. a recep. dev.;
+                                                              DEA=Bem. Rekl. in RÅcksendung kop.] }
+    { 5802;   ;Copy Cmts Ret.Ord. to Cr. Memo;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Copy Cmts Ret.Ord. to Cr. Memo;
+                                                              ESP=Copiar coment. dev. a abono;
+                                                              DEA=Bem. Rekl. in Gutschrift kop.] }
+    { 6600;   ;Return Order Nos.   ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Return Order Nos.;
+                                                              ESP=Nß serie devoluci¢n;
+                                                              DEA=Reklamationsnummern] }
+    { 6601;   ;Return Receipt on Credit Memo;Boolean;
+                                                   CaptionML=[ENU=Return Receipt on Credit Memo;
+                                                              ESP=Recep. dev. en abono;
+                                                              DEA=RÅcksendung bei Gutschrift] }
+    { 6602;   ;Exact Cost Reversing Mandatory;Boolean;
+                                                   CaptionML=[ENU=Exact Cost Reversing Mandatory;
+                                                              ESP=Coste exacto devol. obligatorio;
+                                                              DEA=Einst.-Pr.-RÅckverfolg. notw.] }
+    { 7101;   ;Customer Group Dimension Code;Code20;
+                                                   TableRelation=Dimension;
+                                                   CaptionML=[ENU=Customer Group Dimension Code;
+                                                              ESP=C¢d. dimensi¢n grupo clientes;
+                                                              DEA=Debitorengruppen-Dim.-Code] }
+    { 7102;   ;Salesperson Dimension Code;Code20  ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Salesperson Dimension Code;
+                                                              ESP=C¢d. dimensi¢n vendedor;
+                                                              DEA=VerkÑufer-Dimensionscode] }
+    { 11500;  ;Block ship. when neg. invent.;Boolean;
+                                                   CaptionML=[ENU=Block ship. when neg. invent.;
+                                                              DEA=Lief. bei neg. Lager sperren] }
+    { 5005130;;Arch. Orders and Ret. Orders;Boolean;
+                                                   CaptionML=[ENU=Arch. Orders and Ret. Orders;
+                                                              DEA=Arch. AuftrÑge und Reklamationen] }
+    { 5005132;;Archiving Sales Quote;Option       ;CaptionML=[ENU=Archiving Sales Quote;
+                                                              DEA=Angebot archivieren];
+                                                   OptionCaptionML=[ENU=Never,Question,Always;
+                                                                    DEA=Niemals,Auf Nachfrage,Immer];
+                                                   OptionString=Never,Question,Always }
+    { 5005133;;Archiving Blanket Sales Order;Boolean;
+                                                   CaptionML=[ENU=Archiving Blanket Sales Order;
+                                                              DEA=Rahmenauftrag archivieren] }
+    { 5005134;;Batch Archiving Sales Quote;Boolean;InitValue=No;
+                                                   CaptionML=[ENU=Batch Archiving Sales Quote;
+                                                              DEA=Angebote stapelarchivieren];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=Job Queue Priority must be zero or positive.;ESP=La prioridad de la cola de proyecto debe ser cero o positiva.;DEA=Der Wert fÅr die AufgabenwarteschlangenprioritÑt muss null oder positiv sein.';
+
+    PROCEDURE JobQueueActive@1() : Boolean;
+    BEGIN
+      GET;
+      EXIT("Post with Job Queue" OR "Post & Print with Job Queue");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

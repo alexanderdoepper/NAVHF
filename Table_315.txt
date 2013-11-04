@@ -1,0 +1,61 @@
+OBJECT Table 315 Jobs Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Jobs Setup;
+               ESP=Config. proyectos;
+               DEA=Projekt Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Job Nos.            ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Job Nos.;
+                                                              ESP=Nß serie proyecto;
+                                                              DEA=Projektnummern] }
+    { 3   ;   ;Apply Usage Link by Default;Boolean;CaptionML=[ENU=Apply Usage Link by Default;
+                                                              ESP=Aplicar v°nculo utiliz. de forma pred.;
+                                                              DEA=Verbrauchslink standardmÑ·ig anwenden] }
+    { 4   ;   ;Default WIP Method  ;Code20        ;TableRelation="Job WIP Method".Code;
+                                                   CaptionML=[ENU=Default WIP Method;
+                                                              ESP=MÇtodo WIP predet.;
+                                                              DEA=WIP-Standardmethode] }
+    { 5   ;   ;Default Job Posting Group;Code10   ;TableRelation="Job Posting Group".Code;
+                                                   CaptionML=[ENU=Default Job Posting Group;
+                                                              ESP=Grupo contable proyecto pred.;
+                                                              DEA=StandardmÑ·ige Projektbuchungsgruppe] }
+    { 6   ;   ;Default WIP Posting Method;Option  ;CaptionML=[ENU=Default WIP Posting Method;
+                                                              ESP=MÇtodo registro WIP pred.;
+                                                              DEA=StandardmÑ·ige WIP-Buchungsmethode];
+                                                   OptionCaptionML=[ENU=Per Job,Per Job Ledger Entry;
+                                                                    ESP=Por proyecto,Por mov. proyecto;
+                                                                    DEA=Pro Projekt,Pro Projektposten];
+                                                   OptionString=Per Job,Per Job Ledger Entry }
+    { 1001;   ;Automatic Update Job Item Cost;Boolean;
+                                                   CaptionML=[ENU=Automatic Update Job Item Cost;
+                                                              ESP=Actualizar coste productos proyecto autom†ticamente;
+                                                              DEA=Automatische Aktualisierung der Projektartikelpreise] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

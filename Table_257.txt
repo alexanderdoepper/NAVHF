@@ -1,0 +1,92 @@
+OBJECT Table 257 VAT Statement Name
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               CheckSalesVATAdvNotif;
+             END;
+
+    OnDelete=BEGIN
+               VATStmtLine.SETRANGE("Statement Template Name","Statement Template Name");
+               VATStmtLine.SETRANGE("Statement Name",Name);
+               VATStmtLine.DELETEALL;
+             END;
+
+    OnRename=BEGIN
+               VATStmtLine.SETRANGE("Statement Template Name",xRec."Statement Template Name");
+               VATStmtLine.SETRANGE("Statement Name",xRec.Name);
+               WHILE VATStmtLine.FINDFIRST DO
+                 VATStmtLine.RENAME("Statement Template Name",Name,VATStmtLine."Line No.");
+             END;
+
+    CaptionML=[ENU=VAT Statement Name;
+               ESP=Nombre declar. IVA;
+               DEA=MwSt.-Abrechnungsname];
+    LookupPageID=Page320;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Statement Template Name;Code10     ;TableRelation="VAT Statement Template";
+                                                   CaptionML=[ENU=Statement Template Name;
+                                                              ESP=Nombre libro declaraci¢n;
+                                                              DEA=Abrechnungsvorlagenname];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 11000;  ;Sales VAT Adv. Notification;Boolean;OnValidate=BEGIN
+                                                                CheckSalesVATAdvNotif;
+                                                              END;
+
+                                                   CaptionML=[ENU=Sales VAT Adv. Notification;
+                                                              DEA=USt.-Voranmeldung] }
+  }
+  KEYS
+  {
+    {    ;Statement Template Name,Name            ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There is already a %1 set up for %2.;DEA=Es ist bereits ein %1 fÅr %2 definiert.';
+      VATStmtLine@1000 : Record 256;
+
+    LOCAL PROCEDURE CheckSalesVATAdvNotif@1140000();
+    VAR
+      VATStmtName@1140000 : Record 257;
+    BEGIN
+      IF NOT "Sales VAT Adv. Notification" THEN
+        EXIT;
+      VATStmtName.SETRANGE("Sales VAT Adv. Notification",TRUE);
+      VATStmtName.SETFILTER("Statement Template Name",'<>%1',"Statement Template Name");
+      IF VATStmtName.FIND('-') THEN
+        ERROR(Text1140000,TABLECAPTION,FIELDCAPTION("Sales VAT Adv. Notification"));
+
+      VATStmtName.SETFILTER(Name,'<>%1',Name);
+      VATStmtName.SETRANGE("Statement Template Name");
+      IF VATStmtName.FIND('-') THEN
+        ERROR(Text1140000,TABLECAPTION,FIELDCAPTION("Sales VAT Adv. Notification"));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

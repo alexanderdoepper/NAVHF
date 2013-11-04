@@ -1,0 +1,71 @@
+OBJECT Table 388 Dimension Translation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Dimension Translation;
+               ESP=Traducci¢n dimensi¢n;
+               DEA=DimensionsÅbersetzung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code20        ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Language ID         ;Integer       ;TableRelation="Windows Language";
+                                                   OnValidate=BEGIN
+                                                                CALCFIELDS("Language Name");
+                                                              END;
+
+                                                   CaptionML=[ENU=Language ID;
+                                                              ESP=Idioma  ID;
+                                                              DEA=Sprach-ID];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Name                ;Text30        ;OnValidate=BEGIN
+                                                                IF "Code Caption" = '' THEN
+                                                                  "Code Caption" := COPYSTR(STRSUBSTNO(Text001,Name),1,MAXSTRLEN("Code Caption"));
+                                                                IF "Filter Caption" = '' THEN
+                                                                  "Filter Caption" := COPYSTR(STRSUBSTNO(Text002,Name),1,MAXSTRLEN("Filter Caption"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 4   ;   ;Code Caption        ;Text50        ;CaptionML=[ENU=Code Caption;
+                                                              ESP=T°tulo c¢digo;
+                                                              DEA=Code Caption] }
+    { 5   ;   ;Filter Caption      ;Text30        ;CaptionML=[ENU=Filter Caption;
+                                                              ESP=T°tulo filtro;
+                                                              DEA=Filter Caption] }
+    { 6   ;   ;Language Name       ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup("Windows Language".Name WHERE (Language ID=FIELD(Language ID)));
+                                                   CaptionML=[ENU=Language Name;
+                                                              ESP=Nombre idioma;
+                                                              DEA=Sprachenname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Code,Language ID                        ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=%1 Code;ESP=%1 C¢digo;DEA=%1 Code';
+      Text002@1001 : TextConst 'ENU=%1 Filter;ESP=Filtro %1;DEA=%1 Filter';
+
+    BEGIN
+    END.
+  }
+}
+

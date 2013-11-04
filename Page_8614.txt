@@ -1,0 +1,218 @@
+OBJECT Page 8614 Config. Package Card
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Package Card;
+               ESP=Configurar tarjeta de paquete;
+               DEA=Paketkarte konfigurieren];
+    SourceTable=Table8623;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 11      ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 24      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Package;
+                                 ESP=Paquete;
+                                 DEA=Paket] }
+      { 23      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Export Package;
+                                 ESP=Exportar paquete;
+                                 DEA=Paket exportieren];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Export;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 TESTFIELD(Code);
+                                 ConfigXMLExchange.ExportPackage(Rec);
+                               END;
+                                }
+      { 22      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Import Package;
+                                 ESP=Importar paquete;
+                                 DEA=Paket importieren];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Import;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 ConfigXMLExchange.ImportPackageXMLFromClient;
+                               END;
+                                }
+      { 21      ;2   ;Action    ;
+                      CaptionML=[ENU=Export to Excel;
+                                 ESP=Exportar a Excel;
+                                 DEA=In Excel exportieren];
+                      Image=ExportToExcel;
+                      OnAction=VAR
+                                 ConfigPackageTable@1000 : Record 8613;
+                                 ConfigExcelExchange@1001 : Codeunit 8618;
+                               BEGIN
+                                 TESTFIELD(Code);
+
+                                 ConfigPackageTable.SETRANGE("Package Code",Code);
+                                 IF CONFIRM(Text004,TRUE,Code,ConfigPackageTable.COUNT) THEN
+                                   ConfigExcelExchange.ExportExcelFromTables(ConfigPackageTable);
+                               END;
+                                }
+      { 20      ;2   ;Action    ;
+                      CaptionML=[ENU=Import from Excel;
+                                 ESP=Importar desde Excel;
+                                 DEA=Aus Excel importieren];
+                      Image=ImportExcel;
+                      OnAction=VAR
+                                 ConfigExcelExchange@1000 : Codeunit 8618;
+                               BEGIN
+                                 ConfigExcelExchange.ImportExcelFromPackage;
+                               END;
+                                }
+      { 19      ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 ESP=Acci&ones;
+                                 DEA=F&unktionen] }
+      { 17      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Get Tables;
+                                 ESP=Obtener tablas;
+                                 DEA=Tabellen abrufen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=GetLines;
+                      PromotedCategory=New;
+                      OnAction=VAR
+                                 GetPackageTables@1000 : Report 8616;
+                               BEGIN
+                                 CurrPage.SAVERECORD;
+                                 GetPackageTables.Set(Code);
+                                 GetPackageTables.RUNMODAL;
+                                 CLEAR(GetPackageTables);
+                               END;
+                                }
+      { 15      ;2   ;Action    ;
+                      CaptionML=[ENU=Apply Package;
+                                 ESP=Aplicar paquete;
+                                 DEA=Paket Åbernehmen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Apply;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 ConfigPackageTable@1002 : Record 8613;
+                                 ConfigPackageMgt@1000 : Codeunit 8611;
+                               BEGIN
+                                 TESTFIELD(Code);
+                                 IF CONFIRM(Text003,TRUE,Code) THEN BEGIN
+                                   ConfigPackageTable.SETRANGE("Package Code",Code);
+                                   ConfigPackageMgt.ApplyPackage(Rec,ConfigPackageTable,TRUE);
+                                 END;
+                               END;
+                                }
+      { 13      ;2   ;Action    ;
+                      CaptionML=[ENU=Copy Package;
+                                 ESP=Copiar paquete;
+                                 DEA=Paket kopieren];
+                      Image=CopyWorksheet;
+                      OnAction=VAR
+                                 CopyPackage@1000 : Report 8615;
+                               BEGIN
+                                 TESTFIELD(Code);
+                                 CopyPackage.Set(Rec);
+                                 CopyPackage.RUNMODAL;
+                                 CLEAR(CopyPackage);
+                               END;
+                                }
+      { 8       ;2   ;Action    ;
+                      CaptionML=[ENU=Validate Package;
+                                 ESP=Validar paquete;
+                                 DEA=Paket ÅberprÅfen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=CheckRulesSyntax;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 ConfigPackageTable@1000 : Record 8613;
+                                 TempConfigPackageTable@1001 : TEMPORARY Record 8613;
+                                 ConfigPackageMgt@1002 : Codeunit 8611;
+                               BEGIN
+                                 IF CONFIRM(Text002,TRUE,"Package Name") THEN BEGIN
+                                   ConfigPackageTable.SETRANGE("Package Code",Code);
+                                   ConfigPackageMgt.ValidatePackageRelations(ConfigPackageTable,TempConfigPackageTable,TRUE);
+                                 END;
+                               END;
+                                }
+      { 7       ;2   ;Separator  }
+      { 6       ;2   ;Action    ;
+                      CaptionML=[ENU=Export to Translation;
+                                 ESP=Exportar a traducci¢n;
+                                 DEA=In öbersetzung exportieren];
+                      Visible=FALSE;
+                      Image=Export;
+                      OnAction=VAR
+                                 ConfigPackageTable@1001 : Record 8613;
+                               BEGIN
+                                 TESTFIELD(Code);
+
+                                 ConfigXMLExchange.SetAdvanced(TRUE);
+                                 ConfigPackageTable.SETRANGE("Package Code",Code);
+                                 IF CONFIRM(Text004,TRUE,Code,ConfigPackageTable.COUNT) THEN
+                                   ConfigXMLExchange.ExportPackageXML(ConfigPackageTable,'');
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=General;
+                GroupType=Group }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr=Code }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Package Name" }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Product Version" }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="Language ID" }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Processing Order" }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Exclude Config. Tables" }
+
+    { 10  ;1   ;Part      ;
+                SubPageView=SORTING(Package Code,Table ID);
+                SubPageLink=Package Code=FIELD(Code);
+                PagePartID=Page8625;
+                PartType=Page }
+
+  }
+  CODE
+  {
+    VAR
+      ConfigXMLExchange@1001 : Codeunit 8614;
+      Text002@1005 : TextConst 'ENU=Validate package %1?;ESP=®Validar paquete %1?;DEA=Paket %1 ÅberprÅfen?';
+      Text003@1004 : TextConst 'ENU=Apply data from package %1?;ESP=®Aplicar datos del paquete %1?;DEA=Daten aus Paket %1 Åbernehmen?';
+      Text004@1003 : TextConst 'ENU=Export package %1 with %2 tables?;ESP=®Exportar paquete %1 con %2 tablas?;DEA=Paket %1 mit %2 Tabellen exportieren?';
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,61 @@
+OBJECT Table 958 Time Sheet Posting Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Time Sheet Posting Entry;
+               ESP=Movimiento registro hoja horas;
+               DEA=Buchungsposten fÅr Arbeitszeittabelle];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Time Sheet No.      ;Code20        ;TableRelation="Time Sheet Header";
+                                                   CaptionML=[ENU=Time Sheet No.;
+                                                              ESP=Nß hoja horas;
+                                                              DEA=Arbeitszeittabelle - Nr.] }
+    { 3   ;   ;Time Sheet Line No. ;Integer       ;CaptionML=[ENU=Time Sheet Line No.;
+                                                              ESP=Nß l°nea hoja horas;
+                                                              DEA=Arbeitszeittabelle - Zeilennr.] }
+    { 4   ;   ;Time Sheet Date     ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 5   ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   Editable=No }
+    { 6   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 7   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 10  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Time Sheet No.,Time Sheet Line No.,Time Sheet Date;
+                                                   SumIndexFields=Quantity }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

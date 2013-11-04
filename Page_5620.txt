@@ -1,0 +1,36 @@
+OBJECT Page 5620 Fixed Asset Picture
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Fixed Asset Picture;
+               ESP=Imagen activo;
+               DEA=Anlagenbild];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    LinksAllowed=No;
+    SourceTable=Table5600;
+    PageType=Card;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Field     ;
+                SourceExpr=Picture }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

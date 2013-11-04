@@ -1,0 +1,68 @@
+OBJECT Table 5616 Maintenance Registration
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               FA.LOCKTABLE;
+               FA.GET("FA No.");
+             END;
+
+    CaptionML=[ENU=Maintenance Registration;
+               ESP=Registro mantenimiento;
+               DEA=Wartungsregistrierung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;FA No.              ;Code20        ;TableRelation="Fixed Asset";
+                                                   CaptionML=[ENU=FA No.;
+                                                              ESP=A/F N§;
+                                                              DEA=Anlagennr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.] }
+    { 3   ;   ;Service Date        ;Date          ;CaptionML=[ENU=Service Date;
+                                                              ESP=Fecha servicio;
+                                                              DEA=Servicedatum] }
+    { 4   ;   ;Maintenance Vendor No.;Code20      ;TableRelation=Vendor;
+                                                   CaptionML=[ENU=Maintenance Vendor No.;
+                                                              ESP=N§ proveedor mnto.;
+                                                              DEA=Kreditorennr. der Wartung] }
+    { 5   ;   ;Comment             ;Text50        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+    { 6   ;   ;Service Agent Name  ;Text30        ;CaptionML=[ENU=Service Agent Name;
+                                                              ESP=Nombre agente;
+                                                              DEA=Name Wart.-Beauftragter] }
+    { 7   ;   ;Service Agent Phone No.;Text30     ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Service Agent Phone No.;
+                                                              ESP=Tel‚fono agente;
+                                                              DEA=Tel. Wart.-Beauftragter] }
+    { 8   ;   ;Service Agent Mobile Phone;Text30  ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Service Agent Mobile Phone;
+                                                              ESP=Tel. m¢vil agente;
+                                                              DEA=Mobil-Tel. Wart.-Beauftragter] }
+  }
+  KEYS
+  {
+    {    ;FA No.,Line No.                         ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      FA@1000 : Record 5600;
+
+    BEGIN
+    END.
+  }
+}
+

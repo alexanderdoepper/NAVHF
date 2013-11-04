@@ -1,0 +1,151 @@
+OBJECT Table 11006 Data Exp. Table Relationship
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Data Export Code,Data Exp. Rec. Type Code;
+    OnInsert=BEGIN
+               FromField.GET("From Table No.","From Field No.");
+               ToField.GET("To Table No.","To Field No.");
+               IF ToField.Type <> FromField.Type THEN
+                 ERROR(
+                   Text1140001,
+                   FromField.FIELDCAPTION(Type),
+                   FIELDCAPTION("From Field No."),
+                   FromField.Type,
+                   FIELDCAPTION("To Field No."),
+                   ToField.Type);
+             END;
+
+    CaptionML=[ENU=Data Export Table Relationship;
+               DEA=Tabellenbeziehung fÅr Datenexport];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Data Export Code    ;Code10        ;TableRelation="Data Export";
+                                                   CaptionML=[ENU=Data Export Code;
+                                                              DEA=Datenexportcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Data Exp. Rec. Type Code;Code10    ;TableRelation="Data Export Record Type";
+                                                   CaptionML=[ENU=Data Exp. Rec. Type Code;
+                                                              DEA=Datensatztypcode fÅr Datenexport];
+                                                   NotBlank=Yes }
+    { 3   ;   ;From Table No.      ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=From Table No.;
+                                                              DEA=Von Tabellennr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 4   ;   ;From Table Name     ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Table),
+                                                                                                                Object ID=FIELD(From Table No.)));
+                                                   CaptionML=[ENU=From Table Name;
+                                                              DEA=Von Tabellenname];
+                                                   Editable=No }
+    { 5   ;   ;From Field No.      ;Integer       ;TableRelation=Field.No. WHERE (TableNo=FIELD(From Table No.),
+                                                                                  Type=FILTER(Option|Text|Code|Integer|Decimal|Date|Boolean),
+                                                                                  Class=CONST(Normal));
+                                                   OnValidate=BEGIN
+                                                                CALCFIELDS("From Field Name");
+                                                              END;
+
+                                                   OnLookup=BEGIN
+                                                              FromField.RESET;
+                                                              FromField.FILTERGROUP(4);
+                                                              FromField.SETRANGE(TableNo,"From Table No.");
+                                                              FromField.SETFILTER(Type,'%1|%2|%3|%4|%5|%6|%7',
+                                                                FromField.Type::Option,
+                                                                FromField.Type::Text,
+                                                                FromField.Type::Code,
+                                                                FromField.Type::Integer,
+                                                                FromField.Type::Decimal,
+                                                                FromField.Type::Date,
+                                                                FromField.Type::Boolean);
+                                                              FromField.SETRANGE(Class,FromField.Class::Normal);
+                                                              FromField.FILTERGROUP(0);
+                                                              IF PAGE.RUNMODAL(PAGE::"Data Exp. Field List",FromField) = ACTION::LookupOK THEN
+                                                                VALIDATE("From Field No.",FromField."No.");
+                                                            END;
+
+                                                   CaptionML=[ENU=From Field No.;
+                                                              DEA=Von Feldnr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 6   ;   ;From Field Name     ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(From Table No.),
+                                                                                                   No.=FIELD(From Field No.)));
+                                                   CaptionML=[ENU=From Field Name;
+                                                              DEA=Von Feldname];
+                                                   Editable=No }
+    { 7   ;   ;To Table No.        ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=To Table No.;
+                                                              DEA=Zu Tabellennr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 8   ;   ;To Table Name       ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Table),
+                                                                                                                Object ID=FIELD(To Table No.)));
+                                                   CaptionML=[ENU=To Table Name;
+                                                              DEA=Zu Tabellenname];
+                                                   Editable=No }
+    { 9   ;   ;To Field No.        ;Integer       ;TableRelation=Field.No. WHERE (TableNo=FIELD(To Table No.),
+                                                                                  Type=FILTER(Option|Text|Code|Integer|Decimal|Date|Boolean));
+                                                   OnValidate=BEGIN
+                                                                CALCFIELDS("To Field Name");
+                                                              END;
+
+                                                   OnLookup=BEGIN
+                                                              IF "From Table No." = 0 THEN
+                                                                ERROR(Text1140000,FIELDCAPTION("From Table No."));
+
+                                                              IF "From Field No." = 0 THEN
+                                                                ERROR(Text1140000,FIELDCAPTION("From Field No."));
+
+                                                              FromField.GET("From Table No.","From Field No.");
+                                                              TESTFIELD("To Table No.");
+                                                              ToField.RESET;
+                                                              ToField.FILTERGROUP(4);
+                                                              ToField.SETRANGE(TableNo,"To Table No.");
+                                                              ToField.SETRANGE(Type,FromField.Type);
+                                                              ToField.SETRANGE(Class,FromField.Class);
+                                                              ToField.FILTERGROUP(0);
+                                                              IF PAGE.RUNMODAL(PAGE::"Data Exp. Field List",ToField) = ACTION::LookupOK THEN
+                                                                VALIDATE("To Field No.",ToField."No.");
+                                                            END;
+
+                                                   CaptionML=[ENU=To Field No.;
+                                                              DEA=Zu Feldnr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 10  ;   ;To Field Name       ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(To Table No.),
+                                                                                                   No.=FIELD(To Field No.)));
+                                                   CaptionML=[ENU=To Field Name;
+                                                              DEA=Zu Feldname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Data Export Code,Data Exp. Rec. Type Code,From Table No.,From Field No.,To Table No.,To Field No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=You must specify %1.;DEA=Sie mÅssen %1 angeben.';
+      Text1140001@1140001 : TextConst 'ENU=%1 must be the same in %2 (%3) and %4 (%5).;DEA=%1 muss in %2 (%3) und %4 (%5) gleich sein.';
+      FromField@1140002 : Record 2000000041;
+      ToField@1140003 : Record 2000000041;
+
+    BEGIN
+    END.
+  }
+}
+

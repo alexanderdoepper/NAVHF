@@ -1,0 +1,271 @@
+OBJECT Table 5005270 Delivery Reminder Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=No.,Name;
+    OnInsert=BEGIN
+               PurchSetup.GET;
+               IF "No." = '' THEN BEGIN
+                 PurchSetup.TESTFIELD("Delivery Reminder Nos.");
+                 PurchSetup.TESTFIELD("Issued Delivery Reminder Nos.");
+                 NoSeriesMgt.InitSeries(
+                   PurchSetup."Delivery Reminder Nos.",xRec."No. Series","Posting Date",
+                   "No.","No. Series");
+               END;
+
+               "Posting Description" := STRSUBSTNO(Text1140000,"No.");
+               IF ("No. Series" <> '') AND
+                  (PurchSetup."Delivery Reminder Nos." = PurchSetup."Issued Delivery Reminder Nos.")
+               THEN
+                 "Issuing No. Series" := "No. Series"
+               ELSE
+                 NoSeriesMgt.SetDefaultSeries("Issuing No. Series",PurchSetup."Issued Delivery Reminder Nos.");
+
+               IF "Posting Date" = 0D THEN
+                 "Posting Date" := WORKDATE;
+               "Document Date" := WORKDATE;
+
+               IF GETFILTER("Vendor No.") <> '' THEN
+                 IF GETRANGEMIN("Vendor No.") = GETRANGEMAX("Vendor No.") THEN
+                   VALIDATE("Vendor No.",GETRANGEMIN("Vendor No."));
+             END;
+
+    OnDelete=BEGIN
+               LOCKTABLE;
+               DeliveryReminderLine.RESET;
+               DeliveryReminderLine.SETRANGE("Document No.","No.");
+               DeliveryReminderLine.DELETEALL;
+
+               DeliveryReminderCommentLine.RESET;
+               DeliveryReminderCommentLine.SETRANGE("Document Type",DeliveryReminderCommentLine."Document Type"::"Delivery Reminder");
+               DeliveryReminderCommentLine.SETRANGE("No.","No.");
+               DeliveryReminderCommentLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Delivery Reminder Header;
+               DEA=Lieferanmahnungskopf];
+    LookupPageID=Page5005272;
+    DrillDownPageID=Page5005272;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              DEA=Nr.] }
+    { 2   ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
+                                                   OnValidate=BEGIN
+                                                                DeliveryReminderLine.RESET;
+                                                                DeliveryReminderLine.SETRANGE("Document No.","No.");
+
+                                                                IF (xRec."Vendor No." <> "Vendor No.") AND
+                                                                   (xRec."Vendor No." <> '') AND
+                                                                   DeliveryReminderLine.FINDFIRST
+                                                                THEN BEGIN
+                                                                  IF NOT CONFIRM(Text1140001,FALSE) THEN BEGIN
+                                                                    "Vendor No." := xRec."Vendor No.";
+                                                                    EXIT;
+                                                                  END;
+                                                                  DeliveryReminderLine.DELETEALL;
+                                                                END;
+
+                                                                GetVend("Vendor No.");
+                                                                Name := Vend.Name;
+                                                                "Name 2" := Vend."Name 2";
+                                                                Address := Vend.Address;
+                                                                "Address 2" := Vend."Address 2";
+                                                                City := Vend.City;
+                                                                "Post Code" := Vend."Post Code";
+                                                                County := Vend.County;
+                                                                "Country/Region Code" := Vend."Country/Region Code";
+                                                                Contact := Vend.Contact;
+                                                                "Language Code" := Vend."Language Code";
+                                                                "Reminder Terms Code" := Vend."Delivery Reminder Terms";
+                                                                VALIDATE("Reminder Terms Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              DEA=Kreditorennr.] }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              DEA=Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
+                                                              DEA=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
+                                                              DEA=Adresse] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
+                                                              DEA=Adresse 2] }
+    { 7   ;   ;Post Code           ;Code20        ;TableRelation="Post Code";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Post Code;
+                                                              DEA=PLZ Code] }
+    { 8   ;   ;City                ;Text30        ;CaptionML=[ENU=City;
+                                                              DEA=Ort] }
+    { 9   ;   ;County              ;Text30        ;CaptionML=[ENU=County;
+                                                              DEA=Bundesregion] }
+    { 10  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Country/Region Code;
+                                                              DEA=L„nder-/Regionscode] }
+    { 11  ;   ;Language Code       ;Code10        ;TableRelation=Language;
+                                                   CaptionML=[ENU=Language Code;
+                                                              DEA=Sprachcode] }
+    { 12  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              DEA=W„hrungscode];
+                                                   Editable=No }
+    { 13  ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
+                                                              DEA=Kontakt] }
+    { 14  ;   ;Your Reference      ;Text30        ;CaptionML=[ENU=Your Reference;
+                                                              DEA=Ihre Referenz] }
+    { 21  ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              DEA=Buchungsdatum] }
+    { 22  ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              DEA=Belegdatum] }
+    { 24  ;   ;Reminder Terms Code ;Code10        ;TableRelation="Delivery Reminder Term";
+                                                   OnValidate=BEGIN
+                                                                IF CurrFieldNo = FIELDNO("Reminder Terms Code") THEN
+                                                                  IF Undo THEN BEGIN
+                                                                    "Reminder Terms Code" := xRec."Reminder Terms Code";
+                                                                    EXIT;
+                                                                  END;
+                                                                IF "Reminder Terms Code" <> '' THEN BEGIN
+                                                                  DeliveryReminderTerms.GET("Reminder Terms Code");
+                                                                  VALIDATE("Reminder Level");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Reminder Terms Code;
+                                                              DEA=Mahnmethodencode] }
+    { 27  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
+                                                              DEA=F„lligkeitsdatum] }
+    { 28  ;   ;Reminder Level      ;Integer       ;OnValidate=BEGIN
+                                                                IF ("Reminder Level" <> 0) AND ("Reminder Terms Code" <> '') THEN BEGIN
+                                                                  DeliveryReminderTerms.GET("Reminder Terms Code");
+                                                                  DeliveryReminderLevel.SETRANGE("Reminder Terms Code","Reminder Terms Code");
+                                                                  DeliveryReminderLevel.SETRANGE("No.",1,"Reminder Level");
+                                                                  IF DeliveryReminderLevel.FINDLAST AND ("Document Date" <> 0D) THEN
+                                                                    "Due Date" := CALCDATE(DeliveryReminderLevel."Due Date Calculation","Document Date");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Reminder Level;
+                                                              DEA=Mahnstufe] }
+    { 29  ;   ;Posting Description ;Text50        ;CaptionML=[ENU=Posting Description;
+                                                              DEA=Buchungsbeschreibung] }
+    { 30  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Delivery Reminder Comment Line" WHERE (Document Type=CONST(Delivery Reminder),
+                                                                                                             No.=FIELD(No.)));
+                                                   CaptionML=[ENU=Comment;
+                                                              DEA=Bemerkung];
+                                                   Editable=No }
+    { 32  ;   ;User ID             ;Code50        ;CaptionML=[ENU=User ID;
+                                                              DEA=Benutzer-ID] }
+    { 37  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              DEA=Nummernserie];
+                                                   Editable=No }
+    { 38  ;   ;Issuing No. Series  ;Code10        ;TableRelation="No. Series";
+                                                   OnValidate=BEGIN
+                                                                IF "Issuing No. Series" <> '' THEN BEGIN
+                                                                  PurchSetup.GET;
+                                                                  PurchSetup.TESTFIELD("Delivery Reminder Nos.");
+                                                                  PurchSetup.TESTFIELD("Issued Delivery Reminder Nos.");
+                                                                  NoSeriesMgt.TestSeries(PurchSetup."Issued Delivery Reminder Nos.","Issuing No. Series");
+                                                                END;
+                                                                TESTFIELD("Issuing No.",'');
+                                                              END;
+
+                                                   OnLookup=BEGIN
+                                                              WITH DeliveryReminderHeader DO BEGIN
+                                                                DeliveryReminderHeader := Rec;
+                                                                PurchSetup.GET;
+                                                                PurchSetup.TESTFIELD("Delivery Reminder Nos.");
+                                                                PurchSetup.TESTFIELD("Issued Delivery Reminder Nos.");
+                                                                IF NoSeriesMgt.LookupSeries(PurchSetup."Issued Delivery Reminder Nos.","Issuing No. Series") THEN
+                                                                  VALIDATE("Issuing No. Series");
+                                                                Rec := DeliveryReminderHeader;
+                                                              END;
+                                                            END;
+
+                                                   CaptionML=[ENU=Issuing No. Series;
+                                                              DEA=Nr. Serien Registrieren] }
+    { 39  ;   ;Issuing No.         ;Code20        ;CaptionML=[ENU=Issuing No.;
+                                                              DEA=Registriere Nr.] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Vendor No.                               }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;No.,Name                                 }
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Reminder %1;DEA=Mahnung %1';
+      Text1140001@1140001 : TextConst 'ENU=All entered Lines will be deleted?;DEA=Alle bis jetzt erfaáten Zeilen werden gel”scht?';
+      Text1140002@1140002 : TextConst 'ENU=This change will cause the existing lines to be deleted for this reminder.\\;DEA=Diese Žnderung wird die Zeilen dieser Mahnung l”schen.\\';
+      Text1140003@1140003 : TextConst 'ENU=Do you want to continue?;DEA=M”chten Sie fortfahren?';
+      PurchSetup@1140004 : Record 312;
+      DeliveryReminderHeader@1140005 : Record 5005270;
+      DeliveryReminderLine@1140006 : Record 5005271;
+      DeliveryReminderTerms@1140008 : Record 5005276;
+      DeliveryReminderLevel@1140010 : Record 5005277;
+      DeliveryReminderCommentLine@1140011 : Record 5005275;
+      Vend@1140012 : Record 23;
+      NoSeriesMgt@1140013 : Codeunit 396;
+
+    PROCEDURE AssistEdit@1140000(OldReminderHeader@1140000 : Record 5005270) : Boolean;
+    BEGIN
+      WITH DeliveryReminderHeader DO BEGIN
+        DeliveryReminderHeader := Rec;
+        PurchSetup.GET;
+        PurchSetup.TESTFIELD("Delivery Reminder Nos.");
+        PurchSetup.TESTFIELD("Issued Delivery Reminder Nos.");
+        IF NoSeriesMgt.SelectSeries(
+             PurchSetup."Delivery Reminder Nos.",OldReminderHeader."No. Series","No. Series")
+        THEN BEGIN
+          PurchSetup.GET;
+          PurchSetup.TESTFIELD("Delivery Reminder Nos.");
+          PurchSetup.TESTFIELD("Issued Delivery Reminder Nos.");
+          NoSeriesMgt.SetSeries("No.");
+          Rec := DeliveryReminderHeader;
+          EXIT(TRUE);
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE GetVend@1140001(VendNo@1140000 : Code[20]);
+    BEGIN
+      IF VendNo <> Vend."No." THEN
+        Vend.GET(VendNo);
+    END;
+
+    LOCAL PROCEDURE Undo@1140002() : Boolean;
+    BEGIN
+      DeliveryReminderLine.SETRANGE("Document No.","No.");
+      IF DeliveryReminderLine.FINDFIRST THEN BEGIN
+        COMMIT;
+        IF NOT
+           CONFIRM(
+             Text1140002 +
+             Text1140003,
+             FALSE)
+        THEN
+          EXIT(TRUE);
+        DeliveryReminderLine.DELETEALL;
+        MODIFY
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

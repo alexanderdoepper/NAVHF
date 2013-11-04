@@ -1,0 +1,123 @@
+OBJECT Page 5005276 Deliv. Reminder Ledger Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Deliv. Reminder Ledger Entries;
+               DEA=Lieferanmahnungsposten];
+    SourceTable=Table5005274;
+    DataCaptionExpr=CaptionString;
+    PageType=List;
+    OnFindRecord=BEGIN
+                   CaptionString := '';
+
+                   CurrentFilter := GETFILTER("Order No.");
+                   IF CurrentFilter <> '' THEN
+                     CaptionString :=
+                       Text1140000 + CurrentFilter;
+
+                   CurrentFilter := GETFILTER("Vendor No.");
+                   IF CurrentFilter <> '' THEN BEGIN
+                     IF CaptionString <> '' THEN
+                       CaptionString := CaptionString + Text1140001;
+                     CaptionString :=
+                       CaptionString + ' ' + CurrentFilter;
+                   END;
+
+                   EXIT(FIND(Which));
+                 END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140036 ;1   ;Action    ;
+                      CaptionML=[ENU=&Navigate;
+                                 DEA=&Navigate];
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Navigate.SetDoc("Posting Date","Reminder No.");
+                                 Navigate.RUN;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Reminder No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Reminder Line No." }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Reminder Level" }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Days overdue" }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Vendor No." }
+
+    { 1140011;2;Field     ;
+                SourceExpr="Order No." }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Order Line No." }
+
+    { 1140015;2;Field     ;
+                SourceExpr=Type }
+
+    { 1140017;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140019;2;Field     ;
+                SourceExpr=Quantity }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Reorder Quantity" }
+
+    { 1140023;2;Field     ;
+                SourceExpr="Remaining Quantity" }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Document Date" }
+
+    { 1140029;2;Field     ;
+                SourceExpr="User ID" }
+
+    { 1140031;2;Field     ;
+                SourceExpr="Entry No." }
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU="PurchOrder ";DEA="Bestellung "';
+      Text1140001@1140001 : TextConst 'ENU=" Customer";DEA=" Debitor"';
+      Navigate@1140002 : Page 344;
+      CaptionString@1140003 : Text[100];
+      CurrentFilter@1140004 : Text[30];
+
+    BEGIN
+    END.
+  }
+}
+

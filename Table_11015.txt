@@ -1,0 +1,37 @@
+OBJECT Table 11015 Key Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=14.08.09;
+    Time=12:00:00;
+    Version List=NAVDACH6.00.01;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Key Buffer;
+               DEA=SchlÅsselpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table No            ;Integer       ;CaptionML=[ENU=Table No;
+                                                              DEA=Tabellennr.] }
+    { 2   ;   ;Field No.           ;Integer       ;CaptionML=[ENU=Field No.;
+                                                              DEA=Feldnr.] }
+    { 3   ;   ;Key                 ;Text250       ;CaptionML=[ENU=Key;
+                                                              DEA=SchlÅssel] }
+  }
+  KEYS
+  {
+    {    ;Table No,Field No.                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

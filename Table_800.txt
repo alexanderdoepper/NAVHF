@@ -1,0 +1,55 @@
+OBJECT Table 800 Online Map Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Online Map Setup;
+               ESP=Configuraci¢n Online Map;
+               DEA=Online Map-Einrichtung];
+    LookupPageID=Page801;
+    DrillDownPageID=Page801;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Map Parameter Setup Code;Code10    ;TableRelation="Online Map Parameter Setup";
+                                                   CaptionML=[ENU=Map Parameter Setup Code;
+                                                              ESP=C¢digo conf. par†metros mapa;
+                                                              DEA=Kartenparameter-Einrichtungscode] }
+    { 3   ;   ;Distance In         ;Option        ;CaptionML=[ENU=Distance In;
+                                                              ESP=Distancia en;
+                                                              DEA=Entfernung in];
+                                                   OptionCaptionML=[ENU=Miles,Kilometers;
+                                                                    ESP=Millas,Kil¢metros;
+                                                                    DEA=Meilen,Kilometern];
+                                                   OptionString=Miles,Kilometers }
+    { 4   ;   ;Route               ;Option        ;CaptionML=[ENU=Route;
+                                                              ESP=Ruta;
+                                                              DEA=Route];
+                                                   OptionCaptionML=[ENU=Quickest,Shortest;
+                                                                    ESP=M†s r†pida,M†s corta;
+                                                                    DEA=Schnellste,KÅrzeste];
+                                                   OptionString=Quickest,Shortest }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

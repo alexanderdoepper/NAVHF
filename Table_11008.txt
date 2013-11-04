@@ -1,0 +1,42 @@
+OBJECT Table 11008 Data Export Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Buffer;
+               DEA=Datenexportpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Table No.           ;Integer       ;CaptionML=[ENU=Table No.;
+                                                              DEA=Tabellennr.] }
+    { 3   ;   ;Line Feed           ;Boolean       ;CaptionML=[ENU=Line Feed;
+                                                              DEA=Zeilenvorschub] }
+    { 4   ;   ;Field Value         ;Text250       ;CaptionML=[ENU=Field Value;
+                                                              DEA=Feldwert] }
+    { 5   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Table No.,Line No.                       }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

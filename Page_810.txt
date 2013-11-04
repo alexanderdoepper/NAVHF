@@ -1,0 +1,86 @@
+OBJECT Page 810 Web Services
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Web Services;
+               ESP=Servicios Web;
+               DEA=Web Services];
+    SourceTable=Table2000000076;
+    DelayedInsert=Yes;
+    PageType=List;
+    OnInsertRecord=VAR
+                     Object@1102601001 : Record 2000000001;
+                   BEGIN
+                     TESTFIELD("Object ID");
+                     TESTFIELD("Service Name");
+                     IF NOT ("Object Type" IN ["Object Type"::Codeunit,"Object Type"::Page,"Object Type"::Query]) THEN
+                       FIELDERROR("Object Type");
+                     IF ("Object Type" = "Object Type"::Page) AND ("Object ID" = PAGE::"Web Services") THEN
+                       FIELDERROR("Object ID");
+                     Object.GET("Object Type",'',"Object ID");
+                   END;
+
+    OnModifyRecord=VAR
+                     Object@1102601000 : Record 2000000001;
+                   BEGIN
+                     TESTFIELD("Object ID");
+                     TESTFIELD("Service Name");
+                     IF NOT ("Object Type" IN ["Object Type"::Codeunit,"Object Type"::Page,"Object Type"::Query]) THEN
+                       FIELDERROR("Object Type");
+                     IF ("Object Type" = "Object Type"::Page) AND ("Object ID" = PAGE::"Web Services") THEN
+                       FIELDERROR("Object ID");
+                     Object.GET("Object Type",'',"Object ID");
+                   END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1102601000;1;Group  ;
+                GroupType=Repeater }
+
+    { 1102601001;2;Field  ;
+                CaptionML=[ENU=Object Type;
+                           ESP=Tipo objeto;
+                           DEA=Objektart];
+                BlankZero=Yes;
+                SourceExpr="Object Type";
+                ValuesAllowed=[Codeunit;Page;Query] }
+
+    { 1102601003;2;Field  ;
+                CaptionML=[ENU=Object ID;
+                           ESP=Id. objeto;
+                           DEA=Objekt-ID];
+                SourceExpr="Object ID";
+                TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                LookupPageID=Objects }
+
+    { 1102601005;2;Field  ;
+                CaptionML=[ENU=Service Name;
+                           ESP=Nombre del servicio;
+                           DEA=Servicename];
+                SourceExpr="Service Name" }
+
+    { 1102601007;2;Field  ;
+                CaptionML=[ENU=Published;
+                           ESP=Publicado;
+                           DEA=Ver”ffentlicht];
+                SourceExpr=Published }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

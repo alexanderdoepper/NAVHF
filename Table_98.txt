@@ -1,0 +1,668 @@
+OBJECT Table 98 General Ledger Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=General Ledger Setup;
+               ESP=Configuraci¢n contabilidad;
+               DEA=Finanzbuchhaltung Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Allow Posting From  ;Date          ;CaptionML=[ENU=Allow Posting From;
+                                                              ESP=Permitir registro desde;
+                                                              DEA=Buchungen zugel. ab] }
+    { 3   ;   ;Allow Posting To    ;Date          ;CaptionML=[ENU=Allow Posting To;
+                                                              ESP=Permitir registro hasta;
+                                                              DEA=Buchungen zugel. bis] }
+    { 4   ;   ;Register Time       ;Boolean       ;CaptionML=[ENU=Register Time;
+                                                              ESP=Registrar tiempo conexi¢n;
+                                                              DEA=Protokollzeit] }
+    { 28  ;   ;Pmt. Disc. Excl. VAT;Boolean       ;OnValidate=BEGIN
+                                                                IF "Pmt. Disc. Excl. VAT" THEN
+                                                                  TESTFIELD("Adjust for Payment Disc.",FALSE)
+                                                                ELSE
+                                                                  TESTFIELD("VAT Tolerance %",0);
+                                                              END;
+
+                                                   CaptionML=[ENU=Pmt. Disc. Excl. VAT;
+                                                              ESP=Dto. P.P. excl. IVA;
+                                                              DEA=Skonto v. Nettobetrag] }
+    { 41  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 42  ;   ;Global Dimension 1 Filter;Code20   ;FieldClass=FlowFilter;
+                                                   TableRelation="Dimension Value".Code WHERE (Dimension Code=FIELD(Global Dimension 1 Code));
+                                                   CaptionML=[ENU=Global Dimension 1 Filter;
+                                                              ESP=Filtro dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionsfilter 1];
+                                                   CaptionClass='1,3,1' }
+    { 43  ;   ;Global Dimension 2 Filter;Code20   ;FieldClass=FlowFilter;
+                                                   TableRelation="Dimension Value".Code WHERE (Dimension Code=FIELD(Global Dimension 2 Code));
+                                                   CaptionML=[ENU=Global Dimension 2 Filter;
+                                                              ESP=Filtro dimensi¢n global  2;
+                                                              DEA=Globaler Dimensionsfilter 2];
+                                                   CaptionClass='1,3,2' }
+    { 44  ;   ;Cust. Balances Due  ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Detailed Cust. Ledg. Entry"."Amount (LCY)" WHERE (Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
+                                                                                                                      Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
+                                                                                                                      Initial Entry Due Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Cust. Balances Due;
+                                                              ESP=Saldo pdte. clientes;
+                                                              DEA=FÑlliger Debitorensaldo];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 45  ;   ;Vendor Balances Due ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=-Sum("Detailed Vendor Ledg. Entry"."Amount (LCY)" WHERE (Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
+                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
+                                                                                                                        Initial Entry Due Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Vendor Balances Due;
+                                                              ESP=Saldo pdte. proveedores;
+                                                              DEA=FÑlliger Kreditorensaldo];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 48  ;   ;Unrealized VAT      ;Boolean       ;OnValidate=BEGIN
+                                                                IF NOT "Unrealized VAT" THEN BEGIN
+                                                                  VATPostingSetup.SETFILTER(
+                                                                    "Unrealized VAT Type",'>=%1',VATPostingSetup."Unrealized VAT Type"::Percentage);
+                                                                  IF VATPostingSetup.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text000,VATPostingSetup.TABLECAPTION,
+                                                                      VATPostingSetup."VAT Bus. Posting Group",VATPostingSetup."VAT Prod. Posting Group",
+                                                                      VATPostingSetup.FIELDCAPTION("Unrealized VAT Type"),VATPostingSetup."Unrealized VAT Type");
+                                                                  TaxJurisdiction.SETFILTER(
+                                                                    "Unrealized VAT Type",'>=%1',TaxJurisdiction."Unrealized VAT Type"::Percentage);
+                                                                  IF TaxJurisdiction.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text001,TaxJurisdiction.TABLECAPTION,
+                                                                      TaxJurisdiction.Code,TaxJurisdiction.FIELDCAPTION("Unrealized VAT Type"),
+                                                                      TaxJurisdiction."Unrealized VAT Type");
+                                                                END;
+                                                                IF "Unrealized VAT" THEN
+                                                                  "Prepayment Unrealized VAT" := TRUE
+                                                                ELSE
+                                                                  "Prepayment Unrealized VAT" := FALSE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Unrealized VAT;
+                                                              ESP=IVA no realizado;
+                                                              DEA=Unrealisierte MwSt.] }
+    { 49  ;   ;Adjust for Payment Disc.;Boolean   ;InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                IF "Adjust for Payment Disc." THEN BEGIN
+                                                                  TESTFIELD("Pmt. Disc. Excl. VAT",FALSE);
+                                                                  TESTFIELD("VAT Tolerance %",0);
+                                                                END ELSE BEGIN
+                                                                  VATPostingSetup.SETRANGE("Adjust for Payment Discount",TRUE);
+                                                                  IF VATPostingSetup.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text002,VATPostingSetup.TABLECAPTION,
+                                                                      VATPostingSetup."VAT Bus. Posting Group",VATPostingSetup."VAT Prod. Posting Group",
+                                                                      VATPostingSetup.FIELDCAPTION("Adjust for Payment Discount"));
+                                                                  TaxJurisdiction.SETRANGE("Adjust for Payment Discount",TRUE);
+                                                                  IF TaxJurisdiction.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text003,TaxJurisdiction.TABLECAPTION,
+                                                                      TaxJurisdiction.Code,TaxJurisdiction.FIELDCAPTION("Adjust for Payment Discount"));
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Adjust for Payment Disc.;
+                                                              ESP=Ajuste para dto. P.P.;
+                                                              DEA=Skonto berichtigen] }
+    { 56  ;   ;Mark Cr. Memos as Corrections;Boolean;
+                                                   CaptionML=[ENU=Mark Cr. Memos as Corrections;
+                                                              ESP=Marcar abono como correcci¢n;
+                                                              DEA=Gutschriften als Storno mark.] }
+    { 57  ;   ;Local Address Format;Option        ;CaptionML=[ENU=Local Address Format;
+                                                              ESP=Formato direcci¢n est†ndar;
+                                                              DEA=Lokales Adressformat];
+                                                   OptionCaptionML=[ENU=Post Code+City,City+Post Code,City+County+Post Code,Blank Line+Post Code+City;
+                                                                    ESP=C.P.+Poblaci¢n,Poblaci¢n+C.P.,Poblaci¢n+Provincia+C.P.,L°nea en blanco+C.P.+Poblaci¢n;
+                                                                    DEA=PLZ-Code+Ort,Ort+PLZ-Code,Ort+Bundesregion+PLZ-Code,Leerzeile+PLZ-Code+Ort];
+                                                   OptionString=Post Code+City,City+Post Code,City+County+Post Code,Blank Line+Post Code+City }
+    { 58  ;   ;Inv. Rounding Precision (LCY);Decimal;
+                                                   OnValidate=BEGIN
+                                                                IF "Amount Rounding Precision" <> 0 THEN
+                                                                  IF "Inv. Rounding Precision (LCY)" <> ROUND("Inv. Rounding Precision (LCY)","Amount Rounding Precision") THEN
+                                                                    ERROR(
+                                                                      Text004,
+                                                                      FIELDCAPTION("Inv. Rounding Precision (LCY)"),"Amount Rounding Precision");
+                                                              END;
+
+                                                   CaptionML=[ENU=Inv. Rounding Precision (LCY);
+                                                              ESP=Precisi¢n redondeo fact. (DL);
+                                                              DEA=RechnungsrundungsprÑz. (MW)];
+                                                   AutoFormatType=1 }
+    { 59  ;   ;Inv. Rounding Type (LCY);Option    ;CaptionML=[ENU=Inv. Rounding Type (LCY);
+                                                              ESP=Tipo redondeo fact. (DL);
+                                                              DEA=Rechnungsrundungsmethode (MW)];
+                                                   OptionCaptionML=[ENU=Nearest,Up,Down;
+                                                                    ESP=M†s cercano,Superior,Inferior;
+                                                                    DEA=KaufmÑnnisch,Aufrunden,Abrunden];
+                                                   OptionString=Nearest,Up,Down }
+    { 60  ;   ;Local Cont. Addr. Format;Option    ;InitValue=After Company Name;
+                                                   CaptionML=[ENU=Local Cont. Addr. Format;
+                                                              ESP=Formato dir. contacto est†ndar;
+                                                              DEA=Lokales Kontaktadressformat];
+                                                   OptionCaptionML=[ENU=First,After Company Name,Last;
+                                                                    ESP=Primero,DespuÇs empresa,Èltimo;
+                                                                    DEA=Vor,Nach Firmennamen,Zuletzt];
+                                                   OptionString=First,After Company Name,Last }
+    { 63  ;   ;Bank Account Nos.   ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Bank Account Nos.;
+                                                              ESP=Nß serie banco;
+                                                              DEA=Bankkontonummern] }
+    { 65  ;   ;Summarize G/L Entries;Boolean      ;CaptionML=[ENU=Summarize G/L Entries;
+                                                              ESP=Resumir movs. C/G;
+                                                              DEA=Sachposten zusammenfassen] }
+    { 66  ;   ;Amount Decimal Places;Text5        ;InitValue=2:2;
+                                                   OnValidate=BEGIN
+                                                                CheckDecimalPlacesFormat("Amount Decimal Places");
+                                                              END;
+
+                                                   CaptionML=[ENU=Amount Decimal Places;
+                                                              ESP=Nß decimales para importes;
+                                                              DEA=Betragsdezimalstellen] }
+    { 67  ;   ;Unit-Amount Decimal Places;Text5   ;InitValue=2:5;
+                                                   OnValidate=BEGIN
+                                                                CheckDecimalPlacesFormat("Unit-Amount Decimal Places");
+                                                              END;
+
+                                                   CaptionML=[ENU=Unit-Amount Decimal Places;
+                                                              ESP=Nß decimales para precio-prod.;
+                                                              DEA=StÅckpreisdezimalstellen] }
+    { 68  ;   ;Additional Reporting Currency;Code10;
+                                                   TableRelation=Currency;
+                                                   OnValidate=BEGIN
+                                                                IF ("Additional Reporting Currency" <> xRec."Additional Reporting Currency") AND
+                                                                   ("Additional Reporting Currency" <> '')
+                                                                THEN BEGIN
+                                                                  AdjAddReportingCurr.SetAddCurr("Additional Reporting Currency");
+                                                                  AdjAddReportingCurr.RUNMODAL;
+                                                                  IF NOT AdjAddReportingCurr.IsExecuted THEN
+                                                                    "Additional Reporting Currency" := xRec."Additional Reporting Currency";
+                                                                END;
+                                                                IF ("Additional Reporting Currency" <> xRec."Additional Reporting Currency") AND
+                                                                   AdjAddReportingCurr.IsExecuted
+                                                                THEN
+                                                                  DeleteIntrastatJnl;
+                                                                IF ("Additional Reporting Currency" <> xRec."Additional Reporting Currency") AND
+                                                                   ("Additional Reporting Currency" <> '') AND
+                                                                   AdjAddReportingCurr.IsExecuted
+                                                                THEN
+                                                                  DeleteAnalysisView;
+                                                              END;
+
+                                                   CaptionML=[ENU=Additional Reporting Currency;
+                                                              ESP=Informaci¢n divisa adicional;
+                                                              DEA=BerichtswÑhrung] }
+    { 69  ;   ;VAT Tolerance %     ;Decimal       ;OnValidate=BEGIN
+                                                                IF "VAT Tolerance %" <> 0 THEN BEGIN
+                                                                  TESTFIELD("Adjust for Payment Disc.",FALSE);
+                                                                  TESTFIELD("Pmt. Disc. Excl. VAT",TRUE);
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=VAT Tolerance %;
+                                                              ESP=% tolerancia IVA;
+                                                              DEA=MwSt.-Toleranz %];
+                                                   DecimalPlaces=0:5;
+                                                   MinValue=0;
+                                                   MaxValue=100 }
+    { 70  ;   ;EMU Currency        ;Boolean       ;CaptionML=[ENU=EMU Currency;
+                                                              ESP=Divisa UME;
+                                                              DEA=EWU-WÑhrung] }
+    { 71  ;   ;LCY Code            ;Code10        ;CaptionML=[ENU=LCY Code;
+                                                              ESP=C¢d. divisa local;
+                                                              DEA=MandantenwÑhrungscode] }
+    { 72  ;   ;VAT Exchange Rate Adjustment;Option;CaptionML=[ENU=VAT Exchange Rate Adjustment;
+                                                              ESP=Tipo cambio ajuste IVA;
+                                                              DEA=MwSt.-Kursregulierung];
+                                                   OptionCaptionML=[ENU=No Adjustment,Adjust Amount,Adjust Additional-Currency Amount;
+                                                                    ESP=No ajustar,Ajustar importe,Ajustar importe divisa-adicional;
+                                                                    DEA=Keine Regulierung,Betrag regulieren,Betrag (BW) regulieren];
+                                                   OptionString=No Adjustment,Adjust Amount,Adjust Additional-Currency Amount }
+    { 73  ;   ;Amount Rounding Precision;Decimal  ;InitValue=0,01;
+                                                   OnValidate=BEGIN
+                                                                IF "Amount Rounding Precision" <> 0 THEN
+                                                                  "Inv. Rounding Precision (LCY)" := ROUND("Inv. Rounding Precision (LCY)","Amount Rounding Precision");
+                                                                RoundingErrorCheck(FIELDCAPTION("Amount Rounding Precision"));
+                                                                IF HideDialog THEN
+                                                                  MESSAGE(Text021);
+                                                              END;
+
+                                                   CaptionML=[ENU=Amount Rounding Precision;
+                                                              ESP=Prec. redondeo importe;
+                                                              DEA=BetragsrundungsprÑzision];
+                                                   DecimalPlaces=0:5 }
+    { 74  ;   ;Unit-Amount Rounding Precision;Decimal;
+                                                   InitValue=0,00001;
+                                                   OnValidate=BEGIN
+                                                                IF HideDialog THEN
+                                                                  MESSAGE(Text022);
+                                                              END;
+
+                                                   CaptionML=[ENU=Unit-Amount Rounding Precision;
+                                                              ESP=Prec. redondeo precio-prod.;
+                                                              DEA=StÅckpreisrundungsprÑzision];
+                                                   DecimalPlaces=0:9 }
+    { 75  ;   ;Appln. Rounding Precision;Decimal  ;CaptionML=[ENU=Appln. Rounding Precision;
+                                                              ESP=Precisi¢n redondeo liquidaci¢n;
+                                                              DEA=Ausgl. RundungsprÑzision];
+                                                   MinValue=0;
+                                                   AutoFormatType=1 }
+    { 79  ;   ;Global Dimension 1 Code;Code20     ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                "Shortcut Dimension 1 Code" := "Global Dimension 1 Code";
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   Editable=No }
+    { 80  ;   ;Global Dimension 2 Code;Code20     ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                "Shortcut Dimension 2 Code" := "Global Dimension 2 Code";
+                                                              END;
+
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   Editable=No }
+    { 81  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
+                                                              ESP=C¢d. dim. acceso dir. 1;
+                                                              DEA=Shortcutdimensionscode 1];
+                                                   Editable=No }
+    { 82  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
+                                                              ESP=C¢d. dim. acceso dir. 2;
+                                                              DEA=Shortcutdimensionscode 2];
+                                                   Editable=No }
+    { 83  ;   ;Shortcut Dimension 3 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 3 Code",3,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 3 Code;
+                                                              ESP=C¢d. dim. acceso directo 3;
+                                                              DEA=Shortcutdimensionscode 3] }
+    { 84  ;   ;Shortcut Dimension 4 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 4 Code",4,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 4 Code;
+                                                              ESP=C¢d. dim. acceso directo 4;
+                                                              DEA=Shortcutdimensionscode 4] }
+    { 85  ;   ;Shortcut Dimension 5 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 5 Code",5,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 5 Code;
+                                                              ESP=C¢d. dim. acceso directo 5;
+                                                              DEA=Shortcutdimensionscode 5] }
+    { 86  ;   ;Shortcut Dimension 6 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 6 Code",6,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 6 Code;
+                                                              ESP=C¢d. dim. acceso directo 6;
+                                                              DEA=Shortcutdimensionscode 6] }
+    { 87  ;   ;Shortcut Dimension 7 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 7 Code",7,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 7 Code;
+                                                              ESP=C¢d. dim. acceso directo 7;
+                                                              DEA=Shortcutdimensionscode 7] }
+    { 88  ;   ;Shortcut Dimension 8 Code;Code20   ;TableRelation=Dimension;
+                                                   OnValidate=BEGIN
+                                                                IF Dim.CheckIfDimUsed("Shortcut Dimension 8 Code",8,'','',0) THEN
+                                                                  ERROR(Text023,Dim.GetCheckDimErr);
+                                                                MODIFY;
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 8 Code;
+                                                              ESP=C¢d. dim. acceso directo 8;
+                                                              DEA=Shortcutdimensionscode 8] }
+    { 89  ;   ;Max. VAT Difference Allowed;Decimal;OnValidate=BEGIN
+                                                                IF "Max. VAT Difference Allowed" <> ROUND("Max. VAT Difference Allowed") THEN
+                                                                  ERROR(
+                                                                    Text004,
+                                                                    FIELDCAPTION("Max. VAT Difference Allowed"),"Amount Rounding Precision");
+
+                                                                "Max. VAT Difference Allowed" := ABS("Max. VAT Difference Allowed");
+                                                              END;
+
+                                                   CaptionML=[ENU=Max. VAT Difference Allowed;
+                                                              ESP=M†x. diferencia IVA permitida;
+                                                              DEA=Max. MwSt.-Differenz zulÑssig];
+                                                   AutoFormatType=1 }
+    { 90  ;   ;VAT Rounding Type   ;Option        ;CaptionML=[ENU=VAT Rounding Type;
+                                                              ESP=Tipo redondeo IVA;
+                                                              DEA=MwSt.-Rundungsmethode];
+                                                   OptionCaptionML=[ENU=Nearest,Up,Down;
+                                                                    ESP=M†s cercano,Superior,Inferior;
+                                                                    DEA=KaufmÑnnisch,Aufrunden,Abrunden];
+                                                   OptionString=Nearest,Up,Down }
+    { 92  ;   ;Pmt. Disc. Tolerance Posting;Option;CaptionML=[ENU=Pmt. Disc. Tolerance Posting;
+                                                              ESP=Registrar tolerancia dto. P.P.;
+                                                              DEA=Skontotoleranzbuchung];
+                                                   OptionCaptionML=[ENU=Payment Tolerance Accounts,Payment Discount Accounts;
+                                                                    ESP=Ctas. tolerancia pagos,Ctas. dto. P.P.;
+                                                                    DEA=Zahlungstoleranzkonten,Skontokonten];
+                                                   OptionString=Payment Tolerance Accounts,Payment Discount Accounts }
+    { 93  ;   ;Payment Discount Grace Period;DateFormula;
+                                                   CaptionML=[ENU=Payment Discount Grace Period;
+                                                              ESP=Periodo gracia descuento pagos;
+                                                              DEA=Skontotoleranzperiode] }
+    { 94  ;   ;Payment Tolerance % ;Decimal       ;CaptionML=[ENU=Payment Tolerance %;
+                                                              ESP=% Tolerancia pago;
+                                                              DEA=Zahlungstoleranz %];
+                                                   DecimalPlaces=0:5;
+                                                   MinValue=0;
+                                                   MaxValue=100;
+                                                   Editable=No }
+    { 95  ;   ;Max. Payment Tolerance Amount;Decimal;
+                                                   CaptionML=[ENU=Max. Payment Tolerance Amount;
+                                                              ESP=M†x. importe tolerancia pago;
+                                                              DEA=Max. Zahlungstoleranzbetrag];
+                                                   MinValue=0;
+                                                   Editable=No }
+    { 96  ;   ;Adapt Main Menu to Permissions;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Adapt Main Menu to Permissions;
+                                                              ESP=Adaptar men£ princ. a permisos;
+                                                              DEA=HauptmenÅ an Zugriffsr. anp.] }
+    { 97  ;   ;Allow G/L Acc. Deletion Before;Date;CaptionML=[ENU=Allow G/L Acc. Deletion Before;
+                                                              ESP=Permite borrar ctas. anteriores a;
+                                                              DEA=Lîschen v. Sachkonten zul. vor] }
+    { 98  ;   ;Check G/L Account Usage;Boolean    ;CaptionML=[ENU=Check G/L Account Usage;
+                                                              ESP=Chequear utiliz. ctas. cont.;
+                                                              DEA=Sachkontoverwendung prÅfen] }
+    { 99  ;   ;Payment Tolerance Posting;Option   ;CaptionML=[ENU=Payment Tolerance Posting;
+                                                              ESP=Registrar tolerancia pagos;
+                                                              DEA=Zahlungstoleranzbuchung];
+                                                   OptionCaptionML=[ENU=Payment Tolerance Accounts,Payment Discount Accounts;
+                                                                    ESP=Ctas. tolerancia pagos,Ctas. dto. P.P.;
+                                                                    DEA=Zahlungstoleranzkonten,Skontokonten];
+                                                   OptionString=Payment Tolerance Accounts,Payment Discount Accounts }
+    { 100 ;   ;Pmt. Disc. Tolerance Warning;Boolean;
+                                                   CaptionML=[ENU=Pmt. Disc. Tolerance Warning;
+                                                              ESP=Advertencia tolerancia dto. P.P.;
+                                                              DEA=Skontotoleranzwarnung] }
+    { 101 ;   ;Payment Tolerance Warning;Boolean  ;CaptionML=[ENU=Payment Tolerance Warning;
+                                                              ESP=Advertencia tolerancia pagos;
+                                                              DEA=Zahlungstoleranzwarnung] }
+    { 102 ;   ;Last IC Transaction No.;Integer    ;CaptionML=[ENU=Last IC Transaction No.;
+                                                              ESP=Nß £ltima transacci¢n IC;
+                                                              DEA=Letzte IC-Transaktionsnr.] }
+    { 103 ;   ;Bill-to/Sell-to VAT Calc.;Option   ;InitValue=Sell-to/Buy-from No.;
+                                                   CaptionML=[ENU=Bill-to/Sell-to VAT Calc.;
+                                                              ESP=Fact./Venta a-C†lc. IVA;
+                                                              DEA=Rech. an/Verk. an MwSt.-Berech.];
+                                                   OptionCaptionML=[ENU=Bill-to/Pay-to No.,Sell-to/Buy-from No.;
+                                                                    ESP=Fact./Pago a-Nß.,Venta/Compra a-Nß.;
+                                                                    DEA=Rech. an/Zahlung an Nr.,Verk. an/Eink. von Nr.];
+                                                   OptionString=Bill-to/Pay-to No.,Sell-to/Buy-from No. }
+    { 150 ;   ;Print VAT specification in LCY;Boolean;
+                                                   CaptionML=[ENU=Print VAT specification in LCY;
+                                                              ESP=Imprimir especificaci¢n IVA en DL;
+                                                              DEA=MwSt.-ErklÑrung (MW) drucken] }
+    { 151 ;   ;Prepayment Unrealized VAT;Boolean  ;InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                IF "Unrealized VAT" AND xRec."Prepayment Unrealized VAT" THEN
+                                                                  ERROR(Text024,FIELDCAPTION("Prepayment Unrealized VAT"),FIELDCAPTION("Unrealized VAT"));
+
+                                                                IF NOT "Prepayment Unrealized VAT" THEN BEGIN
+                                                                  VATPostingSetup.SETFILTER(
+                                                                    "Unrealized VAT Type",'>=%1',VATPostingSetup."Unrealized VAT Type"::Percentage);
+                                                                  IF VATPostingSetup.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text000,VATPostingSetup.TABLECAPTION,
+                                                                      VATPostingSetup."VAT Bus. Posting Group",VATPostingSetup."VAT Prod. Posting Group",
+                                                                      VATPostingSetup.FIELDCAPTION("Unrealized VAT Type"),VATPostingSetup."Unrealized VAT Type");
+                                                                  TaxJurisdiction.SETFILTER(
+                                                                    "Unrealized VAT Type",'>=%1',TaxJurisdiction."Unrealized VAT Type"::Percentage);
+                                                                  IF TaxJurisdiction.FINDFIRST THEN
+                                                                    ERROR(
+                                                                      Text001,TaxJurisdiction.TABLECAPTION,
+                                                                      TaxJurisdiction.Code,TaxJurisdiction.FIELDCAPTION("Unrealized VAT Type"),
+                                                                      TaxJurisdiction."Unrealized VAT Type");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Prepayment Unrealized VAT;
+                                                              ESP=IVA no realizado de prepago;
+                                                              DEA=Unrealisierte MwSt. Vorauszahlung] }
+    { 152 ;   ;Use Legacy G/L Entry Locking;Boolean;
+                                                   OnValidate=VAR
+                                                                InventorySetup@1000 : Record 313;
+                                                              BEGIN
+                                                                IF NOT "Use Legacy G/L Entry Locking" THEN BEGIN
+                                                                  IF InventorySetup.GET THEN
+                                                                    IF InventorySetup."Automatic Cost Posting" THEN
+                                                                      ERROR(Text025,
+                                                                        FIELDCAPTION("Use Legacy G/L Entry Locking"),
+                                                                        "Use Legacy G/L Entry Locking",
+                                                                        InventorySetup.FIELDCAPTION("Automatic Cost Posting"),
+                                                                        InventorySetup.TABLECAPTION,
+                                                                        InventorySetup."Automatic Cost Posting");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Use Legacy G/L Entry Locking;
+                                                              ESP=Usar bloque movs. contab. antigua;
+                                                              DEA=Sachpostensperrung der Vorversion verwenden] }
+    { 11003;  ;Currency Code For EURO;Code10      ;CaptionML=[ENU=Currency Code For EURO;
+                                                              DEA=WÑhrungscode fÅr Euro] }
+    { 11011;  ;Sales VAT Advance Notif. Nos.;Code10;
+                                                   TableRelation="No. Series";
+                                                   CaptionML=[ENU=Sales VAT Advance Notif. Nos.;
+                                                              DEA=USt.-Voranmeldungsnummern] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=%1 %2 %3 have %4 to %5.;ESP=%1 %2 %3 tiene %4 a %5.;DEA=%1 %2 %3 ist in %4 auf %5 gesetzt.';
+      Text001@1001 : TextConst 'ENU=%1 %2 have %3 to %4.;ESP=%1 %2 tiene %3 a %4.;DEA=%1 %2 ist in %3 auf %4 gesetzt.';
+      Text002@1002 : TextConst 'ENU=%1 %2 %3 use %4.;ESP=%1 %2 %3 utilice %4.;DEA=%1 %2 %3 verwendet %4.';
+      Text003@1003 : TextConst 'ENU=%1 %2 use %3.;ESP=%1 %2 utiliza %3.;DEA=%1 %2 verwendet %3.';
+      Text004@1004 : TextConst 'ENU=%1 must be rounded to the nearest %2.;ESP=Se debe redondear %1 al m†s cercano %2.;DEA=%1 muss kaufmÑnnisch auf %2 gerundet werden.';
+      Text016@1013 : TextConst 'ENU="Enter one number or two numbers separated by a colon. ";ESP="Introduzca uno o dos n£meros separados por dos puntos. ";DEA="Geben Sie eine oder zwei Zahlen getrennt durch einen Doppelpunkt ein. "';
+      Text017@1014 : TextConst 'ENU=The online Help for this field describes how you can fill in the field.;ESP=La ayuda en l°nea describe c¢mo utilizar este campo.;DEA=Die Online-Hilfe fÅr dieses Feld beschreibt, wie Sie das Feld ausfÅllen kînnen.';
+      Text018@1015 : TextConst 'ENU=You cannot change the contents of the %1 field because there are posted ledger entries.;ESP=No se puede cambiar el contenido del campo %1 ya que hay movs. registrados.;DEA=Sie kînnen den Inhalt des Feldes %1 nicht Ñndern, da gebuchte Posten vorhanden sind.';
+      Text021@1018 : TextConst 'ENU=You must close the program and start again in order to activate the amount-rounding feature.;ESP=Debe cerrar el programa y entrar de nuevo para activar la prop. de redondeo-importe.;DEA=Sie mÅssen das Programm schlie·en und einen Neustart ausfÅhren, um das Betragsrundungsfeature zu aktivieren.';
+      Text022@1019 : TextConst 'ENU=You must close the program and start again in order to activate the unit-amount rounding feature.;ESP=Debe cerrar el programa y entrar de nuevo para activar la prop. de redondeo precio-producto.;DEA=Sie mÅssen das Programm schlie·en und einen Neustart ausfÅhren, um das Feature zur StÅckpreisrundung zu aktivieren.';
+      Text023@1020 : TextConst 'ENU=%1\You cannot use the same dimension twice in the same setup.;ESP=%1\No puede usar la misma dim. dos veces en la misma config.;DEA=%1\Sie kînnen in derselben Einrichtung dieselbe Dimension nicht zweimal verwenden.';
+      Dim@1021 : Record 348;
+      GLEntry@1022 : Record 17;
+      ItemLedgerEntry@1023 : Record 32;
+      JobLedgEntry@1024 : Record 169;
+      ResLedgEntry@1025 : Record 203;
+      FALedgerEntry@1026 : Record 5601;
+      MaintenanceLedgerEntry@1027 : Record 5625;
+      InsCoverageLedgerEntry@1028 : Record 5629;
+      VATPostingSetup@1029 : Record 325;
+      TaxJurisdiction@1030 : Record 320;
+      AdjAddReportingCurr@1031 : Report 86;
+      AnalysisView@1032 : Record 363;
+      AnalysisViewEntry@1033 : Record 365;
+      AnalysisViewBudgetEntry@1034 : Record 366;
+      ErrorMessage@1036 : Boolean;
+      Text024@1009 : TextConst 'ENU=You cannot change the contents of the %1 field because the %2 is activated.;ESP=No puede cambiar el contenido del campo %1 porque el %2 est† activado.;DEA=Der Inhalt des Felds %1 kann nicht geÑndert werden, da %2 aktiviert ist.';
+      Text025@1016 : TextConst 'ENU=The field %1 should not be set to %2 if field %3 in %4 table is set to %5 because deadlocks can occur.;ESP=El campo %1 no debe estar establecido en %2 si el campo %3 de la tabla %4 est† definido en %5 porque pueden producirse bloqueos.;DEA=Das Feld ''%1'' darf nicht auf ''%2'' festgelegt werden, wenn das Feld ''%3'' in der Tabelle ''%4'' auf ''%5'' festgelegt ist, da dies einen Deadlock zur Folge haben kann.';
+
+    PROCEDURE CheckDecimalPlacesFormat@1(VAR DecimalPlaces@1000 : Text[5]);
+    VAR
+      OK@1001 : Boolean;
+      ColonPlace@1002 : Integer;
+      DecimalPlacesPart1@1003 : Integer;
+      DecimalPlacesPart2@1004 : Integer;
+      Check@1005 : Text[5];
+    BEGIN
+      OK := TRUE;
+      ColonPlace := STRPOS(DecimalPlaces,':');
+
+      IF ColonPlace = 0 THEN BEGIN
+        IF NOT EVALUATE(DecimalPlacesPart1,DecimalPlaces) THEN
+          OK := FALSE;
+        IF (DecimalPlacesPart1 < 0) OR (DecimalPlacesPart1 > 9) THEN
+          OK := FALSE;
+      END ELSE BEGIN
+        Check := COPYSTR(DecimalPlaces,1,ColonPlace - 1);
+        IF Check = '' THEN
+          OK := FALSE;
+        IF NOT EVALUATE(DecimalPlacesPart1,Check) THEN
+          OK := FALSE;
+        Check := COPYSTR(DecimalPlaces,ColonPlace + 1,STRLEN(DecimalPlaces));
+        IF Check = '' THEN
+          OK := FALSE;
+        IF NOT EVALUATE(DecimalPlacesPart2,Check) THEN
+          OK := FALSE;
+        IF DecimalPlacesPart1 > DecimalPlacesPart2 THEN
+          OK := FALSE;
+        IF (DecimalPlacesPart1 < 0) OR (DecimalPlacesPart1 > 9) THEN
+          OK := FALSE;
+        IF (DecimalPlacesPart2 < 0) OR (DecimalPlacesPart2 > 9) THEN
+          OK := FALSE;
+      END;
+
+      IF NOT OK THEN
+        ERROR(
+          Text016 +
+          Text017);
+
+      IF ColonPlace = 0 THEN
+        DecimalPlaces := FORMAT(DecimalPlacesPart1)
+      ELSE
+        DecimalPlaces := STRSUBSTNO('%1:%2',DecimalPlacesPart1,DecimalPlacesPart2);
+    END;
+
+    PROCEDURE RoundingErrorCheck@2(NameOfField@1000 : Text[100]);
+    BEGIN
+      ErrorMessage := FALSE;
+      IF GLEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF ItemLedgerEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF JobLedgEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF ResLedgEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF FALedgerEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF MaintenanceLedgerEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF InsCoverageLedgerEntry.FINDFIRST THEN
+        ErrorMessage := TRUE;
+      IF ErrorMessage THEN
+        ERROR(
+          Text018,
+          NameOfField);
+    END;
+
+    PROCEDURE DeleteIntrastatJnl@3();
+    VAR
+      IntrastatJnlBatch@1000 : Record 262;
+      IntrastatJnlLine@1001 : Record 263;
+    BEGIN
+      IntrastatJnlBatch.SETRANGE(Reported,FALSE);
+      IntrastatJnlBatch.SETRANGE("Amounts in Add. Currency",TRUE);
+      IF IntrastatJnlBatch.FIND('-') THEN
+        REPEAT
+          IntrastatJnlLine.SETRANGE("Journal Template Name",IntrastatJnlBatch."Journal Template Name");
+          IntrastatJnlLine.SETRANGE("Journal Batch Name",IntrastatJnlBatch.Name);
+          IntrastatJnlLine.DELETEALL;
+        UNTIL IntrastatJnlBatch.NEXT = 0;
+    END;
+
+    PROCEDURE DeleteAnalysisView@33();
+    BEGIN
+      IF AnalysisView.FIND('-') THEN
+        REPEAT
+          IF AnalysisView.Blocked = FALSE THEN BEGIN
+            AnalysisViewEntry.SETRANGE("Analysis View Code",AnalysisView.Code);
+            AnalysisViewEntry.DELETEALL;
+            AnalysisViewBudgetEntry.SETRANGE("Analysis View Code",AnalysisView.Code);
+            AnalysisViewBudgetEntry.DELETEALL;
+            AnalysisView."Last Entry No." := 0;
+            AnalysisView."Last Budget Entry No." := 0;
+            AnalysisView."Last Date Updated" := 0D;
+            AnalysisView.MODIFY;
+          END ELSE BEGIN
+            AnalysisView."Refresh When Unblocked" := TRUE;
+            AnalysisView.MODIFY;
+          END;
+        UNTIL AnalysisView.NEXT = 0;
+    END;
+
+    PROCEDURE IsPostingAllowed@22(PostingDate@1000 : Date) : Boolean;
+    BEGIN
+      EXIT(PostingDate >= "Allow Posting From");
+    END;
+
+    PROCEDURE OptimGLEntLockForMultiuserEnv@4() : Boolean;
+    VAR
+      InventorySetup@1000 : Record 313;
+    BEGIN
+      IF "Use Legacy G/L Entry Locking" THEN
+        EXIT(FALSE);
+
+      IF InventorySetup.GET THEN
+        IF InventorySetup."Automatic Cost Posting" THEN
+          EXIT(FALSE);
+
+      EXIT(TRUE);
+    END;
+
+    PROCEDURE FirstAllowedPostingDate@78() AllowedPostingDate : Date;
+    VAR
+      InvtPeriod@1000 : Record 5814;
+    BEGIN
+      AllowedPostingDate := "Allow Posting From";
+      IF NOT InvtPeriod.IsValidDate(AllowedPostingDate) THEN
+        AllowedPostingDate := CALCDATE('<+1D>',AllowedPostingDate);
+    END;
+
+    LOCAL PROCEDURE HideDialog@5() : Boolean;
+    BEGIN
+      EXIT((CurrFieldNo = 0) OR NOT GUIALLOWED);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

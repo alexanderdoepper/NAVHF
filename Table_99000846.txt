@@ -1,0 +1,68 @@
+OBJECT Table 99000846 Planning Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Planning Buffer;
+               ESP=Planificaci¢n b£fer;
+               DEA=Planungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Buffer No.          ;Integer       ;CaptionML=[ENU=Buffer No.;
+                                                              ESP=B£fer n§;
+                                                              DEA=Puffernr.] }
+    { 2   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 3   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=Requisition Line,Planned Prod. Order Comp.,Firm Planned Prod. Order Comp.,Released Prod. Order Comp.,Planning Comp.,Sales Order,Planned Prod. Order,Planning Line,Req. Worksheet Line,Firm Planned Prod. Order,Released Prod. Order,Purchase Order,Quantity at Inventory,Service Order,Transfer,Job Order,Assembly Order,Assembly Order Line,Production Forecast-Sales,Production Forecast-Component;
+                                                                    ESP=L¡n. hoja demanda,O.P. Planificadas,O.P. Planificadas en firme,Comp. pedidos prod. enviados,Comp. de planificaci¢n,Pedido ventas,Pedido producto planeado,L¡nea planificaci¢n,L¡nea hoja dem.,O.P. Planific. en firme,Pedido prod. entregado,Pedido compra,Cantidad en invent.,Pedido servicio,Transferencia,Pedido proyecto,Pedido ensamblado,L¡nea pedido ensamblado,Previsi¢n producci¢n-Ventas,Previsi¢n producci¢n-Componente;
+                                                                    DEA=Bestellvorschlagszeile,Geplante FA-Komponente,Fest geplante FA-Komponente,Freigegebene FA-Komponente,Planungskomponente,Verkaufsauftrag,Geplanter FA,Planungszeile,Bestellvorschlagsname Zeile,Fest geplanter FA,Freigegebener FA,Bestellung,Menge am Lager,Serviceauftrag,Umlagerung,Projektauftrag,Montageauftrag,Montageauftragszeile,Produktion Umsatzprognose,Produktion Komponentenprognose];
+                                                   OptionString=Requisition Line,Planned Prod. Order Comp.,Firm Planned Prod. Order Comp.,Released Prod. Order Comp.,Planning Comp.,Sales Order,Planned Prod. Order,Planning Line,Req. Worksheet Line,Firm Planned Prod. Order,Released Prod. Order,Purchase Order,Quantity at Inventory,Service Order,Transfer,Job Order,Assembly Order,Assembly Order Line,Production Forecast-Sales,Production Forecast-Component }
+    { 4   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 6   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=N§ producto;
+                                                              DEA=Artikelnr.] }
+    { 7   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 8   ;   ;Gross Requirement   ;Decimal       ;CaptionML=[ENU=Gross Requirement;
+                                                              ESP=Necesidades brutas;
+                                                              DEA=Bruttobedarf];
+                                                   DecimalPlaces=0:5 }
+    { 10  ;   ;Planned Receipts    ;Decimal       ;CaptionML=[ENU=Planned Receipts;
+                                                              ESP=Recep. planif.;
+                                                              DEA=Voraussichtliche Zug„nge];
+                                                   DecimalPlaces=0:5 }
+    { 11  ;   ;Scheduled Receipts  ;Decimal       ;CaptionML=[ENU=Scheduled Receipts;
+                                                              ESP=Recep. previstas;
+                                                              DEA=Geplante Zug„nge];
+                                                   DecimalPlaces=0:5 }
+  }
+  KEYS
+  {
+    {    ;Buffer No.                              ;Clustered=Yes }
+    {    ;Item No.,Date                            }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

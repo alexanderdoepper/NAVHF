@@ -1,0 +1,270 @@
+OBJECT Page 869 Cash Flow Chart
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cash Flow;
+               ESP=Flujo de efectivo;
+               DEA=Cashflow];
+    SourceTable=Table485;
+    PageType=CardPart;
+    OnFindRecord=BEGIN
+                   UpdateChart;
+                 END;
+
+    ActionList=ACTIONS
+    {
+      { 2       ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 9       ;1   ;ActionGroup;
+                      Name=Show;
+                      CaptionML=[ENU=Show;
+                                 ESP=Mostrar;
+                                 DEA=Anzeigen];
+                      Image=View }
+      { 20      ;2   ;Action    ;
+                      Name=AccumulatedCash;
+                      CaptionML=[ENU=Accumulated Cash;
+                                 ESP=Efectivo acumulado;
+                                 DEA=Bargeld (kumuliert)];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetShow(CashFlowChartSetup.Show::"Accumulated Cash");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 19      ;2   ;Action    ;
+                      Name=ChangeInCash;
+                      CaptionML=[ENU=Change in Cash;
+                                 ESP=Variaci¢n en efectivo;
+                                 DEA=Bargeld (Ver„nderung)];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetShow(CashFlowChartSetup.Show::"Change in Cash");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 21      ;2   ;Action    ;
+                      Name=Combined;
+                      CaptionML=[ENU=Combined;
+                                 ESP=Combinado;
+                                 DEA=Kombiniert];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetShow(CashFlowChartSetup.Show::Combined);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 15      ;1   ;ActionGroup;
+                      Name=StartDate;
+                      CaptionML=[ENU=Start Date;
+                                 ESP=Fecha inicio;
+                                 DEA=Startdatum];
+                      Image=Start }
+      { 11      ;2   ;Action    ;
+                      Name=FisrtEntryDate;
+                      CaptionML=[ENU=First Entry Date;
+                                 ESP=Primera fecha de movimiento;
+                                 DEA=Datum des ersten Postens];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetStartDate(CashFlowChartSetup."Start Date"::"First Entry Date");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 10      ;2   ;Action    ;
+                      Name=WorkDate;
+                      CaptionML=[ENU=Working Date;
+                                 ESP=Fecha de trabajo;
+                                 DEA=Arbeitsdatum];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetStartDate(CashFlowChartSetup."Start Date"::"Working Date");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 14      ;1   ;ActionGroup;
+                      Name=PeriodLength;
+                      CaptionML=[ENU=Period Length;
+                                 ESP=Longitud periodo;
+                                 DEA=Periodenl„nge];
+                      Image=Period }
+      { 7       ;2   ;Action    ;
+                      Name=Day;
+                      CaptionML=[ENU=Day;
+                                 ESP=D¡a;
+                                 DEA=Tag];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetPeriodLength(CashFlowChartSetup."Period Length"::Day);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 8       ;2   ;Action    ;
+                      Name=Week;
+                      CaptionML=[ENU=Week;
+                                 ESP=Semana;
+                                 DEA=Woche];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetPeriodLength(CashFlowChartSetup."Period Length"::Week);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 4       ;2   ;Action    ;
+                      Name=Month;
+                      CaptionML=[ENU=Month;
+                                 ESP=Mes;
+                                 DEA=Monat];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetPeriodLength(CashFlowChartSetup."Period Length"::Month);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 6       ;2   ;Action    ;
+                      Name=Quarter;
+                      CaptionML=[ENU=Quarter;
+                                 ESP=Trimestre;
+                                 DEA=Quartal];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetPeriodLength(CashFlowChartSetup."Period Length"::Quarter);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 3       ;2   ;Action    ;
+                      Name=Year;
+                      CaptionML=[ENU=Year;
+                                 ESP=A¤o;
+                                 DEA=Jahr];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetPeriodLength(CashFlowChartSetup."Period Length"::Year);
+                                 UpdateStatus;
+                               END;
+                                }
+      { 16      ;1   ;ActionGroup;
+                      Name=GroupBy;
+                      CaptionML=[ENU=Group By;
+                                 ESP=Agrupar por;
+                                 DEA=Gruppieren nach];
+                      Image=Group }
+      { 17      ;2   ;Action    ;
+                      Name=PosNeg;
+                      CaptionML=[ENU=Positive/Negative;
+                                 ESP=Positivo/Negativo;
+                                 DEA=Positiv/Negativ];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetGroupBy(CashFlowChartSetup."Group By"::"Positive/Negative");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 18      ;2   ;Action    ;
+                      Name=Account;
+                      CaptionML=[ENU=Account No.;
+                                 ESP=N§ cuenta;
+                                 DEA=Kontonr.];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetGroupBy(CashFlowChartSetup."Group By"::"Account No.");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 22      ;2   ;Action    ;
+                      Name=SourceType;
+                      CaptionML=[ENU=Source Type;
+                                 ESP=Tipo procedencia mov.;
+                                 DEA=Herkunftsart];
+                      OnAction=BEGIN
+                                 CashFlowChartSetup.SetGroupBy(CashFlowChartSetup."Group By"::"Source Type");
+                                 UpdateStatus;
+                               END;
+                                }
+      { 25      ;1   ;Separator  }
+      { 26      ;1   ;Action    ;
+                      Name=Refresh;
+                      CaptionML=[ENU=Refresh;
+                                 ESP=Actualizar;
+                                 DEA=Aktualisieren];
+                      Image=Refresh;
+                      OnAction=BEGIN
+                                 NeedsUpdate := TRUE;
+                                 UpdateStatus;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;    ;Container ;
+                Name=container;
+                ContainerType=ContentArea }
+
+    { 12  ;1   ;Field     ;
+                Name=StatusText;
+                CaptionML=[ENU=Status Text;
+                           ESP=Texto de estado;
+                           DEA=Statustext];
+                SourceExpr=StatusText;
+                ShowCaption=No }
+
+    { 5   ;1   ;Field     ;
+                Name=BusinessChart;
+                ControlAddIn=[Microsoft.Dynamics.Nav.Client.BusinessChart;PublicKeyToken=31bf3856ad364e35] }
+
+  }
+  CODE
+  {
+    VAR
+      CashFlowChartSetup@1002 : Record 869;
+      OldCashFlowChartSetup@1005 : Record 869;
+      CashFlowChartMgt@1000 : Codeunit 869;
+      StatusText@1003 : Text;
+      NeedsUpdate@1001 : Boolean;
+
+    LOCAL PROCEDURE UpdateChart@6();
+    BEGIN
+      IF NOT NeedsUpdate THEN
+        EXIT;
+      IF CashFlowChartMgt.UpdateData(Rec) THEN
+        Update(CurrPage.BusinessChart);
+      UpdateStatus;
+
+      NeedsUpdate := FALSE;
+    END;
+
+    LOCAL PROCEDURE UpdateStatus@8();
+    BEGIN
+      NeedsUpdate := NeedsUpdate OR IsSetupChanged;
+
+      OldCashFlowChartSetup := CashFlowChartSetup;
+
+      IF NeedsUpdate THEN
+        StatusText := CashFlowChartSetup.GetCurrentSelectionText;
+    END;
+
+    LOCAL PROCEDURE IsSetupChanged@1() : Boolean;
+    BEGIN
+      EXIT(
+        (OldCashFlowChartSetup."Period Length" <> CashFlowChartSetup."Period Length") OR
+        (OldCashFlowChartSetup.Show <> CashFlowChartSetup.Show) OR
+        (OldCashFlowChartSetup."Start Date" <> CashFlowChartSetup."Start Date") OR
+        (OldCashFlowChartSetup."Group By" <> CashFlowChartSetup."Group By"));
+    END;
+
+    EVENT BusinessChart@-5::DataPointClicked@12(point@1000 : DotNet "'Microsoft.Dynamics.Nav.Client.BusinessChart.Model, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.Nav.Client.BusinessChart.BusinessChartDataPoint");
+    BEGIN
+      SetDrillDownIndexes(point);
+      CashFlowChartMgt.DrillDown(Rec);
+    END;
+
+    EVENT BusinessChart@-5::DataPointDoubleClicked@13(point@1000 : DotNet "'Microsoft.Dynamics.Nav.Client.BusinessChart.Model, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.Nav.Client.BusinessChart.BusinessChartDataPoint");
+    BEGIN
+    END;
+
+    EVENT BusinessChart@-5::AddInReady@14();
+    BEGIN
+      CashFlowChartMgt.OnOpenPage(CashFlowChartSetup);
+      UpdateStatus;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

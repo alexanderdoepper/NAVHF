@@ -1,0 +1,566 @@
+OBJECT Table 5821 Item Statistics Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code;
+    CaptionML=[ENU=Item Statistics Buffer;
+               ESP=Estad°sticas prod.;
+               DEA=Artikelstatistikpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code20        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Item Filter         ;Code20        ;FieldClass=FlowFilter;
+                                                   TableRelation=Item;
+                                                   ValidateTableRelation=No;
+                                                   CaptionML=[ENU=Item Filter;
+                                                              ESP=Filtro producto;
+                                                              DEA=Artikelfilter] }
+    { 3   ;   ;Variant Filter      ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Item Variant";
+                                                   CaptionML=[ENU=Variant Filter;
+                                                              ESP=Filtro variante;
+                                                              DEA=Variantenfilter] }
+    { 4   ;   ;Location Filter     ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation=Location;
+                                                   CaptionML=[ENU=Location Filter;
+                                                              ESP=Filtro almacÇn;
+                                                              DEA=Lagerortfilter] }
+    { 5   ;   ;Budget Filter       ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Item Budget Name".Name WHERE (Analysis Area=FIELD(Analysis Area Filter));
+                                                   CaptionML=[ENU=Budget Filter;
+                                                              ESP=Filtro presupuesto;
+                                                              DEA=Budgetfilter] }
+    { 6   ;   ;Global Dimension 1 Filter;Code20   ;FieldClass=FlowFilter;
+                                                   TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Filter;
+                                                              ESP=Filtro dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionsfilter 1];
+                                                   CaptionClass='1,3,1' }
+    { 7   ;   ;Global Dimension 2 Filter;Code20   ;FieldClass=FlowFilter;
+                                                   TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Filter;
+                                                              ESP=Filtro dimensi¢n global  2;
+                                                              DEA=Globaler Dimensionsfilter 2];
+                                                   CaptionClass='1,3,2' }
+    { 9   ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter];
+                                                   ClosingDates=Yes }
+    { 10  ;   ;Entry Type Filter   ;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Entry Type Filter;
+                                                              ESP=Filtro tipo mov.;
+                                                              DEA=Postenartenfilter];
+                                                   OptionCaptionML=[ENU=Direct Cost,Revaluation,Rounding,Indirect Cost,Variance;
+                                                                    ESP=Coste directo,Revalorizaci¢n,Redondeo,Coste indirecto,Desviaci¢n;
+                                                                    DEA=Direkte Kosten,Neubewertung,Rundung,Indirekte Kosten,Abweichung];
+                                                   OptionString=Direct Cost,Revaluation,Rounding,Indirect Cost,Variance }
+    { 11  ;   ;Item Ledger Entry Type Filter;Option;
+                                                   FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Item Ledger Entry Type Filter;
+                                                              ESP=Filtro tipo mov. producto;
+                                                              DEA=Artikelpostenartenfilter];
+                                                   OptionCaptionML=[ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output;
+                                                                    ESP=Compra,Venta,Ajuste positivo,Ajuste negativo,Transferencia,Consumo,Salida desde fab., ,Consumo ensamblado,Salida ensamblado;
+                                                                    DEA=Einkauf,Verkauf,Zugang,Abgang,Umlagerung,Verbrauch,Istmeldung, ,Verbrauch fÅr Montage,Montage-Istmeldung];
+                                                   OptionString=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output }
+    { 12  ;   ;Item Charge No. Filter;Code20      ;FieldClass=FlowFilter;
+                                                   TableRelation="Item Charge";
+                                                   CaptionML=[ENU=Item Charge No. Filter;
+                                                              ESP=Filtro nß cargo prod.;
+                                                              DEA=Artikel Zu-/Abschl. Nr. Filter] }
+    { 13  ;   ;Source Type Filter  ;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Source Type Filter;
+                                                              ESP=Filtro tipo origen;
+                                                              DEA=Herkunftsartenfilter];
+                                                   OptionCaptionML=[ENU=" ,Customer,Vendor,Salesperson/Purchaser,Item";
+                                                                    ESP=" ,Cliente,Proveedor,Vendedor/Comprador,Producto";
+                                                                    DEA=" ,Debitor,Kreditor,VerkÑufer/EinkÑufer,Artikel"];
+                                                   OptionString=[ ,Customer,Vendor,Salesperson/Purchaser,Item] }
+    { 14  ;   ;Source No. Filter   ;Code20        ;FieldClass=FlowFilter;
+                                                   TableRelation=IF (Source Type Filter=CONST(Customer)) Customer
+                                                                 ELSE IF (Source Type Filter=CONST(Vendor)) Vendor
+                                                                 ELSE IF (Source Type Filter=CONST(Item)) Item;
+                                                   ValidateTableRelation=No;
+                                                   CaptionML=[ENU=Source No. Filter;
+                                                              ESP=Filtro nß origen;
+                                                              DEA=Herkunftsnr. Filter] }
+    { 15  ;   ;Invoiced Quantity   ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Invoiced Quantity" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                            Posting Date=FIELD(Date Filter),
+                                                                                                            Variant Code=FIELD(Variant Filter),
+                                                                                                            Location Code=FIELD(Location Filter),
+                                                                                                            Entry Type=FIELD(Entry Type Filter),
+                                                                                                            Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                            Variance Type=FIELD(Variance Type Filter),
+                                                                                                            Item Charge No.=FIELD(Item Charge No. Filter),
+                                                                                                            Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                            Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                            Source Type=FIELD(Source Type Filter),
+                                                                                                            Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Invoiced Quantity;
+                                                              ESP=Cantidad facturada;
+                                                              DEA=Fakturierte Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 16  ;   ;Sales Amount (Actual);Decimal      ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Sales Amount (Actual)" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                                Posting Date=FIELD(Date Filter),
+                                                                                                                Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                Entry Type=FIELD(Entry Type Filter),
+                                                                                                                Variance Type=FIELD(Variance Type Filter),
+                                                                                                                Location Code=FIELD(Location Filter),
+                                                                                                                Variant Code=FIELD(Variant Filter),
+                                                                                                                Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                                Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                                Item Charge No.=FIELD(Item Charge No. Filter),
+                                                                                                                Source Type=FIELD(Source Type Filter),
+                                                                                                                Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Sales Amount (Actual);
+                                                              ESP=Importe ventas (Real);
+                                                              DEA=Verkaufsbetrag (tatsÑchl.)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 17  ;   ;Cost Amount (Actual);Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Cost Amount (Actual)" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                               Posting Date=FIELD(Date Filter),
+                                                                                                               Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                               Entry Type=FIELD(Entry Type Filter),
+                                                                                                               Variance Type=FIELD(Variance Type Filter),
+                                                                                                               Location Code=FIELD(Location Filter),
+                                                                                                               Variant Code=FIELD(Variant Filter),
+                                                                                                               Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                               Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                               Item Charge No.=FIELD(Item Charge No. Filter),
+                                                                                                               Source Type=FIELD(Source Type Filter),
+                                                                                                               Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Cost Amount (Actual);
+                                                              ESP=Importe coste (Real);
+                                                              DEA=Einstandsbetrag (tatsÑchl.)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 18  ;   ;Cost Amount (Non-Invtbl.);Decimal  ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Cost Amount (Non-Invtbl.)" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                                    Posting Date=FIELD(Date Filter),
+                                                                                                                    Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                    Variance Type=FIELD(Variance Type Filter),
+                                                                                                                    Entry Type=FIELD(Entry Type Filter),
+                                                                                                                    Location Code=FIELD(Location Filter),
+                                                                                                                    Variant Code=FIELD(Variant Filter),
+                                                                                                                    Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                                    Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                                    Item Charge No.=FIELD(Item Charge No. Filter),
+                                                                                                                    Source Type=FIELD(Source Type Filter),
+                                                                                                                    Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Cost Amount (Non-Invtbl.);
+                                                              ESP=Importe coste (No-invent.);
+                                                              DEA=Einst.-Betr. (lagerwertunabh.)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 19  ;   ;Variance Type Filter;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Variance Type Filter;
+                                                              ESP=Filtro tipo desviaci¢n;
+                                                              DEA=Abweichungsartfilter];
+                                                   OptionCaptionML=[ENU=" ,Purchase,Material,Capacity,Capacity Overhead,Manufacturing Overhead,Subcontracted";
+                                                                    ESP=" ,Compras,Materiales,Capacidad,Gastos gen. capacidad,Gastos gen. fabr.,Subcontrataci¢n";
+                                                                    DEA=" ,Einkauf,Material,KapazitÑt,KapazitÑtsgemeinkosten,Produktionsgemeinkosten,Fremdarbeitskosten"];
+                                                   OptionString=[ ,Purchase,Material,Capacity,Capacity Overhead,Manufacturing Overhead,Subcontracted] }
+    { 20  ;   ;Sales (LCY)         ;Integer       ;CaptionML=[ENU=Sales (LCY);
+                                                              ESP=Ventas (DL);
+                                                              DEA=Verkauf (MW)] }
+    { 21  ;   ;COGS (LCY)          ;Integer       ;CaptionML=[ENU=COGS (LCY);
+                                                              ESP=Coste ventas (DL);
+                                                              DEA=Verbrauch (MW)] }
+    { 22  ;   ;Profit (LCY)        ;Integer       ;CaptionML=[ENU=Profit (LCY);
+                                                              ESP=Bfß bruto (DL);
+                                                              DEA=DB (MW)] }
+    { 23  ;   ;Profit %            ;Integer       ;CaptionML=[ENU=Profit %;
+                                                              ESP=% Bfß bruto;
+                                                              DEA=DB %] }
+    { 24  ;   ;Inventoriable Costs ;Integer       ;CaptionML=[ENU=Inventoriable Costs;
+                                                              ESP=Costes inventariables;
+                                                              DEA=Lagerkosten] }
+    { 25  ;   ;Direct Cost (LCY)   ;Integer       ;CaptionML=[ENU=Direct Cost (LCY);
+                                                              ESP=Coste directo(DL);
+                                                              DEA=Direkte Kosten (MW)] }
+    { 26  ;   ;Revaluation (LCY)   ;Integer       ;CaptionML=[ENU=Revaluation (LCY);
+                                                              ESP=Revalorizaci¢n (DL);
+                                                              DEA=Neubewertung (MW)] }
+    { 27  ;   ;Rounding (LCY)      ;Integer       ;CaptionML=[ENU=Rounding (LCY);
+                                                              ESP=Redondeo (DL);
+                                                              DEA=Rundung (MW)] }
+    { 28  ;   ;Indirect Cost (LCY) ;Integer       ;CaptionML=[ENU=Indirect Cost (LCY);
+                                                              ESP=Coste indirecto (DL);
+                                                              DEA=Indirekte Kosten (MW)] }
+    { 29  ;   ;Variance (LCY)      ;Integer       ;CaptionML=[ENU=Variance (LCY);
+                                                              ESP=Desviaci¢n (DL);
+                                                              DEA=Abweichung (MW)] }
+    { 30  ;   ;Inventoriable Costs, Total;Integer ;CaptionML=[ENU=Inventoriable Costs, Total;
+                                                              ESP=Costes inventario, Total;
+                                                              DEA=Lagerkosten, Total] }
+    { 31  ;   ;Inventory (LCY)     ;Integer       ;CaptionML=[ENU=Inventory (LCY);
+                                                              ESP=Inventario (DL);
+                                                              DEA=Lagerbestand (MW)] }
+    { 34  ;   ;Non-Invtbl. Costs (LCY);Integer    ;CaptionML=[ENU=Non-Invtbl. Costs (LCY);
+                                                              ESP=Costes no-invent. (DL);
+                                                              DEA=Lagerwertunabh. Kosten (MW)] }
+    { 40  ;   ;Line Option         ;Option        ;CaptionML=[ENU=Line Option;
+                                                              ESP=Opci¢n l°n.;
+                                                              DEA=Zeilenoption];
+                                                   OptionCaptionML=[ENU=Profit Calculation,Cost Specification,Purch. Item Charge Spec.,Sales Item Charge Spec.,Period,Location;
+                                                                    ESP=C†lculo benef.,Especif. coste,Especif. cargo prod. comp.,Especif. cargo prod. ventas,Peri¢do,AlmacÇn;
+                                                                    DEA=DB-Berechnung,Einstandspreisermittlung,Artikel Zu-/Abschlag EK Einst.-Preisermittlung,Artikel Zu-/Abschlag VK Einst.-Preisermittlung,Periode,Lagerort];
+                                                   OptionString=Profit Calculation,Cost Specification,Purch. Item Charge Spec.,Sales Item Charge Spec.,Period,Location }
+    { 41  ;   ;Column Option       ;Option        ;CaptionML=[ENU=Column Option;
+                                                              ESP=Opci¢n columna;
+                                                              DEA=Spaltenoption];
+                                                   OptionCaptionML=[ENU=Profit Calculation,Cost Specification,Purch. Item Charge Spec.,Sales Item Charge Spec.,Period,Location;
+                                                                    ESP=C†lculo benef.,Especif. coste,Especif. cargo prod. comp.,Especif. cargo prod. ventas,Peri¢do,AlmacÇn;
+                                                                    DEA=DB-Berechnung,Einstandspreisermittlung,Artikel Zu-/Abschlag EK Einst.-Preisermittlung,Artikel Zu-/Abschlag VK Einst.-Preisermittlung,Periode,Lagerort];
+                                                   OptionString=Profit Calculation,Cost Specification,Purch. Item Charge Spec.,Sales Item Charge Spec.,Period,Location }
+    { 42  ;   ;Analysis Area Filter;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Analysis Area Filter;
+                                                              ESP=Filtro de †rea de an†lisis;
+                                                              DEA=Analysebereichsfilter];
+                                                   OptionCaptionML=[ENU=Sale,Purchase,Inventory;
+                                                                    ESP=Venta,Compra,Inventario;
+                                                                    DEA=Verkauf,Einkauf,Lager];
+                                                   OptionString=Sale,Purchase,Inventory }
+    { 45  ;   ;Quantity            ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Ledger Entry".Quantity WHERE (Item No.=FIELD(Item Filter),
+                                                                                                       Source Type=FIELD(Source Type Filter),
+                                                                                                       Source No.=FIELD(Source No. Filter),
+                                                                                                       Posting Date=FIELD(Date Filter),
+                                                                                                       Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                       Location Code=FIELD(Location Filter),
+                                                                                                       Variant Code=FIELD(Variant Filter),
+                                                                                                       Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                       Global Dimension 2 Code=FIELD(Global Dimension 2 Filter)));
+                                                   CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 46  ;   ;Sales Amount (Expected);Decimal    ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Sales Amount (Expected)" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                                  Source Type=FIELD(Source Type Filter),
+                                                                                                                  Source No.=FIELD(Source No. Filter),
+                                                                                                                  Posting Date=FIELD(Date Filter),
+                                                                                                                  Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                  Variance Type=FIELD(Variance Type Filter),
+                                                                                                                  Entry Type=FIELD(Entry Type Filter),
+                                                                                                                  Location Code=FIELD(Location Filter),
+                                                                                                                  Variant Code=FIELD(Variant Filter),
+                                                                                                                  Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                                  Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                                  Item Charge No.=FIELD(Item Charge No. Filter)));
+                                                   CaptionML=[ENU=Sales Amount (Expected);
+                                                              ESP=Importe ventas (Esperado);
+                                                              DEA=Verkaufsbetrag (erwartet)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 47  ;   ;Cost Amount (Expected);Decimal     ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Value Entry"."Cost Amount (Expected)" WHERE (Item No.=FIELD(Item Filter),
+                                                                                                                 Source Type=FIELD(Source Type Filter),
+                                                                                                                 Source No.=FIELD(Source No. Filter),
+                                                                                                                 Posting Date=FIELD(Date Filter),
+                                                                                                                 Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                 Variance Type=FIELD(Variance Type Filter),
+                                                                                                                 Entry Type=FIELD(Entry Type Filter),
+                                                                                                                 Location Code=FIELD(Location Filter),
+                                                                                                                 Variant Code=FIELD(Variant Filter),
+                                                                                                                 Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                                 Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                                 Item Charge No.=FIELD(Item Charge No. Filter)));
+                                                   CaptionML=[ENU=Cost Amount (Expected);
+                                                              ESP=Importe coste (Esperado);
+                                                              DEA=Einstandsbetrag (erwartet)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 50  ;   ;Budgeted Quantity   ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Budget Entry".Quantity WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                       Budget Name=FIELD(Budget Filter),
+                                                                                                       Item No.=FIELD(Item Filter),
+                                                                                                       Date=FIELD(Date Filter),
+                                                                                                       Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                       Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                       Budget Dimension 1 Code=FIELD(Dimension 1 Filter),
+                                                                                                       Budget Dimension 2 Code=FIELD(Dimension 2 Filter),
+                                                                                                       Budget Dimension 3 Code=FIELD(Dimension 3 Filter),
+                                                                                                       Source Type=FIELD(Source Type Filter),
+                                                                                                       Source No.=FIELD(Source No. Filter),
+                                                                                                       Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Budgeted Quantity;
+                                                              ESP=Cantidad presupuestada;
+                                                              DEA=Budgetierte Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 51  ;   ;Budgeted Sales Amount;Decimal      ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Budget Entry"."Sales Amount" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                             Budget Name=FIELD(Budget Filter),
+                                                                                                             Item No.=FIELD(Item Filter),
+                                                                                                             Date=FIELD(Date Filter),
+                                                                                                             Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                             Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                             Budget Dimension 1 Code=FIELD(Dimension 1 Filter),
+                                                                                                             Budget Dimension 2 Code=FIELD(Dimension 2 Filter),
+                                                                                                             Budget Dimension 3 Code=FIELD(Dimension 3 Filter),
+                                                                                                             Source Type=FIELD(Source Type Filter),
+                                                                                                             Source No.=FIELD(Source No. Filter),
+                                                                                                             Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Budgeted Sales Amount;
+                                                              ESP=Importe ventas presupuestado;
+                                                              DEA=Budgetierter Verkaufsbetrag];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 52  ;   ;Budgeted Cost Amount;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Budget Entry"."Cost Amount" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                            Budget Name=FIELD(Budget Filter),
+                                                                                                            Item No.=FIELD(Item Filter),
+                                                                                                            Date=FIELD(Date Filter),
+                                                                                                            Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
+                                                                                                            Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
+                                                                                                            Budget Dimension 1 Code=FIELD(Dimension 1 Filter),
+                                                                                                            Budget Dimension 2 Code=FIELD(Dimension 2 Filter),
+                                                                                                            Budget Dimension 3 Code=FIELD(Dimension 3 Filter),
+                                                                                                            Source Type=FIELD(Source Type Filter),
+                                                                                                            Source No.=FIELD(Source No. Filter),
+                                                                                                            Location Code=FIELD(Location Filter)));
+                                                   CaptionML=[ENU=Budgeted Cost Amount;
+                                                              ESP=Importe coste presupuestado;
+                                                              DEA=Budgetierter Einstandsbetrag];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 70  ;   ;Analysis View Filter;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Item Analysis View".Code WHERE (Analysis Area=FIELD(Analysis Area Filter));
+                                                   CaptionML=[ENU=Analysis View Filter;
+                                                              ESP=Filtro vista an†lisis;
+                                                              DEA=Analyseansichtsfilter] }
+    { 71  ;   ;Dimension 1 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 1 Filter;
+                                                              ESP=Filtro dimensi¢n 1;
+                                                              DEA=Dimensionsfilter 1] }
+    { 72  ;   ;Dimension 2 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 2 Filter;
+                                                              ESP=Filtro dimensi¢n 2;
+                                                              DEA=Dimensionsfilter 2] }
+    { 73  ;   ;Dimension 3 Filter  ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Dimension 3 Filter;
+                                                              ESP=Filtro dimensi¢n 3;
+                                                              DEA=Dimensionsfilter 3] }
+    { 80  ;   ;Analysis - Quantity ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry".Quantity WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                              Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                              Item No.=FIELD(Item Filter),
+                                                                                                              Location Code=FIELD(Location Filter),
+                                                                                                              Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                              Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                              Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                              Posting Date=FIELD(Date Filter),
+                                                                                                              Source Type=FIELD(Source Type Filter),
+                                                                                                              Source No.=FIELD(Source No. Filter),
+                                                                                                              Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                              Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Quantity;
+                                                              ESP=An†lisis de cantidad;
+                                                              DEA=Analyse - Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 81  ;   ;Analysis - Invoiced Quantity;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Invoiced Quantity" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                         Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                         Item No.=FIELD(Item Filter),
+                                                                                                                         Location Code=FIELD(Location Filter),
+                                                                                                                         Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                         Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                         Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                         Posting Date=FIELD(Date Filter),
+                                                                                                                         Source Type=FIELD(Source Type Filter),
+                                                                                                                         Source No.=FIELD(Source No. Filter),
+                                                                                                                         Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                         Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Invoiced Quantity;
+                                                              ESP=An†lisis de cantidad facturada;
+                                                              DEA=Analyse - Fakturierte Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 82  ;   ;Analysis - Sales Amt. (Actual);Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Sales Amount (Actual)" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                             Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                             Item No.=FIELD(Item Filter),
+                                                                                                                             Location Code=FIELD(Location Filter),
+                                                                                                                             Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                             Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                             Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                             Posting Date=FIELD(Date Filter),
+                                                                                                                             Source Type=FIELD(Source Type Filter),
+                                                                                                                             Source No.=FIELD(Source No. Filter),
+                                                                                                                             Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                             Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Sales Amt. (Actual);
+                                                              ESP=An†lisis de imp. venta (real);
+                                                              DEA=Analyse - Verkaufsbetr. (Ist)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 83  ;   ;Analysis - Sales Amt. (Exp);Decimal;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Sales Amount (Expected)" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                               Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                               Item No.=FIELD(Item Filter),
+                                                                                                                               Location Code=FIELD(Location Filter),
+                                                                                                                               Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                               Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                               Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                               Posting Date=FIELD(Date Filter),
+                                                                                                                               Source Type=FIELD(Source Type Filter),
+                                                                                                                               Source No.=FIELD(Source No. Filter),
+                                                                                                                               Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                               Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Sales Amt. (Exp);
+                                                              ESP=An†lisis de imp. venta (esp.);
+                                                              DEA=Analyse - Verkaufsbetr. (Soll)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 84  ;   ;Analysis - Cost Amt. (Actual);Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Cost Amount (Actual)" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                            Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                            Item No.=FIELD(Item Filter),
+                                                                                                                            Location Code=FIELD(Location Filter),
+                                                                                                                            Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                            Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                            Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                            Posting Date=FIELD(Date Filter),
+                                                                                                                            Source Type=FIELD(Source Type Filter),
+                                                                                                                            Source No.=FIELD(Source No. Filter),
+                                                                                                                            Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                            Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Cost Amt. (Actual);
+                                                              ESP=An†lisis de imp. coste (real);
+                                                              DEA=Analyse - Einst.-Betr. (Ist)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 85  ;   ;Analysis - Cost Amt. (Exp);Decimal ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Cost Amount (Expected)" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                              Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                              Item No.=FIELD(Item Filter),
+                                                                                                                              Location Code=FIELD(Location Filter),
+                                                                                                                              Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                              Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                              Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                              Posting Date=FIELD(Date Filter),
+                                                                                                                              Source Type=FIELD(Source Type Filter),
+                                                                                                                              Source No.=FIELD(Source No. Filter),
+                                                                                                                              Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                              Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis - Cost Amt. (Exp);
+                                                              ESP=An†lisis imp. coste (esp.);
+                                                              DEA=Analyse - Einst.-Betr. (Soll)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 86  ;   ;Analysis CostAmt.(Non-Invtbl.);Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Entry"."Cost Amount (Non-Invtbl.)" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                                 Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                                 Item No.=FIELD(Item Filter),
+                                                                                                                                 Location Code=FIELD(Location Filter),
+                                                                                                                                 Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                                 Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                                 Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                                 Posting Date=FIELD(Date Filter),
+                                                                                                                                 Source Type=FIELD(Source Type Filter),
+                                                                                                                                 Source No.=FIELD(Source No. Filter),
+                                                                                                                                 Item Ledger Entry Type=FIELD(Item Ledger Entry Type Filter),
+                                                                                                                                 Entry Type=FIELD(Entry Type Filter)));
+                                                   CaptionML=[ENU=Analysis CostAmt.(Non-Invtbl.);
+                                                              ESP=An†lisis imp. coste (no inv.);
+                                                              DEA=Anal. Einst.-Betr. (lag-unab.)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 91  ;   ;Analysis - Budgeted Quantity;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Budg. Entry".Quantity WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                    Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                    Budget Name=FIELD(Budget Filter),
+                                                                                                                    Item No.=FIELD(Item Filter),
+                                                                                                                    Location Code=FIELD(Location Filter),
+                                                                                                                    Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                    Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                    Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                    Posting Date=FIELD(Date Filter),
+                                                                                                                    Source Type=FIELD(Source Type Filter),
+                                                                                                                    Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Analysis - Budgeted Quantity;
+                                                              ESP=An†lisis de cantidad pptda.;
+                                                              DEA=Analyse - Budgetierte Menge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 92  ;   ;Analysis - Budgeted Sales Amt.;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Budg. Entry"."Sales Amount" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                          Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                          Budget Name=FIELD(Budget Filter),
+                                                                                                                          Item No.=FIELD(Item Filter),
+                                                                                                                          Location Code=FIELD(Location Filter),
+                                                                                                                          Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                          Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                          Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                          Posting Date=FIELD(Date Filter),
+                                                                                                                          Source Type=FIELD(Source Type Filter),
+                                                                                                                          Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Analysis - Budgeted Sales Amt.;
+                                                              ESP=An†lisis cantidad venta pptda.;
+                                                              DEA=Analyse - Budget. Verk.-Betrag];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 93  ;   ;Analysis - Budgeted Cost Amt.;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Item Analysis View Budg. Entry"."Cost Amount" WHERE (Analysis Area=FIELD(Analysis Area Filter),
+                                                                                                                         Analysis View Code=FIELD(Analysis View Filter),
+                                                                                                                         Budget Name=FIELD(Budget Filter),
+                                                                                                                         Item No.=FIELD(Item Filter),
+                                                                                                                         Location Code=FIELD(Location Filter),
+                                                                                                                         Dimension 1 Value Code=FIELD(Dimension 1 Filter),
+                                                                                                                         Dimension 2 Value Code=FIELD(Dimension 2 Filter),
+                                                                                                                         Dimension 3 Value Code=FIELD(Dimension 3 Filter),
+                                                                                                                         Posting Date=FIELD(Date Filter),
+                                                                                                                         Source Type=FIELD(Source Type Filter),
+                                                                                                                         Source No.=FIELD(Source No. Filter)));
+                                                   CaptionML=[ENU=Analysis - Budgeted Cost Amt.;
+                                                              ESP=An†lisis cantidad coste pptda.;
+                                                              DEA=Analyse - Budget. Einst.-Betr.];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 11500;  ;Inv. Valuation Actual;Decimal      ;CaptionML=[ENU=Inv. Valuation Actual;
+                                                              DEA=Lagerbewertung tatsÑchlich] }
+    { 11501;  ;Inv. Valuation Exp. ;Decimal       ;CaptionML=[ENU=Inv. Valuation Exp.;
+                                                              DEA=Lagerwert (erw.)] }
+    { 11502;  ;Inv. Posted to GL   ;Decimal       ;CaptionML=[ENU=Inv. Posted to GL;
+                                                              DEA=In FB gebuchter Lagerbest.] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

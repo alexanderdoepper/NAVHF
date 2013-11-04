@@ -1,0 +1,150 @@
+OBJECT Table 338 Entry Summary
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Entry Summary;
+               ESP=Resumen mov.;
+               DEA=Summenposten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 3   ;   ;Summary Type        ;Text80        ;CaptionML=[ENU=Summary Type;
+                                                              ESP=Tipo resumen;
+                                                              DEA=Summenart] }
+    { 4   ;   ;Total Quantity      ;Decimal       ;CaptionML=[ENU=Total Quantity;
+                                                              ESP=Cantidad total;
+                                                              DEA=Gesamtmenge];
+                                                   DecimalPlaces=0:5 }
+    { 5   ;   ;Total Reserved Quantity;Decimal    ;CaptionML=[ENU=Total Reserved Quantity;
+                                                              ESP=Cantidad total reservada;
+                                                              DEA=Total reservierte Menge];
+                                                   DecimalPlaces=0:5 }
+    { 6   ;   ;Total Available Quantity;Decimal   ;CaptionML=[ENU=Total Available Quantity;
+                                                              ESP=Cantidad total disponible;
+                                                              DEA=Total verfgbare Menge];
+                                                   DecimalPlaces=0:5 }
+    { 7   ;   ;Current Reserved Quantity;Decimal  ;CaptionML=[ENU=Current Reserved Quantity;
+                                                              ESP=Cdad. reservada actualmente;
+                                                              DEA=Aktuell reservierte Menge];
+                                                   DecimalPlaces=0:5 }
+    { 8   ;   ;Source Subtype      ;Integer       ;CaptionML=[ENU=Source Subtype;
+                                                              ESP=Subtipo origen;
+                                                              DEA=Herkunftsunterart] }
+    { 15  ;   ;Qty. Alloc. in Warehouse;Decimal   ;CaptionML=[ENU=Qty. Alloc. in Warehouse;
+                                                              ESP=Cant. loc. en almac‚n;
+                                                              DEA=Zugew. Menge in Log.-Belegen];
+                                                   DecimalPlaces=0:5 }
+    { 16  ;   ;Res. Qty. on Picks & Shipmts.;Decimal;
+                                                   CaptionML=[ENU=Res. Qty. on Picks & Shipmts.;
+                                                              ESP=Cdad. recursos en picking y env¡os;
+                                                              DEA=Res. Menge fr Kommissionierungen und Lieferungen];
+                                                   DecimalPlaces=0:5 }
+    { 6500;   ;Serial No.          ;Code20        ;CaptionML=[ENU=Serial No.;
+                                                              ESP=N§ serie;
+                                                              DEA=Seriennr.];
+                                                   Editable=No }
+    { 6501;   ;Lot No.             ;Code20        ;CaptionML=[ENU=Lot No.;
+                                                              ESP=N§ lote;
+                                                              DEA=Chargennr.];
+                                                   Editable=No }
+    { 6502;   ;Warranty Date       ;Date          ;CaptionML=[ENU=Warranty Date;
+                                                              ESP=Fecha garant¡a;
+                                                              DEA=Garantiedatum];
+                                                   Editable=No }
+    { 6503;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
+                                                              ESP=Fecha caducidad;
+                                                              DEA=Ablaufdatum];
+                                                   Editable=No }
+    { 6504;   ;Total Requested Quantity;Decimal   ;CaptionML=[ENU=Total Requested Quantity;
+                                                              ESP=Cdad. solicitada total;
+                                                              DEA=Total angeforderte Menge];
+                                                   DecimalPlaces=0:5 }
+    { 6505;   ;Selected Quantity   ;Decimal       ;OnValidate=BEGIN
+                                                                IF "Bin Active" AND ("Total Available Quantity" > "Bin Content") THEN BEGIN
+                                                                  IF "Selected Quantity" > "Bin Content" THEN
+                                                                    ERROR(Text001,"Bin Content");
+                                                                END ELSE
+                                                                  IF "Selected Quantity" > "Total Available Quantity" THEN
+                                                                    ERROR(Text001,"Total Available Quantity");
+                                                              END;
+
+                                                   CaptionML=[ENU=Selected Quantity;
+                                                              ESP=Cantidad seleccionada;
+                                                              DEA=Ausgew„hlte Menge];
+                                                   DecimalPlaces=0:5;
+                                                   MinValue=0;
+                                                   BlankZero=Yes }
+    { 6506;   ;Current Pending Quantity;Decimal   ;CaptionML=[ENU=Current Pending Quantity;
+                                                              ESP=Cantidad pendiente actual;
+                                                              DEA=Aktuell ausstehende Menge];
+                                                   DecimalPlaces=0:5 }
+    { 6507;   ;Current Requested Quantity;Decimal ;CaptionML=[ENU=Current Requested Quantity;
+                                                              ESP=Cantidad solicitada actual;
+                                                              DEA=Aktuell angeforderte Menge] }
+    { 6508;   ;Bin Content         ;Decimal       ;CaptionML=[ENU=Bin Content;
+                                                              ESP=Contenido ubicaci¢n;
+                                                              DEA=Lagerplatzinhalt];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 6509;   ;Bin Active          ;Boolean       ;CaptionML=[ENU=Bin Active;
+                                                              ESP=Ubi. activa;
+                                                              DEA=Aktiver Lagerplatz];
+                                                   Editable=No }
+    { 6510;   ;Non-specific Reserved Qty.;Decimal ;CaptionML=[ENU=Non-specific Reserved Qty.;
+                                                              ESP=Cantidad reservada no espec¡fica;
+                                                              DEA=Nicht-spezifische reservierte Menge];
+                                                   Editable=No }
+    { 6511;   ;Double-entry Adjustment;Decimal    ;CaptionML=[ENU=Double-entry Adjustment;
+                                                              ESP=Ajuste movimiento doble;
+                                                              DEA=Regulierung Doppelposten];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Lot No.,Serial No.                       }
+    {    ;Expiration Date                          }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=You cannot select more than %1 units.;ESP=No puede seleccionar m s de %1 unidades.;DEA=Es k”nnen nicht mehr als %1 Einheiten ausgew„hlt werden.';
+
+    PROCEDURE UpdateAvailable@1();
+    BEGIN
+      "Total Available Quantity" :=
+        "Total Quantity" -
+        "Total Requested Quantity" -
+        "Current Pending Quantity" +
+        "Double-entry Adjustment";
+    END;
+
+    PROCEDURE HasQuantity@2() : Boolean;
+    BEGIN
+      EXIT(("Total Quantity" <> 0) OR
+        ("Qty. Alloc. in Warehouse" <> 0) OR
+        ("Total Requested Quantity" <> 0) OR
+        ("Current Pending Quantity" <> 0) OR
+        ("Double-entry Adjustment" <> 0));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

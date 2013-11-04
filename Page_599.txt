@@ -1,0 +1,158 @@
+OBJECT Page 599 Payment Disc Tolerance Warning
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Payment Discount Tolerance Warning;
+               ESP=Advertencia tolerancia descuento pagos;
+               DEA=Zahlungstoleranzwarnung Rabatt];
+    PageType=ConfirmationDialog;
+    InstructionalTextML=[ENU=An action is requested regarding the Payment Discount Tolerance Warning.;
+                         ESP=Se ha solicitado una acci¢n en relaci¢n con la advertencia de tolerancia de descuento de pagos.;
+                         DEA=FÅr die Zahlungstoleranzwarnung Rabatt wird eine Aktion angefordert.];
+    RefreshOnActivate=Yes;
+    OnOpenPage=BEGIN
+                 Posting := Posting::"Remaining Amount";
+
+                 IF BalanceAmount = 0 THEN
+                   BalanceAmount := Amount + AppliedAmount;
+               END;
+
+    OnQueryClosePage=BEGIN
+                       IF CloseAction = ACTION::No THEN
+                         NoOnPush;
+                       IF CloseAction = ACTION::Yes THEN
+                         YesOnPush;
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU=To handle the late payment discount, do you want to:;
+                           ESP=Para gestionar el descuento por pago vencido, desea:;
+                           DEA=Welche der folgenden Aktionen mîchten Sie fÅr das Åberzogene Skonto ausfÅhren?];
+                OptionCaptionML=[ENU=,Post as Payment Discount Tolerance?,Do Not Accept the Late Payment Discount?;
+                                 ESP=,®Registrar el saldo como tolerancia dto. p.p.?,®No admitir el dto. p.p. vencido?;
+                                 DEA=,Als Skontotoleranz buchen?,öberzogenes Skonto nicht akzeptieren?];
+                SourceExpr=Posting }
+
+    { 2   ;1   ;Group     ;
+                CaptionML=[ENU=Details;
+                           ESP=Detalles;
+                           DEA=Details];
+                InstructionalTextML=[ENU=You can accept a late payment discount on the following document.;
+                                     ESP=Puede aceptar un descuento por pago vencido en el siguiente documento.;
+                                     DEA=Sie kînnen ein Åberzogenes Skonto im folgenden Beleg akzeptieren.] }
+
+    { 7   ;2   ;Field     ;
+                CaptionML=[ENU=Posting Date;
+                           ESP=Fecha registro;
+                           DEA=Buchungsdatum];
+                SourceExpr=PostingDate;
+                Editable=FALSE }
+
+    { 19  ;2   ;Field     ;
+                CaptionML=[ENU=No;
+                           ESP=Nß;
+                           DEA=Nein];
+                SourceExpr=CustVendNo;
+                Editable=FALSE }
+
+    { 20  ;2   ;Field     ;
+                CaptionML=[ENU=Document No.;
+                           ESP=Nß documento;
+                           DEA=Belegnr.];
+                SourceExpr=DocNo;
+                Editable=FALSE }
+
+    { 13  ;2   ;Field     ;
+                CaptionML=[ENU=Currency Code;
+                           ESP=C¢d. divisa;
+                           DEA=WÑhrungscode];
+                SourceExpr=CurrencyCode;
+                Editable=FALSE }
+
+    { 8   ;2   ;Field     ;
+                CaptionML=[ENU=Amount;
+                           ESP=Importe;
+                           DEA=Betrag];
+                SourceExpr=Amount;
+                Editable=FALSE }
+
+    { 15  ;2   ;Field     ;
+                CaptionML=[ENU=Applied Amount;
+                           ESP=Importe conciliado;
+                           DEA=Ausgleichsbetrag];
+                SourceExpr=AppliedAmount;
+                Editable=FALSE }
+
+    { 17  ;2   ;Field     ;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo];
+                SourceExpr=BalanceAmount;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      PostingDate@1002 : Date;
+      CustVendNo@1023 : Code[20];
+      DocNo@1003 : Code[20];
+      CurrencyCode@1001 : Code[10];
+      Amount@1006 : Decimal;
+      AppliedAmount@1011 : Decimal;
+      BalanceAmount@1009 : Decimal;
+      Posting@1015 : ' ,Payment Tolerance Accounts,Remaining Amount';
+      NewPostingAction@1005 : Integer;
+
+    PROCEDURE SetValues@1(ShowPostingDate@1000 : Date;ShowCustVendNo@1001 : Code[20];ShowDocNo@1003 : Code[20];ShowCurrencyCode@1002 : Code[10];ShowAmount@1004 : Decimal;ShowAppliedAmount@1005 : Decimal;ShowBalance@1007 : Decimal);
+    BEGIN
+      PostingDate := ShowPostingDate;
+      CustVendNo := ShowCustVendNo;
+      DocNo := ShowDocNo;
+      CurrencyCode := ShowCurrencyCode;
+      Amount := ShowAmount;
+      AppliedAmount := ShowAppliedAmount;
+      BalanceAmount := ShowBalance;
+    END;
+
+    PROCEDURE GetValues@2(VAR PostingAction@1001 : Integer);
+    BEGIN
+      PostingAction := NewPostingAction
+    END;
+
+    LOCAL PROCEDURE YesOnPush@19065578();
+    BEGIN
+      IF Posting = Posting::"Payment Tolerance Accounts" THEN
+        NewPostingAction := 1
+      ELSE
+        IF Posting = Posting::"Remaining Amount" THEN
+          NewPostingAction := 2;
+    END;
+
+    LOCAL PROCEDURE NoOnPush@19040112();
+    BEGIN
+      NewPostingAction := 3;
+    END;
+
+    PROCEDURE InitializeNewPostingAction@3(OptionValue@1000 : Integer);
+    BEGIN
+      NewPostingAction := OptionValue;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

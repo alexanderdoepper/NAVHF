@@ -1,0 +1,32 @@
+OBJECT Table 2000000006 Company
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:07;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Empresa;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Text30        ;CaptionML=ESP=Nombre }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

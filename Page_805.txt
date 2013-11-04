@@ -1,0 +1,95 @@
+OBJECT Page 805 Online Map Parameter FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Online Map Parameter FactBox;
+               ESP=Cuadro informativo par†metros Online Map;
+               DEA=Online Map-Parameter (Infobox)];
+    PageType=CardPart;
+  }
+  CONTROLS
+  {
+    { 1   ;    ;Container ;
+                Name=Container;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Field     ;
+                CaptionML=[ENU={1};
+                           ESP={1};
+                           DEA={1}];
+                SourceExpr=Text001 }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU={2};
+                           ESP={2};
+                           DEA={2}];
+                SourceExpr=Text002 }
+
+    { 4   ;1   ;Field     ;
+                CaptionML=[ENU={3};
+                           ESP={3};
+                           DEA={3}];
+                SourceExpr=Text003 }
+
+    { 5   ;1   ;Field     ;
+                CaptionML=[ENU={4};
+                           ESP={4};
+                           DEA={4}];
+                SourceExpr=Text004 }
+
+    { 6   ;1   ;Field     ;
+                CaptionML=[ENU={5};
+                           ESP={5};
+                           DEA={5}];
+                SourceExpr=Text005 }
+
+    { 7   ;1   ;Field     ;
+                CaptionML=[ENU={6};
+                           ESP={6};
+                           DEA={6}];
+                SourceExpr=Text006 }
+
+    { 8   ;1   ;Field     ;
+                CaptionML=[ENU={7};
+                           ESP={7};
+                           DEA={7}];
+                SourceExpr=Text007 }
+
+    { 9   ;1   ;Field     ;
+                CaptionML=[ENU={8};
+                           ESP={8};
+                           DEA={8}];
+                SourceExpr=Text008 }
+
+    { 10  ;1   ;Field     ;
+                CaptionML=[ENU={9};
+                           ESP={9};
+                           DEA={9}];
+                SourceExpr=Text009 }
+
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=Street (Address1);ESP=Calle (Direcci¢n1);DEA=Stra·e (Adresseˇ1)';
+      Text002@1001 : TextConst 'ENU=City;ESP=Poblaci¢n;DEA=Ort';
+      Text003@1002 : TextConst 'ENU=State (County);ESP=Provincia (Pa°s);DEA=Bundesland (Landkreis)';
+      Text004@1003 : TextConst 'ENU=Post Code/ZIP Code;ESP=C.P./C¢digo postal;DEA=PLZ-Code';
+      Text005@1004 : TextConst 'ENU=Country/Region Code;ESP=C¢d. pa°s/regi¢n;DEA=LÑnder-/Regionscode';
+      Text006@1008 : TextConst 'ENU=Country/Region Name;ESP=Nombre pa°s/regi¢n;DEA=LÑnder-/Regionsname';
+      Text007@1005 : TextConst 'ENU=Culture Information, e.g. us-en;ESP=Informaci¢n de referencia cultural, por ejemplo, us-en;DEA=Kulturinformationen (beispielsweise ''de-de'')';
+      Text008@1006 : TextConst 'ENU=Distance in (Miles/Kilometers);ESP=Distancia en (millas/Kil¢metros);DEA=Entfernung in (Meilen/Kilometern)';
+      Text009@1007 : TextConst 'ENU=Route (Quickest/Shortest);ESP=Ruta (M†s r†pida/M†s corta);DEA=Route (schnellste/kÅrzeste)';
+
+    BEGIN
+    END.
+  }
+}
+

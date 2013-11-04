@@ -1,0 +1,105 @@
+OBJECT Page 9084 Customer Details FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Customer Details;
+               ESP=Detalles cliente;
+               DEA=Debitorendetails];
+    SourceTable=Table18;
+    PageType=CardPart;
+    OnAfterGetRecord=BEGIN
+                       StyleTxt := SetStyle;
+                     END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 9       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Actions;
+                                 ESP=Acciones;
+                                 DEA=Aktionen];
+                      Image=Action }
+      { 15      ;2   ;Action    ;
+                      CaptionML=[ENU=Ship-to Address;
+                                 ESP=Env°o a-Direcci¢n;
+                                 DEA=Lief. an Adresse];
+                      RunObject=Page 301;
+                      RunPageLink=Customer No.=FIELD(No.) }
+      { 21      ;2   ;Action    ;
+                      CaptionML=[ENU=Comments;
+                                 ESP=Comentarios;
+                                 DEA=Bemerkungen];
+                      RunObject=Page 124;
+                      RunPageLink=Table Name=CONST(Customer),
+                                  No.=FIELD(No.);
+                      Image=ViewComments }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 11  ;1   ;Field     ;
+                CaptionML=[ENU=Customer No.;
+                           ESP=Nß cliente;
+                           DEA=Debitorennr.];
+                SourceExpr="No.";
+                OnDrillDown=BEGIN
+                              ShowDetails;
+                            END;
+                             }
+
+    { 16  ;1   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 1   ;1   ;Field     ;
+                SourceExpr="E-Mail" }
+
+    { 18  ;1   ;Field     ;
+                SourceExpr="Fax No." }
+
+    { 3   ;1   ;Field     ;
+                SourceExpr="Credit Limit (LCY)";
+                StyleExpr=StyleTxt }
+
+    { 2   ;1   ;Field     ;
+                Name=AvailableCreditLCY;
+                CaptionML=[ENU=Available Credit (LCY);
+                           ESP=CrÇdito disponible (DL);
+                           DEA=VerfÅgbares Guthaben (MW)];
+                SourceExpr=CalcAvailableCreditUI;
+                OnDrillDown=BEGIN
+                              PAGE.RUN(PAGE::"Available Credit",Rec);
+                            END;
+                             }
+
+    { 5   ;1   ;Field     ;
+                SourceExpr="Payment Terms Code" }
+
+    { 7   ;1   ;Field     ;
+                SourceExpr=Contact }
+
+  }
+  CODE
+  {
+    VAR
+      StyleTxt@1000 : Text;
+
+    PROCEDURE ShowDetails@1102601000();
+    BEGIN
+      PAGE.RUN(PAGE::"Customer Card",Rec);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

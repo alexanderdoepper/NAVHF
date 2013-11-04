@@ -1,0 +1,47 @@
+OBJECT Table 5723 Product Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Product Group;
+               ESP=Grupo producto;
+               DEA=Produktgruppe];
+    LookupPageID=Page5731;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Item Category Code  ;Code10        ;TableRelation="Item Category".Code;
+                                                   CaptionML=[ENU=Item Category Code;
+                                                              ESP=C¢d. categor¡a producto;
+                                                              DEA=Artikelkategoriencode] }
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 7300;   ;Warehouse Class Code;Code10        ;TableRelation="Warehouse Class";
+                                                   CaptionML=[ENU=Warehouse Class Code;
+                                                              ESP=C¢d. clase almac‚n;
+                                                              DEA=Lagerklassencode] }
+  }
+  KEYS
+  {
+    {    ;Item Category Code,Code                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,68 @@
+OBJECT Table 241 Job Register
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job Register;
+               ESP=Registro movs. proyecto;
+               DEA=Projektjournal];
+    LookupPageID=Page278;
+    DrillDownPageID=Page278;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Integer       ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 2   ;   ;From Entry No.      ;Integer       ;TableRelation="Job Ledger Entry";
+                                                   CaptionML=[ENU=From Entry No.;
+                                                              ESP=Desde n§ mov.;
+                                                              DEA=Von Lfd. Nr.] }
+    { 3   ;   ;To Entry No.        ;Integer       ;TableRelation="Job Ledger Entry";
+                                                   CaptionML=[ENU=To Entry No.;
+                                                              ESP=Hasta n§ mov.;
+                                                              DEA=Bis Lfd. Nr.] }
+    { 4   ;   ;Creation Date       ;Date          ;CaptionML=[ENU=Creation Date;
+                                                              ESP=Fecha creaci¢n;
+                                                              DEA=Errichtungsdatum] }
+    { 5   ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 6   ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 7   ;   ;Journal Batch Name  ;Code10        ;CaptionML=[ENU=Journal Batch Name;
+                                                              ESP=Nombre secci¢n diario;
+                                                              DEA=Buch.-Blattname] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Creation Date                            }
+    {    ;Source Code,Journal Batch Name,Creation Date }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

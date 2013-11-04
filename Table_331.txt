@@ -1,0 +1,69 @@
+OBJECT Table 331 Adjust Exchange Rate Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Adjust Exchange Rate Buffer;
+               ESP=Mem-int. aj. tipo cambio;
+               DEA=Kursregulierungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 2   ;   ;Posting Group       ;Code10        ;CaptionML=[ENU=Posting Group;
+                                                              ESP=Grupo contable;
+                                                              DEA=Buchungsgruppe] }
+    { 3   ;   ;AdjBase             ;Decimal       ;CaptionML=[ENU=AdjBase;
+                                                              ESP=BaseAju;
+                                                              DEA=RegBasis];
+                                                   AutoFormatType=1 }
+    { 4   ;   ;AdjBaseLCY          ;Decimal       ;CaptionML=[ENU=AdjBaseLCY;
+                                                              ESP=BaseAjuDL;
+                                                              DEA=RegBasisMW];
+                                                   AutoFormatType=1 }
+    { 5   ;   ;AdjAmount           ;Decimal       ;CaptionML=[ENU=AdjAmount;
+                                                              ESP=ImporAjus;
+                                                              DEA=RegBetrag];
+                                                   AutoFormatType=1 }
+    { 6   ;   ;TotalGainsAmount    ;Decimal       ;CaptionML=[ENU=TotalGainsAmount;
+                                                              ESP=ImpTotalGananc;
+                                                              DEA=TotalGewinnBetrag];
+                                                   AutoFormatType=1 }
+    { 7   ;   ;TotalLossesAmount   ;Decimal       ;CaptionML=[ENU=TotalLossesAmount;
+                                                              ESP=ImpTotalPerds;
+                                                              DEA=TotalVerlustBetrag];
+                                                   AutoFormatType=1 }
+    { 8   ;   ;Dimension Entry No. ;Integer       ;CaptionML=[ENU=Dimension Entry No.;
+                                                              ESP=N§ mov. dimensi¢n;
+                                                              DEA=Dimension Lfd. Nr.] }
+    { 9   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 10  ;   ;IC Partner Code     ;Code20        ;CaptionML=[ENU=IC Partner Code;
+                                                              ESP=C¢digo socio IC;
+                                                              DEA=IC-Partnercode] }
+  }
+  KEYS
+  {
+    {    ;Currency Code,Posting Group,Dimension Entry No.,Posting Date,IC Partner Code;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

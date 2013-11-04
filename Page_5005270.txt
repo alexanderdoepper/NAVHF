@@ -1,0 +1,191 @@
+OBJECT Page 5005270 Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder;
+               DEA=Lieferanmahnung];
+    SourceTable=Table5005270;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140030 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Reminder;
+                                 DEA=&Mahnung];
+                      Image=Reminder }
+      { 1140032 ;2   ;Action    ;
+                      CaptionML=[ENU=V&endor;
+                                 DEA=Kr&editor];
+                      RunObject=Page 27;
+                      RunPageLink=No.=FIELD(Vendor No.);
+                      Image=Vendor }
+      { 1140033 ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mment;
+                                 DEA=Be&merkung];
+                      RunObject=Page 5005277;
+                      RunPageView=SORTING(Document Type,No.,Line No.)
+                                  WHERE(Document Type=CONST(Delivery Reminder));
+                      RunPageLink=No.=FIELD(No.);
+                      Image=ViewComments }
+      { 1900000005;0 ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 1906099905;1 ;Action    ;
+                      CaptionML=[ENU=Delivery Reminder;
+                                 DEA=Lieferanmahnung];
+                      RunObject=Page 5005270;
+                      Promoted=Yes;
+                      Image=ReceiptReminder;
+                      PromotedCategory=New;
+                      RunPageMode=Create }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140038 ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1140039 ;2   ;Action    ;
+                      Name=CreateDeliveryReminder;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=&Create Delivery Reminder;
+                                 DEA=Lieferanma&hnungen erstellen];
+                      Promoted=Yes;
+                      Image=CreateReminders;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 REPORT.RUNMODAL(REPORT::"Create Delivery Reminder");
+                               END;
+                                }
+      { 1140040 ;2   ;Action    ;
+                      Name=SuggestReminderLines;
+                      CaptionML=[ENU=Suggest Reminder Lines;
+                                 DEA=Mahnungszeilen vorschlagen];
+                      Image=SuggestReminderLines;
+                      OnAction=BEGIN
+                                 DeliveryReminderHeader := Rec;
+                                 CreateDeliveryReminder.SuggestLines(DeliveryReminderHeader);
+                               END;
+                                }
+      { 1140041 ;2   ;Action    ;
+                      CaptionML=[ENU=Update Reminder Text;
+                                 DEA=Mahnungstext aktualisieren];
+                      Promoted=Yes;
+                      Image=RefreshText;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 DeliveryReminderHeader := Rec;
+                                 CreateDeliveryReminder.UpdateLines(DeliveryReminderHeader);
+                               END;
+                                }
+      { 1140035 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Issuing;
+                                 DEA=&Registrieren];
+                      Image=Add }
+      { 1140036 ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Test Report;
+                                 DEA=Testbericht];
+                      Image=TestReport;
+                      OnAction=BEGIN
+                                 PrintDocumentProfessional.DeliveryRemindPrint(Rec);
+                               END;
+                                }
+      { 1140037 ;2   ;Action    ;
+                      Name=Issue;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Issue;
+                                 DEA=Registrieren];
+                      Promoted=Yes;
+                      Image=ReleaseDoc;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 DeliveryReminderHeader := Rec;
+                                 DeliveryReminderHeader.SETRECFILTER;
+                                 REPORT.RUNMODAL(REPORT::"Issue Delivery Reminder",TRUE,TRUE,DeliveryReminderHeader);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140007;2;Field     ;
+                SourceExpr="No.";
+                OnAssistEdit=BEGIN
+                               IF AssistEdit(xRec) THEN
+                                 CurrPage.UPDATE;
+                             END;
+                              }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Vendor No.";
+                Importance=Promoted }
+
+    { 1140004;2;Field     ;
+                SourceExpr=Name }
+
+    { 1140014;2;Field     ;
+                SourceExpr=Address }
+
+    { 1140012;2;Field     ;
+                SourceExpr="Address 2" }
+
+    { 1140010;2;Field     ;
+                CaptionML=[ENU=Post Code/City;
+                           DEA=PLZ Code/Ort];
+                SourceExpr="Post Code" }
+
+    { 1140009;2;Field     ;
+                SourceExpr=City }
+
+    { 1140016;2;Field     ;
+                SourceExpr=Contact }
+
+    { 1140020;2;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 1140018;2;Field     ;
+                SourceExpr="Document Date";
+                Importance=Promoted }
+
+    { 1140022;2;Field     ;
+                SourceExpr="Reminder Level";
+                Importance=Promoted }
+
+    { 1140024;2;Field     ;
+                SourceExpr="Reminder Terms Code" }
+
+    { 1140026;2;Field     ;
+                SourceExpr="Due Date" }
+
+    { 1140029;1;Part      ;
+                Name=DeliveryReminderLines;
+                SubPageLink=Document No.=FIELD(No.);
+                PagePartID=Page5005271 }
+
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderHeader@1140000 : Record 5005270;
+      CreateDeliveryReminder@1140002 : Codeunit 5005271;
+      PrintDocumentProfessional@1140003 : Codeunit 5005396;
+
+    BEGIN
+    END.
+  }
+}
+

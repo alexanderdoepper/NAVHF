@@ -1,0 +1,53 @@
+OBJECT Table 5151 Integration Record
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Integration Record;
+               ESP=Registro integraci¢n;
+               DEA=Integrationsdatensatz];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 2   ;   ;Page ID             ;Integer       ;CaptionML=[ENU=Page ID;
+                                                              ESP=Id. p gina;
+                                                              DEA=Seiten-ID] }
+    { 3   ;   ;Record ID           ;RecordID      ;CaptionML=[ENU=Record ID;
+                                                              ESP=Id. del registro;
+                                                              DEA=Datensatz-ID] }
+    { 5150;   ;Integration ID      ;GUID          ;CaptionML=[ENU=Integration ID;
+                                                              ESP=Id. de integraci¢n;
+                                                              DEA=Integrations-ID] }
+    { 5151;   ;Deleted On          ;DateTime      ;CaptionML=[ENU=Deleted On;
+                                                              ESP=Eliminado el;
+                                                              DEA=Gel”scht am] }
+    { 5152;   ;Modified On         ;DateTime      ;CaptionML=[ENU=Modified On;
+                                                              ESP=Fecha modificaci¢n;
+                                                              DEA=Ge„ndert am] }
+  }
+  KEYS
+  {
+    {    ;Integration ID                          ;Clustered=Yes }
+    {    ;Record ID                                }
+    {    ;Page ID,Deleted On                       }
+    {    ;Page ID,Modified On                      }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

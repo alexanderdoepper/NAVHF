@@ -1,0 +1,90 @@
+OBJECT Table 8621 Config. Selection
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Selection;
+               ESP=Configurar selecci¢n;
+               DEA=Auswahl konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.];
+                                                   Editable=No }
+    { 2   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID];
+                                                   Editable=No }
+    { 3   ;   ;Name                ;Text250       ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   Editable=No }
+    { 4   ;   ;Line Type           ;Option        ;CaptionML=[ENU=Line Type;
+                                                              ESP=Tipo l¡nea;
+                                                              DEA=Zeilenart];
+                                                   OptionCaptionML=[ENU=Area,Group,Table;
+                                                                    ESP=µrea,Grupo,Tabla;
+                                                                    DEA=Fl„che,Gruppe,Tabelle];
+                                                   OptionString=Area,Group,Table;
+                                                   Editable=No }
+    { 5   ;   ;Parent Line No.     ;Integer       ;CaptionML=[ENU=Parent Line No.;
+                                                              ESP=N§ l¡nea maestro;
+                                                              DEA=šbergeordnete Zeilennr.];
+                                                   Editable=No }
+    { 6   ;   ;Selected            ;Boolean       ;OnValidate=BEGIN
+                                                                CASE "Line Type" OF
+                                                                  "Line Type"::Group:
+                                                                    BEGIN
+                                                                      ConfigSelection.SETRANGE("Parent Line No.","Line No.");
+                                                                      ConfigSelection.SETRANGE("Line Type","Line Type"::Table);
+                                                                      ConfigSelection.MODIFYALL(Selected,Selected);
+                                                                    END;
+                                                                  "Line Type"::Area:
+                                                                    BEGIN
+                                                                      ConfigSelection.SETRANGE("Parent Line No.","Line No.");
+                                                                      ConfigSelection.SETRANGE("Line Type","Line Type"::Table);
+                                                                      ConfigSelection.MODIFYALL(Selected,Selected);
+                                                                      ConfigSelection.SETRANGE("Line Type","Line Type"::Group);
+                                                                      IF ConfigSelection.FINDSET THEN
+                                                                        REPEAT
+                                                                          ConfigSelection2.SETRANGE("Parent Line No.",ConfigSelection."Line No.");
+                                                                          ConfigSelection2.SETRANGE("Line Type","Line Type"::Table);
+                                                                          ConfigSelection2.MODIFYALL(Selected,Selected);
+                                                                        UNTIL ConfigSelection.NEXT = 0;
+                                                                    END;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Selected;
+                                                              ESP=Seleccionado;
+                                                              DEA=Ausgew„hlt] }
+    { 25  ;   ;Vertical Sorting    ;Integer       ;CaptionML=[ENU=Vertical Sorting;
+                                                              ESP=Ordenaci¢n vertical;
+                                                              DEA=Vertikale Sortierung] }
+  }
+  KEYS
+  {
+    {    ;Line No.                                ;Clustered=Yes }
+    {    ;Vertical Sorting                         }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ConfigSelection@1000 : Record 8621;
+      ConfigSelection2@1001 : Record 8621;
+
+    BEGIN
+    END.
+  }
+}
+

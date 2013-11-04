@@ -1,0 +1,197 @@
+OBJECT Codeunit 9801 Identity Management
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      UserAccountHelper@1003 : DotNet "'Microsoft.Dynamics.Nav.NavUserAccount, Version=7.0.*.*, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.Nav.NavUserAccount.NavUserAccountHelper";
+
+    PROCEDURE SetAuthenticationKey@1(UserSecurityID@1000 : GUID;Key@1001 : Text[80]);
+    BEGIN
+      IF NOT UserAccountHelper.TrySetAuthenticationKey(UserSecurityID,Key) THEN BEGIN
+        ERROR(GETLASTERRORTEXT);
+      END
+    END;
+
+    PROCEDURE GetAuthenticationKey@14(UserSecurityID@1000 : GUID) Key : Text[80];
+    BEGIN
+      IF NOT UserAccountHelper.TryGetAuthenticationKey(UserSecurityID,Key) THEN BEGIN
+        Key := FORMAT(GETLASTERRORTEXT,80);
+      END
+    END;
+
+    PROCEDURE GetNameIdentifier@2(UserSecurityID@1000 : GUID) NameID : Text[250];
+    BEGIN
+      IF NOT UserAccountHelper.TryGetNameIdentifier(UserSecurityID,NameID) THEN BEGIN
+        NameID := FORMAT(GETLASTERRORTEXT,250);
+      END
+    END;
+
+    PROCEDURE CreateWebServicesKey@8(UserSecurityID@1000 : GUID;ExpiryDate@1001 : DateTime) Key : Text[80];
+    BEGIN
+      IF NOT UserAccountHelper.TryCreateWebServicesKey(UserSecurityID,ExpiryDate,Key) THEN BEGIN
+        ERROR(GETLASTERRORTEXT);
+      END
+    END;
+
+    PROCEDURE CreateWebServicesKeyNoExpiry@13(UserSecurityID@1000 : GUID) Key : Text[80];
+    VAR
+      ExpiryDate@1001 : DateTime;
+    BEGIN
+      IF NOT UserAccountHelper.TryCreateWebServicesKey(UserSecurityID,ExpiryDate,Key) THEN BEGIN
+        ERROR(GETLASTERRORTEXT);
+      END
+    END;
+
+    PROCEDURE GetWebServicesKey@4(UserSecurityID@1000 : GUID) Key : Text[80];
+    VAR
+      ExpiryDate@1001 : DateTime;
+    BEGIN
+      IF NOT UserAccountHelper.TryGetWebServicesKey(UserSecurityID,Key,ExpiryDate) THEN BEGIN
+        Key := FORMAT(GETLASTERRORTEXT,80);
+      END
+    END;
+
+    PROCEDURE IsAzure@5() Ok : Boolean;
+    BEGIN
+      Ok := UserAccountHelper.IsAzure;
+    END;
+
+    PROCEDURE CreateAuthenticationKey@3(UserSecurityID@1000 : GUID) Key : Text[80];
+    BEGIN
+      // Generates a crypt random code, with high enough entropy
+      IF NOT UserAccountHelper.TrySetAuthenticationKey(UserSecurityID,Key) THEN BEGIN
+        ERROR(GETLASTERRORTEXT);
+      END
+    END;
+
+    PROCEDURE GetWebServiceExpiryDate@6(UserSecurityID@1000 : GUID) ExpiryDate : DateTime;
+    VAR
+      Key@1001 : Text[80];
+    BEGIN
+      IF NOT UserAccountHelper.TryGetWebServicesKey(UserSecurityID,Key,ExpiryDate) THEN BEGIN
+      END
+    END;
+
+    PROCEDURE GetACSStatus@7(UserSecurityID@1001 : GUID) ACSStatus : Integer;
+    VAR
+      ACSStatusOption@1000 : 'Disabled,Pending,Registered,Unknown';
+      Key@1002 : Text[80];
+      NameID@1003 : Text[250];
+    BEGIN
+      // Determines the status as follows:
+      // If neither Nameidentifier, nor authentication key then Disabled
+      // If authentiation key then Pending
+      // If NameIdentifier then Registered
+      // If no permission: Unknown
+
+      IF NOT UserAccountHelper.TryGetAuthenticationKey(UserSecurityID,Key) THEN BEGIN
+        ACSStatusOption := ACSStatusOption::Unknown;
+        ACSStatus := ACSStatusOption;
+        EXIT;
+      END;
+
+      IF NOT UserAccountHelper.TryGetNameIdentifier(UserSecurityID,NameID) THEN BEGIN
+        ACSStatusOption := ACSStatusOption::Unknown;
+        ACSStatus := ACSStatusOption;
+        EXIT;
+      END;
+
+      IF NameID = '' THEN BEGIN
+        IF Key = '' THEN
+          ACSStatusOption := ACSStatusOption::Disabled
+        ELSE
+          ACSStatusOption := ACSStatusOption::Pending;
+      END ELSE
+        ACSStatusOption := ACSStatusOption::Registered;
+
+      ACSStatus := ACSStatusOption;
+    END;
+
+    PROCEDURE ValidateKeyStrength@9(Key@1001 : Text[250]) : Boolean;
+    VAR
+      i@1000 : Integer;
+      KeyLen@1002 : Integer;
+      HasUpper@1003 : Boolean;
+      HasLower@1004 : Boolean;
+      HasNumeric@1005 : Boolean;
+    BEGIN
+      KeyLen := STRLEN(Key);
+
+      IF KeyLen < 8 THEN
+        EXIT(FALSE);
+
+      FOR i := 1 TO STRLEN(Key) DO BEGIN
+        CASE Key[i] OF
+          'A'..'Z':
+            HasUpper := TRUE;
+          'a'..'z':
+            HasLower := TRUE;
+          '0'..'9':
+            HasNumeric := TRUE;
+        END;
+
+        IF HasUpper AND HasLower AND HasNumeric THEN
+          EXIT(TRUE);
+      END;
+
+      EXIT(FALSE);
+    END;
+
+    PROCEDURE ValidatePasswordStrength@10(Password@1000 : Text[250]) IsValid : Boolean;
+    BEGIN
+      IsValid := ValidateKeyStrength(Password);
+    END;
+
+    PROCEDURE ValidateAuthKeyStrength@11(AuthKey@1000 : Text[250]) IsValid : Boolean;
+    BEGIN
+      IsValid := ValidateKeyStrength(AuthKey);
+    END;
+
+    PROCEDURE GetMaskedNavPassword@15(UserSecurityID@1000 : GUID) MaskedPassword : Text[80];
+    BEGIN
+      IF UserAccountHelper.IsPasswordSet(UserSecurityID) THEN
+        MaskedPassword := '********'
+      ELSE
+        MaskedPassword := '';
+    END;
+
+    PROCEDURE IsWindowsAuthentication@16() Ok : Boolean;
+    BEGIN
+      Ok := UserAccountHelper.IsWindowsAuthentication();
+    END;
+
+    PROCEDURE IsUserNamePasswordAuthentication@17() Ok : Boolean;
+    BEGIN
+      Ok := UserAccountHelper.IsUserNamePasswordAuthentication();
+    END;
+
+    PROCEDURE IsAccessControlServiceAuthentication@18() Ok : Boolean;
+    BEGIN
+      Ok := UserAccountHelper.IsAccessControlServiceAuthentication();
+    END;
+
+    PROCEDURE UserName@19(Sid@1000 : Text) : Text[208];
+    BEGIN
+      IF Sid = '' THEN
+        EXIT('');
+
+      EXIT(UserAccountHelper.UserName(Sid));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

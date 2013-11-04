@@ -1,0 +1,37 @@
+OBJECT Table 11000 Place of Dispatcher
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Place of Dispatcher;
+               DEA=Sitz des Versenders];
+    LookupPageID=Page11000;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code] }
+    { 2   ;   ;Text                ;Text80        ;CaptionML=[ENU=Text;
+                                                              DEA=Text] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Text                                }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

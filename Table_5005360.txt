@@ -1,0 +1,48 @@
+OBJECT Table 5005360 Phys. Invt. Tracking Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Phys. Invt. Tracking Buffer;
+               DEA=Inventurverfolgungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Serial No.          ;Code20        ;CaptionML=[ENU=Serial No.;
+                                                              DEA=Seriennr.] }
+    { 2   ;   ;Lot No              ;Code20        ;CaptionML=[ENU=Lot No;
+                                                              DEA=Chargennr.] }
+    { 10  ;   ;Qty. Recorded (Base);Decimal       ;CaptionML=[ENU=Qty. Recorded (Base);
+                                                              DEA=Erfasste Menge (Basis)];
+                                                   DecimalPlaces=0:5 }
+    { 11  ;   ;Qty. Expected (Base);Decimal       ;CaptionML=[ENU=Qty. Expected (Base);
+                                                              DEA=Erwartete Menge (Basis)];
+                                                   DecimalPlaces=0:5 }
+    { 20  ;   ;Qty. To Transfer    ;Decimal       ;CaptionML=[ENU=Qty. To Transfer;
+                                                              DEA=Menge zu Åbertragen] }
+    { 21  ;   ;Outstanding Quantity;Decimal       ;CaptionML=[ENU=Outstanding Quantity;
+                                                              DEA=Restmenge] }
+    { 22  ;   ;Open                ;Boolean       ;CaptionML=[ENU=Open;
+                                                              DEA=Offen] }
+  }
+  KEYS
+  {
+    {    ;Serial No.,Lot No                       ;Clustered=Yes }
+    {    ;Open                                     }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

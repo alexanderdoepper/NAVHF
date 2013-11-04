@@ -1,0 +1,167 @@
+OBJECT Table 99000866 Capacity Constrained Resource
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Capacity Constrained Resource;
+               ESP=Recurso capacidad limitada;
+               DEA=Begrenzte KapazitÑt];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Capacity No.        ;Code20        ;TableRelation=IF (Capacity Type=CONST(Work Center)) "Work Center"
+                                                                 ELSE IF (Capacity Type=CONST(Machine Center)) "Machine Center";
+                                                   OnValidate=BEGIN
+                                                                IF "Capacity No." = '' THEN
+                                                                  EXIT;
+
+                                                                CASE "Capacity Type" OF
+                                                                  "Capacity Type"::"Work Center":
+                                                                    BEGIN
+                                                                      WorkCenter.GET("Capacity No.");
+                                                                      WorkCenter.TESTFIELD(Blocked,FALSE);
+                                                                      Name := WorkCenter.Name;
+                                                                      "Work Center No." := WorkCenter."No.";
+                                                                    END;
+                                                                  "Capacity Type"::"Machine Center":
+                                                                    BEGIN
+                                                                      MachineCenter.GET("Capacity No.");
+                                                                      MachineCenter.TESTFIELD(Blocked,FALSE);
+                                                                      Name := MachineCenter.Name;
+                                                                      "Work Center No." := MachineCenter."Work Center No.";
+                                                                    END
+                                                                END;
+
+                                                                "Critical Load %" := 100;
+                                                                "Dampener (% of Total Capacity)" := 0;
+                                                              END;
+
+                                                   CaptionML=[ENU=Capacity No.;
+                                                              ESP=Nß capacidad;
+                                                              DEA=KapazitÑtsnr.] }
+    { 2   ;   ;Capacity Type       ;Option        ;OnValidate=BEGIN
+                                                                "Capacity No." := '';
+                                                              END;
+
+                                                   CaptionML=[ENU=Capacity Type;
+                                                              ESP=Tipo capacidad;
+                                                              DEA=KapazitÑtsart];
+                                                   OptionCaptionML=[ENU=Work Center,Machine Center;
+                                                                    ESP=Centro trabajo,Centro m†quina;
+                                                                    DEA=Arbeitsplatzgruppe,Arbeitsplatz];
+                                                   OptionString=Work Center,Machine Center }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 10  ;   ;Critical Load %     ;Decimal       ;OnValidate=BEGIN
+                                                                IF "Critical Load %" < 0 THEN
+                                                                  "Critical Load %" := 0;
+                                                                IF "Critical Load %" > 100 THEN
+                                                                  "Critical Load %" := 100;
+                                                                IF "Critical Load %" + "Dampener (% of Total Capacity)" > 100 THEN
+                                                                  "Dampener (% of Total Capacity)" := 100 - "Critical Load %";
+                                                              END;
+
+                                                   CaptionML=[ENU=Critical Load %;
+                                                              ESP=% Carga cr°tica;
+                                                              DEA=Kritische Auslastung %];
+                                                   DecimalPlaces=1:1 }
+    { 11  ;   ;Dampener (% of Total Capacity);Decimal;
+                                                   OnValidate=BEGIN
+                                                                IF "Dampener (% of Total Capacity)" < 0 THEN
+                                                                  "Dampener (% of Total Capacity)" := 0;
+                                                                IF "Dampener (% of Total Capacity)" > 100 THEN
+                                                                  "Dampener (% of Total Capacity)" := 100;
+                                                                IF "Dampener (% of Total Capacity)" + "Critical Load %" > 100 THEN
+                                                                  "Critical Load %" := 100 - "Dampener (% of Total Capacity)";
+                                                              END;
+
+                                                   CaptionML=[ENU=Dampener (% of Total Capacity);
+                                                              ESP=Amortiguador (% capdad. total);
+                                                              DEA=Toleranz (% d. Ges.-KapazitÑt)];
+                                                   DecimalPlaces=1:1 }
+    { 14  ;   ;Work Center No.     ;Code20        ;TableRelation="Work Center";
+                                                   CaptionML=[ENU=Work Center No.;
+                                                              ESP=Nß centro trabajo;
+                                                              DEA=Arbeitsplatzgruppennr.] }
+    { 39  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 40  ;   ;Work Shift Filter   ;Code10        ;FieldClass=FlowFilter;
+                                                   TableRelation="Work Shift";
+                                                   CaptionML=[ENU=Work Shift Filter;
+                                                              ESP=Filtro turno trabajo;
+                                                              DEA=Schichtfilter] }
+    { 42  ;   ;Capacity (Effective);Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Calendar Entry"."Capacity (Effective)" WHERE (Capacity Type=FIELD(Capacity Type),
+                                                                                                                  No.=FIELD(Capacity No.),
+                                                                                                                  Work Shift Code=FIELD(Work Shift Filter),
+                                                                                                                  Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Capacity (Effective);
+                                                              ESP=Capacidad (efectiva);
+                                                              DEA=KapazitÑt (effektiv)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 44  ;   ;Prod. Order Need Qty.;Decimal      ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Prod. Order Capacity Need"."Allocated Time" WHERE (Type=FIELD(Capacity Type),
+                                                                                                                       No.=FIELD(Capacity No.),
+                                                                                                                       Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Prod. Order Need Qty.;
+                                                              ESP=Cdad. nec. ord. prod.;
+                                                              DEA=FA-Zeitbedarf];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 46  ;   ;Work Center Load Qty.;Decimal      ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Prod. Order Capacity Need"."Allocated Time" WHERE (Work Center No.=FIELD(Work Center No.),
+                                                                                                                       Date=FIELD(Date Filter)));
+                                                   CaptionML=[ENU=Work Center Load Qty.;
+                                                              ESP=Cdad. carga cen. trab.;
+                                                              DEA=Arbeitsplatzgrp.-Ausl. (Menge)];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 48  ;   ;Prod. Order Need Qty. for Plan;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Prod. Order Capacity Need"."Allocated Time" WHERE (Type=FIELD(Capacity Type),
+                                                                                                                       No.=FIELD(Capacity No.),
+                                                                                                                       Date=FIELD(Date Filter),
+                                                                                                                       Active=CONST(Yes)));
+                                                   CaptionML=[ENU=Prod. Order Need Qty. for Plan;
+                                                              ESP=Cdad. nec. o.p. para plan.;
+                                                              DEA=FA-Zeitbedarf fÅr Planung];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 49  ;   ;Work Center Load Qty. for Plan;Decimal;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Sum("Prod. Order Capacity Need"."Allocated Time" WHERE (Work Center No.=FIELD(Work Center No.),
+                                                                                                                       Date=FIELD(Date Filter),
+                                                                                                                       Active=CONST(Yes)));
+                                                   CaptionML=[ENU=Work Center Load Qty. for Plan;
+                                                              ESP=Cdad. carga cen. trab. para plan.;
+                                                              DEA=Arb.Pl.Grp.-Ausl. (Mg.) f. Pl.];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Capacity Type,Capacity No.              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      WorkCenter@1000 : Record 99000754;
+      MachineCenter@1001 : Record 99000758;
+
+    BEGIN
+    END.
+  }
+}
+

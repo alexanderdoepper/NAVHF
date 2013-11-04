@@ -1,0 +1,97 @@
+OBJECT Report 5005363 Copy Phys. Invt. Rec. Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Copy Phys. Invt. Rec. Line;
+               DEA=Inventurerfassungszeile kopieren];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IF NoOfCopies <= 0 THEN
+                    EXIT;
+
+                  PhysInvtRecordingLine.TESTFIELD("Order No.");
+                  PhysInvtRecordingHeader.GET(PhysInvtRecordingLine."Order No.",PhysInvtRecordingLine."Recording No.");
+                  PhysInvtRecordingHeader.TESTFIELD(Status,PhysInvtRecordingHeader.Status::Open);
+
+                  ToPhysInvtRecordingLine.RESET;
+                  ToPhysInvtRecordingLine.SETRANGE("Order No.",PhysInvtRecordingLine."Order No.");
+                  ToPhysInvtRecordingLine.SETRANGE("Recording No.",PhysInvtRecordingLine."Recording No.");
+                  ToPhysInvtRecordingLine := PhysInvtRecordingLine;
+                  IF ToPhysInvtRecordingLine.FIND('>') THEN BEGIN
+                    LineSpacing := (ToPhysInvtRecordingLine."Line No." - PhysInvtRecordingLine."Line No.") DIV (1 + NoOfCopies);
+                    IF LineSpacing = 0 THEN
+                      ERROR(
+                        Text1140000,
+                        NoOfCopies);
+                  END ELSE
+                    LineSpacing := 10000;
+
+                  FOR I := 1 TO NoOfCopies DO BEGIN
+                    ToPhysInvtRecordingLine := PhysInvtRecordingLine;
+                    IF ToPhysInvtRecordingLine."Serial No." <> '' THEN
+                      ToPhysInvtRecordingLine."Serial No." := '';
+                    ToPhysInvtRecordingLine."Line No." :=
+                      PhysInvtRecordingLine."Line No." + I * LineSpacing;
+                    ToPhysInvtRecordingLine.INSERT;
+                  END;
+                END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  Name=NoOfCopies;
+                  CaptionML=[ENU=No. of Copies;
+                             DEA=Anzahl Kopien];
+                  SourceExpr=NoOfCopies }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There is not enough space to insert %1 copies.;DEA=Es gibt nicht ausreichend Platz, um %1 Kopien einzufÅgen.';
+      PhysInvtRecordingHeader@1140001 : Record 5005352;
+      PhysInvtRecordingLine@1140002 : Record 5005353;
+      ToPhysInvtRecordingLine@1140003 : Record 5005353;
+      NoOfCopies@1140004 : Integer;
+      LineSpacing@1140005 : Integer;
+      I@1140008 : Integer;
+
+    PROCEDURE SetPhysInvtRecordingLine@1140000(VAR NewPhysInvtRecordingLine@1140000 : Record 5005353);
+    BEGIN
+      PhysInvtRecordingLine := NewPhysInvtRecordingLine;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

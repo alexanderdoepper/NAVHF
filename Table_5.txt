@@ -1,0 +1,103 @@
+OBJECT Table 5 Finance Charge Terms
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    OnDelete=BEGIN
+               FinChrgText.SETRANGE("Fin. Charge Terms Code",Code);
+               FinChrgText.DELETEALL;
+
+               CurrForFinChrgTerms.SETRANGE("Fin. Charge Terms Code",Code);
+               CurrForFinChrgTerms.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Finance Charge Terms;
+               ESP=TÇrminos interÇs;
+               DEA=Zinskondition];
+    LookupPageID=Page6;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Interest Rate       ;Decimal       ;CaptionML=[ENU=Interest Rate;
+                                                              ESP=Tipo interÇs;
+                                                              DEA=Zinssatz];
+                                                   DecimalPlaces=0:5;
+                                                   MinValue=0;
+                                                   MaxValue=100 }
+    { 3   ;   ;Minimum Amount (LCY);Decimal       ;CaptionML=[ENU=Minimum Amount (LCY);
+                                                              ESP=Importe m°nimo (DL);
+                                                              DEA=Minimalbetrag (MW)];
+                                                   MinValue=0;
+                                                   AutoFormatType=1 }
+    { 5   ;   ;Additional Fee (LCY);Decimal       ;CaptionML=[ENU=Additional Fee (LCY);
+                                                              ESP=Recargo fijo (DL);
+                                                              DEA=GebÅhr (MW)];
+                                                   MinValue=0;
+                                                   AutoFormatType=1 }
+    { 7   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 8   ;   ;Interest Calculation Method;Option ;CaptionML=[ENU=Interest Calculation Method;
+                                                              ESP=MÇtodo c†lculo interÇs;
+                                                              DEA=Zinsberechnungsmethode];
+                                                   OptionCaptionML=[ENU=Average Daily Balance,Balance Due;
+                                                                    ESP=D°as saldo vencido,Saldo vencido;
+                                                                    DEA=Tagessaldo,FÑlliger Saldo];
+                                                   OptionString=Average Daily Balance,Balance Due }
+    { 9   ;   ;Interest Period (Days);Integer     ;CaptionML=[ENU=Interest Period (Days);
+                                                              ESP=Periodo interÇs (d°as);
+                                                              DEA=Zinsperiode (Tage)] }
+    { 10  ;   ;Grace Period        ;DateFormula   ;CaptionML=[ENU=Grace Period;
+                                                              ESP=Periodo gracia;
+                                                              DEA=Toleranzperiode] }
+    { 11  ;   ;Due Date Calculation;DateFormula   ;CaptionML=[ENU=Due Date Calculation;
+                                                              ESP=C†lculo de fecha de vencimiento;
+                                                              DEA=FÑlligkeitsformel] }
+    { 12  ;   ;Interest Calculation;Option        ;CaptionML=[ENU=Interest Calculation;
+                                                              ESP=Movs. c†lculo interÇs;
+                                                              DEA=Zinsberechnung];
+                                                   OptionCaptionML=[ENU=Open Entries,Closed Entries,All Entries;
+                                                                    ESP=Movs. pendientes,Movs. liquidados,Todos;
+                                                                    DEA=Offene Posten,Geschlossene Posten,Alle Posten];
+                                                   OptionString=Open Entries,Closed Entries,All Entries }
+    { 13  ;   ;Post Interest       ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Post Interest;
+                                                              ESP=Registrar interÇs;
+                                                              DEA=Zinsen buchen] }
+    { 14  ;   ;Post Additional Fee ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Post Additional Fee;
+                                                              ESP=Registrar recargo fijo;
+                                                              DEA=GebÅhren buchen] }
+    { 15  ;   ;Line Description    ;Text50        ;CaptionML=[ENU=Line Description;
+                                                              ESP=Descripci¢n l°nea reg.;
+                                                              DEA=Zeilenbeschreibung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Interest Rate           }
+  }
+  CODE
+  {
+    VAR
+      FinChrgText@1000 : Record 301;
+      CurrForFinChrgTerms@1001 : Record 328;
+
+    BEGIN
+    END.
+  }
+}
+

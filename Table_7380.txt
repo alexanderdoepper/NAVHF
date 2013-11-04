@@ -1,0 +1,90 @@
+OBJECT Table 7380 Phys. Invt. Item Selection
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Phys. Invt. Item Selection;
+               ESP=Selecci¢n prod. invent. f¡s.;
+               DEA=Inventurartikelauswahl];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=N§ producto;
+                                                              DEA=Artikelnr.];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 2   ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode];
+                                                   Editable=No }
+    { 3   ;   ;Location Code       ;Code10        ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almac‚n;
+                                                              DEA=Lagerortcode];
+                                                   Editable=No }
+    { 4   ;   ;Description         ;Text50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Item.Description WHERE (No.=FIELD(Item No.)));
+                                                   CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung];
+                                                   Editable=No }
+    { 5   ;   ;Shelf No.           ;Code10        ;CaptionML=[ENU=Shelf No.;
+                                                              ESP=N§ estante;
+                                                              DEA=Regalnr.];
+                                                   Editable=No }
+    { 6   ;   ;Phys Invt Counting Period Code;Code10;
+                                                   TableRelation="Phys. Invt. Counting Period";
+                                                   CaptionML=[ENU=Phys Invt Counting Period Code;
+                                                              ESP=C¢d. perio. recuento inv. f¡s.;
+                                                              DEA=Inventurh„ufigkeitscode];
+                                                   Editable=No }
+    { 7   ;   ;Last Counting Date  ;Date          ;CaptionML=[ENU=Last Counting Date;
+                                                              ESP=élt. fecha recuento;
+                                                              DEA=Letztes Inventurdatum];
+                                                   Editable=No }
+    { 8   ;   ;Next Counting Period;Text250       ;CaptionML=[ENU=Next Counting Period;
+                                                              ESP=Siguiente periodo recuento;
+                                                              DEA=N„chstes Inventurdatum];
+                                                   Editable=No }
+    { 9   ;   ;Count Frequency per Year;Integer   ;CaptionML=[ENU=Count Frequency per Year;
+                                                              ESP=Frecuencia recuento al a¤o;
+                                                              DEA=Inventurh„ufigkeit pro Jahr];
+                                                   MinValue=0;
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+    { 10  ;   ;Selected            ;Boolean       ;CaptionML=[ENU=Selected;
+                                                              ESP=Selecc.;
+                                                              DEA=Ausgew„hlt] }
+    { 11  ;   ;Phys Invt Counting Period Type;Option;
+                                                   CaptionML=[ENU=Phys Invt Counting Period Type;
+                                                              ESP=Tipo perio. recuento inv. f¡s.;
+                                                              DEA=Inventurh„ufigk.-Codeherkunft];
+                                                   OptionCaptionML=[ENU=" ,Item,SKU";
+                                                                    ESP=" ,Producto,UA";
+                                                                    DEA=" ,Artikel,Lagerhaltungsdaten"];
+                                                   OptionString=[ ,Item,SKU] }
+  }
+  KEYS
+  {
+    {    ;Item No.,Variant Code,Location Code,Phys Invt Counting Period Code;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

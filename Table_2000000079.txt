@@ -1,0 +1,44 @@
+OBJECT Table 2000000079 Object Tracking
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:01;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Seguimiento de objetos;
+  }
+  FIELDS
+  {
+    { 3   ;   ;Object Type         ;Option        ;CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=ESP=DatosTabla,Tabla,,Informe,,Codeunit,XMLport,MenuSuite,P gina,Consulta,Sistema,N£mero campo;
+                                                   OptionString=TableData,Table,,Report,,Codeunit,XMLport,MenuSuite,Page,Query,System,FieldNumber }
+    { 6   ;   ;Object ID           ;Integer       ;TableRelation="Object Metadata"."Object ID" WHERE (Object Type=FIELD(Object Type));
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=Id. objeto }
+    { 8   ;   ;Change Type         ;Option        ;CaptionML=ESP=Tipo de cambio;
+                                                   OptionCaptionML=ESP=Metadatos,Puntos interrupci¢n;
+                                                   OptionString=Metadata,Breakpoints }
+    { 12  ;   ;Object Timestamp    ;BigInteger    ;Volatile=Yes;
+                                                   CaptionML=ESP=Marca de hora del objeto }
+  }
+  KEYS
+  {
+    {    ;Object Type,Object ID,Change Type       ;Clustered=Yes }
+    {    ;Object Timestamp                         }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

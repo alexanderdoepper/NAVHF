@@ -1,0 +1,1120 @@
+OBJECT Page 233 Apply Vendor Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Apply Vendor Entries;
+               ESP=Movs. pendientes proveedor;
+               DEA=Kreditorenpostenausgleich];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    LinksAllowed=No;
+    SourceTable=Table25;
+    DataCaptionFields=Vendor No.;
+    PageType=Worksheet;
+    OnInit=BEGIN
+             "Applies-to IDVisible" := TRUE;
+           END;
+
+    OnOpenPage=BEGIN
+                 IF CalcType = CalcType::Direct THEN BEGIN
+                   Vend.GET("Vendor No.");
+                   ApplnCurrencyCode := Vend."Currency Code";
+                   FindApplyingEntry;
+                 END;
+
+                 "Applies-to IDVisible" := ApplnType <> ApplnType::"Applies-to Doc. No.";
+
+                 GLSetup.GET;
+
+                 IF CalcType = CalcType::GenJnlLine THEN
+                   CalcApplnAmount;
+                 PostingDone := FALSE;
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       StyleTxt := SetStyle;
+                     END;
+
+    OnModifyRecord=BEGIN
+                     CODEUNIT.RUN(CODEUNIT::"Vend. Entry-Edit",Rec);
+                     EXIT(FALSE);
+                   END;
+
+    OnQueryClosePage=BEGIN
+                       IF CloseAction = ACTION::LookupOK THEN
+                         LookupOKOnPush;
+                       IF ApplnType = ApplnType::"Applies-to Doc. No." THEN BEGIN
+                         IF OK AND (ApplyingVendLedgEntry."Posting Date" < "Posting Date") THEN BEGIN
+                           OK := FALSE;
+                           ERROR(
+                             Text006,ApplyingVendLedgEntry."Document Type",ApplyingVendLedgEntry."Document No.",
+                             "Document Type","Document No.");
+                         END;
+                         IF OK THEN BEGIN
+                           IF "Amount to Apply" = 0 THEN
+                             "Amount to Apply" := "Remaining Amount";
+                           CODEUNIT.RUN(CODEUNIT::"Vend. Entry-Edit",Rec);
+                         END;
+                       END;
+
+                       IF CheckActionPerformed THEN BEGIN
+                         Rec := ApplyingVendLedgEntry;
+                         "Applying Entry" := FALSE;
+                         IF AppliesToID = '' THEN BEGIN
+                           "Applies-to ID" := '';
+                           "Amount to Apply" := 0;
+                         END;
+                         CODEUNIT.RUN(CODEUNIT::"Vend. Entry-Edit",Rec);
+                       END;
+                     END;
+
+    OnAfterGetCurrRecord=BEGIN
+                           IF ApplnType = ApplnType::"Applies-to Doc. No." THEN
+                             CalcApplnAmount;
+                         END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 37      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Ent&ry;
+                                 ESP=Movimien&to;
+                                 DEA=&Posten];
+                      Image=Entry }
+      { 31      ;2   ;Action    ;
+                      CaptionML=[ENU=Applied E&ntries;
+                                 ESP=&Movs. conciliados;
+                                 DEA=&Ausgeglichene Posten];
+                      RunObject=Page 62;
+                      RunPageOnRec=Yes;
+                      Image=Approve }
+      { 57      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESP=Dimensiones;
+                                 DEA=Dimensionen];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ShowDimensions;
+                               END;
+                                }
+      { 63      ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F7;
+                      CaptionML=[ENU=Detailed &Ledger Entries;
+                                 ESP=M&ovimientos detallados;
+                                 DEA=Detaillierte &Posten];
+                      RunObject=Page 574;
+                      RunPageView=SORTING(Vendor Ledger Entry No.,Posting Date);
+                      RunPageLink=Vendor Ledger Entry No.=FIELD(Entry No.);
+                      Image=View }
+      { 30      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Application;
+                                 ESP=Li&quidaci¢n;
+                                 DEA=A&usgleich];
+                      Image=Apply }
+      { 32      ;2   ;Action    ;
+                      Name=ActionSetAppliesToID;
+                      ShortCutKey=Shift+F11;
+                      CaptionML=[ENU=Set Applies-to ID;
+                                 ESP=Marcar id. de liquidaci¢n;
+                                 DEA=Ausgleichs-ID setzen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=SelectLineToApply;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 IF (CalcType = CalcType::GenJnlLine) AND (ApplnType = ApplnType::"Applies-to Doc. No.") THEN
+                                   ERROR(Text004);
+
+                                 SetVendApplId;
+                               END;
+                                }
+      { 34      ;2   ;Action    ;
+                      Name=ActionPostApplication;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Post Application;
+                                 ESP=Registrar liquidaci¢n marcada;
+                                 DEA=Ausgleich buchen];
+                      Promoted=Yes;
+                      Image=PostApplication;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PostDirectApplication;
+                               END;
+                                }
+      { 99      ;2   ;Separator ;
+                      CaptionML=[ENU=-;
+                                 ESP=-;
+                                 DEA=-] }
+      { 100     ;2   ;Action    ;
+                      CaptionML=[ENU=Show Only Selected Entries to Be Applied;
+                                 ESP=Mostrar s¢lo entradas seleccionadas para aplicar;
+                                 DEA=Nur ausgew„hlte auszugleichende Posten anzeigen];
+                      Image=ShowSelected;
+                      OnAction=BEGIN
+                                 ShowAppliedEntries := NOT ShowAppliedEntries;
+                                 IF ShowAppliedEntries THEN BEGIN
+                                   IF CalcType = CalcType::GenJnlLine THEN
+                                     SETRANGE("Applies-to ID",GenJnlLine."Applies-to ID")
+                                   ELSE BEGIN
+                                     VendEntryApplID := USERID;
+                                     IF VendEntryApplID = '' THEN
+                                       VendEntryApplID := '***';
+                                     SETRANGE("Applies-to ID",VendEntryApplID);
+                                   END;
+                                 END ELSE
+                                   SETRANGE("Applies-to ID");
+                               END;
+                                }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 36      ;1   ;Action    ;
+                      CaptionML=[ENU=&Navigate;
+                                 ESP=&Navegar;
+                                 DEA=&Navigate];
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 Navigate.SetDoc("Posting Date","Document No.");
+                                 Navigate.RUN;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 70  ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           ESP=General;
+                           DEA=Allgemein] }
+
+    { 73  ;2   ;Field     ;
+                CaptionML=[ENU=Posting Date;
+                           ESP=Fecha registro;
+                           DEA=Buchungsdatum];
+                SourceExpr=ApplyingVendLedgEntry."Posting Date";
+                Editable=FALSE }
+
+    { 75  ;2   ;Field     ;
+                CaptionML=[ENU=Document Type;
+                           ESP=Tipo documento;
+                           DEA=Belegart];
+                OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                 ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
+                                 DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                SourceExpr=ApplyingVendLedgEntry."Document Type";
+                Editable=FALSE }
+
+    { 77  ;2   ;Field     ;
+                CaptionML=[ENU=Document No.;
+                           ESP=N§ documento;
+                           DEA=Belegnr.];
+                SourceExpr=ApplyingVendLedgEntry."Document No.";
+                Editable=FALSE }
+
+    { 71  ;2   ;Field     ;
+                CaptionML=[ENU=Vendor No.;
+                           ESP=N§ proveedor;
+                           DEA=Kreditorennr.];
+                SourceExpr=ApplyingVendLedgEntry."Vendor No.";
+                Editable=FALSE }
+
+    { 85  ;2   ;Field     ;
+                CaptionML=[ENU=Description;
+                           ESP=Descripci¢n;
+                           DEA=Beschreibung];
+                SourceExpr=ApplyingVendLedgEntry.Description;
+                Editable=FALSE }
+
+    { 79  ;2   ;Field     ;
+                CaptionML=[ENU=Currency Code;
+                           ESP=C¢d. divisa;
+                           DEA=W„hrungscode];
+                SourceExpr=ApplyingVendLedgEntry."Currency Code";
+                Editable=FALSE }
+
+    { 81  ;2   ;Field     ;
+                CaptionML=[ENU=Amount;
+                           ESP=Importe;
+                           DEA=Betrag];
+                SourceExpr=ApplyingVendLedgEntry.Amount;
+                Editable=FALSE }
+
+    { 83  ;2   ;Field     ;
+                CaptionML=[ENU=Remaining Amount;
+                           ESP=Importe pendiente;
+                           DEA=Restbetrag];
+                SourceExpr=ApplyingVendLedgEntry."Remaining Amount";
+                Editable=FALSE }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Applies-to ID";
+                Visible="Applies-to IDVisible" }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Posting Date";
+                Editable=FALSE }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Document Type";
+                Editable=FALSE;
+                StyleExpr=StyleTxt }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Document No.";
+                Editable=FALSE;
+                StyleExpr=StyleTxt }
+
+    { 38  ;2   ;Field     ;
+                SourceExpr="External Document No." }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Vendor No.";
+                Editable=FALSE }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr=Description;
+                Editable=FALSE }
+
+    { 39  ;2   ;Field     ;
+                SourceExpr="Currency Code" }
+
+    { 61  ;2   ;Field     ;
+                SourceExpr="Original Amount";
+                Visible=FALSE;
+                Editable=FALSE }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr=Amount;
+                Visible=FALSE;
+                Editable=FALSE }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="Remaining Amount";
+                Editable=FALSE }
+
+    { 33  ;2   ;Field     ;
+                CaptionML=[ENU=Appln. Remaining Amount;
+                           ESP=Importe pendiente liquidaci¢n;
+                           DEA=Ausgl. Restbetrag];
+                SourceExpr=CalcApplnRemainingAmount("Remaining Amount");
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode }
+
+    { 90  ;2   ;Field     ;
+                SourceExpr="Amount to Apply";
+                OnValidate=BEGIN
+                             CODEUNIT.RUN(CODEUNIT::"Vend. Entry-Edit",Rec);
+
+                             IF (xRec."Amount to Apply" = 0) OR ("Amount to Apply" = 0) AND
+                                (ApplnType = ApplnType::"Applies-to ID")
+                             THEN
+                               SetVendApplId;
+                             GET("Entry No.");
+                             AmounttoApplyOnAfterValidate;
+                           END;
+                            }
+
+    { 92  ;2   ;Field     ;
+                CaptionML=[ENU=Appln. Amount to Apply;
+                           ESP=Importe pendiente para liq.;
+                           DEA=Ausgl. Ausgleichsbetrag];
+                SourceExpr=CalcApplnAmounttoApply("Amount to Apply");
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr="Due Date";
+                StyleExpr=StyleTxt }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Pmt. Discount Date";
+                OnValidate=BEGIN
+                             RecalcApplnAmount;
+                           END;
+                            }
+
+    { 66  ;2   ;Field     ;
+                SourceExpr="Pmt. Disc. Tolerance Date" }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="Original Pmt. Disc. Possible";
+                Visible=FALSE }
+
+    { 64  ;2   ;Field     ;
+                SourceExpr="Remaining Pmt. Disc. Possible";
+                OnValidate=BEGIN
+                             RecalcApplnAmount;
+                           END;
+                            }
+
+    { 51  ;2   ;Field     ;
+                CaptionML=[ENU=Appln. Pmt. Disc. Possible;
+                           ESP=Dto. P.P. posible liqdn.;
+                           DEA=Ausgl. Skonto m”glich];
+                SourceExpr=CalcApplnRemainingAmount("Remaining Pmt. Disc. Possible");
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode }
+
+    { 68  ;2   ;Field     ;
+                SourceExpr="Max. Payment Tolerance" }
+
+    { 24  ;2   ;Field     ;
+                SourceExpr=Open;
+                Editable=FALSE }
+
+    { 26  ;2   ;Field     ;
+                SourceExpr=Positive;
+                Editable=FALSE }
+
+    { 56  ;2   ;Field     ;
+                SourceExpr="Global Dimension 1 Code" }
+
+    { 59  ;2   ;Field     ;
+                SourceExpr="Global Dimension 2 Code" }
+
+    { 41  ;1   ;Group      }
+
+    { 1903222401;2;Group  ;
+                GroupType=FixedLayout }
+
+    { 1903866701;3;Group  ;
+                CaptionML=[ENU=Appln. Currency;
+                           ESP=Divisa de liquidaci¢n;
+                           DEA=Ausgl. W„hrung] }
+
+    { 49  ;4   ;Field     ;
+                SourceExpr=ApplnCurrencyCode;
+                TableRelation=Currency;
+                Editable=FALSE }
+
+    { 1900545201;3;Group  ;
+                CaptionML=[ENU=Amount to Apply;
+                           ESP=Importe pendiente de liquidar;
+                           DEA=Ausgleichsbetrag] }
+
+    { 45  ;4   ;Field     ;
+                CaptionML=[ENU=Amount to Apply;
+                           ESP=Importe pendiente de liquidar;
+                           DEA=Ausgleichsbetrag];
+                SourceExpr=AppliedAmount;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+    { 1903099901;3;Group  ;
+                CaptionML=[ENU=Pmt. Disc. Amount;
+                           ESP=Importe desc. P.P.;
+                           DEA=Skontobetrag] }
+
+    { 94  ;4   ;Field     ;
+                CaptionML=[ENU=Pmt. Disc. Amount;
+                           ESP=Importe desc. P.P.;
+                           DEA=Skontobetrag];
+                SourceExpr=-PmtDiscAmount;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+    { 1901652301;3;Group  ;
+                CaptionML=[ENU=Rounding;
+                           ESP=Redondeo;
+                           DEA=Rundung] }
+
+    { 53  ;4   ;Field     ;
+                CaptionML=[ENU=Rounding;
+                           ESP=Redondeo;
+                           DEA=Rundung];
+                SourceExpr=ApplnRounding;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+    { 1901992701;3;Group  ;
+                CaptionML=[ENU=Applied Amount;
+                           ESP=Importe liquidado;
+                           DEA=Ausgleichsbetrag] }
+
+    { 98  ;4   ;Field     ;
+                CaptionML=[ENU=Applied Amount;
+                           ESP=Importe liquidado;
+                           DEA=Ausgleichsbetrag];
+                SourceExpr=AppliedAmount + (-PmtDiscAmount) + ApplnRounding;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+    { 1900295601;3;Group  ;
+                CaptionML=[ENU=Available Amount;
+                           ESP=Cantidad disponible;
+                           DEA=Verfgbarer Betrag] }
+
+    { 47  ;4   ;Field     ;
+                CaptionML=[ENU=Available Amount;
+                           ESP=Cantidad disponible;
+                           DEA=Verfgbarer Betrag];
+                SourceExpr=ApplyingAmount;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+    { 1901652401;3;Group  ;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo] }
+
+    { 43  ;4   ;Field     ;
+                Name=ControlBalance;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo];
+                SourceExpr=AppliedAmount + (-PmtDiscAmount) + ApplyingAmount + ApplnRounding;
+                AutoFormatType=1;
+                AutoFormatExpr=ApplnCurrencyCode;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      ApplyingVendLedgEntry@1033 : TEMPORARY Record 25;
+      AppliedVendLedgEntry@1001 : Record 25;
+      Currency@1002 : Record 4;
+      CurrExchRate@1003 : Record 330;
+      GenJnlLine@1004 : Record 81;
+      GenJnlLine2@1005 : Record 81;
+      PurchHeader@1006 : Record 38;
+      Vend@1007 : Record 23;
+      VendLedgEntry@1008 : Record 25;
+      GLSetup@1009 : Record 98;
+      TotalPurchLine@1010 : Record 39;
+      TotalPurchLineLCY@1011 : Record 39;
+      Navigate@1012 : Page 344;
+      GenJnlPostLine@1041 : Codeunit 12;
+      VendEntrySetApplID@1013 : Codeunit 111;
+      GenJnlApply@1014 : Codeunit 225;
+      PurchPost@1015 : Codeunit 90;
+      GenJnlLineApply@1016 : Boolean;
+      AppliedAmount@1017 : Decimal;
+      ApplyingAmount@1018 : Decimal;
+      PmtDiscAmount@1040 : Decimal;
+      ApplnDate@1019 : Date;
+      ApplnCurrencyCode@1020 : Code[10];
+      ApplnRoundingPrecision@1021 : Decimal;
+      ApplnRounding@1022 : Decimal;
+      ApplnType@1023 : ' ,Applies-to Doc. No.,Applies-to ID';
+      AmountRoundingPrecision@1024 : Decimal;
+      VATAmount@1025 : Decimal;
+      VATAmountText@1026 : Text[30];
+      StyleTxt@1031 : Text;
+      CalcType@1027 : 'Direct,GenJnlLine,PurchHeader';
+      VendEntryApplID@1029 : Code[50];
+      AppliesToID@1042 : Code[50];
+      ValidExchRate@1030 : Boolean;
+      DifferentCurrenciesInAppln@1032 : Boolean;
+      Text002@1036 : TextConst 'ENU=You must select an applying entry before you can post the application.;ESP=Seleccione un movimiento de liquidaci¢n antes de registrar la liquidaci¢n.;DEA=Sie mssen einen Ausgleichsposten ausw„hlen, bevor Sie den Ausgleich buchen k”nnen.';
+      Text003@1035 : TextConst 'ENU=You must post the application from the window where you entered the applying entry.;ESP=Registre la liquidaci¢n desde la ventana en la que registro el movimiento.;DEA=Sie mssen den Ausgleich aus dem Fenster buchen, in dem Sie den Ausgleichsposten eingegeben haben.';
+      Text004@1038 : TextConst 'ENU=You are not allowed to set Applies-to ID while selecting Applies-to Doc. No.;ESP=No tiene permiso para establecer el Id. de liquidaci¢n al seleccionar Liq. por n§ de documento.;DEA=Sie k”nnen keine Ausgleichs-ID festlegen, w„hrend Sie "Ausgleich mit Belegnr." ausw„hlen.';
+      ShowAppliedEntries@1039 : Boolean;
+      OK@1028 : Boolean;
+      Text006@1034 : TextConst 'ENU=You are not allowed to apply and post an entry to an entry with an earlier posting date.\\Instead, post the document of type %1 with the number %2 and then apply it to the document of type %3 with the number %4.;ESP=No tiene permiso para aplicar y registrar un movimiento a un movimiento con una fecha de registro anterior.\\En su lugar, registre el documento de tipo %1 con el n£mero %2 y, a continuaci¢n, apl¡quelo al documento de tipo %3 con el n£mero %4.;DEA=Sie sind nicht berechtigt, einen Posten mit einem anderen Posten mit frherem Buchungsdatum auszugleichen und zu buchen.\\Buchen Sie stattdessen den Beleg vom Typ ''%1'' mit der Nummer %2, und gleichen Sie ihn dann mit dem Beleg vom Typ ''%3'' mit der Nummer %4 aus.';
+      PostingDone@1000 : Boolean;
+      "Applies-to IDVisible"@19043506 : Boolean INDATASET;
+      ActionPerformed@1104 : Boolean;
+      Text012@1043 : TextConst 'ENU=The application was successfully posted.;ESP=La liquidaci¢n se ha registrado correctamente.;DEA=Der Ausgleich wurde erfolgreich gebucht.';
+      Text013@1044 : TextConst 'ENU=The %1 entered must not be before the %1 on the %2.;ESP=El %1 introducido no debe estar antes del %1 en %2.;DEA=Das eingegebene %1 darf nicht vor dem %1 im %2 liegen.';
+      Text019@1045 : TextConst 'ENU=Post application process has been canceled.;ESP=Se ha cancelado el proceso Registrar liquidaci¢n marcada.;DEA=Der Buchungsvorgang fr den Ausgleich wurde abgebrochen.';
+
+    PROCEDURE SetGenJnlLine@1(NewGenJnlLine@1000 : Record 81;ApplnTypeSelect@1001 : Integer);
+    BEGIN
+      GenJnlLine := NewGenJnlLine;
+      GenJnlLineApply := TRUE;
+
+      IF GenJnlLine."Account Type" = GenJnlLine."Account Type"::Vendor THEN
+        ApplyingAmount := GenJnlLine.Amount;
+      IF GenJnlLine."Bal. Account Type" = GenJnlLine."Bal. Account Type"::Vendor THEN
+        ApplyingAmount := -GenJnlLine.Amount;
+      ApplnDate := GenJnlLine."Posting Date";
+      ApplnCurrencyCode := GenJnlLine."Currency Code";
+      CalcType := CalcType::GenJnlLine;
+
+      CASE ApplnTypeSelect OF
+        GenJnlLine.FIELDNO("Applies-to Doc. No."):
+          ApplnType := ApplnType::"Applies-to Doc. No.";
+        GenJnlLine.FIELDNO("Applies-to ID"):
+          ApplnType := ApplnType::"Applies-to ID";
+      END;
+
+      SetApplyingVendLedgEntry;
+    END;
+
+    PROCEDURE SetPurch@2(NewPurchHeader@1000 : Record 38;VAR NewVendLedgEntry@1001 : Record 25;ApplnTypeSelect@1002 : Integer);
+    BEGIN
+      PurchHeader := NewPurchHeader;
+      COPYFILTERS(NewVendLedgEntry);
+
+      PurchPost.SumPurchLines(
+        PurchHeader,0,TotalPurchLine,TotalPurchLineLCY,
+        VATAmount,VATAmountText);
+
+      CASE PurchHeader."Document Type" OF
+        PurchHeader."Document Type"::"Return Order",
+        PurchHeader."Document Type"::"Credit Memo":
+          ApplyingAmount := TotalPurchLine."Amount Including VAT"
+        ELSE
+          ApplyingAmount := -TotalPurchLine."Amount Including VAT";
+      END;
+
+      ApplnDate := PurchHeader."Posting Date";
+      ApplnCurrencyCode := PurchHeader."Currency Code";
+      CalcType := CalcType::PurchHeader;
+
+      CASE ApplnTypeSelect OF
+        PurchHeader.FIELDNO("Applies-to Doc. No."):
+          ApplnType := ApplnType::"Applies-to Doc. No.";
+        PurchHeader.FIELDNO("Applies-to ID"):
+          ApplnType := ApplnType::"Applies-to ID";
+      END;
+
+      SetApplyingVendLedgEntry;
+    END;
+
+    PROCEDURE SetVendLedgEntry@13(NewVendLedgEntry@1000 : Record 25);
+    BEGIN
+      Rec := NewVendLedgEntry;
+    END;
+
+    PROCEDURE SetApplyingVendLedgEntry@9();
+    VAR
+      "VendEntry-Edit"@1000 : Codeunit 113;
+    BEGIN
+      CASE CalcType OF
+        CalcType::PurchHeader:
+          BEGIN
+            ApplyingVendLedgEntry."Posting Date" := PurchHeader."Posting Date";
+            IF PurchHeader."Document Type" = PurchHeader."Document Type"::"Return Order" THEN
+              ApplyingVendLedgEntry."Document Type" := PurchHeader."Document Type"::"Credit Memo"
+            ELSE
+              ApplyingVendLedgEntry."Document Type" := PurchHeader."Document Type";
+            ApplyingVendLedgEntry."Document No." := PurchHeader."No.";
+            ApplyingVendLedgEntry."Vendor No." := PurchHeader."Pay-to Vendor No.";
+            ApplyingVendLedgEntry.Description := PurchHeader."Posting Description";
+            ApplyingVendLedgEntry."Currency Code" := PurchHeader."Currency Code";
+            IF ApplyingVendLedgEntry."Document Type" = ApplyingVendLedgEntry."Document Type"::"Credit Memo" THEN  BEGIN
+              ApplyingVendLedgEntry.Amount := TotalPurchLine."Amount Including VAT";
+              ApplyingVendLedgEntry."Remaining Amount" := TotalPurchLine."Amount Including VAT";
+            END ELSE BEGIN
+              ApplyingVendLedgEntry.Amount := -TotalPurchLine."Amount Including VAT";
+              ApplyingVendLedgEntry."Remaining Amount" := -TotalPurchLine."Amount Including VAT";
+            END;
+            CalcApplnAmount;
+          END;
+        CalcType::Direct:
+          BEGIN
+            IF "Applying Entry" THEN BEGIN
+              IF ApplyingVendLedgEntry."Entry No." <> 0 THEN
+                VendLedgEntry := ApplyingVendLedgEntry;
+              "VendEntry-Edit".RUN(Rec);
+              IF "Applies-to ID" = '' THEN
+                SetVendApplId;
+              CALCFIELDS(Amount);
+              ApplyingVendLedgEntry := Rec;
+              IF VendLedgEntry."Entry No." <> 0 THEN BEGIN
+                Rec := VendLedgEntry;
+                "Applying Entry" := FALSE;
+                SetVendApplId;
+              END;
+              SETFILTER("Entry No.",'<> %1',ApplyingVendLedgEntry."Entry No.");
+              ApplyingAmount := ApplyingVendLedgEntry."Remaining Amount";
+              ApplnDate := ApplyingVendLedgEntry."Posting Date";
+              ApplnCurrencyCode := ApplyingVendLedgEntry."Currency Code";
+            END;
+            CalcApplnAmount;
+          END;
+        CalcType::GenJnlLine:
+          BEGIN
+            ApplyingVendLedgEntry."Posting Date" := GenJnlLine."Posting Date";
+            ApplyingVendLedgEntry."Document Type" := GenJnlLine."Document Type";
+            ApplyingVendLedgEntry."Document No." := GenJnlLine."Document No.";
+            ApplyingVendLedgEntry."Vendor No." := GenJnlLine."Account No.";
+            ApplyingVendLedgEntry.Description := GenJnlLine.Description;
+            ApplyingVendLedgEntry."Currency Code" := GenJnlLine."Currency Code";
+            ApplyingVendLedgEntry.Amount := GenJnlLine.Amount;
+            ApplyingVendLedgEntry."Remaining Amount" := GenJnlLine.Amount;
+            CalcApplnAmount;
+          END;
+      END;
+    END;
+
+    PROCEDURE SetVendApplId@10();
+    BEGIN
+      IF (CalcType = CalcType::GenJnlLine) AND (ApplyingVendLedgEntry."Posting Date" < "Posting Date") THEN
+        ERROR(
+          Text006,ApplyingVendLedgEntry."Document Type",ApplyingVendLedgEntry."Document No.",
+          "Document Type","Document No.");
+
+      IF ApplyingVendLedgEntry."Entry No." <> 0 THEN
+        GenJnlApply.CheckAgainstApplnCurrency(
+          ApplnCurrencyCode,"Currency Code",GenJnlLine."Account Type"::Vendor,TRUE);
+
+      VendLedgEntry.COPY(Rec);
+      CurrPage.SETSELECTIONFILTER(VendLedgEntry);
+      IF GenJnlLineApply THEN
+        VendEntrySetApplID.SetApplId(VendLedgEntry,ApplyingVendLedgEntry,GenJnlLine."Applies-to ID")
+      ELSE
+        VendEntrySetApplID.SetApplId(VendLedgEntry,ApplyingVendLedgEntry,PurchHeader."Applies-to ID");
+
+      ActionPerformed := VendLedgEntry."Applies-to ID" <> '';
+      CalcApplnAmount;
+    END;
+
+    PROCEDURE CalcApplnAmount@7();
+    VAR
+      ExchAccGLJnlLine@1000 : Codeunit 366;
+    BEGIN
+      AppliedAmount := 0;
+      PmtDiscAmount := 0;
+      DifferentCurrenciesInAppln := FALSE;
+
+      CASE CalcType OF
+        CalcType::Direct:
+          BEGIN
+            FindAmountRounding;
+            VendEntryApplID := USERID;
+            IF VendEntryApplID = '' THEN
+              VendEntryApplID := '***';
+
+            VendLedgEntry := ApplyingVendLedgEntry;
+
+            AppliedVendLedgEntry.SETCURRENTKEY("Vendor No.",Open,Positive);
+            AppliedVendLedgEntry.SETRANGE("Vendor No.","Vendor No.");
+            AppliedVendLedgEntry.SETRANGE(Open,TRUE);
+            IF AppliesToID = '' THEN
+              AppliedVendLedgEntry.SETRANGE("Applies-to ID",VendEntryApplID)
+            ELSE
+              AppliedVendLedgEntry.SETRANGE("Applies-to ID",AppliesToID);
+
+            IF ApplyingVendLedgEntry."Entry No." <> 0 THEN BEGIN
+              VendLedgEntry.CALCFIELDS("Remaining Amount");
+              AppliedVendLedgEntry.SETFILTER("Entry No.",'<>%1',VendLedgEntry."Entry No.");
+            END;
+
+            HandlChosenEntries(0,
+              VendLedgEntry."Remaining Amount",
+              VendLedgEntry."Currency Code",
+              VendLedgEntry."Posting Date");
+          END;
+        CalcType::GenJnlLine:
+          BEGIN
+            FindAmountRounding;
+            IF GenJnlLine."Bal. Account Type" = GenJnlLine."Bal. Account Type"::Vendor THEN
+              ExchAccGLJnlLine.RUN(GenJnlLine);
+
+            CASE ApplnType OF
+              ApplnType::"Applies-to Doc. No.":
+                BEGIN
+                  AppliedVendLedgEntry := Rec;
+                  WITH AppliedVendLedgEntry DO BEGIN
+                    CALCFIELDS("Remaining Amount");
+                    IF "Currency Code" <> ApplnCurrencyCode THEN BEGIN
+                      "Remaining Amount" :=
+                        CurrExchRate.ExchangeAmtFCYToFCY(
+                          ApplnDate,"Currency Code",ApplnCurrencyCode,"Remaining Amount");
+                      "Remaining Pmt. Disc. Possible" :=
+                        CurrExchRate.ExchangeAmtFCYToFCY(
+                          ApplnDate,"Currency Code",ApplnCurrencyCode,"Remaining Pmt. Disc. Possible");
+                      "Amount to Apply" :=
+                        CurrExchRate.ExchangeAmtFCYToFCY(
+                          ApplnDate,"Currency Code",ApplnCurrencyCode,"Amount to Apply");
+                    END;
+
+                    IF "Amount to Apply" <> 0 THEN
+                      AppliedAmount := ROUND("Amount to Apply",AmountRoundingPrecision)
+                    ELSE
+                      AppliedAmount := ROUND("Remaining Amount",AmountRoundingPrecision);
+
+                    IF GenJnlPostLine.CheckCalcPmtDiscGenJnlVend(
+                         GenJnlLine,AppliedVendLedgEntry,0,FALSE) AND
+                       ((ABS(GenJnlLine.Amount) + ApplnRoundingPrecision >=
+                         ABS(AppliedAmount - "Remaining Pmt. Disc. Possible")) OR
+                        (GenJnlLine.Amount = 0))
+                    THEN
+                      PmtDiscAmount := "Remaining Pmt. Disc. Possible";
+
+                    IF NOT DifferentCurrenciesInAppln THEN
+                      DifferentCurrenciesInAppln := ApplnCurrencyCode <> "Currency Code";
+                  END;
+                  CheckRounding;
+                END;
+              ApplnType::"Applies-to ID":
+                BEGIN
+                  GenJnlLine2 := GenJnlLine;
+                  AppliedVendLedgEntry.SETCURRENTKEY("Vendor No.",Open,Positive);
+                  AppliedVendLedgEntry.SETRANGE("Vendor No.",GenJnlLine."Account No.");
+                  AppliedVendLedgEntry.SETRANGE(Open,TRUE);
+                  AppliedVendLedgEntry.SETRANGE("Applies-to ID",GenJnlLine."Applies-to ID");
+
+                  HandlChosenEntries(1,
+                    GenJnlLine2.Amount,
+                    GenJnlLine2."Currency Code",
+                    GenJnlLine2."Posting Date");
+                END;
+            END;
+          END;
+        CalcType::PurchHeader:
+          BEGIN
+            FindAmountRounding;
+
+            CASE ApplnType OF
+              ApplnType::"Applies-to Doc. No.":
+                BEGIN
+                  AppliedVendLedgEntry := Rec;
+                  WITH AppliedVendLedgEntry DO BEGIN
+                    CALCFIELDS("Remaining Amount");
+
+                    IF "Currency Code" <> ApplnCurrencyCode THEN
+                      "Remaining Amount" :=
+                        CurrExchRate.ExchangeAmtFCYToFCY(
+                          ApplnDate,"Currency Code",ApplnCurrencyCode,"Remaining Amount");
+
+                    AppliedAmount := AppliedAmount + ROUND("Remaining Amount",AmountRoundingPrecision);
+
+                    IF NOT DifferentCurrenciesInAppln THEN
+                      DifferentCurrenciesInAppln := ApplnCurrencyCode <> "Currency Code";
+                  END;
+                  CheckRounding;
+                END;
+              ApplnType::"Applies-to ID":
+                WITH VendLedgEntry DO BEGIN
+                  AppliedVendLedgEntry.SETCURRENTKEY("Vendor No.",Open,Positive);
+                  AppliedVendLedgEntry.SETRANGE("Vendor No.",PurchHeader."Pay-to Vendor No.");
+                  AppliedVendLedgEntry.SETRANGE(Open,TRUE);
+                  AppliedVendLedgEntry.SETRANGE("Applies-to ID",PurchHeader."Applies-to ID");
+
+                  HandlChosenEntries(2,
+                    ApplyingAmount,
+                    ApplnCurrencyCode,
+                    ApplnDate);
+                END;
+            END;
+          END;
+      END;
+    END;
+
+    PROCEDURE CalcApplnRemainingAmount@4(Amount@1000 : Decimal) : Decimal;
+    VAR
+      ApplnRemainingAmount@1001 : Decimal;
+    BEGIN
+      ValidExchRate := TRUE;
+      IF ApplnCurrencyCode = "Currency Code" THEN
+        EXIT(Amount);
+
+      IF ApplnDate = 0D THEN
+        ApplnDate := "Posting Date";
+      ApplnRemainingAmount :=
+        CurrExchRate.ApplnExchangeAmtFCYToFCY(
+          ApplnDate,"Currency Code",ApplnCurrencyCode,Amount,ValidExchRate);
+      EXIT(ApplnRemainingAmount);
+    END;
+
+    PROCEDURE CalcApplnAmounttoApply@11(AmounttoApply@1000 : Decimal) : Decimal;
+    VAR
+      ApplnAmountToApply@1001 : Decimal;
+    BEGIN
+      ValidExchRate := TRUE;
+
+      IF ApplnCurrencyCode = "Currency Code" THEN
+        EXIT(AmounttoApply);
+
+      IF ApplnDate = 0D THEN
+        ApplnDate := "Posting Date";
+      ApplnAmountToApply :=
+        CurrExchRate.ApplnExchangeAmtFCYToFCY(
+          ApplnDate,"Currency Code",ApplnCurrencyCode,AmounttoApply,ValidExchRate);
+      EXIT(ApplnAmountToApply);
+    END;
+
+    PROCEDURE FindAmountRounding@6();
+    BEGIN
+      IF ApplnCurrencyCode = '' THEN BEGIN
+        Currency.INIT;
+        Currency.Code := '';
+        Currency.InitRoundingPrecision;
+      END ELSE
+        IF ApplnCurrencyCode <> Currency.Code THEN
+          Currency.GET(ApplnCurrencyCode);
+
+      AmountRoundingPrecision := Currency."Amount Rounding Precision";
+    END;
+
+    PROCEDURE CheckRounding@3();
+    BEGIN
+      ApplnRounding := 0;
+
+      CASE CalcType OF
+        CalcType::PurchHeader:
+          EXIT;
+        CalcType::GenJnlLine:
+          IF ("Document Type" <> "Document Type"::Payment) AND
+             ("Document Type" <> "Document Type"::Refund)
+          THEN
+            EXIT;
+      END;
+
+      IF ApplnCurrencyCode = '' THEN
+        ApplnRoundingPrecision := GLSetup."Appln. Rounding Precision"
+      ELSE BEGIN
+        IF ApplnCurrencyCode <> "Currency Code" THEN
+          Currency.GET(ApplnCurrencyCode);
+        ApplnRoundingPrecision := Currency."Appln. Rounding Precision";
+      END;
+
+      IF (ABS((AppliedAmount - PmtDiscAmount) + ApplyingAmount) <= ApplnRoundingPrecision) AND DifferentCurrenciesInAppln THEN
+        ApplnRounding := -((AppliedAmount - PmtDiscAmount) + ApplyingAmount);
+    END;
+
+    PROCEDURE GetVendLedgEntry@5(VAR VendLedgEntry@1000 : Record 25);
+    BEGIN
+      VendLedgEntry := Rec;
+    END;
+
+    PROCEDURE FindApplyingEntry@12();
+    BEGIN
+      IF CalcType = CalcType::Direct THEN BEGIN
+        VendEntryApplID := USERID;
+        IF VendEntryApplID = '' THEN
+          VendEntryApplID := '***';
+
+        VendLedgEntry.SETCURRENTKEY("Vendor No.","Applies-to ID",Open);
+        VendLedgEntry.SETRANGE("Vendor No.","Vendor No.");
+        IF AppliesToID = '' THEN
+          VendLedgEntry.SETRANGE("Applies-to ID",VendEntryApplID)
+        ELSE
+          VendLedgEntry.SETRANGE("Applies-to ID",AppliesToID);
+        VendLedgEntry.SETRANGE(Open,TRUE);
+        VendLedgEntry.SETRANGE("Applying Entry",TRUE);
+        IF VendLedgEntry.FINDFIRST THEN BEGIN
+          VendLedgEntry.CALCFIELDS(Amount,"Remaining Amount");
+          ApplyingVendLedgEntry := VendLedgEntry;
+          SETFILTER("Entry No.",'<> %1',VendLedgEntry."Entry No.");
+          ApplyingAmount := VendLedgEntry."Remaining Amount";
+          ApplnDate := VendLedgEntry."Posting Date";
+          ApplnCurrencyCode := VendLedgEntry."Currency Code";
+        END;
+        CalcApplnAmount;
+      END;
+    END;
+
+    PROCEDURE HandlChosenEntries@8(Type@1000 : 'Direct,GenJnlLine,PurchHeader';CurrentAmount@1001 : Decimal;CurrencyCode@1002 : Code[10];"Posting Date"@1003 : Date);
+    VAR
+      AppliedVendLedgEntryTemp@1004 : TEMPORARY Record 25;
+      PossiblePmtdisc@1007 : Decimal;
+      OldPmtdisc@1008 : Decimal;
+      CorrectionAmount@1009 : Decimal;
+      CalculateCurrency@1006 : Boolean;
+      CanUseDisc@1005 : Boolean;
+      FromZeroGenJnl@1010 : Boolean;
+    BEGIN
+      IF AppliedVendLedgEntry.FINDSET(FALSE,FALSE) THEN BEGIN
+        REPEAT
+          AppliedVendLedgEntryTemp := AppliedVendLedgEntry;
+          AppliedVendLedgEntryTemp.INSERT;
+        UNTIL AppliedVendLedgEntry.NEXT = 0;
+      END ELSE
+        EXIT;
+
+      FromZeroGenJnl := (CurrentAmount = 0) AND (Type = Type::GenJnlLine);
+
+      REPEAT
+        IF NOT FromZeroGenJnl THEN
+          AppliedVendLedgEntryTemp.SETRANGE(Positive,CurrentAmount < 0);
+        IF AppliedVendLedgEntryTemp.FINDFIRST THEN BEGIN
+          AppliedVendLedgEntryTemp.CALCFIELDS("Remaining Amount");
+
+          IF Type = Type::Direct THEN
+            CalculateCurrency := ApplyingVendLedgEntry."Entry No." <> 0
+          ELSE
+            CalculateCurrency := TRUE;
+
+          IF (CurrencyCode <> AppliedVendLedgEntryTemp."Currency Code") AND CalculateCurrency THEN BEGIN
+            AppliedVendLedgEntryTemp."Remaining Amount" :=
+              GenJnlPostLine.ExchAmount(
+                AppliedVendLedgEntryTemp."Remaining Amount",
+                AppliedVendLedgEntryTemp."Currency Code",
+                CurrencyCode,"Posting Date");
+            AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible" :=
+              GenJnlPostLine.ExchAmount(
+                AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible",
+                AppliedVendLedgEntryTemp."Currency Code",
+                CurrencyCode,"Posting Date");
+            AppliedVendLedgEntryTemp."Amount to Apply" :=
+              GenJnlPostLine.ExchAmount(
+                AppliedVendLedgEntryTemp."Amount to Apply",
+                AppliedVendLedgEntryTemp."Currency Code",
+                CurrencyCode,"Posting Date");
+          END;
+
+          CASE Type OF
+            Type::Direct:
+              CanUseDisc := GenJnlPostLine.CheckCalcPmtDiscVend(VendLedgEntry,AppliedVendLedgEntryTemp,0,FALSE,FALSE);
+            Type::GenJnlLine:
+              CanUseDisc := GenJnlPostLine.CheckCalcPmtDiscGenJnlVend(GenJnlLine2,AppliedVendLedgEntryTemp,0,FALSE)
+            ELSE
+              CanUseDisc := FALSE;
+          END;
+
+          IF CanUseDisc AND
+             (ABS(AppliedVendLedgEntryTemp."Amount to Apply") >= ABS(AppliedVendLedgEntryTemp."Remaining Amount" -
+                AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible"))
+          THEN BEGIN
+            IF (ABS(CurrentAmount - PossiblePmtdisc) > ABS(AppliedVendLedgEntryTemp."Remaining Amount" -
+                  AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible"))
+            THEN BEGIN
+              PmtDiscAmount := PmtDiscAmount + AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+              CurrentAmount := CurrentAmount + AppliedVendLedgEntryTemp."Remaining Amount" -
+                AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+            END ELSE
+              IF (ABS(CurrentAmount - PossiblePmtdisc) = ABS(AppliedVendLedgEntryTemp."Remaining Amount" -
+                    AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible"))
+              THEN BEGIN
+                PmtDiscAmount := PmtDiscAmount + AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible" + PossiblePmtdisc;
+                CurrentAmount := CurrentAmount + AppliedVendLedgEntryTemp."Remaining Amount" -
+                  AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible" - PossiblePmtdisc;
+                PossiblePmtdisc := 0;
+                AppliedAmount := AppliedAmount + CorrectionAmount;
+              END ELSE
+                IF FromZeroGenJnl THEN BEGIN
+                  PmtDiscAmount := PmtDiscAmount + AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+                  CurrentAmount := CurrentAmount +
+                    AppliedVendLedgEntryTemp."Remaining Amount" - AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+                END ELSE BEGIN
+                  PossiblePmtdisc := AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+                  IF (CurrentAmount + AppliedVendLedgEntryTemp."Remaining Amount" <= 0) <> (CurrentAmount <= 0) THEN BEGIN
+                    PmtDiscAmount := PmtDiscAmount + PossiblePmtdisc;
+                    CurrentAmount := CurrentAmount - PossiblePmtdisc;
+                    AppliedAmount := AppliedAmount + CorrectionAmount;
+                  END;
+                  CurrentAmount := CurrentAmount + AppliedVendLedgEntryTemp."Remaining Amount";
+                END;
+          END ELSE BEGIN
+            PossiblePmtdisc := AppliedVendLedgEntryTemp."Remaining Pmt. Disc. Possible";
+            IF ((CurrentAmount - PossiblePmtdisc + AppliedVendLedgEntryTemp."Amount to Apply") * CurrentAmount) >= 0 THEN BEGIN
+              PmtDiscAmount := PmtDiscAmount + PossiblePmtdisc;
+              CurrentAmount := CurrentAmount - PossiblePmtdisc;
+              PossiblePmtdisc := 0;
+              AppliedAmount := AppliedAmount + CorrectionAmount;
+            END;
+            CurrentAmount := CurrentAmount + AppliedVendLedgEntryTemp."Amount to Apply";
+          END;
+        END ELSE BEGIN
+          AppliedVendLedgEntryTemp.SETRANGE(Positive);
+          AppliedVendLedgEntryTemp.FINDFIRST;
+        END;
+
+        IF OldPmtdisc <> PmtDiscAmount THEN
+          AppliedAmount := AppliedAmount + AppliedVendLedgEntryTemp."Remaining Amount"
+        ELSE
+          AppliedAmount := AppliedAmount + AppliedVendLedgEntryTemp."Amount to Apply";
+        OldPmtdisc := PmtDiscAmount;
+
+        IF PossiblePmtdisc <> 0 THEN
+          CorrectionAmount := AppliedVendLedgEntryTemp."Remaining Amount" - AppliedVendLedgEntryTemp."Amount to Apply"
+        ELSE
+          CorrectionAmount := 0;
+
+        IF NOT DifferentCurrenciesInAppln THEN
+          DifferentCurrenciesInAppln := ApplnCurrencyCode <> AppliedVendLedgEntryTemp."Currency Code";
+
+        AppliedVendLedgEntryTemp.DELETE;
+        AppliedVendLedgEntryTemp.SETRANGE(Positive);
+
+      UNTIL NOT AppliedVendLedgEntryTemp.FINDFIRST;
+      CheckRounding;
+    END;
+
+    LOCAL PROCEDURE AmounttoApplyOnAfterValidate@19038179();
+    BEGIN
+      IF ApplnType <> ApplnType::"Applies-to Doc. No." THEN BEGIN
+        CalcApplnAmount;
+        CurrPage.UPDATE(FALSE);
+      END;
+    END;
+
+    LOCAL PROCEDURE RecalcApplnAmount@19051222();
+    BEGIN
+      CurrPage.UPDATE(TRUE);
+      CalcApplnAmount;
+    END;
+
+    LOCAL PROCEDURE LookupOKOnPush@19031339();
+    BEGIN
+      OK := TRUE;
+    END;
+
+    LOCAL PROCEDURE PostDirectApplication@15();
+    VAR
+      VendEntryApplyPostedEntries@1000 : Codeunit 227;
+      PostApplication@1002 : Page 579;
+      ApplicationDate@1001 : Date;
+      NewApplicationDate@1003 : Date;
+      NewDocumentNo@1004 : Code[20];
+    BEGIN
+      IF CalcType = CalcType::Direct THEN BEGIN
+        IF ApplyingVendLedgEntry."Entry No." <> 0 THEN BEGIN
+          Rec := ApplyingVendLedgEntry;
+          ApplicationDate := VendEntryApplyPostedEntries.GetApplicationDate(Rec);
+          PostApplication.SetValues("Document No.",ApplicationDate);
+          IF ACTION::OK = PostApplication.RUNMODAL THEN BEGIN
+            PostApplication.GetValues(NewDocumentNo,NewApplicationDate);
+            IF NewApplicationDate < ApplicationDate THEN
+              ERROR(Text013,FIELDCAPTION("Posting Date"),TABLECAPTION);
+          END ELSE
+            ERROR(Text019);
+
+          VendEntryApplyPostedEntries.Apply(Rec,NewDocumentNo,NewApplicationDate);
+
+          MESSAGE(Text012);
+          PostingDone := TRUE;
+          CurrPage.CLOSE;
+        END ELSE
+          ERROR(Text002);
+      END ELSE
+        ERROR(Text003);
+    END;
+
+    PROCEDURE CheckActionPerformed@1011() : Boolean;
+    BEGIN
+      IF ActionPerformed THEN
+        EXIT(FALSE);
+      IF (NOT (CalcType = CalcType::Direct) AND NOT OK AND NOT PostingDone) OR
+         (ApplnType = ApplnType::"Applies-to Doc. No.")
+      THEN
+        EXIT(FALSE);
+      EXIT(CalcType = CalcType::Direct);
+    END;
+
+    PROCEDURE SetAppliesToID@1031(AppliesToID2@1043 : Code[50]);
+    BEGIN
+      AppliesToID := AppliesToID2;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,56 @@
+OBJECT Table 1114 Cost Budget Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cost Budget Buffer;
+               ESP=Almacenaje ppto. costes;
+               DEA=Kostenbudgetpuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Cost Type No.       ;Code20        ;TableRelation="Cost Type";
+                                                   CaptionML=[ENU=Cost Type No.;
+                                                              ESP=N§ tipo coste;
+                                                              DEA=Kostenartnr.] }
+    { 2   ;   ;Budget Name         ;Code10        ;TableRelation="Cost Budget Name";
+                                                   CaptionML=[ENU=Budget Name;
+                                                              ESP=Nombre ppto.;
+                                                              DEA=Budgetname] }
+    { 3   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum];
+                                                   ClosingDates=Yes }
+    { 4   ;   ;Cost Center Code    ;Code20        ;TableRelation="Cost Center";
+                                                   CaptionML=[ENU=Cost Center Code;
+                                                              ESP=C¢digo centro coste;
+                                                              DEA=Kostenstellencode] }
+    { 5   ;   ;Cost Object Code    ;Code20        ;TableRelation="Cost Object";
+                                                   CaptionML=[ENU=Cost Object Code;
+                                                              ESP=C¢digo objeto coste;
+                                                              DEA=Kostentr„gercode] }
+    { 6   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag] }
+  }
+  KEYS
+  {
+    {    ;Cost Type No.,Cost Center Code,Cost Object Code,Date;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

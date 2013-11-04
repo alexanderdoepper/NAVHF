@@ -1,0 +1,86 @@
+OBJECT Report 99001041 Delete Expired Components
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delete Expired Components;
+               ESP=Eliminar componentes caducados;
+               DEA=Abgelaufene Komponenten lîsch.];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IF StartingDate = 0D THEN
+                    ERROR(Text000);
+
+                  Window.OPEN(
+                    Text001 +
+                    Text002);
+                END;
+
+  }
+  DATASET
+  {
+    { 4952;    ;DataItem;                    ;
+               DataItemTable=Table99000771;
+               DataItemTableView=SORTING(No.);
+               OnAfterGetRecord=BEGIN
+                                  Window.UPDATE(1,"No.");
+
+                                  ProdBOMLine.SETRANGE("Production BOM No.","No.");
+                                  ProdBOMLine.SETFILTER("Ending Date",'<>%1&..%2',0D,StartingDate - 1);
+                                  IF NOT ProdBOMLine.ISEMPTY THEN
+                                    ProdBOMLine.DELETEALL;
+                                END;
+
+               ReqFilterFields=No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  Name=DeleteBefore;
+                  CaptionML=[ENU=Delete Before;
+                             ESP=Eliminar antes;
+                             DEA=Lîschen vor Datum];
+                  SourceExpr=StartingDate }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=You must enter the date to delete before.;ESP=Debe introducir primero la fecha que va a eliminar.;DEA=Sie mÅssen das Datum zum Lîschen zuvor angeben.';
+      Text001@1001 : TextConst 'ENU=Deleting...\;ESP=Eliminando...\;DEA=Lîschen...\';
+      Text002@1002 : TextConst 'ENU=Production BOM No. #1##########;ESP=L.M. producc. Nß #1##########;DEA=Fert.-StÅcklistennr. #1##########';
+      ProdBOMLine@1003 : Record 99000772;
+      Window@1004 : Dialog;
+      StartingDate@1005 : Date;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

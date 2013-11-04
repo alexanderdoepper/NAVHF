@@ -1,0 +1,87 @@
+OBJECT Table 255 VAT Statement Template
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               VALIDATE("Page ID");
+             END;
+
+    OnDelete=BEGIN
+               VATStmtLine.SETRANGE("Statement Template Name",Name);
+               VATStmtLine.DELETEALL;
+               VATStmtName.SETRANGE("Statement Template Name",Name);
+               VATStmtName.DELETEALL;
+             END;
+
+    CaptionML=[ENU=VAT Statement Template;
+               ESP=Tipo declaraci¢n IVA;
+               DEA=MwSt.-Abrechnung Vorlage];
+    LookupPageID=Page319;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 6   ;   ;Page ID             ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Page));
+                                                   OnValidate=BEGIN
+                                                                IF "Page ID" = 0 THEN
+                                                                  "Page ID" := PAGE::"VAT Statement";
+                                                                "VAT Statement Report ID" := REPORT::"VAT Statement";
+                                                                DACHReportSelection.SETRANGE(Usage, DACHReportSelection.Usage::"VAT Statement");
+                                                                DACHReportSelection.SETFILTER("Report ID", '<>0');
+                                                                IF DACHReportSelection.FIND('-') THEN
+                                                                  "VAT Statement Report ID" := DACHReportSelection."Report ID";
+                                                              END;
+
+                                                   CaptionML=[ENU=Page ID;
+                                                              ESP=Id. p gina;
+                                                              DEA=Seiten-ID] }
+    { 7   ;   ;VAT Statement Report ID;Integer    ;TableRelation=Object.ID WHERE (Type=CONST(Report));
+                                                   CaptionML=[ENU=VAT Statement Report ID;
+                                                              ESP=N§ informe declaraci¢n IVA;
+                                                              DEA=MwSt.-Abrechnung Berichts-ID] }
+    { 16  ;   ;Page Name           ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Page),
+                                                                                                                Object ID=FIELD(Page ID)));
+                                                   CaptionML=[ENU=Page Name;
+                                                              ESP=Nombre p gina;
+                                                              DEA=Seitenname];
+                                                   Editable=No }
+    { 17  ;   ;VAT Statement Report Name;Text250  ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Report),
+                                                                                                                Object ID=FIELD(VAT Statement Report ID)));
+                                                   CaptionML=[ENU=VAT Statement Report Name;
+                                                              ESP=Nombre informe declar. IVA;
+                                                              DEA=MwSt.-Abrechnungsbericht];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      VATStmtName@1000 : Record 257;
+      VATStmtLine@1001 : Record 256;
+      DACHReportSelection@1140000 : Record 26100;
+
+    BEGIN
+    END.
+  }
+}
+

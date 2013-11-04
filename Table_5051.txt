@@ -1,0 +1,165 @@
+OBJECT Table 5051 Contact Alt. Address
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Contact No.,Code,Company Name;
+    OnInsert=BEGIN
+               TouchContact("Contact No.");
+             END;
+
+    OnModify=BEGIN
+               "Last Date Modified" := TODAY;
+               TouchContact("Contact No.");
+             END;
+
+    OnDelete=VAR
+               ContAltAddrDateRange@1000 : Record 5052;
+             BEGIN
+               TouchContact("Contact No.");
+
+               ContAltAddrDateRange.SETRANGE("Contact No.","Contact No.");
+               ContAltAddrDateRange.SETRANGE("Contact Alt. Address Code",Code);
+               ContAltAddrDateRange.DELETEALL;
+             END;
+
+    OnRename=BEGIN
+               IF xRec."Contact No." = "Contact No." THEN
+                 TouchContact("Contact No.")
+               ELSE BEGIN
+                 TouchContact("Contact No.");
+                 TouchContact(xRec."Contact No.");
+               END;
+             END;
+
+    CaptionML=[ENU=Contact Alt. Address;
+               ESP=Direcci¢n altern. contacto;
+               DEA=Alternative Kontaktadresse];
+    LookupPageID=Page5057;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Contact No.         ;Code20        ;TableRelation=Contact;
+                                                   CaptionML=[ENU=Contact No.;
+                                                              ESP=N§ contacto;
+                                                              DEA=Kontaktnr.] }
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Company Name        ;Text50        ;CaptionML=[ENU=Company Name;
+                                                              ESP=Nombre empresa;
+                                                              DEA=Unternehmensname] }
+    { 4   ;   ;Company Name 2      ;Text50        ;CaptionML=[ENU=Company Name 2;
+                                                              ESP=Nombre empresa 2;
+                                                              DEA=Unternehmensname 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
+                                                              ESP=Direcci¢n;
+                                                              DEA=Adresse] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
+                                                              ESP=Direcci¢n 2;
+                                                              DEA=Adresse 2] }
+    { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidateCity(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=City;
+                                                              ESP=Poblaci¢n;
+                                                              DEA=Ort] }
+    { 8   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
+                                                                 ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
+                                                   OnValidate=BEGIN
+                                                                PostCode.ValidatePostCode(City,"Post Code",County,"Country/Region Code",(CurrFieldNo <> 0) AND GUIALLOWED);
+                                                              END;
+
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Post Code;
+                                                              ESP=C.P.;
+                                                              DEA=PLZ-Code] }
+    { 9   ;   ;County              ;Text30        ;CaptionML=[ENU=County;
+                                                              ESP=Provincia;
+                                                              DEA=Bundesregion] }
+    { 10  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Country/Region Code;
+                                                              ESP=C¢d. pa¡s/regi¢n;
+                                                              DEA=L„nder-/Regionscode] }
+    { 12  ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Phone No.;
+                                                              ESP=N§ tel‚fono;
+                                                              DEA=Telefonnr.] }
+    { 13  ;   ;Telex No.           ;Text20        ;CaptionML=[ENU=Telex No.;
+                                                              ESP=N§ t‚lex;
+                                                              DEA=Telexnr.] }
+    { 14  ;   ;Extension No.       ;Text30        ;CaptionML=[ENU=Extension No.;
+                                                              ESP=N§ extensi¢n;
+                                                              DEA=Durchwahl] }
+    { 15  ;   ;Mobile Phone No.    ;Text30        ;ExtendedDatatype=Phone No.;
+                                                   CaptionML=[ENU=Mobile Phone No.;
+                                                              ESP=N§ tel‚fono m¢vil;
+                                                              DEA=Mobiltelefonnr.] }
+    { 16  ;   ;Pager               ;Text30        ;CaptionML=[ENU=Pager;
+                                                              ESP=N§ buscapersona;
+                                                              DEA=Pager] }
+    { 17  ;   ;E-Mail              ;Text80        ;OnValidate=BEGIN
+                                                                IF ("Search E-Mail" = UPPERCASE(xRec."E-Mail")) OR ("Search E-Mail" = '') THEN
+                                                                  "Search E-Mail" := "E-Mail";
+                                                              END;
+
+                                                   ExtendedDatatype=E-Mail;
+                                                   CaptionML=[ENU=E-Mail;
+                                                              ESP=Correo electr¢nico;
+                                                              DEA=E-Mail] }
+    { 18  ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
+                                                   CaptionML=[ENU=Home Page;
+                                                              ESP=P gina Web;
+                                                              DEA=Homepage] }
+    { 19  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
+                                                              ESP=N§ fax;
+                                                              DEA=Faxnr.] }
+    { 20  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
+                                                              ESP=N§ t‚lex respuesta;
+                                                              DEA=Telex Namengeber] }
+    { 21  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
+                                                              ESP=Fecha £lt. modificaci¢n;
+                                                              DEA=Korrigiert am] }
+    { 22  ;   ;Search E-Mail       ;Code80        ;CaptionML=[ENU=Search E-Mail;
+                                                              ESP=Correo electr¢nico de b£squeda;
+                                                              DEA=E-Mail-Suchbegriff] }
+  }
+  KEYS
+  {
+    {    ;Contact No.,Code                        ;Clustered=Yes }
+    {    ;Search E-Mail                            }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      PostCode@1001 : Record 225;
+      Cont@1000 : Record 5050;
+
+    PROCEDURE TouchContact@1(ContactNo@1000 : Code[20]);
+    BEGIN
+      Cont.LOCKTABLE;
+      Cont.GET(ContactNo);
+      Cont."Last Date Modified" := TODAY;
+      Cont.MODIFY;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

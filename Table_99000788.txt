@@ -1,0 +1,47 @@
+OBJECT Table 99000788 Production Matrix BOM Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Production Matrix BOM Line;
+               ESP=L°nea L.M. matricial prod.;
+               DEA=Fert.-StÅcklistenmatrixzeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 2   ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 10  ;   ;Unit of Measure Code;Code10        ;TableRelation="Item Unit of Measure".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 11  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Item No.,Variant Code                   ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

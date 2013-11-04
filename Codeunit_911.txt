@@ -1,0 +1,46 @@
+OBJECT Codeunit 911 Pstd. Assembly - Undo (Yes/No)
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    TableNo=910;
+    OnRun=BEGIN
+            PostedAsmHeader.COPY(Rec);
+            Code;
+            Rec := PostedAsmHeader;
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      PostedAsmHeader@1000 : Record 910;
+      Text000@1001 : TextConst 'ENU=Do you want to undo posting of the posted assembly order?;ESP=¨Confirma que desea deshacer el registro del pedido de ensamblado registrado?;DEA=M”chten Sie die Buchung des gebuchten Montageauftrags stornieren?';
+      Text001@1003 : TextConst 'ENU=Do you want to recreate the assembly order from the posted assembly order?;ESP=¨Confirma que desea recrear el pedido de ensamblado del pedido de ensamblado registrado?;DEA=M”chten Sie den Fertigungsauftrag auf der Grundlage des gebuchten Montageauftrags erneut erstellen?';
+
+    LOCAL PROCEDURE Code@2();
+    VAR
+      AsmHeader@1003 : Record 900;
+      AsmPost@1001 : Codeunit 900;
+      DoRecreateAsmOrder@1000 : Boolean;
+    BEGIN
+      IF NOT CONFIRM(Text000,FALSE) THEN
+        EXIT;
+
+      IF NOT AsmHeader.GET(AsmHeader."Document Type"::Order,PostedAsmHeader."Order No.") THEN
+        DoRecreateAsmOrder := CONFIRM(Text001);
+
+      AsmPost.Undo(PostedAsmHeader,DoRecreateAsmOrder);
+      COMMIT;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

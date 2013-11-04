@@ -1,0 +1,53 @@
+OBJECT Table 333 Column Layout Name
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Name,Description;
+    OnDelete=BEGIN
+               ColumnLayout.SETRANGE("Column Layout Name",Name);
+               ColumnLayout.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Column Layout Name;
+               ESP=Nombre plantilla columna;
+               DEA=Spaltenlayoutname];
+    LookupPageID=Page488;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Analysis View Name  ;Code10        ;TableRelation="Analysis View";
+                                                   CaptionML=[ENU=Analysis View Name;
+                                                              ESP=Nombre vista an lisis;
+                                                              DEA=Analyseansichtsname] }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Name,Description,Analysis View Name      }
+  }
+  CODE
+  {
+    VAR
+      ColumnLayout@1000 : Record 334;
+
+    BEGIN
+    END.
+  }
+}
+

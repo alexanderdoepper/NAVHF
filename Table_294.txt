@@ -1,0 +1,65 @@
+OBJECT Table 294 Reminder Text
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               ReminderLevel.GET("Reminder Terms Code","Reminder Level");
+             END;
+
+    CaptionML=[ENU=Reminder Text;
+               ESP=Texto recordatorio;
+               DEA=Mahntext];
+    LookupPageID=Page433;
+    DrillDownPageID=Page433;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Reminder Terms Code ;Code10        ;TableRelation="Reminder Terms";
+                                                   CaptionML=[ENU=Reminder Terms Code;
+                                                              ESP=C¢d. recordatorio;
+                                                              DEA=Mahnmethodencode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Reminder Level      ;Integer       ;TableRelation="Reminder Level".No. WHERE (Reminder Terms Code=FIELD(Reminder Terms Code));
+                                                   CaptionML=[ENU=Reminder Level;
+                                                              ESP=Nivel recordatorio;
+                                                              DEA=Mahnstufe];
+                                                   MinValue=1;
+                                                   NotBlank=Yes }
+    { 3   ;   ;Position            ;Option        ;CaptionML=[ENU=Position;
+                                                              ESP=Posici¢n;
+                                                              DEA=Position];
+                                                   OptionCaptionML=[ENU=Beginning,Ending;
+                                                                    ESP=Principio,Fin;
+                                                                    DEA=Vor,Nach];
+                                                   OptionString=Beginning,Ending }
+    { 4   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.] }
+    { 5   ;   ;Text                ;Text100       ;CaptionML=[ENU=Text;
+                                                              ESP=Texto;
+                                                              DEA=Text] }
+  }
+  KEYS
+  {
+    {    ;Reminder Terms Code,Reminder Level,Position,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      ReminderLevel@1000 : Record 293;
+
+    BEGIN
+    END.
+  }
+}
+

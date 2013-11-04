@@ -1,0 +1,102 @@
+OBJECT Table 9054 Finance Cue
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Finance Cue;
+               ESP=Pila finanzas;
+               DEA=Finanzstapel];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Overdue Sales Documents;Integer    ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Cust. Ledger Entry" WHERE (Document Type=FILTER(Invoice|Credit Memo),
+                                                                                                 Due Date=FIELD(Overdue Date Filter),
+                                                                                                 Open=CONST(Yes)));
+                                                   CaptionML=[ENU=Overdue Sales Documents;
+                                                              ESP=Documentos de ventas vencidos;
+                                                              DEA=öberfÑllige Verkaufsbelege] }
+    { 3   ;   ;Purchase Invoices Due Today;Integer;FieldClass=FlowField;
+                                                   CalcFormula=Count("Vendor Ledger Entry" WHERE (Document Type=FILTER(Invoice|Credit Memo),
+                                                                                                  Due Date=FIELD(Due Date Filter),
+                                                                                                  Open=CONST(Yes)));
+                                                   CaptionML=[ENU=Purchase Invoices Due Today;
+                                                              ESP=Facturas compra que vencen hoy;
+                                                              DEA=Heute fÑllige Einkaufsrechnungen] }
+    { 4   ;   ;POs Pending Approval;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Order),
+                                                                                              Status=FILTER(Pending Approval)));
+                                                   CaptionML=[ENU=POs Pending Approval;
+                                                              ESP=Aprobaci¢n PC pendientes;
+                                                              DEA=Bestellungen mit ausstehender Genehmigung] }
+    { 5   ;   ;SOs Pending Approval;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Sales Header" WHERE (Document Type=CONST(Order),
+                                                                                           Status=FILTER(Pending Approval)));
+                                                   CaptionML=[ENU=SOs Pending Approval;
+                                                              ESP=Aprobaci¢n PV pendientes;
+                                                              DEA=VerkaufsauftrÑge mit ausstehender Genehmigung] }
+    { 6   ;   ;Approved Sales Orders;Integer      ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Sales Header" WHERE (Document Type=CONST(Order),
+                                                                                           Status=FILTER(Released|Pending Prepayment)));
+                                                   CaptionML=[ENU=Approved Sales Orders;
+                                                              ESP=Pedidos venta aprobados;
+                                                              DEA=Genehmigte VerkaufsauftrÑge] }
+    { 7   ;   ;Approved Purchase Orders;Integer   ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Order),
+                                                                                              Status=FILTER(Released|Pending Prepayment)));
+                                                   CaptionML=[ENU=Approved Purchase Orders;
+                                                              ESP=Pedidos compra aprobados;
+                                                              DEA=Genehmigte Bestellungen] }
+    { 8   ;   ;Vendors - Payment on Hold;Integer  ;FieldClass=FlowField;
+                                                   CalcFormula=Count(Vendor WHERE (Blocked=FILTER(Payment)));
+                                                   CaptionML=[ENU=Vendors - Payment on Hold;
+                                                              ESP=Proveedores - Pago suspendido;
+                                                              DEA=Kreditoren - Zahlung abwarten] }
+    { 9   ;   ;Purchase Return Orders;Integer     ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Return Order)));
+                                                   CaptionML=[ENU=Purchase Return Orders;
+                                                              ESP=Devoluciones compras;
+                                                              DEA=Einkaufsreklamationen] }
+    { 10  ;   ;Sales Return Orders - All;Integer  ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Sales Header" WHERE (Document Type=CONST(Return Order)));
+                                                   CaptionML=[ENU=Sales Return Orders - All;
+                                                              ESP=Devoluciones ventas - Todo;
+                                                              DEA=Verkaufsreklamationen - Alle] }
+    { 11  ;   ;Customers - Blocked ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count(Customer WHERE (Blocked=FILTER(<>' ')));
+                                                   CaptionML=[ENU=Customers - Blocked;
+                                                              ESP=Clientes - Bloqueados;
+                                                              DEA=Debitoren - Gesperrt] }
+    { 20  ;   ;Due Date Filter     ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Due Date Filter;
+                                                              ESP=Filtro fecha vto.;
+                                                              DEA=FÑlligkeitsdatumsfilter];
+                                                   Editable=No }
+    { 21  ;   ;Overdue Date Filter ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Overdue Date Filter;
+                                                              ESP=Filtro fechas vencidas;
+                                                              DEA=öberfÑlligkeits-Datumsfilter] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

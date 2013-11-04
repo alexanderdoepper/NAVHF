@@ -1,0 +1,73 @@
+OBJECT Report 5005364 Calc. Phys. Invt. Order Count.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Calc. Phys. Invt. Order Count.;
+               DEA=Inventurauftragsanzahl berech.];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  OKPressed := TRUE;
+                END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  CaptionML=[ENU=Calculate Qty. Expected;
+                             DEA=Erw. Menge berechnen];
+                  SourceExpr=CalcQtyExpected }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=Items Not on Inventory;
+                             DEA=Artikel nicht auf Lager];
+                  SourceExpr=ZeroQty }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      ZeroQty@1140000 : Boolean;
+      CalcQtyExpected@1140001 : Boolean;
+      OKPressed@1140002 : Boolean;
+
+    PROCEDURE GetRequest@1140000(VAR ZeroQty2@1140000 : Boolean;VAR CalcQtyExpected2@1140001 : Boolean) : Boolean;
+    BEGIN
+      ZeroQty2 := ZeroQty;
+      CalcQtyExpected2 := CalcQtyExpected;
+      EXIT(OKPressed);
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

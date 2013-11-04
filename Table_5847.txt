@@ -1,0 +1,174 @@
+OBJECT Table 5847 Average Cost Calc. Overview
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Average Cost Calc. Overview;
+               ESP=Inf. general c†lculo cte. medio;
+               DEA=Einst.-Pr. (durchschn.)-Ber., öbersicht];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Closing Entry,Increase,Applied Increase,Applied Decrease,Decrease,Revaluation;
+                                                                    ESP=Mov. reg.,Aumento,Aumento aplicado,Reducci¢n aplicada,Reducci¢n,Revalorizaci¢n;
+                                                                    DEA=Abschlussposten,Zugang,Ausgeglichener Zugang,Ausgeglichener Abgang,Abgang,Neubewertung];
+                                                   OptionString=Closing Entry,Increase,Applied Increase,Applied Decrease,Decrease,Revaluation }
+    { 3   ;   ;Valuation Date      ;Date          ;CaptionML=[ENU=Valuation Date;
+                                                              ESP=Fecha valoraci¢n;
+                                                              DEA=Bewertungsdatum] }
+    { 4   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 5   ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 6   ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 7   ;   ;Cost is Adjusted    ;Boolean       ;CaptionML=[ENU=Cost is Adjusted;
+                                                              ESP=Coste ajustado;
+                                                              DEA=Einstandspreis ist reguliert] }
+    { 11  ;   ;Attached to Entry No.;Integer      ;TableRelation="Item Ledger Entry";
+                                                   CaptionML=[ENU=Attached to Entry No.;
+                                                              ESP=Nß mov. adjunto;
+                                                              DEA=Gehîrt zu Postennr.] }
+    { 12  ;   ;Attached to Valuation Date;Date    ;CaptionML=[ENU=Attached to Valuation Date;
+                                                              ESP=Fecha valoraci¢n adjunto;
+                                                              DEA=Gehîrt zu Bewertungsdatum] }
+    { 13  ;   ;Level               ;Integer       ;CaptionML=[ENU=Level;
+                                                              ESP=Nivel;
+                                                              DEA=Ebene] }
+    { 21  ;   ;Item Ledger Entry No.;Integer      ;TableRelation="Item Ledger Entry";
+                                                   CaptionML=[ENU=Item Ledger Entry No.;
+                                                              ESP=Nß mov. producto;
+                                                              DEA=Artikelposten Lfd. Nr.] }
+    { 22  ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 23  ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESP=Tipo movimiento;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output;
+                                                                    ESP=Compra,Venta,Ajuste positivo,Ajuste negativo,Transferencia,Consumo,Salida desde fab., ,Consumo ensamblado,Salida ensamblado;
+                                                                    DEA=Einkauf,Verkauf,Zugang,Abgang,Umlagerung,Verbrauch,Istmeldung, ,Verbrauch fÅr Montage,Montage-Istmeldung];
+                                                   OptionString=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output }
+    { 24  ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=" ,Sales Shipment,Sales Invoice,Sales Return Receipt,Sales Credit Memo,Purchase Receipt,Purchase Invoice,Purchase Return Shipment,Purchase Credit Memo,Transfer Shipment,Transfer Receipt,Service Shipment,Service Invoice,Service Credit Memo";
+                                                                    ESP=" ,Albar†n venta,Factura venta,Recep. devol. ventas,Abono venta,Albar†n compra,Factura compra,Env°o devoluci¢n compra,Abono compra,Env°o transfer.,Recep. transfer.,Servicio regis.,Factura ventas,Abono ventas";
+                                                                    DEA=" ,Verkaufslieferung,Verkaufsrechnung,VerkaufsrÅcksendung,Verkaufsgutschrift,Einkaufslieferung,Einkaufsrechnung,RÅcklieferung,Einkaufsgutschrift,Umlagerungsausgang,Umlagerungseingang,Servicelieferung,Servicerechnung,Servicegutschrift"];
+                                                   OptionString=[ ,Sales Shipment,Sales Invoice,Sales Return Receipt,Sales Credit Memo,Purchase Receipt,Purchase Invoice,Purchase Return Shipment,Purchase Credit Memo,Transfer Shipment,Transfer Receipt,Service Shipment,Service Invoice,Service Credit Memo] }
+    { 25  ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 26  ;   ;Document Line No.   ;Integer       ;CaptionML=[ENU=Document Line No.;
+                                                              ESP=Nß l°n. documento;
+                                                              DEA=Belegzeilennr.] }
+    { 27  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 31  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 32  ;   ;Applied Quantity    ;Integer       ;CaptionML=[ENU=Applied Quantity;
+                                                              ESP=Cdad. liquidada;
+                                                              DEA=Ausgeglichene Menge] }
+    { 33  ;   ;Cost Amount (Expected);Decimal     ;CaptionML=[ENU=Cost Amount (Expected);
+                                                              ESP=Importe coste (Esperado);
+                                                              DEA=Einstandsbetrag (erwartet)] }
+    { 34  ;   ;Cost Amount (Actual);Decimal       ;CaptionML=[ENU=Cost Amount (Actual);
+                                                              ESP=Importe coste (Real);
+                                                              DEA=Einstandsbetrag (tatsÑchl.)] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Attached to Valuation Date,Attached to Entry No.,Type }
+    {    ;Item Ledger Entry No.                    }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      InvtSetup@1001 : Record 313;
+      ValueEntry@1003 : Record 5802;
+      InvtSetupRead@1002 : Boolean;
+
+    PROCEDURE CalculateAverageCost@5801() AverageCost : Decimal;
+    BEGIN
+      AverageCost := 0;
+      IF Type = Type::"Closing Entry" THEN BEGIN
+        SetItemFilters;
+        ValueEntry.SumCostsTillValuationDate(ValueEntry);
+        IF ValueEntry."Item Ledger Entry Quantity" = 0 THEN
+          EXIT(AverageCost);
+        AverageCost :=
+          (ValueEntry."Cost Amount (Actual)" + ValueEntry."Cost Amount (Expected)") /
+          ValueEntry."Item Ledger Entry Quantity";
+        EXIT(ROUND(AverageCost));
+      END;
+      IF Quantity = 0 THEN
+        EXIT(AverageCost);
+      AverageCost := ("Cost Amount (Actual)" + "Cost Amount (Expected)") / Quantity;
+      EXIT(ROUND(AverageCost));
+    END;
+
+    PROCEDURE CalculateRemainingQty@1() : Decimal;
+    BEGIN
+      IF Type <> Type::"Closing Entry" THEN
+        EXIT(0);
+      SetItemFilters;
+      ValueEntry.SumCostsTillValuationDate(ValueEntry);
+      EXIT(ValueEntry."Item Ledger Entry Quantity");
+    END;
+
+    PROCEDURE CalculateCostAmt@4(Actual@1000 : Boolean) : Decimal;
+    BEGIN
+      IF Type <> Type::"Closing Entry" THEN
+        EXIT(0);
+      SetItemFilters;
+      ValueEntry.SumCostsTillValuationDate(ValueEntry);
+      IF Actual THEN
+        EXIT(ValueEntry."Cost Amount (Actual)");
+      EXIT(ValueEntry."Cost Amount (Expected)");
+    END;
+
+    PROCEDURE SetItemFilters@8();
+    BEGIN
+      ValueEntry."Item No." := "Item No.";
+      ValueEntry."Valuation Date" := "Valuation Date";
+      ValueEntry."Location Code" := "Location Code";
+      ValueEntry."Variant Code" := "Variant Code";
+    END;
+
+    PROCEDURE GetInvtSetup@3();
+    BEGIN
+      IF InvtSetupRead THEN
+        EXIT;
+      InvtSetup.GET;
+      InvtSetupRead := TRUE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

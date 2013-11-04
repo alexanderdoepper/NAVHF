@@ -1,0 +1,107 @@
+OBJECT Page 9150 My Customers
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=My Customers;
+               ESP=Mis clientes;
+               DEA=Meine Debitoren];
+    SourceTable=Table9150;
+    PageType=ListPart;
+    OnOpenPage=BEGIN
+                 SETRANGE("User ID",USERID);
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       GetCustomer;
+                     END;
+
+    OnNewRecord=BEGIN
+                  CLEAR(Cust);
+                END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 2       ;1   ;Action    ;
+                      ShortCutKey=Return;
+                      CaptionML=[ENU=Open;
+                                 ESP=Abrir;
+                                 DEA=™ffnen];
+                      Image=Edit;
+                      OnAction=BEGIN
+                                 OpenCustomerCard;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Customer No.";
+                OnValidate=BEGIN
+                             GetCustomer;
+                           END;
+                            }
+
+    { 11  ;2   ;Field     ;
+                ExtendedDatatype=Phone No.;
+                CaptionML=[ENU=Phone No.;
+                           ESP=N§ tel‚fono;
+                           DEA=Telefonnr.];
+                SourceExpr=Cust."Phone No.";
+                Editable=FALSE }
+
+    { 9   ;2   ;Field     ;
+                CaptionML=[ENU=Name;
+                           ESP=Nombre;
+                           DEA=Name];
+                SourceExpr=Cust.Name;
+                Editable=FALSE }
+
+    { 13  ;2   ;Field     ;
+                Name=Balance;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo];
+                SourceExpr=Cust.Balance;
+                Visible=FALSE;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      Cust@1000 : Record 18;
+
+    PROCEDURE GetCustomer@1();
+    BEGIN
+      CLEAR(Cust);
+
+      IF Cust.GET("Customer No.") THEN
+        Cust.CALCFIELDS(Balance);
+    END;
+
+    PROCEDURE OpenCustomerCard@2();
+    BEGIN
+      IF Cust.GET("Customer No.") THEN
+        PAGE.RUN(PAGE::"Customer Card",Cust);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

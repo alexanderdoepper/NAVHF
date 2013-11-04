@@ -1,0 +1,46 @@
+OBJECT Table 11002 Data Export
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    OnDelete=VAR
+               GDPdURecordDef@1140000 : Record 11003;
+             BEGIN
+               GDPdURecordDef.SETRANGE("Data Export Code",Code);
+               GDPdURecordDef.DELETEALL(TRUE);
+             END;
+
+    CaptionML=[ENU=Data Export;
+               DEA=Datenexport];
+    LookupPageID=Page11002;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description                         }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

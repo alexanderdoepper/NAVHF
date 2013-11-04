@@ -1,0 +1,73 @@
+OBJECT Page 9067 Resource Manager Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9057;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETRANGE("Date Filter",WORKDATE,WORKDATE);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 4   ;1   ;Group     ;
+                CaptionML=[ENU=Allocation;
+                           ESP=Asignaci¢n;
+                           DEA=Verteilung];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 9       ;0   ;Action    ;
+                                  CaptionML=[ENU=Resource Capacity;
+                                             ESP=Capacidad recurso;
+                                             DEA=Ressourcenkapazit„t];
+                                  RunObject=Page 213;
+                                  Image=Capacity }
+                  { 10      ;0   ;Action    ;
+                                  CaptionML=[ENU=Resource Group Capacity;
+                                             ESP=Capacidad de grupo de recursos;
+                                             DEA=Ressourcengr.-Kapazit„t];
+                                  RunObject=Page 214 }
+                }
+                 }
+
+    { 1   ;2   ;Field     ;
+                SourceExpr="Available Resources";
+                DrillDownPageID=Resource List }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Jobs w/o Resource";
+                DrillDownPageID=Job List }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Unassigned Resource Groups";
+                DrillDownPageID=Resource Groups }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

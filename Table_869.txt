@@ -1,0 +1,140 @@
+OBJECT Table 869 Cash Flow Chart Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cash Flow Chart Setup;
+               ESP=Configuraci¢n gr fico flujos efectivo;
+               DEA=Cashflowdiagrammeinrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;User ID             ;Text132       ;CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 2   ;   ;Period Length       ;Option        ;CaptionML=[ENU=Period Length;
+                                                              ESP=Longitud periodo;
+                                                              DEA=Periodenl„nge];
+                                                   OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year;
+                                                                    ESP=D¡a,Semana,Mes,Trimestre,A¤o;
+                                                                    DEA=Tag,Woche,Monat,Quartal,Jahr];
+                                                   OptionString=Day,Week,Month,Quarter,Year }
+    { 3   ;   ;Show                ;Option        ;CaptionML=[ENU=Show;
+                                                              ESP=Mostrar;
+                                                              DEA=Anzeigen];
+                                                   OptionCaptionML=[ENU=Accumulated Cash,Change in Cash,Combined;
+                                                                    ESP=Efectivo acumulado,Cambio en efectivo,Combinado;
+                                                                    DEA=Bargeld (kumuliert),Bargeld (Ver„nderung),Beides];
+                                                   OptionString=Accumulated Cash,Change in Cash,Combined }
+    { 4   ;   ;Start Date          ;Option        ;CaptionML=[ENU=Start Date;
+                                                              ESP=Fecha inicio;
+                                                              DEA=Startdatum];
+                                                   OptionCaptionML=[ENU=First Entry Date,Working Date;
+                                                                    ESP=Fecha primer mov.,Fecha trabajo;
+                                                                    DEA=Erstes Postendatum,Arbeitsdatum];
+                                                   OptionString=First Entry Date,Working Date }
+    { 5   ;   ;Group By            ;Option        ;CaptionML=[ENU=Group By;
+                                                              ESP=Agrupar por;
+                                                              DEA=Gruppieren nach];
+                                                   OptionCaptionML=[ENU=Positive/Negative,Account No.,Source Type;
+                                                                    ESP=Positivo/Negativo,N§ cuenta,Tipo origen;
+                                                                    DEA=Positiv/Negativ,Kontonr.,Herkunftsart];
+                                                   OptionString=Positive/Negative,Account No.,Source Type }
+    { 6   ;   ;Chart Type          ;Option        ;CaptionML=[ENU=Chart Type;
+                                                              ESP=Tipo de gr fico;
+                                                              DEA=Diagrammart];
+                                                   OptionCaptionML=[ENU=Step Line,Stacked Area (%),Stacked Column,Stacked Column (%);
+                                                                    ESP=L¡nea escalonada,µrea apilada (%),Columna apilada,Columna apilada (%);
+                                                                    DEA=Schrittlinie,Gestapelte Fl„che (%),Gestapelte S„ule,Gestapelte S„ule (%)];
+                                                   OptionString=Step Line,Stacked Area (%),Stacked Column,Stacked Column (%) }
+  }
+  KEYS
+  {
+    {    ;User ID                                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst '@@@=<"Cash Flow Forecast No."> | <Show> | <"Start Date"> | <"Period Length"> | <"Group By">.  (Updated: <Time>);ENU=%1 | %2 | %3 | %4 | %5.  (Updated:%6);ESP=%1 | %2 | %3 | %4 | %5.  (Actualizado:%6);DEA=%1 | %2 | %3 | %4 | %5.  (Aktualisiert: %6)';
+      CFSetup@1001 : Record 843;
+
+    PROCEDURE GetCurrentSelectionText@3() : Text;
+    BEGIN
+      CFSetup.GET;
+      EXIT(STRSUBSTNO(Text001,CFSetup."CF No. on Chart in Role Center",Show,"Start Date","Period Length","Group By",TIME));
+    END;
+
+    PROCEDURE GetStartDate@2() : Date;
+    VAR
+      CashFlowForecast@1001 : Record 840;
+      Which@1002 : 'First,Last';
+      StartDate@1000 : Date;
+    BEGIN
+      CASE "Start Date" OF
+        "Start Date"::"Working Date":
+          StartDate := WORKDATE;
+        "Start Date"::"First Entry Date":
+          BEGIN
+            CFSetup.GET;
+            CashFlowForecast.GET(CFSetup."CF No. on Chart in Role Center");
+            StartDate := CashFlowForecast.GetEntryDate(Which::First);
+          END;
+      END;
+      EXIT(StartDate);
+    END;
+
+    PROCEDURE GetChartType@1() : Integer;
+    VAR
+      BusinessChartBuf@1000 : Record 485;
+    BEGIN
+      CASE "Chart Type" OF
+        "Chart Type"::"Step Line":
+          EXIT(BusinessChartBuf."Chart Type"::StepLine);
+        "Chart Type"::"Stacked Column":
+          EXIT(BusinessChartBuf."Chart Type"::StackedColumn);
+      END;
+    END;
+
+    PROCEDURE SetGroupBy@12(GroupBy@1000 : Option);
+    BEGIN
+      "Group By" := GroupBy;
+      MODIFY;
+    END;
+
+    PROCEDURE SetShow@8(NewShow@1000 : Option);
+    BEGIN
+      Show := NewShow;
+      MODIFY;
+    END;
+
+    PROCEDURE SetStartDate@6(StartDate@1000 : Option);
+    BEGIN
+      "Start Date" := StartDate;
+      MODIFY;
+    END;
+
+    PROCEDURE SetPeriodLength@7(PeriodLength@1000 : Option);
+    BEGIN
+      "Period Length" := PeriodLength;
+      MODIFY;
+    END;
+
+    PROCEDURE SetChartType@9(ChartType@1000 : Integer);
+    BEGIN
+      "Chart Type" := ChartType;
+      MODIFY;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

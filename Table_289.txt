@@ -1,0 +1,86 @@
+OBJECT Table 289 Payment Method
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    CaptionML=[ENU=Payment Method;
+               ESP=Forma pago;
+               DEA=Zahlungsform];
+    LookupPageID=Page427;
+    DrillDownPageID=Page427;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Bal. Account Type   ;Option        ;OnValidate=BEGIN
+                                                                "Bal. Account No." := '';
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Account Type;
+                                                              ESP=Tipo contrapartida;
+                                                              DEA=Gegenkontoart];
+                                                   OptionCaptionML=[ENU=G/L Account,Bank Account;
+                                                                    ESP=Cuenta,Banco;
+                                                                    DEA=Sachkonto,Bankkonto];
+                                                   OptionString=G/L Account,Bank Account }
+    { 4   ;   ;Bal. Account No.    ;Code20        ;TableRelation=IF (Bal. Account Type=CONST(G/L Account)) "G/L Account"
+                                                                 ELSE IF (Bal. Account Type=CONST(Bank Account)) "Bank Account";
+                                                   OnValidate=BEGIN
+                                                                IF "Bal. Account Type" = "Bal. Account Type"::"G/L Account" THEN
+                                                                  CheckGLAcc("Bal. Account No.");
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Account No.;
+                                                              ESP=Cta. contrapartida;
+                                                              DEA=Gegenkontonr.] }
+    { 5   ;   ;Payment Processor   ;Option        ;OnValidate=BEGIN
+                                                                IF "Payment Processor" = "Payment Processor"::"Dynamics Online" THEN
+                                                                  TESTFIELD("Bal. Account Type","Bal. Account Type"::"Bank Account");
+                                                              END;
+
+                                                   CaptionML=[ENU=Payment Processor;
+                                                              ESP=Procesador de pagos;
+                                                              DEA=Zahlungsverarbeitung];
+                                                   OptionCaptionML=[ENU=" ,Dynamics Online";
+                                                                    ESP=" ,Dynamics Online";
+                                                                    DEA=" ,Dynamics Online"];
+                                                   OptionString=[ ,Dynamics Online] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE CheckGLAcc@2(AccNo@1000 : Code[20]);
+    VAR
+      GLAcc@1001 : Record 15;
+    BEGIN
+      IF AccNo <> '' THEN BEGIN
+        GLAcc.GET(AccNo);
+        GLAcc.CheckGLAcc;
+        GLAcc.TESTFIELD("Direct Posting",TRUE);
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

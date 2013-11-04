@@ -1,0 +1,92 @@
+OBJECT Page 26100 Report Selection - Intrastat
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Report Selection - Intrastat;
+               DEA=Berichtsauswahl - Intrastat];
+    SaveValues=Yes;
+    SourceTable=Table26100;
+    PageType=Worksheet;
+    OnOpenPage=BEGIN
+                 SetUsageFilter;
+               END;
+
+    OnNewRecord=BEGIN
+                  NewRecord;
+                END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 13  ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 11  ;2   ;Field     ;
+                CaptionML=[ENU=Usage;
+                           DEA=Verwendung];
+                OptionCaptionML=[ENU=Checklist Report,Form,Make Disk Tax Auth.,Disklabel;
+                                 DEA=Ckecklistenbericht,Formular,Diskette erstellen,Diskettenetikett];
+                SourceExpr=ReportUsage2;
+                OnValidate=BEGIN
+                             SetUsageFilter;
+                             ReportUsage2OnAfterValidate;
+                           END;
+                            }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr=Sequence }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Report ID";
+                LookupPageID=Objects }
+
+    { 4   ;2   ;Field     ;
+                DrillDown=No;
+                SourceExpr="Report Name";
+                LookupPageID=Objects }
+
+  }
+  CODE
+  {
+    VAR
+      ReportUsage2@1000 : 'Checklist,Form,Disk,Disklabel';
+
+    LOCAL PROCEDURE SetUsageFilter@1();
+    BEGIN
+      FILTERGROUP(2);
+      CASE ReportUsage2 OF
+        ReportUsage2::Checklist:
+          SETRANGE(Usage,Usage::"Intrastat Checklist");
+        ReportUsage2::Form:
+          SETRANGE(Usage,Usage::"Intrastat Form");
+        ReportUsage2::Disk:
+          SETRANGE(Usage,Usage::"Intrastat Disk");
+        ReportUsage2::Disklabel:
+          SETRANGE(Usage,Usage::"Intrastat Disklabel");
+      END;
+      FILTERGROUP(0);
+    END;
+
+    LOCAL PROCEDURE ReportUsage2OnAfterValidate@19038799();
+    BEGIN
+      CurrPage.UPDATE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

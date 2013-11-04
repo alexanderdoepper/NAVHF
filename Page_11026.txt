@@ -1,0 +1,75 @@
+OBJECT Page 11026 Data Export Table Keys
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Data Export Table Keys;
+               DEA=TabellenschlÅssel fÅr Datenexport];
+    SourceTable=Table2000000063;
+    DataCaptionFields=TableNo;
+    PageType=List;
+    RefreshOnActivate=Yes;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1101100000;1;Group  ;
+                GroupType=Repeater }
+
+    { 1101100001;2;Field  ;
+                CaptionML=[ENU=No.;
+                           DEA=Nr.];
+                SourceExpr="No." }
+
+    { 1101100003;2;Field  ;
+                CaptionML=[ENU=Key;
+                           DEA=SchlÅssel];
+                SourceExpr=Key }
+
+    { 1101100005;2;Field  ;
+                CaptionML=[ENU=SumIndexFields;
+                           DEA=Summenfelder];
+                SourceExpr=SumIndexFields }
+
+    { 1101100007;2;Field  ;
+                CaptionML=[ENU=SQLIndex;
+                           DEA=SQLIndex];
+                SourceExpr=SQLIndex }
+
+    { 1101100009;2;Field  ;
+                CaptionML=[ENU=Enabled;
+                           DEA=Aktiviert];
+                SourceExpr=Enabled }
+
+    { 1101100011;2;Field  ;
+                CaptionML=[ENU=MaintainSQLIndex;
+                           DEA=MaintainSQLIndex];
+                SourceExpr=MaintainSQLIndex }
+
+    { 1101100013;2;Field  ;
+                CaptionML=[ENU=MaintainSIFTIndex;
+                           DEA=MaintainSIFTIndex];
+                SourceExpr=MaintainSIFTIndex }
+
+    { 1101100015;2;Field  ;
+                CaptionML=[ENU=Clustered;
+                           DEA=Gruppiert];
+                SourceExpr=Clustered }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

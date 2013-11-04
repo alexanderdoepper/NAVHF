@@ -1,0 +1,106 @@
+OBJECT Table 99000799 Order Tracking Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Order Tracking Entry;
+               ESP=Mov. seg. pedido;
+               DEA=Bedarfsverursacherposten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Supplied by         ;Text80        ;CaptionML=[ENU=Supplied by;
+                                                              ESP=Suministrado por;
+                                                              DEA=Beliefert von] }
+    { 3   ;   ;Demanded by         ;Text80        ;CaptionML=[ENU=Demanded by;
+                                                              ESP=Pedido por;
+                                                              DEA=Angefordert von] }
+    { 8   ;   ;Shipment Date       ;Date          ;CaptionML=[ENU=Shipment Date;
+                                                              ESP=Fecha env°o;
+                                                              DEA=Warenausg.-Datum] }
+    { 9   ;   ;Expected Receipt Date;Date         ;CaptionML=[ENU=Expected Receipt Date;
+                                                              ESP=Fecha recepci¢n esperada;
+                                                              DEA=Erwartetes Wareneingangsdatum] }
+    { 11  ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 13  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 14  ;   ;Level               ;Integer       ;CaptionML=[ENU=Level;
+                                                              ESP=Nivel;
+                                                              DEA=Ebene] }
+    { 20  ;   ;For Type            ;Integer       ;CaptionML=[ENU=For Type;
+                                                              ESP=Para tipo;
+                                                              DEA=FÅr Art] }
+    { 21  ;   ;For Subtype         ;Integer       ;CaptionML=[ENU=For Subtype;
+                                                              ESP=Para subtipo;
+                                                              DEA=FÅr Unterart] }
+    { 22  ;   ;For ID              ;Code20        ;CaptionML=[ENU=For ID;
+                                                              ESP=Para ID;
+                                                              DEA=FÅr ID] }
+    { 23  ;   ;For Batch Name      ;Code10        ;CaptionML=[ENU=For Batch Name;
+                                                              ESP=Para secci¢n;
+                                                              DEA=FÅr Buch.-Blattname] }
+    { 24  ;   ;For Prod. Order Line;Integer       ;CaptionML=[ENU=For Prod. Order Line;
+                                                              ESP=Para l°n. orden producc.;
+                                                              DEA=FÅr FA-Zeile] }
+    { 25  ;   ;For Ref. No.        ;Integer       ;CaptionML=[ENU=For Ref. No.;
+                                                              ESP=Para nß ref.;
+                                                              DEA=FÅr Ref.-Nr.] }
+    { 26  ;   ;From Type           ;Integer       ;CaptionML=[ENU=From Type;
+                                                              ESP=Desde tipo;
+                                                              DEA=Von Art] }
+    { 27  ;   ;From Subtype        ;Integer       ;CaptionML=[ENU=From Subtype;
+                                                              ESP=Desde subtipo;
+                                                              DEA=Von Unterart] }
+    { 28  ;   ;From ID             ;Code20        ;CaptionML=[ENU=From ID;
+                                                              ESP=Desde ID;
+                                                              DEA=Von ID] }
+    { 29  ;   ;From Batch Name     ;Code10        ;CaptionML=[ENU=From Batch Name;
+                                                              ESP=Desde nombre secci¢n;
+                                                              DEA=Von Buch.-Blattname] }
+    { 30  ;   ;From Prod. Order Line;Integer      ;CaptionML=[ENU=From Prod. Order Line;
+                                                              ESP=Desde l°n. orden producc.;
+                                                              DEA=Von FA-Zeile] }
+    { 31  ;   ;From Ref. No.       ;Integer       ;CaptionML=[ENU=From Ref. No.;
+                                                              ESP=Desde nß ref.;
+                                                              DEA=Von Ref.-Nr.] }
+    { 40  ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum] }
+    { 41  ;   ;Ending Date         ;Date          ;CaptionML=[ENU=Ending Date;
+                                                              ESP=Fecha final;
+                                                              DEA=Enddatum] }
+    { 42  ;   ;Name                ;Text80        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 43  ;   ;Warning             ;Boolean       ;CaptionML=[ENU=Warning;
+                                                              ESP=Advertencia;
+                                                              DEA=Warnung] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

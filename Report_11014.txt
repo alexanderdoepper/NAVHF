@@ -1,0 +1,386 @@
+OBJECT Report 11014 Intrastat - Disk Tax Auth DE
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Intrastat - Disk Tax Auth DE;
+               DEA=Intrastat - Diskette DE];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IntrastatJnlLine4.COPYFILTERS("Intrastat Jnl. Line");
+                  CompanyInfo.GET;
+                  CompanyInfo.TESTFIELD("Registration No.");
+                  CompanyInfo.TESTFIELD("Sales Authorized No.");
+                  CompanyInfo.TESTFIELD("Purch. Authorized No.");
+                  IF Path = '' THEN
+                    Path := Text1140002
+                  ELSE
+                    IF COPYSTR(Path,STRLEN(Path),1) <> '\' THEN
+                      Path := Path + '\';
+                  VATIDNo := COPYSTR(DELCHR(UPPERCASE(CompanyInfo."Registration No."),'=',Text001),1,11);
+                END;
+
+  }
+  DATASET
+  {
+    { 2880;    ;DataItem;                    ;
+               DataItemTable=Table262;
+               DataItemTableView=SORTING(Journal Template Name,Name);
+               OnPreDataItem=BEGIN
+                               IntrastatJnlLine4.COPYFILTER("Journal Template Name","Journal Template Name");
+                               IntrastatJnlLine4.COPYFILTER("Journal Batch Name",Name);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  TESTFIELD(Reported,FALSE);
+                                  TESTFIELD("Currency Identifier");
+                                  IntraReferenceNo := "Statistics Period" + '000000';
+                                END;
+
+               ReqFilterFields=Journal Template Name,Name }
+
+    { 9905;1   ;DataItem;                    ;
+               DataItemTable=Table263;
+               DataItemTableView=SORTING(Journal Template Name,Journal Batch Name,Type,Country/Region Code,Tariff No.,Transaction Type,Transport Method,Area,Transaction Specification,Country/Region of Origin Code);
+               OnPreDataItem=BEGIN
+                               "Intrastat Jnl. Line".RESET;
+                               "Intrastat Jnl. Line".SETCURRENTKEY("Journal Template Name","Journal Batch Name",Type,"Country/Region Code","Tariff No.",
+                                 "Transaction Type","Transport Method",Area,"Transaction Specification",
+                                 "Country/Region of Origin Code");
+                               "Intrastat Jnl. Line".COPYFILTERS(IntrastatJnlLine4);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF ("Tariff No." = '') AND
+                                     ("Country/Region Code" = '') AND
+                                     ("Transaction Type" = '') AND
+                                     ("Transport Method" = '') AND
+                                     (Area = '') AND
+                                     ("Transaction Specification" = '') AND
+                                     ("Total Weight" = 0)
+                                  THEN
+                                    CurrReport.SKIP;
+
+                                  TESTFIELD("Tariff No.");
+                                  TESTFIELD("Country/Region Code");
+                                  TESTFIELD("Transaction Type");
+                                  IF CompanyInfo."Check Transport Method" THEN
+                                    TESTFIELD("Transport Method");
+                                  TESTFIELD(Area);
+                                  IF CompanyInfo."Check Transaction Specific." THEN
+                                    TESTFIELD("Transaction Specification");
+                                  IF Type = Type::Receipt THEN
+                                    TESTFIELD("Country/Region of Origin Code");
+                                  IF "Supplementary Units" THEN
+                                    TESTFIELD(Quantity);
+                                  CompoundField :=
+                                    FORMAT("Country/Region Code",10) + FORMAT(DELCHR("Tariff No."),10) +
+                                    FORMAT("Transaction Type",10) + FORMAT("Transport Method",10) +
+                                    FORMAT(Area,10) + FORMAT("Transaction Specification",10) + FORMAT("Country/Region of Origin Code",10);
+
+                                  IF (TempType <> Type) OR (STRLEN(TempCompoundField) = 0) THEN BEGIN
+                                    TempType := Type;
+                                    TempCompoundField := CompoundField;
+                                    IntraReferenceNo := COPYSTR(IntraReferenceNo,1,4) + '000001';
+                                  END ELSE
+                                    IF TempCompoundField <> CompoundField THEN BEGIN
+                                      TempCompoundField := CompoundField;
+                                      IF COPYSTR(IntraReferenceNo,8,3) = '999' THEN
+                                        IntraReferenceNo := INCSTR(COPYSTR(IntraReferenceNo,1,7)) + '001'
+                                      ELSE
+                                        IntraReferenceNo := INCSTR(IntraReferenceNo);
+                                    END;
+
+                                  "Internal Ref. No." := IntraReferenceNo;
+                                  MODIFY;
+                                END;
+
+               DataItemLink=Journal Template Name=FIELD(Journal Template Name),
+                            Journal Batch Name=FIELD(Name) }
+
+    { 2177;1   ;DataItem;IntrastatJnlLine2   ;
+               DataItemTable=Table263;
+               DataItemTableView=SORTING(Journal Template Name,Journal Batch Name,Type,Internal Ref. No.)
+                                 WHERE(Type=CONST(Receipt));
+               OnPreDataItem=BEGIN
+                               FilenameForReceipts := Path + CompanyInfo."Purch. Authorized No." + Text1140003;
+                               ToFile := FilenameForReceipts;
+                               FilenameForReceipts := RBMgt.ServerTempFileName('');
+                               IntraFile.TEXTMODE := TRUE;
+                               IntraFile.WRITEMODE := TRUE;
+                               IntraFile.CREATE(FilenameForReceipts);
+                               IntrastatJnlLine6.INIT;
+                               MakeGroup := FALSE;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF ("Tariff No." = '') AND
+                                     ("Country/Region Code" = '') AND
+                                     ("Transaction Type" = '') AND
+                                     ("Transport Method" = '') AND
+                                     (Area = '') AND
+                                     ("Transaction Specification" = '') AND
+                                     ("Total Weight" = 0)
+                                  THEN
+                                    CurrReport.SKIP;
+                                  MakeGroup := TRUE;
+
+                                  IF (IntrastatJnlLine6."Internal Ref. No." <> '') AND
+                                     (IntrastatJnlLine6."Internal Ref. No." <> "Internal Ref. No.")
+                                  THEN BEGIN
+                                    WriteReceiptFile;
+                                    IntrastatJnlLine6.INIT;
+                                  END;
+                                  IntrastatJnlLine6."Internal Ref. No." := "Internal Ref. No.";
+                                  IntrastatJnlLine6.Date := Date;
+                                  IntrastatJnlLine6."Tariff No." := "Tariff No.";
+                                  IntrastatJnlLine6."Country/Region Code" := "Country/Region Code";
+                                  IntrastatJnlLine6."Transaction Type" := "Transaction Type";
+                                  IntrastatJnlLine6."Transport Method" := "Transport Method";
+                                  IntrastatJnlLine6.Amount := IntrastatJnlLine6.Amount + Amount;
+                                  IntrastatJnlLine6.Quantity := IntrastatJnlLine6.Quantity + Quantity;
+                                  IntrastatJnlLine6."Statistical Value" := IntrastatJnlLine6."Statistical Value" + "Statistical Value";
+                                  IntrastatJnlLine6."Total Weight" := IntrastatJnlLine6."Total Weight" + "Total Weight";
+                                  IntrastatJnlLine6."Country/Region of Origin Code" := "Country/Region of Origin Code";
+                                  IntrastatJnlLine6.Area := Area;
+                                  IntrastatJnlLine6."Transaction Specification" := "Transaction Specification";
+                                END;
+
+               OnPostDataItem=BEGIN
+                                IF IntrastatJnlLine6."Internal Ref. No." <> '' THEN
+                                  WriteReceiptFile;
+
+                                EndOfFile := 26;
+                                IntraFile.WRITE(
+                                  FORMAT(EndOfFile,1));
+
+                                IntraFile.CLOSE;
+                                IntraFile.OPEN(FilenameForReceipts);
+                                IntraFile.SEEK(IntraFile.LEN - 2);
+                                IntraFile.TRUNC;
+                                IntraFile.CLOSE;
+                                DOWNLOAD(FilenameForReceipts,'',Path,'',ToFile);
+                              END;
+
+               DataItemLink=Journal Template Name=FIELD(Journal Template Name),
+                            Journal Batch Name=FIELD(Name) }
+
+    { 9895;1   ;DataItem;IntrastatJnlLine5   ;
+               DataItemTable=Table263;
+               DataItemTableView=SORTING(Journal Template Name,Journal Batch Name,Type,Internal Ref. No.)
+                                 WHERE(Type=CONST(Shipment));
+               OnPreDataItem=BEGIN
+                               FilenameForShipments := Path + CompanyInfo."Sales Authorized No." + Text1140003;
+                               ToFile := FilenameForShipments;
+                               FilenameForShipments := RBMgt.ServerTempFileName('');
+                               IntraFile.TEXTMODE := TRUE;
+                               IntraFile.WRITEMODE := TRUE;
+                               IntraFile.CREATE(FilenameForShipments);
+                               IntrastatJnlLine6.INIT;
+                               MakeGroup := FALSE;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF ("Tariff No." = '') AND
+                                     ("Country/Region Code" = '') AND
+                                     ("Transaction Type" = '') AND
+                                     ("Transport Method" = '') AND
+                                     (Area = '') AND
+                                     ("Transaction Specification" = '') AND
+                                     ("Total Weight" = 0)
+                                  THEN
+                                    CurrReport.SKIP;
+                                  MakeGroup := TRUE;
+
+                                  IF (IntrastatJnlLine6."Internal Ref. No." <> '') AND
+                                     (IntrastatJnlLine6."Internal Ref. No." <> "Internal Ref. No.")
+                                  THEN BEGIN
+                                    WriteShipmentFile;
+                                    IntrastatJnlLine6.INIT;
+                                  END;
+                                  IntrastatJnlLine6."Internal Ref. No." := "Internal Ref. No.";
+                                  IntrastatJnlLine6.Date := Date;
+                                  IntrastatJnlLine6."Tariff No." := "Tariff No.";
+                                  IntrastatJnlLine6."Country/Region Code" := "Country/Region Code";
+                                  IntrastatJnlLine6."Transaction Type" := "Transaction Type";
+                                  IntrastatJnlLine6."Transport Method" := "Transport Method";
+                                  IntrastatJnlLine6.Amount := IntrastatJnlLine6.Amount + Amount;
+                                  IntrastatJnlLine6.Quantity := IntrastatJnlLine6.Quantity + Quantity;
+                                  IntrastatJnlLine6."Statistical Value" := IntrastatJnlLine6."Statistical Value" + "Statistical Value";
+                                  IntrastatJnlLine6."Total Weight" := IntrastatJnlLine6."Total Weight" + "Total Weight";
+                                  IntrastatJnlLine6."Country/Region of Origin Code" := "Country/Region of Origin Code";
+                                  IntrastatJnlLine6.Area := Area;
+                                  IntrastatJnlLine6."Transaction Specification" := "Transaction Specification";
+                                END;
+
+               OnPostDataItem=BEGIN
+                                IF IntrastatJnlLine6."Internal Ref. No." <> '' THEN
+                                  WriteShipmentFile;
+
+                                IntraFile.WRITE(
+                                  FORMAT(EndOfFile,1));
+                                IntraFile.CLOSE;
+                                IntraFile.OPEN(FilenameForShipments);
+                                IntraFile.SEEK(IntraFile.LEN - 2);
+                                IntraFile.TRUNC;
+                                IntraFile.CLOSE;
+                                DOWNLOAD(FilenameForShipments,'',Path,'',ToFile);
+
+                                "Intrastat Jnl. Batch".Reported := TRUE;
+                                "Intrastat Jnl. Batch".MODIFY;
+                              END;
+
+               DataItemLink=Journal Template Name=FIELD(Journal Template Name),
+                            Journal Batch Name=FIELD(Name) }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   IF Path = '' THEN
+                     Path := Text1140002;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=Path;
+                             DEA=Pfad];
+                  SourceExpr=Path }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1001 : TextConst 'ENU=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+;DEA=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+';
+      Text003@1003 : TextConst 'ENU=It is not possible to display %1 in a field with a length of %2.;DEA=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.';
+      Text1140002@1140002 : TextConst 'ENU=A:\;DEA=A:\';
+      Text1140003@1140003 : TextConst 'ENU=.ASC;DEA=.ASC';
+      Text1140006@1140006 : TextConst 'ENU=It is not possible to display %1 in a field with a length of %2.;DEA=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.';
+      IntrastatJnlLine4@1005 : Record 263;
+      CompanyInfo@1006 : Record 79;
+      Country@1007 : Record 9;
+      IntraFile@1008 : File;
+      IntraReferenceNo@1010 : Text[10];
+      CompoundField@1011 : Text[70];
+      TempCompoundField@1012 : Text[70];
+      Path@1140012 : Text[250];
+      FilenameForShipments@1140019 : Text[1024];
+      FilenameForReceipts@1140020 : Text[1024];
+      TempType@1013 : Integer;
+      VATIDNo@1140007 : Code[11];
+      OriginCountry@1140008 : Record 9;
+      EndOfFile@1140009 : Char;
+      MakeGroup@1140010 : Boolean;
+      QuantityText@1140011 : Text[30];
+      IntrastatJnlLine6@1140021 : Record 263;
+      RBMgt@1140022 : Codeunit 419;
+      ToFile@1140023 : Text[1024];
+
+    LOCAL PROCEDURE DecimalNumeralZeroFormat@1(DecimalNumeral@1000 : Decimal;Length@1001 : Integer) : Text[250];
+    BEGIN
+      EXIT(TextZeroFormat(DELCHR(FORMAT(ROUND(ABS(DecimalNumeral),1,'<'),0,1)),Length));
+    END;
+
+    LOCAL PROCEDURE TextZeroFormat@2(Text@1000 : Text[250];Length@1001 : Integer) : Text[250];
+    BEGIN
+      IF STRLEN(Text) > Length THEN
+        ERROR(
+          Text003,
+          Text,Length);
+      EXIT(PADSTR('',Length - STRLEN(Text),'0') + Text);
+    END;
+
+    PROCEDURE TextFormatRight@1140000(Text@1140000 : Text[250];Length@1140001 : Integer) : Text[250];
+    BEGIN
+      IF STRLEN(Text) > Length THEN
+        ERROR(
+          Text1140006,
+          Text,Length);
+      EXIT(PADSTR('',Length - STRLEN(Text),' ') + Text);
+    END;
+
+    PROCEDURE WriteReceiptFile@1140001();
+    BEGIN
+      Country.GET(IntrastatJnlLine6."Country/Region Code");
+      Country.TESTFIELD("Intrastat Code");
+      OriginCountry.GET(IntrastatJnlLine6."Country/Region of Origin Code");
+      OriginCountry.TESTFIELD("Intrastat Code");
+
+      IF IntrastatJnlLine6.Quantity <> 0 THEN
+        QuantityText := FORMAT(ROUND(IntrastatJnlLine6.Quantity,1),11,2)
+      ELSE
+        QuantityText := '';
+
+      IntraFile.WRITE(
+        FORMAT(
+          '11' + COPYSTR(IntrastatJnlLine6."Internal Ref. No.",3,2) + '00' +
+          COPYSTR(IntrastatJnlLine6."Internal Ref. No.",5,6) + '  ' +
+          FORMAT(CompanyInfo.Area,2) + PADSTR(VATIDNo,11,'0') +
+          FORMAT(CompanyInfo."Agency No.",3) + ' ' +
+          TextFormatRight(Country."Intrastat Code",3) + FORMAT(IntrastatJnlLine6.Area,2) +
+          '  ' + FORMAT(IntrastatJnlLine6."Transaction Type",2) +
+          FORMAT(IntrastatJnlLine6."Transport Method",1) + '             ' +
+          FORMAT(DELCHR(IntrastatJnlLine6."Tariff No."),8) + TextFormatRight(OriginCountry."Intrastat Code",3) +
+          PADSTR(IntrastatJnlLine6."Transaction Specification",5) + FORMAT(ROUND(IntrastatJnlLine6."Total Weight",1),11,2) +
+          TextFormatRight(QuantityText,11) + '  ' + FORMAT(IntrastatJnlLine6.Amount,11,2) +
+          FORMAT(IntrastatJnlLine6."Statistical Value",11,2) + DecimalNumeralZeroFormat(DATE2DMY(IntrastatJnlLine6.Date,2),2) +
+          COPYSTR(FORMAT(DATE2DMY(IntrastatJnlLine6.Date,3),4),3,2) +
+          FORMAT("Intrastat Jnl. Batch"."Currency Identifier",1),128));
+    END;
+
+    PROCEDURE WriteShipmentFile@1140002();
+    BEGIN
+      Country.GET(IntrastatJnlLine6."Country/Region Code");
+      Country.TESTFIELD("Intrastat Code");
+      IF IntrastatJnlLine6.Quantity <> 0 THEN
+        QuantityText := FORMAT(ROUND(IntrastatJnlLine6.Quantity,1),11,2)
+      ELSE
+        QuantityText := '';
+
+      IntraFile.WRITE(
+        FORMAT(
+          '22' + ' ' +
+          COPYSTR(IntrastatJnlLine6."Internal Ref. No.",3,2) + '00' +
+          COPYSTR(IntrastatJnlLine6."Internal Ref. No.",5,6) + '  ' +
+          FORMAT(CompanyInfo.Area,2) + PADSTR(VATIDNo,11,'0') +
+          FORMAT(CompanyInfo."Agency No.",3) +
+          TextFormatRight(Country."Intrastat Code",3) + FORMAT(IntrastatJnlLine6.Area,2) +
+          FORMAT(IntrastatJnlLine6."Transaction Type",2) +
+          FORMAT(IntrastatJnlLine6."Transport Method",1) + '             ' +
+          FORMAT(DELCHR(IntrastatJnlLine6."Tariff No."),8) + '     ' +
+          PADSTR(IntrastatJnlLine6."Transaction Specification",5) + FORMAT(ROUND(IntrastatJnlLine6."Total Weight",1),11,2) +
+          TextFormatRight(QuantityText,11) + '  ' + FORMAT(IntrastatJnlLine6.Amount,11,2) +
+          FORMAT(IntrastatJnlLine6."Statistical Value",11,2) + '  ' + DecimalNumeralZeroFormat(DATE2DMY(IntrastatJnlLine6.Date,2),2) +
+          COPYSTR(FORMAT(DATE2DMY(IntrastatJnlLine6.Date,3),4),3,2) +
+          FORMAT("Intrastat Jnl. Batch"."Currency Identifier",1),128));
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

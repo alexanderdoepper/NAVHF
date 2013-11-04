@@ -1,0 +1,126 @@
+OBJECT Table 9186 Generic Chart Memo Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Generic Chart Memo Buffer;
+               ESP=B£fer de documentos de gr fico gen‚rico;
+               DEA=Allgemeines Diagramm - Gutschriftspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Language Code       ;Code10        ;TableRelation=Language.Code;
+                                                   CaptionML=[ENU=Language Code;
+                                                              ESP=C¢d. idioma;
+                                                              DEA=Sprachcode];
+                                                   NotBlank=Yes }
+    { 4   ;   ;Language Name       ;Text50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Language.Name WHERE (Code=FIELD(Language Code)));
+                                                   CaptionML=[ENU=Language Name;
+                                                              ESP=Nombre idioma;
+                                                              DEA=Sprachenname] }
+    { 11  ;   ;Memo1               ;Text250       ;CaptionML=[ENU=Memo1;
+                                                              ESP=Doc1;
+                                                              DEA=Memo1] }
+    { 12  ;   ;Memo2               ;Text250       ;CaptionML=[ENU=Memo2;
+                                                              ESP=Doc2;
+                                                              DEA=Memo2] }
+    { 13  ;   ;Memo3               ;Text250       ;CaptionML=[ENU=Memo3;
+                                                              ESP=Doc3;
+                                                              DEA=Memo3] }
+    { 14  ;   ;Memo4               ;Text250       ;CaptionML=[ENU=Memo4;
+                                                              ESP=Doc4;
+                                                              DEA=Memo4] }
+    { 15  ;   ;Memo5               ;Text250       ;CaptionML=[ENU=Memo5;
+                                                              ESP=Doc5;
+                                                              DEA=Memo5] }
+    { 16  ;   ;Memo6               ;Text250       ;CaptionML=[ENU=Memo6;
+                                                              ESP=Doc6;
+                                                              DEA=Memo6] }
+    { 17  ;   ;Memo7               ;Text250       ;CaptionML=[ENU=Memo7;
+                                                              ESP=Doc7;
+                                                              DEA=Memo7] }
+    { 18  ;   ;Memo8               ;Text250       ;CaptionML=[ENU=Memo8;
+                                                              ESP=Doc8;
+                                                              DEA=Memo8] }
+    { 19  ;   ;Memo9               ;Text250       ;CaptionML=[ENU=Memo9;
+                                                              ESP=Doc9;
+                                                              DEA=Memo9] }
+    { 20  ;   ;Memo10              ;Text250       ;CaptionML=[ENU=Memo10;
+                                                              ESP=Doc10;
+                                                              DEA=Memo10] }
+  }
+  KEYS
+  {
+    {    ;Code,Language Code                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      TextMemoToBeTruncatedMsg@1000 : TextConst 'ENU=The length of the text that you entered is %1. The maximum length is %2. The text has been truncated to this length.;ESP=La longitud del texto introducido es %1. La longitud m xima es %2. El texto se ha truncado a esa longitud.;DEA=Die L„nge des von Ihnen eingegebenen Texts betr„gt %1. Die maximale L„nge betr„gt %2. Der Text wurde auf diese L„nge gekrzt.';
+
+    PROCEDURE GetMemo@2(CodeIn@1002 : Code[10];LanguageCode@1000 : Code[10]) : Text;
+    BEGIN
+      IF GET(CodeIn,LanguageCode) THEN
+        EXIT(GetMemoText)
+    END;
+
+    PROCEDURE SetMemo@3(CodeIn@1003 : Code[10];LanguageCode@1000 : Code[10];MemoIn@1001 : Text);
+    BEGIN
+      IF GET(CodeIn,LanguageCode) THEN BEGIN
+        SetMemoText(MemoIn);
+        MODIFY
+      END ELSE BEGIN
+        Code := CodeIn;
+        "Language Code" := LanguageCode;
+        SetMemoText(MemoIn);
+        INSERT
+      END
+    END;
+
+    PROCEDURE GetMemoText@1() : Text;
+    BEGIN
+      EXIT(Memo1 + Memo2 + Memo3 + Memo4 + Memo5 + Memo6 + Memo7 + Memo8 + Memo9 + Memo10)
+    END;
+
+    PROCEDURE SetMemoText@5(MemoIn@1000 : Text);
+    BEGIN
+      IF STRLEN(MemoIn) > GetMaxMemoLength THEN BEGIN
+        MESSAGE(TextMemoToBeTruncatedMsg,STRLEN(MemoIn),GetMaxMemoLength);
+        MemoIn := COPYSTR(MemoIn,1,GetMaxMemoLength);
+      END;
+
+      Memo1 := COPYSTR(MemoIn,1,250);
+      Memo2 := COPYSTR(MemoIn,251,250);
+      Memo3 := COPYSTR(MemoIn,501,250);
+      Memo4 := COPYSTR(MemoIn,751,250);
+      Memo5 := COPYSTR(MemoIn,1001,250);
+      Memo6 := COPYSTR(MemoIn,1251,250);
+      Memo7 := COPYSTR(MemoIn,1501,250);
+      Memo8 := COPYSTR(MemoIn,1751,250);
+      Memo9 := COPYSTR(MemoIn,2001,250);
+      Memo10 := COPYSTR(MemoIn,2251,250)
+    END;
+
+    PROCEDURE GetMaxMemoLength@11() : Integer;
+    BEGIN
+      EXIT(2500);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

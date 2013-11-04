@@ -1,0 +1,72 @@
+OBJECT Table 9 Country/Region
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               VATRegNoFormat@1000 : Record 381;
+             BEGIN
+               VATRegNoFormat.SETFILTER("Country/Region Code",Code);
+               VATRegNoFormat.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Country/Region;
+               ESP=Pa¡s/regi¢n;
+               DEA=Land/Region];
+    LookupPageID=Page10;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 6   ;   ;EU Country/Region Code;Code10      ;CaptionML=[ENU=EU Country/Region Code;
+                                                              ESP=C¢d. pa¡s/regi¢n UE;
+                                                              DEA=EU-L„nder-/Regionscode] }
+    { 7   ;   ;Intrastat Code      ;Code10        ;CaptionML=[ENU=Intrastat Code;
+                                                              ESP=C¢d. Intrastat;
+                                                              DEA=Intrastatcode] }
+    { 8   ;   ;Address Format      ;Option        ;InitValue=City+Post Code;
+                                                   CaptionML=[ENU=Address Format;
+                                                              ESP=Formato direcci¢n;
+                                                              DEA=Adressformat];
+                                                   OptionCaptionML=[ENU=Post Code+City,City+Post Code,City+County+Post Code,Blank Line+Post Code+City;
+                                                                    ESP=C.P.+Poblaci¢n,Poblaci¢n+C.P.,Poblaci¢n+Provincia+C.P.,L¡nea en blanco+C.P.+Poblaci¢n;
+                                                                    DEA=PLZ-Code+Ort,Ort+PLZ-Code,Ort+Bundesregion+PLZ-Code,Leerzeile+PLZ-Code+Ort];
+                                                   OptionString=Post Code+City,City+Post Code,City+County+Post Code,Blank Line+Post Code+City }
+    { 9   ;   ;Contact Address Format;Option      ;InitValue=After Company Name;
+                                                   CaptionML=[ENU=Contact Address Format;
+                                                              ESP=Formato direcci¢n contacto;
+                                                              DEA=Kontaktadressformat];
+                                                   OptionCaptionML=[ENU=First,After Company Name,Last;
+                                                                    ESP=Primero,Despu‚s empresa,éltimo;
+                                                                    DEA=Vor,Nach Firmennamen,Zuletzt];
+                                                   OptionString=First,After Company Name,Last }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+    {    ;EU Country/Region Code                   }
+    {    ;Intrastat Code                           }
+    {    ;Name                                     }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

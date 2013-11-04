@@ -1,0 +1,397 @@
+OBJECT Page 9007 Purchasing Agent Role Center
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 5       ;1   ;Action    ;
+                      CaptionML=[ENU=Vendor - T&op 10 List;
+                                 ESP=Pr&oveedor - Listado 10 mejores;
+                                 DEA=Kreditor - T&op 10 Liste];
+                      RunObject=Report 311;
+                      Image=Report }
+      { 6       ;1   ;Action    ;
+                      CaptionML=[ENU=Vendor/&Item Purchases;
+                                 ESP=Co&mpras prov./producto;
+                                 DEA=Kreditor/Ar&tikel EinkÑufe];
+                      RunObject=Report 313;
+                      Image=Report }
+      { 28      ;1   ;Separator  }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory - &Availability Plan;
+                                 ESP=Stoc&k - Proyecci¢n existencias;
+                                 DEA=Gebuchte La&gereinlagerungen];
+                      RunObject=Report 707;
+                      Image=ItemAvailability }
+      { 9       ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory &Purchase Orders;
+                                 ESP=Producto - &Pedidos compra;
+                                 DEA=Lager - &Bestellungen];
+                      RunObject=Report 709;
+                      Image=Report }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory - &Vendor Purchases;
+                                 ESP=Producto - &Compras proveedores;
+                                 DEA=Lager - &KreditoreneinkÑufe];
+                      RunObject=Report 714;
+                      Image=Report }
+      { 14      ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory &Cost and Price List;
+                                 ESP=Lis&ta de precios y costes;
+                                 DEA=Lager - EK-/VK-&Preisliste];
+                      RunObject=Report 716;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Orders;
+                                 ESP=Pedidos compra;
+                                 DEA=Bestellungen];
+                      RunObject=Page 9307 }
+      { 3       ;1   ;Action    ;
+                      CaptionML=[ENU=Pending Confirmation;
+                                 ESP=Confirmaci¢n pendiente;
+                                 DEA=Ausstehende BestÑtigung];
+                      RunObject=Page 9307;
+                      RunPageView=WHERE(Status=FILTER(Open)) }
+      { 23      ;1   ;Action    ;
+                      CaptionML=[ENU=Partially Delivered;
+                                 ESP=Parcialmente entregados;
+                                 DEA=Teilweise geliefert];
+                      RunObject=Page 9307;
+                      RunPageView=WHERE(Status=FILTER(Released),
+                                        Receive=FILTER(Yes),
+                                        Completely Received=FILTER(No)) }
+      { 76      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Quotes;
+                                 ESP=Ofertas compra;
+                                 DEA=Einkaufsanfragen];
+                      RunObject=Page 9306 }
+      { 78      ;1   ;Action    ;
+                      CaptionML=[ENU=Blanket Purchase Orders;
+                                 ESP=Pedidos abiertos compra;
+                                 DEA=Rahmenbestellungen];
+                      RunObject=Page 9310 }
+      { 82      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Invoices;
+                                 ESP=Facturas compra;
+                                 DEA=Einkaufsrechnungen];
+                      RunObject=Page 9308 }
+      { 83      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Return Orders;
+                                 ESP=Devoluciones compras;
+                                 DEA=Einkaufsreklamationen];
+                      RunObject=Page 9311 }
+      { 31      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Credit Memos;
+                                 ESP=Abonos de compra;
+                                 DEA=Einkaufsgutschriften];
+                      RunObject=Page 9309 }
+      { 1140003 ;1   ;Action    ;
+                      CaptionML=[ENU=Delivery Reminders;
+                                 DEA=Lieferanmahnungen];
+                      RunObject=Page 5005272 }
+      { 26      ;1   ;Action    ;
+                      CaptionML=[ENU=Assembly Orders;
+                                 ESP=Pedidos de ensamblado;
+                                 DEA=MontageauftrÑge];
+                      RunObject=Page 902 }
+      { 32      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Orders;
+                                 ESP=Pedidos venta;
+                                 DEA=VerkaufsauftrÑge];
+                      RunObject=Page 9305;
+                      Image=Order }
+      { 85      ;1   ;Action    ;
+                      CaptionML=[ENU=Vendors;
+                                 ESP=Proveedores;
+                                 DEA=Kreditoren];
+                      RunObject=Page 27;
+                      Image=Vendor }
+      { 88      ;1   ;Action    ;
+                      CaptionML=[ENU=Items;
+                                 ESP=Productos;
+                                 DEA=Artikel];
+                      RunObject=Page 31;
+                      Image=Item }
+      { 91      ;1   ;Action    ;
+                      CaptionML=[ENU=Nonstock Items;
+                                 ESP=Prods. sin stock;
+                                 DEA=Katalogartikel];
+                      RunObject=Page 5726;
+                      Image=NonStockItem }
+      { 94      ;1   ;Action    ;
+                      CaptionML=[ENU=Stockkeeping Units;
+                                 ESP=Uds. de almacenam.;
+                                 DEA=Lagerhaltungsdaten];
+                      RunObject=Page 5701;
+                      Image=SKU }
+      { 95      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Analysis Reports;
+                                 ESP=Informes de an†lisis de compras;
+                                 DEA=Einkaufsanalyseberichte];
+                      RunObject=Page 9375;
+                      RunPageView=WHERE(Analysis Area=FILTER(Purchase)) }
+      { 96      ;1   ;Action    ;
+                      CaptionML=[ENU=Inventory Analysis Reports;
+                                 ESP=Informes de an†lisis de invent.;
+                                 DEA=Lageranalyseberichte];
+                      RunObject=Page 9377;
+                      RunPageView=WHERE(Analysis Area=FILTER(Inventory)) }
+      { 10      ;1   ;Action    ;
+                      CaptionML=[ENU=Item Journals;
+                                 ESP=Diarios de productos;
+                                 DEA=Artikel Buch.-BlÑtter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Item),
+                                        Recurring=CONST(No)) }
+      { 17      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase Journals;
+                                 ESP=Diarios de compras;
+                                 DEA=Einkaufs Buch.-BlÑtter];
+                      RunObject=Page 251;
+                      RunPageView=WHERE(Template Type=CONST(Purchases),
+                                        Recurring=CONST(No)) }
+      { 19      ;1   ;Action    ;
+                      CaptionML=[ENU=Requisition Worksheets;
+                                 ESP=Hojas de demanda;
+                                 DEA=BestellvorschlÑge];
+                      RunObject=Page 295;
+                      RunPageView=WHERE(Template Type=CONST(Req.),
+                                        Recurring=CONST(No)) }
+      { 20      ;1   ;Action    ;
+                      CaptionML=[ENU=Subcontracting Worksheets;
+                                 ESP=Hojas de subcontrataci¢n;
+                                 DEA=FremdarbeitenvorschlÑge];
+                      RunObject=Page 295;
+                      RunPageView=WHERE(Template Type=CONST(For. Labor),
+                                        Recurring=CONST(No)) }
+      { 22      ;1   ;Action    ;
+                      CaptionML=[ENU=Standard Cost Worksheets;
+                                 ESP=Hojas de coste est†ndar;
+                                 DEA=Einst.-Preis (fest) VorschlÑge];
+                      RunObject=Page 5840 }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 39      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Posted Documents;
+                                 ESP=Documentos hist¢ricos;
+                                 DEA=Gebuchte Belege];
+                      Image=FiledPosted }
+      { 40      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Purchase Receipts;
+                                 ESP=Hist¢rico albaranes compra;
+                                 DEA=Geb. Einkaufslieferungen];
+                      RunObject=Page 145 }
+      { 42      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Purchase Invoices;
+                                 ESP=Hist¢rico facturas compra;
+                                 DEA=Geb. Einkaufsrechnungen];
+                      RunObject=Page 146 }
+      { 12      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Return Shipments;
+                                 ESP=Hist¢rico env°os devoluci¢n;
+                                 DEA=Gebuchte RÅcklieferungen];
+                      RunObject=Page 6652 }
+      { 15      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Purchase Credit Memos;
+                                 ESP=Hist¢rico abono compra;
+                                 DEA=Geb. Einkaufsgutschriften];
+                      RunObject=Page 147 }
+      { 1140004 ;2   ;Action    ;
+                      CaptionML=[ENU=Issued Delivery Reminders;
+                                 DEA=Registrierte Lieferanmahnungen];
+                      RunObject=Page 5005275 }
+      { 27      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Assembly Orders;
+                                 ESP=Pedidos de ensamblado registrados;
+                                 DEA=Gebuchte MontageauftrÑge];
+                      RunObject=Page 922 }
+      { 1       ;0   ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 18      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Quote;
+                                 ESP=Oferta com&pra;
+                                 DEA=Ein&kaufsanfrage];
+                      RunObject=Page 49;
+                      Promoted=No;
+                      Image=Quote;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 16      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Invoice;
+                                 ESP=&Factura compra;
+                                 DEA=Einkaufs&rechnung];
+                      RunObject=Page 51;
+                      Promoted=No;
+                      Image=Invoice;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 4       ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Order;
+                                 ESP=Pedido de &compra;
+                                 DEA=Einkaufs&bestellung];
+                      RunObject=Page 50;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Return Order;
+                                 ESP=De&voluci¢n compra;
+                                 DEA=Einkaufsrekla&mation];
+                      RunObject=Page 6640;
+                      Promoted=No;
+                      Image=ReturnOrder;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 1140000 ;1   ;Action    ;
+                      CaptionML=[ENU=Delivery Reminder;
+                                 DEA=Lieferanmahnung];
+                      RunObject=Page 5005270;
+                      Image=ReceiptReminder }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 24      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 29      ;1   ;Action    ;
+                      CaptionML=[ENU=&Purchase Journal;
+                                 ESP=Dia&rio compras;
+                                 DEA=Einka&ufs Buch.-Blatt];
+                      RunObject=Page 254;
+                      Image=Journals }
+      { 30      ;1   ;Action    ;
+                      CaptionML=[ENU=Item &Journal;
+                                 ESP=Diario prod&uctos;
+                                 DEA=Artikel Bu&ch.-Blatt];
+                      RunObject=Page 40;
+                      Image=Journals }
+      { 11      ;1   ;Action    ;
+                      CaptionML=[ENU=Order Plan&ning;
+                                 ESP=P&lanificaci¢n de pedidos;
+                                 DEA=Auftr&agsplanung];
+                      RunObject=Page 5522;
+                      Image=Planning }
+      { 38      ;1   ;Separator  }
+      { 33      ;1   ;Action    ;
+                      CaptionML=[ENU=Requisition &Worksheet;
+                                 ESP=Ho&ja de demanda;
+                                 DEA=Bestellvor&schlag];
+                      RunObject=Page 295;
+                      RunPageView=WHERE(Template Type=CONST(Req.),
+                                        Recurring=CONST(No));
+                      Image=Worksheet }
+      { 34      ;1   ;Action    ;
+                      CaptionML=[ENU=Pur&chase Prices;
+                                 ESP=Precios co&mpra;
+                                 DEA=Einkaufs&preise];
+                      RunObject=Page 7012;
+                      Image=Price }
+      { 41      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Line Discounts;
+                                 ESP=&Descuentos l°nea compra;
+                                 DEA=Einkaufs&zeilenrabatte];
+                      RunObject=Page 7014;
+                      Image=LineDiscount }
+      { 1140001 ;1   ;Separator ;
+                      CaptionML=[ENU=Administration;
+                                 DEA=Verwaltung];
+                      IsHeader=Yes }
+      { 1140002 ;1   ;Action    ;
+                      CaptionML=[ENU=Delivery Reminder Terms;
+                                 DEA=Lieferanmahnungsmethodencode];
+                      RunObject=Page 5005279 }
+      { 36      ;1   ;Separator ;
+                      CaptionML=[ENU=History;
+                                 ESP=Historial;
+                                 DEA=Historie];
+                      IsHeader=Yes }
+      { 46      ;1   ;Action    ;
+                      CaptionML=[ENU=Navi&gate;
+                                 ESP=&Navegar;
+                                 DEA=Navi&gate];
+                      RunObject=Page 344;
+                      Image=Navigate }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1907662708;2;Part   ;
+                PagePartID=Page9063;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 25  ;2   ;Part      ;
+                PagePartID=Page771;
+                PartType=Page }
+
+    { 37  ;2   ;Part      ;
+                PagePartID=Page771;
+                Visible=false;
+                PartType=Page }
+
+    { 21  ;2   ;Part      ;
+                PagePartID=Page772;
+                PartType=Page }
+
+    { 44  ;2   ;Part      ;
+                PagePartID=Page772;
+                Visible=false;
+                PartType=Page }
+
+    { 35  ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1902476008;2;Part   ;
+                PagePartID=Page9151;
+                PartType=Page }
+
+    { 1905989608;2;Part   ;
+                PagePartID=Page9152;
+                PartType=Page }
+
+    { 1903012608;2;Part   ;
+                PagePartID=Page9175;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 43  ;2   ;Part      ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

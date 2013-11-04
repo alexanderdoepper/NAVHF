@@ -1,0 +1,126 @@
+OBJECT Page 9021 RapidStart Services RC
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 6       ;    ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 11      ;1   ;ActionGroup;
+                      CaptionML=[ENU=RapidStart Services;
+                                 ESP=Servicios de RapidStart;
+                                 DEA=RapidStart Services] }
+      { 9       ;2   ;Action    ;
+                      CaptionML=[ENU=Worksheet;
+                                 ESP=Hoja trabajo;
+                                 DEA=Vorschlag];
+                      RunObject=Page 8632 }
+      { 18      ;2   ;Action    ;
+                      CaptionML=[ENU=Packages;
+                                 ESP=Paquetes;
+                                 DEA=Pakete];
+                      RunObject=Page 8615 }
+      { 19      ;2   ;Action    ;
+                      CaptionML=[ENU=Tables;
+                                 ESP=Tablas;
+                                 DEA=Tabellen];
+                      RunObject=Page 8630 }
+      { 4       ;2   ;Action    ;
+                      CaptionML=[ENU=Questionnaires;
+                                 ESP=Cuestionarios;
+                                 DEA=Frageb”gen];
+                      RunObject=Page 8610 }
+      { 7       ;2   ;Action    ;
+                      CaptionML=[ENU=Templates;
+                                 ESP=Plantillas;
+                                 DEA=Vorlagen];
+                      RunObject=Page 8620 }
+      { 12      ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 20      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Actions;
+                                 ESP=Acciones;
+                                 DEA=Aktionen] }
+      { 13      ;2   ;Action    ;
+                      CaptionML=[ENU=RapidStart Services Wizard;
+                                 ESP=Asistente de RapidStart;
+                                 DEA=RapidStart Services-Assistent];
+                      RunObject=Page 8629;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Questionaire;
+                      PromotedCategory=Process }
+      { 15      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Configuration Worksheet;
+                                 ESP=Hoja de configuraci¢n;
+                                 DEA=Konfigurationsvorschlag];
+                      RunObject=Page 8632;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=SetupLines;
+                      PromotedCategory=Process }
+      { 24      ;2   ;Action    ;
+                      CaptionML=[ENU=Complete Setup;
+                                 ESP=Completar configuraci¢n;
+                                 DEA=Einrichtung abschlieáen];
+                      RunObject=Page 8638;
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Completed;
+                      PromotedCategory=Process }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=RoleCenterArea }
+
+    { 2   ;1   ;Group     ;
+                GroupType=Group }
+
+    { 3   ;2   ;Part      ;
+                CaptionML=[ENU=Activities;
+                           ESP=Actividades;
+                           DEA=Aktivit„ten];
+                PagePartID=Page9075;
+                PartType=Page }
+
+    { 8   ;2   ;Part      ;
+                CaptionML=[ENU=Configuration Areas;
+                           ESP=µreas de configuraci¢n;
+                           DEA=Konfigurationsbereiche];
+                SubPageView=SORTING(Vertical Sorting);
+                PagePartID=Page8631;
+                PartType=Page }
+
+    { 5   ;1   ;Group     ;
+                GroupType=Group }
+
+    { 10  ;2   ;Part      ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+    { 14  ;2   ;Part      ;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

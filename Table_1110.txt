@@ -1,0 +1,54 @@
+OBJECT Table 1110 Cost Budget Name
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               CostBudgetEntry@1000 : Record 1109;
+               CostBudgetRegister@1001 : Record 1111;
+             BEGIN
+               CostBudgetEntry.SETCURRENTKEY("Budget Name");
+               CostBudgetEntry.SETRANGE("Budget Name",Name);
+               CostBudgetEntry.DELETEALL;
+
+               CostBudgetRegister.SETCURRENTKEY("Cost Budget Name");
+               CostBudgetRegister.SETRANGE("Cost Budget Name",Name);
+               CostBudgetRegister.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Cost Budget Name;
+               ESP=Nombre ppto. costes;
+               DEA=Kostenbudgetname];
+    LookupPageID=Page1116;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Name                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Name,Description                         }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

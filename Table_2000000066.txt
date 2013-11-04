@@ -1,0 +1,44 @@
+OBJECT Table 2000000066 Style Sheet
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:08;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Hoja estilos;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Style Sheet ID      ;GUID          ;CaptionML=ESP=Id. hoja estilos }
+    { 2   ;   ;Object Type         ;Option        ;CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=[ENU=Form,Report,Page;
+                                                                    ESP=Form,Report,Page;
+                                                                    DEA=Form,Report,Page];
+                                                   OptionString=Form,Report,Page }
+    { 3   ;   ;Object ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                                                   CaptionML=ESP=Id. objeto }
+    { 4   ;   ;Program ID          ;GUID          ;CaptionML=ESP=Id. programa }
+    { 5   ;   ;Name                ;Text250       ;CaptionML=ESP=Nombre }
+    { 6   ;   ;Style Sheet         ;BLOB          ;CaptionML=ESP=Hoja estilos }
+    { 7   ;   ;Date                ;Date          ;CaptionML=ESP=Fecha }
+  }
+  KEYS
+  {
+    {    ;Style Sheet ID                          ;Clustered=Yes }
+    {    ;Object Type,Object ID,Program ID         }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

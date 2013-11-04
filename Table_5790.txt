@@ -1,0 +1,64 @@
+OBJECT Table 5790 Shipping Agent Services
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Shipping Agent Services;
+               ESP=Servicios transportista;
+               DEA=Zusteller Transportart];
+    LookupPageID=Page5790;
+    DrillDownPageID=Page5790;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Shipping Agent Code ;Code10        ;TableRelation="Shipping Agent";
+                                                   CaptionML=[ENU=Shipping Agent Code;
+                                                              ESP=C¢d. transportista;
+                                                              DEA=Zustellercode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Shipping Time       ;DateFormula   ;OnValidate=VAR
+                                                                DateTest@1000 : Date;
+                                                              BEGIN
+                                                                DateTest := CALCDATE("Shipping Time",WORKDATE);
+                                                                IF DateTest < WORKDATE THEN
+                                                                  ERROR(Text000,FIELDCAPTION("Shipping Time"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Shipping Time;
+                                                              ESP=Tiempo env¡o;
+                                                              DEA=Transportzeit] }
+    { 7600;   ;Base Calendar Code  ;Code10        ;TableRelation="Base Calendar";
+                                                   CaptionML=[ENU=Base Calendar Code;
+                                                              ESP=C¢digo calendario base;
+                                                              DEA=Basiskalendercode] }
+  }
+  KEYS
+  {
+    {    ;Shipping Agent Code,Code                ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Shipping Time           }
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=The %1 cannot be negative.;ESP=%1 no puede ser negativo.;DEA=Die %1 kann nicht negativ sein.';
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,98 @@
+OBJECT Table 801 Online Map Parameter Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               TESTFIELD(Code);
+             END;
+
+    CaptionML=[ENU=Online Map Parameter Setup;
+               ESP=Config. par†metros Online Map;
+               DEA=Online Map-Parametereinrichtung];
+    LookupPageID=Page804;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Name                ;Text30        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;Map URL             ;Text250       ;CaptionML=[ENU=Map URL;
+                                                              ESP=URL mapa;
+                                                              DEA=Karten-URL] }
+    { 4   ;   ;Directions URL      ;Text250       ;OnValidate=VAR
+                                                                i@1000 : Integer;
+                                                                ParmPos@1001 : Integer;
+                                                                RemainingURL@1002 : Text[250];
+                                                              BEGIN
+                                                                FOR i := 1 TO 6 DO BEGIN
+                                                                  ParmPos := STRPOS("Directions URL",STRSUBSTNO('{%1}',i));
+                                                                  IF ParmPos > 1 THEN BEGIN
+                                                                    RemainingURL := COPYSTR("Directions URL",ParmPos + 3);
+                                                                    ParmPos := STRPOS(RemainingURL,STRSUBSTNO('{%1}',i));
+                                                                    IF NOT (ParmPos > 1) THEN
+                                                                      ERROR(Text002,i);
+                                                                    RemainingURL := COPYSTR(RemainingURL,ParmPos + 3);
+                                                                    IF STRPOS(RemainingURL,STRSUBSTNO('{%1}',i)) > 1 THEN
+                                                                      ERROR(Text002,i);
+                                                                  END;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Directions URL;
+                                                              ESP=URL indicaciones;
+                                                              DEA=Wegbeschreibungs-URL] }
+    { 5   ;   ;Comment             ;Text250       ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+    { 6   ;   ;URL Encode Non-ASCII Chars;Boolean ;CaptionML=[ENU=URL Encode Non-ASCII Chars;
+                                                              ESP=Codificaci¢n URL sin caracteres ASCII;
+                                                              DEA=URL-Codierung ASCII-fremder Zeichen] }
+    { 7   ;   ;Miles/Kilometers Option List;Text250;
+                                                   CaptionML=[ENU=Miles/Kilometers Option List;
+                                                              ESP=Lista opciones millas/kil¢metros;
+                                                              DEA=OptionsÅbersicht fÅr Meilen/Kilometer] }
+    { 8   ;   ;Quickest/Shortest Option List;Text250;
+                                                   CaptionML=[ENU=Quickest/Shortest Option List;
+                                                              ESP=Lista opciones m†s r†pida/m†s corta;
+                                                              DEA=Optionsliste fÅr schnellste/kÅrzeste Route] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Name                                }
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=Inserting default values will delete your current setup.\Do you wish to continue?;ESP=Al insertar los valores predeterminados se eliminar† la configuraci¢n actual.\®Desea continuar?;DEA=Durch EinfÅgen von Standardwerten wird die aktuelle Einrichtung gelîscht.\Mîchten Sie den Vorgang fortsetzen?';
+      Text002@1001 : TextConst 'ENU=Address parameters must only occur twice in the Directions URL. Validate the use of {%1}.;ESP=Los par†metros de direcci¢n deben producirse solo dos veces en la direcci¢n URL de direcciones. Valide el uso de {%1}.;DEA=Adressparameter dÅrfen in der Wegbeschreibungs-URL nur zweimal vorkommen. öberprÅfen Sie die Verwendung von ''{%1}''.';
+
+    PROCEDURE InsertDefaults@1();
+    VAR
+      OnlineMapParameterSetup@1001 : Record 801;
+      OnlineMapMgt@1000 : Codeunit 802;
+    BEGIN
+      IF NOT OnlineMapParameterSetup.ISEMPTY THEN
+        IF NOT CONFIRM(Text001,FALSE) THEN
+          EXIT;
+      OnlineMapMgt.SetupDefault;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

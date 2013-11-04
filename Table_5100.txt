@@ -1,0 +1,59 @@
+OBJECT Table 5100 Communication Method
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Communication Method;
+               ESP=MÇtodo comunicaci¢n;
+               DEA=Kommunikationsmethode];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Key                 ;Integer       ;CaptionML=[ENU=Key;
+                                                              ESP=Clave;
+                                                              DEA=SchlÅssel] }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Number              ;Text30        ;CaptionML=[ENU=Number;
+                                                              ESP=N£mero;
+                                                              DEA=Nummer] }
+    { 4   ;   ;Contact No.         ;Code20        ;TableRelation=Contact;
+                                                   CaptionML=[ENU=Contact No.;
+                                                              ESP=Nß contacto;
+                                                              DEA=Kontaktnr.] }
+    { 5   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 6   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Company,Person;
+                                                                    ESP=Empresa,Persona;
+                                                                    DEA=Unternehmen,Person];
+                                                   OptionString=Company,Person }
+    { 7   ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
+                                                   CaptionML=[ENU=E-Mail;
+                                                              ESP=Correo electr¢nico;
+                                                              DEA=E-Mail] }
+  }
+  KEYS
+  {
+    {    ;Key                                     ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

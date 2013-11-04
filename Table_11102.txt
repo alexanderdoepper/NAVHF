@@ -1,0 +1,63 @@
+OBJECT Table 11102 IFB Periodaccount
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=IFB Periodaccount;
+               DEA=IFB-Periodenkonto];
+    LookupPageID=Page11103;
+    DrillDownPageID=Page11103;
+  }
+  FIELDS
+  {
+    { 1   ;   ;FA Posting Group    ;Code10        ;TableRelation="FA Posting Group";
+                                                   CaptionML=[ENU=FA Posting Group;
+                                                              DEA=Anlagenbuchungsgruppe];
+                                                   Editable=No }
+    { 2   ;   ;IFB Ratecode        ;Code10        ;TableRelation="IFB Rate";
+                                                   CaptionML=[ENU=IFB Ratecode;
+                                                              DEA=IFB-Satzcode];
+                                                   Editable=No }
+    { 3   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              DEA=Startdatum];
+                                                   Editable=No }
+    { 4   ;   ;IFB Account         ;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=IFB Account;
+                                                              DEA=IFB-Konto];
+                                                   Editable=No }
+    { 5   ;   ;Dotation IFB Account;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Dotation IFB Account;
+                                                              DEA=IFB-Konto Dotierung];
+                                                   Editable=No }
+    { 6   ;   ;Diss. against capital Account;Code20;
+                                                   TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Diss. against capital Account;
+                                                              DEA=Konto f. Verr. gegen Kapital];
+                                                   Editable=No }
+    { 7   ;   ;Diss. against Gain Account;Code20  ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Diss. against Gain Account;
+                                                              DEA=Konto f. Verr. gegen Gewinn];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;FA Posting Group,IFB Ratecode,Starting Date;
+                                                   Clustered=Yes }
+    {    ;FA Posting Group,IFB Ratecode,IFB Account }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

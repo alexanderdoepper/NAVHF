@@ -1,0 +1,39 @@
+OBJECT Table 239 BOM Register
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=UPGW17.00.00;
+  }
+  PROPERTIES
+  {
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Integer        }
+    { 2   ;   ;From Entry No.      ;Integer       ;TableRelation="BOM Ledger Entry" }
+    { 3   ;   ;To Entry No.        ;Integer       ;TableRelation="BOM Ledger Entry" }
+    { 4   ;   ;Creation Date       ;Date           }
+    { 5   ;   ;Source Code         ;Code10        ;TableRelation="Source Code" }
+    { 6   ;   ;User ID             ;Code20        ;TableRelation=Table2000000002;
+                                                   TestTableRelation=No }
+    { 7   ;   ;Journal Batch Name  ;Code10         }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Creation Date                            }
+    {    ;Source Code,Journal Batch Name,Creation Date }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

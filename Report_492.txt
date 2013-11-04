@@ -1,0 +1,402 @@
+OBJECT Report 492 Copy Purchase Document
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Copy Purchase Document;
+               ESP=Copiar doc. compra;
+               DEA=Einkaufsbeleg kopieren];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  PurchSetup.GET;
+                  CopyDocMgt.SetProperties(
+                    IncludeHeader,RecalculateLines,FALSE,FALSE,FALSE,PurchSetup."Exact Cost Reversing Mandatory",FALSE);
+                  CopyDocMgt.SetArchDocVal(DocNoOccurrence,DocVersionNo);
+                  CopyDocMgt.CopyPurchDoc(DocType,DocNo,PurchHeader)
+                END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   IF DocNo <> '' THEN BEGIN
+                     CASE DocType OF
+                       DocType::Quote:
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::Quote,DocNo) THEN;
+                       DocType::"Blanket Order":
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::"Blanket Order",DocNo) THEN;
+                       DocType::Order:
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::Order,DocNo) THEN;
+                       DocType::Invoice:
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::Invoice,DocNo) THEN;
+                       DocType::"Return Order":
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::"Return Order",DocNo) THEN;
+                       DocType::"Credit Memo":
+                         IF FromPurchHeader.GET(FromPurchHeader."Document Type"::"Credit Memo",DocNo) THEN;
+                       DocType::"Posted Receipt":
+                         IF FromPurchRcptHeader.GET(DocNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromPurchRcptHeader);
+                       DocType::"Posted Invoice":
+                         IF FromPurchInvHeader.GET(DocNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromPurchInvHeader);
+                       DocType::"Posted Return Shipment":
+                         IF FromReturnShptHeader.GET(DocNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromReturnShptHeader);
+                       DocType::"Posted Credit Memo":
+                         IF FromPurchCrMemoHeader.GET(DocNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromPurchCrMemoHeader);
+                       DocType::"Arch. Order":
+                         IF FromArchPurchHeader.GET(FromArchPurchHeader."Document Type"::Order,DocNo,DocNoOccurrence,DocVersionNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromArchPurchHeader);
+                       DocType::"Arch. Quote":
+                         IF FromArchPurchHeader.GET(FromArchPurchHeader."Document Type"::Quote,DocNo,DocNoOccurrence,DocVersionNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromArchPurchHeader);
+                       DocType::"Arch. Blanket Order":
+                         IF FromArchPurchHeader.GET(FromArchPurchHeader."Document Type"::"Blanket Order",DocNo,DocNoOccurrence,DocVersionNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromArchPurchHeader);
+                       DocType::"Arch. Return Order":
+                         IF FromArchPurchHeader.GET(FromArchPurchHeader."Document Type"::"Return Order",DocNo,DocNoOccurrence,DocVersionNo) THEN
+                           FromPurchHeader.TRANSFERFIELDS(FromArchPurchHeader);
+                     END;
+                     IF FromPurchHeader."No." = '' THEN
+                       DocNo := '';
+                   END;
+                   ValidateDocNo;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  Name=DocumentType;
+                  CaptionML=[ENU=Document Type;
+                             ESP=Tipo documento;
+                             DEA=Belegart];
+                  OptionCaptionML=[ENU=Quote,Blanket Order,Order,Invoice,Return Order,Credit Memo,Posted Receipt,Posted Invoice,Posted Return Shipment,Posted Credit Memo,Arch. Quote,Arch. Order,Arch. Blanket Order,Arch. Return Order;
+                                   ESP=Oferta,Pedido abierto,Pedido,Factura,Devoluci¢n,Abono,Albar†n compra regis.,Factura regis.,Env°o dev. regis.,Abono regis.;
+                                   DEA=Angebot,Rahmenauftrag,Auftrag,Rechnung,Reklamation,Gutschrift,Geb. Lieferung,Geb. Rechnung,Geb. RÅcksendung,Geb. Gutschrift,Arch. Angebot,Arch. Auftrag,Arch. Rahmenauftrag,Arch. Reklamation];
+                  SourceExpr=DocType;
+                  OnValidate=BEGIN
+                               DocNo := '';
+                               ValidateDocNo;
+                             END;
+                              }
+
+      { 8   ;2   ;Field     ;
+                  Name=DocumentNo;
+                  CaptionML=[ENU=Document No.;
+                             ESP=Nß documento;
+                             DEA=Belegnr.];
+                  SourceExpr=DocNo;
+                  OnValidate=BEGIN
+                               ValidateDocNo;
+                             END;
+
+                  OnLookup=BEGIN
+                             LookupDocNo;
+                           END;
+                            }
+
+      { 1140000;2;Field     ;
+                  CaptionML=[ENU=Doc. No. Occurrence;
+                             DEA=Belegnr.-HÑufigkeit];
+                  BlankZero=Yes;
+                  SourceExpr=DocNoOccurrence;
+                  Editable=FALSE }
+
+      { 1140002;2;Field     ;
+                  CaptionML=[ENU=Version No.;
+                             DEA=Versionsnr.];
+                  BlankZero=Yes;
+                  SourceExpr=DocVersionNo;
+                  Editable=FALSE }
+
+      { 5   ;2   ;Field     ;
+                  CaptionML=[ENU=Buy-from Vendor No.;
+                             ESP=Compra a-Nß proveedor;
+                             DEA=Eink. von Kred.-Nr.];
+                  SourceExpr=FromPurchHeader."Buy-from Vendor No.";
+                  Editable=FALSE }
+
+      { 7   ;2   ;Field     ;
+                  CaptionML=[ENU=Buy-from Vendor Name;
+                             ESP=Compra a-Nombre;
+                             DEA=Eink. von Name];
+                  SourceExpr=FromPurchHeader."Buy-from Vendor Name";
+                  Editable=FALSE }
+
+      { 1   ;2   ;Field     ;
+                  Name=IncludeHeader_Options;
+                  CaptionML=[ENU=Include Header;
+                             ESP=Incluir cabecera;
+                             DEA=Inklusive Kopf];
+                  SourceExpr=IncludeHeader;
+                  OnValidate=BEGIN
+                               ValidateIncludeHeader;
+                             END;
+                              }
+
+      { 4   ;2   ;Field     ;
+                  CaptionML=[ENU=Recalculate Lines;
+                             ESP=Recalcular l°neas;
+                             DEA=Zeilen neu berechnen];
+                  SourceExpr=RecalculateLines;
+                  OnValidate=BEGIN
+                               IF (DocType = DocType::"Posted Receipt") OR (DocType = DocType::"Posted Return Shipment") THEN
+                                 RecalculateLines := TRUE;
+                             END;
+                              }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      PurchHeader@1007 : Record 38;
+      FromPurchHeader@1010 : Record 38;
+      FromPurchRcptHeader@1012 : Record 120;
+      FromPurchInvHeader@1014 : Record 122;
+      FromReturnShptHeader@1008 : Record 6650;
+      FromPurchCrMemoHeader@1016 : Record 124;
+      PurchSetup@1003 : Record 312;
+      CopyDocMgt@1033 : Codeunit 6620;
+      DocType@1024 : 'Quote,Blanket Order,Order,Invoice,Return Order,Credit Memo,Posted Receipt,Posted Invoice,Posted Return Shipment,Posted Credit Memo,Arch. Quote,Arch. Order,Arch. Blanket Order,Arch. Return Order';
+      DocNo@1025 : Code[20];
+      IncludeHeader@1026 : Boolean;
+      RecalculateLines@1027 : Boolean;
+      Text000@1002 : TextConst 'ENU=The price information may not be reversed correctly, if you copy a %1. If possible copy a %2 instead or use %3 functionality.;ESP=Es posible que la informaci¢n sobre el precio no se revierta correctamente si copia un documento de %1. Si es posible, copie un documento de %2 en su lugar o utilice la funcionalidad %3.;DEA=Wenn Sie %1 kopieren, werden die Preisinformationen mîglicherweise nicht ordnungsgemÑ· storniert. Kopieren Sie stattdessen mîglichst %2, oder verwenden Sie die %3-FunktionalitÑt.';
+      Text001@1001 : TextConst 'ENU=Undo Receipt;ESP=Deshacer recepci¢n;DEA=Wareneingang stornieren';
+      Text002@1000 : TextConst 'ENU=Undo Return Shipment;ESP=Deshacer env°o devoluc.;DEA=RÅcklieferung stornieren';
+      Text003@1004 : TextConst 'ENU=Quote,Blanket Order,Order,Invoice,Return Order,Credit Memo,Posted Receipt,Posted Invoice,Posted Return Shipment,Posted Credit Memo;ESP=Oferta,Pedido abierto,Pedido,Factura,Devoluci¢n,Abono,Albar†n compra regis.,Factura regis.,Env°o dev. regis.,Abono regis.;DEA=Anfrage,Rahmenbestellung,Bestellung,Rechnung,Reklamation,Gutschrift,Geb. Lieferung,Geb. Rechnung,Geb. RÅcklieferung,Geb. Gutschrift';
+      FromArchPurchHeader@1140000 : Record 5109;
+      DocNoOccurrence@1140001 : Integer;
+      DocVersionNo@1140002 : Integer;
+
+    PROCEDURE SetPurchHeader@2(VAR NewPurchHeader@1000 : Record 38);
+    BEGIN
+      NewPurchHeader.TESTFIELD("No.");
+      PurchHeader := NewPurchHeader;
+    END;
+
+    LOCAL PROCEDURE ValidateDocNo@1();
+    VAR
+      DocType2@1000 : 'Quote,Blanket Order,Order,Invoice,Return Order,Credit Memo,Posted Receipt,Posted Invoice,Posted Return Shipment,Posted Credit Memo';
+    BEGIN
+      IF DocNo = '' THEN BEGIN
+        FromPurchHeader.INIT;
+        DocNoOccurrence := 0;
+        DocVersionNo := 0;
+      END ELSE
+        IF DocNo <> FromPurchHeader."No." THEN BEGIN
+          FromPurchHeader.INIT;
+          CASE DocType OF
+            DocType::Quote,
+            DocType::"Blanket Order",
+            DocType::Order,
+            DocType::Invoice,
+            DocType::"Return Order",
+            DocType::"Credit Memo":
+              FromPurchHeader.GET(CopyDocMgt.PurchHeaderDocType(DocType),DocNo);
+            DocType::"Posted Receipt":
+              BEGIN
+                FromPurchRcptHeader.GET(DocNo);
+                FromPurchHeader.TRANSFERFIELDS(FromPurchRcptHeader);
+                IF PurchHeader."Document Type" IN
+                   [PurchHeader."Document Type"::"Return Order",PurchHeader."Document Type"::"Credit Memo"]
+                THEN BEGIN
+                  DocType2 := DocType2::"Posted Invoice";
+                  MESSAGE(Text000,SELECTSTR(1 + DocType,Text003),SELECTSTR(1 + DocType2,Text003),Text001);
+                END;
+              END;
+            DocType::"Posted Invoice":
+              BEGIN
+                FromPurchInvHeader.GET(DocNo);
+                FromPurchHeader.TRANSFERFIELDS(FromPurchInvHeader);
+              END;
+            DocType::"Posted Return Shipment":
+              BEGIN
+                FromReturnShptHeader.GET(DocNo);
+                FromPurchHeader.TRANSFERFIELDS(FromReturnShptHeader);
+                IF PurchHeader."Document Type" IN
+                   [PurchHeader."Document Type"::Order,PurchHeader."Document Type"::Invoice]
+                THEN BEGIN
+                  DocType2 := DocType2::"Posted Credit Memo";
+                  MESSAGE(Text000,SELECTSTR(1 + DocType,Text003),SELECTSTR(1 + DocType2,Text003),Text002);
+                END;
+              END;
+            DocType::"Posted Credit Memo":
+              BEGIN
+                FromPurchCrMemoHeader.GET(DocNo);
+                FromPurchHeader.TRANSFERFIELDS(FromPurchCrMemoHeader);
+              END;
+            DocType::"Arch. Quote",DocType::"Arch. Order",DocType::"Arch. Blanket Order",DocType::"Arch. Return Order":
+              BEGIN
+                IF NOT FromArchPurchHeader.GET(
+                         CopyDocMgt.ArchPurchHeaderDocType(DocType),DocNo,DocNoOccurrence,DocVersionNo)
+                THEN BEGIN
+                  FromArchPurchHeader.SETRANGE("No.",DocNo);
+                  IF FromArchPurchHeader.FINDLAST THEN BEGIN
+                    DocNoOccurrence := FromArchPurchHeader."Doc. No. Occurrence";
+                    DocVersionNo := FromArchPurchHeader."Version No.";
+                  END;
+                END;
+                FromPurchHeader.TRANSFERFIELDS(FromArchPurchHeader);
+              END;
+          END;
+        END;
+      FromPurchHeader."No." := '';
+
+      IncludeHeader :=
+        (DocType IN [DocType::"Posted Invoice",DocType::"Posted Credit Memo"]) AND
+        ((DocType = DocType::"Posted Credit Memo") <>
+         (PurchHeader."Document Type" = PurchHeader."Document Type"::"Credit Memo")) AND
+        (PurchHeader."Buy-from Vendor No." IN [FromPurchHeader."Buy-from Vendor No.",'']);
+      ValidateIncludeHeader;
+    END;
+
+    LOCAL PROCEDURE LookupDocNo@3();
+    BEGIN
+      PageLookupDocNo;
+      EXIT;
+    END;
+
+    LOCAL PROCEDURE ValidateIncludeHeader@4();
+    BEGIN
+      RecalculateLines :=
+        (DocType IN [DocType::"Posted Receipt",DocType::"Posted Return Shipment"]) OR NOT IncludeHeader;
+    END;
+
+    PROCEDURE InitializeRequest@5(NewDocType@1001 : Option;NewDocNo@1000 : Code[20];NewIncludeHeader@1002 : Boolean;NewRecalcLines@1003 : Boolean);
+    BEGIN
+      DocType := NewDocType;
+      DocNo := NewDocNo;
+      IncludeHeader := NewIncludeHeader;
+      RecalculateLines := NewRecalcLines;
+    END;
+
+    LOCAL PROCEDURE PageLookupDocNo@19053290();
+    BEGIN
+      CASE DocType OF
+        DocType::Quote,
+        DocType::"Blanket Order",
+        DocType::Order,
+        DocType::Invoice,
+        DocType::"Return Order",
+        DocType::"Credit Memo":
+          BEGIN
+            FromPurchHeader.FILTERGROUP := 0;
+            FromPurchHeader.SETRANGE("Document Type",CopyDocMgt.PurchHeaderDocType(DocType));
+            IF PurchHeader."Document Type" = CopyDocMgt.PurchHeaderDocType(DocType) THEN
+              FromPurchHeader.SETFILTER("No.",'<>%1',PurchHeader."No.");
+            FromPurchHeader.FILTERGROUP := 2;
+            FromPurchHeader."Document Type" := CopyDocMgt.PurchHeaderDocType(DocType);
+            FromPurchHeader."No." := DocNo;
+            IF (DocNo = '') AND (PurchHeader."Buy-from Vendor No." <> '') THEN
+              IF FromPurchHeader.SETCURRENTKEY("Document Type","Buy-from Vendor No.") THEN BEGIN
+                FromPurchHeader."Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+                IF FromPurchHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromPurchHeader) = ACTION::LookupOK THEN
+              DocNo := FromPurchHeader."No.";
+          END;
+        DocType::"Posted Receipt":
+          BEGIN
+            FromPurchRcptHeader."No." := DocNo;
+            IF (DocNo = '') AND (PurchHeader."Buy-from Vendor No." <> '') THEN
+              IF FromPurchRcptHeader.SETCURRENTKEY("Buy-from Vendor No.") THEN BEGIN
+                FromPurchRcptHeader."Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+                IF FromPurchRcptHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromPurchRcptHeader) = ACTION::LookupOK THEN
+              DocNo := FromPurchRcptHeader."No.";
+          END;
+        DocType::"Posted Invoice":
+          BEGIN
+            FromPurchInvHeader."No." := DocNo;
+            IF (DocNo = '') AND (PurchHeader."Buy-from Vendor No." <> '') THEN
+              IF FromPurchInvHeader.SETCURRENTKEY("Buy-from Vendor No.") THEN BEGIN
+                FromPurchInvHeader."Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+                IF FromPurchInvHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromPurchInvHeader) = ACTION::LookupOK THEN
+              DocNo := FromPurchInvHeader."No.";
+          END;
+        DocType::"Posted Return Shipment":
+          BEGIN
+            FromReturnShptHeader."No." := DocNo;
+            IF (DocNo = '') AND (PurchHeader."Buy-from Vendor No." <> '') THEN
+              IF FromReturnShptHeader.SETCURRENTKEY("Buy-from Vendor No.") THEN BEGIN
+                FromReturnShptHeader."Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+                IF FromReturnShptHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromReturnShptHeader) = ACTION::LookupOK THEN
+              DocNo := FromReturnShptHeader."No.";
+          END;
+        DocType::"Posted Credit Memo":
+          BEGIN
+            FromPurchCrMemoHeader."No." := DocNo;
+            IF (DocNo = '') AND (PurchHeader."Buy-from Vendor No." <> '') THEN
+              IF FromPurchCrMemoHeader.SETCURRENTKEY("Buy-from Vendor No.") THEN BEGIN
+                FromPurchCrMemoHeader."Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+                IF FromPurchCrMemoHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromPurchCrMemoHeader) = ACTION::LookupOK THEN
+              DocNo := FromPurchCrMemoHeader."No.";
+          END;
+        DocType::"Arch. Quote",DocType::"Arch. Order",DocType::"Arch. Blanket Order",DocType::"Arch. Return Order":
+          BEGIN
+            FromArchPurchHeader.RESET;
+            FromArchPurchHeader.FILTERGROUP := 0;
+            FromArchPurchHeader.SETRANGE("Document Type", CopyDocMgt.ArchPurchHeaderDocType(DocType));
+            FromArchPurchHeader.FILTERGROUP := 2;
+            FromArchPurchHeader."Document Type" := CopyDocMgt.ArchPurchHeaderDocType(DocType);
+            FromArchPurchHeader."No." := DocNo;
+            FromArchPurchHeader."Doc. No. Occurrence" := DocNoOccurrence;
+            FromArchPurchHeader."Version No." := DocVersionNo;
+            IF (DocNo = '') AND (PurchHeader."Sell-to Customer No." <> '') THEN
+              IF FromArchPurchHeader.SETCURRENTKEY("Document Type","Sell-to Customer No.") THEN BEGIN
+                FromArchPurchHeader."Sell-to Customer No." := PurchHeader."Sell-to Customer No.";
+                IF FromArchPurchHeader.FIND('=><') THEN;
+              END;
+            IF PAGE.RUNMODAL(0,FromArchPurchHeader) = ACTION::LookupOK THEN
+              BEGIN
+                DocNo := FromArchPurchHeader."No.";
+                DocNoOccurrence := FromArchPurchHeader."Doc. No. Occurrence";
+                DocVersionNo := FromArchPurchHeader."Version No.";
+                RequestOptionsPage.UPDATE(FALSE);
+              END;
+          END;
+      END;
+      ValidateDocNo;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

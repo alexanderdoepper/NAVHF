@@ -1,0 +1,57 @@
+OBJECT Page 11002 Data Exports
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Exports;
+               DEA=Datenexporte];
+    SourceTable=Table11002;
+    PageType=List;
+    ActionList=ACTIONS
+    {
+      { 1900000003;  ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140008 ;1   ;ActionGroup;
+                      Name=Export;
+                      CaptionML=[ENU=Export;
+                                 DEA=Exportieren] }
+      { 1140009 ;2   ;Action    ;
+                      Name=Data Export Record Definition;
+                      CaptionML=[ENU=Record Definitions;
+                                 DEA=Datensatzdefinitionen];
+                      RunObject=Page 11003;
+                      RunPageView=SORTING(Data Export Code,Data Exp. Rec. Type Code);
+                      RunPageLink=Data Export Code=FIELD(Code);
+                      Promoted=Yes;
+                      Image=XMLFile;
+                      PromotedCategory=Category4 }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr=Code }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Description }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

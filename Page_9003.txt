@@ -1,0 +1,388 @@
+OBJECT Page 9003 Acc. Receivables Adm. RC
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 9       ;1   ;Action    ;
+                      CaptionML=[ENU=C&ustomer - List;
+                                 ESP=&Cliente - Listado;
+                                 DEA=De&bitor - Liste];
+                      RunObject=Report 101;
+                      Image=Report }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Customer - &Balance to Date;
+                                 ESP=Cliente - &Saldo por fechas;
+                                 DEA=Debitorenposten &per];
+                      RunObject=Report 121;
+                      Image=Report }
+      { 16      ;1   ;Action    ;
+                      CaptionML=[ENU=Aged &Accounts Receivable;
+                                 ESP=&AntigÅedad cobros;
+                                 DEA=Debitor - Salden&rÅckblick];
+                      RunObject=Report 120;
+                      Image=Report }
+      { 17      ;1   ;Action    ;
+                      CaptionML=[ENU=Customer - &Summary Aging Simp.;
+                                 ESP=AntigÅ&edad deuda cliente;
+                                 DEA=Debitor - &Altersvert.-Saldo];
+                      RunObject=Report 109;
+                      Image=Report }
+      { 18      ;1   ;Action    ;
+                      CaptionML=[ENU=Customer - Trial Balan&ce;
+                                 ESP=Cliente - &Balance sumas y saldos;
+                                 DEA=Debitor - Sald&enliste];
+                      RunObject=Report 129;
+                      Image=Report }
+      { 19      ;1   ;Action    ;
+                      CaptionML=[ENU=Cus&tomer/Item Sales;
+                                 ESP=Cliente - Ventas por prod&uctos;
+                                 DEA=&Debitor/Artikel Statistik];
+                      RunObject=Report 113;
+                      Image=Report }
+      { 20      ;1   ;Separator  }
+      { 22      ;1   ;Action    ;
+                      CaptionML=[ENU=Customer &Document Nos.;
+                                 ESP=Nß d&ocumento cliente;
+                                 DEA=Debitorenbe&legnummern];
+                      RunObject=Report 128;
+                      Image=Report }
+      { 23      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales &Invoice Nos.;
+                                 ESP=&Nß serie fac. venta;
+                                 DEA=Verkau&fsrechnungsnummern];
+                      RunObject=Report 124;
+                      Image=Report }
+      { 24      ;1   ;Action    ;
+                      CaptionML=[ENU=Sa&les Credit Memo Nos.;
+                                 ESP=Nß serie abono &venta;
+                                 DEA=Verkaufsgutschriftsn&ummern];
+                      RunObject=Report 125;
+                      Image=Report }
+      { 27      ;1   ;Action    ;
+                      CaptionML=[ENU=Re&minder Nos.;
+                                 ESP=Nß serie &recordatorio;
+                                 DEA=Mahnungsnu&mmern];
+                      RunObject=Report 126;
+                      Image=Report }
+      { 28      ;1   ;Action    ;
+                      CaptionML=[ENU=Finance Cha&rge Memo Nos.;
+                                 ESP=N&ß ser. documento interÇs;
+                                 DEA=Zinsrechnung&snummern];
+                      RunObject=Report 127;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 12      ;1   ;Action    ;
+                      CaptionML=[ENU=Customers;
+                                 ESP=Clientes;
+                                 DEA=Debitoren];
+                      RunObject=Page 22;
+                      Image=Customer }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=Balance;
+                                 ESP=Saldo;
+                                 DEA=Saldo];
+                      RunObject=Page 22;
+                      RunPageView=WHERE(Balance (LCY)=FILTER(<>0));
+                      Image=Balance }
+      { 14      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Orders;
+                                 ESP=Pedidos venta;
+                                 DEA=VerkaufsauftrÑge];
+                      RunObject=Page 9305;
+                      Image=Order }
+      { 92      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Invoices;
+                                 ESP=Facturas venta;
+                                 DEA=Verkaufsrechnungen];
+                      RunObject=Page 9301;
+                      Image=Invoice }
+      { 3       ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Return Orders;
+                                 ESP=Devoluciones ventas;
+                                 DEA=Verkaufsreklamationen];
+                      RunObject=Page 9304;
+                      Image=ReturnOrder }
+      { 5       ;1   ;Action    ;
+                      CaptionML=[ENU=Bank Accounts;
+                                 ESP=Bancos;
+                                 DEA=Bankkonten];
+                      RunObject=Page 371;
+                      Image=BankAccount }
+      { 6       ;1   ;Action    ;
+                      CaptionML=[ENU=Reminders;
+                                 ESP=Recordatorios;
+                                 DEA=Mahnungen];
+                      RunObject=Page 436;
+                      Image=Reminder }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Finance Charge Memos;
+                                 ESP=Docs. interÇs;
+                                 DEA=Zinsrechnungen];
+                      RunObject=Page 448;
+                      Image=FinChargeMemo }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Items;
+                                 ESP=Productos;
+                                 DEA=Artikel];
+                      RunObject=Page 31;
+                      Image=Item }
+      { 31      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Journals;
+                                 ESP=Diarios de ventas;
+                                 DEA=Verkaufs Buch.-BlÑtter];
+                      RunObject=Page 251;
+                      RunPageView=WHERE(Template Type=CONST(Sales),
+                                        Recurring=CONST(No)) }
+      { 32      ;1   ;Action    ;
+                      CaptionML=[ENU=Cash Receipt Journals;
+                                 ESP=Diarios de cobros;
+                                 DEA=Zlg.-Eing. Buch.-BlÑtter];
+                      RunObject=Page 251;
+                      RunPageView=WHERE(Template Type=CONST(Cash Receipts),
+                                        Recurring=CONST(No));
+                      Image=Journals }
+      { 33      ;1   ;Action    ;
+                      CaptionML=[ENU=General Journals;
+                                 ESP=Diarios generales;
+                                 DEA=Fibu Buch.-BlÑtter];
+                      RunObject=Page 251;
+                      RunPageView=WHERE(Template Type=CONST(General),
+                                        Recurring=CONST(No));
+                      Image=Journal }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 39      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Posted Documents;
+                                 ESP=Documentos hist¢ricos;
+                                 DEA=Gebuchte Belege];
+                      Image=FiledPosted }
+      { 11      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Sales Shipments;
+                                 ESP=Hist¢rico albaranes venta;
+                                 DEA=Geb. Verkaufslieferungen];
+                      RunObject=Page 142;
+                      Image=PostedShipment }
+      { 25      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Sales Invoices;
+                                 ESP=Hist¢rico facturas venta;
+                                 DEA=Geb. Verkaufsrechnungen];
+                      RunObject=Page 143;
+                      Image=PostedOrder }
+      { 10      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Return Receipts;
+                                 ESP=Hist¢rico recep. devoluci¢n;
+                                 DEA=Gebuchte RÅcksendungen];
+                      RunObject=Page 6662;
+                      Image=PostedReturnReceipt }
+      { 26      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Sales Credit Memos;
+                                 ESP=Hist¢rico abonos venta;
+                                 DEA=Geb. Verkaufsgutschriften];
+                      RunObject=Page 144;
+                      Image=PostedOrder }
+      { 34      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Purchase Invoices;
+                                 ESP=Hist¢rico facturas compra;
+                                 DEA=Geb. Einkaufsrechnungen];
+                      RunObject=Page 146 }
+      { 35      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Purchase Credit Memos;
+                                 ESP=Hist¢rico abono compra;
+                                 DEA=Geb. Einkaufsgutschriften];
+                      RunObject=Page 147 }
+      { 29      ;2   ;Action    ;
+                      CaptionML=[ENU=Issued Reminders;
+                                 ESP=Recordatorios emitidos;
+                                 DEA=Registrierte Mahnungen];
+                      RunObject=Page 440;
+                      Image=OrderReminder }
+      { 30      ;2   ;Action    ;
+                      CaptionML=[ENU=Issued Fin. Charge Memos;
+                                 ESP=Docs. de interÇs emitidos;
+                                 DEA=Registrierte Zinsrechnungen];
+                      RunObject=Page 452;
+                      Image=PostedMemo }
+      { 102     ;2   ;Action    ;
+                      CaptionML=[ENU=G/L Registers;
+                                 ESP=Registro movs. contabilidad;
+                                 DEA=Fibujournale];
+                      RunObject=Page 116;
+                      Image=GLRegisters }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 64      ;1   ;Separator ;
+                      CaptionML=[ENU=New;
+                                 ESP=Nuevo;
+                                 DEA=Neu];
+                      IsHeader=Yes }
+      { 103     ;1   ;Action    ;
+                      CaptionML=[ENU=C&ustomer;
+                                 ESP=&Cliente;
+                                 DEA=D&ebitor];
+                      RunObject=Page 21;
+                      Promoted=No;
+                      Image=Customer;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 36      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Sales;
+                                 ESP=&Ventas;
+                                 DEA=&Verkauf];
+                      Image=Sales }
+      { 37      ;2   ;Action    ;
+                      CaptionML=[ENU=Sales &Order;
+                                 ESP=Pedido &venta;
+                                 DEA=Verkaufsau&ftrag];
+                      RunObject=Page 42;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 104     ;2   ;Action    ;
+                      CaptionML=[ENU=Sales &Invoice;
+                                 ESP=Fact&ura venta;
+                                 DEA=Verkauf&srechnung];
+                      RunObject=Page 43;
+                      Promoted=No;
+                      Image=Invoice;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 65      ;2   ;Action    ;
+                      CaptionML=[ENU=Sales &Credit Memo;
+                                 ESP=A&bono venta;
+                                 DEA=Verkaufs&gutschrift];
+                      RunObject=Page 44;
+                      Promoted=No;
+                      Image=CreditMemo;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 105     ;2   ;Action    ;
+                      CaptionML=[ENU=Sales &Fin. Charge Memo;
+                                 ESP=Doc. de in&terÇs de ventas;
+                                 DEA=Verkaufs&zinsrechnung];
+                      RunObject=Page 446;
+                      Promoted=No;
+                      Image=FinChargeMemo;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 106     ;2   ;Action    ;
+                      CaptionML=[ENU=Sales &Reminder;
+                                 ESP=&Recordatorio venta;
+                                 DEA=Verkaufsma&hnung];
+                      RunObject=Page 434;
+                      Promoted=No;
+                      Image=Reminder;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 67      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 74      ;1   ;Action    ;
+                      CaptionML=[ENU=Cash Receipt &Journal;
+                                 ESP=&Diario cobros;
+                                 DEA=Zahlungseingang&s Buch.-Blatt];
+                      RunObject=Page 255;
+                      Image=CashReceiptJournal }
+      { 111     ;1   ;Separator  }
+      { 112     ;1   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Combine Shi&pments;
+                                 ESP=&Fact. autom†tica;
+                                 DEA=Sammelrec&hnung];
+                      RunObject=Report 295;
+                      Image=Action }
+      { 113     ;1   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Combine Return S&hipments;
+                                 ESP=Fact. autom. en&v°os dev.;
+                                 DEA=SammelrÅc&klieferungen];
+                      RunObject=Report 6653;
+                      Image=Action }
+      { 84      ;1   ;Separator ;
+                      CaptionML=[ENU=Administration;
+                                 ESP=Administraci¢n;
+                                 DEA=Verwaltung];
+                      IsHeader=Yes }
+      { 86      ;1   ;Action    ;
+                      CaptionML=[ENU=Sales && Recei&vables Setup;
+                                 ESP=Configuraci¢n venta&s y cobros;
+                                 DEA=Debitoren && Verka&uf Einr.];
+                      RunObject=Page 459;
+                      Image=Setup }
+      { 89      ;1   ;Separator ;
+                      CaptionML=[ENU=History;
+                                 ESP=Historial;
+                                 DEA=Historie];
+                      IsHeader=Yes }
+      { 90      ;1   ;Action    ;
+                      CaptionML=[ENU=Navi&gate;
+                                 ESP=&Navegar;
+                                 DEA=Navi&gate];
+                      RunObject=Page 344;
+                      Image=Navigate }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1902899408;2;Part   ;
+                PagePartID=Page9034;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 1907692008;2;Part   ;
+                PagePartID=Page9150;
+                PartType=Page }
+
+    { 1905989608;2;Part   ;
+                PagePartID=Page9152;
+                PartType=Page }
+
+    { 1   ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1903012608;2;Part   ;
+                PagePartID=Page9175;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1901377608;2;Part   ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

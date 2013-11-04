@@ -1,0 +1,202 @@
+OBJECT Codeunit 11001 Sales VAT Adv. Notif.-Transmit
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    TableNo=11011;
+    OnRun=VAR
+            RespText@1170000000 : Text;
+            SalesVATAdvNotif2@1140000 : Record 11011;
+            XMLSubDoc@1140001 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+            XMLRespDoc@1140002 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+            TransferDoc@1140006 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+            ElsterTransferHandlerNavision@1140003 : DotNet "'Microsoft.Dynamics.ElsterTransferHandler, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.ElsterTransferHandler.ExternalCommunication" RUNONCLIENT;
+            ConfigNode@1140007 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlNode";
+            XMLInStream@1140004 : InStream;
+            Window@1140005 : Dialog;
+          BEGIN
+            IF NOT CONFIRM(Text1140000,TRUE,TABLECAPTION,"No.") THEN
+              EXIT;
+            IF "XML-File Creation Date" = 0D THEN
+              ERROR(Text1140006,TABLECAPTION);
+            TESTFIELD("Transmission successful",FALSE);
+            TESTFIELD("Contact for Tax Office");
+
+            SalesVATAdvNotif2.SETCURRENTKEY("Starting Date");
+            SalesVATAdvNotif2.SETRANGE("Starting Date","Starting Date");
+            SalesVATAdvNotif2.SETFILTER("No.",'<>%1',"No.");
+            SalesVATAdvNotif2.SETRANGE("Transmission successful",TRUE);
+            SalesVATAdvNotif2.SETRANGE("Corrected Notification",FALSE);
+            IF SalesVATAdvNotif2.FINDFIRST THEN BEGIN
+              IF NOT "Corrected Notification" THEN
+                ERROR(Text1140001,TABLECAPTION,SalesVATAdvNotif2."No.",FIELDCAPTION("Corrected Notification"),"No.");
+            END ELSE
+              IF "Corrected Notification" THEN BEGIN
+                IF NOT CONFIRM(Text1140002,FALSE,TABLECAPTION,"No.",FIELDCAPTION("Corrected Notification")) THEN
+                  EXIT;
+              END;
+
+            CLEAR(ProxyAuthentRequired);
+            CLEAR(ProxyUser);
+            CLEAR(ProxyPassword);
+            IF ElectronicVATDeclSetup.GET THEN BEGIN
+              UseProxyServer := ElectronicVATDeclSetup."Use Proxy Server";
+              IF UseProxyServer THEN
+                IF ElectronicVATDeclSetup."Proxy Server Authent. Required" THEN BEGIN
+                  ProxyAuthentRequired := TRUE;
+                  IF ProxyAccount.RUNMODAL = ACTION::OK THEN
+                    ProxyAccount.GetProxyUserAccount(ProxyUser,ProxyPassword)
+                  ELSE
+                    EXIT;
+                END;
+            END;
+
+            IF ISNULL(XMLSubDoc) THEN
+              XMLSubDoc := XMLSubDoc.XmlDocument;
+            CALCFIELDS("XML Submission Document");
+            "XML Submission Document".CREATEINSTREAM(XMLInStream);
+            XMLSubDoc.Load(XMLInStream);
+
+            Certificate.GET(USERID);
+            Certificate.TESTFIELD("Certificate Ref.");
+            CertificateType := Certificate."Certificate Type";
+            CertificateRef := Certificate."Certificate Ref.";
+
+            TransferDoc := TransferDoc.XmlDocument;
+            TransferDoc.LoadXml(
+              '<?xml version="1.0" encoding="ISO-8859-1"?>' +
+              '<ElsterTransfer><Configuration>' +
+              '<Proxy></Proxy>' +
+              '<ProxyAddress></ProxyAddress>' +
+              '<ProxyAuthent></ProxyAuthent>' +
+              '<ProxyUser></ProxyUser>' +
+              '<ProxyPass></ProxyPass>' +
+              '<CertificateType></CertificateType>' +
+              '<CertReference></CertReference>' +
+              '</Configuration></ElsterTransfer>');
+
+            ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/Proxy');
+            IF UseProxyServer THEN BEGIN
+              ConfigNode.InnerText := 'True';
+              ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/ProxyAddress');
+              ConfigNode.InnerText := ElectronicVATDeclSetup."Proxy Server IP-Address/Port";
+
+              IF ProxyAuthentRequired THEN BEGIN
+                ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/ProxyAuthent');
+                ConfigNode.InnerText := 'True';
+                ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/ProxyUser');
+                ConfigNode.InnerText := ProxyUser;
+                ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/ProxyPass');
+                ConfigNode.InnerText := ProxyPassword;
+              END ELSE BEGIN
+                ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/ProxyAuthent');
+                ConfigNode.InnerText := 'False';
+              END;
+            END ELSE
+              ConfigNode.InnerText := 'False';
+
+            ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/CertificateType');
+            ConfigNode.InnerText := FORMAT(CertificateType);
+            ConfigNode := TransferDoc.SelectSingleNode('ElsterTransfer/Configuration/CertReference');
+            ConfigNode.InnerText := CertificateRef;
+
+            TransferDoc.DocumentElement.AppendChild(TransferDoc.ImportNode(XMLSubDoc.DocumentElement,TRUE));
+
+            Window.OPEN(Text1140003);
+
+            IF ISNULL(ElsterTransferHandlerNavision) THEN
+              ElsterTransferHandlerNavision := ElsterTransferHandlerNavision.ExternalCommunication;
+
+            RespText := ElsterTransferHandlerNavision.SendXmlDocumentString(TransferDoc.OuterXml);
+
+            XMLRespDoc := XMLRespDoc.XmlDocument;
+            XMLRespDoc.LoadXml(RespText);
+
+            Window.CLOSE;
+
+            InsertVATTransLogEntry(Rec,XMLRespDoc);
+
+            IF VATTransLogEntry."Transmission successful" THEN
+              MESSAGE(Text1140004)
+            ELSE
+              MESSAGE(Text1140005,VATTransLogEntry."Return Code",VATTransLogEntry."Return Text");
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Do you want to transmit the XML-File for the %1 %2 to the tax authorities?;DEA=Wollen Sie die XML-Datei fÅr die %1 %2 an die Steuerbehîrde Åbertragen?';
+      Text1140001@1140001 : TextConst 'ENU=As the XML-File for the %1 %2 has already been transmitted successfully to the tax authority for this period, %3 must be checkmarked in %1 %4.;DEA=Da bereits die XML-Datei fÅr die %1 %2 erfolgreich fÅr diese Periode an die Steuerbehîrde Åbertragen wurde, muss %3 in %1 %4 gesetzt sein.';
+      Text1140002@1140002 : TextConst 'ENU=For this period no %1 has been transmitted successfully to the tax authority. In the %1 %2 currently selected for transmission %3 is marked.\\Do you want to perform the transmission?;DEA=FÅr diese Periode wurde noch keine %1 erfolgreich an die Steuerbehîrde Åbertragen. In der zur öbertragung ausgewÑhlten %1 %2 ist %3 gesetzt.\\Wollen Sie die öbertragung durchfÅhren?';
+      Text1140003@1140003 : TextConst 'ENU=Transmitting...;DEA=öbertragung lÑuft...';
+      Text1140004@1140004 : TextConst 'ENU=The transmission has been successful.;DEA=Die öbertragung wurde erfolgreich durchgefÅhrt.';
+      Text1140005@1140005 : TextConst 'ENU=The error code %1 "%2" has been received.\\The transmission has not been successful.;DEA=Es wurde der Fehlercode %1 %2 empfangen.\\Die öbertragung verlief nicht erfolgreich.';
+      Text1140006@1140006 : TextConst 'ENU=You must create the XML-File for the %1 before you can transmit it.;DEA=Sie mÅssen die XML-Datei fÅr die %1 erst erstellen, bevor sie Åbertragen werden kann.';
+      VATTransLogEntry@1140008 : Record 11012;
+      ElectronicVATDeclSetup@1140009 : Record 11013;
+      Certificate@1140010 : Record 11014;
+      ProxyAccount@1140011 : Page 11021;
+      UseProxyServer@1140012 : Boolean;
+      ProxyAuthentRequired@1140013 : Boolean;
+      ProxyUser@1140014 : Text[30];
+      ProxyPassword@1140015 : Text[30];
+      CertificateRef@1140016 : Text[100];
+      CertificateType@1140017 : Integer;
+
+    LOCAL PROCEDURE InsertVATTransLogEntry@1140000(SalesVATAdvNotif@1140000 : Record 11011;XMLRespDoc@1140001 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument");
+    VAR
+      XMLDOMMgt@1140002 : Codeunit 6224;
+      XMLNodeCurr@1140003 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlNode";
+      NsMgr@1170000001 : DotNet "'System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlNamespaceManager";
+      XMLOutStream@1170000000 : OutStream;
+      Text001@1170000002 : TextConst 'ENU=Unknown error;DEA=Unbekannter Fehler';
+    BEGIN
+      XMLNodeCurr := XMLRespDoc.DocumentElement;
+      VATTransLogEntry.LOCKTABLE;
+      IF VATTransLogEntry.FINDLAST THEN;
+      VATTransLogEntry.INIT;
+      VATTransLogEntry."Entry No." := VATTransLogEntry."Entry No." + 1;
+      VATTransLogEntry."Sales VAT Adv. Notif. No." := SalesVATAdvNotif."No.";
+      VATTransLogEntry."Transmission Date" := TODAY;
+      VATTransLogEntry."User ID" := USERID;
+
+      NsMgr := NsMgr.XmlNamespaceManager(XMLRespDoc.NameTable);
+      NsMgr.AddNamespace('elster','http://www.elster.de/2002/XMLSchema');
+
+      VATTransLogEntry."Return Code" := XMLDOMMgt.FindNodeTextNs(XMLNodeCurr,
+          '//elster:TransferHeader/elster:RC/elster:Rueckgabe/elster:Code',NsMgr);
+      IF VATTransLogEntry."Return Code" <> '0' THEN BEGIN
+        IF VATTransLogEntry."Return Code" = '' THEN BEGIN
+          VATTransLogEntry."Return Code" := '-1';
+          VATTransLogEntry."Return Text" := Text001;
+        END ELSE
+          VATTransLogEntry."Return Text" := XMLDOMMgt.FindNodeTextNs(XMLNodeCurr,
+              '//elster:TransferHeader/elster:RC/elster:Rueckgabe/elster:Text',NsMgr);
+      END ELSE BEGIN
+        VATTransLogEntry."Return Code" := XMLDOMMgt.FindNodeTextNs(XMLNodeCurr,
+            '//elster:NutzdatenHeader/elster:RC/elster:Rueckgabe/elster:Code',NsMgr);
+        IF VATTransLogEntry."Return Code" <> '0' THEN
+          VATTransLogEntry."Return Text" := XMLDOMMgt.FindNodeTextNs(XMLNodeCurr,
+              '//elster:NutzdatenHeader/elster:RC/elster:Rueckgabe/elster:Text',NsMgr);
+      END;
+      IF VATTransLogEntry."Return Code" = '0' THEN
+        VATTransLogEntry."Return Code" := '';
+      IF VATTransLogEntry."Return Code" = '' THEN
+        VATTransLogEntry."Transmission successful" := TRUE;
+      VATTransLogEntry."XML Response Document".CREATEOUTSTREAM(XMLOutStream);
+      XMLRespDoc.Save(XMLOutStream);
+
+      VATTransLogEntry.INSERT;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

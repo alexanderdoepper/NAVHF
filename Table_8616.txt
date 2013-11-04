@@ -1,0 +1,161 @@
+OBJECT Table 8616 Config. Package Field
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Package Field;
+               ESP=Campo de paquete de configuraci¢n;
+               DEA=Paketfeld konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Package Code        ;Code20        ;TableRelation="Config. Package";
+                                                   CaptionML=[ENU=Package Code;
+                                                              ESP=C¢digo de paquete;
+                                                              DEA=Paketcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Table ID            ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Field ID            ;Integer       ;TableRelation=IF (Dimension=CONST(No)) Field.No. WHERE (TableNo=FIELD(Table ID));
+                                                   CaptionML=[ENU=Field ID;
+                                                              ESP=Id. campo;
+                                                              DEA=Feld-ID];
+                                                   NotBlank=Yes }
+    { 4   ;   ;Field Name          ;Text30        ;CaptionML=[ENU=Field Name;
+                                                              ESP=Nombre de campo;
+                                                              DEA=Feldname] }
+    { 5   ;   ;Field Caption       ;Text250       ;CaptionML=[ENU=Field Caption;
+                                                              ESP=T°tulo campo;
+                                                              DEA=Feldbezeichnung] }
+    { 6   ;   ;Validate Field      ;Boolean       ;OnValidate=BEGIN
+                                                                IF NOT Dimension THEN BEGIN
+                                                                  IF xRec."Validate Field" AND NOT "Validate Field" AND "Primary Key" THEN
+                                                                    ERROR(Text000,"Field Caption");
+                                                                  UpdateFieldErrors;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Validate Field;
+                                                              ESP=Validar campo;
+                                                              DEA=Feld prÅfen] }
+    { 7   ;   ;Include Field       ;Boolean       ;OnValidate=BEGIN
+                                                                IF NOT Dimension THEN BEGIN
+                                                                  IF xRec."Include Field" AND NOT "Include Field" AND "Primary Key" THEN
+                                                                    ERROR(Text000,"Field Caption");
+                                                                  "Validate Field" := "Include Field";
+                                                                  UpdateFieldErrors;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Include Field;
+                                                              ESP=Incluir campo;
+                                                              DEA=Feld einschlie·en] }
+    { 8   ;   ;Localize Field      ;Boolean       ;CaptionML=[ENU=Localize Field;
+                                                              ESP=Localizar campo;
+                                                              DEA=Feld lokalisieren] }
+    { 9   ;   ;Relation Table ID   ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Relation Table ID;
+                                                              ESP=Id. tabla relaciones;
+                                                              DEA=Relationstabellenkennung];
+                                                   Editable=No }
+    { 10  ;   ;Relation Table Name ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Name" WHERE (Object Type=CONST(Table),
+                                                                                                             Object ID=FIELD(Relation Table ID)));
+                                                   CaptionML=[ENU=Relation Table Name;
+                                                              ESP=Nombre de tabla de relaciones;
+                                                              DEA=Relationstabellenname];
+                                                   Editable=No }
+    { 11  ;   ;Dimension           ;Boolean       ;CaptionML=[ENU=Dimension;
+                                                              ESP=Dimensi¢n;
+                                                              DEA=Dimension];
+                                                   Editable=No }
+    { 12  ;   ;Primary Key         ;Boolean       ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel];
+                                                   Editable=No }
+    { 13  ;   ;Processing Order    ;Integer       ;CaptionML=[ENU=Processing Order;
+                                                              ESP=Pedido de procesamiento;
+                                                              DEA=Verarbeitungsauftrag] }
+  }
+  KEYS
+  {
+    {    ;Package Code,Table ID,Field ID          ;Clustered=Yes }
+    {    ;Package Code,Table ID,Include Field      }
+    {    ;Package Code,Table ID,Validate Field     }
+    {    ;Package Code,Table ID,Processing Order   }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=%1 is part of the primary key and must be included.;ESP=%1 forma parte de la clave principal y se debe incluir.;DEA=%1 ist Teil des PrimÑrschlÅssels und muss enthalten sein.';
+      Text001@1001 : TextConst 'ENU=%1 value ''%2'' does not exist.;ESP=El valor de %1 ''%2'' no existe.;DEA=Der %1-Wert ''%2'' ist nicht vorhanden.';
+      Text002@1003 : TextConst 'ENU=Updating validation errors...;ESP=Actualizando errores de validaci¢n...;DEA=öberprÅfungsfehler werden aktualisiert...';
+
+    PROCEDURE UpdateFieldErrors@1000();
+    VAR
+      ConfigPackageData@1002 : Record 8615;
+      ConfigPackageField@1007 : Record 8616;
+      TempConfigPackageTable@1004 : TEMPORARY Record 8613;
+      ConfigPackageMgt@1000 : Codeunit 8611;
+      ConfigValidateMgt@1005 : Codeunit 8617;
+      ConfigProgressBar@1006 : Codeunit 8615;
+      RecRef@1001 : RecordRef;
+      FieldRef@1003 : FieldRef;
+    BEGIN
+      IF NOT Dimension THEN BEGIN
+        RecRef.OPEN("Table ID",TRUE);
+        FieldRef := RecRef.FIELD("Field ID");
+
+        ConfigPackageData.SETRANGE("Package Code","Package Code");
+        ConfigPackageData.SETRANGE("Table ID","Table ID");
+        ConfigPackageData.SETRANGE("Field ID","Field ID");
+        IF ConfigPackageData.FINDSET THEN BEGIN
+          ConfigProgressBar.Init(ConfigPackageData.COUNT,Text002);
+          REPEAT
+            ConfigProgressBar.Update(ConfigPackageData.Value);
+            ConfigPackageMgt.CleanFieldError(ConfigPackageData);
+            IF "Include Field" THEN BEGIN
+              ConfigPackageMgt.FieldError(ConfigPackageData,ConfigValidateMgt.EvaluateValue(FieldRef,ConfigPackageData.Value,FALSE),0);
+              IF "Validate Field" THEN BEGIN
+                CLEAR(TempConfigPackageTable);
+                ConfigPackageField.INIT;
+                ConfigPackageField.RESET;
+                ConfigPackageField.SETRANGE("Package Code","Package Code");
+                ConfigPackageField.SETRANGE("Table ID","Table ID");
+                ConfigPackageField.SETRANGE("Field ID","Field ID");
+                IF NOT ConfigPackageMgt.ValidateFieldRelation(ConfigPackageField,TempConfigPackageTable) THEN
+                  ConfigPackageMgt.FieldError(ConfigPackageData,STRSUBSTNO(Text001,FieldRef.CAPTION,ConfigPackageData.Value),0);
+              END;
+            END;
+          UNTIL ConfigPackageData.NEXT = 0;
+          ConfigProgressBar.Close;
+        END;
+      END;
+    END;
+
+    PROCEDURE IsDimSetIDField@3(TableID@1000 : Integer;FieldID@1001 : Integer) : Boolean;
+    VAR
+      ConfigValidateMgt@1002 : Codeunit 8617;
+    BEGIN
+      EXIT(
+        (FieldID = DATABASE::"Dimension Set Entry") OR
+        (ConfigValidateMgt.GetRelationTableID(TableID,FieldID) = DATABASE::"Dimension Value"));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,442 @@
+OBJECT Page 5005352 Phys. Inventory Order Subform
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Lines;
+               DEA=Zeilen];
+    SourceTable=Table5005351;
+    DelayedInsert=Yes;
+    PageType=ListPart;
+    AutoSplitKey=Yes;
+    OnAfterGetRecord=BEGIN
+                       ShowShortcutDimCode(ShortcutDimCode);
+                     END;
+
+    OnNewRecord=BEGIN
+                  CLEAR(ShortcutDimCode);
+                END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1906587504;1 ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1904942604;2 ;ActionGroup;
+                      CaptionML=[ENU=Calculate &Qty. Expected;
+                                 DEA=Er&wartete Menge berechnen];
+                      Image=CalculateInventory }
+      { 1902737704;3 ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=This Line;
+                                 DEA=Diese Zeile];
+                      Image=Line;
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 CalculateQtyExpected;
+                               END;
+                                }
+      { 1907935204;1 ;ActionGroup;
+                      CaptionML=[ENU=&Line;
+                                 DEA=&Zeile];
+                      Image=Line }
+      { 1905168304;2 ;Action    ;
+                      CaptionML=[ENU=Recording Lines;
+                                 DEA=Erfassung Zeilen];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowPhysInvtRecordingLines;
+                               END;
+                                }
+      { 1900774204;2 ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 DEA=Dimensionen];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowDimensions;
+                               END;
+                                }
+      { 1901226904;2 ;ActionGroup;
+                      CaptionML=[ENU=Item &Tracking Lines;
+                                 DEA=Artikel&verfolgungszeilen];
+                      Image=AllLines }
+      { 1900832804;3 ;Action    ;
+                      CaptionML=[ENU=E&xpected Tracking Lines;
+                                 DEA=Erwartete &Verfolgungszeilen];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowExpectPhysInvtTrackLines;
+                               END;
+                                }
+      { 1905621004;3 ;Action    ;
+                      CaptionML=[ENU=&All Diff. Tracking Lines;
+                                 DEA=&Alle abweichenden Verfolgungszeilen];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowItemTrackingLines(0);
+                               END;
+                                }
+      { 1903416104;3 ;Action    ;
+                      CaptionML=[ENU=&Pos. Diff. Tracking Lines;
+                                 DEA=&Positive abweichende Verfolgungszeilen];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowItemTrackingLines(1);
+                               END;
+                                }
+      { 1907751604;3 ;Action    ;
+                      CaptionML=[ENU=&Neg. Tracking Lines;
+                                 DEA=&Negative abweichende Verfolgungszeilen];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowItemTrackingLines(2);
+                               END;
+                                }
+      { 1904376404;2 ;ActionGroup;
+                      CaptionML=[ENU=E&ntries;
+                                 DEA=&Posten];
+                      Image=Entries }
+      { 1904829104;3 ;Action    ;
+                      CaptionML=[ENU=Ledger E&ntries;
+                                 DEA=&Posten];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowItemLedgerEntries;
+                               END;
+                                }
+      { 1900435004;3 ;Action    ;
+                      CaptionML=[ENU=&Phys. Inventory Ledger Entries;
+                                 DEA=Inventur&posten];
+                      Image=PhysicalInventoryLedger;
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowPhysInvtLedgerEntries;
+                               END;
+                                }
+      { 1900887704;2 ;Action    ;
+                      CaptionML=[ENU=Bin Content (&Item);
+                                 DEA=Lagerplatzinhalt (&Artikel)];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowBinContentItem;
+                               END;
+                                }
+      { 1900493604;2 ;Action    ;
+                      CaptionML=[ENU=Bin Content (&Bin);
+                                 DEA=&Lagerplatzinhalt (Lagerplatz)];
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005350. Unsupported part was commented. Please check it.
+                                 {CurrPage.OrderLines.PAGE.}
+                                 _ShowBinContentBin;
+                               END;
+                                }
+      { 1905313304;1 ;Action    ;
+                      CaptionML=[ENU=New Phys. Inventory Recording;
+                                 DEA=Neue Inventurerfassung];
+                      RunObject=Page 5005354;
+                      Promoted=Yes;
+                      Image=PhysicalInventory;
+                      PromotedCategory=New }
+      { 1902275904;1 ;Action    ;
+                      CaptionML=[ENU=Physical Inventory Recording;
+                                 DEA=Inventurerfassung];
+                      RunObject=Report 5005353;
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Item No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Variant Code";
+                Visible=FALSE }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Description 2";
+                Visible=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Location Code" }
+
+    { 1140011;2;Field     ;
+                SourceExpr="Bin Code";
+                Visible=FALSE }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Unit of Measure";
+                Visible=FALSE }
+
+    { 1140015;2;Field     ;
+                SourceExpr="Base Unit of Measure Code" }
+
+    { 1140017;2;Field     ;
+                SourceExpr="Shelf/Bin No.";
+                Visible=FALSE }
+
+    { 1140019;2;Field     ;
+                SourceExpr="Qty. Expected (Base)" }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Qty. Exp. Calculated" }
+
+    { 1140023;2;Field     ;
+                SourceExpr="Qty. Exp. Track. Lines (Base)" }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Use Tracking Lines" }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Qty. Recorded (Base)" }
+
+    { 1140029;2;Field     ;
+                SourceExpr="In Recording Lines" }
+
+    { 1140031;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="No. Finished Rec.-Lines" }
+
+    { 1140033;2;Field     ;
+                SourceExpr="Recorded without Order";
+                Visible=FALSE }
+
+    { 1140035;2;Field     ;
+                SourceExpr="Entry Type";
+                Visible=FALSE }
+
+    { 1140037;2;Field     ;
+                SourceExpr="Quantity (Base)";
+                Visible=FALSE }
+
+    { 1140039;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Pos. Qty. (Base)" }
+
+    { 1140041;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Neg. Qty. (Base)" }
+
+    { 1140043;2;Field     ;
+                SourceExpr="Unit Amount";
+                Visible=FALSE }
+
+    { 1140045;2;Field     ;
+                SourceExpr="Unit Cost";
+                Visible=FALSE }
+
+    { 1140047;2;Field     ;
+                SourceExpr="Shortcut Dimension 1 Code";
+                Visible=FALSE }
+
+    { 1140049;2;Field     ;
+                SourceExpr="Shortcut Dimension 2 Code";
+                Visible=FALSE }
+
+    { 1140051;2;Field     ;
+                SourceExpr=ShortcutDimCode[3];
+                CaptionClass='1,2,3';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(3,ShortcutDimCode[3]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(3,ShortcutDimCode[3]);
+                         END;
+                          }
+
+    { 1140053;2;Field     ;
+                SourceExpr=ShortcutDimCode[4];
+                CaptionClass='1,2,4';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(4,ShortcutDimCode[4]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(4,ShortcutDimCode[4]);
+                         END;
+                          }
+
+    { 1140055;2;Field     ;
+                SourceExpr=ShortcutDimCode[5];
+                CaptionClass='1,2,5';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(5,ShortcutDimCode[5]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(5,ShortcutDimCode[5]);
+                         END;
+                          }
+
+    { 1140057;2;Field     ;
+                SourceExpr=ShortcutDimCode[6];
+                CaptionClass='1,2,6';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(6,ShortcutDimCode[6]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(6,ShortcutDimCode[6]);
+                         END;
+                          }
+
+    { 1140059;2;Field     ;
+                SourceExpr=ShortcutDimCode[7];
+                CaptionClass='1,2,7';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(7,ShortcutDimCode[7]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(7,ShortcutDimCode[7]);
+                         END;
+                          }
+
+    { 1140061;2;Field     ;
+                SourceExpr=ShortcutDimCode[8];
+                CaptionClass='1,2,8';
+                Visible=FALSE;
+                OnValidate=BEGIN
+                             ValidateShortcutDimCode(8,ShortcutDimCode[8]);
+                           END;
+
+                OnLookup=BEGIN
+                           LookupShortcutDimCode(8,ShortcutDimCode[8]);
+                         END;
+                          }
+
+  }
+  CODE
+  {
+    VAR
+      ShortcutDimCode@1140000 : ARRAY [8] OF Code[20];
+
+    PROCEDURE _ShowDimensions@19020529();
+    BEGIN
+      ShowDimensions;
+    END;
+
+    PROCEDURE ShowDimensions@1140000();
+    BEGIN
+      ShowDimensions;
+    END;
+
+    PROCEDURE _ShowPhysInvtRecordingLines@19029840();
+    BEGIN
+      ShowPhysInvtRecordingLines;
+    END;
+
+    PROCEDURE ShowPhysInvtRecordingLines@1140001();
+    BEGIN
+      ShowPhysInvtRecordingLines;
+    END;
+
+    PROCEDURE CalculateQtyExpected@1140002();
+    VAR
+      CalcQtyExpOneLine@1140000 : Codeunit 5005363;
+    BEGIN
+      CalcQtyExpOneLine.RUN(Rec);
+    END;
+
+    PROCEDURE _ShowExpectPhysInvtTrackLines@19050287();
+    BEGIN
+      ShowExpectPhysInvtTrackLines;
+    END;
+
+    PROCEDURE ShowExpectPhysInvtTrackLines@1140003();
+    BEGIN
+      ShowExpectPhysInvtTrackLines;
+    END;
+
+    PROCEDURE _ShowItemTrackingLines@19066222(Which@1140000 : Integer);
+    BEGIN
+      ShowItemTrackingLines(Which);
+    END;
+
+    PROCEDURE ShowItemTrackingLines@1140004(Which@1140000 : Integer);
+    BEGIN
+      ShowItemTrackingLines(Which);
+    END;
+
+    PROCEDURE _ShowItemLedgerEntries@19078120();
+    BEGIN
+      ShowItemLedgerEntries;
+    END;
+
+    PROCEDURE ShowItemLedgerEntries@1140005();
+    BEGIN
+      ShowItemLedgerEntries;
+    END;
+
+    PROCEDURE _ShowPhysInvtLedgerEntries@19010301();
+    BEGIN
+      ShowPhysInvtLedgerEntries;
+    END;
+
+    PROCEDURE ShowPhysInvtLedgerEntries@1140006();
+    BEGIN
+      ShowPhysInvtLedgerEntries;
+    END;
+
+    PROCEDURE _ShowBinContentItem@19021283();
+    BEGIN
+      ShowBinContentItem;
+    END;
+
+    PROCEDURE ShowBinContentItem@1140007();
+    BEGIN
+      ShowBinContentItem;
+    END;
+
+    PROCEDURE _ShowBinContentBin@19032040();
+    BEGIN
+      ShowBinContentBin;
+    END;
+
+    PROCEDURE ShowBinContentBin@1140008();
+    BEGIN
+      ShowBinContentBin;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

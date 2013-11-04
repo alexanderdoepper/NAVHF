@@ -1,0 +1,129 @@
+OBJECT Table 300 Reminder/Fin. Charge Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Reminder/Fin. Charge Entry;
+               ESP=Mov. recordatorio/inter‚s;
+               DEA=Mahnungs-/Zinsrechnungsposten];
+    LookupPageID=Page444;
+    DrillDownPageID=Page444;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Reminder,Finance Charge Memo;
+                                                                    ESP=Recordatorio,Doc. inter‚s;
+                                                                    DEA=Mahnung,Zinsrechnung];
+                                                   OptionString=Reminder,Finance Charge Memo }
+    { 3   ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(Reminder)) "Issued Reminder Header"
+                                                                 ELSE IF (Type=CONST(Finance Charge Memo)) "Issued Fin. Charge Memo Header";
+                                                   CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 4   ;   ;Reminder Level      ;Integer       ;CaptionML=[ENU=Reminder Level;
+                                                              ESP=Nivel recordatorio;
+                                                              DEA=Mahnstufe] }
+    { 5   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 6   ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              ESP=Fecha emisi¢n documento;
+                                                              DEA=Belegdatum] }
+    { 7   ;   ;Interest Posted     ;Boolean       ;CaptionML=[ENU=Interest Posted;
+                                                              ESP=Inter‚s registrado;
+                                                              DEA=Zins gebucht] }
+    { 8   ;   ;Interest Amount     ;Decimal       ;CaptionML=[ENU=Interest Amount;
+                                                              ESP=Importe inter‚s;
+                                                              DEA=Zinsbetrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr=GetCurrencyCode }
+    { 9   ;   ;Customer Entry No.  ;Integer       ;TableRelation="Cust. Ledger Entry";
+                                                   CaptionML=[ENU=Customer Entry No.;
+                                                              ESP=N§ mov. cliente;
+                                                              DEA=Debitorenposten Lfd. Nr.] }
+    { 10  ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                                                    ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso";
+                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                                                   OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
+    { 11  ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 12  ;   ;Remaining Amount    ;Decimal       ;CaptionML=[ENU=Remaining Amount;
+                                                              ESP=Importe pendiente;
+                                                              DEA=Restbetrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr=GetCurrencyCode }
+    { 13  ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Customer No.;
+                                                              ESP=N§ cliente;
+                                                              DEA=Debitorennr.] }
+    { 14  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 15  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
+                                                              ESP=Fecha vencimiento;
+                                                              DEA=F„lligkeitsdatum] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Customer No.                             }
+    {    ;Customer Entry No.,Type                  }
+    {    ;Type,No.                                 }
+    {    ;Document No.,Posting Date                }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE Navigate@1();
+    VAR
+      NavigateForm@1000 : Page 344;
+    BEGIN
+      NavigateForm.SetDoc("Posting Date","No.");
+      NavigateForm.RUN;
+    END;
+
+    PROCEDURE GetCurrencyCode@2() : Code[10];
+    VAR
+      CustLedgEntry@1000 : Record 21;
+    BEGIN
+      IF "Customer Entry No." = CustLedgEntry."Entry No." THEN
+        EXIT(CustLedgEntry."Currency Code");
+
+      IF CustLedgEntry.GET("Customer Entry No.") THEN
+        EXIT(CustLedgEntry."Currency Code");
+
+      EXIT('');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

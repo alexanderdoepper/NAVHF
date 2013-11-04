@@ -1,0 +1,68 @@
+OBJECT Page 9812 Set Web Service Access Key
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Set Web Service Access Key;
+               ESP=Establecer clave acceso servicio web;
+               DEA=Webdienst-Zugriffsschl《sel festlegen];
+    SourceTable=Table2000000120;
+    DataCaptionExpr="Full Name";
+    PageType=StandardDialog;
+    InstructionalTextML=[ENU=Set Web Service Access Key;
+                         ESP=Establecer clave acceso servicio web;
+                         DEA=Webdienst-Zugriffsschl《sel festlegen];
+    OnQueryClosePage=BEGIN
+                       IF CloseAction = ACTION::OK THEN BEGIN
+                         IF NeverExpires THEN
+                           IdentityManagement.CreateWebServicesKeyNoExpiry("User Security ID")
+                         ELSE
+                           IdentityManagement.CreateWebServicesKey("User Security ID",ExpirationDate);
+                       END;
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1   ;    ;Container ;
+                Name=General;
+                ContainerType=ContentArea }
+
+    { 5   ;1   ;Group     ;
+                Name=somegroup;
+                CaptionML=[ENU=Setting A New Web Service key will invalidate the old one.;
+                           ESP=Si establece una nueva clave de servicio web, se invalidar la clave anterior.;
+                           DEA=Wenn Sie einen neuen Webdienstschl《sel festlegen, wird der alte Schl《sel ung〕tig.];
+                GroupType=Group }
+
+    { 4   ;1   ;Field     ;
+                CaptionML=[ENU=Key Never Expires;
+                           ESP=La clave nunca caduca;
+                           DEA=Schl《sel lеft niemals ab];
+                SourceExpr=NeverExpires }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU=Key Expiration Date;
+                           ESP=Fecha caducidad de la clave;
+                           DEA=Schl《selablaufdatum];
+                SourceExpr=ExpirationDate;
+                Editable=NOT NeverExpires }
+
+  }
+  CODE
+  {
+    VAR
+      IdentityManagement@1004 : Codeunit 9801;
+      ExpirationDate@1001 : DateTime;
+      NeverExpires@1002 : Boolean;
+
+    BEGIN
+    END.
+  }
+}
+

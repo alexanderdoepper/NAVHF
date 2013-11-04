@@ -1,0 +1,50 @@
+OBJECT Table 11010 Data Exp. Primary Key Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Exp. Primary Key Buffer;
+               DEA=PrimÑrschlÅsselpuffer fÅr Datenexport];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table No.           ;Integer       ;CaptionML=[ENU=Table No.;
+                                                              DEA=Tabellennr.] }
+    { 2   ;   ;Index Value 1       ;Text30        ;CaptionML=[ENU=Index Value 1;
+                                                              DEA=Indexwert 1] }
+    { 3   ;   ;Index Value 2       ;Text30        ;CaptionML=[ENU=Index Value 2;
+                                                              DEA=Indexwert 2] }
+    { 4   ;   ;Index Value 3       ;Text30        ;CaptionML=[ENU=Index Value 3;
+                                                              DEA=Indexwert 3] }
+    { 5   ;   ;Index Value 4       ;Text30        ;CaptionML=[ENU=Index Value 4;
+                                                              DEA=Indexwert 4] }
+    { 6   ;   ;Index Value 5       ;Text30        ;CaptionML=[ENU=Index Value 5;
+                                                              DEA=Indexwert 5] }
+    { 7   ;   ;Index Value 6       ;Text30        ;CaptionML=[ENU=Index Value 6;
+                                                              DEA=Indexwert 6] }
+    { 8   ;   ;Index Value 7       ;Text30        ;CaptionML=[ENU=Index Value 7;
+                                                              DEA=Indexwert 7] }
+    { 9   ;   ;Best Key Index      ;Integer       ;CaptionML=[ENU=Best Key Index;
+                                                              DEA=Bester SchlÅsselindex] }
+  }
+  KEYS
+  {
+    {    ;Table No.,Index Value 1,Index Value 2,Index Value 3,Index Value 4,Index Value 5,Index Value 6,Index Value 7;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,120 @@
+OBJECT Page 9056 Warehouse Worker Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9058;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETRANGE("User ID Filter",USERID);
+
+                 LocationCode := WhseWMSCue.GetEmployeeLocation(USERID);
+                 SETFILTER("Location Filter",LocationCode);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 3   ;1   ;Group     ;
+                CaptionML=[ENU=Outbound;
+                           ESP=Salida;
+                           DEA=Ausgang];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 4       ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Pick Worksheet;
+                                             ESP=Editar hoja trabajo picking;
+                                             DEA=Kommissioniervorschlag bearbeiten];
+                                  RunObject=Page 7345 }
+                }
+                 }
+
+    { 1   ;2   ;Field     ;
+                SourceExpr="Unassigned Picks";
+                DrillDownPageID=Warehouse Picks }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="My Picks";
+                DrillDownPageID=Warehouse Picks }
+
+    { 8   ;1   ;Group     ;
+                CaptionML=[ENU=Inbound;
+                           ESP=Entrada;
+                           DEA=Eingang];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 15      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Put-away Worksheet;
+                                             ESP=Editar hoja trabajo ubicaci¢n;
+                                             DEA=Einlagerungsvorschlag bearbeiten];
+                                  RunObject=Page 7352 }
+                }
+                 }
+
+    { 11  ;2   ;Field     ;
+                SourceExpr="Unassigned Put-aways";
+                DrillDownPageID=Warehouse Put-aways }
+
+    { 13  ;2   ;Field     ;
+                SourceExpr="My Put-aways";
+                DrillDownPageID=Warehouse Put-aways }
+
+    { 9   ;1   ;Group     ;
+                CaptionML=[ENU=Internal;
+                           ESP=Interno;
+                           DEA=Intern];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 21      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Movement Worksheet;
+                                             ESP=Editar hoja trabajo movimiento;
+                                             DEA=Lagerplatzumlagerungsvorschlag bearbeiten];
+                                  RunObject=Page 7351 }
+                  { 22      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Whse. Item Journal;
+                                             ESP=Editar diario prod. almac‚n;
+                                             DEA=Log. Art. Buch.-Blatt bearbeiten];
+                                  RunObject=Page 7324 }
+                }
+                 }
+
+    { 17  ;2   ;Field     ;
+                SourceExpr="Unassigned Movements";
+                DrillDownPageID=Warehouse Movements }
+
+    { 19  ;2   ;Field     ;
+                SourceExpr="My Movements";
+                DrillDownPageID=Warehouse Movements }
+
+  }
+  CODE
+  {
+    VAR
+      WhseWMSCue@1001 : Record 9051;
+      LocationCode@1000 : Text[1024];
+
+    BEGIN
+    END.
+  }
+}
+

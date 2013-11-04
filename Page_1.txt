@@ -1,0 +1,384 @@
+OBJECT Page 1 Company Information
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00,NAVAT7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Company Information;
+               ESP=Informaci¢n empresa;
+               DEA=Firmendaten];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    SourceTable=Table79;
+    PageType=Card;
+    OnInit=BEGIN
+             MapPointVisible := TRUE;
+           END;
+
+    OnOpenPage=VAR
+                 MapMgt@1000 : Codeunit 802;
+               BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 IF NOT MapMgt.TestSetup THEN
+                   MapPointVisible := FALSE;
+               END;
+
+    OnAfterGetCurrRecord=BEGIN
+                           UpdateSystemIndicator;
+                         END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 66      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Company;
+                                 ESP=&Empresa;
+                                 DEA=Fir&ma];
+                      Image=Company }
+      { 70      ;2   ;Action    ;
+                      CaptionML=[ENU=Responsibility Centers;
+                                 ESP=Centros responsabilidad;
+                                 DEA=Zust„ndigkeitseinheiten];
+                      RunObject=Page 5715;
+                      Image=Position }
+      { 91      ;2   ;Separator  }
+      { 92      ;2   ;Action    ;
+                      CaptionML=[ENU=Online Map;
+                                 ESP=Online Map;
+                                 DEA=Online Map];
+                      Image=Map;
+                      OnAction=BEGIN
+                                 DisplayMap;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           ESP=General;
+                           DEA=Allgemein] }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr=Name }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Address }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr="Address 2" }
+
+    { 34  ;2   ;Field     ;
+                SourceExpr="Post Code" }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr=City }
+
+    { 42  ;2   ;Field     ;
+                SourceExpr="Country/Region Code" }
+
+    { 1160008;2;Field     ;
+                SourceExpr="House Number" }
+
+    { 1160010;2;Field     ;
+                SourceExpr="Floor Number" }
+
+    { 1160012;2;Field     ;
+                SourceExpr="Room Number" }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="VAT Registration No." }
+
+    { 1140035;2;Field     ;
+                SourceExpr="VAT Representative" }
+
+    { 76  ;2   ;Field     ;
+                SourceExpr="Industrial Classification" }
+
+    { 1140050;2;Field     ;
+                SourceExpr="Participant No." }
+
+    { 33  ;2   ;Field     ;
+                SourceExpr=Picture }
+
+    { 1902768601;1;Group  ;
+                CaptionML=[ENU=Communication;
+                           ESP=Comunicaci¢n;
+                           DEA=Kommunikation] }
+
+    { 50  ;2   ;Field     ;
+                Name=Phone No.2;
+                SourceExpr="Phone No." }
+
+    { 54  ;2   ;Field     ;
+                SourceExpr="Fax No." }
+
+    { 56  ;2   ;Field     ;
+                SourceExpr="E-Mail" }
+
+    { 58  ;2   ;Field     ;
+                SourceExpr="Home Page" }
+
+    { 78  ;2   ;Field     ;
+                SourceExpr="IC Partner Code" }
+
+    { 80  ;2   ;Field     ;
+                SourceExpr="IC Inbox Type" }
+
+    { 82  ;2   ;Field     ;
+                SourceExpr="IC Inbox Details" }
+
+    { 1901677601;1;Group  ;
+                CaptionML=[ENU=Payments;
+                           ESP=Pagos;
+                           DEA=Zahlungen] }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr="Bank Name" }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Bank Branch No." }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="Bank Account No." }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Payment Routing No." }
+
+    { 24  ;2   ;Field     ;
+                SourceExpr="Giro No." }
+
+    { 72  ;2   ;Field     ;
+                SourceExpr="SWIFT Code" }
+
+    { 74  ;2   ;Field     ;
+                SourceExpr=IBAN }
+
+    { 1906801201;1;Group  ;
+                CaptionML=[ENU=Shipping;
+                           ESP=Env¡o;
+                           DEA=Lieferung] }
+
+    { 35  ;2   ;Field     ;
+                SourceExpr="Ship-to Name" }
+
+    { 37  ;2   ;Field     ;
+                SourceExpr="Ship-to Address" }
+
+    { 39  ;2   ;Field     ;
+                SourceExpr="Ship-to Address 2" }
+
+    { 51  ;2   ;Field     ;
+                SourceExpr="Ship-to Post Code" }
+
+    { 49  ;2   ;Field     ;
+                SourceExpr="Ship-to City" }
+
+    { 60  ;2   ;Field     ;
+                SourceExpr="Ship-to Country/Region Code" }
+
+    { 43  ;2   ;Field     ;
+                SourceExpr="Ship-to Contact" }
+
+    { 47  ;2   ;Field     ;
+                SourceExpr="Location Code" }
+
+    { 13  ;2   ;Field     ;
+                SourceExpr="Responsibility Center" }
+
+    { 62  ;2   ;Field     ;
+                SourceExpr="Check-Avail. Period Calc." }
+
+    { 64  ;2   ;Field     ;
+                SourceExpr="Check-Avail. Time Bucket" }
+
+    { 67  ;2   ;Field     ;
+                DrillDown=No;
+                SourceExpr="Base Calendar Code" }
+
+    { 69  ;2   ;Field     ;
+                Name=Customized Calendar;
+                DrillDown=Yes;
+                CaptionML=[ENU=Customized Calendar;
+                           ESP=Calendario personalizado;
+                           DEA=Spezifischer Kalender];
+                SourceExpr=CalendarMgmt.CustomizedCalendarExistText(CustomizedCalendar."Source Type"::Company,'','',"Base Calendar Code");
+                Editable=FALSE;
+                OnDrillDown=BEGIN
+                              CurrPage.SAVERECORD;
+                              TESTFIELD("Base Calendar Code");
+                              CalendarMgmt.ShowCustomizedCalendar(CustomizedCalEntry."Source Type"::Company,'','',"Base Calendar Code");
+                            END;
+                             }
+
+    { 84  ;2   ;Field     ;
+                SourceExpr="Cal. Convergence Time Frame" }
+
+    { 1904933501;1;Group  ;
+                CaptionML=[ENU=Intrastat;
+                           DEA=Intrastat] }
+
+    { 1140000;2;Field     ;
+                SourceExpr=Area }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Place of Dispatcher" }
+
+    { 1140004;2;Field     ;
+                SourceExpr="Place of Receiver" }
+
+    { 1140006;2;Field     ;
+                SourceExpr="Company No." }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Agency No." }
+
+    { 1140010;2;Field     ;
+                SourceExpr="Special Agreement" }
+
+    { 1140031;2;Field     ;
+                SourceExpr="Check Transport Method" }
+
+    { 1140033;2;Field     ;
+                SourceExpr="Check Transaction Specific." }
+
+    { 1140012;2;Field     ;
+                SourceExpr="Sales Authorized No." }
+
+    { 1140014;2;Field     ;
+                SourceExpr="Purch. Authorized No." }
+
+    { 1160000;2;Field     ;
+                SourceExpr="Statistic No." }
+
+    { 1160002;2;Field     ;
+                SourceExpr="Control No." }
+
+    { 1160004;2;Field     ;
+                SourceExpr="DVR Number" }
+
+    { 1904094301;1;Group  ;
+                CaptionML=[ENU=Tax Office;
+                           DEA=Steuerbeh”rde] }
+
+    { 1160006;2;Field     ;
+                SourceExpr="Tax Office Number" }
+
+    { 1140016;2;Field     ;
+                SourceExpr="Registration No." }
+
+    { 1140018;2;Field     ;
+                SourceExpr="Tax Office Name" }
+
+    { 1140020;2;Field     ;
+                SourceExpr="Tax Office Address" }
+
+    { 1140022;2;Field     ;
+                SourceExpr="Tax Office Address 2" }
+
+    { 1140025;2;Field     ;
+                CaptionML=[ENU=Tax Office Post Code/City;
+                           DEA=Finanzamt PLZ Code/Ort];
+                SourceExpr="Tax Office Post Code" }
+
+    { 1140024;2;Field     ;
+                SourceExpr="Tax Office City" }
+
+    { 1140029;2;Field     ;
+                SourceExpr="Tax Office Country/Region Code" }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Tax Office Area" }
+
+    { 1904604101;1;Group  ;
+                CaptionML=[ENU=System Indicator;
+                           ESP=Indicador del sistema;
+                           DEA=Systemindikator] }
+
+    { 100 ;2   ;Field     ;
+                SourceExpr="System Indicator";
+                OnValidate=BEGIN
+                             SystemIndicatorOnAfterValidate;
+                           END;
+                            }
+
+    { 104 ;2   ;Field     ;
+                SourceExpr="System Indicator Style" }
+
+    { 102 ;2   ;Field     ;
+                Name=System Indicator Text;
+                CaptionML=[ENU=System Indicator Text;
+                           ESP=Texto de indicador del sistema;
+                           DEA=Systemindikatortext];
+                SourceExpr=SystemIndicatorText;
+                Editable=SystemIndicatorTextEditable;
+                OnValidate=BEGIN
+                             "Custom System Indicator Text" := SystemIndicatorText;
+                             SystemIndicatorTextOnAfterVali;
+                           END;
+                            }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      CustomizedCalEntry@1007 : Record 7603;
+      CustomizedCalendar@1005 : Record 7602;
+      CalendarMgmt@1004 : Codeunit 7600;
+      SystemIndicatorText@1006 : Text[250];
+      MapPointVisible@19022708 : Boolean INDATASET;
+      SystemIndicatorTextEditable@19043996 : Boolean INDATASET;
+
+    PROCEDURE UpdateSystemIndicator@1008();
+    VAR
+      IndicatorStyle@1000 : Option;
+    BEGIN
+      GetSystemIndicator(SystemIndicatorText,IndicatorStyle); // IndicatorStyle is not used
+      SystemIndicatorTextEditable := "System Indicator" = "System Indicator"::"Custom Text"
+    END;
+
+    LOCAL PROCEDURE SystemIndicatorTextOnAfterVali@19070270();
+    BEGIN
+      UpdateSystemIndicator
+    END;
+
+    LOCAL PROCEDURE SystemIndicatorOnAfterValidate@19079461();
+    BEGIN
+      UpdateSystemIndicator
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

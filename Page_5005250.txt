@@ -1,0 +1,105 @@
+OBJECT Page 5005250 Purchase Line Archive List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Purchase Line Archive List;
+               DEA=Archiv. EinkaufszeilenÅbersicht];
+    SourceTable=Table5110;
+    PageType=List;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140030 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Line;
+                                 DEA=&Zeile];
+                      Image=Line }
+      { 1140301 ;2   ;Action    ;
+                      Name=ShowDocument;
+                      CaptionML=[ENU=Show Document;
+                                 DEA=Beleg anzeigen];
+                      Image=View;
+                      OnAction=BEGIN
+                                 PurchaseHeaderArchive.GET("Document Type","Document No.","Doc. No. Occurrence","Version No.");
+                                 CASE "Document Type" OF
+                                   "Document Type"::Order:
+                                     PAGE.RUN(PAGE::"Purchase Order Archive",PurchaseHeaderArchive);
+                                   "Document Type"::Quote:
+                                     PAGE.RUN(PAGE::"Purchase Quote Archive",PurchaseHeaderArchive);
+                                   "Document Type"::"Blanket Order":
+                                     PAGE.RUN(PAGE::"Blanket Purchase Order Archive",PurchaseHeaderArchive);
+                                   "Document Type"::"Return Order":
+                                     PAGE.RUN(PAGE::"Purchase Return Order Archive",PurchaseHeaderArchive);
+                                 END;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Document Type" }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Document No." }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Buy-from Vendor No." }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Line No.";
+                Visible=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr=Type }
+
+    { 1140011;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Variant Code";
+                Visible=FALSE }
+
+    { 1140015;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140017;2;Field     ;
+                SourceExpr="Location Code";
+                Visible=FALSE }
+
+    { 1140019;2;Field     ;
+                SourceExpr="Unit of Measure" }
+
+    { 1140021;2;Field     ;
+                SourceExpr=Quantity }
+
+    { 1140023;2;Field     ;
+                SourceExpr=Amount }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Amount Including VAT" }
+
+  }
+  CODE
+  {
+    VAR
+      PurchaseHeaderArchive@1140000 : Record 5109;
+
+    BEGIN
+    END.
+  }
+}
+

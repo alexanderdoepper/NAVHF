@@ -1,0 +1,195 @@
+OBJECT Page 9505 Debugger Breakpoint List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Debugger Breakpoint List;
+               ESP=Lista de puntos de interrupci¢n de depurador;
+               DEA=Debugger-BreakpointÅbersicht];
+    LinksAllowed=No;
+    SourceTable=Table2000000100;
+    DelayedInsert=Yes;
+    SourceTableView=SORTING(User SID,Object Type,Object ID,Line No.,Column No.)
+                    ORDER(Ascending);
+    PageType=List;
+    RefreshOnActivate=Yes;
+    PromotedActionCategoriesML=[ENU=New,Process,Report,Conditions For Break;
+                                ESP=Nuevo,Proceso,Informe,Condiciones para interrumpir;
+                                DEA=Neu,Verarbeiten,Bericht,Bedingungen fÅr Abbruch];
+    OnOpenPage=BEGIN
+                 FILTERGROUP(2);
+                 SETRANGE("User SID",USERSECURITYID);
+                 FILTERGROUP(0);
+               END;
+
+    ActionList=ACTIONS
+    {
+      { 13      ;    ;ActionContainer;
+                      Name=Breakpoint Actions;
+                      ActionContainerType=ActionItems }
+      { 3       ;1   ;Separator  }
+      { 19      ;1   ;ActionGroup;
+                      Name=Breakpoint;
+                      CaptionML=[ENU=Breakpoint;
+                                 ESP=Punto de interrupci¢n;
+                                 DEA=Breakpoint] }
+      { 4       ;2   ;Action    ;
+                      Name=Enable;
+                      CaptionML=[ENU=Enable;
+                                 ESP=Habilitar;
+                                 DEA=Aktivieren];
+                      ToolTipML=[ENU=Enable the selected breakpoints.;
+                                 ESP=Habilita los puntos de interrupci¢n seleccionados.;
+                                 DEA=Aktiviert die ausgewÑhlten Breakpoints.];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=EnableBreakpoint;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DebuggerBreakpoint@1000 : Record 2000000100;
+                               BEGIN
+                                 CurrPage.SETSELECTIONFILTER(DebuggerBreakpoint);
+                                 DebuggerBreakpoint.MODIFYALL(Enabled,TRUE,TRUE);
+                               END;
+                                }
+      { 8       ;2   ;Action    ;
+                      Name=Disable;
+                      CaptionML=[ENU=Disable;
+                                 ESP=Desactivar;
+                                 DEA=Deaktivieren];
+                      ToolTipML=[ENU=Disable the selected breakpoints.;
+                                 ESP=Deshabilita los puntos de interrupci¢n seleccionados.;
+                                 DEA=Deaktiviert die ausgewÑhlten Breakpoints.];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=DisableBreakpoint;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DebuggerBreakpoint@1000 : Record 2000000100;
+                               BEGIN
+                                 CurrPage.SETSELECTIONFILTER(DebuggerBreakpoint);
+                                 DebuggerBreakpoint.MODIFYALL(Enabled,FALSE,TRUE);
+                               END;
+                                }
+      { 10      ;2   ;Action    ;
+                      Name=Enable All;
+                      CaptionML=[ENU=Enable All;
+                                 ESP=Habilitar todo;
+                                 DEA=Alles aktivieren];
+                      ToolTipML=[ENU=Enable all breakpoints in the breakpoint list.;
+                                 ESP=Habilita todos los puntos de interrupci¢n en la lista de puntos de interrupci¢n.;
+                                 DEA=Aktiviert alle Breakpoints in der BreakpointÅbersicht.];
+                      Promoted=Yes;
+                      Image=EnableAllBreakpoints;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 MODIFYALL(Enabled,TRUE,TRUE);
+                               END;
+                                }
+      { 9       ;2   ;Action    ;
+                      Name=Disable All;
+                      CaptionML=[ENU=Disable All;
+                                 ESP=Deshabilitar todo;
+                                 DEA=Alles deaktivieren];
+                      ToolTipML=[ENU=Disable all breakpoints in the breakpoint list.;
+                                 ESP=Deshabilita todos los puntos de interrupci¢n de la lista de puntos de interrupci¢n.;
+                                 DEA=Deaktiviert alle Breakpoints in der BreakpointÅbersicht.];
+                      Promoted=Yes;
+                      Image=DisableAllBreakpoints;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 MODIFYALL(Enabled,FALSE,TRUE);
+                               END;
+                                }
+      { 11      ;2   ;Action    ;
+                      Name=Delete All;
+                      CaptionML=[ENU=Delete All;
+                                 ESP=Borrar todo;
+                                 DEA=Alles lîschen];
+                      ToolTipML=[ENU=Delete all breakpoints in the breakpoint list.;
+                                 ESP=Elimina todos los puntos de interrupci¢n en la lista de puntos de interrupci¢n.;
+                                 DEA=Lîscht alle Breakpoints in der BreakpointÅbersicht.];
+                      Promoted=Yes;
+                      Image=DeleteAllBreakpoints;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 DebuggerBreakpoint@1001 : Record 2000000100;
+                               BEGIN
+                                 IF NOT CONFIRM(Text000,FALSE) THEN
+                                   EXIT;
+
+                                 DebuggerBreakpoint.SETRANGE("User SID",USERSECURITYID);
+                                 DebuggerBreakpoint.DELETEALL(TRUE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 5   ;2   ;Field     ;
+                CaptionML=[ENU=Object Type;
+                           ESP=Tipo objeto;
+                           DEA=Objektart];
+                SourceExpr="Object Type" }
+
+    { 6   ;2   ;Field     ;
+                CaptionML=[ENU=Object ID;
+                           ESP=Id. objeto;
+                           DEA=Objekt-ID];
+                SourceExpr="Object ID" }
+
+    { 12  ;2   ;Field     ;
+                CaptionML=[ENU=Object Name;
+                           ESP=Nombre objeto;
+                           DEA=Objektname];
+                SourceExpr="Object Name";
+                Editable=FALSE }
+
+    { 7   ;2   ;Field     ;
+                CaptionML=[ENU=Line No.;
+                           ESP=Nß l°nea;
+                           DEA=Zeilennr.];
+                SourceExpr="Line No." }
+
+    { 21  ;2   ;Field     ;
+                CaptionML=[ENU=Function Name;
+                           ESP=Nombre de funci¢n;
+                           DEA=Funktionsname];
+                SourceExpr="Function Name";
+                Editable=FALSE }
+
+    { 14  ;2   ;Field     ;
+                CaptionML=[ENU=Enabled;
+                           ESP=Activado;
+                           DEA=Aktiviert];
+                SourceExpr=Enabled }
+
+    { 18  ;2   ;Field     ;
+                CaptionML=[ENU=Condition;
+                           ESP=Condici¢n;
+                           DEA=Bedingung];
+                SourceExpr=Condition }
+
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst '@@@=Asked when choosing the Delete All action for breakpoints.;ENU=Are you sure that you want to delete all breakpoints?;ESP=®Est† seguro de que desea eliminar todos los puntos de interrupci¢n?;DEA=Mîchten Sie wirklich alle Breakpoints lîschen?';
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,121 @@
+OBJECT Report 5005340 Create Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Create Delivery Reminder;
+               DEA=Lieferanmahnung erstellen];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  LastVendorNo := '';
+                  DateOfTheCurrentDay := WORKDATE;
+                  ReminderCounter := 0;
+
+                  Window.OPEN(
+                    Text1140000 +
+                    Text1140001);
+                END;
+
+    OnPostReport=BEGIN
+                   IF DeliveryReminderHeader."Vendor No." <> '' THEN BEGIN
+                     CreateDeliveryReminder.HeaderReminderLevelRefresh(DeliveryReminderHeader);
+                     CreateDeliveryReminder.UpdateLines(DeliveryReminderHeader);
+                   END;
+
+                   Window.CLOSE;
+
+                   MESSAGE(Text1140002,ReminderCounter);
+                 END;
+
+  }
+  DATASET
+  {
+    { 4458;    ;DataItem;                    ;
+               DataItemTable=Table38;
+               DataItemTableView=SORTING(Document Type,Buy-from Vendor No.,No.)
+                                 WHERE(Document Type=CONST(Order));
+               OnAfterGetRecord=BEGIN
+                                  Window.UPDATE(1,"No.");
+                                  TESTFIELD("Buy-from Vendor No.");
+                                  Vendor.GET("Buy-from Vendor No.");
+                                  IF Vendor."Delivery Reminder Terms" = '' THEN
+                                    CurrReport.SKIP;
+
+                                  DeliveryReminderTerms.GET(Vendor."Delivery Reminder Terms");
+                                END;
+
+               ReqFilterFields=Buy-from Vendor No.,No. }
+
+    { 6547;1   ;DataItem;                    ;
+               DataItemTable=Table39;
+               DataItemTableView=SORTING(Document Type,Document No.,Line No.)
+                                 WHERE(Outstanding Quantity=FILTER(<>0));
+               OnAfterGetRecord=BEGIN
+                                  Window.UPDATE(2,"Line No.");
+
+                                  VendorChanged := "Purchase Header"."Buy-from Vendor No." <> LastVendorNo;
+                                  IF VendorChanged THEN
+                                    CLEAR(CreateDeliveryReminder);
+                                  IF CreateDeliveryReminder.Remind("Purchase Line",DeliveryReminderTerms,DeliveryReminderLevel,DateOfTheCurrentDay) THEN BEGIN
+                                    IF VendorChanged THEN BEGIN
+                                      IF DeliveryReminderHeader."Vendor No." <> '' THEN BEGIN
+                                        CreateDeliveryReminder.HeaderReminderLevelRefresh(DeliveryReminderHeader);
+                                        CreateDeliveryReminder.UpdateLines(DeliveryReminderHeader);
+                                      END;
+                                      CreateDeliveryReminder.CreateDelivReminHeader(
+                                        DeliveryReminderHeader,"Purchase Header",DeliveryReminderTerms,DeliveryReminderLevel,DateOfTheCurrentDay);
+                                      LastVendorNo := "Purchase Header"."Buy-from Vendor No.";
+                                      ReminderCounter := ReminderCounter + 1;
+                                    END;
+                                    CreateDeliveryReminder.CreateDelivRemindLine(
+                                      DeliveryReminderHeader,"Purchase Header","Purchase Line",DeliveryReminderTerms,DeliveryReminderLevel,DateOfTheCurrentDay);
+                                  END;
+                                END;
+
+               ReqFilterFields=Type,No.;
+               DataItemLink=Document Type=FIELD(Document Type),
+                            Document No.=FIELD(No.) }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Changing Purch. Order   #1#########\;DEA=Bearbeite Bestellung   #1#########\';
+      Text1140001@1140001 : TextConst 'ENU=Changing Line          #2######;DEA=Bearbeite Zeile        #2######';
+      Text1140002@1140002 : TextConst 'ENU=%1 Delivery Reminders had been created.;DEA=Es wurden %1 Lieferanmahnungen erzeugt.';
+      DeliveryReminderHeader@1140003 : Record 5005270;
+      DeliveryReminderTerms@1140004 : Record 5005276;
+      DeliveryReminderLevel@1140005 : Record 5005277;
+      Vendor@1140006 : Record 23;
+      CreateDeliveryReminder@1140007 : Codeunit 5005271;
+      Window@1140008 : Dialog;
+      ReminderCounter@1140010 : Integer;
+      LastVendorNo@1140011 : Code[20];
+      VendorChanged@1140012 : Boolean;
+      DateOfTheCurrentDay@1140013 : Date;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

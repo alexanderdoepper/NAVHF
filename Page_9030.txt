@@ -1,0 +1,111 @@
+OBJECT Page 9030 Account Manager Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9054;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETFILTER("Due Date Filter",'<=%1',WORKDATE);
+                 SETFILTER("Overdue Date Filter",'<%1',WORKDATE);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 6   ;1   ;Group     ;
+                CaptionML=[ENU=Payments;
+                           ESP=Pagos;
+                           DEA=Zahlungen];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 1       ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Cash Receipt Journal;
+                                             ESP=Editar diario de cobros;
+                                             DEA=Zahlungseingangs Buch.-Blatt bearbeiten];
+                                  RunObject=Page 255 }
+                  { 3       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Sales Credit Memo;
+                                             ESP=Nuevo abono venta;
+                                             DEA=Neue Verkaufsgutschrift];
+                                  RunObject=Page 44;
+                                  RunPageMode=Create }
+                  { 4       ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Payment Journal;
+                                             ESP=Editar diario de pagos;
+                                             DEA=Zahlungsausgangs Buch.-Blatt bearbeiten];
+                                  RunObject=Page 256 }
+                  { 5       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Credit Memo;
+                                             ESP=Nuevo abono compra;
+                                             DEA=Neue Einkaufsgutschrift];
+                                  RunObject=Page 52;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Overdue Sales Documents";
+                DrillDownPageID=Customer Ledger Entries }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Purchase Invoices Due Today";
+                DrillDownPageID=Vendor Ledger Entries }
+
+    { 19  ;1   ;Group     ;
+                CaptionML=[ENU=Document Approvals;
+                           ESP=Aprobaci¢n documentos;
+                           DEA=Beleggenehmigungen];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 25      ;0   ;Action    ;
+                                  CaptionML=[ENU=Create Reminders...;
+                                             ESP=Crear recordatorios...;
+                                             DEA=Mahnungen erstellen...];
+                                  RunObject=Report 188;
+                                  Image=CreateReminders }
+                  { 26      ;0   ;Action    ;
+                                  CaptionML=[ENU=Create Finance Charge Memos...;
+                                             ESP=Crear documentos inter‚s...;
+                                             DEA=Zinsrechnungen erstellen...];
+                                  RunObject=Report 191;
+                                  Image=CreateFinanceChargememo }
+                }
+                 }
+
+    { 23  ;2   ;Field     ;
+                SourceExpr="POs Pending Approval";
+                DrillDownPageID=Purchase Order List }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="SOs Pending Approval";
+                DrillDownPageID=Sales Order List }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

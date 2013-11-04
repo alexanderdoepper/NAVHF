@@ -1,0 +1,87 @@
+OBJECT Page 5005274 Issued Delivery Reminder Sub
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Lines;
+               DEA=Zeilen];
+    SourceTable=Table5005273;
+    PageType=ListPart;
+    AutoSplitKey=Yes;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Order No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Type }
+
+    { 1140005;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Vendor Item No.";
+                Visible=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140011;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr=Quantity }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Unit of Measure" }
+
+    { 1140015;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Reorder Quantity" }
+
+    { 1140017;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Remaining Quantity" }
+
+    { 1140019;2;Field     ;
+                SourceExpr="Order Date" }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Del. Rem. Date Field" }
+
+    { 1140023;2;Field     ;
+                SourceExpr="Requested Receipt Date" }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Promised Receipt Date" }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Expected Receipt Date" }
+
+    { 1140029;2;Field     ;
+                SourceExpr="Days overdue" }
+
+    { 1140031;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Reminder Level" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,324 @@
+OBJECT Codeunit 50000 CicReportLibrary
+{
+  OBJECT-PROPERTIES
+  {
+    Date=12.09.13;
+    Time=12:55:26;
+    Modified=Yes;
+    Version List=CIC002;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Footer_01@1000000002 : TextConst 'ENU=Managing Director:;DEA=Gesch„ftsfhrer:';
+      Footer_02@1000000001 : TextConst 'ENU=Commercial Register: %1;DEA=Firmenbuch Nr.: %1';
+      Footer_03@1000000007 : TextConst 'ENU=VAT Number: %1;DEA=UID-Nr.: %1';
+      Footer_04@1000000006 : TextConst 'ENU=Bank Details: %1;DEA=Bankname: %1';
+      Footer_05@1000000005 : TextConst 'ENU=Bank Code: %1, Acct.no.: %2;DEA=BLZ: %1, Konto Nr.: %2';
+      Footer_06@1000000004 : TextConst 'ENU=IBAN: %1;DEA=IBAN: %1';
+      Footer_07@1000000003 : TextConst 'ENU=SWIFT/BIC: %1;DEA=SWIFT/BIC: %1';
+      UserNameCaption@1000000000 : TextConst 'ENU=Contact:;DEA=Sachbearbeiter:';
+      UserPhoneCaption@1000000008 : TextConst 'ENU=Phone No.:;DEA=Telefonnummer:';
+      UserEmailCaption@1000000009 : TextConst 'ENU=Email:;DEA=E-Mail:';
+
+    PROCEDURE getExtendedTextLine@1000000000(VAR ExtendedTextLine@1000000003 : Record 280;VAR overflowText@1000000006 : Text[500];VAR extraLine@1000000007 : Boolean) : Text[500];
+    VAR
+      nextSign@1000000000 : Text[1];
+      checkSign@1000000001 : Boolean;
+      nextSeparator@1000000002 : ',Space,Carriage Return';
+      lineText@1000000004 : Text[500];
+      resultText@1000000008 : Text[500];
+      j@1000000010 : Integer;
+      textFormat@1000000012 : ' ,Bold,Italic,Bold+Italic,Underline';
+      textSize@1000000011 : '8,9,10,11,12';
+      ciceroSetup@1000000009 : Record 50000;
+      maxLineLength@1000000005 : Integer;
+    BEGIN
+      // This function goes through the "Extended Text Line" lines and concatenates the substrings
+      // of each line into one big string until either a 'Carriage Return' separator is reached, or
+      // the maxLineLength is reached. If the maxLineLength is greater than 500 an error is thrown,
+      // because the variables that store the result can only contain at most 500 characters.
+
+      maxLineLength := 110;
+
+      IF maxLineLength > 500 THEN BEGIN
+        ERROR('A maximum line length greater then 500 characters is not supported by' +
+              'this code unit.\nThe current maximum line length is: %1', maxLineLength);
+      END;
+
+      // If extraLine is true then we need to insert an extraLine so we just return the
+      // overflowText (see below for more explanations).
+      IF extraLine THEN BEGIN
+        extraLine := FALSE;
+        resultText := overflowText;
+        overflowText := '';
+        EXIT(resultText);
+      END;
+
+      // Get the Separator of the current line
+      nextSeparator := ExtendedTextLine.Separator;
+
+      // Get the text for the current line
+      lineText := ExtendedTextLine.Text;
+
+      // overflowText stores the part of the text that gets wrapped to the next line.
+      IF overflowText = '' THEN BEGIN
+        textFormat := ExtendedTextLine."Text Format";
+        textSize := ExtendedTextLine."Text Size";
+      END ELSE BEGIN
+        IF nextSeparator = nextSeparator::"Carriage Return" THEN
+        BEGIN
+          //Set the coursor of the table to the previous line
+          ExtendedTextLine.NEXT(-1);
+          lineText := overflowText;
+          overflowText := '';
+        END;
+      END;
+
+      resultText := overflowText + lineText;
+      overflowText := '';
+
+      // Loop over the next lines until either a new line starts ot the maximum line length
+      // is reached.
+      WHILE ((ExtendedTextLine.Separator <> ExtendedTextLine.Separator::"Carriage Return") AND
+             (STRLEN(resultText) < maxLineLength)) DO BEGIN
+          ExtendedTextLine.NEXT();
+          lineText := ExtendedTextLine.Text;
+          IF nextSeparator = nextSeparator::Space THEN
+            resultText := resultText + ' ' + lineText
+          ELSE
+            resultText := resultText + lineText;
+          nextSeparator := ExtendedTextLine.Separator;
+      END; //While
+
+      // If the result line is longer than the maxLineLength, cut of at a word boundary
+      // and store it in the overflow text for the next line.
+      IF STRLEN(resultText) >= maxLineLength THEN BEGIN
+        overflowText := resultText;
+        nextSign := COPYSTR(overflowText, maxLineLength+1, 1);
+        checkSign := TRUE;
+        j := 0;
+        REPEAT
+          IF nextSign = ' ' THEN BEGIN
+            resultText :=  COPYSTR(overflowText, 1, maxLineLength - j);
+            overflowText := COPYSTR(overflowText,maxLineLength - j + 2);
+            IF nextSeparator = nextSeparator::Space THEN BEGIN
+              overflowText := overflowText + ' '
+            END;
+            checkSign := FALSE;
+          END ELSE BEGIN
+            j += 1;
+            nextSign := COPYSTR(overflowText, maxLineLength - j + 1, 1);
+            checkSign := TRUE;
+          END;
+        UNTIL checkSign = FALSE;
+      END ELSE
+        overflowText := '';
+
+      // If we have reached the 'Carriage Return' separator but the overflowText still contains
+      // some text, then we insert an extra line. We do that by moving the line coursor back one
+      // line and setting the extraLine flag to true.
+      IF (overflowText <> '') AND (nextSeparator = nextSeparator::"Carriage Return") THEN BEGIN
+        ExtendedTextLine.NEXT(-1);
+        extraLine := TRUE;
+      END;
+
+      EXIT(resultText);
+    END;
+
+    PROCEDURE getCountryRegionName@1000000002(CountryRegionCode@1000000000 : Code[10]) : Text[30];
+    VAR
+      CountryRegion@1000000001 : Record 9;
+    BEGIN
+      // Code zum laden des Country Codes
+      IF CountryRegionCode <> '' THEN
+        CountryRegion.GET(CountryRegionCode)
+      ELSE
+        CountryRegion.INIT;
+      EXIT(CountryRegion.Name);
+    END;
+
+    PROCEDURE getFooter@1000000001(index@1000000000 : Integer) resultString : Text[1024];
+    BEGIN
+      IF index = 1 THEN BEGIN
+        resultString := Footer_01;
+      END ELSE IF index = 2 THEN BEGIN
+        resultString := Footer_02;
+      END ELSE IF index = 3 THEN BEGIN
+        resultString := Footer_03;
+      END ELSE IF index = 4 THEN BEGIN
+        resultString := Footer_04;
+      END ELSE IF index = 5 THEN BEGIN
+        resultString := Footer_05;
+      END ELSE IF index = 6 THEN BEGIN
+        resultString := Footer_06;
+      END ELSE IF index = 7 THEN BEGIN
+        resultString := Footer_07;
+      END ELSE BEGIN
+        resultString := '';
+      END;
+      EXIT(resultString);
+    END;
+
+    PROCEDURE getVatRegNo@1000000003(VAR VatRegNo@1000000000 : Text[50];GenBusPostingGroupCode@1000000001 : Code[10];CompanyInfo@1000000002 : Record 79);
+    VAR
+      GenBusPostGroup@1000000003 : Record 250;
+    BEGIN
+      VatRegNo := CompanyInfo."VAT Registration No.";
+      //Check if the current customer has an alternative "VAT Registration Number"
+      IF GenBusPostingGroupCode <> '' THEN BEGIN
+        GenBusPostGroup.GET(GenBusPostingGroupCode);
+        IF GenBusPostGroup."VAT Registration Number" <> '' THEN
+          VatRegNo := GenBusPostGroup."VAT Registration Number";
+      END;
+    END;
+
+    PROCEDURE editSalesInvoiceFields@1000000004(VAR Rec@1000000000 : Record 112);
+    VAR
+      xRecRef@1000000004 : RecordRef;
+      RecRef@1000000003 : RecordRef;
+      ChangeLogMgt@1000000002 : Codeunit 423;
+      SalesInvoiceHeader@1000000001 : Record 112;
+    BEGIN
+      // This function makes sure that additional fields in the record can be written
+      // to the database.
+      SalesInvoiceHeader := Rec;
+      SalesInvoiceHeader.LOCKTABLE;
+      SalesInvoiceHeader.FIND;
+      xRecRef.GETTABLE(SalesInvoiceHeader);SalesInvoiceHeader."VAT Extended Text Code" := Rec."VAT Extended Text Code";
+      SalesInvoiceHeader.MODIFY;
+      Rec := SalesInvoiceHeader;
+      RecRef.GETTABLE(SalesInvoiceHeader);
+      ChangeLogMgt.LogModification(RecRef);
+    END;
+
+    PROCEDURE editSalesCrMemoFields@1000000005(VAR Rec@1000000000 : Record 114);
+    VAR
+      xRecRef@1000000004 : RecordRef;
+      RecRef@1000000003 : RecordRef;
+      ChangeLogMgt@1000000002 : Codeunit 423;
+      SalesCrMemoHeader@1000000001 : Record 114;
+    BEGIN
+      // This function makes sure that additional fields in the record can be written
+      // to the database.
+      SalesCrMemoHeader := Rec;
+      SalesCrMemoHeader.LOCKTABLE;
+      SalesCrMemoHeader.FIND;
+      xRecRef.GETTABLE(SalesCrMemoHeader);SalesCrMemoHeader."VAT Extended Text Code" := Rec."VAT Extended Text Code";
+      SalesCrMemoHeader.MODIFY;
+      Rec := SalesCrMemoHeader;
+      RecRef.GETTABLE(SalesCrMemoHeader);
+      ChangeLogMgt.LogModification(RecRef);
+    END;
+
+    PROCEDURE filterExtendedTextLines@1000000006(VAR TextLines@1000000000 : Record 280;TextCode@1000000001 : Code[10];LanguageCode@1000000002 : Code[10]);
+    VAR
+      TextHeader@1000000003 : Record 279;
+    BEGIN
+      // If the "Sales Invoice Header" table has a non empty field for the "VAT Extended Text Code",
+      // then it takes precedence over the "VATPostingSetup" table.
+      TextLines.RESET;
+      TextLines.SETRANGE(TextLines."No.", TextCode);
+      // Also we need to limit the text blocks to the language code of the header, otherwise all languages
+      // are printed.
+      TextLines.SETRANGE(TextLines."Language Code", LanguageCode);
+      // Here we check if we find anything with the current language filter on, otherwise we still need to check,
+      // if the header has the "All Languages" checkbox activated and then use that as a filter instead.
+      IF NOT TextLines.FINDSET THEN BEGIN
+        TextHeader.RESET;
+        TextHeader.SETRANGE("No.", TextCode);
+        TextHeader.SETRANGE("Language Code", '');
+        IF TextHeader.FINDFIRST THEN
+          IF TextHeader."All Language Codes" THEN
+            TextLines.SETRANGE(TextLines."Language Code", '');
+      END;
+    END;
+
+    PROCEDURE getReturnAddress@1000000007(CompanyInfo@1000000000 : Record 79;CompanyAddr@1000000001 : ARRAY [8] OF Text[50]) CompanyInfoFullString : Text[250];
+    BEGIN
+      // This builds the global CompanyInfoFullString variable from the different parts
+      // of the CompanyAddr array.
+      CompanyInfoFullString :=
+          CompanyAddr[1] + ' - ' +
+          CompanyAddr[2] + ' - ' +
+          CompanyAddr[3] + ' - ' +
+          //Position 4 is empty, instead here we load the country name
+          getCountryRegionName(CompanyInfo."Country/Region Code");
+      IF CompanyAddr[5] <> '' THEN
+          CompanyInfoFullString := CompanyInfoFullString + ' - ' + CompanyAddr[5];
+      IF CompanyAddr[6] <> '' THEN
+          CompanyInfoFullString := CompanyInfoFullString + ' - ' + CompanyAddr[6];
+      IF CompanyAddr[7] <> '' THEN
+          CompanyInfoFullString := CompanyInfoFullString + ' - ' + CompanyAddr[7];
+      EXIT(CompanyInfoFullString);
+    END;
+
+    PROCEDURE getAssignedUserNameCaption@1000000008(assignedUserCode@1000000001 : Code[10]) : Text[30];
+    VAR
+      UserSetup@1000000002 : Record 91;
+    BEGIN
+      IF assignedUserCode = '' THEN BEGIN
+        EXIT('');
+      END ELSE BEGIN
+        UserSetup.GET(assignedUserCode);
+        EXIT(UserNameCaption);
+      END;
+    END;
+
+    PROCEDURE getAssignedUserPhoneCaption@1000000009(assignedUserCode@1000000001 : Code[10]) : Text[30];
+    VAR
+      UserSetup@1000000000 : Record 91;
+    BEGIN
+      IF assignedUserCode = '' THEN BEGIN
+        EXIT('');
+      END ELSE BEGIN
+        UserSetup.GET(assignedUserCode);
+        EXIT(UserPhoneCaption);
+      END;
+    END;
+
+    PROCEDURE getAssignedUserEmailCaption@1000000010(assignedUserCode@1000000001 : Code[10]) : Text[30];
+    VAR
+      UserSetup@1000000000 : Record 91;
+    BEGIN
+      IF assignedUserCode = '' THEN BEGIN
+        EXIT('');
+      END ELSE BEGIN
+        UserSetup.GET(assignedUserCode);
+        EXIT(UserEmailCaption);
+      END;
+    END;
+
+    PROCEDURE getCurrencyText@1000000011(currencyCode@1000000000 : Code[10]) : Text[30];
+    VAR
+      glSetup@1000000001 : Record 98;
+    BEGIN
+      // The currencytext is displayed in the last column of the report
+      // and contains the currency text for current the item.
+      IF currencyCode = '' THEN BEGIN
+        glSetup.GET;
+        glSetup.TESTFIELD("LCY Code");
+        EXIT(glSetup."LCY Code");
+      END ELSE BEGIN
+        EXIT(currencyCode);
+      END;
+    END;
+
+    BEGIN
+    {
+      CICERO CONSULTING
+
+      VERSION TICKET NAME DATE       DESCRIPTION
+      CIC001  xxxxxx SEG  2013-03-05 Created this codeunit.
+      CIC002  xxx    ALD  2013-09-12 Improved Footer Translation
+    }
+    END.
+  }
+}
+

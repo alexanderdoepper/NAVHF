@@ -1,0 +1,71 @@
+OBJECT Table 265 Document Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Document Entry;
+               ESP=Lista documento;
+               DEA=Belegeintrag];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table ID            ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 2   ;   ;No. of Records      ;Integer       ;CaptionML=[ENU=No. of Records;
+                                                              ESP=N§ registros;
+                                                              DEA=Anzahl Datens„tze] }
+    { 3   ;   ;Document No.        ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 4   ;   ;Posting Date        ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 5   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 6   ;   ;Table Name          ;Text100       ;CaptionML=[ENU=Table Name;
+                                                              ESP=Nombre tabla;
+                                                              DEA=Tabellenname] }
+    { 7   ;   ;No. of Records 2    ;Integer       ;CaptionML=[ENU=No. of Records 2;
+                                                              ESP=N§ registros 2;
+                                                              DEA=Anzahl Datens„tze 2] }
+    { 8   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU="Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order, ";
+                                                                    ESP="Oferta,Pedido,Factura,Abono,Pedido abierto,Devoluci¢n, ";
+                                                                    DEA="Angebot/Anfrage,Auftrag/Bestellung,Rechnung,Gutschrift,R.-Auftrag/R.-Best.,Reklamation, "];
+                                                   OptionString=[Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order, ] }
+    { 9   ;   ;Lot No. Filter      ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Lot No. Filter;
+                                                              ESP=Filtro n§ lote;
+                                                              DEA=Chargennr. Filter] }
+    { 10  ;   ;Serial No. Filter   ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Serial No. Filter;
+                                                              ESP=Filtro n§ serie;
+                                                              DEA=Seriennr. Filter] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,55 @@
+OBJECT Table 278 Job Journal Quantity
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job Journal Quantity;
+               ESP=Unidades diario proyecto;
+               DEA=Projekt Buch.-Blatt Menge];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Is Total            ;Boolean       ;CaptionML=[ENU=Is Total;
+                                                              ESP=Es total;
+                                                              DEA=Ist Summe] }
+    { 2   ;   ;Unit of Measure Code;Code10        ;TableRelation="Unit of Measure";
+                                                   CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 3   ;   ;Line Type           ;Option        ;CaptionML=[ENU=Line Type;
+                                                              ESP=Tipo l¡nea;
+                                                              DEA=Zeilenart];
+                                                   OptionCaptionML=[ENU=,Total;
+                                                                    ESP=,Total;
+                                                                    DEA=,Gesamt];
+                                                   OptionString=,Total }
+    { 4   ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
+                                                   CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 5   ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+  }
+  KEYS
+  {
+    {    ;Is Total,Unit of Measure Code,Line Type,Work Type Code;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

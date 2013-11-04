@@ -1,0 +1,96 @@
+OBJECT Report 6035 Upd. Disc.% on Contract
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Upd. Disc.% on Contract;
+               ESP=Actualiz. % dto. en contrato;
+               DEA=Rabatt % fÅr VertrÑge aktual.];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IF DiscountPct = 0 THEN
+                    ERROR(Text001);
+                END;
+
+  }
+  DATASET
+  {
+    { 6062;    ;DataItem;                    ;
+               DataItemTable=Table5964;
+               OnPreDataItem=BEGIN
+                               IF DiscountPct = 0 THEN
+                                 CurrReport.BREAK;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  SuspendStatusCheck(TRUE);
+                                  IF "Line Discount %" + DiscountPct <= 0 THEN
+                                    VALIDATE("Line Discount %",0)
+                                  ELSE
+                                    VALIDATE("Line Discount %","Line Discount %" + DiscountPct);
+                                  MODIFY(TRUE);
+                                  i := i + 1;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                IF i > 0 THEN BEGIN
+                                  UpdateContractAnnualAmount(FALSE);
+                                  MESSAGE(Text000);
+                                END
+                              END;
+
+               ReqFilterFields=Contract Type,Contract No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=Add/Subtract Discount %;
+                             ESP=% Descuento sumar/restar;
+                             DEA=Rabatt % addieren/subtrahieren];
+                  SourceExpr=DiscountPct }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Service contract lines have been updated.;ESP=Se han actualizado l°ns. contrato servicio.;DEA=Servicevertragszeilen wurden aktualisiert.';
+      DiscountPct@1003 : Decimal;
+      i@1004 : Integer;
+      Text001@1001 : TextConst 'ENU=You must enter a value in the "Add/Subtract Discount ''%''" field.;ESP=Debe especificar un valor en el campo "% Descuento sumar/restar".;DEA=Sie mÅssen im Feld "Rabatt ''%'' addieren/subtrahieren" einen Wert angeben.';
+
+    PROCEDURE InitializeRequest@2(DiscountPercent@1000 : Decimal);
+    BEGIN
+      DiscountPct := DiscountPercent;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

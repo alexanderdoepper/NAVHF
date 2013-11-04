@@ -1,0 +1,32 @@
+OBJECT Page 5227 Empl. Absences by Cat. Matrix
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Lines;
+               ESP=L¡neas;
+               DEA=Zeilen];
+    LinksAllowed=No;
+    SourceTable=Table2000000007;
+    PageType=Card;
+  }
+  CONTROLS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE MatrixUpdate@1(NewAbsenceType@1000 : 'Absence to Date,Absence at Date';NewPeriodType@1001 : 'Day,Week,Month,Quarter,Year,Accounting Period';NewEmployeeNoFilter@1002 : Text[250]);
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,341 @@
+OBJECT Table 8627 Config. Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Setup;
+               ESP=Configuraci¢n;
+               DEA=Einrichtung konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
+                                                              ESP=Nombre 2;
+                                                              DEA=Name 2] }
+    { 4   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
+                                                              ESP=Direcci¢n;
+                                                              DEA=Adresse] }
+    { 5   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
+                                                              ESP=Direcci¢n 2;
+                                                              DEA=Adresse 2] }
+    { 6   ;   ;City                ;Text30        ;CaptionML=[ENU=City;
+                                                              ESP=Poblaci¢n;
+                                                              DEA=Ort] }
+    { 7   ;   ;Phone No.           ;Text30        ;CaptionML=[ENU=Phone No.;
+                                                              ESP=Nß telÇfono;
+                                                              DEA=Telefonnr.] }
+    { 8   ;   ;Phone No. 2         ;Text30        ;CaptionML=[ENU=Phone No. 2;
+                                                              ESP=Nß telÇfono 2;
+                                                              DEA=Telefonnr. 2] }
+    { 9   ;   ;Telex No.           ;Text30        ;CaptionML=[ENU=Telex No.;
+                                                              ESP=Nß tÇlex;
+                                                              DEA=Telexnr.] }
+    { 10  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
+                                                              ESP=Nß fax;
+                                                              DEA=Faxnr.] }
+    { 11  ;   ;Giro No.            ;Text20        ;CaptionML=[ENU=Giro No.;
+                                                              ESP=Nß giro postal;
+                                                              DEA=Postgirokontonr.] }
+    { 12  ;   ;Bank Name           ;Text50        ;CaptionML=[ENU=Bank Name;
+                                                              ESP=Nombre banco;
+                                                              DEA=Bankname] }
+    { 13  ;   ;Bank Branch No.     ;Text20        ;CaptionML=[ENU=Bank Branch No.;
+                                                              ESP=C¢d. sucursal banco;
+                                                              DEA=BLZ] }
+    { 14  ;   ;Bank Account No.    ;Text30        ;CaptionML=[ENU=Bank Account No.;
+                                                              ESP=C¢d. cuenta banco;
+                                                              DEA=Bankkontonummer] }
+    { 15  ;   ;Payment Routing No. ;Text20        ;CaptionML=[ENU=Payment Routing No.;
+                                                              ESP=C¢d. forma pago base;
+                                                              DEA=Zahlungsauftragsnr.] }
+    { 17  ;   ;Customs Permit No.  ;Text10        ;CaptionML=[ENU=Customs Permit No.;
+                                                              ESP=Nß licencia aduana;
+                                                              DEA=Zollabfertigungsnr.] }
+    { 18  ;   ;Customs Permit Date ;Date          ;CaptionML=[ENU=Customs Permit Date;
+                                                              ESP=Fecha licencia aduana;
+                                                              DEA=Zollabfertigungsdatum] }
+    { 19  ;   ;VAT Registration No.;Text20        ;CaptionML=[ENU=VAT Registration No.;
+                                                              ESP=CIF/NIF;
+                                                              DEA=USt-IdNr.] }
+    { 20  ;   ;Registration No.    ;Text20        ;CaptionML=[ENU=Registration No.;
+                                                              ESP=Nß reg. mercantil;
+                                                              DEA=Steuernummer] }
+    { 21  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
+                                                              ESP=Nß tÇlex respuesta;
+                                                              DEA=Telex Namengeber] }
+    { 22  ;   ;Ship-to Name        ;Text50        ;CaptionML=[ENU=Ship-to Name;
+                                                              ESP=Env°o a-Nombre;
+                                                              DEA=Lief. an Name] }
+    { 23  ;   ;Ship-to Name 2      ;Text50        ;CaptionML=[ENU=Ship-to Name 2;
+                                                              ESP=Env°o a-Nombre 2;
+                                                              DEA=Lief. an Name 2] }
+    { 24  ;   ;Ship-to Address     ;Text50        ;CaptionML=[ENU=Ship-to Address;
+                                                              ESP=Env°o a-Direcci¢n;
+                                                              DEA=Lief. an Adresse] }
+    { 25  ;   ;Ship-to Address 2   ;Text50        ;CaptionML=[ENU=Ship-to Address 2;
+                                                              ESP=Env°o a-Direcci¢n 2;
+                                                              DEA=Lief. an Adresse 2] }
+    { 26  ;   ;Ship-to City        ;Text30        ;CaptionML=[ENU=Ship-to City;
+                                                              ESP=Env°o a-Poblaci¢n;
+                                                              DEA=Lief. an Ort] }
+    { 27  ;   ;Ship-to Contact     ;Text50        ;CaptionML=[ENU=Ship-to Contact;
+                                                              ESP=Env°o a-Atenci¢n;
+                                                              DEA=Lief. an Kontakt] }
+    { 28  ;   ;Location Code       ;Code10        ;CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 29  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
+                                                              ESP=Imagen;
+                                                              DEA=Bild];
+                                                   SubType=Bitmap }
+    { 30  ;   ;Post Code           ;Code20        ;CaptionML=[ENU=Post Code;
+                                                              ESP=C.P.;
+                                                              DEA=PLZ-Code] }
+    { 31  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
+                                                              ESP=Provincia;
+                                                              DEA=Bundesregion] }
+    { 32  ;   ;Ship-to Post Code   ;Code20        ;CaptionML=[ENU=Ship-to Post Code;
+                                                              ESP=Env°o a-C.P.;
+                                                              DEA=Lief. an PLZ-Code] }
+    { 33  ;   ;Ship-to County      ;Text30        ;CaptionML=[ENU=Ship-to County;
+                                                              ESP=Env°o a-Provincia;
+                                                              DEA=Lief. an Bundesregion] }
+    { 34  ;   ;E-Mail              ;Text80        ;CaptionML=[ENU=E-Mail;
+                                                              ESP=Correo electr¢nico;
+                                                              DEA=E-Mail] }
+    { 35  ;   ;Home Page           ;Text80        ;CaptionML=[ENU=Home Page;
+                                                              ESP=P†gina Web;
+                                                              DEA=Homepage] }
+    { 36  ;   ;Country/Region Code ;Code10        ;CaptionML=[ENU=Country/Region Code;
+                                                              ESP=C¢d. pa°s/regi¢n;
+                                                              DEA=LÑnder-/Regionscode] }
+    { 37  ;   ;Ship-to Country/Region Code;Code10 ;CaptionML=[ENU=Ship-to Country/Region Code;
+                                                              ESP=Env°o a-C¢d. pa°s/regi¢n;
+                                                              DEA=Lief. an LÑnder-/Regionscode] }
+    { 38  ;   ;IBAN                ;Code50        ;OnValidate=VAR
+                                                                CompanyInfo@1000 : Record 79;
+                                                              BEGIN
+                                                                CompanyInfo.CheckIBAN(IBAN);
+                                                              END;
+
+                                                   CaptionML=[ENU=IBAN;
+                                                              ESP=IBAN;
+                                                              DEA=IBAN] }
+    { 39  ;   ;SWIFT Code          ;Code20        ;CaptionML=[ENU=SWIFT Code;
+                                                              ESP=C¢digo SWIFT;
+                                                              DEA=SWIFT-Code] }
+    { 40  ;   ;Industrial Classification;Text30   ;CaptionML=[ENU=Industrial Classification;
+                                                              ESP=C¢d. CNAE;
+                                                              DEA=Branchencode] }
+    { 5700;   ;Responsibility Center;Code10       ;CaptionML=[ENU=Responsibility Center;
+                                                              ESP=Centro responsabilidad;
+                                                              DEA=ZustÑndigkeitseinheit] }
+    { 5791;   ;Check-Avail. Period Calc.;DateFormula;
+                                                   CaptionML=[ENU=Check-Avail. Period Calc.;
+                                                              ESP=Periodo c†lculo disponib.;
+                                                              DEA=VerfÅgbarkeitsber. - Periode] }
+    { 5792;   ;Check-Avail. Time Bucket;Option    ;CaptionML=[ENU=Check-Avail. Time Bucket;
+                                                              ESP=Ciclo disp.;
+                                                              DEA=VerfÅgbarkeitsber. -Zeitrahmen];
+                                                   OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year;
+                                                                    ESP=D°a,Semana,Mes,Trimestre,A§o;
+                                                                    DEA=Tag,Woche,Monat,Quartal,Jahr];
+                                                   OptionString=Day,Week,Month,Quarter,Year }
+    { 7600;   ;Base Calendar Code  ;Code10        ;CaptionML=[ENU=Base Calendar Code;
+                                                              ESP=C¢digo calendario base;
+                                                              DEA=Basiskalendercode] }
+    { 7601;   ;Cal. Convergence Time Frame;DateFormula;
+                                                   InitValue=1Y;
+                                                   CaptionML=[ENU=Cal. Convergence Time Frame;
+                                                              ESP=Calc. convergencia de periodo;
+                                                              DEA=Kalender öbereinst.-Zeitraum] }
+    { 8600;   ;Package File Name   ;Text250       ;OnValidate=BEGIN
+                                                                ReadPackage;
+                                                              END;
+
+                                                   CaptionML=[ENU=Package File Name;
+                                                              ESP=Nombre de archivo de paquete;
+                                                              DEA=Paketdateiname] }
+    { 8601;   ;Package Code        ;Code20        ;CaptionML=[ENU=Package Code;
+                                                              ESP=C¢digo de paquete;
+                                                              DEA=Paketcode];
+                                                   Editable=No }
+    { 8602;   ;Language ID         ;Integer       ;TableRelation="Windows Language";
+                                                   CaptionML=[ENU=Language ID;
+                                                              ESP=Idioma  ID;
+                                                              DEA=Sprach-ID];
+                                                   Editable=No }
+    { 8603;   ;Product Version     ;Text80        ;CaptionML=[ENU=Product Version;
+                                                              ESP=Versi¢n de producto;
+                                                              DEA=Produktversion];
+                                                   Editable=No }
+    { 8604;   ;Package Name        ;Text50        ;CaptionML=[ENU=Package Name;
+                                                              ESP=Nombre de paquete;
+                                                              DEA=Paketname] }
+    { 8605;   ;Your Profile Code   ;Code30        ;TableRelation=Profile;
+                                                   CaptionML=[ENU=Your Profile Code;
+                                                              ESP=Su c¢digo de perfil;
+                                                              DEA=Ihr Profilcode] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1003 : TextConst 'ENU=The imported package already exists. Do you want to import another package?;ESP=El paquete importado ya existe. ®Desea importar otro paquete?;DEA=Das importierte Paket ist bereits vorhanden. Mîchten Sie ein weiteres Paket importieren?';
+      HideDialog@1000 : Boolean;
+      Text002@1001 : TextConst 'ENU=%1 should be defined in the imported package.;ESP=%1 debe definirse en el paquete importado.;DEA=%1 muss im importierten Paket definiert sein.';
+
+    PROCEDURE CompleteWizard@1() : Boolean;
+    BEGIN
+      TESTFIELD("Package File Name");
+      TESTFIELD("Package Code");
+      TESTFIELD("Package Name");
+
+      ImportPackage;
+      ApplyPackages;
+      ApplyAnswers;
+      CopyCompInfo;
+      SelectDefaultRoleCenter("Your Profile Code");
+      EXIT(TRUE);
+    END;
+
+    PROCEDURE SelectDefaultRoleCenter@8(ProfileID@1000 : Code[30]);
+    VAR
+      Profile@1001 : Record 2000000072;
+      ConfPersonalizationMgt@1002 : Codeunit 9170;
+    BEGIN
+      IF Profile.GET(ProfileID) THEN BEGIN
+        Profile.VALIDATE("Default Role Center",TRUE);
+        Profile.MODIFY;
+        ConfPersonalizationMgt.ChangeDefaultRoleCenter(ProfileID);
+      END;
+    END;
+
+    PROCEDURE ReadPackage@7();
+    VAR
+      ConfigPackage@1003 : Record 8623;
+      ConfigXMLExchange@1002 : Codeunit 8614;
+      FileMgt@1006 : Codeunit 419;
+      PackageXML@1000 : DotNet "'System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+      DocumentElement@1001 : DotNet "'System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlElement";
+      DecompressedFileName@1004 : Text;
+      ServerFileName@1005 : Text;
+    BEGIN
+      IF "Package File Name" <> '' THEN BEGIN
+        ServerFileName := FileMgt.UploadFileSilent("Package File Name");
+        DecompressedFileName := ConfigXMLExchange.DecompressPackage(ServerFileName);
+
+        PackageXML := PackageXML.XmlDocument;
+        PackageXML.Load(DecompressedFileName);
+        DocumentElement := PackageXML.DocumentElement;
+        "Package Code" :=
+          COPYSTR(
+            ConfigXMLExchange.GetAttribute(ConfigXMLExchange.GetElementName(ConfigPackage.FIELDNAME(Code)),DocumentElement),1,
+            MAXSTRLEN("Package Code"));
+        IF "Package Code" = '' THEN
+          ERROR(Text002,FIELDCAPTION("Package Code"));
+        "Package Name" :=
+          COPYSTR(
+            ConfigXMLExchange.GetAttribute(ConfigXMLExchange.GetElementName(ConfigPackage.FIELDNAME("Package Name")),DocumentElement),
+            1,MAXSTRLEN("Package Name"));
+        IF "Package Name" = '' THEN
+          ERROR(Text002,FIELDCAPTION("Package Name"));
+        "Product Version" :=
+          COPYSTR(
+            ConfigXMLExchange.GetAttribute(ConfigXMLExchange.GetElementName(ConfigPackage.FIELDNAME("Product Version")),DocumentElement),
+            1,MAXSTRLEN("Product Version"));
+        MODIFY;
+      END ELSE BEGIN
+        "Package Code" := '';
+        "Package Name" := '';
+        "Product Version" := '';
+      END;
+    END;
+
+    PROCEDURE ImportPackage@4();
+    VAR
+      ConfigPackage@1000 : Record 8623;
+      ConfigXMLExchange@1001 : Codeunit 8614;
+      FileMgt@1004 : Codeunit 419;
+      DecompressedFileName@1002 : Text;
+      ServerFileName@1003 : Text;
+    BEGIN
+      IF ConfigPackage.GET("Package Code") THEN
+        IF NOT HideDialog THEN
+          IF CONFIRM(Text001,TRUE) THEN BEGIN
+            ConfigPackage.DELETE(TRUE);
+            COMMIT;
+          END ELSE
+            ERROR('');
+
+      ServerFileName := FileMgt.UploadFileSilent("Package File Name");
+      DecompressedFileName := ConfigXMLExchange.DecompressPackage(ServerFileName);
+
+      ConfigXMLExchange.SetHideDialog(HideDialog);
+      ConfigXMLExchange.ImportPackageXML(DecompressedFileName);
+      COMMIT;
+    END;
+
+    PROCEDURE ApplyPackages@6();
+    VAR
+      ConfigPackage@1003 : Record 8623;
+      ConfigPackageTable@1002 : Record 8613;
+      ConfigPackageMgt@1001 : Codeunit 8611;
+    BEGIN
+      ConfigPackage.GET("Package Code");
+      ConfigPackageTable.SETRANGE("Package Code",ConfigPackage.Code);
+      ConfigPackageMgt.SetHideDialog(HideDialog);
+      ConfigPackageMgt.ApplyPackage(ConfigPackage,ConfigPackageTable,TRUE);
+    END;
+
+    PROCEDURE ApplyAnswers@9();
+    VAR
+      ConfigQuestionnaire@1000 : Record 8610;
+      ConfigQuestionnaireMgt@1001 : Codeunit 8610;
+    BEGIN
+      IF ConfigQuestionnaire.FINDSET THEN
+        REPEAT
+          ConfigQuestionnaireMgt.ApplyAnswers(ConfigQuestionnaire);
+        UNTIL ConfigQuestionnaire.NEXT = 0;
+    END;
+
+    PROCEDURE CopyCompInfo@5();
+    VAR
+      CompanyInfo@1000 : Record 79;
+    BEGIN
+      IF NOT CompanyInfo.GET THEN BEGIN
+        CompanyInfo.INIT;
+        CompanyInfo.INSERT;
+      END;
+      CompanyInfo.TRANSFERFIELDS(Rec);
+      CompanyInfo.MODIFY;
+      COMMIT;
+    END;
+
+    PROCEDURE SetHideDialog@48(NewHideDialog@1000 : Boolean);
+    BEGIN
+      HideDialog := NewHideDialog;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

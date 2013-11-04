@@ -1,0 +1,117 @@
+OBJECT Table 5830 Availability Calc. Overview
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Availability Calc. Overview;
+               ESP=Visi¢n general c†lc. disponib.;
+               DEA=VerfÅgbarkeitsberechnung - öbersicht];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nß mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Item,As of Date,Inventory,Supply,Supply Forecast,Demand;
+                                                                    ESP=Producto,A partir de fecha,Inventario,Suministro,Previsi¢n suministro,Demanda;
+                                                                    DEA=Artikel,Stand (Datum),Lager,Vorrat,Vorratsplanung,Bedarf];
+                                                   OptionString=Item,As of Date,Inventory,Supply,Supply Forecast,Demand }
+    { 3   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 4   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 5   ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 6   ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
+                                                   CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 7   ;   ;Unit of Measure Code;Code10        ;CaptionML=[ENU=Unit of Measure Code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Einheitencode] }
+    { 11  ;   ;Attached to Entry No.;Integer      ;TableRelation="Item Ledger Entry";
+                                                   CaptionML=[ENU=Attached to Entry No.;
+                                                              ESP=Nß mov. adjunto;
+                                                              DEA=Gehîrt zu Postennr.] }
+    { 13  ;   ;Level               ;Integer       ;CaptionML=[ENU=Level;
+                                                              ESP=Nivel;
+                                                              DEA=Ebene] }
+    { 21  ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart] }
+    { 22  ;   ;Source Order Status ;Integer       ;CaptionML=[ENU=Source Order Status;
+                                                              ESP=Estado orden origen;
+                                                              DEA=Herkunftsstatus] }
+    { 23  ;   ;Source ID           ;Code20        ;CaptionML=[ENU=Source ID;
+                                                              ESP=Id. origen;
+                                                              DEA=Herkunfts-ID] }
+    { 24  ;   ;Source Batch Name   ;Code10        ;CaptionML=[ENU=Source Batch Name;
+                                                              ESP=Nombre secci¢n origen;
+                                                              DEA=Herkunftsbuch.-Blattname] }
+    { 25  ;   ;Source Ref. No.     ;Integer       ;CaptionML=[ENU=Source Ref. No.;
+                                                              ESP=Nß ref. origen;
+                                                              DEA=Herkunftsref.-Nr.] }
+    { 26  ;   ;Source Prod. Order Line;Integer    ;CaptionML=[ENU=Source Prod. Order Line;
+                                                              ESP=L°nea O.P. origen;
+                                                              DEA=Herkunfts-FA-Zeile] }
+    { 27  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 41  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 42  ;   ;Reserved Quantity   ;Decimal       ;CaptionML=[ENU=Reserved Quantity;
+                                                              ESP=Cantidad reservada;
+                                                              DEA=Reservierte Menge];
+                                                   DecimalPlaces=0:5 }
+    { 45  ;   ;Inventory Running Total;Decimal    ;CaptionML=[ENU=Inventory Running Total;
+                                                              ESP=Total acumulado en inventario;
+                                                              DEA=Lagerergebnis];
+                                                   DecimalPlaces=0:5 }
+    { 46  ;   ;Supply Running Total;Decimal       ;CaptionML=[ENU=Supply Running Total;
+                                                              ESP=Total acumulado en suministro;
+                                                              DEA=Vorratsergebnis];
+                                                   DecimalPlaces=0:5 }
+    { 47  ;   ;Demand Running Total;Decimal       ;CaptionML=[ENU=Demand Running Total;
+                                                              ESP=Total acumulado en demanda;
+                                                              DEA=Bedarfsergebnis];
+                                                   DecimalPlaces=0:5 }
+    { 48  ;   ;Running Total       ;Decimal       ;CaptionML=[ENU=Running Total;
+                                                              ESP=Total acumulado;
+                                                              DEA=Ergebnis];
+                                                   DecimalPlaces=0:5 }
+    { 50  ;   ;Matches Criteria    ;Boolean       ;CaptionML=[ENU=Matches Criteria;
+                                                              ESP=Criterios coincidentes;
+                                                              DEA=Entspricht Kriterien] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Item No.,Date,Attached to Entry No.,Type }
+    {    ;Item No.,Variant Code,Location Code      }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

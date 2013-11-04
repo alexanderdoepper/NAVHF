@@ -1,0 +1,147 @@
+OBJECT Table 5122 Interaction Template Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Interaction Template Setup;
+               ESP=Configuraci¢n plantilla interacci¢n;
+               DEA=AktivitÑtenvorlage Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Sales Invoices      ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Invoices;
+                                                              ESP=Facturas venta;
+                                                              DEA=Verkaufsrechnungen] }
+    { 3   ;   ;Sales Cr. Memo      ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Cr. Memo;
+                                                              ESP=Abono ventas;
+                                                              DEA=Verkaufsgutschrift] }
+    { 4   ;   ;Sales Ord. Cnfrmn.  ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Ord. Cnfrmn.;
+                                                              ESP=Confirm. ped. vta.;
+                                                              DEA=AuftragsbestÑtigung] }
+    { 5   ;   ;Sales Quotes        ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Quotes;
+                                                              ESP=Ofertas venta;
+                                                              DEA=Angebote] }
+    { 6   ;   ;Purch Invoices      ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch Invoices;
+                                                              ESP=Facturas comp.;
+                                                              DEA=Einkaufsrechnungen] }
+    { 7   ;   ;Purch Cr Memos      ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch Cr Memos;
+                                                              ESP=Abonos comp.;
+                                                              DEA=Einkaufsgutschriften] }
+    { 8   ;   ;Purch. Orders       ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch. Orders;
+                                                              ESP=Pedidos comp.;
+                                                              DEA=Bestellungen] }
+    { 9   ;   ;Purch. Quotes       ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch. Quotes;
+                                                              ESP=Ofertas comp.;
+                                                              DEA=Anfragen] }
+    { 10  ;   ;E-Mails             ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=E-Mails;
+                                                              ESP=Correos electr¢nicos;
+                                                              DEA=E-Mails] }
+    { 11  ;   ;Cover Sheets        ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Cover Sheets;
+                                                              ESP=Portadas;
+                                                              DEA=DeckblÑtter] }
+    { 12  ;   ;Outg. Calls         ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Outg. Calls;
+                                                              ESP=Llamadas salientes;
+                                                              DEA=Ausgehende Telefonate] }
+    { 13  ;   ;Sales Blnkt. Ord    ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Blnkt. Ord;
+                                                              ESP=Ped. abiertos vtas.;
+                                                              DEA=Rahmenauftrag] }
+    { 14  ;   ;Serv Ord Post       ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Serv Ord Post;
+                                                              ESP=Registro ped. serv.;
+                                                              DEA=Serviceauftrag buchen] }
+    { 15  ;   ;Sales Shpt. Note    ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Shpt. Note;
+                                                              ESP=Alb. env°o vta.;
+                                                              DEA=Verkaufslieferschein] }
+    { 16  ;   ;Sales Statmnt       ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Statmnt;
+                                                              ESP=Extracto vtas.;
+                                                              DEA=Kontoauszug] }
+    { 17  ;   ;Sales Rmdr.         ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Rmdr.;
+                                                              ESP=Record. vtas.;
+                                                              DEA=Mahnung] }
+    { 18  ;   ;Serv Ord Create     ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Serv Ord Create;
+                                                              ESP=Creaci¢n ped. servicio;
+                                                              DEA=Serviceauftrag erstellen] }
+    { 19  ;   ;Purch Blnkt Ord     ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch Blnkt Ord;
+                                                              ESP=Ped. abierto comp.;
+                                                              DEA=Rahmenbestellung] }
+    { 20  ;   ;Purch. Rcpt.        ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch. Rcpt.;
+                                                              ESP=Alb. compra;
+                                                              DEA=Einkaufslieferschein] }
+    { 21  ;   ;Sales Return Order  ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Return Order;
+                                                              ESP=Devoluci¢n venta;
+                                                              DEA=Verkaufsreklamation] }
+    { 22  ;   ;Sales Return Receipt;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Return Receipt;
+                                                              ESP=Recep. devol. ventas;
+                                                              DEA=RÅcksendung] }
+    { 23  ;   ;Sales Finance Charge Memo;Code10   ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Sales Finance Charge Memo;
+                                                              ESP=Cargo financiero ventas;
+                                                              DEA=Zinsrechnung] }
+    { 24  ;   ;Purch. Return Shipment;Code10      ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch. Return Shipment;
+                                                              ESP=Env°os devol. compras;
+                                                              DEA=RÅcklieferung] }
+    { 25  ;   ;Purch. Return Ord. Cnfrmn.;Code10  ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Purch. Return Ord. Cnfrmn.;
+                                                              ESP=Confirm. devol. compra;
+                                                              DEA=Eink.-ReklamationsbestÑtigung] }
+    { 27  ;   ;Service Contract    ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Service Contract;
+                                                              ESP=Contrato servicio;
+                                                              DEA=Servicevertrag] }
+    { 28  ;   ;Service Contract Quote;Code10      ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Service Contract Quote;
+                                                              ESP=Oferta contrato servicio;
+                                                              DEA=Servicevertragsangebot] }
+    { 29  ;   ;Service Quote       ;Code10        ;TableRelation="Interaction Template" WHERE (Attachment No.=CONST(0));
+                                                   CaptionML=[ENU=Service Quote;
+                                                              ESP=Oferta servicio;
+                                                              DEA=Serviceangebot] }
+    { 30  ;   ;Meeting Invitation  ;Code10        ;TableRelation="Interaction Template";
+                                                   CaptionML=[ENU=Meeting Invitation;
+                                                              ESP=Invitaci¢n reuni¢n;
+                                                              DEA=Besprechungseinladung] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

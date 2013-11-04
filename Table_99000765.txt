@@ -1,0 +1,138 @@
+OBJECT Table 99000765 Manufacturing Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Manufacturing Setup;
+               ESP=Configuraci¢n fabricaci¢n;
+               DEA=Produktion Einrichtung];
+    LookupPageID=Page99000768;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel];
+                                                   Editable=No }
+    { 7   ;   ;Normal Starting Time;Time          ;CaptionML=[ENU=Normal Starting Time;
+                                                              ESP=Hora comienzo normal;
+                                                              DEA=Arbeitszeitbeginn] }
+    { 8   ;   ;Normal Ending Time  ;Time          ;CaptionML=[ENU=Normal Ending Time;
+                                                              ESP=Hora finalizaci¢n normal;
+                                                              DEA=Arbeitszeitende] }
+    { 9   ;   ;Doc. No. Is Prod. Order No.;Boolean;CaptionML=[ENU=Doc. No. Is Prod. Order No.;
+                                                              ESP=Nß doc. es nß ord. prod.;
+                                                              DEA=Belegnr. ist FA-Nr.] }
+    { 11  ;   ;Cost Incl. Setup    ;Boolean       ;CaptionML=[ENU=Cost Incl. Setup;
+                                                              ESP=Coste incl. preparaci¢n;
+                                                              DEA=Kosten inkl. RÅsten] }
+    { 12  ;   ;Dynamic Low-Level Code;Boolean     ;CaptionML=[ENU=Dynamic Low-Level Code;
+                                                              ESP=C¢d. niv. m†s bajo din†mico;
+                                                              DEA=Dyn. StÅckl.-Ebene berechnen] }
+    { 18  ;   ;Planning Warning    ;Boolean       ;CaptionML=[ENU=Planning Warning;
+                                                              ESP=Advertencia planificaci¢n;
+                                                              DEA=Warnung bei Planung] }
+    { 20  ;   ;Simulated Order Nos.;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Simulated Order Nos.;
+                                                              ESP=Nros. ¢rdenes simuladas;
+                                                              DEA=Simulierte FA-Nummern] }
+    { 21  ;   ;Planned Order Nos.  ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Planned Order Nos.;
+                                                              ESP=Nros. ¢rdenes planificadas;
+                                                              DEA=Geplante FA-Nummern] }
+    { 22  ;   ;Firm Planned Order Nos.;Code10     ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Firm Planned Order Nos.;
+                                                              ESP=Nros. ¢rdenes planif. en firme;
+                                                              DEA=Fest geplante FA-Nummern] }
+    { 23  ;   ;Released Order Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Released Order Nos.;
+                                                              ESP=Nros. ¢rdenes lanzadas;
+                                                              DEA=Freigegebene FA-Nummern] }
+    { 29  ;   ;Work Center Nos.    ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Work Center Nos.;
+                                                              ESP=Nros. centro trabajo;
+                                                              DEA=Arbeitsplatzgruppennummern] }
+    { 30  ;   ;Machine Center Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Machine Center Nos.;
+                                                              ESP=Nros. centros m†quina;
+                                                              DEA=Arbeitsplatznummern] }
+    { 31  ;   ;Production BOM Nos. ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Production BOM Nos.;
+                                                              ESP=Nros. L.M. producci¢n;
+                                                              DEA=Fert.-StÅcklistennummern] }
+    { 32  ;   ;Routing Nos.        ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Routing Nos.;
+                                                              ESP=Nros. rutas;
+                                                              DEA=Arbeitsplannummern] }
+    { 35  ;   ;Current Production Forecast;Code10 ;TableRelation="Production Forecast Name".Name;
+                                                   CaptionML=[ENU=Current Production Forecast;
+                                                              ESP=Previsi¢n prod. actual;
+                                                              DEA=Aktuelle Absatzplanung] }
+    { 37  ;   ;Use Forecast on Locations;Boolean  ;CaptionML=[ENU=Use Forecast on Locations;
+                                                              ESP=Previsiones en almacÇnes;
+                                                              DEA=Absatzpl. pro Lagerort verw.] }
+    { 38  ;   ;Combined MPS/MRP Calculation;Boolean;
+                                                   CaptionML=[ENU=Combined MPS/MRP Calculation;
+                                                              ESP=Combinar c†lc. MPS/MRP;
+                                                              DEA=Prod.-Prog.Pl./Nettobed. komb.] }
+    { 39  ;   ;Components at Location;Code10      ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
+                                                   CaptionML=[ENU=Components at Location;
+                                                              ESP=Componentes en alm.;
+                                                              DEA=Komponenten von Lagerort] }
+    { 40  ;   ;Default Dampener Period;DateFormula;OnValidate=VAR
+                                                                CalendarMgt@1000 : Codeunit 7600;
+                                                              BEGIN
+                                                                CalendarMgt.CheckDateFormulaPositive("Default Dampener Period");
+                                                              END;
+
+                                                   CaptionML=[ENU=Default Dampener Period;
+                                                              ESP=Periodo predet. amortiguador;
+                                                              DEA=Standardtoleranzperiode] }
+    { 41  ;   ;Default Dampener Quantity;Decimal  ;CaptionML=[ENU=Default Dampener Quantity;
+                                                              ESP=Cantidad predet. amortiguador;
+                                                              DEA=Standardtoleranzmenge];
+                                                   DecimalPlaces=1:1;
+                                                   MinValue=0 }
+    { 42  ;   ;Default Safety Lead Time;DateFormula;
+                                                   CaptionML=[ENU=Default Safety Lead Time;
+                                                              ESP=Plazo seguridad genÇrico;
+                                                              DEA=Vorg. Sich.-Zuschl. Besch.-Zt.] }
+    { 43  ;   ;Blank Overflow Level;Option        ;CaptionML=[ENU=Blank Overflow Level;
+                                                              ESP=Nivel desbordamiento en blanco;
+                                                              DEA=Leerer öberlauflevel];
+                                                   OptionCaptionML=[ENU=Allow Default Calculation,Use Item/SKU Values Only;
+                                                                    ESP=Permitir c†lculo predet.,Usar solo valores UA;
+                                                                    DEA=Standardberechnung zulassen,Nur Artikel-/Lagerhaltungswerte verwenden];
+                                                   OptionString=Allow Default Calculation,Use Item/SKU Values Only }
+    { 50  ;   ;Show Capacity In    ;Code10        ;TableRelation="Capacity Unit of Measure".Code;
+                                                   CaptionML=[ENU=Show Capacity In;
+                                                              ESP=Mostrar capacidad en;
+                                                              DEA=KapazitÑt anzeigen in] }
+    { 5500;   ;Preset Output Quantity;Option      ;CaptionML=[ENU=Preset Output Quantity;
+                                                              ESP=Cantidad de salida predefinida;
+                                                              DEA=Vordef. fertig gest. Menge];
+                                                   OptionCaptionML=[ENU=Expected Quantity,Zero on All Operations,Zero on Last Operation;
+                                                                    ESP=Cantidad esperada,Cero en todas las operaciones,Cero en la £ltima operaci¢n;
+                                                                    DEA=Erw. Menge,Null bei allen ArbeitsgÑngen,Null bei letztem Arbeitsgang];
+                                                   OptionString=Expected Quantity,Zero on All Operations,Zero on Last Operation }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

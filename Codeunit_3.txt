@@ -1,0 +1,115 @@
+OBJECT Codeunit 3 G/L Account-Indent
+{
+  OBJECT-PROPERTIES
+  {
+    Date=15.09.04;
+    Time=12:00:00;
+    Version List=NAVW14.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+            IF NOT
+               CONFIRM(
+                 Text000 +
+                 Text001 +
+                 Text002 +
+                 Text003,TRUE)
+            THEN
+              EXIT;
+
+            Indent;
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU="This function updates the indentation of all the G/L accounts in the chart of accounts. ";ESP="Esta funci¢n actualiza la indentaci¢n de todas las cuentas del plan de cuentas. ";DEA="Diese Funktion aktualisiert die EinrÅckung aller Sachkonten im Kontenplan. "';
+      Text001@1001 : TextConst 'ENU="All accounts between a Begin-Total and the matching End-Total are indented one level. ";ESP="Se indentan un nivel todas las cuentas que estÇn entre los valores inicio-total y fin-total. ";DEA="Alle Konten zwischen Von-Summe und Bis-Summe werden um eine Stufe eingerÅckt. "';
+      Text002@1002 : TextConst 'ENU=The Totaling for each End-total is also updated.;ESP=TambiÇn se actualiza el total de cada fin-total.;DEA=Die ZusammenzÑhlung fÅr Bis-Summen ist ebenfalls aktualisiert.';
+      Text003@1003 : TextConst 'ENU=\\Do you want to indent the chart of accounts?;ESP=\\®Desea indentar el plan de cuentas?;DEA=\\Mîchten Sie den Kontenplan einrÅcken?';
+      Text004@1004 : TextConst 'ENU=Indenting the Chart of Accounts #1##########;ESP=Indentaci¢n del plan de cuentas #1##########;DEA=Kontenplan wird eingerÅckt      #1##########';
+      Text005@1005 : TextConst 'ENU=End-Total %1 is missing a matching Begin-Total.;ESP=Fin-Tot %1 est† perdiendo un ajuste de inicio-tot.;DEA=Bis-Summe %1 hat keine passende Von-Summe.';
+      GLAcc@1006 : Record 15;
+      Window@1007 : Dialog;
+      AccNo@1008 : ARRAY [10] OF Code[20];
+      i@1009 : Integer;
+
+    PROCEDURE Indent@1();
+    BEGIN
+      Window.OPEN(Text004);
+
+      WITH GLAcc DO
+        IF FIND('-') THEN
+          REPEAT
+            Window.UPDATE(1,"No.");
+
+            IF "Account Type" = "Account Type"::"End-Total" THEN BEGIN
+              IF i < 1 THEN
+                ERROR(
+                  Text005,
+                  "No.");
+              Totaling := AccNo[i] + '..' + "No.";
+              i := i - 1;
+            END;
+
+            Indentation := i;
+            MODIFY;
+
+            IF "Account Type" = "Account Type"::"Begin-Total" THEN BEGIN
+              i := i + 1;
+              AccNo[i] := "No.";
+            END;
+          UNTIL NEXT = 0;
+
+      Window.CLOSE;
+    END;
+
+    PROCEDURE RunICAccountIndent@4();
+    BEGIN
+      IF NOT
+         CONFIRM(
+           Text000 +
+           Text001 +
+           Text003,TRUE)
+      THEN
+        EXIT;
+
+      IndentICAccount;
+    END;
+
+    PROCEDURE IndentICAccount@2();
+    VAR
+      ICGLAcc@1000 : Record 410;
+    BEGIN
+      Window.OPEN(Text004);
+      WITH ICGLAcc DO
+        IF FIND('-') THEN
+          REPEAT
+            Window.UPDATE(1,"No.");
+
+            IF "Account Type" = "Account Type"::"End-Total" THEN BEGIN
+              IF i < 1 THEN
+                ERROR(
+                  Text005,
+                  "No.");
+              i := i - 1;
+            END;
+
+            Indentation := i;
+            MODIFY;
+
+            IF "Account Type" = "Account Type"::"Begin-Total" THEN BEGIN
+              i := i + 1;
+              AccNo[i] := "No.";
+            END;
+          UNTIL NEXT = 0;
+      Window.CLOSE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

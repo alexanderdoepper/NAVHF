@@ -1,0 +1,75 @@
+OBJECT Table 99000773 Family
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=No.,Description;
+    OnModify=BEGIN
+               "Last Date Modified" := TODAY;
+             END;
+
+    OnDelete=VAR
+               FamilyLine@1000 : Record 99000774;
+             BEGIN
+               FamilyLine.SETRANGE("Family No.","No.");
+               FamilyLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Family;
+               ESP=Familia;
+               DEA=Fertigungsfamilie];
+    LookupPageID=Page99000791;
+    DrillDownPageID=Page99000791;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.];
+                                                   NotBlank=Yes }
+    { 10  ;   ;Description         ;Text50        ;OnValidate=BEGIN
+                                                                "Search Name" := Description;
+                                                              END;
+
+                                                   CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 11  ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
+                                                              ESP=Descripci¢n 2;
+                                                              DEA=Beschreibung 2] }
+    { 12  ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
+                                                              ESP=Alias;
+                                                              DEA=Suchbegriff] }
+    { 13  ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
+                                                              ESP=Bloqueado;
+                                                              DEA=Gesperrt] }
+    { 14  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
+                                                              ESP=Fecha £lt. modificaci¢n;
+                                                              DEA=Korrigiert am];
+                                                   Editable=No }
+    { 20  ;   ;Routing No.         ;Code20        ;TableRelation="Routing Header";
+                                                   CaptionML=[ENU=Routing No.;
+                                                              ESP=N§ ruta;
+                                                              DEA=Arbeitsplannr.] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Search Name                              }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

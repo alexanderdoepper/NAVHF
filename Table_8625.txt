@@ -1,0 +1,69 @@
+OBJECT Table 8625 Config. Related Table
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               ConfigRelatedField@1000 : Record 8624;
+             BEGIN
+               ConfigRelatedField.SETRANGE("Table ID","Table ID");
+               ConfigRelatedField.SETRANGE("Relation Table ID","Relation Table ID");
+               ConfigRelatedField.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Config. Related Table;
+               ESP=Tabla relacionada con la configuraci¢n;
+               DEA=Zugeh”rige Tabelle konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 2   ;   ;Relation Table ID   ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Relation Table ID;
+                                                              ESP=Id. tabla relaciones;
+                                                              DEA=Relationstabellenkennung];
+                                                   Editable=No }
+    { 3   ;   ;Relation Table Name ;Text250       ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Name" WHERE (Object Type=CONST(Table),
+                                                                                                             Object ID=FIELD(Relation Table ID)));
+                                                   CaptionML=[ENU=Relation Table Name;
+                                                              ESP=Nombre de tabla de relaciones;
+                                                              DEA=Relationstabellenname];
+                                                   Editable=No }
+    { 4   ;   ;Related Fields      ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Config. Related Field" WHERE (Table ID=FIELD(Table ID),
+                                                                                                    Relation Table ID=FIELD(Relation Table ID)));
+                                                   CaptionML=[ENU=Related Fields;
+                                                              ESP=Campos relacionados;
+                                                              DEA=Zugeh”riges Feld];
+                                                   Editable=No }
+    { 5   ;   ;In Worksheet        ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Config. Line" WHERE (Table ID=FIELD(Relation Table ID)));
+                                                   CaptionML=[ENU=In Worksheet;
+                                                              ESP=En la hoja;
+                                                              DEA=In Vorschlag];
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Table ID,Relation Table ID              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

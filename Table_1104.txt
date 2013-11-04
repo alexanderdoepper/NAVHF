@@ -1,0 +1,158 @@
+OBJECT Table 1104 Cost Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cost Entry;
+               ESP=Mov. coste;
+               DEA=Kostenposten];
+    LookupPageID=Page1103;
+    DrillDownPageID=Page1103;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 4   ;   ;Cost Type No.       ;Code20        ;TableRelation="Cost Type";
+                                                   CaptionML=[ENU=Cost Type No.;
+                                                              ESP=N§ tipo coste;
+                                                              DEA=Kostenartnr.] }
+    { 5   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum];
+                                                   ClosingDates=Yes }
+    { 7   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 8   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 16  ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   BlankZero=Yes }
+    { 17  ;   ;Debit Amount        ;Decimal       ;CaptionML=[ENU=Debit Amount;
+                                                              ESP=Importe debe;
+                                                              DEA=Sollbetrag];
+                                                   BlankZero=Yes }
+    { 18  ;   ;Credit Amount       ;Decimal       ;CaptionML=[ENU=Credit Amount;
+                                                              ESP=Importe haber;
+                                                              DEA=Habenbetrag];
+                                                   BlankZero=Yes }
+    { 20  ;   ;Cost Center Code    ;Code20        ;TableRelation="Cost Center";
+                                                   CaptionML=[ENU=Cost Center Code;
+                                                              ESP=C¢digo centro coste;
+                                                              DEA=Kostenstellencode] }
+    { 21  ;   ;Cost Object Code    ;Code20        ;TableRelation="Cost Object";
+                                                   CaptionML=[ENU=Cost Object Code;
+                                                              ESP=C¢digo objeto coste;
+                                                              DEA=Kostentr„gercode] }
+    { 27  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor¡a;
+                                                              DEA=Ursachencode] }
+    { 28  ;   ;G/L Account         ;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=G/L Account;
+                                                              ESP=Cuenta;
+                                                              DEA=Sachkonto] }
+    { 29  ;   ;G/L Entry No.       ;Integer       ;TableRelation="G/L Entry";
+                                                   CaptionML=[ENU=G/L Entry No.;
+                                                              ESP=N§ mov. contabilidad;
+                                                              DEA=Sachposten Lfd. Nr.];
+                                                   Editable=No }
+    { 30  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 31  ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
+                                                              ESP=Asiento autom tico;
+                                                              DEA=Systembuchung];
+                                                   Editable=No }
+    { 32  ;   ;Allocated           ;Boolean       ;CaptionML=[ENU=Allocated;
+                                                              ESP=Asignado;
+                                                              DEA=Zugeordnet] }
+    { 33  ;   ;Allocated with Journal No.;Integer ;CaptionML=[ENU=Allocated with Journal No.;
+                                                              ESP=Asignado con n§ diario;
+                                                              DEA=Zugeordnet mit Buch.-Blattnr.] }
+    { 40  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID];
+                                                   Editable=No }
+    { 41  ;   ;Batch Name          ;Code10        ;TableRelation="Gen. Journal Batch";
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Batch Name;
+                                                              ESP=Nombre secci¢n;
+                                                              DEA=Buch.-Blattname] }
+    { 50  ;   ;Allocation Description;Text80      ;CaptionML=[ENU=Allocation Description;
+                                                              ESP=Descripci¢n asignaci¢n;
+                                                              DEA=Verteilungsbeschreibung] }
+    { 51  ;   ;Allocation ID       ;Code10        ;TableRelation="Cost Allocation Source";
+                                                   CaptionML=[ENU=Allocation ID;
+                                                              ESP=Id. asignaci¢n;
+                                                              DEA=Verteilungs-ID] }
+    { 68  ;   ;Additional-Currency Amount;Decimal ;CaptionML=[ENU=Additional-Currency Amount;
+                                                              ESP=Importe divisa-adicional;
+                                                              DEA=Betrag (BW)];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr=GetCurrencyCode }
+    { 69  ;   ;Add.-Currency Debit Amount;Decimal ;CaptionML=[ENU=Add.-Currency Debit Amount;
+                                                              ESP=Debe div.-adic.;
+                                                              DEA=Sollbetrag (BW)];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr=GetCurrencyCode }
+    { 70  ;   ;Add.-Currency Credit Amount;Decimal;CaptionML=[ENU=Add.-Currency Credit Amount;
+                                                              ESP=Haber div.-adic.;
+                                                              DEA=Habenbetrag (BW)];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr=GetCurrencyCode }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Cost Type No.,Posting Date              ;SumIndexFields=Amount,Debit Amount,Credit Amount,Additional-Currency Amount,Add.-Currency Debit Amount,Add.-Currency Credit Amount }
+    {    ;Cost Type No.,Cost Center Code,Cost Object Code,Allocated,Posting Date;
+                                                   SumIndexFields=Amount,Debit Amount,Credit Amount,Additional-Currency Amount,Add.-Currency Debit Amount,Add.-Currency Credit Amount }
+    {    ;Cost Center Code,Cost Type No.,Allocated,Posting Date;
+                                                   SumIndexFields=Amount }
+    {    ;Cost Object Code,Cost Type No.,Allocated,Posting Date;
+                                                   SumIndexFields=Amount }
+    {    ;Allocation ID,Posting Date               }
+    {    ;Document No.,Posting Date                }
+    {    ;Allocated with Journal No.               }
+    {    ;Cost Type No.,Posting Date,Cost Center Code,Cost Object Code;
+                                                   SumIndexFields=Amount,Debit Amount,Credit Amount }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Entry No.,Description,Posting Date,Amount }
+  }
+  CODE
+  {
+
+    PROCEDURE GetCurrencyCode@1() : Code[10];
+    VAR
+      GLSetup@1000 : Record 98;
+    BEGIN
+      GLSetup.GET;
+      EXIT(GLSetup."Additional Reporting Currency");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

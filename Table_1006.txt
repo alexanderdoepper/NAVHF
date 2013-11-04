@@ -1,0 +1,156 @@
+OBJECT Table 1006 Job WIP Method
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               JobWIPEntry@1000 : Record 1004;
+               JobWIPGLEntry@1001 : Record 1005;
+               JobsSetup@1002 : Record 315;
+             BEGIN
+               IF "System Defined" THEN
+                 ERROR(Text001,FIELDCAPTION("System Defined"));
+
+               JobWIPEntry.SETRANGE("WIP Method Used",Code);
+               JobWIPGLEntry.SETRANGE("WIP Method Used",Code);
+               IF JobWIPEntry.FINDFIRST OR JobWIPGLEntry.FINDFIRST THEN
+                 ERROR(Text004,JobWIPEntry.TABLECAPTION,JobWIPGLEntry.TABLECAPTION);
+
+               JobsSetup.SETRANGE("Default WIP Method",Code);
+               IF JobsSetup.FINDFIRST THEN
+                 ERROR(Text006);
+             END;
+
+    CaptionML=[ENU=Job WIP Method;
+               ESP=MÇtodo WIP proyecto;
+               DEA=WIP-Methode fÅr Projekt];
+    LookupPageID=Page1010;
+    DrillDownPageID=Page1010;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code20        ;OnValidate=BEGIN
+                                                                ValidateModification;
+                                                              END;
+
+                                                   CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;OnValidate=BEGIN
+                                                                ValidateModification;
+                                                              END;
+
+                                                   CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;WIP Cost            ;Boolean       ;InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                ValidateModification;
+                                                                IF "Recognized Costs" <> "Recognized Costs"::"Usage (Total Cost)" THEN
+                                                                  ERROR(Text003,FIELDCAPTION("Recognized Sales"),"Recognized Sales");
+                                                              END;
+
+                                                   CaptionML=[ENU=WIP Cost;
+                                                              ESP=Coste WIP;
+                                                              DEA=WIP-Kosten] }
+    { 4   ;   ;WIP Sales           ;Boolean       ;InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                ValidateModification;
+                                                                IF "Recognized Sales" <> "Recognized Sales"::"Contract (Invoiced Price)" THEN
+                                                                  ERROR(Text003,FIELDCAPTION("Recognized Sales"),"Recognized Sales");
+                                                              END;
+
+                                                   CaptionML=[ENU=WIP Sales;
+                                                              ESP=Ventas WIP;
+                                                              DEA=WIP-Verkauf] }
+    { 5   ;   ;Recognized Costs    ;Option        ;OnValidate=BEGIN
+                                                                ValidateModification;
+                                                                IF "Recognized Costs" <> "Recognized Costs"::"Usage (Total Cost)" THEN
+                                                                  "WIP Cost" := TRUE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Recognized Costs;
+                                                              ESP=Costes reconocidos;
+                                                              DEA=Deklarierte Kosten];
+                                                   OptionCaptionML=[ENU=At Completion,Cost of Sales,Cost Value,Contract (Invoiced Cost),Usage (Total Cost);
+                                                                    ESP=Al Finalizar,Coste de ventas,Valor de coste,Contrato (coste facturado),Utiliz. (coste total);
+                                                                    DEA=Bei Abschluss,Vertriebskosten,Einstandswert,Vertrag (Einstandsbetrag fakturiert),Verbrauch (Einstandsbetrag)];
+                                                   OptionString=At Completion,Cost of Sales,Cost Value,Contract (Invoiced Cost),Usage (Total Cost) }
+    { 6   ;   ;Recognized Sales    ;Option        ;OnValidate=BEGIN
+                                                                ValidateModification;
+                                                                IF "Recognized Sales" <> "Recognized Sales"::"Contract (Invoiced Price)" THEN
+                                                                  "WIP Sales" := TRUE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Recognized Sales;
+                                                              ESP=Ventas reconocidas;
+                                                              DEA=Deklarierte VerkÑufe];
+                                                   OptionCaptionML=[ENU=At Completion,Contract (Invoiced Price),Usage (Total Cost),Usage (Total Price),Percentage of Completion,Sales Value;
+                                                                    ESP=Al finalizar,Contrato (precio facturado),Uso (coste total),Utiliz. (precio total),Porcentaje de compleci¢n,Valor de ventas;
+                                                                    DEA=Bei Abschluss,Vertrag (Preis fakturiert),Verbrauch (Einstandsbetrag),Verbrauch (Verkaufsbetrag),Prozentsatz der Fertigung,Verkaufswert];
+                                                   OptionString=At Completion,Contract (Invoiced Price),Usage (Total Cost),Usage (Total Price),Percentage of Completion,Sales Value }
+    { 7   ;   ;Valid               ;Boolean       ;InitValue=Yes;
+                                                   OnValidate=VAR
+                                                                JobsSetup@1000 : Record 315;
+                                                              BEGIN
+                                                                JobsSetup.SETRANGE("Default WIP Method",Code);
+                                                                IF JobsSetup.FINDFIRST THEN
+                                                                  ERROR(Text007,JobsSetup.FIELDCAPTION("Default WIP Method"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Valid;
+                                                              ESP=V†lido;
+                                                              DEA=GÅltig] }
+    { 8   ;   ;System Defined      ;Boolean       ;InitValue=No;
+                                                   CaptionML=[ENU=System Defined;
+                                                              ESP=Definido autom†ticamente;
+                                                              DEA=Systemdefiniert];
+                                                   Editable=No }
+    { 9   ;   ;System-Defined Index;Integer       ;CaptionML=[ENU=System-Defined Index;
+                                                              ESP=÷ndice definido autom†ticamente;
+                                                              DEA=Systemdefinierter Index];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+    {    ;Valid                                    }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text001@1000 : TextConst 'ENU=You cannot delete methods that are %1.;ESP=No puede eliminar mÇtodos que son %1.;DEA=Methoden mit folgendem Status kînnen nicht gelîscht werden: %1.';
+      Text002@1001 : TextConst 'ENU=You cannot modify methods that are %1.;ESP=No puede modificar mÇtodos que son %1.;DEA=Methoden mit folgendem Status kînnen nicht geÑndert werden: %1.';
+      Text003@1002 : TextConst 'ENU=You cannot modify this field when %1 is %2.;ESP=No puede modificar este campo cuando %1 es %2.;DEA=Dieses Feld kann nicht geÑndert werden, wenn ''%1'' auf ''%2'' festgelegt ist.';
+      Text004@1003 : TextConst 'ENU=You cannot delete methods that have entries in %1 or %2.;ESP=No puede eliminar mÇtodos que tengan entradas en %1 o %2.;DEA=Methoden mit Posten in ''%1'' oder ''%2'' kînnen nicht gelîscht werden.';
+      Text005@1004 : TextConst 'ENU=You cannot modify methods that have entries in %1 or %2.;ESP=No puede modificar mÇtodos que tengan entradas en %1 o %2.;DEA=Methoden mit Posten in ''%1'' oder ''%2'' kînnen nicht geÑndert werden.';
+      Text006@1005 : TextConst 'ENU=You cannot delete the default method.;ESP=No puede eliminar el mÇtodo genÇrico.;DEA=Die Standardmethode kann nicht gelîscht werden.';
+      Text007@1006 : TextConst 'ENU=This method must be valid because it is defined as the %1.;ESP=Este mÇtodo debe ser v†lido porque est† definido como el %1.;DEA=Diese Methode muss gÅltig sein, da sie als %1 definiert ist.';
+
+    LOCAL PROCEDURE ValidateModification@3();
+    VAR
+      JobWIPEntry@1001 : Record 1004;
+      JobWIPGLEntry@1000 : Record 1005;
+    BEGIN
+      IF "System Defined" THEN
+        ERROR(Text002,FIELDCAPTION("System Defined"));
+      JobWIPEntry.SETRANGE("WIP Method Used",Code);
+      JobWIPGLEntry.SETRANGE("WIP Method Used",Code);
+      IF JobWIPEntry.FINDFIRST OR JobWIPGLEntry.FINDFIRST THEN
+        ERROR(Text005,JobWIPEntry.TABLECAPTION,JobWIPGLEntry.TABLECAPTION);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

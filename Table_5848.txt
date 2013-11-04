@@ -1,0 +1,186 @@
+OBJECT Table 5848 Cost Share Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cost Share Buffer;
+               ESP=Mem. inter. parte costes;
+               DEA=Kostenanteilspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Item Ledger Entry No.;Integer      ;CaptionML=[ENU=Item Ledger Entry No.;
+                                                              ESP=Nß mov. producto;
+                                                              DEA=Artikelposten Lfd. Nr.] }
+    { 2   ;   ;Capacity Ledger Entry No.;Integer  ;CaptionML=[ENU=Capacity Ledger Entry No.;
+                                                              ESP=Nß mov. capacidad;
+                                                              DEA=KapazitÑtsposten Lfd. Nr.] }
+    { 3   ;   ;Item No.            ;Code20        ;CaptionML=[ENU=Item No.;
+                                                              ESP=Nß producto;
+                                                              DEA=Artikelnr.] }
+    { 4   ;   ;Location Code       ;Code10        ;CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 5   ;   ;Variant Code        ;Code10        ;CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 6   ;   ;Entry Type          ;Option        ;CaptionML=[ENU=Entry Type;
+                                                              ESP=Tipo movimiento;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output;
+                                                                    ESP=Compra,Venta,Ajuste positivo,Ajuste negativo,Transferencia,Consumo,Salida desde fab., ,Consumo ensamblado,Salida ensamblado;
+                                                                    DEA=Einkauf,Verkauf,Zugang,Abgang,Umlagerung,Verbrauch,Istmeldung, ,Verbrauch fÅr Montage,Montage-Istmeldung];
+                                                   OptionString=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output }
+    { 7   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 10  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 20  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge] }
+    { 21  ;   ;Direct Cost         ;Decimal       ;CaptionML=[ENU=Direct Cost;
+                                                              ESP=Coste directo;
+                                                              DEA=Direkte Kosten] }
+    { 22  ;   ;Indirect Cost       ;Decimal       ;CaptionML=[ENU=Indirect Cost;
+                                                              ESP=Coste indirecto;
+                                                              DEA=Indirekte Kosten] }
+    { 23  ;   ;Revaluation         ;Decimal       ;CaptionML=[ENU=Revaluation;
+                                                              ESP=Reevaluaci¢n;
+                                                              DEA=Neubewertung] }
+    { 24  ;   ;Rounding            ;Decimal       ;CaptionML=[ENU=Rounding;
+                                                              ESP=Redondeo;
+                                                              DEA=Runden] }
+    { 25  ;   ;Variance            ;Decimal       ;CaptionML=[ENU=Variance;
+                                                              ESP=Desviaci¢n;
+                                                              DEA=Abweichung] }
+    { 26  ;   ;Purchase Variance   ;Decimal       ;CaptionML=[ENU=Purchase Variance;
+                                                              ESP=Desviaci¢n compras;
+                                                              DEA=Einkaufsabweichung] }
+    { 27  ;   ;Material Variance   ;Decimal       ;CaptionML=[ENU=Material Variance;
+                                                              ESP=Desviac. material;
+                                                              DEA=Materialabweichung] }
+    { 28  ;   ;Capacity Variance   ;Decimal       ;CaptionML=[ENU=Capacity Variance;
+                                                              ESP=Desviaci¢n capacidad;
+                                                              DEA=Abweichung KapazitÑt] }
+    { 29  ;   ;Capacity Overhead Variance;Decimal ;CaptionML=[ENU=Capacity Overhead Variance;
+                                                              ESP=Desviaci¢n cost. gen. capdad.;
+                                                              DEA=Abweichung KapazitÑtsgemeinkosten] }
+    { 30  ;   ;Mfg. Overhead Variance;Decimal     ;CaptionML=[ENU=Mfg. Overhead Variance;
+                                                              ESP=Desv. coste gen. fab.;
+                                                              DEA=Abweichung Prod.-Gemeinkosten] }
+    { 31  ;   ;Subcontracted Variance;Decimal     ;CaptionML=[ENU=Subcontracted Variance;
+                                                              ESP=Desviac. subcontratada;
+                                                              DEA=Abweichung Fremdarbeit] }
+    { 32  ;   ;Material            ;Decimal       ;CaptionML=[ENU=Material;
+                                                              ESP=Material;
+                                                              DEA=Material] }
+    { 34  ;   ;Capacity            ;Decimal       ;CaptionML=[ENU=Capacity;
+                                                              ESP=Capacidad;
+                                                              DEA=KapazitÑt] }
+    { 35  ;   ;Capacity Overhead   ;Decimal       ;CaptionML=[ENU=Capacity Overhead;
+                                                              ESP=Cost. gen. capdad.;
+                                                              DEA=KapazitÑtsgemeinkosten] }
+    { 36  ;   ;Material Overhead   ;Decimal       ;CaptionML=[ENU=Material Overhead;
+                                                              ESP=Costes generales material;
+                                                              DEA=Materialgemeinkosten] }
+    { 37  ;   ;Subcontracted       ;Decimal       ;CaptionML=[ENU=Subcontracted;
+                                                              ESP=Subcontratado;
+                                                              DEA=Fremdarbeit] }
+    { 40  ;   ;New Quantity        ;Decimal       ;CaptionML=[ENU=New Quantity;
+                                                              ESP=Nueva cantidad;
+                                                              DEA=Neue Menge] }
+    { 41  ;   ;New Direct Cost     ;Decimal       ;CaptionML=[ENU=New Direct Cost;
+                                                              ESP=Nuevo coste directo;
+                                                              DEA=Neue direkte Kosten];
+                                                   AutoFormatType=2 }
+    { 42  ;   ;New Indirect Cost   ;Decimal       ;CaptionML=[ENU=New Indirect Cost;
+                                                              ESP=Nuevo coste indirecto;
+                                                              DEA=Neue indirekte Kosten] }
+    { 43  ;   ;New Revaluation     ;Decimal       ;CaptionML=[ENU=New Revaluation;
+                                                              ESP=Nueva reval.;
+                                                              DEA=Neue Neubewertung] }
+    { 44  ;   ;New Rounding        ;Decimal       ;CaptionML=[ENU=New Rounding;
+                                                              ESP=Nuevo redondeo;
+                                                              DEA=Neue Rundung] }
+    { 45  ;   ;New Variance        ;Decimal       ;CaptionML=[ENU=New Variance;
+                                                              ESP=Nueva desviaci¢n;
+                                                              DEA=Neue Abweichung] }
+    { 46  ;   ;New Purchase Variance;Decimal      ;CaptionML=[ENU=New Purchase Variance;
+                                                              ESP=Nueva desviaci¢n compras;
+                                                              DEA=Neue Einkaufsabweichung] }
+    { 47  ;   ;New Material Variance;Decimal      ;CaptionML=[ENU=New Material Variance;
+                                                              ESP=Nueva desviaci¢n material;
+                                                              DEA=Neue Materialabweichung] }
+    { 48  ;   ;New Capacity Variance;Decimal      ;CaptionML=[ENU=New Capacity Variance;
+                                                              ESP=Nueva desviaci¢n capacidad;
+                                                              DEA=Neue KapazitÑtsabweichung] }
+    { 49  ;   ;New Capacity Overhead Variance;Decimal;
+                                                   CaptionML=[ENU=New Capacity Overhead Variance;
+                                                              ESP=Nueva desv. cost. gen. capdad.;
+                                                              DEA=Neue Abweichung KapazitÑtsgemeinkosten] }
+    { 50  ;   ;New Mfg. Overhead Variance;Decimal ;CaptionML=[ENU=New Mfg. Overhead Variance;
+                                                              ESP=Nueva desv. coste gen. fab.;
+                                                              DEA=Neue Abweichung Fertigungsgemeinkosten] }
+    { 51  ;   ;New Subcontracted Variance;Decimal ;CaptionML=[ENU=New Subcontracted Variance;
+                                                              ESP=Nueva desviaci¢n subcontratada;
+                                                              DEA=Neue Abweichung Fremdarbeit] }
+    { 52  ;   ;Share of Cost in Period;Decimal    ;CaptionML=[ENU=Share of Cost in Period;
+                                                              ESP=Participaci¢n en periodo;
+                                                              DEA=Kostenanteil in Periode] }
+    { 54  ;   ;New Material        ;Decimal       ;CaptionML=[ENU=New Material;
+                                                              ESP=Nuevo material;
+                                                              DEA=Neues Material] }
+    { 56  ;   ;New Capacity        ;Decimal       ;CaptionML=[ENU=New Capacity;
+                                                              ESP=Nueva capacidad;
+                                                              DEA=Neue KapazitÑt] }
+    { 57  ;   ;New Capacity Overhead;Decimal      ;CaptionML=[ENU=New Capacity Overhead;
+                                                              ESP=Nuevo coste general capacidad;
+                                                              DEA=Neue KapazitÑtsgemeinkosten] }
+    { 58  ;   ;New Material Overhead;Decimal      ;CaptionML=[ENU=New Material Overhead;
+                                                              ESP=Nuevo coste general material;
+                                                              DEA=Neue Materialgemeinkosten] }
+    { 59  ;   ;New Subcontracted   ;Decimal       ;CaptionML=[ENU=New Subcontracted;
+                                                              ESP=Nuevo subcontratado;
+                                                              DEA=Neue Fremdarbeit] }
+    { 60  ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum] }
+    { 90  ;   ;Order Type          ;Option        ;CaptionML=[ENU=Order Type;
+                                                              ESP=Tipo orden;
+                                                              DEA=Auftragsart];
+                                                   OptionCaptionML=[ENU=" ,Production,Transfer,Service,Assembly";
+                                                                    ESP=" ,Producci¢n,Transferencia,Servicio,Ensamblado";
+                                                                    DEA=" ,Fertigung,Umlagerung,Service,Montage"];
+                                                   OptionString=[ ,Production,Transfer,Service,Assembly] }
+    { 91  ;   ;Order No.           ;Code20        ;CaptionML=[ENU=Order No.;
+                                                              ESP=Nß pedido;
+                                                              DEA=Auftragsnr.] }
+    { 92  ;   ;Order Line No.      ;Integer       ;CaptionML=[ENU=Order Line No.;
+                                                              ESP=Nß l°nea pedido;
+                                                              DEA=Auftragszeilennr.] }
+  }
+  KEYS
+  {
+    {    ;Item Ledger Entry No.,Capacity Ledger Entry No.;
+                                                   Clustered=Yes }
+    {    ;Item No.,Location Code,Variant Code,Entry Type }
+    {    ;Order Type,Order No.,Order Line No.,Entry Type }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,4622 @@
+OBJECT Report 11100 Fixed Assets - List AT
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Fixed Assets - List AT;
+               DEA=Anlagen - Liste AT];
+    OnPreReport=BEGIN
+                  NumberOfTypes := 6;
+                  FABook.GET(DeprBookCode);
+                  FAGenReport.AppendFAPostingFilter("Fixed Asset",StartDate,EndDate);
+                  FAFilter := "Fixed Asset".GETFILTERS;
+                  MainHeadLineText := Text000;
+                  IF BudgReport THEN
+                    MainHeadLineText := STRSUBSTNO('%1 %2',MainHeadLineText,Text001);
+                  FABookText := STRSUBSTNO('%1%2 %3',FABook.TABLECAPTION,':',DeprBookCode);
+                  MakeGroupTotalText;
+                  FAGenReport.ValidateDates(StartDate,EndDate);
+                  MakeDateText;
+                  MakeHeadLine;
+                  IF PrintDetails THEN BEGIN
+                    FANumber := "Fixed Asset".FIELDCAPTION("No.");
+                    FADescription := "Fixed Asset".FIELDCAPTION(Description);
+                  END;
+                  Period1 := Period1::"Before Starting Date";
+                  Period2 := Period2::"Net Change";
+                  GroupTotalsType := GroupTotals;
+                END;
+
+  }
+  DATASET
+  {
+    { 3794;    ;DataItem;                    ;
+               DataItemTable=Table5600;
+               OnPreDataItem=BEGIN
+                               CASE GroupTotals OF
+                                 GroupTotals::"FA Class":
+                                   SETCURRENTKEY("FA Class Code");
+                                 GroupTotals::"FA Subclass":
+                                   SETCURRENTKEY("FA Subclass Code");
+                                 GroupTotals::"FA Location":
+                                   SETCURRENTKEY("FA Location Code");
+                                 GroupTotals::"Main Asset":
+                                   SETCURRENTKEY("Component of Main Asset");
+                                 GroupTotals::"Global Dimension 1":
+                                   SETCURRENTKEY("Global Dimension 1 Code");
+                                 GroupTotals::"Global Dimension 2":
+                                   SETCURRENTKEY("Global Dimension 2 Code");
+                               END;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF NOT FADeprBook.GET("No.",DeprBookCode) THEN
+                                    CurrReport.SKIP;
+                                  IF SkipRecord THEN
+                                    CurrReport.SKIP;
+
+                                  AmountBefore := 0;
+                                  AmountAfter := 0;
+                                  IF BudgReport THEN
+                                    BudgDepr.Calculate(
+                                      "No.",GetStartingDate(StartDate),EndDate,DeprBookCode,AmountBefore,AmountAfter);
+
+                                  i := 0;
+                                  WHILE i < NumberOfTypes DO BEGIN
+                                    i := i + 1;
+                                    CASE i OF
+                                      1:
+                                        PostingType := FADeprBook.FIELDNO("Acquisition Cost");
+                                      2:
+                                        PostingType := FADeprBook.FIELDNO(Depreciation);
+                                      3:
+                                        PostingType := FADeprBook.FIELDNO("Write-Down");
+                                      4:
+                                        PostingType := FADeprBook.FIELDNO(Appreciation);
+                                      5:
+                                        PostingType := FADeprBook.FIELDNO("Custom 1");
+                                      6:
+                                        PostingType := FADeprBook.FIELDNO("Custom 2");
+                                    END;
+                                    IF StartDate <= 01010000D THEN
+                                      StartAmounts[i] := 0
+                                    ELSE
+                                      StartAmounts[i] := FAGenReport.CalcFAPostedAmount("No.",PostingType,Period1,StartDate,
+                                          EndDate,DeprBookCode,AmountBefore,AmountAfter,FALSE,TRUE);
+                                    NetChangeAmounts[i] :=
+                                      FAGenReport.CalcFAPostedAmount(
+                                        "No.",PostingType,Period2,StartDate,EndDate,
+                                        DeprBookCode,AmountBefore,AmountAfter,FALSE,TRUE);
+                                    IF GetPeriodDisposal THEN
+                                      DisposalAmounts[i] := -(StartAmounts[i] + NetChangeAmounts[i])
+                                    ELSE
+                                      DisposalAmounts[i] := 0;
+                                    IF i >= 3 THEN
+                                      AddPostingType(i - 3);
+                                  END;
+                                  FOR j := 1 TO NumberOfTypes DO
+                                    TotalEndingAmounts[j] := StartAmounts[j] + NetChangeAmounts[j] + DisposalAmounts[j];
+                                  BookValueAtEndingDate := 0;
+                                  BookValueAtStartingDate := 0;
+                                  FOR j := 1 TO NumberOfTypes DO BEGIN
+                                    BookValueAtEndingDate := BookValueAtEndingDate + TotalEndingAmounts[j];
+                                    BookValueAtStartingDate := BookValueAtStartingDate + StartAmounts[j];
+                                  END;
+
+                                  // -AT
+                                  IF "Fixed Asset"."Vendor No." <> '' THEN
+                                    Vendor.GET("Fixed Asset"."Vendor No.")
+                                  ELSE BEGIN
+                                    Vendor.INIT;
+                                    Vendor."No." := '';
+                                  END;
+
+                                  WITH FADeprBook DO BEGIN
+                                    CALCFIELDS("Custom 2");
+                                    IF ("Depreciation Method" <> "Depreciation Method"::Manual) AND
+                                       ("Depreciation Method" <> "Depreciation Method"::"User-Defined")
+                                    THEN
+                                      BEGIN
+                                      TotalUseTimeYears := "No. of Depreciation Years";
+                                      RestUseTimeYears := ROUND(("Depreciation Ending Date" - EndDate) / 360,1,'<');
+                                    END ELSE BEGIN
+                                      TotalUseTimeYears := 999;
+                                      RestUseTimeYears := 999;
+                                    END;
+                                    IF RestUseTimeYears < 0 THEN
+                                      RestUseTimeYears := 0;
+                                    UseTimeText := STRSUBSTNO('%1 / %2',TotalUseTimeYears,RestUseTimeYears);
+                                  END;
+                                  // +AT
+
+                                  MakeGroupHeadLine;
+                                  UpdateTotals;
+                                  CreateGroupTotals;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                CreateTotals;
+                              END;
+
+               ReqFilterFields=No.,FA Class Code,FA Subclass Code,Budgeted Asset }
+
+    { 33  ;1   ;Column  ;MainHeadLineText    ;
+               SourceExpr=MainHeadLineText }
+
+    { 32  ;1   ;Column  ;COMPANYNAME         ;
+               SourceExpr=COMPANYNAME }
+
+    { 34  ;1   ;Column  ;FORMAT_TODAY_0_4_   ;
+               SourceExpr=FORMAT(TODAY,0,4) }
+
+    { 35  ;1   ;Column  ;USERID              ;
+               SourceExpr=USERID }
+
+    { 36  ;1   ;Column  ;CurrReport_PAGENO   ;
+               SourceExpr=CurrReport.PAGENO }
+
+    { 69  ;1   ;Column  ;FABookText          ;
+               SourceExpr=FABookText }
+
+    { 77  ;1   ;Column  ;GroupTotalsType     ;
+               SourceExpr=GroupTotalsType }
+
+    { 78  ;1   ;Column  ;BudgReport          ;
+               SourceExpr=BudgReport }
+
+    { 79  ;1   ;Column  ;PrintDetails        ;
+               SourceExpr=PrintDetails }
+
+    { 28  ;1   ;Column  ;Fixed_Asset__TABLECAPTION__________FAFilter;
+               SourceExpr="Fixed Asset".TABLECAPTION + ': ' + FAFilter }
+
+    { 1140000;1;Column  ;FAFilter            ;
+               SourceExpr=FAFilter }
+
+    { 7   ;1   ;Column  ;Header_1_           ;
+               SourceExpr=Header[1] }
+
+    { 9   ;1   ;Column  ;Header_2_           ;
+               SourceExpr=Header[2] }
+
+    { 11  ;1   ;Column  ;Header_3_           ;
+               SourceExpr=Header[3] }
+
+    { 19  ;1   ;Column  ;Header_5_           ;
+               SourceExpr=Header[5] }
+
+    { 21  ;1   ;Column  ;Header_6_           ;
+               SourceExpr=Header[6] }
+
+    { 24  ;1   ;Column  ;Header_7_           ;
+               SourceExpr=Header[7] }
+
+    { 41  ;1   ;Column  ;Header_9_           ;
+               SourceExpr=Header[9] }
+
+    { 44  ;1   ;Column  ;Header_10_          ;
+               SourceExpr=Header[10] }
+
+    { 2   ;1   ;Column  ;FANumber            ;
+               SourceExpr=FANumber }
+
+    { 3   ;1   ;Column  ;FADescription       ;
+               SourceExpr=FADescription }
+
+    { 16  ;1   ;Column  ;GroupCodeName       ;
+               SourceExpr=GroupCodeName }
+
+    { 17  ;1   ;Column  ;Header_4_           ;
+               SourceExpr=Header[4] }
+
+    { 39  ;1   ;Column  ;Header_8_           ;
+               SourceExpr=Header[8] }
+
+    { 26  ;1   ;Column  ;GroupHeadLine       ;
+               SourceExpr=GroupHeadLine }
+
+    { 1   ;1   ;Column  ;Fixed_Asset__No__   ;
+               SourceExpr="No." }
+
+    { 5   ;1   ;Column  ;Fixed_Asset_Description;
+               SourceExpr=Description }
+
+    { 15  ;1   ;Column  ;Vendor_Name         ;
+               SourceExpr=Vendor.Name }
+
+    { 18  ;1   ;Column  ;Vendor__No__        ;
+               SourceExpr=Vendor."No." }
+
+    { 20  ;1   ;Column  ;FADeprBook__Last_Custom_2_Date_;
+               SourceExpr=FORMAT(FADeprBook."Last Custom 2 Date") }
+
+    { 25  ;1   ;Column  ;FADeprBook__Custom_2_;
+               SourceExpr=FADeprBook."Custom 2" }
+
+    { 22  ;1   ;Column  ;NetChangeAmounts_1_ ;
+               SourceExpr=NetChangeAmounts[1] }
+
+    { 31  ;1   ;Column  ;DisposalAmounts_1_  ;
+               SourceExpr=DisposalAmounts[1] }
+
+    { 47  ;1   ;Column  ;TotalEndingAmounts_1_;
+               SourceExpr=TotalEndingAmounts[1] }
+
+    { 53  ;1   ;Column  ;NetChangeAmounts_2_ ;
+               SourceExpr=NetChangeAmounts[2] }
+
+    { 56  ;1   ;Column  ;DisposalAmounts_2_  ;
+               SourceExpr=DisposalAmounts[2] }
+
+    { 59  ;1   ;Column  ;TotalEndingAmounts_2_;
+               SourceExpr=TotalEndingAmounts[2] }
+
+    { 62  ;1   ;Column  ;BookValueAtStartingDate;
+               SourceExpr=BookValueAtStartingDate }
+
+    { 65  ;1   ;Column  ;BookValueAtEndingDate;
+               SourceExpr=BookValueAtEndingDate }
+
+    { 8   ;1   ;Column  ;Vendor_Address      ;
+               SourceExpr=Vendor.Address }
+
+    { 10  ;1   ;Column  ;STRSUBSTNO___1__2__Vendor__Post_Code__Vendor_City_;
+               SourceExpr=STRSUBSTNO('%1 %2',Vendor."Post Code",Vendor.City) }
+
+    { 68  ;1   ;Column  ;UseTimeText         ;
+               SourceExpr=UseTimeText }
+
+    { 70  ;1   ;Column  ;Fixed_Asset__BWR_Depr__Book_Code_;
+               SourceExpr="BWR Depr. Book Code" }
+
+    { 72  ;1   ;Column  ;Fixed_Asset__Prem_Depr____;
+               SourceExpr="Prem Depr. %" }
+
+    { 43  ;1   ;Column  ;FADeprBook__Depreciation_Starting_Date_;
+               SourceExpr=FORMAT(FADeprBook."Depreciation Starting Date") }
+
+    { 4   ;1   ;Column  ;StartAmounts_1_     ;
+               SourceExpr=StartAmounts[1] }
+
+    { 50  ;1   ;Column  ;StartAmounts_2_     ;
+               SourceExpr=StartAmounts[2] }
+
+    { 75  ;1   ;Column  ;Fixed_Asset__Prem__Depr__Amount_;
+               SourceExpr="Prem. Depr. Amount" }
+
+    { 27  ;1   ;Column  ;FORMAT_Text002__________GroupHeadLine_;
+               SourceExpr=FORMAT(Text002 + ': ' + GroupHeadLine) }
+
+    { 29  ;1   ;Column  ;GroupNetChange_1_   ;
+               SourceExpr=GroupNetChange[1] }
+
+    { 42  ;1   ;Column  ;GroupDispAmounts_1_ ;
+               SourceExpr=GroupDispAmounts[1] }
+
+    { 48  ;1   ;Column  ;TotalEndingAmounts_1__Control48;
+               SourceExpr=TotalEndingAmounts[1] }
+
+    { 54  ;1   ;Column  ;GroupNetChange_2_   ;
+               SourceExpr=GroupNetChange[2] }
+
+    { 57  ;1   ;Column  ;GroupDispAmounts_2_ ;
+               SourceExpr=GroupDispAmounts[2] }
+
+    { 60  ;1   ;Column  ;TotalEndingAmounts_2__Control60;
+               SourceExpr=TotalEndingAmounts[2] }
+
+    { 63  ;1   ;Column  ;BookValueAtStartingDate_Control63;
+               SourceExpr=BookValueAtStartingDate }
+
+    { 66  ;1   ;Column  ;BookValueAtEndingDate_Control66;
+               SourceExpr=BookValueAtEndingDate }
+
+    { 13  ;1   ;Column  ;GroupStartAmounts_1_;
+               SourceExpr=GroupStartAmounts[1] }
+
+    { 51  ;1   ;Column  ;GroupStartAmounts_2_;
+               SourceExpr=GroupStartAmounts[2] }
+
+    { 14  ;1   ;Column  ;TotalStartAmounts_1_;
+               SourceExpr=TotalStartAmounts[1] }
+
+    { 30  ;1   ;Column  ;TotalNetChange_1_   ;
+               SourceExpr=TotalNetChange[1] }
+
+    { 46  ;1   ;Column  ;TotalDispAmounts_1_ ;
+               SourceExpr=TotalDispAmounts[1] }
+
+    { 49  ;1   ;Column  ;TotalEndingAmounts_1__Control49;
+               SourceExpr=TotalEndingAmounts[1] }
+
+    { 52  ;1   ;Column  ;TotalStartAmounts_2_;
+               SourceExpr=TotalStartAmounts[2] }
+
+    { 55  ;1   ;Column  ;TotalNetChange_2_   ;
+               SourceExpr=TotalNetChange[2] }
+
+    { 58  ;1   ;Column  ;TotalDispAmounts_2_ ;
+               SourceExpr=TotalDispAmounts[2] }
+
+    { 61  ;1   ;Column  ;TotalEndingAmounts_2__Control61;
+               SourceExpr=TotalEndingAmounts[2] }
+
+    { 64  ;1   ;Column  ;BookValueAtStartingDate_Control64;
+               SourceExpr=BookValueAtStartingDate }
+
+    { 67  ;1   ;Column  ;BookValueAtEndingDate_Control67;
+               SourceExpr=BookValueAtEndingDate }
+
+    { 1170000001;1;Column;Fixed_Asset_FA_Class_Code;
+               SourceExpr="FA Class Code" }
+
+    { 1170000002;1;Column;Fixed_Asset_FA_Subclass_Code;
+               SourceExpr="FA Subclass Code" }
+
+    { 1170000003;1;Column;Fixed_Asset_Global_Dimension_1_Code;
+               SourceExpr="Global Dimension 1 Code" }
+
+    { 1170000004;1;Column;Fixed_Asset_Global_Dimension_2_Code;
+               SourceExpr="Global Dimension 2 Code" }
+
+    { 1170000005;1;Column;Fixed_Asset_FA_Location_Code;
+               SourceExpr="FA Location Code" }
+
+    { 1170000006;1;Column;Fixed_Asset_Component_of_Main_Asset;
+               SourceExpr="Component of Main Asset" }
+
+    { 37  ;1   ;Column  ;CurrReport_PAGENOCaption;
+               SourceExpr=CurrReport_PAGENOCaptionLbl }
+
+    { 40  ;1   ;Column  ;IFB_AmountCaption   ;
+               SourceExpr=IFB_AmountCaptionLbl }
+
+    { 23  ;1   ;Column  ;IFB_DateCaption     ;
+               SourceExpr=IFB_DateCaptionLbl }
+
+    { 12  ;1   ;Column  ;Depr__StartdateCaption;
+               SourceExpr=Depr__StartdateCaptionLbl }
+
+    { 45  ;1   ;Column  ;GND___RNDCaption    ;
+               SourceExpr=GND___RNDCaptionLbl }
+
+    { 6   ;1   ;Column  ;VendorCaption       ;
+               SourceExpr=VendorCaptionLbl }
+
+    { 71  ;1   ;Column  ;Fixed_Asset__BWR_Depr__Book_Code_Caption;
+               SourceExpr=FIELDCAPTION("BWR Depr. Book Code") }
+
+    { 73  ;1   ;Column  ;Fixed_Asset__Prem_Depr____Caption;
+               SourceExpr=FIELDCAPTION("Prem Depr. %") }
+
+    { 76  ;1   ;Column  ;Fixed_Asset__Prem__Depr__Amount_Caption;
+               SourceExpr=FIELDCAPTION("Prem. Depr. Amount") }
+
+    { 38  ;1   ;Column  ;TotalCaption        ;
+               SourceExpr=TotalCaptionLbl }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   IF DeprBookCode = '' THEN BEGIN
+                     FASetup.GET;
+                     DeprBookCode := FASetup."Default Depr. Book";
+                   END;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  Lookup=Yes;
+                  CaptionML=[ENU=Depreciation Book;
+                             DEA=AfA-Buch];
+                  SourceExpr=DeprBookCode;
+                  TableRelation="Depreciation Book" }
+
+      { 14  ;2   ;Field     ;
+                  Name=StartDate;
+                  CaptionML=[ENU=Start Date;
+                             DEA=Startdatum];
+                  SourceExpr=StartDate }
+
+      { 15  ;2   ;Field     ;
+                  Name=EndDate;
+                  CaptionML=[ENU=End Date;
+                             DEA=Enddatum];
+                  SourceExpr=EndDate }
+
+      { 2   ;2   ;Field     ;
+                  Name=GroupTotals;
+                  CaptionML=[ENU=Group Totals;
+                             DEA=Gruppensummen];
+                  OptionCaptionML=[ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group";
+                                   DEA=" ,Anl. Klasse,Anl. Sachgruppe,Anl. Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe"];
+                  SourceExpr=GroupTotals }
+
+      { 21  ;2   ;Field     ;
+                  Name=PrintDetails;
+                  CaptionML=[ENU=Print Details;
+                             DEA=Details drucken];
+                  SourceExpr=PrintDetails }
+
+      { 24  ;2   ;Field     ;
+                  Name=BudgetReport;
+                  CaptionML=[ENU=Budget Report;
+                             DEA=Planbericht];
+                  SourceExpr=BudgReport }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1160000 : TextConst 'ENU=Fixed Assets List AT;DEA=Anlagen - Liste AT';
+      Text001@1160001 : TextConst 'ENU=(budgeted);DEA=(budgetiert)';
+      Text002@1160002 : TextConst 'ENU=Grouptotal;DEA=Gruppensumme';
+      Text003@1160003 : TextConst 'ENU=GroupTotals;DEA=Gruppensummen';
+      Text004@1160004 : TextConst 'ENU=in Period;DEA=in Periode';
+      Text005@1160005 : TextConst 'ENU=Disposal;DEA=Verkauf';
+      Text006@1160006 : TextConst 'ENU=Appreciation;DEA=Zuschr.';
+      FASetup@1160007 : Record 5603;
+      FABook@1160008 : Record 5611;
+      FADeprBook@1160009 : Record 5612;
+      FA@1160010 : Record 5600;
+      FAPostingTypeSetup@1160011 : Record 5604;
+      Vendor@1160012 : Record 23;
+      FAGenReport@1160014 : Codeunit 5626;
+      BudgDepr@1160015 : Codeunit 5615;
+      DeprBookCode@1160016 : Code[10];
+      FAFilter@1160017 : Text[250];
+      MainHeadLineText@1160018 : Text[100];
+      FABookText@1160019 : Text[50];
+      GroupCodeName@1160020 : Text[50];
+      GroupHeadLine@1160021 : Text[50];
+      FANumber@1160022 : Text[50];
+      FADescription@1160023 : Text[50];
+      GroupTotals@1160024 : ' ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group';
+      Header@1160025 : ARRAY [10] OF Text[50];
+      StartAmounts@1160026 : ARRAY [6] OF Decimal;
+      NetChangeAmounts@1160027 : ARRAY [6] OF Decimal;
+      DisposalAmounts@1160028 : ARRAY [6] OF Decimal;
+      GroupStartAmounts@1160029 : ARRAY [6] OF Decimal;
+      GroupNetChange@1160030 : ARRAY [6] OF Decimal;
+      GroupDispAmounts@1160031 : ARRAY [6] OF Decimal;
+      TotalStartAmounts@1160032 : ARRAY [6] OF Decimal;
+      TotalNetChange@1160033 : ARRAY [6] OF Decimal;
+      TotalDispAmounts@1160034 : ARRAY [6] OF Decimal;
+      TotalEndingAmounts@1160035 : ARRAY [6] OF Decimal;
+      BookValueAtStartingDate@1160036 : Decimal;
+      BookValueAtEndingDate@1160037 : Decimal;
+      i@1160038 : Integer;
+      j@1160039 : Integer;
+      NumberOfTypes@1160040 : Integer;
+      PostingType@1160041 : Integer;
+      GroupTotalsType@1160058 : Integer;
+      Period1@1160042 : 'Before Starting Date,Net Change,At Ending Date';
+      Period2@1160043 : 'Before Starting Date,Net Change,At Ending Date';
+      StartDate@1160044 : Date;
+      EndDate@1160045 : Date;
+      PrintDetails@1160046 : Boolean;
+      BudgReport@1160047 : Boolean;
+      AmountBefore@1160049 : Decimal;
+      AmountAfter@1160050 : Decimal;
+      AcquisDate@1160051 : Date;
+      DispDate@1160052 : Date;
+      StartText@1160053 : Text[30];
+      EndText@1160054 : Text[30];
+      UseTimeText@1160055 : Text[30];
+      RestUseTimeYears@1160056 : Decimal;
+      TotalUseTimeYears@1160057 : Decimal;
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;DEA=Seite';
+      IFB_AmountCaptionLbl@3099 : TextConst 'ENU=IFB Amount;DEA=IFB-Betrag';
+      IFB_DateCaptionLbl@2003 : TextConst 'ENU=IFB Date;DEA=IFB-Datum';
+      Depr__StartdateCaptionLbl@3227 : TextConst 'ENU=Depr. Startdate;DEA=Beginn Abschr.';
+      GND___RNDCaptionLbl@8611 : TextConst 'ENU=GND / RND;DEA=GND / RND';
+      VendorCaptionLbl@6120 : TextConst 'ENU=Vendor;DEA=Kreditor';
+      TotalCaptionLbl@1909 : TextConst 'ENU=Total;DEA=Gesamt';
+
+    LOCAL PROCEDURE AddPostingType@29(PostingType@1160000 : 'Write-Down,Appreciation,Custom 1,Custom 2');
+    VAR
+      i@1160001 : Integer;
+      j@1160002 : Integer;
+    BEGIN
+      i := PostingType + 3;
+      WITH FAPostingTypeSetup DO BEGIN
+        CASE PostingType OF
+          PostingType::"Write-Down":
+            GET(DeprBookCode,"FA Posting Type"::"Write-Down");
+          PostingType::Appreciation:
+            GET(DeprBookCode,"FA Posting Type"::Appreciation);
+          PostingType::"Custom 1":
+            GET(DeprBookCode,"FA Posting Type"::"Custom 1");
+          PostingType::"Custom 2":
+            GET(DeprBookCode,"FA Posting Type"::"Custom 2");
+        END;
+        IF "Depreciation Type" THEN
+          j := 2
+        ELSE
+          IF "Acquisition Type" THEN
+            j := 1;
+      END;
+      IF j > 0 THEN BEGIN
+        StartAmounts[j] := StartAmounts[j] + StartAmounts[i];
+        StartAmounts[i] := 0;
+        NetChangeAmounts[j] := NetChangeAmounts[j] + NetChangeAmounts[i];
+        NetChangeAmounts[i] := 0;
+        DisposalAmounts[j] := DisposalAmounts[j] + DisposalAmounts[i];
+        DisposalAmounts[i] := 0;
+      END;
+    END;
+
+    LOCAL PROCEDURE SkipRecord@5() : Boolean;
+    BEGIN
+      AcquisDate := FADeprBook."Acquisition Date";
+      DispDate := FADeprBook."Disposal Date";
+      EXIT(
+        "Fixed Asset".Inactive OR
+        (AcquisDate = 0D) OR
+        (AcquisDate > EndDate) AND (EndDate > 0D) OR
+        (DispDate > 0D) AND (DispDate < StartDate))
+    END;
+
+    LOCAL PROCEDURE GetPeriodDisposal@11() : Boolean;
+    BEGIN
+      IF DispDate > 0D THEN
+        IF (EndDate = 0D) OR (DispDate <= EndDate) THEN
+          EXIT(TRUE);
+      EXIT(FALSE);
+    END;
+
+    LOCAL PROCEDURE MakeGroupTotalText@6();
+    BEGIN
+      CASE GroupTotals OF
+        GroupTotals::"FA Class":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("FA Class Code"));
+        GroupTotals::"FA Subclass":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("FA Subclass Code"));
+        GroupTotals::"FA Location":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("FA Location Code"));
+        GroupTotals::"Main Asset":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("Main Asset/Component"));
+        GroupTotals::"Global Dimension 1":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("Global Dimension 1 Code"));
+        GroupTotals::"Global Dimension 2":
+          GroupCodeName := FORMAT("Fixed Asset".FIELDCAPTION("Global Dimension 2 Code"));
+      END;
+      IF GroupCodeName <> '' THEN
+        GroupCodeName := FORMAT(STRSUBSTNO('%1%2 %3',Text003,':',GroupCodeName));
+    END;
+
+    LOCAL PROCEDURE MakeDateText@3();
+    BEGIN
+      StartText := STRSUBSTNO('%1',StartDate - 1);
+      EndText := STRSUBSTNO('%1',EndDate);
+    END;
+
+    LOCAL PROCEDURE MakeHeadLine@9();
+    VAR
+      InPeriodText@1160000 : Text[30];
+      DisposalText@1160001 : Text[30];
+    BEGIN
+      InPeriodText := Text004;
+      DisposalText := Text005;
+      Header[1] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION("Acquisition Cost"),StartText);
+      Header[2] := STRSUBSTNO('%1 %2',Text006,InPeriodText);
+      Header[3] := STRSUBSTNO('%1 %2',DisposalText,InPeriodText);
+      Header[4] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION("Acquisition Cost"),EndText);
+      Header[5] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION(Depreciation),StartText);
+      Header[6] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION(Depreciation),InPeriodText);
+      Header[7] := STRSUBSTNO(
+          '%1 %2 %3',DisposalText,FADeprBook.FIELDCAPTION(Depreciation),InPeriodText);
+      Header[8] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION(Depreciation),EndText);
+      Header[9] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION("Book Value"),StartText);
+      Header[10] := STRSUBSTNO('%1 %2',FADeprBook.FIELDCAPTION("Book Value"),EndText);
+    END;
+
+    LOCAL PROCEDURE MakeGroupHeadLine@1();
+    BEGIN
+      FOR j := 1 TO NumberOfTypes DO BEGIN
+        GroupStartAmounts[j] := 0;
+        GroupNetChange[j] := 0;
+        GroupDispAmounts[j] := 0;
+      END;
+      WITH "Fixed Asset" DO
+        CASE GroupTotals OF
+          GroupTotals::"FA Class":
+            GroupHeadLine := FORMAT("FA Class Code");
+          GroupTotals::"FA Subclass":
+            GroupHeadLine := FORMAT("FA Subclass Code");
+          GroupTotals::"FA Location":
+            GroupHeadLine := FORMAT("FA Location Code");
+          GroupTotals::"Main Asset":
+            BEGIN
+              FA."Main Asset/Component" := FA."Main Asset/Component"::"Main Asset";
+              GroupHeadLine :=
+                FORMAT(STRSUBSTNO('%1 %2',FORMAT(FA."Main Asset/Component"),"Component of Main Asset"));
+              IF "Component of Main Asset" = '' THEN
+                GroupHeadLine := FORMAT(STRSUBSTNO('%1 %2',GroupHeadLine,'*****'));
+            END;
+          GroupTotals::"Global Dimension 1":
+            GroupHeadLine := FORMAT("Global Dimension 1 Code");
+          GroupTotals::"Global Dimension 2":
+            GroupHeadLine := FORMAT("Global Dimension 2 Code");
+        END;
+
+      IF GroupHeadLine = '' THEN
+        GroupHeadLine := FORMAT('*****');
+    END;
+
+    LOCAL PROCEDURE UpdateTotals@10();
+    BEGIN
+      FOR j := 1 TO NumberOfTypes DO BEGIN
+        GroupStartAmounts[j] := GroupStartAmounts[j] + StartAmounts[j];
+        GroupNetChange[j] := GroupNetChange[j] + NetChangeAmounts[j];
+        GroupDispAmounts[j] := GroupDispAmounts[j] + DisposalAmounts[j];
+        TotalStartAmounts[j] := TotalStartAmounts[j] + StartAmounts[j];
+        TotalNetChange[j] := TotalNetChange[j] + NetChangeAmounts[j];
+        TotalDispAmounts[j] := TotalDispAmounts[j] + DisposalAmounts[j];
+      END;
+    END;
+
+    LOCAL PROCEDURE CreateGroupTotals@4();
+    BEGIN
+      FOR j := 1 TO NumberOfTypes DO
+        TotalEndingAmounts[j] :=
+          GroupStartAmounts[j] + GroupNetChange[j] + GroupDispAmounts[j];
+      BookValueAtEndingDate := 0;
+      BookValueAtStartingDate := 0;
+      FOR j := 1 TO NumberOfTypes DO BEGIN
+        BookValueAtEndingDate := BookValueAtEndingDate + TotalEndingAmounts[j];
+        BookValueAtStartingDate := BookValueAtStartingDate + GroupStartAmounts[j];
+      END;
+    END;
+
+    LOCAL PROCEDURE CreateTotals@7();
+    BEGIN
+      FOR j := 1 TO NumberOfTypes DO
+        TotalEndingAmounts[j] :=
+          TotalStartAmounts[j] + TotalNetChange[j] + TotalDispAmounts[j];
+      BookValueAtEndingDate := 0;
+      BookValueAtStartingDate := 0;
+      FOR j := 1 TO NumberOfTypes DO BEGIN
+        BookValueAtEndingDate := BookValueAtEndingDate + TotalEndingAmounts[j];
+        BookValueAtStartingDate := BookValueAtStartingDate + TotalStartAmounts[j];
+      END;
+    END;
+
+    LOCAL PROCEDURE GetStartingDate@8(StartDate@1160000 : Date) : Date;
+    BEGIN
+      IF StartDate <= 01010000D THEN
+        EXIT(0D);
+
+      EXIT(StartDate - 1);
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+    <?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>be698089-c48b-476e-b40f-e948247527f8</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="MainHeadLineText">
+          <DataField>MainHeadLineText</DataField>
+        </Field>
+        <Field Name="COMPANYNAME">
+          <DataField>COMPANYNAME</DataField>
+        </Field>
+        <Field Name="FORMAT_TODAY_0_4_">
+          <DataField>FORMAT_TODAY_0_4_</DataField>
+        </Field>
+        <Field Name="USERID">
+          <DataField>USERID</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENO">
+          <DataField>CurrReport_PAGENO</DataField>
+        </Field>
+        <Field Name="FABookText">
+          <DataField>FABookText</DataField>
+        </Field>
+        <Field Name="GroupTotalsType">
+          <DataField>GroupTotalsType</DataField>
+        </Field>
+        <Field Name="BudgReport">
+          <DataField>BudgReport</DataField>
+        </Field>
+        <Field Name="PrintDetails">
+          <DataField>PrintDetails</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__TABLECAPTION__________FAFilter">
+          <DataField>Fixed_Asset__TABLECAPTION__________FAFilter</DataField>
+        </Field>
+        <Field Name="FAFilter">
+          <DataField>FAFilter</DataField>
+        </Field>
+        <Field Name="Header_1_">
+          <DataField>Header_1_</DataField>
+        </Field>
+        <Field Name="Header_2_">
+          <DataField>Header_2_</DataField>
+        </Field>
+        <Field Name="Header_3_">
+          <DataField>Header_3_</DataField>
+        </Field>
+        <Field Name="Header_5_">
+          <DataField>Header_5_</DataField>
+        </Field>
+        <Field Name="Header_6_">
+          <DataField>Header_6_</DataField>
+        </Field>
+        <Field Name="Header_7_">
+          <DataField>Header_7_</DataField>
+        </Field>
+        <Field Name="Header_9_">
+          <DataField>Header_9_</DataField>
+        </Field>
+        <Field Name="Header_10_">
+          <DataField>Header_10_</DataField>
+        </Field>
+        <Field Name="FANumber">
+          <DataField>FANumber</DataField>
+        </Field>
+        <Field Name="FADescription">
+          <DataField>FADescription</DataField>
+        </Field>
+        <Field Name="GroupCodeName">
+          <DataField>GroupCodeName</DataField>
+        </Field>
+        <Field Name="Header_4_">
+          <DataField>Header_4_</DataField>
+        </Field>
+        <Field Name="Header_8_">
+          <DataField>Header_8_</DataField>
+        </Field>
+        <Field Name="GroupHeadLine">
+          <DataField>GroupHeadLine</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__No__">
+          <DataField>Fixed_Asset__No__</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_Description">
+          <DataField>Fixed_Asset_Description</DataField>
+        </Field>
+        <Field Name="Vendor_Name">
+          <DataField>Vendor_Name</DataField>
+        </Field>
+        <Field Name="Vendor__No__">
+          <DataField>Vendor__No__</DataField>
+        </Field>
+        <Field Name="FADeprBook__Last_Custom_2_Date_">
+          <DataField>FADeprBook__Last_Custom_2_Date_</DataField>
+        </Field>
+        <Field Name="FADeprBook__Custom_2_">
+          <DataField>FADeprBook__Custom_2_</DataField>
+        </Field>
+        <Field Name="FADeprBook__Custom_2_Format">
+          <DataField>FADeprBook__Custom_2_Format</DataField>
+        </Field>
+        <Field Name="NetChangeAmounts_1_">
+          <DataField>NetChangeAmounts_1_</DataField>
+        </Field>
+        <Field Name="NetChangeAmounts_1_Format">
+          <DataField>NetChangeAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="DisposalAmounts_1_">
+          <DataField>DisposalAmounts_1_</DataField>
+        </Field>
+        <Field Name="DisposalAmounts_1_Format">
+          <DataField>DisposalAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1_">
+          <DataField>TotalEndingAmounts_1_</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1_Format">
+          <DataField>TotalEndingAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="NetChangeAmounts_2_">
+          <DataField>NetChangeAmounts_2_</DataField>
+        </Field>
+        <Field Name="NetChangeAmounts_2_Format">
+          <DataField>NetChangeAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="DisposalAmounts_2_">
+          <DataField>DisposalAmounts_2_</DataField>
+        </Field>
+        <Field Name="DisposalAmounts_2_Format">
+          <DataField>DisposalAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2_">
+          <DataField>TotalEndingAmounts_2_</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2_Format">
+          <DataField>TotalEndingAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDate">
+          <DataField>BookValueAtStartingDate</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDateFormat">
+          <DataField>BookValueAtStartingDateFormat</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDate">
+          <DataField>BookValueAtEndingDate</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDateFormat">
+          <DataField>BookValueAtEndingDateFormat</DataField>
+        </Field>
+        <Field Name="Vendor_Address">
+          <DataField>Vendor_Address</DataField>
+        </Field>
+        <Field Name="STRSUBSTNO___1__2__Vendor__Post_Code__Vendor_City_">
+          <DataField>STRSUBSTNO___1__2__Vendor__Post_Code__Vendor_City_</DataField>
+        </Field>
+        <Field Name="UseTimeText">
+          <DataField>UseTimeText</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__BWR_Depr__Book_Code_">
+          <DataField>Fixed_Asset__BWR_Depr__Book_Code_</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__Prem_Depr____">
+          <DataField>Fixed_Asset__Prem_Depr____</DataField>
+        </Field>
+        <Field Name="FADeprBook__Depreciation_Starting_Date_">
+          <DataField>FADeprBook__Depreciation_Starting_Date_</DataField>
+        </Field>
+        <Field Name="StartAmounts_1_">
+          <DataField>StartAmounts_1_</DataField>
+        </Field>
+        <Field Name="StartAmounts_1_Format">
+          <DataField>StartAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="StartAmounts_2_">
+          <DataField>StartAmounts_2_</DataField>
+        </Field>
+        <Field Name="StartAmounts_2_Format">
+          <DataField>StartAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__Prem__Depr__Amount_">
+          <DataField>Fixed_Asset__Prem__Depr__Amount_</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__Prem__Depr__Amount_Format">
+          <DataField>Fixed_Asset__Prem__Depr__Amount_Format</DataField>
+        </Field>
+        <Field Name="FORMAT_Text002__________GroupHeadLine_">
+          <DataField>FORMAT_Text002__________GroupHeadLine_</DataField>
+        </Field>
+        <Field Name="GroupNetChange_1_">
+          <DataField>GroupNetChange_1_</DataField>
+        </Field>
+        <Field Name="GroupNetChange_1_Format">
+          <DataField>GroupNetChange_1_Format</DataField>
+        </Field>
+        <Field Name="GroupDispAmounts_1_">
+          <DataField>GroupDispAmounts_1_</DataField>
+        </Field>
+        <Field Name="GroupDispAmounts_1_Format">
+          <DataField>GroupDispAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1__Control48">
+          <DataField>TotalEndingAmounts_1__Control48</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1__Control48Format">
+          <DataField>TotalEndingAmounts_1__Control48Format</DataField>
+        </Field>
+        <Field Name="GroupNetChange_2_">
+          <DataField>GroupNetChange_2_</DataField>
+        </Field>
+        <Field Name="GroupNetChange_2_Format">
+          <DataField>GroupNetChange_2_Format</DataField>
+        </Field>
+        <Field Name="GroupDispAmounts_2_">
+          <DataField>GroupDispAmounts_2_</DataField>
+        </Field>
+        <Field Name="GroupDispAmounts_2_Format">
+          <DataField>GroupDispAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2__Control60">
+          <DataField>TotalEndingAmounts_2__Control60</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2__Control60Format">
+          <DataField>TotalEndingAmounts_2__Control60Format</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDate_Control63">
+          <DataField>BookValueAtStartingDate_Control63</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDate_Control63Format">
+          <DataField>BookValueAtStartingDate_Control63Format</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDate_Control66">
+          <DataField>BookValueAtEndingDate_Control66</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDate_Control66Format">
+          <DataField>BookValueAtEndingDate_Control66Format</DataField>
+        </Field>
+        <Field Name="GroupStartAmounts_1_">
+          <DataField>GroupStartAmounts_1_</DataField>
+        </Field>
+        <Field Name="GroupStartAmounts_1_Format">
+          <DataField>GroupStartAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="GroupStartAmounts_2_">
+          <DataField>GroupStartAmounts_2_</DataField>
+        </Field>
+        <Field Name="GroupStartAmounts_2_Format">
+          <DataField>GroupStartAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="TotalStartAmounts_1_">
+          <DataField>TotalStartAmounts_1_</DataField>
+        </Field>
+        <Field Name="TotalStartAmounts_1_Format">
+          <DataField>TotalStartAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="TotalNetChange_1_">
+          <DataField>TotalNetChange_1_</DataField>
+        </Field>
+        <Field Name="TotalNetChange_1_Format">
+          <DataField>TotalNetChange_1_Format</DataField>
+        </Field>
+        <Field Name="TotalDispAmounts_1_">
+          <DataField>TotalDispAmounts_1_</DataField>
+        </Field>
+        <Field Name="TotalDispAmounts_1_Format">
+          <DataField>TotalDispAmounts_1_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1__Control49">
+          <DataField>TotalEndingAmounts_1__Control49</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_1__Control49Format">
+          <DataField>TotalEndingAmounts_1__Control49Format</DataField>
+        </Field>
+        <Field Name="TotalStartAmounts_2_">
+          <DataField>TotalStartAmounts_2_</DataField>
+        </Field>
+        <Field Name="TotalStartAmounts_2_Format">
+          <DataField>TotalStartAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="TotalNetChange_2_">
+          <DataField>TotalNetChange_2_</DataField>
+        </Field>
+        <Field Name="TotalNetChange_2_Format">
+          <DataField>TotalNetChange_2_Format</DataField>
+        </Field>
+        <Field Name="TotalDispAmounts_2_">
+          <DataField>TotalDispAmounts_2_</DataField>
+        </Field>
+        <Field Name="TotalDispAmounts_2_Format">
+          <DataField>TotalDispAmounts_2_Format</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2__Control61">
+          <DataField>TotalEndingAmounts_2__Control61</DataField>
+        </Field>
+        <Field Name="TotalEndingAmounts_2__Control61Format">
+          <DataField>TotalEndingAmounts_2__Control61Format</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDate_Control64">
+          <DataField>BookValueAtStartingDate_Control64</DataField>
+        </Field>
+        <Field Name="BookValueAtStartingDate_Control64Format">
+          <DataField>BookValueAtStartingDate_Control64Format</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDate_Control67">
+          <DataField>BookValueAtEndingDate_Control67</DataField>
+        </Field>
+        <Field Name="BookValueAtEndingDate_Control67Format">
+          <DataField>BookValueAtEndingDate_Control67Format</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_FA_Class_Code">
+          <DataField>Fixed_Asset_FA_Class_Code</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_FA_Subclass_Code">
+          <DataField>Fixed_Asset_FA_Subclass_Code</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_Global_Dimension_1_Code">
+          <DataField>Fixed_Asset_Global_Dimension_1_Code</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_Global_Dimension_2_Code">
+          <DataField>Fixed_Asset_Global_Dimension_2_Code</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_FA_Location_Code">
+          <DataField>Fixed_Asset_FA_Location_Code</DataField>
+        </Field>
+        <Field Name="Fixed_Asset_Component_of_Main_Asset">
+          <DataField>Fixed_Asset_Component_of_Main_Asset</DataField>
+        </Field>
+        <Field Name="CurrReport_PAGENOCaption">
+          <DataField>CurrReport_PAGENOCaption</DataField>
+        </Field>
+        <Field Name="IFB_AmountCaption">
+          <DataField>IFB_AmountCaption</DataField>
+        </Field>
+        <Field Name="IFB_DateCaption">
+          <DataField>IFB_DateCaption</DataField>
+        </Field>
+        <Field Name="Depr__StartdateCaption">
+          <DataField>Depr__StartdateCaption</DataField>
+        </Field>
+        <Field Name="GND___RNDCaption">
+          <DataField>GND___RNDCaption</DataField>
+        </Field>
+        <Field Name="VendorCaption">
+          <DataField>VendorCaption</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__BWR_Depr__Book_Code_Caption">
+          <DataField>Fixed_Asset__BWR_Depr__Book_Code_Caption</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__Prem_Depr____Caption">
+          <DataField>Fixed_Asset__Prem_Depr____Caption</DataField>
+        </Field>
+        <Field Name="Fixed_Asset__Prem__Depr__Amount_Caption">
+          <DataField>Fixed_Asset__Prem__Depr__Amount_Caption</DataField>
+        </Field>
+        <Field Name="TotalCaption">
+          <DataField>TotalCaption</DataField>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet</rd:DataSetName>
+        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
+        <rd:TableName>Result</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Invalid</rd:ReportUnitType>
+  <rd:ReportID>a719a300-557a-49d2-b70d-b60568be316b</rd:ReportID>
+  <Body>
+    <ReportItems>
+      <Textbox Name="Fixed_Asset__TABLECAPTION__________FAFilter">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Fixed_Asset__TABLECAPTION__________FAFilter.Value)</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+          </Paragraph>
+        </Paragraphs>
+        <Height>0.423cm</Height>
+        <Width>18.15cm</Width>
+        <ZIndex>1</ZIndex>
+        <Visibility>
+          <Hidden>=IIF(Len(Fields!FAFilter.Value),False,True)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Tablix Name="Table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.575cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>4.12698cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.49206cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.55cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.8cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.8cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.2cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.3cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupCodeName">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!GroupCodeName.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>126</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="COMPANYNAME">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!COMPANYNAME.Value</Value>
+                              <Style>
+                                <Color>#ff0000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>135</ZIndex>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FABookText">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FABookText.Value</Value>
+                              <Style>
+                                <Color>#ff0000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>134</ZIndex>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CurrReport_PAGENOCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CurrReport_PAGENOCaption.Value</Value>
+                              <Style>
+                                <Color>#ff0000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>133</ZIndex>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MainHeadLineText">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MainHeadLineText.Value</Value>
+                              <Style>
+                                <Color>#ff0000</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>117</ZIndex>
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                      </Visibility>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox143">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>123</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Depr__StartdateCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Depr__StartdateCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>122</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>121</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_5_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_5_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>120</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_9_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_9_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>119</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__BWR_Depr__Book_Code_Caption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Fixed_Asset__BWR_Depr__Book_Code_Caption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>118</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox146">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>113</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GND___RNDCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!GND___RNDCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>112</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>111</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_6_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_6_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>110</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_10_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_10_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>109</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__Prem_Depr____Caption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Fixed_Asset__Prem_Depr____Caption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>108</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox3">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <ZIndex>106</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="IFB_AmountCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!IFB_AmountCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>105</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_3_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_3_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>104</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_7_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_7_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>103</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox150">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>102</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__Prem__Depr__Amount_Caption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Fixed_Asset__Prem__Depr__Amount_Caption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>101</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FANumber">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!FANumber.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>99</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FADescription">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!FADescription.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>98</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="VendorCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!VendorCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>97</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="IFB_DateCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!IFB_DateCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>96</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_4_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_4_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>95</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Header_8_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Header_8_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>94</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox153">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>93</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox58">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox58</rd:DefaultName>
+                      <ZIndex>91</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox5">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupHeadLine">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!GroupHeadLine.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>89</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox110">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>88</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>6</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__No__">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Fixed_Asset__No__.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>86</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset_Description">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Fixed_Asset_Description.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>85</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Vendor__No__">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Vendor__No__.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>84</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FADeprBook__Depreciation_Starting_Date_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FADeprBook__Depreciation_Starting_Date_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>83</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="StartAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!StartAmounts_1_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!StartAmounts_1_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>82</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="StartAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!StartAmounts_2_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!StartAmounts_2_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>81</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtStartingDate">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!BookValueAtStartingDate.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!BookValueAtStartingDateFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>80</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__BWR_Depr__Book_Code_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Fixed_Asset__BWR_Depr__Book_Code_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>79</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox1">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>77</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Vendor_Name">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Vendor_Name.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>76</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="UseTimeText">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!UseTimeText.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>75</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="NetChangeAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!NetChangeAmounts_1_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!NetChangeAmounts_1_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>74</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="NetChangeAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!NetChangeAmounts_2_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!NetChangeAmounts_2_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>73</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtEndingDate">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!BookValueAtEndingDate.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!BookValueAtEndingDateFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>72</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__Prem_Depr____">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=code.BlankZero(Fields!Fixed_Asset__Prem_Depr____.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>71</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox12">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>69</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Vendor_Address">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Vendor_Address.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>68</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FADeprBook__Custom_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FADeprBook__Custom_2_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!FADeprBook__Custom_2_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>67</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DisposalAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DisposalAmounts_1_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!DisposalAmounts_1_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>66</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DisposalAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DisposalAmounts_2_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!DisposalAmounts_2_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>65</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox14">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>64</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Fixed_Asset__Prem__Depr__Amount_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Fixed_Asset__Prem__Depr__Amount_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!Fixed_Asset__Prem__Depr__Amount_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>63</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox15">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>61</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="STRSUBSTNO___1__2__Vendor__Post_Code__Vendor_City_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!STRSUBSTNO___1__2__Vendor__Post_Code__Vendor_City_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>60</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FADeprBook__Last_Custom_2_Date_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FADeprBook__Last_Custom_2_Date_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>59</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TotalEndingAmounts_1_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!TotalEndingAmounts_1_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>58</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!TotalEndingAmounts_2_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!TotalEndingAmounts_2_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>57</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox17">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>56</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox18">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>55</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox28">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox28</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FORMAT_Text002__________GroupHeadLine_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FORMAT_Text002__________GroupHeadLine_.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupStartAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupStartAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupStartAmounts_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupStartAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupStartAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupStartAmounts_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtStartingDate_Control63">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!BookValueAtStartingDate.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!BookValueAtStartingDate_Control63Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox118">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox4">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <ZIndex>15</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupNetChange_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupNetChange_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupNetChange_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>14</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupNetChange_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupNetChange_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupNetChange_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtEndingDate_Control66">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!BookValueAtEndingDate.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!BookValueAtEndingDate_Control66Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox123">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox124">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>20</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupDispAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupDispAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupDispAmounts_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>19</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="GroupDispAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!GroupDispAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!GroupDispAmounts_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>18</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox128">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>17</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox130">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>25</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_1__Control48">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalEndingAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalEndingAmounts_1__Control48Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>24</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_2__Control60">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalEndingAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalEndingAmounts_2__Control60Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>23</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox134">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>22</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!TotalCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>37</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalStartAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!StartAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!StartAmounts_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>36</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalStartAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!StartAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!StartAmounts_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>35</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtStartingDate_Control64">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!BookValueAtStartingDate.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!BookValueAtStartingDate_Control64Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>34</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox158">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>33</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox159">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>43</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalNetChange_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!NetChangeAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!NetChangeAmounts_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>42</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalNetChange_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!NetChangeAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!NetChangeAmounts_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>41</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="BookValueAtEndingDate_Control67">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!BookValueAtEndingDate.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!BookValueAtEndingDate_Control67Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>40</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox163">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>39</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox164">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>48</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalDispAmounts_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalDispAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalDispAmounts_1_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>47</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalDispAmounts_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalDispAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalDispAmounts_2_Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>46</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox168">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>45</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox170">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>53</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_1__Control49">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalEndingAmounts_1_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalEndingAmounts_1__Control49Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>52</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalEndingAmounts_2__Control61">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!TotalEndingAmounts_2_.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=First(Fields!TotalEndingAmounts_2__Control61Format.Value)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>51</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox174">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>50</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=IIF(Fields!GroupTotalsType.Value = 0 or not Fields!PrintDetails.Value,False,True)</Hidden>
+              </Visibility>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Table1_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!GroupHeadLine.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!PrintDetails.Value,iif(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE),TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!PrintDetails.Value,iif(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE),TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=IIF(Fields!PrintDetails.Value,FALSE,TRUE)</Hidden>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=IIF(Fields!PrintDetails.Value,FALSE,TRUE)</Hidden>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=IIF(Fields!PrintDetails.Value,FALSE,TRUE)</Hidden>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=IIF(Fields!PrintDetails.Value,FALSE,TRUE)</Hidden>
+                      </Visibility>
+                    </TablixMember>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Visibility>
+                    <Hidden>=IIF(Fields!GroupTotalsType.Value &lt;&gt; 0 and Fields!GroupTotalsType.Value &lt;&gt; 7,FALSE,TRUE)</Hidden>
+                  </Visibility>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet_Result</DataSetName>
+        <Top>0.423cm</Top>
+        <Width>9.78234in</Width>
+      </Tablix>
+    </ReportItems>
+    <Height>9.306cm</Height>
+  </Body>
+  <Width>24.9cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>1.692cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="PageNumberTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Left>24.45cm</Left>
+          <Height>0.423cm</Height>
+          <ZIndex>6</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="UserIdTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=User!UserID</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.846cm</Top>
+          <Left>16.4cm</Left>
+          <Height>0.423cm</Height>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="ExecutionTimeTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                    <Format>g</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Left>17.4cm</Left>
+          <Height>0.423cm</Height>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="MainHeadLineText1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=ReportItems!MainHeadLineText.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+            </Paragraph>
+          </Paragraphs>
+          <Height>0.423cm</Height>
+          <Width>10cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="COMPANYNAME1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=ReportItems!COMPANYNAME.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.846cm</Top>
+          <Height>0.423cm</Height>
+          <Width>7.5cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="FABookText1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=ReportItems!FABookText.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Height>0.423cm</Height>
+          <Width>7.5cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="CurrReport_PAGENOCaption1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=ReportItems!CurrReport_PAGENOCaption.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Left>23.7cm</Left>
+          <Height>0.423cm</Height>
+          <Width>0.75cm</Width>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+      </ReportItems>
+    </PageHeader>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
+    <InteractiveHeight>11in</InteractiveHeight>
+    <InteractiveWidth>8.5in</InteractiveWidth>
+    <LeftMargin>1.5cm</LeftMargin>
+    <TopMargin>2cm</TopMargin>
+    <BottomMargin>2cm</BottomMargin>
+  </Page>
+</Report>
+    END_OF_RDLDATA
+  }
+}
+

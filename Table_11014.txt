@@ -1,0 +1,56 @@
+OBJECT Table 11014 Certificate
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Certificate;
+               DEA=Zertifikat];
+  }
+  FIELDS
+  {
+    { 1   ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              DEA=Benutzer-ID] }
+    { 2   ;   ;Certificate Type    ;Option        ;InitValue=Soft token;
+                                                   OnValidate=BEGIN
+                                                                IF "Certificate Type" <> "Certificate Type"::"Soft token" THEN
+                                                                  ERROR(Text1140000,"Certificate Type");
+                                                              END;
+
+                                                   CaptionML=[ENU=Certificate Type;
+                                                              DEA=Zertifikatstyp];
+                                                   OptionCaptionML=[ENU=Soft token,Hardware token;
+                                                                    DEA=Softtoken,Hardwaretoken];
+                                                   OptionString=Soft token,Hardware token }
+    { 3   ;   ;Certificate Ref.    ;Text100       ;CaptionML=[ENU=Certificate Ref.;
+                                                              DEA=Zertifikatsverweis] }
+  }
+  KEYS
+  {
+    {    ;User ID                                 ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Only Certificates of type %1 are supported until now.;DEA=Bisher werden nur Zertifikate vom Typ %1 unterstÅtzt.';
+
+    BEGIN
+    END.
+  }
+}
+

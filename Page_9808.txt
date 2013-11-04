@@ -1,0 +1,96 @@
+OBJECT Page 9808 User Permission Sets
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=User Permission Sets;
+               ESP=Conjuntos de permisos de usuario;
+               DEA=Benutzerzugriffsrechts„tze];
+    SourceTable=Table2000000053;
+    DelayedInsert=Yes;
+    PageType=List;
+    OnAfterGetRecord=BEGIN
+                       IF User."User Name" <> '' THEN
+                         CurrPage.CAPTION := User."User Name";
+                     END;
+
+    ActionList=ACTIONS
+    {
+      { 7       ;    ;ActionContainer;
+                      Name=PermissionActions;
+                      ActionContainerType=ActionItems }
+      { 8       ;1   ;ActionGroup;
+                      Name=ShowPermissions CaptionML=ENU=Show Permissions }
+      { 9       ;2   ;Action    ;
+                      Name=Permissions;
+                      ShortCutKey=Shift+Ctrl+p;
+                      CaptionML=[ENU=Permissions;
+                                 ESP=Permisos;
+                                 DEA=Zugriffsrechte];
+                      RunObject=Page 9803;
+                      RunPageLink=Role ID=FIELD(Role ID);
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Permission;
+                      PromotedCategory=Process }
+    }
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                CaptionML=[ENU=User Permissions;
+                           ESP=Permisos de usuario;
+                           DEA=Benutzerzugriffsrechte];
+                GroupType=Repeater }
+
+    { 6   ;2   ;Field     ;
+                CaptionML=[ENU=User Security ID;
+                           ESP=Id. de seguridad de usuario;
+                           DEA=Benutzersicherheitskennung];
+                SourceExpr="User Security ID";
+                Visible=FALSE;
+                Editable=FALSE }
+
+    { 3   ;2   ;Field     ;
+                Name=<Permission Set>;
+                CaptionML=[ENU=Permission Set;
+                           ESP=Conjunto de permisos;
+                           DEA=Zugriffsrechtsatz];
+                SourceExpr="Role ID" }
+
+    { 4   ;2   ;Field     ;
+                Name=<Description>;
+                DrillDown=No;
+                CaptionML=[ENU=Description;
+                           ESP=Descripci¢n;
+                           DEA=Beschreibung];
+                SourceExpr="Role Name";
+                Editable=FALSE }
+
+    { 5   ;2   ;Field     ;
+                Name=<Company>;
+                CaptionML=[ENU=Company;
+                           ESP=Empresa;
+                           DEA=Mandant];
+                SourceExpr="Company Name" }
+
+  }
+  CODE
+  {
+    VAR
+      User@1000 : Record 2000000120;
+
+    BEGIN
+    END.
+  }
+}
+

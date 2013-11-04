@@ -1,0 +1,1439 @@
+OBJECT Report 11104 Intrastat - Form AT
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Intrastat - Form AT;
+               DEA=Intrastat - Formular AT];
+    OnPreReport=BEGIN
+                  IntraJnlLineFilter := "Intrastat Jnl. Line".GETFILTERS;
+                  IF NOT ("Intrastat Jnl. Line".GETRANGEMIN(Type) = "Intrastat Jnl. Line".GETRANGEMAX(Type)) THEN
+                    "Intrastat Jnl. Line".FIELDERROR(Type,Text000);
+
+                  Companyinfo.GET;
+                  Companyinfo."VAT Registration No." := CONVERTSTR(Companyinfo."VAT Registration No.",Text001,'    ');
+                END;
+
+  }
+  DATASET
+  {
+    { 2880;    ;DataItem;                    ;
+               DataItemTable=Table262;
+               DataItemTableView=SORTING(Journal Template Name,Name);
+               OnAfterGetRecord=BEGIN
+                                  CurrReport.PAGENO := 1;
+                                  IntraReferenceNo := "Statistics Period" + '000000';
+                                END;
+
+               ReqFilterFields=Journal Template Name,Name }
+
+    { 1170000003;1;Column;Intrastat_Jnl__Batch_Journal_Template_Name;
+               SourceExpr="Journal Template Name" }
+
+    { 1170000004;1;Column;Intrastat_Jnl__Batch_Name;
+               SourceExpr=Name }
+
+    { 8617;1   ;DataItem;Init                ;
+               DataItemTable=Table263;
+               DataItemTableView=SORTING(Journal Template Name,Journal Batch Name,Type,Country/Region Code,Tariff No.,Transaction Type,Transport Method,Area,Transaction Specification,Country/Region of Origin Code)
+                                 WHERE(Tariff No.=FILTER(<>''));
+               OnAfterGetRecord=BEGIN
+                                  AdditionalField :=
+                                    FORMAT("Country/Region Code",5) + FORMAT("Tariff No.",10) +
+                                    FORMAT("Transaction Type",10) + FORMAT("Transport Method",10) +
+                                    FORMAT("Transaction Specification",10) + FORMAT("Country/Region of Origin Code",5);
+
+                                  IF (TempType <> Type) OR (STRLEN(TempAdditionalField) = 0) THEN BEGIN
+                                    TempType := Type;
+                                    TempAdditionalField := AdditionalField;
+                                    IntraReferenceNo := COPYSTR(IntraReferenceNo,1,4) + '001001';
+                                  END ELSE
+                                    IF TempAdditionalField <> AdditionalField THEN BEGIN
+                                      TempAdditionalField := AdditionalField;
+                                      IF COPYSTR(IntraReferenceNo,8,3) = '999' THEN
+                                        IntraReferenceNo := INCSTR(COPYSTR(IntraReferenceNo,1,7)) + '001'
+                                      ELSE
+                                        IntraReferenceNo := INCSTR(IntraReferenceNo);
+                                    END;
+
+                                  "Internal Ref. No." := IntraReferenceNo;
+                                  MODIFY;
+                                END;
+
+               DataItemLink=Journal Template Name=FIELD(Journal Template Name),
+                            Journal Batch Name=FIELD(Name) }
+
+    { 9905;1   ;DataItem;                    ;
+               DataItemTable=Table263;
+               DataItemTableView=SORTING(Type,Internal Ref. No.)
+                                 WHERE(Tariff No.=FILTER(<>''));
+               OnPreDataItem=BEGIN
+                               CurrReport.CREATETOTALS("Statistical Value",Quantity,"Intrastat Jnl. Line"."Total Weight");
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF ("Tariff No." = '') AND
+                                     ("Country/Region Code" = '') AND
+                                     ("Transaction Type" = '') AND
+                                     ("Transport Method" = '') AND
+                                     ("Total Weight" = 0)
+                                  THEN
+                                    CurrReport.SKIP;
+
+                                  TESTFIELD("Tariff No.");
+                                  TESTFIELD("Country/Region Code");
+                                  TESTFIELD("Transaction Type");
+                                  IF Companyinfo."Check Transaction Specific." THEN BEGIN
+                                    TESTFIELD("Transaction Specification");
+                                    IF STRLEN("Transaction Specification") <> 5 THEN
+                                      ERROR(Text002,"Transaction Specification");
+                                  END;
+                                  IF Companyinfo."Check Transport Method" THEN
+                                    TESTFIELD("Transport Method");
+                                  TESTFIELD("Total Weight");
+                                  IF "Supplementary Units" THEN
+                                    TESTFIELD(Quantity)
+                                  ELSE
+                                    Quantity := 0;
+
+                                  IF Amount <> 0 THEN
+                                    Amount := ROUND(Amount);
+                                  IF "Statistical Value" <> 0 THEN
+                                    "Statistical Value" := ROUND("Statistical Value");
+                                  IF "Net Weight" <> 0 THEN
+                                    "Net Weight" := ROUND("Net Weight",1,'<');
+
+                                  IF CurrentNoSaved <> "Intrastat Jnl. Line"."Line No." THEN BEGIN
+                                    RecCount := RecCount + 1;
+                                    Country.GET("Country/Region Code");
+                                    IF Type = Type::Receipt THEN BEGIN
+                                      IF "Country/Region of Origin Code" <> '' THEN BEGIN
+                                        CountryOfOrigin.GET("Country/Region of Origin Code");
+                                        CountryOfOriginCode := CountryOfOrigin."EU Country/Region Code";
+                                      END ELSE
+                                        CountryOfOriginCode := "Intrastat Jnl. Line"."Country/Region Code";
+                                    END ELSE
+                                      CountryOfOriginCode := '';
+                                    IF NOT "Supplementary Units" THEN
+                                      Quantity := 0;
+
+                                    CurrReport.SHOWOUTPUT(TRUE);
+                                    CurrentNoSaved := "Intrastat Jnl. Line"."Line No.";
+                                  END ELSE
+                                    CurrReport.SHOWOUTPUT(FALSE);
+                                END;
+
+               ReqFilterFields=Type;
+               DataItemLink=Journal Template Name=FIELD(Journal Template Name),
+                            Journal Batch Name=FIELD(Name) }
+
+    { 4   ;2   ;Column  ;COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__1_2_;
+               SourceExpr=COPYSTR("Intrastat Jnl. Batch"."Statistics Period",1,2) }
+
+    { 11  ;2   ;Column  ;Companyinfo_Name    ;
+               SourceExpr=Companyinfo.Name }
+
+    { 1   ;2   ;Column  ;COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__3_2_;
+               SourceExpr=COPYSTR("Intrastat Jnl. Batch"."Statistics Period",3,2) }
+
+    { 7   ;2   ;Column  ;Companyinfo__Name_2_;
+               SourceExpr=Companyinfo."Name 2" }
+
+    { 9   ;2   ;Column  ;Companyinfo_Address ;
+               SourceExpr=Companyinfo.Address }
+
+    { 31  ;2   ;Column  ;Companyinfo_City    ;
+               SourceExpr=Companyinfo.City }
+
+    { 3   ;2   ;Column  ;Companyinfo__VAT_Registration_No__;
+               SourceExpr=Companyinfo."VAT Registration No." }
+
+    { 1461000;2;Column  ;Intrastat_Jnl__Line__Intrastat_Jnl__Line___Internal_Ref__No__;
+               SourceExpr="Intrastat Jnl. Line"."Internal Ref. No." }
+
+    { 22  ;2   ;Column  ;Intrastat_Jnl__Line__Tariff_No__;
+               SourceExpr="Tariff No." }
+
+    { 23  ;2   ;Column  ;Intrastat_Jnl__Line__Item_Description_;
+               SourceExpr="Item Description" }
+
+    { 24  ;2   ;Column  ;Country__Intrastat_Code_;
+               SourceExpr=Country."Intrastat Code" }
+
+    { 26  ;2   ;Column  ;Intrastat_Jnl__Line__Transaction_Type_;
+               SourceExpr="Transaction Type" }
+
+    { 27  ;2   ;Column  ;Intrastat_Jnl__Line__Transport_Method_;
+               SourceExpr="Transport Method" }
+
+    { 14  ;2   ;Column  ;Intrastat_Jnl__Line__Transaction_Specification_;
+               SourceExpr="Transaction Specification" }
+
+    { 15  ;2   ;Column  ;Intrastat_Jnl__Line__Total_Weight_;
+               SourceExpr="Total Weight" }
+
+    { 16  ;2   ;Column  ;Intrastat_Jnl__Line_Quantity;
+               SourceExpr=Quantity }
+
+    { 17  ;2   ;Column  ;Intrastat_Jnl__Line_Amount;
+               SourceExpr=Amount }
+
+    { 18  ;2   ;Column  ;Intrastat_Jnl__Line__Statistical_Value_;
+               SourceExpr="Statistical Value" }
+
+    { 2   ;2   ;Column  ;RecCount            ;
+               SourceExpr=RecCount }
+
+    { 5   ;2   ;Column  ;CountryOfOriginCode ;
+               SourceExpr=CountryOfOriginCode }
+
+    { 1170000005;2;Column;Intrastat_Jnl__Line_Journal_Template_Name;
+               SourceExpr="Journal Template Name" }
+
+    { 1170000006;2;Column;Intrastat_Jnl__Line_Journal_Batch_Name;
+               SourceExpr="Journal Batch Name" }
+
+    { 1170000007;2;Column;Intrastat_Jnl__Line_Line_No_;
+               SourceExpr="Line No." }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1160000 : TextConst 'ENU=must be either Receipt or Shipment;DEA=muss entweder Eingang oder Lieferung sein';
+      Text001@1160001 : TextConst 'ENU=WwWw;DEA=WwWw';
+      Text002@1160002 : TextConst 'ENU=Transaction Specification %1 must have 5 digits.;DEA=Verfahren %1 muss 5 Stellen haben.';
+      Companyinfo@1160003 : Record 79;
+      Country@1160004 : Record 9;
+      CountryOfOrigin@1160005 : Record 9;
+      CountryOfOriginCode@1160006 : Code[2];
+      IntraJnlLineFilter@1160007 : Text[250];
+      RecCount@1160008 : Integer;
+      CurrentNoSaved@1160009 : Integer;
+      AdditionalField@1160010 : Code[50];
+      TempAdditionalField@1160011 : Code[50];
+      TempType@1160012 : Integer;
+      IntraReferenceNo@1160013 : Text[10];
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+    <?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>3d7d37e9-8818-4f91-bd89-16b8432a06d5</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <Fields>
+        <Field Name="Intrastat_Jnl__Batch_Journal_Template_Name">
+          <DataField>Intrastat_Jnl__Batch_Journal_Template_Name</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Batch_Name">
+          <DataField>Intrastat_Jnl__Batch_Name</DataField>
+        </Field>
+        <Field Name="COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__1_2_">
+          <DataField>COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__1_2_</DataField>
+        </Field>
+        <Field Name="Companyinfo_Name">
+          <DataField>Companyinfo_Name</DataField>
+        </Field>
+        <Field Name="COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__3_2_">
+          <DataField>COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__3_2_</DataField>
+        </Field>
+        <Field Name="Companyinfo__Name_2_">
+          <DataField>Companyinfo__Name_2_</DataField>
+        </Field>
+        <Field Name="Companyinfo_Address">
+          <DataField>Companyinfo_Address</DataField>
+        </Field>
+        <Field Name="Companyinfo_City">
+          <DataField>Companyinfo_City</DataField>
+        </Field>
+        <Field Name="Companyinfo__VAT_Registration_No__">
+          <DataField>Companyinfo__VAT_Registration_No__</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Intrastat_Jnl__Line___Internal_Ref__No__">
+          <DataField>Intrastat_Jnl__Line__Intrastat_Jnl__Line___Internal_Ref__No__</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Tariff_No__">
+          <DataField>Intrastat_Jnl__Line__Tariff_No__</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Item_Description_">
+          <DataField>Intrastat_Jnl__Line__Item_Description_</DataField>
+        </Field>
+        <Field Name="Country__Intrastat_Code_">
+          <DataField>Country__Intrastat_Code_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Transaction_Type_">
+          <DataField>Intrastat_Jnl__Line__Transaction_Type_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Transport_Method_">
+          <DataField>Intrastat_Jnl__Line__Transport_Method_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Transaction_Specification_">
+          <DataField>Intrastat_Jnl__Line__Transaction_Specification_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Total_Weight_">
+          <DataField>Intrastat_Jnl__Line__Total_Weight_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Total_Weight_Format">
+          <DataField>Intrastat_Jnl__Line__Total_Weight_Format</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_Quantity">
+          <DataField>Intrastat_Jnl__Line_Quantity</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_QuantityFormat">
+          <DataField>Intrastat_Jnl__Line_QuantityFormat</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_Amount">
+          <DataField>Intrastat_Jnl__Line_Amount</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_AmountFormat">
+          <DataField>Intrastat_Jnl__Line_AmountFormat</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Statistical_Value_">
+          <DataField>Intrastat_Jnl__Line__Statistical_Value_</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line__Statistical_Value_Format">
+          <DataField>Intrastat_Jnl__Line__Statistical_Value_Format</DataField>
+        </Field>
+        <Field Name="RecCount">
+          <DataField>RecCount</DataField>
+        </Field>
+        <Field Name="CountryOfOriginCode">
+          <DataField>CountryOfOriginCode</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_Journal_Template_Name">
+          <DataField>Intrastat_Jnl__Line_Journal_Template_Name</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_Journal_Batch_Name">
+          <DataField>Intrastat_Jnl__Line_Journal_Batch_Name</DataField>
+        </Field>
+        <Field Name="Intrastat_Jnl__Line_Line_No_">
+          <DataField>Intrastat_Jnl__Line_Line_No_</DataField>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet</rd:DataSetName>
+        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
+        <rd:TableName>Result</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Shared recCount As Integer = 0
+Public Function GetRecCount()
+    recCount = recCount + 1
+    Return recCount
+End Function</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Invalid</rd:ReportUnitType>
+  <rd:ReportID>891406b1-da63-43e7-9c2f-4f959bd37e0a</rd:ReportID>
+  <Body>
+    <ReportItems>
+      <Tablix Name="Table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.26984cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>5.8cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.5873cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.63492cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.90952cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.26984cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.63492cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.22222cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.9cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox2">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <ZIndex>64</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Companyinfo__VAT_Registration_No__">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Companyinfo__VAT_Registration_No__.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>63</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>7</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.4cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox9">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <ZIndex>59</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Companyinfo_Name">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Companyinfo_Name.Value)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>51</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Companyinfo__Name_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Companyinfo__Name_2_.Value)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>45</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.423cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Companyinfo_Address">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Companyinfo_Address.Value)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>39</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.5cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Companyinfo_City">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Companyinfo_City.Value)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>33</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__3_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__3_2_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>32</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__1_2_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!COPYSTR__Intrastat_Jnl__Batch___Statistics_Period__1_2_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>31</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>3.2cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox29">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox29</rd:DefaultName>
+                      <ZIndex>27</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>8</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.269cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Item_Description_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Intrastat_Jnl__Line__Item_Description_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>26</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="RecCount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.GetRecCount()</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>25</ZIndex>
+                      <Visibility>
+                        <Hidden>=IIF(IsNothing(Fields!Intrastat_Jnl__Line__Item_Description_.Value), true, false)</Hidden>
+                      </Visibility>
+                      <DataElementOutput>NoOutput</DataElementOutput>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox68">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>24</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Country__Intrastat_Code_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Country__Intrastat_Code_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>23</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Transaction_Type_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Intrastat_Jnl__Line__Transaction_Type_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>22</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Transport_Method_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Intrastat_Jnl__Line__Transport_Method_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>21</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox69">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>20</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.269cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox70">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>19</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Tariff_No__">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Intrastat_Jnl__Line__Tariff_No__.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>15</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CountryOfOriginCode">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!CountryOfOriginCode.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>14</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox71">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Transaction_Specification_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!Intrastat_Jnl__Line__Transaction_Specification_.Value)</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Intrastat_Jnl__Line__Transaction_Specification_</rd:DefaultName>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.269cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox72">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Total_Weight_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Intrastat_Jnl__Line__Total_Weight_.Value)</Value>
+                              <Style>
+                                <Format>=Fields!Intrastat_Jnl__Line__Total_Weight_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Intrastat_Jnl__Line__Total_Weight_</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line_Quantity">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Sum(Fields!Intrastat_Jnl__Line_Quantity.Value))</Value>
+                              <Style>
+                                <Format>=Fields!Intrastat_Jnl__Line_QuantityFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Intrastat_Jnl__Line_Quantity</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>1.269cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox73">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>4</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line_Amount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Intrastat_Jnl__Line_Amount.Value)</Value>
+                              <Style>
+                                <Format>=Fields!Intrastat_Jnl__Line_AmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Intrastat_Jnl__Line_Amount</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Intrastat_Jnl__Line__Statistical_Value_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Intrastat_Jnl__Line__Statistical_Value_.Value)</Value>
+                              <Style>
+                                <Format>=Fields!Intrastat_Jnl__Line__Statistical_Value_Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Intrastat_Jnl__Line__Statistical_Value_</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Table1_Group1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Intrastat_Jnl__Line__Intrastat_Jnl__Line___Internal_Ref__No__.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet_Result</DataSetName>
+        <Filters>
+          <Filter>
+            <FilterExpression>=CSTR(trim(Fields!Companyinfo_Name.Value))</FilterExpression>
+            <Operator>GreaterThan</Operator>
+            <FilterValues>
+              <FilterValue />
+            </FilterValues>
+          </Filter>
+        </Filters>
+      </Tablix>
+    </ReportItems>
+    <Height>11.345cm</Height>
+  </Body>
+  <Width>17.32857cm</Width>
+  <Page>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>21cm</PageWidth>
+    <InteractiveHeight>11in</InteractiveHeight>
+    <InteractiveWidth>8.5in</InteractiveWidth>
+    <LeftMargin>1.5cm</LeftMargin>
+    <TopMargin>1cm</TopMargin>
+    <BottomMargin>2cm</BottomMargin>
+  </Page>
+</Report>
+    END_OF_RDLDATA
+  }
+}
+

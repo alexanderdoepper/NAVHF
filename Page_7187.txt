@@ -1,0 +1,32 @@
+OBJECT Page 7187 Purch. Order Archived Subform
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Lines;
+               ESP=L¡neas;
+               DEA=Zeilen];
+    SourceTable=Table5110;
+    PageType=ListPart;
+  }
+  CONTROLS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE GetSelectedLine@1(VAR FromPurchaseArchiveLine@1000 : Record 5110);
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

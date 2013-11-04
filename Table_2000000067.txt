@@ -1,0 +1,43 @@
+OBJECT Table 2000000067 User Default Style Sheet
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:04;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Hoja estilos predet. usuario;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User ID             ;GUID          ;TableRelation=User."User Security ID";
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=Id. usuario }
+    { 2   ;   ;Object Type         ;Option        ;CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=[ENU=Form,Report,Page;
+                                                                    ESP=Form,Report,Page;
+                                                                    DEA=Form,Report,Page];
+                                                   OptionString=Form,Report,Page }
+    { 3   ;   ;Object ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                                                   CaptionML=ESP=Id. objeto }
+    { 4   ;   ;Program ID          ;GUID          ;CaptionML=ESP=Id. programa }
+    { 5   ;   ;Style Sheet ID      ;GUID          ;CaptionML=ESP=Id. hoja estilos }
+  }
+  KEYS
+  {
+    {    ;User ID,Object Type,Object ID,Program ID;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

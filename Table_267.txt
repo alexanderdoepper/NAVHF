@@ -1,0 +1,44 @@
+OBJECT Table 267 Vendor Amount
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Vendor Amount;
+               ESP=Importe proveedor;
+               DEA=Kreditorenbetrag];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              ESP=N§ proveedor;
+                                                              DEA=Kreditorennr.] }
+    { 2   ;   ;Amount (LCY)        ;Decimal       ;CaptionML=[ENU=Amount (LCY);
+                                                              ESP=Importe (DL);
+                                                              DEA=Betrag (MW)];
+                                                   AutoFormatType=1 }
+    { 3   ;   ;Amount 2 (LCY)      ;Decimal       ;CaptionML=[ENU=Amount 2 (LCY);
+                                                              ESP=Importe 2 (DL);
+                                                              DEA=Betrag 2 (MW)];
+                                                   AutoFormatType=1 }
+  }
+  KEYS
+  {
+    {    ;Amount (LCY),Amount 2 (LCY),Vendor No.  ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

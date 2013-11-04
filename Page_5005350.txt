@@ -1,0 +1,310 @@
+OBJECT Page 5005350 Phys. Inventory Order
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Phys. Inventory Order;
+               DEA=Inventurauftrag];
+    SourceTable=Table5005350;
+    PageType=Document;
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140024 ;1   ;ActionGroup;
+                      CaptionML=[ENU=O&rder;
+                                 DEA=Auf&trag];
+                      Image=Order }
+      { 1140026 ;2   ;Action    ;
+                      ShortCutKey=F7;
+                      CaptionML=[ENU=Statistics;
+                                 DEA=Statistik];
+                      RunObject=Page 5005372;
+                      RunPageLink=No.=FIELD(No.);
+                      Promoted=Yes;
+                      Image=Statistics;
+                      PromotedCategory=Process }
+      { 1140027 ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mments;
+                                 DEA=Be&merkungen];
+                      RunObject=Page 5005366;
+                      RunPageLink=Document Type=CONST(Order),
+                                  Order No.=FIELD(No.),
+                                  Recording No.=CONST(0);
+                      Image=ViewComments }
+      { 1140028 ;2   ;Action    ;
+                      CaptionML=[ENU=&Recordings;
+                                 DEA=&Erfassungen];
+                      RunObject=Page 5005355;
+                      RunPageView=SORTING(Order No.,Recording No.);
+                      RunPageLink=Order No.=FIELD(No.);
+                      Image=Document }
+      { 1140029 ;2   ;Action    ;
+                      CaptionML=[ENU=Dimensions;
+                                 DEA=Dimensionen];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ShowDocDim;
+                                 CurrPage.SAVERECORD;
+                               END;
+                                }
+      { 1140030 ;2   ;Separator  }
+      { 1140031 ;2   ;Action    ;
+                      CaptionML=[ENU=Show &duplicate lines;
+                                 DEA=Doppelte &Zeilen anzeigen];
+                      RunObject=Codeunit 5005361;
+                      Image=CheckDuplicates }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140032 ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1140033 ;2   ;Action    ;
+                      Name=CalculateLines;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=&Calculate Lines;
+                                 DEA=Zeilen bere&chnen];
+                      Promoted=Yes;
+                      Image=CalculateLines;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CalcPhysInvtOrderLines.SetPhysInvtOrderHeader(Rec);
+                                 CalcPhysInvtOrderLines.RUNMODAL;
+                                 CLEAR(CalcPhysInvtOrderLines);
+                               END;
+                                }
+      { 1140034 ;2   ;Action    ;
+                      Name=CalculateCountingPeriod;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Calculate Counting &Period;
+                                 DEA=Inventur&hÑufigkeit berechnen];
+                      Image=CalculateCalendar;
+                      OnAction=VAR
+                                 PhysInvtCountMgt@1140000 : Codeunit 7380;
+                               BEGIN
+                                 PhysInvtCountMgt.InitFromPhysInvtOrder(Rec);
+                                 PhysInvtCountMgt.RUN;
+                                 CLEAR(PhysInvtCountMgt);
+                               END;
+                                }
+      { 1140035 ;2   ;Action    ;
+                      Name=CalculateLinesBins;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Calculate Lines (&Bins);
+                                 DEA=Zeilen berechnen (Lager&platz)];
+                      Image=CalculateBinReplenishment;
+                      OnAction=BEGIN
+                                 CalcPhysInvtOrderLinesBins.SetPhysInvtOrderHeader(Rec);
+                                 CalcPhysInvtOrderLinesBins.RUNMODAL;
+                                 CLEAR(CalcPhysInvtOrderLinesBins);
+                               END;
+                                }
+      { 1140036 ;2   ;Action    ;
+                      Name=CopyDocument;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Copy &Document;
+                                 DEA=Beleg &kopieren];
+                      Image=CopyDocument;
+                      OnAction=BEGIN
+                                 CopyPhysInvtOrder.SetPhysInvtOrderHeader(Rec);
+                                 CopyPhysInvtOrder.RUNMODAL;
+                                 CLEAR(CopyPhysInvtOrder);
+                               END;
+                                }
+      { 1140037 ;2   ;ActionGroup;
+                      CaptionML=[ENU=Calculate &Qty. Expected;
+                                 DEA=Er&wartete Menge berechnen];
+                      Image=CalculateInventory }
+      { 1140039 ;3   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=All Lines;
+                                 DEA=Alle Zeilen];
+                      RunObject=Codeunit 5005362;
+                      Image=AllLines }
+      { 1140040 ;2   ;Separator  }
+      { 1140041 ;2   ;Action    ;
+                      Name=MakeNewRecording;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Make new &recording;
+                                 DEA=Neue Erfassung e&rstellen];
+                      Promoted=Yes;
+                      Image=NewDocument;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PhysInvtOrderHeader := Rec;
+                                 PhysInvtOrderHeader.SETRECFILTER;
+                                 REPORT.RUNMODAL(REPORT::"Make New Phys. Invt. Recording",TRUE,FALSE,PhysInvtOrderHeader);
+                               END;
+                                }
+      { 1140042 ;2   ;Separator  }
+      { 1140043 ;2   ;Action    ;
+                      ShortCutKey=Ctrl+F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Fi&nish;
+                                 DEA=Bee&nden];
+                      RunObject=Codeunit 5005354;
+                      Promoted=Yes;
+                      Image=Approve;
+                      PromotedCategory=Process }
+      { 1140044 ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Reo&pen;
+                                 DEA=Stat&us zurÅcksetzen];
+                      RunObject=Codeunit 5005356;
+                      Promoted=Yes;
+                      Image=ReOpen;
+                      PromotedCategory=Process }
+      { 1140045 ;1   ;ActionGroup;
+                      CaptionML=[ENU=P&osting;
+                                 DEA=Bu&chen];
+                      Image=Post }
+      { 1140046 ;2   ;Action    ;
+                      Name=TestReport;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Test Report;
+                                 DEA=Testbericht];
+                      Image=TestReport;
+                      OnAction=BEGIN
+                                 PrintDocumentComfort.PhysInvtOrderPrintTest(Rec,TRUE);
+                               END;
+                                }
+      { 1140047 ;2   ;Action    ;
+                      Name=Post;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=P&ost;
+                                 DEA=Bu&chen];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=Post;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CODEUNIT.RUN(CODEUNIT::"Phys. Invt. Order Post (Y/N)",Rec);
+                               END;
+                                }
+      { 1140048 ;2   ;Action    ;
+                      ShortCutKey=Shift+F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Post and &Print;
+                                 DEA=Buchen und D&rucken];
+                      Promoted=Yes;
+                      PromotedIsBig=Yes;
+                      Image=PostPrint;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CODEUNIT.RUN(CODEUNIT::"Phys. Invt. Order Post + Print",Rec);
+                               END;
+                                }
+      { 1140049 ;1   ;Action    ;
+                      Name=Print;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=&Print;
+                                 DEA=D&rucken];
+                      Promoted=Yes;
+                      Image=Print;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 PrintDocumentComfort.PhysInvtOrderPrint(Rec,TRUE);
+                               END;
+                                }
+      { 1900000005;0 ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 1905313305;1 ;Action    ;
+                      CaptionML=[ENU=New Phys. Inventory Recording;
+                                 DEA=Neue Inventurerfassung];
+                      RunObject=Page 5005354;
+                      Promoted=Yes;
+                      Image=PhysicalInventory;
+                      PromotedCategory=New }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1902275906;1 ;Action    ;
+                      CaptionML=[ENU=Physical Inventory Recording;
+                                 DEA=Inventurerfassung];
+                      RunObject=Report 5005353;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140002;2;Field     ;
+                SourceExpr="No.";
+                OnAssistEdit=BEGIN
+                               IF AssistEdit(xRec) THEN
+                                 CurrPage.UPDATE;
+                             END;
+                              }
+
+    { 1140021;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140018;2;Field     ;
+                SourceExpr="Location Code";
+                Importance=Promoted }
+
+    { 1140006;2;Field     ;
+                SourceExpr="Person Responsible" }
+
+    { 1140008;2;Field     ;
+                SourceExpr="No. Finished Recordings" }
+
+    { 1140010;2;Field     ;
+                SourceExpr="Order Date" }
+
+    { 1140012;2;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 1140004;2;Field     ;
+                SourceExpr=Status;
+                Importance=Promoted }
+
+    { 1140014;2;Field     ;
+                SourceExpr="Shortcut Dimension 1 Code" }
+
+    { 1140016;2;Field     ;
+                SourceExpr="Shortcut Dimension 2 Code" }
+
+    { 1140050;1;Part      ;
+                Name=OrderLines;
+                SubPageView=SORTING(Document No.,Line No.);
+                SubPageLink=Document No.=FIELD(No.);
+                PagePartID=Page5005352 }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      PhysInvtOrderHeader@1140000 : Record 5005350;
+      CalcPhysInvtOrderLines@1140001 : Report 5005360;
+      CopyPhysInvtOrder@1140002 : Report 5005362;
+      CalcPhysInvtOrderLinesBins@1140003 : Report 5005365;
+      PrintDocumentComfort@1140004 : Codeunit 5005396;
+
+    BEGIN
+    END.
+  }
+}
+

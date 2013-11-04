@@ -1,0 +1,40 @@
+OBJECT Table 2000000121 User Property
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Propiedad usuario;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User Security ID    ;GUID          ;TableRelation=User."User Security ID";
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=Id. de seguridad de usuario }
+    { 2   ;   ;Password            ;Text80        ;CaptionML=ESP=Contrase¤a }
+    { 3   ;   ;Name Identifier     ;Text250       ;CaptionML=ESP=Identificador nombre }
+    { 4   ;   ;Authentication Key  ;Text80        ;CaptionML=ESP=Clave autenticaci¢n }
+    { 5   ;   ;WebServices Key     ;Text80        ;CaptionML=ESP=Clave servicios web }
+    { 6   ;   ;WebServices Key Expiry Date;DateTime;
+                                                   CaptionML=ESP=Fecha expiraci¢n servicios web }
+  }
+  KEYS
+  {
+    {    ;User Security ID                        ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,72 @@
+OBJECT Table 6509 Whse. Item Entry Relation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Whse. Item Entry Relation;
+               ESP=Relaci¢n mov. producto alm.;
+               DEA=Logistik Art.-Postenverbindung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Item Entry No.      ;Integer       ;TableRelation="Item Ledger Entry";
+                                                   CaptionML=[ENU=Item Entry No.;
+                                                              ESP=N§ mov. producto;
+                                                              DEA=Artikelposten Lfd. Nr.] }
+    { 10  ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart] }
+    { 11  ;   ;Source Subtype      ;Option        ;CaptionML=[ENU=Source Subtype;
+                                                              ESP=Subtipo origen;
+                                                              DEA=Herkunftsunterart];
+                                                   OptionCaptionML=[ENU=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    ESP=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    DEA=0,1,2,3,4,5,6,7,8,9,10];
+                                                   OptionString=0,1,2,3,4,5,6,7,8,9,10 }
+    { 12  ;   ;Source ID           ;Code20        ;CaptionML=[ENU=Source ID;
+                                                              ESP=Id. origen;
+                                                              DEA=Herkunfts-ID] }
+    { 13  ;   ;Source Batch Name   ;Code10        ;CaptionML=[ENU=Source Batch Name;
+                                                              ESP=Nombre secci¢n origen;
+                                                              DEA=Herkunftsbuch.-Blattname] }
+    { 14  ;   ;Source Prod. Order Line;Integer    ;CaptionML=[ENU=Source Prod. Order Line;
+                                                              ESP=L¡nea O.P. origen;
+                                                              DEA=Herkunfts-FA-Zeile] }
+    { 15  ;   ;Source Ref. No.     ;Integer       ;CaptionML=[ENU=Source Ref. No.;
+                                                              ESP=N§ ref. origen;
+                                                              DEA=Herkunftsref.-Nr.] }
+    { 20  ;   ;Serial No.          ;Code20        ;CaptionML=[ENU=Serial No.;
+                                                              ESP=N§ serie;
+                                                              DEA=Seriennr.] }
+    { 21  ;   ;Lot No.             ;Code20        ;CaptionML=[ENU=Lot No.;
+                                                              ESP=N§ lote;
+                                                              DEA=Chargennr.] }
+    { 30  ;   ;Order No.           ;Code20        ;CaptionML=[ENU=Order No.;
+                                                              ESP=N§ pedido;
+                                                              DEA=Auftrags-/Bestellnr.] }
+    { 31  ;   ;Order Line No.      ;Integer       ;CaptionML=[ENU=Order Line No.;
+                                                              ESP=N§ l¡nea pedido;
+                                                              DEA=Auftrags-/Bestellzeilennr.] }
+  }
+  KEYS
+  {
+    {    ;Item Entry No.                          ;Clustered=Yes }
+    {    ;Source ID,Source Type,Source Subtype,Source Ref. No.,Source Prod. Order Line,Source Batch Name }
+    {    ;Order No.,Order Line No.                 }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

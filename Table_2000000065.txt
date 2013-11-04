@@ -1,0 +1,35 @@
+OBJECT Table 2000000065 Send-To Program
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:08;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Enviar a programa;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Program ID          ;GUID          ;CaptionML=ESP=Id. programa }
+    { 2   ;   ;Executable          ;Text250       ;CaptionML=ESP=Ejecutable }
+    { 3   ;   ;Parameter           ;Text250       ;CaptionML=ESP=Par metro }
+    { 4   ;   ;Name                ;Text250       ;CaptionML=ESP=Nombre }
+  }
+  KEYS
+  {
+    {    ;Program ID                              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

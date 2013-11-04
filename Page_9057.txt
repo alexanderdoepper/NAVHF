@@ -1,0 +1,142 @@
+OBJECT Page 9057 Service Dispatcher Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9052;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETRANGE("Date Filter",0D,WORKDATE);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 12  ;1   ;Group     ;
+                CaptionML=[ENU=Service Orders;
+                           ESP=Pedidos servicio;
+                           DEA=Serviceauftr„ge];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 4       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Order;
+                                             ESP=Nuevo pedido servicio;
+                                             DEA=Neuer Serviceauftrag];
+                                  RunObject=Page 5900;
+                                  Image=Document;
+                                  RunPageMode=Create }
+                  { 1       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Item;
+                                             ESP=Prod. serv. nuevo;
+                                             DEA=Neuer Serviceartikel];
+                                  RunObject=Page 5980;
+                                  RunPageMode=Create }
+                  { 3       ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Dispatch Board;
+                                             ESP=Editar panel despacho;
+                                             DEA=Einsatzplanung bearbeiten];
+                                  RunObject=Page 6000 }
+                  { 11      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Service Tasks;
+                                             ESP=Editar tareas servicio;
+                                             DEA=Serviceaufgaben bearbeiten];
+                                  RunObject=Page 5915 }
+                }
+                 }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Service Orders - in Process";
+                DrillDownPageID=Service Orders }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Service Orders - Finished";
+                DrillDownPageID=Service Orders }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Service Orders - Inactive";
+                DrillDownPageID=Service Orders }
+
+    { 18  ;1   ;Group     ;
+                CaptionML=[ENU=Service Quotes;
+                           ESP=Ofertas servicio;
+                           DEA=Serviceangebote];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 16      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Quote;
+                                             ESP=Nueva oferta servicio;
+                                             DEA=Neues Serviceangebot];
+                                  RunObject=Page 5964;
+                                  RunPageMode=Create }
+                  { 17      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Order;
+                                             ESP=Nuevo pedido servicio;
+                                             DEA=Neuer Serviceauftrag];
+                                  RunObject=Page 5900;
+                                  Image=Document;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="Open Service Quotes";
+                DrillDownPageID=Service Quotes }
+
+    { 19  ;1   ;Group     ;
+                CaptionML=[ENU=Service Contracts;
+                           ESP=Contratos servicio;
+                           DEA=Servicevertr„ge];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 25      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Contract Quote;
+                                             ESP=Nueva oferta contrato servicio;
+                                             DEA=Neues Servicevertragsangebot];
+                                  RunObject=Page 6053;
+                                  RunPageMode=Create }
+                  { 26      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Service Contract;
+                                             ESP=Nuevo contrato servicio;
+                                             DEA=Neuer Servicevertrag];
+                                  RunObject=Page 6050;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 23  ;2   ;Field     ;
+                SourceExpr="Open Service Contract Quotes";
+                DrillDownPageID=Service Contract Quotes }
+
+    { 21  ;2   ;Field     ;
+                SourceExpr="Service Contracts to Expire";
+                DrillDownPageID=Service Contracts }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

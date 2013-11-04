@@ -1,0 +1,42 @@
+OBJECT Table 823 Name/Value Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=02.12.10;
+    Time=12:00:00;
+    Version List=NAVW16.00.10;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Name/Value Buffer;
+               ESP=Memoria interna de nombre/valor;
+               DEA=Name/Wert-Puffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;ID                  ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=[ENU=ID;
+                                                              ESP=Id.;
+                                                              DEA=ID] }
+    { 2   ;   ;Name                ;Text250       ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;Value               ;Text250       ;CaptionML=[ENU=Value;
+                                                              ESP=Valor;
+                                                              DEA=Wert] }
+  }
+  KEYS
+  {
+    {    ;ID                                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

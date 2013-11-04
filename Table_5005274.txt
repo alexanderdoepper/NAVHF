@@ -1,0 +1,82 @@
+OBJECT Table 5005274 Delivery Reminder Ledger Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Ledger Entry;
+               DEA=Lieferanmahnungsposten];
+    LookupPageID=Page5005276;
+    DrillDownPageID=Page5005276;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              DEA=Lfd. Nr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Reminder No.        ;Code20        ;CaptionML=[ENU=Reminder No.;
+                                                              DEA=Mahnungsnr.] }
+    { 3   ;   ;Reminder Line No.   ;Integer       ;CaptionML=[ENU=Reminder Line No.;
+                                                              DEA=Mahnungszeilennr.] }
+    { 10  ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              DEA=Kreditorennr.] }
+    { 11  ;   ;Order No.           ;Code20        ;CaptionML=[ENU=Order No.;
+                                                              DEA=Bestellnummer] }
+    { 12  ;   ;Order Line No.      ;Integer       ;CaptionML=[ENU=Order Line No.;
+                                                              DEA=Bestellzeilennr.] }
+    { 13  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,Account (G/L),Item";
+                                                                    DEA=" ,Sachkonto,Artikel"];
+                                                   OptionString=[ ,Account (G/L),Item] }
+    { 14  ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              DEA=Nr.] }
+    { 15  ;   ;Reorder Quantity    ;Decimal       ;CaptionML=[ENU=Reorder Quantity;
+                                                              DEA=Bestellmenge];
+                                                   DecimalPlaces=0:5 }
+    { 16  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[ENU=Remaining Quantity;
+                                                              DEA=Restmenge];
+                                                   DecimalPlaces=0:5 }
+    { 17  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 20  ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              DEA=Buchungsdatum] }
+    { 21  ;   ;Document Date       ;Date          ;CaptionML=[ENU=Document Date;
+                                                              DEA=Belegdatum] }
+    { 22  ;   ;User ID             ;Code50        ;CaptionML=[ENU=User ID;
+                                                              DEA=Benutzer-ID] }
+    { 23  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              DEA=Herkunftscode] }
+    { 24  ;   ;Reminder Level      ;Integer       ;CaptionML=[ENU=Reminder Level;
+                                                              DEA=Mahnstufe] }
+    { 30  ;   ;Purch. Expected Receipt Date;Date  ;CaptionML=[ENU=Purch. Expected Receipt Date;
+                                                              DEA=Lieferdatum Bestellung] }
+    { 31  ;   ;Days overdue        ;Integer       ;CaptionML=[ENU=Days overdue;
+                                                              DEA=Tage ÅberfÑllig] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Order No.,Order Line No.,Posting Date    }
+    {    ;Reminder No.,Reminder Line No.           }
+    {    ;Reminder No.,Posting Date                }
+    {    ;Vendor No.,Posting Date                  }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

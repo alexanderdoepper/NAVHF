@@ -1,0 +1,90 @@
+OBJECT Page 5005391 Report Selection - Comf. Purch
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Report Selection - Comf. Purch;
+               DEA=Berichtsauswahl - Komfort EK];
+    SaveValues=Yes;
+    SourceTable=Table26100;
+    PageType=Worksheet;
+    OnOpenPage=BEGIN
+                 SetUsageFilter;
+               END;
+
+    OnNewRecord=BEGIN
+                  NewRecord;
+                END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140012;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140000;2;Field     ;
+                CaptionML=[ENU=Usage;
+                           DEA=Verwendung];
+                OptionCaptionML=[ENU=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order;
+                                 DEA=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order];
+                SourceExpr=ReportUsage2;
+                OnValidate=BEGIN
+                             SetUsageFilter;
+                             ReportUsage2OnAfterValidate;
+                           END;
+                            }
+
+    { 1140002;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Sequence }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Report ID";
+                LookupPageID=Objects }
+
+    { 1140007;2;Field     ;
+                DrillDown=No;
+                SourceExpr="Report Name";
+                LookupPageID=Objects }
+
+  }
+  CODE
+  {
+    VAR
+      ReportUsage2@1140000 : 'Delivery Reminder Test,Issued Delivery Reminder,P.Arch. Blanket Order';
+
+    LOCAL PROCEDURE SetUsageFilter@1140000();
+    BEGIN
+      FILTERGROUP(2);
+      CASE ReportUsage2 OF
+        ReportUsage2::"Delivery Reminder Test":
+          SETRANGE(Usage,Usage::"Delivery Reminder Test");
+        ReportUsage2::"Issued Delivery Reminder":
+          SETRANGE(Usage,Usage::"Issued Delivery Reminder");
+        ReportUsage2::"P.Arch. Blanket Order":
+          SETRANGE(Usage,Usage::"P.Arch. Blanket Order");
+      END;
+      FILTERGROUP(0);
+    END;
+
+    LOCAL PROCEDURE ReportUsage2OnAfterValidate@19038799();
+    BEGIN
+      CurrPage.UPDATE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

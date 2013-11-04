@@ -1,0 +1,134 @@
+OBJECT Table 954 Time Sheet Header Archive
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               TimeSheetLineArchive@1001 : Record 955;
+               TimeSheetCmtLineArchive@1000 : Record 957;
+             BEGIN
+               TimeSheetLineArchive.SETRANGE("Time Sheet No.","No.");
+               TimeSheetLineArchive.DELETEALL(TRUE);
+
+               TimeSheetCmtLineArchive.SETRANGE("No.","No.");
+               TimeSheetCmtLineArchive.SETRANGE("Time Sheet Line No.",0);
+               TimeSheetCmtLineArchive.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Time Sheet Header Archive;
+               ESP=Archivo encabezado hoja horas;
+               DEA=Archiv fÅr Arbeitszeittabellenkopf];
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.] }
+    { 3   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum] }
+    { 4   ;   ;Ending Date         ;Date          ;CaptionML=[ENU=Ending Date;
+                                                              ESP=Fecha final;
+                                                              DEA=Enddatum] }
+    { 5   ;   ;Resource No.        ;Code20        ;TableRelation=Resource;
+                                                   CaptionML=[ENU=Resource No.;
+                                                              ESP=Nß recurso;
+                                                              DEA=Ressourcennr.] }
+    { 7   ;   ;Owner User ID       ;Code50        ;TableRelation="User Setup";
+                                                   CaptionML=[ENU=Owner User ID;
+                                                              ESP=Id. usuario del propietario;
+                                                              DEA=Benutzer-ID des Besitzers] }
+    { 8   ;   ;Approver User ID    ;Code50        ;TableRelation="User Setup";
+                                                   CaptionML=[ENU=Approver User ID;
+                                                              ESP=Id. usuario del aprobador;
+                                                              DEA=Benutzer-ID des Genehmigers] }
+    { 20  ;   ;Quantity            ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Time Sheet Detail Archive".Quantity WHERE (Time Sheet No.=FIELD(No.),
+                                                                                                               Status=FIELD(Status Filter),
+                                                                                                               Job No.=FIELD(Job No. Filter),
+                                                                                                               Job Task No.=FIELD(Job Task No. Filter),
+                                                                                                               Date=FIELD(Date Filter),
+                                                                                                               Posted=FIELD(Posted Filter),
+                                                                                                               Type=FIELD(Type Filter)));
+                                                   CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge] }
+    { 26  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Time Sheet Comment Line" WHERE (No.=FIELD(No.),
+                                                                                                      Time Sheet Line No.=CONST(0)));
+                                                   CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung];
+                                                   Editable=No }
+    { 30  ;   ;Status Filter       ;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Status Filter;
+                                                              ESP=Filtro estado;
+                                                              DEA=Statusfilter];
+                                                   OptionCaptionML=[ENU=Open,Submitted,Rejected,Approved;
+                                                                    ESP=Abiertos,Enviados,Rechazados,Aprobados;
+                                                                    DEA=Offen,öbermittelt,Abgelehnt,Genehmigt];
+                                                   OptionString=Open,Submitted,Rejected,Approved }
+    { 31  ;   ;Job No. Filter      ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Job No. Filter;
+                                                              ESP=Filtro nß proyecto;
+                                                              DEA=Projektnr.-Filter] }
+    { 32  ;   ;Job Task No. Filter ;Code20        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Job Task No. Filter;
+                                                              ESP=Filtro nß tarea proyecto;
+                                                              DEA=Projektaufgabennr.-Filter] }
+    { 33  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Date Filter;
+                                                              ESP=Filtro fecha;
+                                                              DEA=Datumsfilter] }
+    { 34  ;   ;Posted Filter       ;Boolean       ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Posted Filter;
+                                                              ESP=Filtro registrado;
+                                                              DEA=Gebuchter Filter] }
+    { 35  ;   ;Type Filter         ;Option        ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Type Filter;
+                                                              ESP=Filtro tipo;
+                                                              DEA=Artenfilter];
+                                                   OptionCaptionML=[ENU=" ,Resource,Job,Service,Absence,Assembly Order";
+                                                                    ESP="OptionString=[ ,Recurso,Tarea,Servicio,Ausencia,Pedido de ensamblado]]";
+                                                                    DEA=" ,Ressource,Projekt,Service,Abwesenheit,Montageauftrag"];
+                                                   OptionString=[ ,Resource,Job,Service,Absence,Assembly Order] }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Resource No.,Starting Date               }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;No.,Starting Date,Ending Date,Resource No. }
+  }
+  CODE
+  {
+    VAR
+      TimeSheetMgt@1002 : Codeunit 950;
+
+    PROCEDURE FindLastTimeSheetArchiveNo@27(FilterFieldNo@1002 : Integer) : Code[20];
+    BEGIN
+      RESET;
+      SETCURRENTKEY("Resource No.","Starting Date");
+
+      TimeSheetMgt.FilterTimeSheetsArchive(Rec,FilterFieldNo);
+      SETFILTER("Starting Date",'%1..',WORKDATE);
+      IF NOT FINDFIRST THEN BEGIN
+        SETRANGE("Starting Date");
+        SETRANGE("Ending Date");
+        FINDLAST;
+      END;
+      EXIT("No.");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

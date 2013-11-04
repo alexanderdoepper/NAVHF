@@ -1,0 +1,107 @@
+OBJECT Page 9151 My Vendors
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=My Vendors;
+               ESP=Mis proveedores;
+               DEA=Meine Kreditoren];
+    SourceTable=Table9151;
+    PageType=ListPart;
+    OnOpenPage=BEGIN
+                 SETRANGE("User ID",USERID);
+               END;
+
+    OnAfterGetRecord=BEGIN
+                       GetVendor;
+                     END;
+
+    OnNewRecord=BEGIN
+                  CLEAR(Vendor);
+                END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 2       ;1   ;Action    ;
+                      ShortCutKey=Return;
+                      CaptionML=[ENU=Open;
+                                 ESP=Abrir;
+                                 DEA=™ffnen];
+                      Image=Edit;
+                      OnAction=BEGIN
+                                 OpenVendorCard;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Vendor No.";
+                OnValidate=BEGIN
+                             GetVendor;
+                           END;
+                            }
+
+    { 11  ;2   ;Field     ;
+                ExtendedDatatype=Phone No.;
+                CaptionML=[ENU=Phone No.;
+                           ESP=N§ tel‚fono;
+                           DEA=Telefonnr.];
+                SourceExpr=Vendor."Phone No.";
+                Editable=FALSE }
+
+    { 9   ;2   ;Field     ;
+                CaptionML=[ENU=Name;
+                           ESP=Nombre;
+                           DEA=Name];
+                SourceExpr=Vendor.Name;
+                Editable=FALSE }
+
+    { 13  ;2   ;Field     ;
+                Name=Balance;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo];
+                SourceExpr=Vendor.Balance;
+                Visible=FALSE;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      Vendor@1000 : Record 23;
+
+    PROCEDURE GetVendor@1();
+    BEGIN
+      CLEAR(Vendor);
+
+      IF Vendor.GET("Vendor No.") THEN
+        Vendor.CALCFIELDS(Balance);
+    END;
+
+    PROCEDURE OpenVendorCard@2();
+    BEGIN
+      IF Vendor.GET("Vendor No.") THEN
+        PAGE.RUN(PAGE::"Vendor Card",Vendor);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

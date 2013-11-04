@@ -1,0 +1,435 @@
+OBJECT Codeunit 11000 Data Export Management
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There are table relations defined for the table %1. If you %2 the table the relation will be deleted. Do you still want do continue?;DEA=Es bestehen Tabellenrelationen zu der Tabelle %1. Wenn Sie die Tabelle %2, werden diese gel”scht. M”chten Sie trotzdem fortsetzen?';
+      Text1140001@1140001 : TextConst 'ENU=indent;DEA=einrcken';
+      Text1140002@1140002 : TextConst 'ENU=unindent;DEA=ausrcken';
+      Text1140003@1140003 : TextConst 'ENU=Table relations only exist for indented tables.;DEA=Tabellenrelationen gibt es nur zu eingerckten Tabellen.';
+      GLSetup@1140005 : Record 98;
+      FileMgmt@1140004 : Codeunit 419;
+
+    PROCEDURE FindGDPdURecDefField@1140000(DefGrpCode@1140000 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140002 : Integer;FieldNo@1140003 : Integer) : Boolean;
+    VAR
+      GDPdURecDefField@1140004 : Record 11005;
+    BEGIN
+      GDPdURecDefField.SETRANGE("Data Export Code",DefGrpCode);
+      GDPdURecDefField.SETRANGE("Data Exp. Rec. Type Code",RecordCode);
+      GDPdURecDefField.SETRANGE("Table No.",TableNo);
+      GDPdURecDefField.SETRANGE("Field No.",FieldNo);
+      IF GDPdURecDefField.FINDFIRST THEN
+        EXIT(TRUE);
+    END;
+
+    PROCEDURE FindGDPdURecDefTable@1140001(DefGrpCode@1140000 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140002 : Integer) : Boolean;
+    VAR
+      GDPdURecDefTable@1140003 : Record 11004;
+    BEGIN
+      GDPdURecDefTable.SETRANGE("Data Export Code",DefGrpCode);
+      GDPdURecDefTable.SETRANGE("Data Exp. Rec. Type Code",RecordCode);
+      GDPdURecDefTable.SETRANGE("Table No.",TableNo);
+      IF GDPdURecDefTable.FINDFIRST THEN
+        EXIT(TRUE);
+    END;
+
+    PROCEDURE InsertGDPdURecDefField@1140002(VAR Field@1140000 : Record 2000000041;VAR NewGDPdURecDefField@1140001 : Record 11005;DefGrpCode@1140002 : Code[10];RecordCode@1140003 : Code[10]);
+    VAR
+      GDPdURecDefField@1140004 : Record 11005;
+      NextLineNo@1140005 : Integer;
+    BEGIN
+      IF Field.FIND('-') THEN BEGIN
+        GDPdURecDefField.SETRANGE("Data Export Code",DefGrpCode);
+        GDPdURecDefField.SETRANGE("Data Exp. Rec. Type Code",RecordCode);
+        GDPdURecDefField.SETRANGE("Table No.",Field.TableNo);
+        REPEAT
+          GDPdURecDefField.SETRANGE("Field No.",Field."No.");
+          IF NOT GDPdURecDefField.FINDFIRST OR (Field.Class = Field.Class::FlowField) THEN BEGIN
+            NextLineNo := FindNextLineNo(NewGDPdURecDefField);
+            NewGDPdURecDefField.INIT;
+            NewGDPdURecDefField."Data Export Code" := DefGrpCode;
+            NewGDPdURecDefField."Data Exp. Rec. Type Code" := RecordCode;
+            NewGDPdURecDefField."Table No." := Field.TableNo;
+            NewGDPdURecDefField.VALIDATE("Field No.",Field."No.");
+            NewGDPdURecDefField."Line No." := NextLineNo;
+            NewGDPdURecDefField.INSERT;
+          END;
+        UNTIL Field.NEXT = 0;
+      END;
+    END;
+
+    LOCAL PROCEDURE FindNextLineNo@1140003(VAR GDPdURecDefField@1140000 : Record 11005) NextLineNo : Integer;
+    BEGIN
+      WITH GDPdURecDefField DO BEGIN
+        NextLineNo := "Line No." + 10000;
+        SETFILTER("Line No.",'>%1',"Line No.");
+        IF FINDLAST THEN
+          REPEAT
+            RENAME("Data Export Code","Data Exp. Rec. Type Code","Table No.","Line No." + 10000);
+          UNTIL NEXT(-1) = 0;
+      END;
+    END;
+
+    PROCEDURE UpdateTableRelation@1140004(DataExportRecordSource@1140000 : Record 11004);
+    VAR
+      TableRelationForm@1140001 : Page 11007;
+    BEGIN
+      WITH DataExportRecordSource DO BEGIN
+        IF "Relation To Table No." = 0 THEN
+          ERROR(Text1140003);
+
+        FILTERGROUP(2);
+        SETRANGE("Data Export Code","Data Export Code");
+        SETRANGE("Data Exp. Rec. Type Code","Data Exp. Rec. Type Code");
+        SETRANGE("Table No.","Table No.");
+        FILTERGROUP(0);
+        CLEAR(TableRelationForm);
+        TableRelationForm.SETTABLEVIEW(DataExportRecordSource);
+        TableRelationForm.RUNMODAL;
+      END;
+    END;
+
+    PROCEDURE UpdateDefTableIndentation@1140006(VAR GDPdURecDefTable@1140000 : Record 11004;oldIndentation@1140001 : Integer);
+    VAR
+      RelGDPdURecDefTable@1140002 : Record 11004;
+      IndentText@1140003 : Text[30];
+      FoundRelation@1140004 : Boolean;
+      indented@1140005 : Boolean;
+    BEGIN
+      WITH GDPdURecDefTable DO BEGIN
+        CALCFIELDS("Table Relation Defined","Table Name");
+        IF "Table Relation Defined" THEN BEGIN
+          IF oldIndentation < Indentation THEN
+            IndentText := Text1140001
+          ELSE
+            IndentText := Text1140002;
+
+          IF NOT CONFIRM(Text1140000,FALSE,"Table Name",IndentText) THEN BEGIN
+            Indentation := oldIndentation;
+            EXIT;
+          END;
+        END;
+
+        FoundRelation := FALSE;
+        CASE TRUE OF
+          Indentation < 0:
+            Indentation := 0;
+          Indentation = 0:
+            BEGIN
+              FoundRelation := TRUE;
+              CLEAR("Relation To Table No.");
+            END;
+          ELSE BEGIN
+            RelGDPdURecDefTable.COPY(GDPdURecDefTable);
+            IF RelGDPdURecDefTable.FIND('<') THEN BEGIN
+              IF RelGDPdURecDefTable.Indentation >= Indentation - 1 THEN BEGIN
+                REPEAT
+                  IF RelGDPdURecDefTable.Indentation = Indentation - 1 THEN BEGIN
+                    FoundRelation := TRUE;
+                    "Relation To Table No." := RelGDPdURecDefTable."Table No.";
+                  END;
+                UNTIL (RelGDPdURecDefTable.NEXT(-1) = 0) OR FoundRelation;
+              END ELSE
+                Indentation := oldIndentation;
+            END ELSE
+              Indentation := oldIndentation
+          END;
+        END;
+
+        IF FoundRelation THEN BEGIN
+          RelGDPdURecDefTable.COPY(GDPdURecDefTable);
+          IF RelGDPdURecDefTable.FIND('>') THEN BEGIN
+            IF oldIndentation < Indentation THEN BEGIN
+              // indent:
+              REPEAT
+                indented := FALSE;
+                IF RelGDPdURecDefTable.Indentation > oldIndentation THEN BEGIN
+                  RelGDPdURecDefTable.Indentation := RelGDPdURecDefTable.Indentation + Indentation - oldIndentation;
+                  indented := TRUE;
+                  RelGDPdURecDefTable.MODIFY;
+                END;
+              UNTIL (indented = FALSE) OR (RelGDPdURecDefTable.NEXT = 0);
+            END ELSE
+              // unindent:
+              REPEAT
+                indented := FALSE;
+                IF RelGDPdURecDefTable.Indentation >= oldIndentation THEN BEGIN
+                  RelGDPdURecDefTable.Indentation := RelGDPdURecDefTable.Indentation + Indentation - oldIndentation;
+                  IF RelGDPdURecDefTable.Indentation = Indentation THEN
+                    RelGDPdURecDefTable."Relation To Table No." := "Relation To Table No.";
+                  RelGDPdURecDefTable.MODIFY;
+                  indented := TRUE;
+                END;
+              UNTIL (indented = FALSE) OR (RelGDPdURecDefTable.NEXT = 0);
+          END;
+        END;
+
+        IF FoundRelation THEN BEGIN
+          MODIFY;
+          DeleteTableRelation("Data Export Code","Data Exp. Rec. Type Code","Table No.");
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE DeleteTableRelation@1140007(DefGrpCode@1140000 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140002 : Integer);
+    VAR
+      GDPdUTableRelation@1140003 : Record 11006;
+    BEGIN
+      GDPdUTableRelation.SETRANGE("Data Export Code",DefGrpCode);
+      GDPdUTableRelation.SETRANGE("Data Exp. Rec. Type Code",RecordCode);
+      GDPdUTableRelation.SETRANGE("To Table No.",TableNo);
+      GDPdUTableRelation.DELETEALL;
+    END;
+
+    PROCEDURE CreateIndexXML@1140008(VAR TempDataExportRecordSource@1140018 : TEMPORARY Record 11004;ExportPath@1140001 : Text[250];Description@1140002 : Text[50];StartDate@1140005 : Date;EndDate@1140006 : Date;DTDFileName@1140007 : Text[250]);
+    VAR
+      Text1140011@1140011 : TextConst 'ENU=index.xml was not created!;DEA=index.xml wurde nicht geschrieben!';
+      DataExportRecField@1140012 : Record 11005;
+      CompanyInfo@1140015 : Record 79;
+      BloBRef@1101100000 : Record 99008535;
+      TempPKFieldNumber@1140000 : TEMPORARY Record 11005;
+      TempNonPKFieldNumber@1140003 : TEMPORARY Record 11005;
+      XMLDOMManagement@1140017 : Codeunit 6224;
+      RBMgt@1140034 : Codeunit 419;
+      XMLDocOut@1140019 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+      XMLCurrNode@1140020 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+      XMLMediaNode@1140022 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+      OutStr@1101100001 : OutStream;
+      Symbol@1140008 : ARRAY [2] OF Text[1];
+      TempXMLFile@1140035 : Text[1024];
+    BEGIN
+      GLSetup.GET;
+
+      IF ISNULL(XMLDocOut) THEN
+        XMLDocOut := XMLDocOut.XmlDocument;
+
+      LoadEmptyIndexXMLWithDTD(XMLDocOut,DTDFileName);
+
+      IF XMLDocOut.OuterXml = '' THEN
+        ERROR(Text1140011);
+
+      XMLCurrNode := XMLDocOut.DocumentElement;
+
+      WITH XMLDOMManagement DO BEGIN
+        AddNode(XMLCurrNode,'Version','');
+        AddGroupNode(XMLCurrNode,'DataSupplier');
+
+        AddNode(XMLCurrNode,'Name',COMPANYNAME);
+        CompanyInfo.GET;
+        AddNode(XMLCurrNode,'Location',
+          CompanyInfo.Address + ' ' + CompanyInfo."Address 2" + ' ' +
+          CompanyInfo."Post Code" + ' ' + CompanyInfo.City);
+        AddLastNode(XMLCurrNode,'Comment',Description);
+
+        IF TempDataExportRecordSource.FINDSET THEN BEGIN
+          AddGroupNode(XMLCurrNode,'Media');
+          XMLMediaNode := XMLCurrNode;
+          AddNode(XMLCurrNode,'Name',TempDataExportRecordSource."Data Exp. Rec. Type Code");
+          REPEAT
+            XMLCurrNode := XMLMediaNode;
+            AddGroupNode(XMLCurrNode,'Table');
+            AddNode(XMLCurrNode,'URL',TempDataExportRecordSource."Export File Name");
+            AddNode(XMLCurrNode,'Name',TempDataExportRecordSource."Export Table Name");
+            TempDataExportRecordSource.CALCFIELDS("Table Name");
+            AddNode(XMLCurrNode,'Description',TempDataExportRecordSource."Table Name");
+
+            IF TempDataExportRecordSource."Period Field No." > 0 THEN BEGIN
+              AddGroupNode(XMLCurrNode,'Validity');
+              AddGroupNode(XMLCurrNode,'Range');
+              AddNode(XMLCurrNode,'From',FORMAT(StartDate,0,'<Day,2>.<Month,2>.<Year4>'));
+              AddLastNode(XMLCurrNode,'To',FORMAT(EndDate,0,'<Day,2>.<Month,2>.<Year4>'));
+              XMLCurrNode := XMLCurrNode.ParentNode;
+            END;
+
+            GetDelimiterSymbols(Symbol);
+            AddNode(XMLCurrNode,'DecimalSymbol',Symbol[1]);
+            AddNode(XMLCurrNode,'DigitGroupingSymbol',Symbol[2]);
+
+            AddGroupNode(XMLCurrNode,'VariableLength');
+            FilterFields(DataExportRecField,TempDataExportRecordSource);
+            CollectFieldNumbers(DataExportRecField,TempPKFieldNumber,TempNonPKFieldNumber);
+            AddFieldsData(DataExportRecField,TempPKFieldNumber,'VariablePrimaryKey',XMLCurrNode);
+            AddFieldsData(DataExportRecField,TempNonPKFieldNumber,'VariableColumn',XMLCurrNode);
+
+          UNTIL TempDataExportRecordSource.NEXT = 0;
+        END;
+      END;
+
+      BloBRef.Blob.CREATEOUTSTREAM(OutStr);
+      XMLDocOut.Save(OutStr);
+      CLEAR(XMLDocOut);
+
+      TempXMLFile := RBMgt.BLOBExport(BloBRef,TempXMLFile,FALSE);
+      FileMgmt.MoveAndRenameClientFile(TempXMLFile,IndexFileName,ExportPath);
+    END;
+
+    LOCAL PROCEDURE GetDelimiterSymbols@1140043(VAR Symbol@1140000 : ARRAY [2] OF Text[1]);
+    VAR
+      DecimalSymbol@1140001 : Decimal;
+    BEGIN
+      DecimalSymbol := 1 / 10;
+      IF STRPOS(FORMAT(DecimalSymbol,0,1),',') > 0 THEN BEGIN
+        Symbol[1] := ',';
+        Symbol[2] := '.';
+      END ELSE BEGIN
+        Symbol[1] := '.';
+        Symbol[2] := ',';
+      END;
+    END;
+
+    LOCAL PROCEDURE FilterFields@1140020(VAR DataExportRecField@1140000 : Record 11005;DataExportRecordSource@1140001 : Record 11004);
+    BEGIN
+      WITH DataExportRecField DO BEGIN
+        SETRANGE("Data Export Code",DataExportRecordSource."Data Export Code");
+        SETRANGE("Data Exp. Rec. Type Code",DataExportRecordSource."Data Exp. Rec. Type Code");
+        SETRANGE("Table No.",DataExportRecordSource."Table No.");
+      END;
+    END;
+
+    LOCAL PROCEDURE CollectFieldNumbers@1140011(VAR DataExportRecField@1140006 : Record 11005;VAR TempPKFieldNumber@1140001 : TEMPORARY Record 11005;VAR TempNonPKFieldNumber@1140007 : TEMPORARY Record 11005);
+    VAR
+      RecRef@1140000 : RecordRef;
+      KeyRef@1140004 : KeyRef;
+    BEGIN
+      TempPKFieldNumber.DELETEALL;
+      TempNonPKFieldNumber.DELETEALL;
+      WITH DataExportRecField DO
+        IF FINDSET THEN BEGIN
+          RecRef.OPEN("Table No.");
+          KeyRef := RecRef.KEYINDEX(1);
+          REPEAT
+            IF FieldIsInPrimaryKey("Field No.",KeyRef) THEN
+              AddFieldNoToBuffer("Field No.",TempPKFieldNumber,DataExportRecField)
+            ELSE
+              AddFieldNoToBuffer("Field No.",TempNonPKFieldNumber,DataExportRecField);
+          UNTIL NEXT = 0;
+          RecRef.CLOSE;
+        END;
+    END;
+
+    LOCAL PROCEDURE FieldIsInPrimaryKey@1140013(FieldNumber@1140003 : Integer;VAR KeyRef@1140002 : KeyRef) : Boolean;
+    VAR
+      FldRef@1140001 : FieldRef;
+      i@1140000 : Integer;
+    BEGIN
+      FOR i := 1 TO KeyRef.FIELDCOUNT DO BEGIN
+        FldRef := KeyRef.FIELDINDEX(i);
+        IF FldRef.NUMBER = FieldNumber THEN
+          EXIT(TRUE);
+      END;
+      EXIT(FALSE);
+    END;
+
+    LOCAL PROCEDURE AddFieldNoToBuffer@1140014(FieldNumber@1140001 : Integer;VAR TempFieldNumber@1140000 : TEMPORARY Record 11005;DataExportRecField@1140002 : Record 11005);
+    BEGIN
+      WITH TempFieldNumber DO BEGIN
+        INIT;
+        "Data Export Code" := DataExportRecField."Data Export Code";
+        "Data Exp. Rec. Type Code" := DataExportRecField."Data Exp. Rec. Type Code";
+        "Table No." := DataExportRecField."Table No.";
+        "Line No." := DataExportRecField."Line No.";
+        "Field No." := DataExportRecField."Field No.";
+        INSERT;
+      END;
+    END;
+
+    LOCAL PROCEDURE AddFieldsData@1140005(VAR DataExportRecFields@1140002 : Record 11005;VAR TempFieldNumber@1140000 : TEMPORARY Record 11005;FieldTagName@1140001 : Text;XMLRootNode@1140003 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument");
+    VAR
+      DataExportRecField@1140010 : Record 11005;
+      XMLDOMManagement@1140008 : Codeunit 6224;
+      XMLCurrNode@1140005 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
+      RecRef@1140007 : RecordRef;
+      FldRef@1140006 : FieldRef;
+    BEGIN
+      WITH XMLDOMManagement DO BEGIN
+        DataExportRecField.COPYFILTERS(DataExportRecFields);
+        IF DataExportRecField.FINDFIRST THEN;
+        RecRef.OPEN(DataExportRecField."Table No.");
+        IF TempFieldNumber.FINDSET THEN
+          REPEAT
+            FldRef := RecRef.FIELD(TempFieldNumber."Field No.");
+
+            XMLCurrNode := XMLRootNode;
+            AddGroupNode(XMLCurrNode,FieldTagName);
+
+            DataExportRecField.SETRANGE("Field No.",TempFieldNumber."Field No.");
+            DataExportRecField.FINDFIRST;
+            AddNode(XMLCurrNode,'Name',DataExportRecField."Export Field Name");
+            DataExportRecField.CALCFIELDS("Field Name");
+            AddNode(XMLCurrNode,'Description',DataExportRecField."Field Name");
+
+            CASE FORMAT(FldRef.TYPE) OF
+              'Integer','BigInteger':
+                AddLastNode(XMLCurrNode,'Numeric','');
+              'Decimal':
+                BEGIN
+                  AddGroupNode(XMLCurrNode,'Numeric');
+                  AddLastNode(XMLCurrNode,'Accuracy',
+                    COPYSTR(GLSetup."Amount Decimal Places",STRLEN(GLSetup."Amount Decimal Places")));
+                  XMLCurrNode := XMLCurrNode.ParentNode;
+                END;
+              'Date':
+                AddLastNode(XMLCurrNode,'Date','');
+              ELSE
+                AddLastNode(XMLCurrNode,'AlphaNumeric','');
+            END;
+          UNTIL TempFieldNumber.NEXT = 0;
+        RecRef.CLOSE;
+      END;
+    END;
+
+    PROCEDURE FormatForIndexXML@1140009(InputText@1140000 : Text[1024]) : Text[20];
+    BEGIN
+      InputText := DELCHR(InputText,'=','~!$^&*(){}[]\|;:''"?/,<>@#`.-+=');
+      InputText := DELCHR(InputText,'=');
+      EXIT(COPYSTR(InputText,1,20));
+    END;
+
+    LOCAL PROCEDURE LoadEmptyIndexXMLWithDTD@1140049(VAR XMLDocOut@1140001 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";DTDFileName@1140000 : Text);
+    VAR
+      RBMgt@1140004 : Codeunit 419;
+      File@1140002 : File;
+      EmptyIndexXMLName@1140003 : Text;
+      EmptyDTDFileName@1140005 : Text;
+    BEGIN
+      EmptyIndexXMLName := RBMgt.ServerTempFileName('xml');
+      EmptyDTDFileName := RBMgt.GetDirectoryName(EmptyIndexXMLName) + '\' + DTDFileName;
+      WITH File DO BEGIN
+        TEXTMODE(TRUE);
+
+        CREATE(EmptyDTDFileName);
+        CLOSE;
+
+        CREATE(EmptyIndexXMLName);
+        WRITE('<?xml version="1.0" encoding="UTF-8" ?>');
+        WRITE('<!DOCTYPE DataSet SYSTEM "' + DTDFileName + '"><DataSet />');
+        CLOSE;
+
+        XMLDocOut.Load(EmptyIndexXMLName);
+        ERASE(EmptyIndexXMLName);
+        ERASE(EmptyDTDFileName);
+      END;
+    END;
+
+    LOCAL PROCEDURE IndexFileName@1140010() : Text[30];
+    BEGIN
+      EXIT('index.xml');
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

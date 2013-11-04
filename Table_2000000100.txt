@@ -1,0 +1,62 @@
+OBJECT Table 2000000100 Debugger Breakpoint
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Punto interrup. depurador;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Breakpoint ID       ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=ESP=Id. punto interrup. }
+    { 3   ;   ;User SID            ;GUID          ;TableRelation=User."User Security ID";
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=SID usuario }
+    { 5   ;   ;User ID             ;Code50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(User."User Name" WHERE (User Security ID=FIELD(User SID)));
+                                                   CaptionML=ESP=Id. usuario }
+    { 7   ;   ;Object Type         ;Option        ;InitValue=Page;
+                                                   CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=ESP=,Tabla,,Informe,,Codeunit,XMLport,,P gina,Consulta;
+                                                   OptionString=,Table,,Report,,Codeunit,XMLport,,Page,Query }
+    { 9   ;   ;Object ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                                                   CaptionML=ESP=Id. objeto }
+    { 10  ;   ;Object Name         ;Text30        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Name" WHERE (Object Type=FIELD(Object Type),
+                                                                                                             Object ID=FIELD(Object ID)));
+                                                   CaptionML=ESP=Nombre objeto }
+    { 11  ;   ;Line No.            ;Integer       ;CaptionML=ESP=N§ l¡nea }
+    { 13  ;   ;Column No.          ;Integer       ;CaptionML=ESP=N§ columna }
+    { 15  ;   ;End Line No.        ;Integer       ;CaptionML=ESP=N§ l¡nea final }
+    { 17  ;   ;End Column No.      ;Integer       ;CaptionML=ESP=N§ columna final }
+    { 19  ;   ;Function Name       ;Text128       ;CaptionML=ESP=Nombre de funci¢n }
+    { 21  ;   ;Enabled             ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=ESP=Activado }
+    { 23  ;   ;Condition           ;Text250       ;CaptionML=ESP=Condici¢n }
+    { 27  ;   ;Session Breakpoint ID;BigInteger   ;CaptionML=ESP=Id. punto interrup. sesi¢n }
+    { 29  ;   ;Relative Line No.   ;Integer       ;CaptionML=ESP=L¡nea relativa n§ }
+    { 31  ;   ;Relative End Line No.;Integer      ;CaptionML=ESP=L¡nea final relativa n§ }
+    { 33  ;   ;Function ID         ;Integer       ;CaptionML=ESP=Id. funci¢n }
+  }
+  KEYS
+  {
+    {    ;Breakpoint ID                           ;Clustered=Yes }
+    {    ;User SID,Object Type,Object ID,Line No.,Column No. }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,113 @@
+OBJECT Table 5822 Invt. Post to G/L Test Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Invt. Post to G/L Test Buffer;
+               ESP=Reg. inv. en mem. int. prueba CG;
+               DEA=Testpuffer fÅr Lagerbuchung auf Sachposten];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 2   ;   ;Account No.         ;Code20        ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Account No.;
+                                                              ESP=Nß cuenta;
+                                                              DEA=Kontonr.] }
+    { 3   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum];
+                                                   ClosingDates=Yes }
+    { 4   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 5   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 6   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1 }
+    { 8   ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode];
+                                                   Editable=No }
+    { 9   ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
+                                                              ESP=Asiento autom†tico;
+                                                              DEA=Systembuchung];
+                                                   Editable=No }
+    { 10  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              ESP=Grupo contable negocio;
+                                                              DEA=GeschÑftsbuchungsgruppe] }
+    { 11  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
+                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
+                                                              ESP=Grupo contable producto;
+                                                              DEA=Produktbuchungsgruppe] }
+    { 13  ;   ;Additional-Currency Posting;Option ;CaptionML=[ENU=Additional-Currency Posting;
+                                                              ESP=Registro div.-adic.;
+                                                              DEA=Buchung (BW)];
+                                                   OptionCaptionML=[ENU=None,Amount Only,Additional-Currency Amount Only;
+                                                                    ESP=Ninguno,S¢lo importe,S¢lo importe div.-adic.;
+                                                                    DEA=Kein,Nur Betrag,Nur Betrag (BW)];
+                                                   OptionString=None,Amount Only,Additional-Currency Amount Only;
+                                                   Editable=No }
+    { 14  ;   ;Source Currency Code;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Source Currency Code;
+                                                              ESP=C¢d. divisa origen;
+                                                              DEA=Urspr.-WÑhrungscode];
+                                                   Editable=No }
+    { 15  ;   ;Source Currency Amount;Decimal     ;CaptionML=[ENU=Source Currency Amount;
+                                                              ESP=Importe divisa origen;
+                                                              DEA=Urspr.-WÑhrung Betrag];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 16  ;   ;Value Entry No.     ;Integer       ;TableRelation="Value Entry";
+                                                   CaptionML=[ENU=Value Entry No.;
+                                                              ESP=Nß mov. valor;
+                                                              DEA=Wertposten Lfd. Nr.];
+                                                   Editable=No }
+    { 17  ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almacÇn;
+                                                              DEA=Lagerortcode] }
+    { 18  ;   ;Invt. Posting Group Code;Code10    ;TableRelation="Inventory Posting Group";
+                                                   CaptionML=[ENU=Invt. Posting Group Code;
+                                                              ESP=C¢d. grupo contable exist.;
+                                                              DEA=Lagerbuchungsgruppencode] }
+    { 19  ;   ;Inventory Account Type;Option      ;CaptionML=[ENU=Inventory Account Type;
+                                                              ESP=Tipo cuenta inventario;
+                                                              DEA=Lagerkontoart];
+                                                   OptionCaptionML=[ENU=Inventory (Interim),Invt. Accrual (Interim),Inventory,WIP Inventory,Inventory Adjmt.,Direct Cost Applied,Overhead Applied,Purchase Variance,COGS,COGS (Interim),Material Variance,Capacity Variance,Subcontracted Variance,Cap. Overhead Variance,Mfg. Overhead Variance;
+                                                                    ESP=Inventario (provisional),Crecimiento inventario (provisional),Inventario,Inventario WIP,Ajuste inventario,Coste directo aplicado,Coste general aplicado,Desviaci¢n de compras,Coste ventas,Coste ventas (provisional),Desviaci¢n material,Desviaci¢n capacidad,Desviaci¢n subcontratada,Cap. Desv. coste gen.,Desv. Coste gen. Fab.;
+                                                                    DEA=Lagerbestand (Interim),Lagerzugang (Interim),Lagerbestand,Aktiviert Lager,Lagerkorrektur,Direkte Kosten verrechnet,Gemeinkosten verrechnet,Einkaufsabweichung,LAGERVERBR,LAGERVERBR (Interim),Materialabweichung,KapazitÑtsabweichung,Fremdarbeitskostenabweichung,Kap. Gemeinkostenabw.,Prod. Gemeinkostenabw.];
+                                                   OptionString=Inventory (Interim),Invt. Accrual (Interim),Inventory,WIP Inventory,Inventory Adjmt.,Direct Cost Applied,Overhead Applied,Purchase Variance,COGS,COGS (Interim),Material Variance,Capacity Variance,Subcontracted Variance,Cap. Overhead Variance,Mfg. Overhead Variance }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Line No.                                ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

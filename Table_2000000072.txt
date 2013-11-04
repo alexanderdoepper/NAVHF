@@ -1,0 +1,48 @@
+OBJECT Table 2000000072 Profile
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Perfil;
+  }
+  FIELDS
+  {
+    { 3   ;   ;Profile ID          ;Code30        ;CaptionML=ESP=Id. perfil }
+    { 6   ;   ;Owner SID           ;GUID          ;TableRelation=User."User Security ID";
+                                                   CaptionML=ESP=SID de propietario }
+    { 9   ;   ;Owner ID            ;Code50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(User."User Name" WHERE (User Security ID=FIELD(Owner SID)));
+                                                   CaptionML=ESP=Id. de propietario }
+    { 12  ;   ;Description         ;Text250       ;CaptionML=ESP=Descripci¢n }
+    { 15  ;   ;Role Center ID      ;Integer       ;TableRelation=AllObj."Object ID" WHERE (Object Type=CONST(Page));
+                                                   CaptionML=ESP=Id.  rea de trabajo }
+    { 18  ;   ;Default Role Center ;Boolean       ;CaptionML=ESP=µrea de trabajo predeterminada }
+    { 21  ;   ;Use Comments        ;Boolean       ;CaptionML=ESP=Usar comentarios }
+    { 24  ;   ;Use Notes           ;Boolean       ;CaptionML=ESP=Usar notas }
+    { 27  ;   ;Use Record Notes    ;Boolean       ;CaptionML=ESP=Usar notas del registro }
+    { 30  ;   ;Record Notebook     ;Text250       ;CaptionML=ESP=Registrar bloc de notas }
+    { 33  ;   ;Use Page Notes      ;Boolean       ;CaptionML=ESP=Usar notas de la p gina }
+    { 36  ;   ;Page Notebook       ;Text250       ;CaptionML=ESP=P gina de bloc de notas }
+    { 39  ;   ;Disable Personalization;Boolean    ;CaptionML=ESP=Deshabilitar personalizaci¢n }
+  }
+  KEYS
+  {
+    {    ;Profile ID                              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

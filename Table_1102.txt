@@ -1,0 +1,90 @@
+OBJECT Table 1102 Cost Journal Batch
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=VAR
+               CostJnlTemplate@1000 : Record 1100;
+             BEGIN
+               LOCKTABLE;
+               CostJnlTemplate.GET("Journal Template Name");
+             END;
+
+    OnDelete=VAR
+               CostJnlLine@1000 : Record 1101;
+             BEGIN
+               CostJnlLine.SETRANGE("Journal Template Name","Journal Template Name");
+               CostJnlLine.SETRANGE("Journal Batch Name",Name);
+               CostJnlLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Cost Journal Batch;
+               ESP=Secci¢n diario costes;
+               DEA=Kosten-Buch.-Blattname];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Cost Journal Template";
+                                                   CaptionML=[ENU=Journal Template Name;
+                                                              ESP=Nombre libro diario;
+                                                              DEA=Buch.-Blattvorlagenname];
+                                                   NotBlank=No }
+    { 2   ;   ;Name                ;Code10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 4   ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor°a;
+                                                              DEA=Ursachencode] }
+    { 9   ;   ;Bal. Cost Type No.  ;Code20        ;TableRelation="Cost Type";
+                                                   OnValidate=BEGIN
+                                                                IF CostType.GET("Bal. Cost Type No.") THEN BEGIN
+                                                                  CostType.TESTFIELD(Blocked,FALSE);
+                                                                  CostType.TESTFIELD(Type,CostType.Type::"Cost Type");
+                                                                  "Bal. Cost Center Code" := CostType."Cost Center Code";
+                                                                  "Bal. Cost Object Code" := CostType."Cost Object Code";
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Cost Type No.;
+                                                              ESP=Nß tipo coste saldo;
+                                                              DEA=Nummer fÅr Saldokostenart] }
+    { 10  ;   ;Bal. Cost Center Code;Code20       ;TableRelation="Cost Center";
+                                                   CaptionML=[ENU=Bal. Cost Center Code;
+                                                              ESP=C¢digo centro coste saldo;
+                                                              DEA=Code fÅr Saldokostenstelle] }
+    { 11  ;   ;Bal. Cost Object Code;Code20       ;TableRelation="Cost Object";
+                                                   CaptionML=[ENU=Bal. Cost Object Code;
+                                                              ESP=C¢digo objeto coste saldo;
+                                                              DEA=Code fÅr SaldokostentrÑger] }
+    { 12  ;   ;Delete after Posting;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Delete after Posting;
+                                                              ESP=Eliminar despuÇs del registro;
+                                                              DEA=Nach Buchung lîschen] }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Name              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      CostType@1000 : Record 1103;
+
+    BEGIN
+    END.
+  }
+}
+

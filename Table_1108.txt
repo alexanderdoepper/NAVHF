@@ -1,0 +1,99 @@
+OBJECT Table 1108 Cost Accounting Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cost Accounting Setup;
+               ESP=Configuraci¢n contabilidad costes;
+               DEA=Kostenrechnungseinrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Starting Date for G/L Transfer;Date;OnValidate=BEGIN
+                                                                CostRegister.SETRANGE(Source,CostRegister.Source::"Transfer from G/L");
+                                                                IF CostRegister.FINDFIRST THEN
+                                                                  ERROR(Text001,CostRegister."No.");
+                                                              END;
+
+                                                   CaptionML=[ENU=Starting Date for G/L Transfer;
+                                                              ESP=Fecha inicio para transferencia CG;
+                                                              DEA=Startdatum fÅr SachkontenÅbertragung] }
+    { 3   ;   ;Align G/L Account   ;Option        ;CaptionML=[ENU=Align G/L Account;
+                                                              ESP=Alinear cuenta CG;
+                                                              DEA=Sachkonto ausrichten];
+                                                   OptionCaptionML=[ENU=No Alignment,Automatic,Prompt;
+                                                                    ESP=Sin alineaci¢n,Autom†tico,Preguntar;
+                                                                    DEA=Keine Ausrichtung,Automatisch,Eingabeaufforderung];
+                                                   OptionString=No Alignment,Automatic,Prompt }
+    { 4   ;   ;Align Cost Center Dimension;Option ;CaptionML=[ENU=Align Cost Center Dimension;
+                                                              ESP=Alinear dimensi¢n centro coste;
+                                                              DEA=Kostenstellendimension ausrichten];
+                                                   OptionCaptionML=[ENU=No Alignment,Automatic,Prompt;
+                                                                    ESP=Sin alineaci¢n,Autom†tico,Preguntar;
+                                                                    DEA=Keine Ausrichtung,Automatisch,Eingabeaufforderung];
+                                                   OptionString=No Alignment,Automatic,Prompt }
+    { 5   ;   ;Align Cost Object Dimension;Option ;CaptionML=[ENU=Align Cost Object Dimension;
+                                                              ESP=Alinear dimensi¢n objeto coste;
+                                                              DEA=KostentrÑgerdimension ausrichten];
+                                                   OptionCaptionML=[ENU=No Alignment,Automatic,Prompt;
+                                                                    ESP=Sin alineaci¢n,Autom†tico,Preguntar;
+                                                                    DEA=Keine Ausrichtung,Automatisch,Eingabeaufforderung];
+                                                   OptionString=No Alignment,Automatic,Prompt }
+    { 20  ;   ;Last Allocation ID  ;Code10        ;InitValue=001;
+                                                   CaptionML=[ENU=Last Allocation ID;
+                                                              ESP=Id. £ltima asignaci¢n;
+                                                              DEA=Letzte Verteilungs-ID] }
+    { 30  ;   ;Last Allocation Doc. No.;Code20    ;InitValue=AL0001;
+                                                   CaptionML=[ENU=Last Allocation Doc. No.;
+                                                              ESP=Nß doc. £ltima asignaci¢n;
+                                                              DEA=Letzte Verteilungsbelegnr.] }
+    { 100 ;   ;Auto Transfer from G/L;Boolean     ;OnValidate=VAR
+                                                                TransferGlEntriesToCA@1000 : Codeunit 1105;
+                                                              BEGIN
+                                                                IF "Auto Transfer from G/L" THEN BEGIN
+                                                                  MODIFY;
+                                                                  TransferGlEntriesToCA.GetGLEntries;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Auto Transfer from G/L;
+                                                              ESP=Transf. autom. desde CG;
+                                                              DEA=Automatische öbertragung aus Sachkonten] }
+    { 120 ;   ;Check G/L Postings  ;Boolean       ;CaptionML=[ENU=Check G/L Postings;
+                                                              ESP=Comprobar registros CG;
+                                                              DEA=Fibu-Buchungen prÅfen] }
+    { 205 ;   ;Cost Center Dimension;Code20       ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Cost Center Dimension;
+                                                              ESP=Dimensi¢n centro coste;
+                                                              DEA=Kostenstellendimension] }
+    { 206 ;   ;Cost Object Dimension;Code20       ;TableRelation=Dimension;
+                                                   CaptionML=[ENU=Cost Object Dimension;
+                                                              ESP=Dimensi¢n objeto coste;
+                                                              DEA=KostentrÑgerdimension] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      CostRegister@1000 : Record 1105;
+      Text001@1001 : TextConst 'ENU=The starting date can no longer be defined. According to Register No. %1, general ledger entries have already been transferred to Cost Accounting.;ESP=La fecha inicial ya no se puede definir. Seg£n el reg. nß %1, los movimientos de contabilidad ya se han transferido a contabilidad de costes.;DEA=Das Startdatum kann nicht mehr definiert werden. Laut Journalnummer %1 wurden bereits Sachposten in die Kostenrechnung Åbertragen.';
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,39 @@
+OBJECT Table 2000000112 Server Instance
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:09;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Instancia de servidor;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Server Instance ID  ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=ESP=Id. instancia de servidor }
+    { 2   ;   ;Service Name        ;Text250       ;CaptionML=ESP=Nombre del servicio }
+    { 3   ;   ;Server Computer Name;Text250       ;CaptionML=ESP=Nombre equipo servidor }
+    { 4   ;   ;Last Active         ;DateTime      ;Volatile=Yes;
+                                                   CaptionML=ESP=Activo por £lt. vez }
+    { 5   ;   ;Server Instance Name;Text250       ;CaptionML=ESP=Nombre instancia servidor }
+    { 6   ;   ;Server Port         ;Integer       ;CaptionML=ESP=Puerto de servidor }
+  }
+  KEYS
+  {
+    {    ;Server Instance ID                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

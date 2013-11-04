@@ -1,0 +1,95 @@
+OBJECT Report 11112 Update VAT Statement Template
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Update VAT Statement Template;
+               DEA=MwSt.-Abrechnungsvorlage aktualisieren];
+    ProcessingOnly=Yes;
+    OnInitReport=BEGIN
+                   TemplateName := 'UVA-2009';
+                   TemplateDescription := 'ôsterreichische MWST ab 2009';
+                 END;
+
+  }
+  DATASET
+  {
+    { 5444;    ;DataItem;                    ;
+               DataItemTable=Table2000000026;
+               DataItemTableView=SORTING(Number);
+               MaxIteration=1;
+               OnAfterGetRecord=VAR
+                                  UpdateVATStatementAT@1160000 : Codeunit 11110;
+                                BEGIN
+                                  IF TemplateName <> '' THEN
+                                    UpdateVATStatementAT.UpdateVATStatementTemplate(TemplateName,TemplateDescription)
+                                  ELSE
+                                    ERROR(Text1160000);
+                                END;
+                                 }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 1160001;2;Field     ;
+                  Name=VATStatementTemplateName;
+                  CaptionML=[ENU=VAT Statement Template Name;
+                             DEA=Name der MwSt.-Abrechnungsvorlage];
+                  SourceExpr=TemplateName;
+                  TableRelation="VAT Statement Template";
+                  OnValidate=BEGIN
+                               TemplateNameOnAfterValidate;
+                             END;
+                              }
+
+      { 1160003;2;Field     ;
+                  Name=Description;
+                  CaptionML=[ENU=Description;
+                             DEA=Beschreibung];
+                  SourceExpr=TemplateDescription }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1160000@1160000 : TextConst 'ENU=Please specify a VAT Statement Template Name.;DEA=Geben Sie einen Namen fÅr die MwSt.-Abrechnungsvorlage an.';
+      TemplateName@1160001 : Code[10];
+      TemplateDescription@1160002 : Text[80];
+
+    LOCAL PROCEDURE TemplateNameOnAfterValidate@19062792();
+    VAR
+      VATStatementTemplate@1101100000 : Record 255;
+    BEGIN
+      IF VATStatementTemplate.GET(TemplateName) THEN
+        TemplateDescription := VATStatementTemplate.Description;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

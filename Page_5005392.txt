@@ -1,0 +1,96 @@
+OBJECT Page 5005392 Report Selection - Comf. Invt.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Report Selection - Comf. Invt.;
+               DEA=Berichtsauswahlen - Komf. Inv.];
+    SaveValues=Yes;
+    SourceTable=Table26100;
+    PageType=Worksheet;
+    OnOpenPage=BEGIN
+                 SetUsageFilter;
+               END;
+
+    OnNewRecord=BEGIN
+                  NewRecord;
+                END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140012;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140000;2;Field     ;
+                CaptionML=[ENU=Usage;
+                           DEA=Verwendung];
+                OptionCaptionML=[ENU=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order;
+                                 DEA=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order];
+                SourceExpr=ReportUsage2;
+                OnValidate=BEGIN
+                             SetUsageFilter;
+                             ReportUsage2OnAfterValidate;
+                           END;
+                            }
+
+    { 1140002;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Sequence }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Report ID";
+                LookupPageID=Objects }
+
+    { 1140007;2;Field     ;
+                DrillDown=No;
+                SourceExpr="Report Name";
+                LookupPageID=Objects }
+
+  }
+  CODE
+  {
+    VAR
+      ReportUsage2@1140001 : 'Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order';
+
+    LOCAL PROCEDURE SetUsageFilter@1140000();
+    BEGIN
+      FILTERGROUP(2);
+      CASE ReportUsage2 OF
+        ReportUsage2::"Phys. Invt. Order Test":
+          SETRANGE(Usage,Usage::"Phys. Invt. Order Test");
+        ReportUsage2::"Phys. Invt. Order":
+          SETRANGE(Usage,Usage::"Phys. Invt. Order");
+        ReportUsage2::"Posted Phys. Invt. Order":
+          SETRANGE(Usage,Usage::"Posted Phys. Invt. Order");
+        ReportUsage2::"Phys. Invt. Recording":
+          SETRANGE(Usage,Usage::"Phys. Invt. Recording");
+        ReportUsage2::"Posted Phys. Invt. Recording":
+          SETRANGE(Usage,Usage::"Posted Phys. Invt. Recording");
+        ReportUsage2::"S.Arch. Blanket Order":
+          SETRANGE(Usage,Usage::"S.Arch. Blanket Order");
+      END;
+      FILTERGROUP(0);
+    END;
+
+    LOCAL PROCEDURE ReportUsage2OnAfterValidate@19038799();
+    BEGIN
+      CurrPage.UPDATE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,67 @@
+OBJECT Page 5005363 Posted Phys. Invt. Rec. List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Posted Phys. Invt. Rec. List;
+               DEA=Geb. InventurerfassungsÅbersicht];
+    SourceTable=Table5005356;
+    PageType=List;
+    CardPageID=Posted Phys. Invt. Recording;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1902051106;1 ;Action    ;
+                      CaptionML=[ENU=Posted Phys. Invt. Recording;
+                                 DEA=Geb. Inventurerfassung];
+                      RunObject=Report 5005354;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Order No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Recording No." }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Person Responsible" }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Date Recorded" }
+
+    { 1140011;2;Field     ;
+                SourceExpr="Time Recorded" }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Person Recorded" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

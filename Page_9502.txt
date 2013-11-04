@@ -1,0 +1,91 @@
+OBJECT Page 9502 Debugger Callstack FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Debugger Callstack FactBox;
+               ESP=Cuadro informativo de pila de llamadas de depurador;
+               DEA=Debugger-Aufrufliste (Infobox)];
+    LinksAllowed=No;
+    SourceTable=Table2000000101;
+    PageType=ListPart;
+    OnAfterGetCurrRecord=BEGIN
+                           IF Update AND (ID = 1) THEN BEGIN
+                             SETRANGE(ID);
+                             Update := FALSE;
+                           END;
+                           CurrentCallstack := Rec;
+                         END;
+
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 3   ;2   ;Field     ;
+                CaptionML=[ENU=Object Type;
+                           ESP=Tipo objeto;
+                           DEA=Objektart];
+                SourceExpr="Object Type" }
+
+    { 4   ;2   ;Field     ;
+                CaptionML=[ENU=Object ID;
+                           ESP=Id. objeto;
+                           DEA=Objekt-ID];
+                SourceExpr="Object ID" }
+
+    { 5   ;2   ;Field     ;
+                CaptionML=[ENU=Object Name;
+                           ESP=Nombre objeto;
+                           DEA=Objektname];
+                SourceExpr="Object Name" }
+
+    { 6   ;2   ;Field     ;
+                CaptionML=[ENU=Function Name;
+                           ESP=Nombre de funci¢n;
+                           DEA=Funktionsname];
+                SourceExpr="Function Name" }
+
+    { 7   ;2   ;Field     ;
+                CaptionML=[ENU=Line No.;
+                           ESP=N§ l¡nea;
+                           DEA=Zeilennr.];
+                SourceExpr="Line No." }
+
+  }
+  CODE
+  {
+    VAR
+      CurrentCallstack@1000 : Record 2000000101;
+      Update@1001 : Boolean;
+
+    PROCEDURE GetCurrentCallstack@1(VAR CurrentCallstackRec@1000 : Record 2000000101);
+    BEGIN
+      CurrentCallstackRec := CurrentCallstack;
+    END;
+
+    PROCEDURE ResetCallstackToTop@2();
+    BEGIN
+      IF CurrentCallstack.ID <> 1 THEN BEGIN
+        SETRANGE(ID,1,1);
+        CurrPage.UPDATE;
+        Update := TRUE;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

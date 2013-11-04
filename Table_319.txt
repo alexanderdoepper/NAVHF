@@ -1,0 +1,52 @@
+OBJECT Table 319 Tax Area Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Tax Area Line;
+               ESP=L¡n.  rea impuesto;
+               DEA=Steuergebietszeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Tax Area            ;Code20        ;TableRelation="Tax Area";
+                                                   CaptionML=[ENU=Tax Area;
+                                                              ESP=Area impuesto;
+                                                              DEA=Steuergebiet] }
+    { 2   ;   ;Tax Jurisdiction Code;Code10       ;TableRelation="Tax Jurisdiction";
+                                                   CaptionML=[ENU=Tax Jurisdiction Code;
+                                                              ESP=C¢d. jurisdicci¢n impuesto;
+                                                              DEA=Steuerzust„ndigkeitscode];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Jurisdiction Description;Text50    ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup("Tax Jurisdiction".Description WHERE (Code=FIELD(Tax Jurisdiction Code)));
+                                                   CaptionML=[ENU=Jurisdiction Description;
+                                                              ESP=Descripci¢n jurisdicci¢n;
+                                                              DEA=Zust„ndigkeitsbeschreibung];
+                                                   Editable=No }
+    { 4   ;   ;Calculation Order   ;Integer       ;CaptionML=[ENU=Calculation Order;
+                                                              ESP=Orden c lculo;
+                                                              DEA=Berechnungsreihenfolge] }
+  }
+  KEYS
+  {
+    {    ;Tax Area,Tax Jurisdiction Code          ;Clustered=Yes }
+    {    ;Tax Jurisdiction Code                    }
+    {    ;Tax Area,Calculation Order               }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

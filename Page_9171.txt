@@ -1,0 +1,123 @@
+OBJECT Page 9171 Profile List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Profile List;
+               ESP=Lista de perfiles;
+               DEA=ProfilÅbersicht];
+    SourceTable=Table2000000072;
+    PageType=List;
+    CardPageID=Profile Card;
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1102601007;1 ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 ESP=F&unciones;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1102601008;2 ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Copy Profile;
+                                 ESP=Copiar perfil;
+                                 DEA=Profil kopieren];
+                      Image=Copy;
+                      OnAction=VAR
+                                 Profile@1035 : Record 2000000072;
+                                 CopyProfile@1034 : Report 9170;
+                               BEGIN
+                                 Profile.SETRANGE("Profile ID","Profile ID");
+                                 CopyProfile.SETTABLEVIEW(Profile);
+                                 CopyProfile.RUNMODAL;
+
+                                 IF GET(CopyProfile.GetProfileID) THEN;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 2   ;2   ;Field     ;
+                CaptionML=[ENU=Profile ID;
+                           ESP=Id. perfil;
+                           DEA=Profil-ID];
+                SourceExpr="Profile ID" }
+
+    { 6   ;2   ;Field     ;
+                DrillDown=No;
+                CaptionML=[ENU=Owner ID;
+                           ESP=Id. de propietario;
+                           DEA=Besitzer-ID];
+                SourceExpr="Owner ID" }
+
+    { 8   ;2   ;Field     ;
+                CaptionML=[ENU=Description;
+                           ESP=Descripci¢n;
+                           DEA=Beschreibung];
+                SourceExpr=Description }
+
+    { 15  ;2   ;Field     ;
+                Lookup=No;
+                CaptionML=[ENU=Role Center ID;
+                           ESP=Id. †rea de trabajo;
+                           DEA=Rollencenter-ID];
+                BlankZero=Yes;
+                SourceExpr="Role Center ID" }
+
+    { 1102601000;2;Field  ;
+                CaptionML=[ENU=Default Role Center;
+                           ESP=µrea de trabajo predeterminada;
+                           DEA=Standardrollencenter];
+                SourceExpr="Default Role Center" }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Disable Personalization" }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Use Record Notes" }
+
+    { 7   ;2   ;Field     ;
+                SourceExpr="Record Notebook" }
+
+    { 9   ;2   ;Field     ;
+                SourceExpr="Use Page Notes" }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Page Notebook" }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

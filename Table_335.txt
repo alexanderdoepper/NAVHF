@@ -1,0 +1,71 @@
+OBJECT Table 335 Resource Price Change
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Resource Price Change;
+               ESP=Cambio precio recurso;
+               DEA=Ressourcen-VK-Preisvorschlag];
+    LookupPageID=Page493;
+    DrillDownPageID=Page493;
+  }
+  FIELDS
+  {
+    { 2   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Resource,Group(Resource),All;
+                                                                    ESP=Recurso,Fam. recurso,Ambos;
+                                                                    DEA=Ressource,Ressourcengruppe,Alle];
+                                                   OptionString=Resource,Group(Resource),All }
+    { 3   ;   ;Code                ;Code20        ;TableRelation=IF (Type=CONST(Resource)) Resource
+                                                                 ELSE IF (Type=CONST("Group(Resource)")) "Resource Group";
+                                                   OnValidate=BEGIN
+                                                                IF (Code <> '') AND (Type = Type::All) THEN
+                                                                  FIELDERROR(Code,STRSUBSTNO(Text000,FIELDCAPTION(Type),FORMAT(Type)));
+                                                              END;
+
+                                                   CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 4   ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
+                                                   CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 5   ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 6   ;   ;Current Unit Price  ;Decimal       ;CaptionML=[ENU=Current Unit Price;
+                                                              ESP=Precio venta actual;
+                                                              DEA=Aktueller VK-Preis];
+                                                   AutoFormatType=2;
+                                                   AutoFormatExpr="Currency Code" }
+    { 7   ;   ;New Unit Price      ;Decimal       ;CaptionML=[ENU=New Unit Price;
+                                                              ESP=Nuevo precio venta;
+                                                              DEA=Neuer VK-Preis];
+                                                   AutoFormatType=2;
+                                                   AutoFormatExpr="Currency Code" }
+  }
+  KEYS
+  {
+    {    ;Type,Code,Work Type Code,Currency Code  ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=cannot be specified when %1 is %2;ESP=No se puede indicar cuando %1 es %2.;DEA=darf nicht angegeben werden wenn %1 %2 ist';
+
+    BEGIN
+    END.
+  }
+}
+

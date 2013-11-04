@@ -1,0 +1,53 @@
+OBJECT Table 2000000111 Session Event
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Evento de sesi¢n;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User SID            ;GUID          ;TableRelation=User."User Security ID";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=SID usuario }
+    { 2   ;   ;Server Instance ID  ;Integer       ;TableRelation="Server Instance"."Server Instance ID";
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=ESP=Id. instancia de servidor }
+    { 3   ;   ;Session ID          ;Integer       ;CaptionML=ESP=Id. sesi¢n }
+    { 4   ;   ;Event Type          ;Option        ;CaptionML=ESP=Tipo evento;
+                                                   OptionCaptionML=ESP=Inicio sesi¢n,Fin sesi¢n,Iniciar,Detener,Cerrar;
+                                                   OptionString=Logon,Logoff,Start,Stop,Close }
+    { 5   ;   ;Event Datetime      ;DateTime      ;CaptionML=ESP=Valor DateTime evento }
+    { 6   ;   ;Client Type         ;Option        ;CaptionML=ESP=Tipo cliente;
+                                                   OptionCaptionML=ESP=Cliente Windows,Cliente SharePoint,Servicio web,Servicio cliente,NAS,Segundo plano,Cliente admin.,Cliente web,Desconocido;
+                                                   OptionString=Windows Client,SharePoint Client,Web Service,Client Service,NAS,Background,Management Client,Web Client,Unknown }
+    { 7   ;   ;Database Name       ;Text250       ;CaptionML=ESP=Nombre base de datos }
+    { 8   ;   ;Client Computer Name;Text250       ;CaptionML=ESP=Nombre equipo cliente }
+    { 9   ;   ;User ID             ;Text132       ;CaptionML=ESP=Id. usuario }
+    { 10  ;   ;Comment             ;Text132       ;CaptionML=ESP=Comentario }
+  }
+  KEYS
+  {
+    {    ;User SID,Server Instance ID,Session ID,Event Datetime,Event Type;
+                                                   Clustered=Yes }
+    {    ;Event Datetime                           }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

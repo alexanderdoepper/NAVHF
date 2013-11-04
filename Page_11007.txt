@@ -1,0 +1,87 @@
+OBJECT Page 11007 Data Exp. Table Relationship
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Table Relationship;
+               DEA=Tabellenbeziehung fÅr Datenexport];
+    InsertAllowed=No;
+    SourceTable=Table11004;
+    DataCaptionExpr=GetCaption;
+    DataCaptionFields=Data Exp. Rec. Type Code;
+    PageType=Document;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140002;1;Group     ;
+                CaptionML=[ENU=General;
+                           DEA=Allgemein] }
+
+    { 1140003;2;Field     ;
+                Lookup=No;
+                CaptionML=[ENU=From Table No.;
+                           DEA=Von Tabellennr.];
+                SourceExpr="Relation To Table No.";
+                Editable=FALSE }
+
+    { 1140005;2;Field     ;
+                DrillDown=No;
+                CaptionML=[ENU=From Table Name;
+                           DEA=Von Tabellenname];
+                SourceExpr="Relation To Table Name";
+                Editable=FALSE }
+
+    { 1140009;2;Field     ;
+                Name=ToTableID;
+                Lookup=No;
+                CaptionML=[ENU=To Table No.;
+                           DEA=Zu Tabellennr.];
+                SourceExpr="Table No.";
+                TableRelation=Object.ID WHERE (Type=CONST(Table));
+                Editable=FALSE;
+                LookupPageID=Objects }
+
+    { 1140007;2;Field     ;
+                DrillDown=No;
+                CaptionML=[ENU=To Table Name;
+                           DEA=Zu Tabellenname];
+                SourceExpr="Table Name";
+                Editable=FALSE }
+
+    { 1140001;1;Part      ;
+                Name=Relationships;
+                CaptionML=[ENU=Relationships;
+                           DEA=Verbindungen];
+                SubPageView=SORTING(Data Export Code,Data Exp. Rec. Type Code,From Table No.,From Field No.,To Table No.,To Field No.);
+                SubPageLink=Data Export Code=FIELD(Data Export Code),
+                            Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code),
+                            From Table No.=FIELD(Relation To Table No.),
+                            To Table No.=FIELD(Table No.);
+                PagePartID=Page11008;
+                PartType=Page }
+
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE GetCaption@1140000() : Text[250];
+    VAR
+      GDPdURecordCode@1140000 : Record 11007;
+    BEGIN
+      IF GDPdURecordCode.GET("Data Exp. Rec. Type Code") THEN
+        EXIT(GDPdURecordCode.Code + ' ' + GDPdURecordCode.Description);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

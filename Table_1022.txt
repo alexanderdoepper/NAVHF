@@ -1,0 +1,92 @@
+OBJECT Table 1022 Job Planning Line Invoice
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job Planning Line Invoice;
+               ESP=Factura l°nea planificaci¢n proyecto;
+               DEA=Rechnung fÅr Projektplanungszeile];
+    LookupPageID=Page1029;
+    DrillDownPageID=Page1029;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Job No.             ;Code20        ;TableRelation="Job Planning Line"."Job No.";
+                                                   CaptionML=[ENU=Job No.;
+                                                              ESP=Nß proyecto;
+                                                              DEA=Projektnr.];
+                                                   Editable=No }
+    { 2   ;   ;Job Task No.        ;Code20        ;TableRelation="Job Planning Line"."Job Task No.";
+                                                   CaptionML=[ENU=Job Task No.;
+                                                              ESP=Nß tarea proyecto;
+                                                              DEA=Projektaufgabennr.];
+                                                   Editable=No }
+    { 3   ;   ;Job Planning Line No.;Integer      ;TableRelation="Job Planning Line"."Line No.";
+                                                   CaptionML=[ENU=Job Planning Line No.;
+                                                              ESP=Nß l°nea planificaci¢n proyecto;
+                                                              DEA=Projektplanzeilennr.];
+                                                   Editable=No }
+    { 4   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=" ,Invoice,Credit Memo,Posted Invoice,Posted Credit Memo";
+                                                                    ESP=" ,Factura,Abono,Factura registrada,Abono registrado";
+                                                                    DEA=" ,Rechnung,Gutschrift,Gebuchte Rechnung,Gebuchte Gutschrift"];
+                                                   OptionString=[ ,Invoice,Credit Memo,Posted Invoice,Posted Credit Memo];
+                                                   Editable=No }
+    { 5   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.];
+                                                   Editable=No }
+    { 6   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 7   ;   ;Quantity Transferred;Decimal       ;CaptionML=[ENU=Quantity Transferred;
+                                                              ESP=Cantidad transferida;
+                                                              DEA=Umgelagerte Menge];
+                                                   Editable=No }
+    { 8   ;   ;Transferred Date    ;Date          ;CaptionML=[ENU=Transferred Date;
+                                                              ESP=Fecha de transferencia;
+                                                              DEA=Umlagerungsdatum];
+                                                   Editable=No }
+    { 9   ;   ;Invoiced Date       ;Date          ;CaptionML=[ENU=Invoiced Date;
+                                                              ESP=Fecha de facturaci¢n;
+                                                              DEA=Fakturierungsdatum];
+                                                   Editable=No }
+    { 10  ;   ;Invoiced Amount (LCY);Decimal      ;CaptionML=[ENU=Invoiced Amount (LCY);
+                                                              ESP=Importe facturado (DL);
+                                                              DEA=Fakturierter Betrag (MW)];
+                                                   Editable=No }
+    { 11  ;   ;Invoiced Cost Amount (LCY);Decimal ;CaptionML=[ENU=Invoiced Cost Amount (LCY);
+                                                              ESP=Importe coste facturado (DL);
+                                                              DEA=Fakturierter Einstandsbetrag (MW)];
+                                                   Editable=No }
+    { 12  ;   ;Job Ledger Entry No.;Integer       ;TableRelation="Job Ledger Entry";
+                                                   CaptionML=[ENU=Job Ledger Entry No.;
+                                                              ESP=Nß mov. proyecto;
+                                                              DEA=Projektpostennr.];
+                                                   BlankZero=Yes;
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Job No.,Job Task No.,Job Planning Line No.,Document Type,Document No.,Line No.;
+                                                   SumIndexFields=Quantity Transferred,Invoiced Amount (LCY),Invoiced Cost Amount (LCY);
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

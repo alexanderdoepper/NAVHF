@@ -1,0 +1,72 @@
+OBJECT Table 180 G/L Account Where-Used
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=G/L Account Where-Used;
+               ESP=Puntos-de-uso cuenta;
+               DEA=Sachkontoverwendung];
+    LookupPageID=Page99;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
+                                                              ESP=Nｧ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 3   ;   ;Table Name          ;Text150       ;CaptionML=[ENU=Table Name;
+                                                              ESP=Nombre tabla;
+                                                              DEA=Tabellenname] }
+    { 5   ;   ;Field Name          ;Text150       ;CaptionML=[ENU=Field Name;
+                                                              ESP=Nombre de campo;
+                                                              DEA=Feldname] }
+    { 6   ;   ;Line                ;Text250       ;CaptionML=[ENU=Line;
+                                                              ESP=L｡nea;
+                                                              DEA=Zeile] }
+    { 7   ;   ;G/L Account No.     ;Code20        ;CaptionML=[ENU=G/L Account No.;
+                                                              ESP=Nｧ cuenta;
+                                                              DEA=Sachkontonr.] }
+    { 8   ;   ;G/L Account Name    ;Text50        ;CaptionML=[ENU=G/L Account Name;
+                                                              ESP=Nombre cuenta;
+                                                              DEA=Sachkontoname] }
+    { 9   ;   ;Key 1               ;Text50        ;CaptionML=[ENU=Key 1;
+                                                              ESP=Clave 1;
+                                                              DEA=Schl《sel 1] }
+    { 10  ;   ;Key 2               ;Text50        ;CaptionML=[ENU=Key 2;
+                                                              ESP=Clave 2;
+                                                              DEA=Schl《sel 2] }
+    { 11  ;   ;Key 3               ;Text50        ;CaptionML=[ENU=Key 3;
+                                                              ESP=Clave 3;
+                                                              DEA=Schl《sel 3] }
+    { 12  ;   ;Key 4               ;Text50        ;CaptionML=[ENU=Key 4;
+                                                              ESP=Clave 4;
+                                                              DEA=Schl《sel 4] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Table Name                               }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE Caption@1() : Text[100];
+    BEGIN
+      EXIT(STRSUBSTNO('%1 %2',"G/L Account No.","G/L Account Name"));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

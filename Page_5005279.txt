@@ -1,0 +1,54 @@
+OBJECT Page 5005279 Delivery Reminder Terms
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Terms;
+               DEA=Lieferanmahnungsmethoden];
+    SourceTable=Table5005276;
+    PageType=List;
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140010 ;1   ;Action    ;
+                      CaptionML=[ENU=&Levels;
+                                 DEA=&Stufen];
+                      RunObject=Page 5005281;
+                      RunPageLink=Reminder Terms Code=FIELD(Code);
+                      Promoted=Yes;
+                      Image=ReminderTerms;
+                      PromotedCategory=Process }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr=Code }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Max. No. of Delivery Reminders" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,82 @@
+OBJECT Table 8626 Config. Package Filter
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Package Filter;
+               ESP=Filtro de paquete de configuraci¢n;
+               DEA=Paketfilter konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Package Code        ;Code20        ;TableRelation="Config. Package";
+                                                   CaptionML=[ENU=Package Code;
+                                                              ESP=C¢digo de paquete;
+                                                              DEA=Paketcode] }
+    { 2   ;   ;Table ID            ;Integer       ;CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID] }
+    { 5   ;   ;Field ID            ;Integer       ;OnValidate=VAR
+                                                                Field@1000 : Record 2000000041;
+                                                              BEGIN
+                                                                Field.GET("Table ID","Field ID");
+                                                                "Field Caption" := Field."Field Caption";
+                                                              END;
+
+                                                   CaptionML=[ENU=Field ID;
+                                                              ESP=Id. campo;
+                                                              DEA=Feld-ID] }
+    { 6   ;   ;Field Name          ;Text30        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field.FieldName WHERE (TableNo=FIELD(Table ID),
+                                                                                             No.=FIELD(Field ID)));
+                                                   CaptionML=[ENU=Field Name;
+                                                              ESP=Nombre de campo;
+                                                              DEA=Feldname];
+                                                   Editable=No }
+    { 7   ;   ;Field Caption       ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(Table ID),
+                                                                                                   No.=FIELD(Field ID)));
+                                                   CaptionML=[ENU=Field Caption;
+                                                              ESP=T¡tulo campo;
+                                                              DEA=Feldbezeichnung];
+                                                   Editable=No }
+    { 8   ;   ;Field Filter        ;Text250       ;OnValidate=BEGIN
+                                                                ValidateFieldFilter;
+                                                              END;
+
+                                                   CaptionML=[ENU=Field Filter;
+                                                              ESP=Filtro de campo;
+                                                              DEA=Feldfilter] }
+  }
+  KEYS
+  {
+    {    ;Package Code,Table ID,Field ID          ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE ValidateFieldFilter@1();
+    VAR
+      RecRef@1000 : RecordRef;
+      FieldRef@1001 : FieldRef;
+    BEGIN
+      RecRef.OPEN("Table ID");
+      IF "Field Filter" <> '' THEN BEGIN
+        FieldRef := RecRef.FIELD("Field ID");
+        FieldRef.SETFILTER("Field Filter");
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

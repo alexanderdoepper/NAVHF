@@ -1,0 +1,147 @@
+OBJECT Table 50 Accounting Period
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               AccountingPeriod2 := Rec;
+               IF AccountingPeriod2.FIND('>') THEN
+                 AccountingPeriod2.TESTFIELD("Date Locked",FALSE);
+               UpdateAvgItems(1);
+             END;
+
+    OnModify=BEGIN
+               UpdateAvgItems(2);
+             END;
+
+    OnDelete=BEGIN
+               TESTFIELD("Date Locked",FALSE);
+               UpdateAvgItems(3);
+             END;
+
+    OnRename=BEGIN
+               TESTFIELD("Date Locked",FALSE);
+               AccountingPeriod2 := Rec;
+               IF AccountingPeriod2.FIND('>') THEN
+                 AccountingPeriod2.TESTFIELD("Date Locked",FALSE);
+               UpdateAvgItems(4);
+             END;
+
+    CaptionML=[ENU=Accounting Period;
+               ESP=Periodo contable;
+               DEA=Buchhaltungsperiode];
+    LookupPageID=Page100;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Starting Date       ;Date          ;OnValidate=BEGIN
+                                                                Name := FORMAT("Starting Date",0,Text000);
+                                                              END;
+
+                                                   CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Name                ;Text10        ;CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 3   ;   ;New Fiscal Year     ;Boolean       ;OnValidate=BEGIN
+                                                                TESTFIELD("Date Locked",FALSE);
+                                                                IF "New Fiscal Year" THEN BEGIN
+                                                                  IF NOT InvtSetup.GET THEN
+                                                                    EXIT;
+                                                                  "Average Cost Calc. Type" := InvtSetup."Average Cost Calc. Type";
+                                                                  "Average Cost Period" := InvtSetup."Average Cost Period";
+                                                                END ELSE BEGIN
+                                                                  "Average Cost Calc. Type" := "Average Cost Calc. Type"::" ";
+                                                                  "Average Cost Period" := "Average Cost Period"::" ";
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=New Fiscal Year;
+                                                              ESP=Principio ejercicio;
+                                                              DEA=Neues Gesch„ftsjahr] }
+    { 4   ;   ;Closed              ;Boolean       ;CaptionML=[ENU=Closed;
+                                                              ESP=Cerrado;
+                                                              DEA=Abgeschlossen];
+                                                   Editable=No }
+    { 5   ;   ;Date Locked         ;Boolean       ;CaptionML=[ENU=Date Locked;
+                                                              ESP=Fecha inicial bloqueada;
+                                                              DEA=Datum gesperrt];
+                                                   Editable=No }
+    { 5804;   ;Average Cost Calc. Type;Option     ;CaptionML=[ENU=Average Cost Calc. Type;
+                                                              ESP=Tipo c lculo cte. medio;
+                                                              DEA=Einst.-Pr.(durchschn.)Ber.-Art];
+                                                   OptionCaptionML=[ENU=" ,Item,Item & Location & Variant";
+                                                                    ESP=" ,Producto,Producto y almac‚n y variante";
+                                                                    DEA=" ,Artikel,Artikel & Lagerort & Variante"];
+                                                   OptionString=[ ,Item,Item & Location & Variant];
+                                                   Editable=No }
+    { 5805;   ;Average Cost Period ;Option        ;CaptionML=[ENU=Average Cost Period;
+                                                              ESP=Periodo coste medio;
+                                                              DEA=Durchschnittskostenperiode];
+                                                   OptionCaptionML=[ENU=" ,Day,Week,Month,Quarter,Year,Accounting Period";
+                                                                    ESP=" ,D¡a,Semana,Mes,Trimestre,A¤o,Periodo contable";
+                                                                    DEA=" ,Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode"];
+                                                   OptionString=[ ,Day,Week,Month,Quarter,Year,Accounting Period];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Starting Date                           ;Clustered=Yes }
+    {    ;New Fiscal Year,Date Locked              }
+    {    ;Closed                                   }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=<Month Text>;ESP=<Month Text>;DEA=<Month Text>';
+      AccountingPeriod2@1001 : Record 50;
+      InvtSetup@1002 : Record 313;
+
+    PROCEDURE UpdateAvgItems@1(UpdateType@1005 : Option);
+    VAR
+      ChangeAvgCostSetting@1002 : Codeunit 5810;
+    BEGIN
+      ChangeAvgCostSetting.UpdateAvgCostFromAccPeriodChg(Rec,xRec,UpdateType);
+    END;
+
+    PROCEDURE GetFiscalYearEndDate@9(ReferenceDate@1000 : Date) : Date;
+    VAR
+      AccountingPeriod@1001 : Record 50;
+    BEGIN
+      WITH AccountingPeriod DO BEGIN
+        SETRANGE("New Fiscal Year",TRUE);
+        SETRANGE("Starting Date",0D,ReferenceDate);
+        IF FINDLAST THEN
+          SETRANGE("Starting Date");
+        IF FIND('>') THEN
+          EXIT("Starting Date" - 1);
+      END;
+    END;
+
+    PROCEDURE GetFiscalYearStartDate@10(ReferenceDate@1000 : Date) : Date;
+    VAR
+      AccountingPeriod@1001 : Record 50;
+    BEGIN
+      WITH AccountingPeriod DO BEGIN
+        SETRANGE("New Fiscal Year",TRUE);
+        SETRANGE("Starting Date",0D,ReferenceDate);
+        IF FINDLAST THEN
+          EXIT("Starting Date")
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

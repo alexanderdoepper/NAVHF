@@ -1,0 +1,118 @@
+OBJECT Table 93 Vendor Posting Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Vendor Posting Group;
+               ESP=Grupo contable proveedor;
+               DEA=Kreditorenbuchungsgruppe];
+    LookupPageID=Page111;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Payables Account    ;Code20        ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                CheckGLAcc("Payables Account",FALSE,FALSE);
+                                                              END;
+
+                                                   CaptionML=[ENU=Payables Account;
+                                                              ESP=Cta. proveedor;
+                                                              DEA=Kreditorensammelkonto] }
+    { 7   ;   ;Service Charge Acc. ;Code20        ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                CheckGLAcc("Service Charge Acc.",TRUE,TRUE);
+                                                              END;
+
+                                                   CaptionML=[ENU=Service Charge Acc.;
+                                                              ESP=Cta. servicios;
+                                                              DEA=ServicegebÅhrenkonto] }
+    { 8   ;   ;Payment Disc. Debit Acc.;Code20    ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                CheckGLAcc("Payment Disc. Debit Acc.",FALSE,FALSE);
+                                                              END;
+
+                                                   CaptionML=[ENU=Payment Disc. Debit Acc.;
+                                                              ESP=Cta. debe dto. P.P.;
+                                                              DEA=Skonto Sollkonto] }
+    { 9   ;   ;Invoice Rounding Account;Code20    ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                CheckGLAcc("Invoice Rounding Account",TRUE,FALSE);
+                                                              END;
+
+                                                   CaptionML=[ENU=Invoice Rounding Account;
+                                                              ESP=Cta. redondeo factura;
+                                                              DEA=Rechnungsrundungskonto] }
+    { 10  ;   ;Debit Curr. Appln. Rndg. Acc.;Code20;
+                                                   TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Debit Curr. Appln. Rndg. Acc.;
+                                                              ESP=Cta. neg. red. liquids. divisa;
+                                                              DEA=WÑhrungsausgl. Rund.-Sollkto.] }
+    { 11  ;   ;Credit Curr. Appln. Rndg. Acc.;Code20;
+                                                   TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Credit Curr. Appln. Rndg. Acc.;
+                                                              ESP=Cta. pos. red. liquids. divisa;
+                                                              DEA=WÑhrungsausgl. Rund.-Habenkto.] }
+    { 12  ;   ;Debit Rounding Account;Code20      ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Debit Rounding Account;
+                                                              ESP=Cta. neg. redondeo;
+                                                              DEA=Sollrundungskonto] }
+    { 13  ;   ;Credit Rounding Account;Code20     ;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Credit Rounding Account;
+                                                              ESP=Cta. pos. redondeo;
+                                                              DEA=Habenrundungskonto] }
+    { 16  ;   ;Payment Disc. Credit Acc.;Code20   ;TableRelation="G/L Account";
+                                                   OnValidate=BEGIN
+                                                                CheckGLAcc("Payment Disc. Credit Acc.",FALSE,FALSE);
+                                                              END;
+
+                                                   CaptionML=[ENU=Payment Disc. Credit Acc.;
+                                                              ESP=Cta. haber dto. P.P.;
+                                                              DEA=Skonto Habenkonto] }
+    { 17  ;   ;Payment Tolerance Debit Acc.;Code20;TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Payment Tolerance Debit Acc.;
+                                                              ESP=Cuenta debe tolerancia pago;
+                                                              DEA=Zahlungstoleranz Sollkonto] }
+    { 18  ;   ;Payment Tolerance Credit Acc.;Code20;
+                                                   TableRelation="G/L Account";
+                                                   CaptionML=[ENU=Payment Tolerance Credit Acc.;
+                                                              ESP=Cuenta haber tolerancia pago;
+                                                              DEA=Zahlungstoleranz Habenkonto] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    LOCAL PROCEDURE CheckGLAcc@2(AccNo@1000 : Code[20];CheckProdPostingGroup@1001 : Boolean;CheckDirectPosting@1002 : Boolean);
+    VAR
+      GLAcc@1003 : Record 15;
+    BEGIN
+      IF AccNo <> '' THEN BEGIN
+        GLAcc.GET(AccNo);
+        GLAcc.CheckGLAcc;
+        IF CheckProdPostingGroup THEN
+          GLAcc.TESTFIELD("Gen. Prod. Posting Group");
+        IF CheckDirectPosting THEN
+          GLAcc.TESTFIELD("Direct Posting",TRUE);
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

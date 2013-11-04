@@ -1,0 +1,119 @@
+OBJECT Page 9063 Purchase Agent Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=AktivitÑten];
+    SourceTable=Table9055;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETFILTER("Date Filter",'>=%1',WORKDATE);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 9   ;1   ;Group     ;
+                CaptionML=[ENU=Pre-arrival Follow-up on Purchase Orders;
+                           ESP=Seguimiento previo a llegada en pedidos compra;
+                           DEA=Wiedervorlage von Rechnungen vor Eingang];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 3       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Quote;
+                                             ESP=Nueva oferta compra;
+                                             DEA=Neue Einkaufsanfrage];
+                                  RunObject=Page 49;
+                                  RunPageMode=Create }
+                  { 8       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Order;
+                                             ESP=Nuevo pedido de compra;
+                                             DEA=Neue Bestellung];
+                                  RunObject=Page 50;
+                                  RunPageMode=Create }
+                  { 7       ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Purchase Journal;
+                                             ESP=Editar diario de compras;
+                                             DEA=Einkaufs Buch.-Blatt bearbeiten];
+                                  RunObject=Page 254 }
+                }
+                 }
+
+    { 1   ;2   ;Field     ;
+                SourceExpr="To Send or Confirm";
+                DrillDownPageID=Purchase Order List }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Upcoming Orders";
+                DrillDownPageID=Purchase Order List }
+
+    { 10  ;1   ;Group     ;
+                CaptionML=[ENU=Post Arrival Follow-up;
+                           ESP=Seguim. posterior a llegada;
+                           DEA=Wiedervorlage nach Ankunft];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 16      ;0   ;Action    ;
+                                  CaptionML=[ENU=Navigate;
+                                             ESP=Navegar;
+                                             DEA=Navigate];
+                                  RunObject=Page 344;
+                                  Image=Navigate }
+                  { 17      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Return Order;
+                                             ESP=Nueva devoluci¢n compra;
+                                             DEA=Neue Einkaufsreklamation];
+                                  RunObject=Page 6640;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="Outstanding Purchase Orders";
+                DrillDownPageID=Purchase Order List }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="Purchase Return Orders - All";
+                DrillDownPageID=Purchase Return Order List }
+
+    { 18  ;1   ;Group     ;
+                CaptionML=[ENU=Purchase Orders - Authorize for Payment;
+                           ESP=Pedidos compra - Autorizar para pago;
+                           DEA=Bestellungen - FÅr Zahlung genehmigen];
+                GroupType=CueGroup }
+
+    { 19  ;2   ;Field     ;
+                SourceExpr="Not Invoiced";
+                DrillDownPageID=Purchase Order List }
+
+    { 21  ;2   ;Field     ;
+                SourceExpr="Partially Invoiced";
+                DrillDownPageID=Purchase Order List }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

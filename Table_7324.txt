@@ -1,0 +1,88 @@
+OBJECT Table 7324 Whse. Put-away Request
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Whse. Put-away Request;
+               ESP=Petici¢n ubicac. almac‚n;
+               DEA=Einlagerungsanforderung];
+    LookupPageID=Page7334;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=Receipt,Internal Put-away;
+                                                                    ESP=Recepci¢n,Ubicaci¢n interna;
+                                                                    DEA=Wareneingang,Interne Einlag.-Anforderung];
+                                                   OptionString=Receipt,Internal Put-away }
+    { 2   ;   ;Document No.        ;Code20        ;TableRelation=IF (Document Type=CONST(Receipt)) "Posted Whse. Receipt Header".No.
+                                                                 ELSE IF (Document Type=CONST(Internal Put-away)) "Whse. Internal Put-away Header".No.;
+                                                   OnLookup=VAR
+                                                              PostedWhseRcptHeader@1001 : Record 7318;
+                                                              PostedWhseRcptList@1000 : Page 7333;
+                                                              WhseInternalPutAwayHeader@1002 : Record 7331;
+                                                              WhseInternalPutAwayList@1003 : Page 7356;
+                                                            BEGIN
+                                                              IF "Document Type" = "Document Type"::Receipt THEN BEGIN
+                                                                IF PostedWhseRcptHeader.GET("Document No.") THEN
+                                                                  PostedWhseRcptList.SETRECORD(PostedWhseRcptHeader);
+                                                                PostedWhseRcptList.RUNMODAL;
+                                                                CLEAR(PostedWhseRcptList);
+                                                              END ELSE BEGIN
+                                                                IF WhseInternalPutAwayHeader.GET("Document No.") THEN
+                                                                  WhseInternalPutAwayList.SETRECORD(WhseInternalPutAwayHeader);
+                                                                WhseInternalPutAwayList.RUNMODAL;
+                                                                CLEAR(WhseInternalPutAwayList);
+                                                              END;
+                                                            END;
+
+                                                   CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 3   ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almac‚n;
+                                                              DEA=Lagerortcode] }
+    { 4   ;   ;Zone Code           ;Code10        ;TableRelation=Zone.Code WHERE (Location Code=FIELD(Location Code));
+                                                   CaptionML=[ENU=Zone Code;
+                                                              ESP=C¢d. zona;
+                                                              DEA=Zonencode] }
+    { 5   ;   ;Bin Code            ;Code20        ;TableRelation=IF (Zone Code=FILTER('')) Bin.Code WHERE (Location Code=FIELD(Location Code))
+                                                                 ELSE IF (Zone Code=FILTER(<>'')) Bin.Code WHERE (Location Code=FIELD(Location Code),
+                                                                                                                  Zone Code=FIELD(Zone Code));
+                                                   CaptionML=[ENU=Bin Code;
+                                                              ESP=C¢d. ubicaci¢n;
+                                                              DEA=Lagerplatzcode] }
+    { 7   ;   ;Completely Put Away ;Boolean       ;CaptionML=[ENU=Completely Put Away;
+                                                              ESP=Ubicado completamente;
+                                                              DEA=Komplett eingelagert] }
+    { 8   ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
+                                                              ESP=Estado;
+                                                              DEA=Status];
+                                                   OptionCaptionML=[ENU=Open,Released;
+                                                                    ESP=Abierto,Lanzado;
+                                                                    DEA=Offen,Freigegeben];
+                                                   OptionString=Open,Released }
+  }
+  KEYS
+  {
+    {    ;Document Type,Document No.              ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

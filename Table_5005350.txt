@@ -1,0 +1,394 @@
+OBJECT Table 5005350 Phys. Inventory Order Header
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=No.,Description;
+    OnInsert=BEGIN
+               InvtSetup.GET;
+
+               IF "No." = '' THEN BEGIN
+                 TestNoSeries;
+                 NoSeriesMgt.InitSeries(GetNoSeriesCode,xRec."No. Series","Order Date","No.","No. Series");
+               END;
+
+               IF PostedPhysInvOrderHeader.GET("No.") THEN
+                 ERROR(
+                   Text1140000,
+                   PostedPhysInvOrderHeader.TABLECAPTION,"No.");
+
+               InitRecord;
+             END;
+
+    OnModify=BEGIN
+               TESTFIELD(Status,Status::Open);
+             END;
+
+    OnDelete=BEGIN
+               TESTFIELD(Status,Status::Open);
+
+               TESTFIELD("No. Finished Recordings",0);
+
+               PhysInvtOrderLine.RESET;
+               PhysInvtOrderLine.SETRANGE("Document No.","No.");
+               PhysInvtOrderLine.DELETEALL(TRUE);
+
+               PhysInvtCommentLine.RESET;
+               PhysInvtCommentLine.SETRANGE("Document Type",PhysInvtCommentLine."Document Type"::Order);
+               PhysInvtCommentLine.SETRANGE("Order No.","No.");
+               PhysInvtCommentLine.SETRANGE("Recording No.",0);
+               PhysInvtCommentLine.DELETEALL;
+
+               PhysInvtRecordingHeader.RESET;
+               PhysInvtRecordingHeader.SETRANGE("Order No.","No.");
+               PhysInvtRecordingHeader.DELETEALL(TRUE);
+             END;
+
+    OnRename=BEGIN
+               ERROR(Text1140001,TABLECAPTION);
+             END;
+
+    CaptionML=[ENU=Phys. Inventory Order Header;
+               DEA=Inventurauftragskopf];
+    LookupPageID=Page5005351;
+    DrillDownPageID=Page5005351;
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;OnValidate=BEGIN
+                                                                IF "No." <> xRec."No." THEN BEGIN
+                                                                  InvtSetup.GET;
+                                                                  NoSeriesMgt.TestManual(GetNoSeriesCode);
+                                                                  "No. Series" := '';
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=No.;
+                                                              DEA=Nr.] }
+    { 10  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+    { 11  ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
+                                                              DEA=Status];
+                                                   OptionCaptionML=[ENU=Open,Finished;
+                                                                    DEA=Offen,Beendet];
+                                                   OptionString=Open,Finished;
+                                                   Editable=No }
+    { 20  ;   ;Order Date          ;Date          ;CaptionML=[ENU=Order Date;
+                                                              DEA=Auftragsdatum] }
+    { 21  ;   ;Posting Date        ;Date          ;OnValidate=BEGIN
+                                                                IF "Posting Date" <> xRec."Posting Date" THEN BEGIN
+                                                                  PhysInvtOrderLine.RESET;
+                                                                  PhysInvtOrderLine.SETRANGE("Document No.","No.");
+                                                                  PhysInvtOrderLine.SETFILTER("Item No.",'<>%1','');
+                                                                  IF PhysInvtOrderLine.FIND('-') THEN BEGIN
+                                                                    TESTFIELD("Posting Date");
+                                                                    IF NOT CONFIRM(
+                                                                         STRSUBSTNO(
+                                                                           Text1140002,
+                                                                           PhysInvtOrderLine.FIELDCAPTION("Qty. Expected (Base)"),
+                                                                           FIELDCAPTION("Posting Date") ),
+                                                                         FALSE)
+                                                                    THEN BEGIN
+                                                                      "Posting Date" := xRec."Posting Date";
+                                                                      EXIT;
+                                                                    END;
+                                                                    PhysInvtOrderLine.LOCKTABLE;
+                                                                    PhysInvtOrderLine.RESET;
+                                                                    PhysInvtOrderLine.SETRANGE("Document No.","No.");
+                                                                    IF PhysInvtOrderLine.FIND('-') THEN
+                                                                      REPEAT
+                                                                        IF PhysInvtOrderLine."Item No." <> '' THEN BEGIN
+                                                                          PhysInvtOrderLine.ResetQtyExpected;
+                                                                          PhysInvtOrderLine.MODIFY;
+                                                                        END;
+                                                                      UNTIL PhysInvtOrderLine.NEXT = 0;
+                                                                    MODIFY;
+                                                                  END;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Posting Date;
+                                                              DEA=Buchungsdatum] }
+    { 30  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist("Phys. Inventory Comment Line" WHERE (Document Type=CONST(Order),
+                                                                                                           Order No.=FIELD(No.),
+                                                                                                           Recording No.=CONST(0)));
+                                                   CaptionML=[ENU=Comment;
+                                                              DEA=Bemerkung];
+                                                   Editable=No }
+    { 31  ;   ;Person Responsible  ;Code20        ;TableRelation=Employee;
+                                                   ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Person Responsible;
+                                                              DEA=Verantwortlich] }
+    { 40  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              DEA=Ursachencode] }
+    { 41  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
+                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
+                                                              DEA=GeschÑftsbuchungsgruppe] }
+    { 50  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
+                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionClass='1,2,1' }
+    { 51  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   OnValidate=BEGIN
+                                                                ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
+                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionClass='1,2,2' }
+    { 60  ;   ;Posting No. Series  ;Code10        ;TableRelation="No. Series";
+                                                   OnValidate=BEGIN
+                                                                IF "Posting No. Series" <> '' THEN BEGIN
+                                                                  InvtSetup.GET;
+                                                                  TestNoSeries;
+                                                                  NoSeriesMgt.TestSeries(GetPostingNoSeriesCode,"Posting No. Series");
+                                                                END;
+                                                                TESTFIELD("Posting No.",'');
+                                                              END;
+
+                                                   OnLookup=BEGIN
+                                                              WITH PhysInvtOrderHeader DO BEGIN
+                                                                PhysInvtOrderHeader := Rec;
+                                                                InvtSetup.GET;
+                                                                TestNoSeries;
+                                                                IF NoSeriesMgt.LookupSeries(GetPostingNoSeriesCode,"Posting No. Series") THEN
+                                                                  VALIDATE("Posting No. Series");
+                                                                Rec := PhysInvtOrderHeader;
+                                                              END;
+                                                            END;
+
+                                                   CaptionML=[ENU=Posting No. Series;
+                                                              DEA=Buchungsnr. Serie] }
+    { 61  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=No. Series;
+                                                              DEA=Nummernserie];
+                                                   Editable=No }
+    { 64  ;   ;Posting No.         ;Code20        ;CaptionML=[ENU=Posting No.;
+                                                              DEA=Buchungsnr.] }
+    { 65  ;   ;Last Posting No.    ;Code20        ;TableRelation="Sales Invoice Header";
+                                                   CaptionML=[ENU=Last Posting No.;
+                                                              DEA=Letzte Buchungsnr.];
+                                                   Editable=No }
+    { 71  ;   ;No. Finished Recordings;Integer    ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Phys. Invt. Recording Header" WHERE (Order No.=FIELD(No.),
+                                                                                                           Status=CONST(Finished)));
+                                                   CaptionML=[ENU=No. Finished Recordings;
+                                                              DEA=Anzahl beendete Erfassungen];
+                                                   Editable=No }
+    { 110 ;   ;Location Code       ;Code10        ;TableRelation=Location;
+                                                   CaptionML=[ENU=Location Code;
+                                                              DEA=Lagerortcode] }
+    { 111 ;   ;Bin Code            ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
+                                                   OnValidate=BEGIN
+                                                                IF "Bin Code" <> '' THEN BEGIN
+                                                                  TESTFIELD("Location Code");
+                                                                  Location.GET("Location Code");
+                                                                  Location.TESTFIELD("Bin Mandatory",TRUE);
+                                                                  Location.TESTFIELD("Directed Put-away and Pick",FALSE);
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Bin Code;
+                                                              DEA=Lagerplatzcode] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   OnLookup=BEGIN
+                                                              ShowDocDim;
+                                                            END;
+
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;No.                                     ;Clustered=Yes }
+    {    ;Status                                   }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;No.,Description                          }
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=The %1 %2 already exists.;DEA=Es existiert bereits ein %1 mit Nr. %2.';
+      Text1140001@1140001 : TextConst 'ENU=You cannot rename a %1.;DEA=Sie kînnen einen %1 nicht umbenennen.';
+      Text1140002@1140002 : TextConst 'ENU=%1 will be reset in all order lines.  Do you want to change %2?;DEA=%1 wird in allen Zeilen zurÅckgesetzt. Wollen Sie %2 Ñndern?';
+      InvtSetup@1140003 : Record 313;
+      PhysInvtOrderHeader@1140004 : Record 5005350;
+      PhysInvtOrderLine@1140005 : Record 5005351;
+      PhysInvtRecordingHeader@1140006 : Record 5005352;
+      PhysInvtCommentLine@1140007 : Record 5005358;
+      PostedPhysInvOrderHeader@1140009 : Record 5005354;
+      Location@1140010 : Record 14;
+      NoSeriesMgt@1140011 : Codeunit 396;
+      DimManagement@1140012 : Codeunit 408;
+      Text001@1140008 : TextConst 'ENU=You may have changed a dimension.\\Do you want to update the lines?;DEA=Sie haben unter UmstÑnden eine Dimension geÑndert.\\Mîchten Sie die Zeilen aktualisieren?';
+
+    PROCEDURE InitRecord@1140000();
+    BEGIN
+      IF ("No. Series" <> '') AND
+         (InvtSetup."Phys. Inv. Order Nos." = InvtSetup."Posted Phys. Inv. Order Nos.")
+      THEN
+        "Posting No. Series" := "No. Series"
+      ELSE
+        NoSeriesMgt.SetDefaultSeries("Posting No. Series",InvtSetup."Posted Phys. Inv. Order Nos.");
+
+      IF "Posting Date" = 0D THEN
+        VALIDATE("Posting Date",WORKDATE);
+    END;
+
+    PROCEDURE AssistEdit@1140001(OldPhysInvtOrderHeader@1140000 : Record 5005350) : Boolean;
+    BEGIN
+      WITH PhysInvtOrderHeader DO BEGIN
+        PhysInvtOrderHeader := Rec;
+        InvtSetup.GET;
+        TestNoSeries;
+        IF NoSeriesMgt.SelectSeries(GetNoSeriesCode,OldPhysInvtOrderHeader."No. Series","No. Series") THEN BEGIN
+          InvtSetup.GET;
+          TestNoSeries;
+          NoSeriesMgt.SetSeries("No.");
+          Rec := PhysInvtOrderHeader;
+          EXIT(TRUE);
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE TestNoSeries@1140002() : Boolean;
+    BEGIN
+      InvtSetup.TESTFIELD("Phys. Inv. Order Nos.");
+      InvtSetup.TESTFIELD("Posted Phys. Inv. Order Nos.");
+    END;
+
+    LOCAL PROCEDURE GetNoSeriesCode@1140003() : Code[10];
+    BEGIN
+      EXIT(InvtSetup."Phys. Inv. Order Nos.");
+    END;
+
+    LOCAL PROCEDURE GetPostingNoSeriesCode@1140004() : Code[10];
+    BEGIN
+      EXIT(InvtSetup."Posted Phys. Inv. Order Nos.");
+    END;
+
+    PROCEDURE ValidateShortcutDimCode@1140005(FieldNo@1140000 : Integer;VAR ShortcutDimCode@1140001 : Code[20]);
+    VAR
+      OldDimSetID@1170000003 : Integer;
+    BEGIN
+      OldDimSetID := "Dimension Set ID";
+      DimManagement.ValidateShortcutDimValues(FieldNo,ShortcutDimCode,"Dimension Set ID");
+      IF "No." <> '' THEN
+        MODIFY;
+
+      IF OldDimSetID <> "Dimension Set ID" THEN BEGIN
+        MODIFY;
+        IF PhysInvOrderLinesExist THEN
+          UpdateAllLineDim("Dimension Set ID",OldDimSetID);
+      END;
+    END;
+
+    PROCEDURE GetSamePhysInvtOrderLine@1140006(ItemNo@1140000 : Code[20];VariantCode@1140001 : Code[10];LocationCode@1140002 : Code[10];BinCode@1140003 : Code[20];VAR ErrorText@1140004 : Text[250];VAR PhysInvtOrderLine2@1140005 : Record 5005351) : Integer;
+    VAR
+      Text1140006@1140006 : TextConst 'ENU=There are more than one order lines in Order %1 for Item No. %2, Variant Code %3, Location Code %4, Bin Code %5.;DEA=Es gibt mehr als eine Auftragszeile im Auftrag %1 fÅr Artikel %2, Variante %3, Lagerort %4, Lagerfach %5.';
+      Text1140007@1140007 : TextConst 'ENU=There are no order line in Order %1 for Item No. %2, Variant Code %3, Location Code %4, Bin Code %5.;DEA=Es gibt keine Auftragszeile im Auftrag %1 fÅr Artikel %2, Variante %3, Lagerort %4, Lagerfach %5.';
+      NoOfOrderLines@1140008 : Integer;
+    BEGIN
+      CLEAR(PhysInvtOrderLine2);
+
+      PhysInvtOrderLine2.RESET;
+      PhysInvtOrderLine2.SETCURRENTKEY(
+        "Document No.","Item No.","Variant Code","Location Code","Bin Code");
+      PhysInvtOrderLine2.SETRANGE("Document No.","No.");
+      PhysInvtOrderLine2.SETRANGE("Item No.",ItemNo);
+      PhysInvtOrderLine2.SETRANGE("Variant Code",VariantCode);
+      PhysInvtOrderLine2.SETRANGE("Location Code",LocationCode);
+      PhysInvtOrderLine2.SETRANGE("Bin Code",BinCode);
+      NoOfOrderLines := PhysInvtOrderLine2.COUNT;
+
+      CASE NoOfOrderLines OF
+        0:
+          ErrorText :=
+            STRSUBSTNO(
+              Text1140007,
+              "No.",ItemNo,VariantCode,LocationCode,BinCode);
+        1:
+          ErrorText := '';
+        ELSE
+          ErrorText :=
+            STRSUBSTNO(
+              Text1140006,
+              "No.",ItemNo,VariantCode,LocationCode,BinCode);
+      END;
+
+      IF NoOfOrderLines > 0 THEN
+        PhysInvtOrderLine2.FIND('-');
+
+      EXIT(NoOfOrderLines);
+    END;
+
+    PROCEDURE ShowDocDim@1140007();
+    VAR
+      OldDimSetID@1140000 : Integer;
+    BEGIN
+      OldDimSetID := "Dimension Set ID";
+      "Dimension Set ID" :=
+        DimManagement.EditDimensionSet2(
+          "Dimension Set ID",STRSUBSTNO('%1 %2',TABLECAPTION,"No."),
+          "Shortcut Dimension 1 Code","Shortcut Dimension 2 Code");
+      IF OldDimSetID <> "Dimension Set ID" THEN BEGIN
+        MODIFY;
+        IF PhysInvOrderLinesExist THEN
+          UpdateAllLineDim("Dimension Set ID",OldDimSetID);
+      END;
+    END;
+
+    PROCEDURE PhysInvOrderLinesExist@1140008() : Boolean;
+    BEGIN
+      PhysInvtOrderLine.RESET;
+      PhysInvtOrderLine.SETRANGE("Document No.","No.");
+      EXIT(PhysInvtOrderLine.FINDFIRST);
+    END;
+
+    LOCAL PROCEDURE UpdateAllLineDim@34(NewParentDimSetID@1000 : Integer;OldParentDimSetID@1001 : Integer);
+    VAR
+      NewDimSetID@1002 : Integer;
+    BEGIN
+      // Update all lines with changed dimensions.
+
+      IF NewParentDimSetID = OldParentDimSetID THEN
+        EXIT;
+      IF NOT CONFIRM(Text001) THEN
+        EXIT;
+
+      PhysInvtOrderLine.RESET;
+      PhysInvtOrderLine.SETRANGE("Document No.","No.");
+      PhysInvtOrderLine.LOCKTABLE;
+      IF PhysInvtOrderLine.FINDSET THEN
+        REPEAT
+          NewDimSetID := DimManagement.GetDeltaDimSetID(PhysInvtOrderLine."Dimension Set ID",NewParentDimSetID,OldParentDimSetID);
+          IF PhysInvtOrderLine."Dimension Set ID" <> NewDimSetID THEN BEGIN
+            PhysInvtOrderLine."Dimension Set ID" := NewDimSetID;
+            DimManagement.UpdateGlobalDimFromDimSetID(
+              PhysInvtOrderLine."Dimension Set ID",PhysInvtOrderLine."Shortcut Dimension 1 Code",
+              PhysInvtOrderLine."Shortcut Dimension 2 Code");
+            PhysInvtOrderLine.MODIFY;
+          END;
+        UNTIL PhysInvtOrderLine.NEXT = 0;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

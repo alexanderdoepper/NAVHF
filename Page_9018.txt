@@ -1,0 +1,654 @@
+OBJECT Page 9018 Administrator Role Center
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 33      ;1   ;Action    ;
+                      CaptionML=[ENU=Check on Ne&gative Inventory;
+                                 ESP=Compruebe el inventario ne&gativo;
+                                 DEA=Neg. Lager&bestÑnde ermitteln];
+                      RunObject=Report 5757;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 46      ;1   ;Action    ;
+                      CaptionML=[ENU=Job Queue Entries;
+                                 ESP=Movs. cola proyecto;
+                                 DEA=Aufgabenwarteschlangenposten];
+                      RunObject=Page 672 }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=User Setup;
+                                 ESP=Configuraci¢n usuarios;
+                                 DEA=Benutzer Einrichtung];
+                      RunObject=Page 119;
+                      Image=UserSetup }
+      { 3       ;1   ;Action    ;
+                      CaptionML=[ENU=No. Series;
+                                 ESP=Nos. serie;
+                                 DEA=Nummernserie];
+                      RunObject=Page 456 }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Approval User Setup;
+                                 ESP=Config. usuario aprobaci¢n;
+                                 DEA=Genehmigungsbenutzereinrichtung];
+                      RunObject=Page 663 }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Approval Templates;
+                                 ESP=Plantillas aprobaci¢n;
+                                 DEA=Genehmigungsvorlagen];
+                      RunObject=Page 668 }
+      { 9       ;1   ;Action    ;
+                      CaptionML=[ENU=Data Templates List;
+                                 ESP=Lista de plantillas de datos;
+                                 DEA=Datenvorlagen öbersicht];
+                      RunObject=Page 8620 }
+      { 10      ;1   ;Action    ;
+                      CaptionML=[ENU=Base Calendar List;
+                                 ESP=Lista calendario base;
+                                 DEA=BasiskalenderÅbersicht];
+                      RunObject=Page 7601 }
+      { 11      ;1   ;Action    ;
+                      CaptionML=[ENU=Post Codes;
+                                 ESP=C¢digos postales;
+                                 DEA=PLZ-Codes];
+                      RunObject=Page 367 }
+      { 12      ;1   ;Action    ;
+                      CaptionML=[ENU=Reason Codes;
+                                 ESP=C¢digos auditor°a;
+                                 DEA=Ursachencodes];
+                      RunObject=Page 259 }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Extended Text;
+                                 ESP=Textos adicionales;
+                                 DEA=Textbaustein];
+                      RunObject=Page 391 }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 53      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Job Queue;
+                                 ESP=Cola proyecto;
+                                 DEA=Aufgabenwarteschlange];
+                      Image=CheckList }
+      { 54      ;2   ;Action    ;
+                      CaptionML=[ENU=Job Queue Entries;
+                                 ESP=Movs. cola proyecto;
+                                 DEA=Aufgabenwarteschlangenposten];
+                      RunObject=Page 672 }
+      { 55      ;2   ;Action    ;
+                      CaptionML=[ENU=Job Queue Category List;
+                                 ESP=Lista de categor°as de cola de proyectos;
+                                 DEA=KategorieÅbersicht fÅr Aufgabenwarteschlange];
+                      RunObject=Page 671 }
+      { 56      ;2   ;Action    ;
+                      CaptionML=[ENU=Job Queue Log Entries;
+                                 ESP=Movs. registro cola proyecto;
+                                 DEA=Aufgabenwarteschlangen-ProtokolleintrÑge];
+                      RunObject=Page 674 }
+      { 16      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Intrastat;
+                                 ESP=Intrastat;
+                                 DEA=Intrastat];
+                      Image=Intrastat }
+      { 14      ;2   ;Action    ;
+                      CaptionML=[ENU=Tariff Numbers;
+                                 ESP=C¢digos arancelarios;
+                                 DEA=Zollpositionen];
+                      RunObject=Page 310 }
+      { 15      ;2   ;Action    ;
+                      CaptionML=[ENU=Transaction Types;
+                                 ESP=Naturaleza transacciones;
+                                 DEA=Art des GeschÑftes];
+                      RunObject=Page 308 }
+      { 17      ;2   ;Action    ;
+                      CaptionML=[ENU=Transaction Specifications;
+                                 ESP=Especificaci¢n transacciones;
+                                 DEA=Verfahren];
+                      RunObject=Page 406 }
+      { 18      ;2   ;Action    ;
+                      CaptionML=[ENU=Transport Methods;
+                                 ESP=Modos transporte;
+                                 DEA=Verkehrszweige];
+                      RunObject=Page 309 }
+      { 19      ;2   ;Action    ;
+                      CaptionML=[ENU=Entry/Exit Points;
+                                 ESP=Puertos y aeropuertos;
+                                 DEA=HÑfen];
+                      RunObject=Page 394 }
+      { 20      ;2   ;Action    ;
+                      CaptionML=[ENU=Areas;
+                                 ESP=µreas;
+                                 DEA=BundeslÑnder];
+                      RunObject=Page 405 }
+      { 39      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Finance;
+                                 ESP=Finanzas;
+                                 DEA=Finanzen];
+                      Image=Bank }
+      { 22      ;2   ;Action    ;
+                      CaptionML=[ENU=VAT Registration No. Formats;
+                                 ESP=Formatos CIF/NIF;
+                                 DEA=USt-IdNr.-Formate];
+                      RunObject=Page 575 }
+      { 1140004 ;2   ;Action    ;
+                      CaptionML=[ENU=GDPdU Definition Groups;
+                                 DEA=GDPdU Definitionsgruppen];
+                      RunObject=Page 11002 }
+      { 1140005 ;2   ;Separator ;
+                      IsHeader=Yes }
+      { 6       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Analysis View;
+                                 ESP=Vista de an†lisis;
+                                 DEA=Analyseansicht];
+                      Image=AnalysisView }
+      { 49      ;2   ;Action    ;
+                      CaptionML=[ENU=Sales Analysis View List;
+                                 ESP=Lista de vistas an†lisis ventas;
+                                 DEA=Verkaufsanalyseansichts-öbersicht];
+                      RunObject=Page 9371 }
+      { 50      ;2   ;Action    ;
+                      CaptionML=[ENU=Purchase Analysis View List;
+                                 ESP=Lista de vistas an†lisis compra;
+                                 DEA=Einkaufsanalyseansichts-öbersicht];
+                      RunObject=Page 9370 }
+      { 51      ;2   ;Action    ;
+                      CaptionML=[ENU=Inventory Analysis View List;
+                                 ESP=Lista de vistas an†lisis inventario;
+                                 DEA=Lageranalyseansichten-öbersicht];
+                      RunObject=Page 9372 }
+      { 4       ;0   ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 21      ;1   ;Action    ;
+                      CaptionML=[ENU=Purchase &Order;
+                                 ESP=Pedido de &compra;
+                                 DEA=&Bestellung];
+                      RunObject=Page 50;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 23      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 24      ;1   ;Action    ;
+                      CaptionML=[ENU=Com&pany Information;
+                                 ESP=Informaci¢n &empresa;
+                                 DEA=&Firmendaten];
+                      RunObject=Page 1;
+                      Image=CompanyInformation }
+      { 25      ;1   ;Action    ;
+                      CaptionML=[ENU=&Manage Style Sheets;
+                                 ESP=Ad&ministrar hojas estilos;
+                                 DEA=F&ormatvorlagen verwalten];
+                      RunObject=Page 697;
+                      Image=StyleSheet }
+      { 26      ;1   ;Action    ;
+                      CaptionML=[ENU=Migration O&verview;
+                                 ESP=In&fo. gral. migraci¢n;
+                                 DEA=Mi&grationsÅbersicht];
+                      RunObject=Page 8614;
+                      Image=Migration }
+      { 27      ;1   ;Action    ;
+                      CaptionML=[ENU=Relocate &Attachments;
+                                 ESP=Reorganizar ane&xos;
+                                 DEA=Anlagen ve&rschieben];
+                      RunObject=Report 5181;
+                      Image=ChangeTo }
+      { 28      ;1   ;Action    ;
+                      CaptionML=[ENU=Create Warehouse &Location;
+                                 ESP=Crear un a&lmacÇn;
+                                 DEA=&Lagerort erstellen];
+                      RunObject=Report 5756;
+                      Image=NewWarehouse }
+      { 29      ;1   ;Action    ;
+                      CaptionML=[ENU=C&hange Log Setup;
+                                 ESP=Co&nfig. log cambio;
+                                 DEA=én&derungsprotokoll Einrichtung];
+                      RunObject=Page 592;
+                      Image=LogSetup }
+      { 30      ;1   ;Separator  }
+      { 31      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Change Setup;
+                                 ESP=&Cambiar configuraci¢n;
+                                 DEA=énderungseinric&htung];
+                      Image=Setup }
+      { 38      ;2   ;Action    ;
+                      CaptionML=[ENU=Setup &Questionnaire;
+                                 ESP=C&uestionario configuraci¢n;
+                                 DEA=Fr&agebogen einrichten];
+                      RunObject=Page 8610;
+                      Image=QuestionaireSetup }
+      { 40      ;2   ;Action    ;
+                      CaptionML=[ENU=&General Ledger Setup;
+                                 ESP=Configuraci¢n contabili&dad;
+                                 DEA=Finanzbuchhaltung Ein&richtung];
+                      RunObject=Page 118;
+                      Image=Setup }
+      { 1140001 ;2   ;Action    ;
+                      CaptionML=[ENU=Electronic VAT Decl. Setup;
+                                 DEA=Elektronische UmsatzsteuererklÑrung - Einrichtung];
+                      RunObject=Page 11019 }
+      { 41      ;2   ;Action    ;
+                      CaptionML=[ENU=Sales && Re&ceivables Setup;
+                                 ESP=Configuraci¢n ventas y &cobros;
+                                 DEA=De&bitoren && Verkauf Einr.];
+                      RunObject=Page 459;
+                      Image=Setup }
+      { 42      ;2   ;Action    ;
+                      CaptionML=[ENU=Purchase && &Payables Setup;
+                                 ESP=Confi&guraci¢n compras y pagos;
+                                 DEA=Kre&ditoren && Einkauf Einr.];
+                      RunObject=Page 460;
+                      Image=ReceivablesPayablesSetup }
+      { 43      ;2   ;Action    ;
+                      CaptionML=[ENU=Fixed &Asset Setup;
+                                 ESP=Configuraci¢n &activos;
+                                 DEA=Anlageneinrich&tung];
+                      RunObject=Page 5607;
+                      Image=Setup }
+      { 44      ;2   ;Action    ;
+                      CaptionML=[ENU=Mar&keting Setup;
+                                 ESP=Co&nfiguraci¢n de marketing;
+                                 DEA=&Marketing & Vertrieb Einr.];
+                      RunObject=Page 5094;
+                      Image=MarketingSetup }
+      { 45      ;2   ;Action    ;
+                      CaptionML=[ENU=Or&der Promising Setup;
+                                 ESP=Config. compr. &entrega ped.;
+                                 DEA=Liefertermin&zusagen Einrichtung];
+                      RunObject=Page 99000958;
+                      Image=OrderPromisingSetup }
+      { 63      ;2   ;Action    ;
+                      CaptionML=[ENU=Nonstock &Item Setup;
+                                 ESP=Conf. prod. sin stoc&k;
+                                 DEA=Katalo&gartikel Einrichtung];
+                      RunObject=Page 5732;
+                      Image=NonStockItemSetup }
+      { 65      ;2   ;Action    ;
+                      CaptionML=[ENU=Interaction &Template Setup;
+                                 ESP=Configuraci¢n &plantilla interacci¢n;
+                                 DEA=AktivitÑtenvor&lage Einrichtung];
+                      RunObject=Page 5186;
+                      Image=InteractionTemplateSetup }
+      { 67      ;2   ;Action    ;
+                      CaptionML=[ENU=Inve&ntory Setup;
+                                 ESP=Config. in&ventario;
+                                 DEA=Lager Ei&nrichtung];
+                      RunObject=Page 461;
+                      Image=InventorySetup }
+      { 34      ;2   ;Action    ;
+                      CaptionML=[ENU=&Warehouse Setup;
+                                 ESP=Configuraci¢n al&macÇn;
+                                 DEA=Logi&stik Einrichtung];
+                      RunObject=Page 5775;
+                      Image=WarehouseSetup }
+      { 35      ;2   ;Action    ;
+                      CaptionML=[ENU=Mini&forms;
+                                 ESP=Mi&niformularios;
+                                 DEA=Mini&forms];
+                      RunObject=Page 7703;
+                      Image=MiniForm }
+      { 69      ;2   ;Action    ;
+                      CaptionML=[ENU=Man&ufacturing Setup;
+                                 ESP=Configuraci¢n &fabricaci¢n;
+                                 DEA=Produ&ktion Einrichtung];
+                      RunObject=Page 99000768;
+                      Image=ProductionSetup }
+      { 70      ;2   ;Action    ;
+                      CaptionML=[ENU=Res&ources Setup;
+                                 ESP=Config. recurs&os;
+                                 DEA=Ress&ourcen Einr.];
+                      RunObject=Page 462;
+                      Image=ResourceSetup }
+      { 71      ;2   ;Action    ;
+                      CaptionML=[ENU=&Service Setup;
+                                 ESP=Configuraci¢n del ser&vicio;
+                                 DEA=Servi&ce Einrichtung];
+                      RunObject=Page 5919;
+                      Image=ServiceSetup }
+      { 72      ;2   ;Action    ;
+                      CaptionML=[ENU=&Human Resource Setup;
+                                 ESP=Config. recursos &humanos;
+                                 DEA=Personal&wesen Einrichtung];
+                      RunObject=Page 5233;
+                      Image=HRSetup }
+      { 74      ;2   ;Action    ;
+                      CaptionML=[ENU=&Service Order Status Setup;
+                                 ESP=Config. estado ped. &servicio;
+                                 DEA=Ser&viceauftragsstatus Einr.];
+                      RunObject=Page 5943;
+                      Image=ServiceOrderSetup }
+      { 75      ;2   ;Action    ;
+                      CaptionML=[ENU=&Repair Status Setup;
+                                 ESP=Config. estado &reparaci¢n;
+                                 DEA=R&eparaturstatus Einrichtung];
+                      RunObject=Page 5941;
+                      Image=ServiceSetup }
+      { 77      ;2   ;Action    ;
+                      CaptionML=[ENU=C&hange Log Setup;
+                                 ESP=Config. &log cambio;
+                                 DEA=&énderungsprotokoll Einrichtung];
+                      RunObject=Page 592;
+                      Image=LogSetup }
+      { 78      ;2   ;Action    ;
+                      CaptionML=[ENU=&MapPoint Setup;
+                                 ESP=Co&nfiguraci¢n MapPoint;
+                                 DEA=Map&Point-Einrichtung];
+                      RunObject=Page 800;
+                      Image=MapSetup }
+      { 79      ;2   ;Action    ;
+                      CaptionML=[ENU=SMTP Mai&l Setup;
+                                 ESP=Configuraci¢n correo SM&TP;
+                                 DEA=SMTP-Mail-Einric&htung];
+                      RunObject=Page 409;
+                      Image=MailSetup }
+      { 5       ;2   ;Action    ;
+                      CaptionML=[ENU=Job Qu&eue Setup;
+                                 ESP=Configuraci¢n cola pro&yecto;
+                                 DEA=Aufgab&enwarteschlangen-Einr.];
+                      RunObject=Page 670;
+                      Image=JobListSetup }
+      { 80      ;2   ;Action    ;
+                      CaptionML=[ENU=Appro&val Setup;
+                                 ESP=Configuraci¢n apro&baci¢n;
+                                 DEA=Genehmig&ungseinrichtung];
+                      RunObject=Page 656;
+                      Image=ApprovalSetup }
+      { 81      ;2   ;Action    ;
+                      CaptionML=[ENU=Profile Quest&ionnaire Setup;
+                                 ESP=Config. cuest&ionario perfil;
+                                 DEA=Prof&ilbefragung Einrichtung];
+                      RunObject=Page 5110;
+                      Image=QuestionaireSetup }
+      { 82      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Report Selection;
+                                 ESP=Selecci¢n info&rme;
+                                 DEA=Berichtsa&uswahl];
+                      Image=SelectReport }
+      { 83      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - &Bank Account;
+                                 ESP=Selecci¢n informe - Cuen&ta bancaria;
+                                 DEA=Berichtsauswahl - Bank&konto];
+                      RunObject=Page 385;
+                      Image=SelectReport }
+      { 85      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - &Reminder && Finance Charge;
+                                 ESP=Selecci¢n informe - &Recordatorio e interÇs;
+                                 DEA=&Berichtsauswahl - Mahnung && Zinsrechnung];
+                      RunObject=Page 524;
+                      Image=SelectReport }
+      { 86      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - &Sales;
+                                 ESP=Ventas - &Selecci¢n informes;
+                                 DEA=Berichtsaus&wahl - Verkauf];
+                      RunObject=Page 306;
+                      Image=SelectReport }
+      { 87      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - &Purchase;
+                                 ESP=Com&pras - Selecci¢n informes;
+                                 DEA=Berichtsauswahl - &Einkauf];
+                      RunObject=Page 347;
+                      Image=SelectReport }
+      { 88      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - &Inventory;
+                                 ESP=Selecc. informe - &Inventario;
+                                 DEA=Berichtsauswahl - &Lager];
+                      RunObject=Page 5754;
+                      Image=SelectReport }
+      { 1140002 ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - Intrastat;
+                                 DEA=Berichtsauswahl - Intrastat];
+                      RunObject=Page 26100 }
+      { 1140003 ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - VAT;
+                                 DEA=Berichtsauswahl - MwSt.];
+                      RunObject=Page 26101 }
+      { 89      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - Prod. &Order;
+                                 ESP=Selecci¢n informe - &O. P.;
+                                 DEA=Berichtsauswahl - &FA];
+                      RunObject=Page 99000917;
+                      Image=SelectReport }
+      { 91      ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - S&ervice;
+                                 ESP=Selecci¢n informe - S&ervicio;
+                                 DEA=Berichtsauswahl - &Service];
+                      RunObject=Page 5932;
+                      Image=SelectReport }
+      { 1       ;2   ;Action    ;
+                      CaptionML=[ENU=Report Selection - Cash Flow;
+                                 ESP=Selecci¢n informes - Flujo efectivo;
+                                 DEA=Berichtsauswahl - Cashflow];
+                      RunObject=Page 865;
+                      Image=SelectReport }
+      { 93      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Date Compression;
+                                 ESP=Compresi¢n por fec&has;
+                                 DEA=Datumskompri&mierung];
+                      Image=Compress }
+      { 94      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &G/L Entries;
+                                 ESP=Com&primir fechas movs. contabilidad;
+                                 DEA=Datu&mskomprimierung Fibuposten];
+                      RunObject=Report 98;
+                      Image=GeneralLedger }
+      { 95      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &VAT Entries;
+                                 ESP=Comprimir fechas mov&s. IVA;
+                                 DEA=Datumskomprimierung M&wSt.-Posten];
+                      RunObject=Report 95;
+                      Image=VATStatement }
+      { 96      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress Bank &Account Ledger Entries;
+                                 ESP=Comprimir fech&as movs. bancos;
+                                 DEA=Datumskomprimierung &Bankposten];
+                      RunObject=Report 1498;
+                      Image=BankAccount }
+      { 97      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress G/L &Budget Entries;
+                                 ESP=Comprimir fechas movs. pptos. conta&bilidad;
+                                 DEA=Datumskomprimierung &Finanzbudgetposten];
+                      RunObject=Report 97;
+                      Image=LedgerBudget }
+      { 98      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &Customer Ledger Entries;
+                                 ESP=Comprimir fechas movs. &clientes;
+                                 DEA=Datumskomprimierung &Debitorenposten];
+                      RunObject=Report 198;
+                      Image=Customer }
+      { 99      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress V&endor Ledger Entries;
+                                 ESP=Comprimir fechas movs. pro&veedores;
+                                 DEA=Dat&umskomprimierung Kreditorenposten];
+                      RunObject=Report 398;
+                      Image=Vendor }
+      { 90      ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &Resource Ledger Entries;
+                                 ESP=Comprimir fechas movs. &recursos;
+                                 DEA=Datumskomprimierung Ressourcenposte&n];
+                      RunObject=Report 1198;
+                      Image=Resource }
+      { 102     ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &FA Ledger Entries;
+                                 ESP=Comprimir &fechas movs. activos;
+                                 DEA=D&atumskomprimierung Anlagenposten];
+                      RunObject=Report 5696;
+                      Image=FixedAssets }
+      { 103     ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &Maintenance Ledger Entries;
+                                 ESP=Comprimir fechas &movs. mantenimiento;
+                                 DEA=Datumskomprimierung Wartun&gsposten];
+                      RunObject=Report 5698;
+                      Image=Tools }
+      { 104     ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &Insurance Ledger Entries;
+                                 ESP=Compr&imir fechas movs. seguros;
+                                 DEA=Datumskomprimierung Versicherungs&posten];
+                      RunObject=Report 5697;
+                      Image=Insurance }
+      { 105     ;2   ;Action    ;
+                      CaptionML=[ENU=Date Compress &Warehouse Entries;
+                                 ESP=Comprimir fec&has movs. almacÇn;
+                                 DEA=Datums&komprimierung Lagerplatzposten];
+                      RunObject=Report 7398;
+                      Image=Bin }
+      { 264     ;1   ;Separator  }
+      { 106     ;1   ;ActionGroup;
+                      CaptionML=[ENU=Con&tacts;
+                                 ESP=Con&tactos;
+                                 DEA=Kon&takte];
+                      Image=CustomerContact }
+      { 108     ;2   ;Action    ;
+                      CaptionML=[ENU=Create Contacts from &Customer;
+                                 ESP=Crear Contactos desde &Clientes;
+                                 DEA=Kontakte aus &Debitoren erstellen];
+                      RunObject=Report 5195;
+                      Image=CustomerContact }
+      { 109     ;2   ;Action    ;
+                      CaptionML=[ENU=Create Contacts from &Vendor;
+                                 ESP=Crear Contactos desde Pro&vs.;
+                                 DEA=Kontakte aus Kreditoren &erstellen];
+                      RunObject=Report 5194;
+                      Image=VendorContact }
+      { 110     ;2   ;Action    ;
+                      CaptionML=[ENU=Create Contacts from &Bank Account;
+                                 ESP=Crear Contactos desde &Bancos;
+                                 DEA=Kontakte aus Bankkonten erstel&len];
+                      RunObject=Report 5193;
+                      Image=BankContact }
+      { 37      ;2   ;Action    ;
+                      CaptionML=[ENU=To-do &Activities;
+                                 ESP=&Actividades pendientes;
+                                 DEA=Aufgaben&aktivitÑten];
+                      RunObject=Page 5101;
+                      Image=TaskList }
+      { 47      ;1   ;Separator  }
+      { 48      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Trou&bleshooting;
+                                 ESP=Soluci¢n pro&bl. servicio;
+                                 DEA=Lî&sungsanleitung Service];
+                      RunObject=Page 5990;
+                      Image=Troubleshoot }
+      { 114     ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Import;
+                                 ESP=&Importar;
+                                 DEA=Im&portieren];
+                      Image=Import }
+      { 260     ;2   ;Action    ;
+                      CaptionML=[ENU=Import IRIS to &Area/Symptom Code;
+                                 ESP=Import&ar IRIS a †rea/c¢digo s°ntoma;
+                                 DEA=IRIS in Bereichs-/Symptomcode impor&tieren];
+                      RunObject=XMLport 5900;
+                      Image=Import }
+      { 261     ;2   ;Action    ;
+                      CaptionML=[ENU=Import IRIS to &Fault Codes;
+                                 ESP=Importar IRIS a c¢d. de&fecto;
+                                 DEA=IRIS in &Problemcodes imp.];
+                      RunObject=XMLport 5901;
+                      Image=Import }
+      { 262     ;2   ;Action    ;
+                      CaptionML=[ENU=Import IRIS to &Resolution Codes;
+                                 ESP=Imp. IRIS a c¢d. &resoluci¢n;
+                                 DEA=IRIS in &Lîsungscodes importieren];
+                      RunObject=XMLport 5902;
+                      Image=Import }
+      { 263     ;1   ;Separator  }
+      { 118     ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Sales Analysis;
+                                 ESP=An†li&sis ventas;
+                                 DEA=&Verkaufsanalyse];
+                      Image=Segment }
+      { 119     ;2   ;Action    ;
+                      CaptionML=[ENU=Sales Analysis &Line Templates;
+                                 ESP=Plantillas de la &l°nea de an†lisis de ventas;
+                                 DEA=Analysezeilenvorl&agen - Verkauf];
+                      RunObject=Page 7112;
+                      RunPageView=SORTING(Analysis Area,Name)
+                                  WHERE(Analysis Area=CONST(Sales));
+                      Image=SetupLines }
+      { 120     ;2   ;Action    ;
+                      CaptionML=[ENU=Sales Analysis &Column Templates;
+                                 ESP=Plantillas de la &columna de an†lisis de ventas;
+                                 DEA=Analysespaltenvo&rlagen - Verkauf];
+                      RunObject=Page 7113;
+                      RunPageView=SORTING(Analysis Area,Name)
+                                  WHERE(Analysis Area=CONST(Sales));
+                      Image=SetupColumns }
+      { 122     ;1   ;ActionGroup;
+                      CaptionML=[ENU=P&urchase Analysis;
+                                 ESP=An†lisis com&pras;
+                                 DEA=Einkaufsanal&yse];
+                      Image=Purchasing }
+      { 123     ;2   ;Action    ;
+                      CaptionML=[ENU=Purchase &Analysis Line Templates;
+                                 ESP=Plant. l°n. &an†lisis compra;
+                                 DEA=Analysezeilenv&orlagen - Einkauf];
+                      RunObject=Page 7112;
+                      RunPageView=SORTING(Analysis Area,Name)
+                                  WHERE(Analysis Area=CONST(Purchase));
+                      Image=SetupLines }
+      { 124     ;2   ;Action    ;
+                      CaptionML=[ENU=Purchase Analysis &Column Templates;
+                                 ESP=Plant. &col. an†lisis compra;
+                                 DEA=Analysespaltenvo&rlagen - Einkauf];
+                      RunObject=Page 7113;
+                      RunPageView=SORTING(Analysis Area,Name)
+                                  WHERE(Analysis Area=CONST(Purchase));
+                      Image=SetupColumns }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1904484608;2;Part   ;
+                PagePartID=Page9072;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 32  ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1903012608;2;Part   ;
+                PagePartID=Page9175;
+                PartType=Page }
+
+    { 1901377608;2;Part   ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

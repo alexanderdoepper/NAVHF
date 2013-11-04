@@ -1,0 +1,78 @@
+OBJECT Page 9093 Vendor Details FactBox
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Vendor Details;
+               ESP=Detalles proveedor;
+               DEA=Kreditorendetails];
+    SourceTable=Table23;
+    PageType=CardPart;
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 9       ;1   ;ActionGroup;
+                      CaptionML=[ENU=Actions;
+                                 ESP=Acciones;
+                                 DEA=Aktionen];
+                      Image=Action }
+      { 21      ;2   ;Action    ;
+                      CaptionML=[ENU=Comments;
+                                 ESP=Comentarios;
+                                 DEA=Bemerkungen];
+                      RunObject=Page 124;
+                      RunPageLink=Table Name=CONST(Vendor),
+                                  No.=FIELD(No.);
+                      Image=ViewComments }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 13  ;1   ;Field     ;
+                CaptionML=[ENU=Vendor No.;
+                           ESP=N§ proveedor;
+                           DEA=Kreditorennr.];
+                SourceExpr="No.";
+                OnDrillDown=BEGIN
+                              ShowDetails;
+                            END;
+                             }
+
+    { 1   ;1   ;Field     ;
+                SourceExpr=Name }
+
+    { 3   ;1   ;Field     ;
+                SourceExpr="Phone No." }
+
+    { 5   ;1   ;Field     ;
+                SourceExpr="E-Mail" }
+
+    { 7   ;1   ;Field     ;
+                SourceExpr="Fax No." }
+
+    { 11  ;1   ;Field     ;
+                SourceExpr=Contact }
+
+  }
+  CODE
+  {
+
+    PROCEDURE ShowDetails@1102601000();
+    BEGIN
+      PAGE.RUN(PAGE::"Vendor Card",Rec);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

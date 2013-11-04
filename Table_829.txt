@@ -1,0 +1,123 @@
+OBJECT Table 829 DO Payment Trans. Log Entry
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=DO Payment Trans. Log Entry;
+               ESP=Movimiento de registro de trans. de pago de DE;
+               DEA=DO-Zahlung - Transaktionsprotokolleintrag];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 2   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=" ,Order,Invoice,Payment,Refund";
+                                                                    ESP=" ,Pedido,Factura,Pago,Reembolso";
+                                                                    DEA=" ,Auftrag,Rechnung,Zahlung,Erstattung"];
+                                                   OptionString=[ ,Order,Invoice,Payment,Refund] }
+    { 3   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 4   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
+                                                   CaptionML=[ENU=Customer No.;
+                                                              ESP=N§ cliente;
+                                                              DEA=Debitorennr.] }
+    { 5   ;   ;Credit Card No.     ;Code20        ;TableRelation="DO Payment Credit Card".No.;
+                                                   CaptionML=[ENU=Credit Card No.;
+                                                              ESP=N§ tarjeta de cr‚dito;
+                                                              DEA=Kreditkartennr.] }
+    { 6   ;   ;Transaction Type    ;Option        ;CaptionML=[ENU=Transaction Type;
+                                                              ESP=Naturaleza transacci¢n;
+                                                              DEA=Art des Gesch„ftes];
+                                                   OptionCaptionML=[ENU=Authorization,Void,Capture,Refund;
+                                                                    ESP=Autorizaci¢n,Anulaci¢n,Captura,Reembolso;
+                                                                    DEA=Autorisierung,Stornierung,Erfassung,Erstattung];
+                                                   OptionString=Authorization,Void,Capture,Refund }
+    { 7   ;   ;Transaction Result  ;Option        ;CaptionML=[ENU=Transaction Result;
+                                                              ESP=Resultado de transacci¢n;
+                                                              DEA=Transaktionsergebnis];
+                                                   OptionCaptionML=[ENU=Success,Failed;
+                                                                    ESP=Correcta,Incorrecta;
+                                                                    DEA=Erfolgreich,Fehler];
+                                                   OptionString=Success,Failed }
+    { 8   ;   ;Transaction Description;Text250    ;CaptionML=[ENU=Transaction Description;
+                                                              ESP=Descripci¢n de transacci¢n;
+                                                              DEA=Transaktionsbeschreibung] }
+    { 9   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1;
+                                                   AutoFormatExpr="Currency Code" }
+    { 10  ;   ;Transaction Date-Time;DateTime     ;CaptionML=[ENU=Transaction Date-Time;
+                                                              ESP=Fecha y hora de la transacci¢n;
+                                                              DEA=Transaktion (Datum/Uhrzeit)] }
+    { 11  ;   ;Transaction Status  ;Option        ;CaptionML=[ENU=Transaction Status;
+                                                              ESP=Estado de la transacci¢n;
+                                                              DEA=Transaktionsstatus];
+                                                   OptionCaptionML=[ENU=" ,Voided,Expired,Captured,Refunded,Posting Not Finished";
+                                                                    ESP=" ,Anulada,Expirada,Capturada,Reembolsada,Registro incompleto";
+                                                                    DEA=" ,Storniert,Abgelaufen,Erfasst,Erstattet,Buchung nicht abgeschlossen"];
+                                                   OptionString=[ ,Voided,Expired,Captured,Refunded,Posting Not Finished] }
+    { 12  ;   ;Cust. Ledger Entry No.;Integer     ;TableRelation="Cust. Ledger Entry";
+                                                   CaptionML=[ENU=Cust. Ledger Entry No.;
+                                                              ESP=N§ mov. cliente;
+                                                              DEA=Debitorenposten Lfd. Nr.] }
+    { 13  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 14  ;   ;Transaction GUID    ;GUID          ;CaptionML=[ENU=Transaction GUID;
+                                                              ESP=GUID de transacci¢n;
+                                                              DEA=Transaktions-GUID] }
+    { 15  ;   ;Transaction ID      ;Text50        ;CaptionML=[ENU=Transaction ID;
+                                                              ESP=Id. de transacci¢n;
+                                                              DEA=Transaktions-ID] }
+    { 16  ;   ;User ID             ;Code50        ;CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID] }
+    { 17  ;   ;Parent Entry No.    ;Integer       ;CaptionML=[ENU=Parent Entry No.;
+                                                              ESP=N§ movimiento principal;
+                                                              DEA=šbergeordnete Laufnr.] }
+    { 18  ;   ;Reference GUID      ;GUID          ;CaptionML=[ENU=Reference GUID;
+                                                              ESP=GUID de referencia;
+                                                              DEA=Referenz-GUID] }
+  }
+  KEYS
+  {
+    {    ;Entry No.                               ;Clustered=Yes }
+    {    ;Document Type,Document No.,Transaction Type,Transaction Result,Transaction Status }
+    {    ;Cust. Ledger Entry No.                   }
+    {    ;Parent Entry No.,Transaction Type,Transaction Result;
+                                                   SumIndexFields=Amount }
+    {    ;Credit Card No.                          }
+    {    ;Document No.,Customer No.,Transaction Status }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE HasTransaction@1(VAR DOPaymentCreditCard@1000 : Record 827) : Boolean;
+    BEGIN
+      SETCURRENTKEY("Credit Card No.");
+      SETRANGE("Credit Card No.",DOPaymentCreditCard."No.");
+      SETFILTER("Transaction Result",'<>%1',"Transaction Result"::Failed);
+      EXIT(FINDFIRST);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

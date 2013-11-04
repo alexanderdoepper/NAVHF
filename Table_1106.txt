@@ -1,0 +1,150 @@
+OBJECT Table 1106 Cost Allocation Source
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               // Get ID if empty.
+               IF ID = '' THEN BEGIN
+                 CostAccSetup.LOCKTABLE;
+                 CostAccSetup.GET;
+                 IF CostAccSetup."Last Allocation ID" = '' THEN
+                   ERROR(Text000);
+                 CostAccSetup."Last Allocation ID" := INCSTR(CostAccSetup."Last Allocation ID");
+                 CostAccSetup.MODIFY;
+                 ID := CostAccSetup."Last Allocation ID";
+               END;
+
+               Modified;
+             END;
+
+    OnModify=BEGIN
+               Modified;
+             END;
+
+    OnDelete=BEGIN
+               CostAllocationTarget.SETRANGE(ID,ID);
+               CostAllocationTarget.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Cost Allocation Source;
+               ESP=Origen asignaci¢n costes;
+               DEA=Kostenzuteilungsherkunft];
+    LookupPageID=Page1102;
+  }
+  FIELDS
+  {
+    { 1   ;   ;ID                  ;Code10        ;CaptionML=[ENU=ID;
+                                                              ESP=Id.;
+                                                              DEA=ID] }
+    { 2   ;   ;Level               ;Integer       ;InitValue=1;
+                                                   CaptionML=[ENU=Level;
+                                                              ESP=Nivel;
+                                                              DEA=Ebene];
+                                                   MinValue=1;
+                                                   MaxValue=99 }
+    { 3   ;   ;Valid From          ;Date          ;CaptionML=[ENU=Valid From;
+                                                              ESP=V†lido desde;
+                                                              DEA=GÅltigkeit ab] }
+    { 4   ;   ;Valid To            ;Date          ;CaptionML=[ENU=Valid To;
+                                                              ESP=V†lido hasta;
+                                                              DEA=GÅltig bis] }
+    { 5   ;   ;Cost Type Range     ;Code30        ;TableRelation="Cost Type";
+                                                   ValidateTableRelation=No;
+                                                   CaptionML=[ENU=Cost Type Range;
+                                                              ESP=Intervalo tipo coste;
+                                                              DEA=Kostenartbereich] }
+    { 6   ;   ;Cost Center Code    ;Code20        ;TableRelation="Cost Center";
+                                                   OnValidate=BEGIN
+                                                                IF ("Cost Center Code" <> '') AND ("Cost Object Code" <> '') THEN
+                                                                  ERROR(Text003);
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Center Code;
+                                                              ESP=C¢digo centro coste;
+                                                              DEA=Kostenstellencode] }
+    { 7   ;   ;Cost Object Code    ;Code20        ;TableRelation="Cost Object";
+                                                   OnValidate=BEGIN
+                                                                IF ("Cost Center Code" <> '') AND ("Cost Object Code" <> '') THEN
+                                                                  ERROR(Text003);
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Object Code;
+                                                              ESP=C¢digo objeto coste;
+                                                              DEA=KostentrÑgercode] }
+    { 8   ;   ;Variant             ;Code10        ;CaptionML=[ENU=Variant;
+                                                              ESP=Variante;
+                                                              DEA=Variante] }
+    { 10  ;   ;Credit to Cost Type ;Code20        ;TableRelation="Cost Type";
+                                                   CaptionML=[ENU=Credit to Cost Type;
+                                                              ESP=Abonar en tipo de coste;
+                                                              DEA=FÅr Kostenart gutschreiben] }
+    { 20  ;   ;Comment             ;Text50        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+    { 22  ;   ;Total Share         ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("Cost Allocation Target".Share WHERE (ID=FIELD(ID)));
+                                                   CaptionML=[ENU=Total Share;
+                                                              ESP=Acci¢n total;
+                                                              DEA=Gesamtanteil];
+                                                   Editable=No }
+    { 30  ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
+                                                              ESP=Bloqueado;
+                                                              DEA=Gesperrt] }
+    { 60  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
+                                                              ESP=Fecha £lt. modificaci¢n;
+                                                              DEA=Korrigiert am];
+                                                   Editable=No }
+    { 61  ;   ;User ID             ;Code50        ;TableRelation=User."User Name";
+                                                   OnLookup=VAR
+                                                              UserMgt@1000 : Codeunit 418;
+                                                            BEGIN
+                                                              UserMgt.LookupUserID("User ID");
+                                                            END;
+
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=User ID;
+                                                              ESP=Id. usuario;
+                                                              DEA=Benutzer-ID];
+                                                   Editable=No }
+    { 100 ;   ;Allocation Source Type;Option      ;CaptionML=[ENU=Allocation Source Type;
+                                                              ESP=Tipo origen asignaci¢n;
+                                                              DEA=Herkunftsart fÅr Verteilung];
+                                                   OptionCaptionML=[ENU=Both,Actual,Budget;
+                                                                    ESP=Ambos,Real,Presupuesto;
+                                                                    DEA=Beides,Ist,Budget];
+                                                   OptionString=Both,Actual,Budget }
+  }
+  KEYS
+  {
+    {    ;ID                                      ;Clustered=Yes }
+    {    ;Level,Valid From,Valid To,Cost Type Range }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;ID,Level,Variant                         }
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=To assign the allocation ID, the Last Allocation ID field must be defined in the Cost Accounting setup.;ESP=Para asignar el identificador de asignaci¢n, el campo Id. £ltima asignaci¢n debe estar definido en la configuraci¢n de contabilidad de costes.;DEA=Zum Zuweisen der Verteilungs-ID muss in der Kostenrechnung das Feld fÅr die neueste Verteilungs-ID definiert werden.';
+      Text003@1003 : TextConst 'ENU=You cannot define both cost center and cost object.;ESP=No se puede definir el centro de coste y el objeto de coste.;DEA=Kostenstelle und KostentrÑger kînnen nicht gemeinsam angegeben werden.';
+      CostAccSetup@1004 : Record 1108;
+      CostAllocationTarget@1005 : Record 1107;
+
+    LOCAL PROCEDURE Modified@1();
+    BEGIN
+      "Last Date Modified" := TODAY;
+      "User ID" := USERID;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

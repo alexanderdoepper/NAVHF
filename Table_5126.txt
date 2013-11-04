@@ -1,0 +1,80 @@
+OBJECT Table 5126 Sales Comment Line Archive
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Sales Comment Line Archive;
+               ESP=Archivo l°nea comentario venta;
+               DEA=Verkaufsbemerkungszeilenarchiv];
+    LookupPageID=Page68;
+    DrillDownPageID=Page68;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
+                                                              ESP=Tipo documento;
+                                                              DEA=Belegart];
+                                                   OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order,Receipt,Posted Invoice,Posted Credit Memo,Posted Return Shipment;
+                                                                    ESP=Oferta,Pedido,Factura,Abono,Pedido abierto,Devoluci¢n,Albar†n compra,Factura regis.,Abono regis.,Env°o dev. regis.;
+                                                                    DEA=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation,Lieferung,Geb. Rechnung,Geb. Gutschrift,Geb. RÅcksendung];
+                                                   OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order,Receipt,Posted Invoice,Posted Credit Memo,Posted Return Shipment }
+    { 2   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 4   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 5   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 6   ;   ;Comment             ;Text80        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+    { 7   ;   ;Document Line No.   ;Integer       ;CaptionML=[ENU=Document Line No.;
+                                                              ESP=Nß l°n. documento;
+                                                              DEA=Belegzeilennr.] }
+    { 8   ;   ;Doc. No. Occurrence ;Integer       ;CaptionML=[ENU=Doc. No. Occurrence;
+                                                              ESP=Ocurrencia Nß doc.;
+                                                              DEA=Belegnr.-HÑufigkeit] }
+    { 9   ;   ;Version No.         ;Integer       ;CaptionML=[ENU=Version No.;
+                                                              ESP=Nß versi¢n;
+                                                              DEA=Versionsnr.] }
+  }
+  KEYS
+  {
+    {    ;Document Type,No.,Doc. No. Occurrence,Version No.,Document Line No.,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE SetUpNewLine@1();
+    VAR
+      SalesCommentLine@1000 : Record 5126;
+    BEGIN
+      SalesCommentLine.SETRANGE("Document Type","Document Type");
+      SalesCommentLine.SETRANGE("No.","No.");
+      SalesCommentLine.SETRANGE("Doc. No. Occurrence","Doc. No. Occurrence");
+      SalesCommentLine.SETRANGE("Version No.","Version No.");
+      SalesCommentLine.SETRANGE("Document Line No.","Line No.");
+      SalesCommentLine.SETRANGE(Date,WORKDATE);
+      IF NOT SalesCommentLine.FINDFIRST THEN
+        Date := WORKDATE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,150 @@
+OBJECT Codeunit 5005272 Deliv.-Rem. Ext. Text Transfer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVDACH6.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There is not enough space to insert extended text lines.;DEA=Es gibt nicht genÅgend Platz, um alle Textbausteinzeilen einzufÅgen.';
+      GLAcc@1140001 : Record 15;
+      TmpExtTextLine@1140002 : TEMPORARY Record 280;
+      NextLineNo@1140003 : Integer;
+      LineSpacing@1140004 : Integer;
+      MakeUpdateRequired@1140005 : Boolean;
+      AutoText@1140006 : Boolean;
+
+    PROCEDURE ReminderCheckIfAnyExtText@1140000(VAR DeliveryReminderLine@1140000 : Record 5005271;Unconditionally@1140001 : Boolean) : Boolean;
+    VAR
+      DeliveryReminder@1140002 : Record 5005270;
+      ExtTextHeader@1140003 : Record 279;
+    BEGIN
+      MakeUpdateRequired := FALSE;
+      IF DeliveryReminderLine."Line No." <> 0 THEN
+        MakeUpdateRequired := DeleteDellivReminLine(DeliveryReminderLine);
+
+      IF Unconditionally THEN
+        AutoText := TRUE
+      ELSE
+        CASE DeliveryReminderLine.Type OF
+          DeliveryReminderLine.Type::" ":
+            AutoText := TRUE;
+          DeliveryReminderLine.Type::"Account (G/L)":
+            IF GLAcc.GET(DeliveryReminderLine."No.") THEN
+              AutoText := GLAcc."Automatic Ext. Texts";
+        END;
+
+      IF AutoText THEN BEGIN
+        DeliveryReminderLine.TESTFIELD("Document No.");
+        DeliveryReminder.GET(DeliveryReminderLine."Document No.");
+        ExtTextHeader.SETRANGE("Table Name",DeliveryReminderLine.Type);
+        ExtTextHeader.SETRANGE("No.",DeliveryReminderLine."No.");
+        ExtTextHeader.SETRANGE("Delivery Reminder",TRUE);
+        EXIT(ReadLines(ExtTextHeader,DeliveryReminder."Document Date",DeliveryReminder."Language Code"));
+      END;
+    END;
+
+    PROCEDURE DelivReminInsertExtendedText@1140001(VAR DeliveryReminderLine@1140000 : Record 5005271);
+    VAR
+      ForDeliveryReminderLine@1140001 : Record 5005271;
+    BEGIN
+      ForDeliveryReminderLine.RESET;
+      ForDeliveryReminderLine.SETRANGE("Document No.",DeliveryReminderLine."Document No.");
+      ForDeliveryReminderLine := DeliveryReminderLine;
+      IF ForDeliveryReminderLine.FIND('>') THEN BEGIN
+        LineSpacing :=
+          (ForDeliveryReminderLine."Line No." - DeliveryReminderLine."Line No.") DIV
+          (1 + TmpExtTextLine.COUNT);
+        IF LineSpacing = 0 THEN
+          ERROR(Text1140000);
+      END ELSE
+        LineSpacing := 10000;
+
+      NextLineNo := DeliveryReminderLine."Line No." + LineSpacing;
+
+      TmpExtTextLine.RESET;
+      IF TmpExtTextLine.FIND('-') THEN BEGIN
+        REPEAT
+          ForDeliveryReminderLine.INIT;
+          ForDeliveryReminderLine."Document No." := DeliveryReminderLine."Document No.";
+          ForDeliveryReminderLine."Line No." := NextLineNo;
+          NextLineNo := NextLineNo + LineSpacing;
+          ForDeliveryReminderLine.Description := TmpExtTextLine.Text;
+          ForDeliveryReminderLine."Attached to Line No." := DeliveryReminderLine."Line No.";
+          ForDeliveryReminderLine.INSERT;
+        UNTIL TmpExtTextLine.NEXT = 0;
+        MakeUpdateRequired := TRUE;
+      END;
+      TmpExtTextLine.DELETEALL;
+    END;
+
+    PROCEDURE DeleteDellivReminLine@1140002(VAR DeliveryReminderLine@1140000 : Record 5005271) : Boolean;
+    VAR
+      DeliveryReminderLine2@1140001 : Record 5005271;
+    BEGIN
+      DeliveryReminderLine2.SETRANGE("Document No.",DeliveryReminderLine."Document No.");
+      DeliveryReminderLine2.SETRANGE("Attached to Line No.",DeliveryReminderLine."Line No.");
+      DeliveryReminderLine2 := DeliveryReminderLine;
+      IF DeliveryReminderLine2.FIND('>') THEN BEGIN
+        REPEAT
+          DeliveryReminderLine2.DELETE;
+        UNTIL DeliveryReminderLine2.NEXT = 0;
+        EXIT(TRUE);
+      END;
+    END;
+
+    PROCEDURE MakeUpdate@1140003() : Boolean;
+    BEGIN
+      EXIT(MakeUpdateRequired);
+    END;
+
+    LOCAL PROCEDURE ReadLines@1140004(VAR ExtTextHeader@1140000 : Record 279;DocDate@1140001 : Date;LanguageCode@1140002 : Code[10]) : Boolean;
+    VAR
+      ExtTextLine@1140003 : Record 280;
+    BEGIN
+      ExtTextHeader.SETCURRENTKEY(
+        "Table Name","No.","Language Code","All Language Codes","Starting Date","Ending Date");
+      ExtTextHeader.SETRANGE("Starting Date",0D,DocDate);
+      ExtTextHeader.SETFILTER("Ending Date",'%1..|%2',DocDate,0D);
+      IF LanguageCode = '' THEN BEGIN
+        ExtTextHeader.SETRANGE("Language Code",'');
+        IF NOT ExtTextHeader.FIND('+') THEN
+          EXIT;
+      END ELSE BEGIN
+        ExtTextHeader.SETRANGE("Language Code",LanguageCode);
+        IF NOT ExtTextHeader.FIND('+') THEN BEGIN
+          ExtTextHeader.SETRANGE("All Language Codes",TRUE);
+          ExtTextHeader.SETRANGE("Language Code",'');
+          IF NOT ExtTextHeader.FIND('+') THEN
+            EXIT;
+        END;
+      END;
+
+      ExtTextLine.SETRANGE("Table Name",ExtTextHeader."Table Name");
+      ExtTextLine.SETRANGE("No.",ExtTextHeader."No.");
+      ExtTextLine.SETRANGE("Language Code",ExtTextHeader."Language Code");
+      ExtTextLine.SETRANGE("Text No.",ExtTextHeader."Text No.");
+      IF ExtTextLine.FIND('-') THEN BEGIN
+        TmpExtTextLine.DELETEALL;
+        REPEAT
+          TmpExtTextLine := ExtTextLine;
+          TmpExtTextLine.INSERT;
+        UNTIL ExtTextLine.NEXT = 0;
+        EXIT(TRUE);
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,47 @@
+OBJECT Table 5057 Industry Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    CaptionML=[ENU=Industry Group;
+               ESP=Grupo industria;
+               DEA=Branche];
+    LookupPageID=Page5066;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;No. of Contacts     ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Contact Industry Group" WHERE (Industry Group Code=FIELD(Code)));
+                                                   CaptionML=[ENU=No. of Contacts;
+                                                              ESP=N§ de contactos;
+                                                              DEA=Anzahl Kontakte];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

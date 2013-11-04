@@ -1,0 +1,54 @@
+OBJECT Table 2000000068 Record Link
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:09;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=V°nculo registro;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Link ID             ;Integer       ;AutoIncrement=Yes;
+                                                   CaptionML=ESP=Id. v°nculo }
+    { 2   ;   ;Record ID           ;RecordID      ;CaptionML=ESP=Id. del registro }
+    { 3   ;   ;URL1                ;Text250       ;CaptionML=ESP=URL1 }
+    { 4   ;   ;URL2                ;Text250       ;CaptionML=ESP=URL2 }
+    { 5   ;   ;URL3                ;Text250       ;CaptionML=ESP=URL3 }
+    { 6   ;   ;URL4                ;Text250       ;CaptionML=ESP=URL4 }
+    { 7   ;   ;Description         ;Text250       ;CaptionML=ESP=Descripci¢n }
+    { 8   ;   ;Type                ;Option        ;CaptionML=ESP=Tipo;
+                                                   OptionCaptionML=[ENU=Link,Note;
+                                                                    ESP=V°nculo,Nota;
+                                                                    DEA=VerknÅpfung,Notiz];
+                                                   OptionString=Link,Note }
+    { 9   ;   ;Note                ;BLOB          ;CaptionML=ESP=Nota;
+                                                   SubType=Memo }
+    { 10  ;   ;Created             ;DateTime      ;CaptionML=ESP=Creado }
+    { 11  ;   ;User ID             ;Text132       ;CaptionML=ESP=Id. usuario }
+    { 12  ;   ;Company             ;Text30        ;TableRelation=Company.Name;
+                                                   CaptionML=ESP=Empresa }
+    { 13  ;   ;Notify              ;Boolean       ;CaptionML=ESP=Notificar }
+    { 14  ;   ;To User ID          ;Text132       ;CaptionML=ESP=Al Id. de usuario }
+  }
+  KEYS
+  {
+    {    ;Link ID                                 ;Clustered=Yes }
+    {    ;Record ID                                }
+    {    ;Company                                  }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

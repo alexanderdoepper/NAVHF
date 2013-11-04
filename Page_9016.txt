@@ -1,0 +1,340 @@
+OBJECT Page 9016 Service Dispatcher Role Center
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Role Center;
+               ESP=µrea de trabajo;
+               DEA=Rollencenter];
+    PageType=RoleCenter;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 5       ;1   ;Action    ;
+                      CaptionML=[ENU=Service Ta&sks;
+                                 ESP=&Tareas de servicio;
+                                 DEA=Serviceau&fgaben];
+                      RunObject=Report 5904;
+                      Image=ServiceTasks }
+      { 6       ;1   ;Action    ;
+                      CaptionML=[ENU=Service &Load Level;
+                                 ESP=Nive&l carga servicio;
+                                 DEA=Servic&eauslastungsgrad];
+                      RunObject=Report 5956;
+                      Image=Report }
+      { 8       ;1   ;Action    ;
+                      CaptionML=[ENU=Resource &Usage;
+                                 ESP=Cons&umo recurso;
+                                 DEA=Resso&urcenverbrauch];
+                      RunObject=Report 5939;
+                      Image=Report }
+      { 9       ;1   ;Separator  }
+      { 13      ;1   ;Action    ;
+                      CaptionML=[ENU=Service I&tems Out of Warranty;
+                                 ESP=Prods. serv. fuera de &garant°a;
+                                 DEA=Serv.-Artikel - &Garantie abgel.];
+                      RunObject=Report 5937;
+                      Image=Report }
+      { 14      ;1   ;Separator  }
+      { 28      ;1   ;Action    ;
+                      CaptionML=[ENU=Profit Service &Contracts;
+                                 ESP=&Contratos ganancia serv.;
+                                 DEA=DB Service&vertrÑge];
+                      RunObject=Report 5976;
+                      Image=Report }
+      { 38      ;1   ;Action    ;
+                      CaptionML=[ENU=Profit Service &Orders;
+                                 ESP=Pedid&os servicio ganancia;
+                                 DEA=DB Serviceauf&trÑge];
+                      RunObject=Report 5910;
+                      Image=Report }
+      { 41      ;1   ;Action    ;
+                      CaptionML=[ENU=Profit Service &Items;
+                                 ESP=Prods. serv&icio beneficio;
+                                 DEA=DB Servicearti&kel];
+                      RunObject=Report 5938;
+                      Image=Report }
+      { 1900000011;0 ;ActionContainer;
+                      ActionContainerType=HomeItems }
+      { 7       ;1   ;Action    ;
+                      CaptionML=[ENU=Service Contract Quotes;
+                                 ESP=Ofertas contrato servicio;
+                                 DEA=Servicevertragsangebote];
+                      RunObject=Page 9322 }
+      { 11      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Contracts;
+                                 ESP=Contratos servicio;
+                                 DEA=ServicevertrÑge];
+                      RunObject=Page 9321;
+                      Image=ServiceAgreement }
+      { 46      ;1   ;Action    ;
+                      ShortCutKey=Return;
+                      CaptionML=[ENU=Open;
+                                 ESP=Pendientes;
+                                 DEA=ôffnen];
+                      RunObject=Page 9321;
+                      RunPageView=WHERE(Change Status=FILTER(Open));
+                      Image=Edit }
+      { 12      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Quotes;
+                                 ESP=Ofertas servicio;
+                                 DEA=Serviceangebote];
+                      RunObject=Page 9317;
+                      Image=Quote }
+      { 15      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Orders;
+                                 ESP=Pedidos servicio;
+                                 DEA=ServiceauftrÑge];
+                      RunObject=Page 9318;
+                      Image=Document }
+      { 54      ;1   ;Action    ;
+                      CaptionML=[ENU=Standard Service Codes;
+                                 ESP=C¢digos servicio est†ndar;
+                                 DEA=Standard Servicecodes];
+                      RunObject=Page 5958;
+                      Image=ServiceCode }
+      { 55      ;1   ;Action    ;
+                      CaptionML=[ENU=Loaners;
+                                 ESP=Prod. prestados;
+                                 DEA=LeihgerÑte];
+                      RunObject=Page 5923;
+                      Image=Loaners }
+      { 56      ;1   ;Action    ;
+                      CaptionML=[ENU=Customers;
+                                 ESP=Clientes;
+                                 DEA=Debitoren];
+                      RunObject=Page 22;
+                      Image=Customer }
+      { 57      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Items;
+                                 ESP=Prods. servicio;
+                                 DEA=Serviceartikel];
+                      RunObject=Page 5981;
+                      Image=ServiceItem }
+      { 58      ;1   ;Action    ;
+                      CaptionML=[ENU=Items;
+                                 ESP=Productos;
+                                 DEA=Artikel];
+                      RunObject=Page 31;
+                      Image=Item }
+      { 59      ;1   ;Action    ;
+                      CaptionML=[ENU=Item Journals;
+                                 ESP=Diarios de productos;
+                                 DEA=Artikel Buch.-BlÑtter];
+                      RunObject=Page 262;
+                      RunPageView=WHERE(Template Type=CONST(Item),
+                                        Recurring=CONST(No)) }
+      { 25      ;1   ;Action    ;
+                      CaptionML=[ENU=Requisition Worksheets;
+                                 ESP=Hojas de demanda;
+                                 DEA=BestellvorschlÑge];
+                      RunObject=Page 295;
+                      RunPageView=WHERE(Template Type=CONST(Req.),
+                                        Recurring=CONST(No)) }
+      { 1900000012;0 ;ActionContainer;
+                      ActionContainerType=ActivityButtons }
+      { 39      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Posted Documents;
+                                 ESP=Documentos hist¢ricos;
+                                 DEA=Gebuchte Belege];
+                      Image=FiledPosted }
+      { 60      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Service Shipments;
+                                 ESP=Env°os servicios registrados;
+                                 DEA=Gebuchte Servicelieferungen];
+                      RunObject=Page 5974;
+                      Image=PostedShipment }
+      { 61      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Service Invoices;
+                                 ESP=Facts. ventas (servicio) regis.;
+                                 DEA=Gebuchte Servicerechnungen];
+                      RunObject=Page 5977;
+                      Image=PostedServiceOrder }
+      { 62      ;2   ;Action    ;
+                      CaptionML=[ENU=Posted Service Credit Memos;
+                                 ESP=Abonos ventas (servicio) regis.;
+                                 DEA=Gebuchte Servicegutschriften];
+                      RunObject=Page 5971 }
+      { 1       ;0   ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 18      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Service;
+                                 ESP=&Servicio;
+                                 DEA=&Service];
+                      Image=Tools }
+      { 17      ;2   ;Action    ;
+                      CaptionML=[ENU=Service Contract &Quote;
+                                 ESP=O&ferta contrato servicio;
+                                 DEA=Ser&vicevertragsangebot];
+                      RunObject=Page 6053;
+                      Promoted=No;
+                      Image=AgreementQuote;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 10      ;2   ;Action    ;
+                      CaptionML=[ENU=Service &Contract;
+                                 ESP=&Contrato servicio;
+                                 DEA=Serviceve&rtrag];
+                      RunObject=Page 6050;
+                      Promoted=No;
+                      Image=Agreement;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 16      ;2   ;Action    ;
+                      CaptionML=[ENU=Service Q&uote;
+                                 ESP=Ofe&rta servicio;
+                                 DEA=Service&angebot];
+                      RunObject=Page 5964;
+                      Promoted=No;
+                      Image=Quote;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 4       ;2   ;Action    ;
+                      CaptionML=[ENU=Service &Order;
+                                 ESP=Pedido &servicio;
+                                 DEA=Serviceau&ftrag];
+                      RunObject=Page 5900;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 3       ;1   ;Action    ;
+                      CaptionML=[ENU=Sales Or&der;
+                                 ESP=Pedido &venta;
+                                 DEA=Verkaufsau&ftrag];
+                      RunObject=Page 42;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 2       ;1   ;Action    ;
+                      CaptionML=[ENU=Transfer &Order;
+                                 ESP=&Ped. transfer.;
+                                 DEA=U&mlagerungsauftrag];
+                      RunObject=Page 5740;
+                      Promoted=No;
+                      Image=Document;
+                      PromotedCategory=Process;
+                      RunPageMode=Create }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 19      ;1   ;Separator ;
+                      CaptionML=[ENU=Tasks;
+                                 ESP=Tareas;
+                                 DEA=Aufgaben];
+                      IsHeader=Yes }
+      { 20      ;1   ;Action    ;
+                      CaptionML=[ENU=Service Tas&ks;
+                                 ESP=&Tareas de servicio;
+                                 DEA=Serviceaufgab&en];
+                      RunObject=Page 5915;
+                      Image=ServiceTasks }
+      { 22      ;1   ;Action    ;
+                      CaptionML=[ENU=C&reate Contract Service Orders;
+                                 ESP=&Crear pedidos serv. contrato;
+                                 DEA=Au&ftrÑge fÅr VertrÑge erst.];
+                      RunObject=Report 6036;
+                      Image=Report }
+      { 24      ;1   ;Action    ;
+                      CaptionML=[ENU=Create Contract In&voices;
+                                 ESP=Crear &facturas contrato;
+                                 DEA=Rechnungen fÅr Ve&rtrÑge erst.];
+                      RunObject=Report 6030;
+                      Image=Report }
+      { 26      ;1   ;Action    ;
+                      CaptionML=[ENU=Post &Prepaid Contract Entries;
+                                 ESP=Registrar movs. contr. &prepago;
+                                 DEA=Vorausbez. Vertragsp&osten buchen];
+                      RunObject=Report 6032;
+                      Image=Report }
+      { 27      ;1   ;Separator  }
+      { 29      ;1   ;Action    ;
+                      CaptionML=[ENU=Order Pla&nning;
+                                 ESP=P&lanificaci¢n de pedidos;
+                                 DEA=Auftragsplan&ung];
+                      RunObject=Page 5522;
+                      Image=Planning }
+      { 30      ;1   ;Separator ;
+                      CaptionML=[ENU=Administration;
+                                 ESP=Administraci¢n;
+                                 DEA=Verwaltung];
+                      IsHeader=Yes }
+      { 33      ;1   ;Action    ;
+                      CaptionML=[ENU=St&andard Service Codes;
+                                 ESP=C¢di&gos servicio est†ndar;
+                                 DEA=Standard Servi&cecodes];
+                      RunObject=Page 5958;
+                      Image=ServiceCode }
+      { 34      ;1   ;Separator ;
+                      CaptionML=[ENU=History;
+                                 ESP=Historial;
+                                 DEA=Historie];
+                      IsHeader=Yes }
+      { 36      ;1   ;Action    ;
+                      CaptionML=[ENU=Item &Tracing;
+                                 ESP=Segu&imiento productos;
+                                 DEA=Artikelablauf&verfolgung];
+                      RunObject=Page 6520;
+                      Image=ItemTracing }
+      { 37      ;1   ;Action    ;
+                      CaptionML=[ENU=Navi&gate;
+                                 ESP=N&avegar;
+                                 DEA=Navi&gate];
+                      RunObject=Page 344;
+                      Image=Navigate }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000008;0;Container;
+                ContainerType=RoleCenterArea }
+
+    { 1900724808;1;Group   }
+
+    { 1904652008;2;Part   ;
+                PagePartID=Page9057;
+                PartType=Page }
+
+    { 1901420308;2;Part   ;
+                PartType=System;
+                SystemPartID=Outlook }
+
+    { 1900724708;1;Group   }
+
+    { 21  ;2   ;Part      ;
+                PagePartID=Page675;
+                Visible=false;
+                PartType=Page }
+
+    { 1907692008;2;Part   ;
+                PagePartID=Page9150;
+                PartType=Page }
+
+    { 1905989608;2;Part   ;
+                PagePartID=Page9152;
+                PartType=Page }
+
+    { 1903012608;2;Part   ;
+                PagePartID=Page9175;
+                Visible=FALSE;
+                PartType=Page }
+
+    { 1901377608;2;Part   ;
+                PartType=System;
+                SystemPartID=MyNotes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

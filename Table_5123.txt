@@ -1,0 +1,68 @@
+OBJECT Table 5123 Inter. Log Entry Comment Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnModify=BEGIN
+               "Last Date Modified" := TODAY;
+             END;
+
+    CaptionML=[ENU=Inter. Log Entry Comment Line;
+               ESP=L¡n. coment. mov. log. inter.;
+               DEA=Aktiv.-Prot.-Postenbem.-Zeile];
+    LookupPageID=Page5188;
+    DrillDownPageID=Page5188;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Entry No.           ;Integer       ;TableRelation="Interaction Log Entry"."Entry No.";
+                                                   CaptionML=[ENU=Entry No.;
+                                                              ESP=N§ mov.;
+                                                              DEA=Lfd. Nr.] }
+    { 4   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=N§ l¡nea;
+                                                              DEA=Zeilennr.] }
+    { 5   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 6   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 7   ;   ;Comment             ;Text80        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+    { 8   ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
+                                                              ESP=Fecha £lt. modificaci¢n;
+                                                              DEA=Korrigiert am];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Entry No.,Line No.                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE SetUpNewLine@1();
+    VAR
+      InteractionCommentLine@1000 : Record 5123;
+    BEGIN
+      InteractionCommentLine.SETRANGE("Entry No.","Entry No.");
+      InteractionCommentLine.SETRANGE(Date,WORKDATE);
+      IF NOT InteractionCommentLine.FINDFIRST THEN
+        Date := WORKDATE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

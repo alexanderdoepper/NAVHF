@@ -1,0 +1,139 @@
+OBJECT Page 5005271 Delivery Reminder Sub.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Lines;
+               DEA=Zeilen];
+    SourceTable=Table5005271;
+    PageType=ListPart;
+    AutoSplitKey=Yes;
+    ActionList=ACTIONS
+    {
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1906587504;1 ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 1907721904;2 ;Action    ;
+                      Name=InsertExtTexts;
+                      CaptionML=[ENU=Insert &Ext. Texts;
+                                 DEA=Textbausteine &einfÅgen];
+                      Image=Text;
+                      OnAction=BEGIN
+                                 // This functionality was copied from page #5005270. Unsupported part was commented. Please check it.
+                                 {CurrPage.DeliveryReminderLines.PAGE.}
+                                 _InsertExtendedText(TRUE);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Order No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Type }
+
+    { 1140005;2;Field     ;
+                SourceExpr="No.";
+                OnValidate=BEGIN
+                             NoOnAfterValidate;
+                           END;
+                            }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Vendor Item No.";
+                Visible=FALSE }
+
+    { 1140009;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140011;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr=Quantity }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Unit of Measure" }
+
+    { 1140015;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Reorder Quantity" }
+
+    { 1140017;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Remaining Quantity" }
+
+    { 1140019;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Order Date" }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Del. Rem. Date Field" }
+
+    { 1140023;2;Field     ;
+                SourceExpr="Requested Receipt Date" }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Promised Receipt Date" }
+
+    { 1140027;2;Field     ;
+                SourceExpr="Expected Receipt Date" }
+
+    { 1140029;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Days overdue" }
+
+    { 1140031;2;Field     ;
+                BlankZero=Yes;
+                SourceExpr="Reminder Level" }
+
+  }
+  CODE
+  {
+    VAR
+      TransferExtendedDelivRemText@1140000 : Codeunit 5005272;
+
+    PROCEDURE _InsertExtendedText@19065029(Unconditionally@1140000 : Boolean);
+    BEGIN
+      IF TransferExtendedDelivRemText.ReminderCheckIfAnyExtText(Rec,Unconditionally) THEN BEGIN
+        CurrPage.SAVERECORD;
+        TransferExtendedDelivRemText.DelivReminInsertExtendedText(Rec);
+      END;
+      IF TransferExtendedDelivRemText.MakeUpdate THEN
+        CurrPage.UPDATE;
+    END;
+
+    PROCEDURE InsertExtendedText@1140000(Unconditionally@1140000 : Boolean);
+    BEGIN
+      IF TransferExtendedDelivRemText.ReminderCheckIfAnyExtText(Rec,Unconditionally) THEN BEGIN
+        CurrPage.SAVERECORD;
+        TransferExtendedDelivRemText.DelivReminInsertExtendedText(Rec);
+      END;
+      IF TransferExtendedDelivRemText.MakeUpdate THEN
+        CurrPage.UPDATE;
+    END;
+
+    LOCAL PROCEDURE NoOnAfterValidate@19066594();
+    BEGIN
+      InsertExtendedText(FALSE);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

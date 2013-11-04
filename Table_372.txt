@@ -1,0 +1,81 @@
+OBJECT Table 372 Payment Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Payment Buffer;
+               ESP=Mem. inter. pago;
+               DEA=Zahlungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
+                                                   CaptionML=[ENU=Vendor No.;
+                                                              ESP=N§ proveedor;
+                                                              DEA=Kreditorennr.] }
+    { 2   ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
+                                                   CaptionML=[ENU=Currency Code;
+                                                              ESP=C¢d. divisa;
+                                                              DEA=W„hrungscode] }
+    { 3   ;   ;Vendor Ledg. Entry No.;Integer     ;TableRelation="Vendor Ledger Entry";
+                                                   CaptionML=[ENU=Vendor Ledg. Entry No.;
+                                                              ESP=N§ mov. proveedor;
+                                                              DEA=Kreditorenposten Lfd. Nr.] }
+    { 4   ;   ;Dimension Entry No. ;Integer       ;CaptionML=[ENU=Dimension Entry No.;
+                                                              ESP=N§ mov. dimensi¢n;
+                                                              DEA=Dimension Lfd. Nr.] }
+    { 5   ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
+                                                   CaptionML=[ENU=Global Dimension 1 Code;
+                                                              ESP=C¢d. dimensi¢n global 1;
+                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionClass='1,1,1' }
+    { 6   ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
+                                                   CaptionML=[ENU=Global Dimension 2 Code;
+                                                              ESP=C¢d. dimensi¢n global 2;
+                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionClass='1,1,2' }
+    { 7   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=N§ documento;
+                                                              DEA=Belegnr.] }
+    { 8   ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag];
+                                                   AutoFormatType=1 }
+    { 9   ;   ;Vendor Ledg. Entry Doc. Type;Option;CaptionML=[ENU=Vendor Ledg. Entry Doc. Type;
+                                                              ESP=Tipo doc. mov. proveedor;
+                                                              DEA=Kreditorenposten Belegart];
+                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                                                    ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
+                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                                                   OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
+    { 10  ;   ;Vendor Ledg. Entry Doc. No.;Code20 ;CaptionML=[ENU=Vendor Ledg. Entry Doc. No.;
+                                                              ESP=N§ doc. mov. proveedor;
+                                                              DEA=Kreditorenposten Belegnr.] }
+    { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
+                                                   CaptionML=[ENU=Dimension Set ID;
+                                                              ESP=Id. grupo dimensiones;
+                                                              DEA=Dimensionssatz-ID];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Vendor No.,Currency Code,Vendor Ledg. Entry No.,Dimension Entry No.;
+                                                   Clustered=Yes }
+    {    ;Document No.                             }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

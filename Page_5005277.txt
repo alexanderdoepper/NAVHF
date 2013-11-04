@@ -1,0 +1,53 @@
+OBJECT Page 5005277 Delivery Reminder Comment Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Comment Line;
+               DEA=Lieferanmahnungsbemerkungen];
+    MultipleNewLines=Yes;
+    SourceTable=Table5005275;
+    DataCaptionFields=Document Type,No.;
+    PageType=List;
+    AutoSplitKey=Yes;
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr=Date }
+
+    { 1140004;2;Field     ;
+                SourceExpr=Comment }
+
+    { 1140006;2;Field     ;
+                SourceExpr=Code;
+                Visible=FALSE }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

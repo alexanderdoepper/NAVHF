@@ -1,0 +1,73 @@
+OBJECT Page 9187 Copy Generic Chart
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Copy Generic Chart;
+               ESP=Copiar gr fico gen‚rico;
+               DEA=Allgemeines Diagramm kopieren];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    ModifyAllowed=No;
+    PageType=StandardDialog;
+    ShowFilter=No;
+    OnQueryClosePage=VAR
+                       GenericChartMgt@1000 : Codeunit 9180;
+                     BEGIN
+                       IF CloseAction IN [ACTION::OK,ACTION::LookupOK] THEN BEGIN
+                         ValidateUserInput;
+                         GenericChartMgt.CopyChart(SourceChart,NewChartID,NewChartTitle);
+                         MESSAGE(Text001);
+                       END
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1   ;    ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Field     ;
+                CaptionML=[ENU=New Chart ID;
+                           ESP=Id. de gr fico nuevo;
+                           DEA=Neue Diagramm-ID];
+                SourceExpr=NewChartID }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU=New Chart Title;
+                           ESP=T¡tulo de gr fico nuevo;
+                           DEA=Neuer Diagrammtitel];
+                SourceExpr=NewChartTitle }
+
+  }
+  CODE
+  {
+    VAR
+      SourceChart@1004 : Record 2000000078;
+      NewChartID@1000 : Code[20];
+      NewChartTitle@1001 : Text[50];
+      Text001@1002 : TextConst 'ENU=The chart was successfully copied.;ESP=El gr fico se copi¢ correctamente.;DEA=Das Diagramm wurde kopiert.';
+      Text002@1003 : TextConst 'ENU=Specify a chart ID.;ESP=Especifique un id. de gr fico.;DEA=Geben Sie eine Diagramm-ID ein.';
+
+    LOCAL PROCEDURE ValidateUserInput@1();
+    BEGIN
+      IF NewChartID = '' THEN
+        ERROR(Text002);
+    END;
+
+    PROCEDURE SetSourceChart@2(SourceChartInput@1000 : Record 2000000078);
+    BEGIN
+      SourceChart := SourceChartInput;
+      CurrPage.CAPTION(CurrPage.CAPTION + ' ' + SourceChart.ID);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

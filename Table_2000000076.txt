@@ -1,0 +1,40 @@
+OBJECT Table 2000000076 Web Service
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:09;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Servicio Web;
+  }
+  FIELDS
+  {
+    { 3   ;   ;Object Type         ;Option        ;CaptionML=ESP=Tipo objeto;
+                                                   OptionCaptionML=[ENU=,,,,,Codeunit,,,Page;
+                                                                    ESP=,,,,,Codeunit,,,P gina,Consulta;
+                                                                    DEA=,,,,,Codeunit,,,Page];
+                                                   OptionString=,,,,,Codeunit,,,Page,Query }
+    { 6   ;   ;Object ID           ;Integer       ;TableRelation=Object.ID WHERE (Type=FIELD(Object Type));
+                                                   CaptionML=ESP=Id. objeto }
+    { 9   ;   ;Service Name        ;Text240       ;CaptionML=ESP=Nombre del servicio }
+    { 12  ;   ;Published           ;Boolean       ;CaptionML=ESP=Publicado }
+  }
+  KEYS
+  {
+    {    ;Object Type,Service Name                ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

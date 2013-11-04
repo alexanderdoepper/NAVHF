@@ -1,0 +1,53 @@
+OBJECT Table 11101 IFB Rate
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVDACH6.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=IFB Rate;
+               DEA=IFB-Satz];
+    LookupPageID=Page11101;
+    DrillDownPageID=Page11101;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 2   ;   ;Description         ;Text30        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung];
+                                                   Editable=No }
+    { 3   ;   ;Startdate           ;Date          ;CaptionML=[ENU=Startdate;
+                                                              DEA=Startdatum];
+                                                   Editable=No }
+    { 4   ;   ;Enddate             ;Date          ;CaptionML=[ENU=Enddate;
+                                                              DEA=Enddatum];
+                                                   Editable=No }
+    { 5   ;   ;Keepingperiod (Years);Integer      ;CaptionML=[ENU=Keepingperiod (Years);
+                                                              DEA=Aufbewahrungsdauer (Jahre)];
+                                                   Editable=No }
+    { 6   ;   ;IFB %               ;Decimal       ;CaptionML=[ENU=IFB %;
+                                                              DEA=IFB %];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description                         }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

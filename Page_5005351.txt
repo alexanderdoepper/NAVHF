@@ -1,0 +1,73 @@
+OBJECT Page 5005351 Phys. Inventory Order List
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Phys. Inventory Order List;
+               DEA=InventurauftragsÅbersicht];
+    SourceTable=Table5005350;
+    PageType=List;
+    CardPageID=Phys. Inventory Order;
+    ActionList=ACTIONS
+    {
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1903115606;1 ;Action    ;
+                      CaptionML=[ENU=Phys. Inventory Order Diff.;
+                                 DEA=Inventurauftragsdifferenz];
+                      RunObject=Report 5005350;
+                      Promoted=No;
+                      PromotedCategory=Report }
+      { 1905170706;1 ;Action    ;
+                      CaptionML=[ENU=Phys. Invt. Order - Test;
+                                 DEA=Inventurauftrag - Test];
+                      RunObject=Report 5005352;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140003;2;Field     ;
+                SourceExpr=Description }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Status }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Order Date" }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Posting Date" }
+
+    { 1140011;2;Field     ;
+                SourceExpr="Person Responsible" }
+
+    { 1140013;2;Field     ;
+                SourceExpr="No. Finished Recordings" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

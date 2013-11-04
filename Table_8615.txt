@@ -1,0 +1,57 @@
+OBJECT Table 8615 Config. Package Data
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Config. Package Data;
+               ESP=Configurar datos de paquete;
+               DEA=Paketdaten konfigurieren];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Package Code        ;Code20        ;TableRelation="Config. Package";
+                                                   CaptionML=[ENU=Package Code;
+                                                              ESP=C¢digo de paquete;
+                                                              DEA=Paketcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Table ID            ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Table ID;
+                                                              ESP=Id. tabla;
+                                                              DEA=Tabellen-ID];
+                                                   NotBlank=Yes }
+    { 3   ;   ;No.                 ;Integer       ;TableRelation="Config. Package Record".No. WHERE (Table ID=FIELD(Table ID));
+                                                   CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.] }
+    { 4   ;   ;Field ID            ;Integer       ;TableRelation="Config. Package Field"."Field ID" WHERE (Table ID=FIELD(Table ID));
+                                                   CaptionML=[ENU=Field ID;
+                                                              ESP=Id. campo;
+                                                              DEA=Feld-ID] }
+    { 5   ;   ;Value               ;Text250       ;CaptionML=[ENU=Value;
+                                                              ESP=Valor;
+                                                              DEA=Wert] }
+    { 6   ;   ;Invalid             ;Boolean       ;CaptionML=[ENU=Invalid;
+                                                              ESP=No v†lido;
+                                                              DEA=UngÅltig] }
+  }
+  KEYS
+  {
+    {    ;Package Code,Table ID,No.,Field ID      ;Clustered=Yes }
+    {    ;Package Code,Table ID,Field ID           }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

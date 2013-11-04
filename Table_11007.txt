@@ -1,0 +1,48 @@
+OBJECT Table 11007 Data Export Record Type
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               GDPdURecordDef@1140000 : Record 11003;
+             BEGIN
+               GDPdURecordDef.SETRANGE("Data Exp. Rec. Type Code",Code);
+               IF GDPdURecordDef.FINDFIRST THEN
+                 ERROR(Text1140000,TABLECAPTION,Code,GDPdURecordDef.TABLECAPTION);
+             END;
+
+    CaptionML=[ENU=Data Export Record Type;
+               DEA=Datensatztyp fÅr Datenexport];
+    LookupPageID=Page11014;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description                         }
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=You must not delete the %1 %2, if there exists a %3 for it.;DEA=Sie dÅrfen den %1 %2 nicht lîschen, wenn eine %3 fÅr ihn existiert.';
+
+    BEGIN
+    END.
+  }
+}
+

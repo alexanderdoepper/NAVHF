@@ -1,0 +1,120 @@
+OBJECT Table 9180 Generic Chart Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Generic Chart Setup;
+               ESP=Configuraci¢n gr fico gen‚rico;
+               DEA=Allgemeines Diagramm - Einrichtung];
+  }
+  FIELDS
+  {
+    { 2   ;   ;ID                  ;Code20        ;CaptionML=[ENU=ID;
+                                                              ESP=Id.;
+                                                              DEA=ID];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Source Type         ;Option        ;CaptionML=[ENU=Source Type;
+                                                              ESP=Tipo procedencia mov.;
+                                                              DEA=Herkunftsart];
+                                                   OptionCaptionML=[ENU=" ,Table,Query";
+                                                                    ESP=" ,Tabla,Consulta";
+                                                                    DEA=" ,Tabelle,Abfrage"];
+                                                   OptionString=[ ,Table,Query] }
+    { 10  ;   ;Name                ;Text50        ;OnValidate=BEGIN
+                                                                Title := Name;
+                                                              END;
+
+                                                   CaptionML=[ENU=Name;
+                                                              ESP=Nombre;
+                                                              DEA=Name] }
+    { 11  ;   ;Title               ;Text250       ;CaptionML=[ENU=Title;
+                                                              ESP=T¡tulo;
+                                                              DEA=Titel] }
+    { 12  ;   ;Filter Text         ;Text250       ;CaptionML=[ENU=Filter Text;
+                                                              ESP=Texto del filtro;
+                                                              DEA=Text filtern] }
+    { 15  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Column,Point;
+                                                                    ESP=Columna,Punto;
+                                                                    DEA=Spalte,Punkt];
+                                                   OptionString=Column,Point }
+    { 16  ;   ;Source ID           ;Integer       ;CaptionML=[ENU=Source ID;
+                                                              ESP=Id. origen;
+                                                              DEA=Herkunfts-ID] }
+    { 17  ;   ;Object Name         ;Text30        ;CaptionML=[ENU=Object Name;
+                                                              ESP=Nombre objeto;
+                                                              DEA=Objektname];
+                                                   Editable=No }
+    { 20  ;   ;X-Axis Field ID     ;Integer       ;CaptionML=[ENU=X-Axis Field ID;
+                                                              ESP=Id. campo eje X;
+                                                              DEA=X-Achse - Feld-ID] }
+    { 21  ;   ;X-Axis Field Name   ;Text80        ;CaptionML=[ENU=X-Axis Field Name;
+                                                              ESP=Nombre campo eje X;
+                                                              DEA=X-Achse - Feldname] }
+    { 22  ;   ;X-Axis Field Caption;Text250       ;CaptionML=[ENU=X-Axis Field Caption;
+                                                              ESP=T¡tulo campo eje X;
+                                                              DEA=X-Achse - Feldbezeichnung] }
+    { 23  ;   ;X-Axis Title        ;Text250       ;CaptionML=[ENU=X-Axis Title;
+                                                              ESP=T¡tulo eje X;
+                                                              DEA=X-Achse - Titel] }
+    { 24  ;   ;X-Axis Show Title   ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=X-Axis Show Title;
+                                                              ESP=T¡tulo para mostrar eje X;
+                                                              DEA=X-Achse - Titel anzeigen] }
+    { 30  ;   ;Y-Axis Fields       ;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Generic Chart Y-Axis" WHERE (ID=FIELD(ID)));
+                                                   CaptionML=[ENU=Y-Axis Fields;
+                                                              ESP=Campos eje Y;
+                                                              DEA=Y-Achse - Felder];
+                                                   Editable=No }
+    { 31  ;   ;Y-Axis Title        ;Text250       ;CaptionML=[ENU=Y-Axis Title;
+                                                              ESP=T¡tulo eje Y;
+                                                              DEA=Y-Achse - Titel] }
+    { 32  ;   ;Y-Axis Show Title   ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Y-Axis Show Title;
+                                                              ESP=T¡tulo para mostrar eje Y;
+                                                              DEA=Y-Achse - Titel anzeigen] }
+    { 34  ;   ;Z-Axis Field ID     ;Integer       ;CaptionML=[ENU=Z-Axis Field ID;
+                                                              ESP=Id. campo eje Z;
+                                                              DEA=Z-Achse - Feld-ID] }
+    { 35  ;   ;Z-Axis Field Name   ;Text80        ;CaptionML=[ENU=Z-Axis Field Name;
+                                                              ESP=Nombre campo eje Z;
+                                                              DEA=Z-Achse - Feldname] }
+    { 36  ;   ;Z-Axis Field Caption;Text250       ;CaptionML=[ENU=Z-Axis Field Caption;
+                                                              ESP=T¡tulo campo eje Z;
+                                                              DEA=Z-Achse - Feldbezeichnung] }
+    { 38  ;   ;Z-Axis Title        ;Text250       ;CaptionML=[ENU=Z-Axis Title;
+                                                              ESP=T¡tulo eje Z;
+                                                              DEA=Z-Achse - Titel] }
+    { 39  ;   ;Z-Axis Show Title   ;Boolean       ;CaptionML=[ENU=Z-Axis Show Title;
+                                                              ESP=T¡tulo para mostrar eje Z;
+                                                              DEA=Z-Achse - Titel anzeigen] }
+    { 40  ;   ;Chart Exists        ;Boolean       ;FieldClass=FlowField;
+                                                   CalcFormula=Exist(Chart WHERE (ID=FIELD(ID)));
+                                                   CaptionML=[ENU=Chart Exists;
+                                                              ESP=Existe gr fico;
+                                                              DEA=Diagramm ist vorhanden];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;ID                                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

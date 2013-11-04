@@ -1,0 +1,54 @@
+OBJECT Table 5078 Segment History
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Segment History;
+               ESP=Historia segmento;
+               DEA=Segmenthistorie];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Segment No.         ;Code20        ;TableRelation="Segment Header";
+                                                   CaptionML=[ENU=Segment No.;
+                                                              ESP=Nß segmento;
+                                                              DEA=Segmentnr.] }
+    { 2   ;   ;Segment Action No.  ;Integer       ;CaptionML=[ENU=Segment Action No.;
+                                                              ESP=Nß acci¢n segmento;
+                                                              DEA=Segment Aktionsnr.] }
+    { 3   ;   ;Segment Line No.    ;Integer       ;CaptionML=[ENU=Segment Line No.;
+                                                              ESP=Nß l°n. segmento;
+                                                              DEA=Segmentszeilennr.] }
+    { 4   ;   ;Contact No.         ;Code20        ;TableRelation=Contact;
+                                                   CaptionML=[ENU=Contact No.;
+                                                              ESP=Nß contacto;
+                                                              DEA=Kontaktnr.] }
+    { 5   ;   ;Action Taken        ;Option        ;CaptionML=[ENU=Action Taken;
+                                                              ESP=Acci¢n tomada;
+                                                              DEA=Kriterienaktion];
+                                                   OptionCaptionML=[ENU=Insertion,Deletion;
+                                                                    ESP=Inserci¢n,Borrado;
+                                                                    DEA=HinzufÅgen,Entfernen];
+                                                   OptionString=Insertion,Deletion }
+  }
+  KEYS
+  {
+    {    ;Segment No.,Segment Action No.,Segment Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

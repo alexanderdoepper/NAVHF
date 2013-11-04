@@ -1,0 +1,58 @@
+OBJECT Report 9172 Import Profiles
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Import Profiles;
+               ESP=Importar perfiles;
+               DEA=Profile importieren];
+    ProcessingOnly=Yes;
+    OnInitReport=VAR
+                   ConfPersMgt@1102601001 : Codeunit 9170;
+                   TempFile@1102601000 : File;
+                 BEGIN
+                   TempFile.CREATETEMPFILE;
+                   FileName := TempFile.NAME + '.xml';
+                   TempFile.CLOSE;
+                   UPLOAD(Text001,'',Text002,'',FileName);
+                   ConfPersMgt.ImportProfiles(FileName);
+                   CurrReport.QUIT;
+                 END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+    }
+    CONTROLS
+    {
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      FileName@1001 : Text[250];
+      Text001@1004 : TextConst 'ENU=Import from XML File;ESP=Importar desde archivo XML;DEA=Aus XML-Datei importieren';
+      Text002@1002 : TextConst 'ENU=XML Files (*.xml)|*.xml|All Files (*.*)|*.*;ESP=Archivos XML (*.xml)|*.xml|Todos los archivos (*.*)|*.*;DEA=XML-Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*';
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

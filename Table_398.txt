@@ -1,0 +1,72 @@
+OBJECT Table 398 XBRL Rollup Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=XBRL Rollup Line;
+               ESP=L¡nea distribuci¢n XBRL;
+               DEA=XBRL-Roll-up-Zeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;XBRL Taxonomy Name  ;Code20        ;TableRelation="XBRL Taxonomy";
+                                                   CaptionML=[ENU=XBRL Taxonomy Name;
+                                                              ESP=Nombre taxonom¡a XBRL;
+                                                              DEA=XBRL-Taxonomiename] }
+    { 2   ;   ;XBRL Taxonomy Line No.;Integer     ;TableRelation="XBRL Taxonomy Line"."Line No." WHERE (XBRL Taxonomy Name=FIELD(XBRL Taxonomy Name));
+                                                   CaptionML=[ENU=XBRL Taxonomy Line No.;
+                                                              ESP=N§ l¡n. taxonom¡a XBRL;
+                                                              DEA=XBRL-Taxonomiezeilennr.] }
+    { 4   ;   ;From XBRL Taxonomy Line No.;Integer;TableRelation="XBRL Taxonomy Line"."Line No." WHERE (XBRL Taxonomy Name=FIELD(XBRL Taxonomy Name));
+                                                   CaptionML=[ENU=From XBRL Taxonomy Line No.;
+                                                              ESP=Desde n§ l¡n. taxonom¡a;
+                                                              DEA=Von XBRL-Taxonomiezeilennr.] }
+    { 5   ;   ;From XBRL Taxonomy Line Name;Text250;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Lookup("XBRL Taxonomy Line".Name WHERE (XBRL Taxonomy Name=FIELD(XBRL Taxonomy Name),
+                                                                                                       Line No.=FIELD(From XBRL Taxonomy Line No.)));
+                                                   CaptionML=[ENU=From XBRL Taxonomy Line Name;
+                                                              ESP=Desde nombre l¡n. taxonom¡a;
+                                                              DEA=Von XBRL-Taxonomiezeilenname];
+                                                   Editable=No }
+    { 6   ;   ;From XBRL Taxonomy Line Label;Text250;
+                                                   FieldClass=FlowField;
+                                                   CalcFormula=Lookup("XBRL Taxonomy Label".Label WHERE (XBRL Taxonomy Name=FIELD(XBRL Taxonomy Name),
+                                                                                                         XBRL Taxonomy Line No.=FIELD(From XBRL Taxonomy Line No.),
+                                                                                                         XML Language Identifier=FIELD(Label Language Filter)));
+                                                   CaptionML=[ENU=From XBRL Taxonomy Line Label;
+                                                              ESP=Desde etiqueta l¡n. taxonom¡a;
+                                                              DEA=Von XBRL-Taxonomiezeilenbesch.];
+                                                   Editable=No }
+    { 8   ;   ;Weight              ;Decimal       ;CaptionML=[ENU=Weight;
+                                                              ESP=Peso;
+                                                              DEA=Gewicht];
+                                                   DecimalPlaces=0:0;
+                                                   MinValue=-1;
+                                                   MaxValue=1 }
+    { 9   ;   ;Label Language Filter;Text10       ;FieldClass=FlowFilter;
+                                                   CaptionML=[ENU=Label Language Filter;
+                                                              ESP=Filtro idioma etiqueta;
+                                                              DEA=Beschriftungssprachenfilter] }
+  }
+  KEYS
+  {
+    {    ;XBRL Taxonomy Name,XBRL Taxonomy Line No.,From XBRL Taxonomy Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

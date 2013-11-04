@@ -1,0 +1,55 @@
+OBJECT Table 5094 Close Opportunity Code
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    CaptionML=[ENU=Close Opportunity Code;
+               ESP=C¢d. cierre oportunidad;
+               DEA=Verkaufschancenabschlusscode];
+    LookupPageID=Page5133;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;No. of Opportunities;Integer       ;FieldClass=FlowField;
+                                                   CalcFormula=Count("Opportunity Entry" WHERE (Close Opportunity Code=FIELD(Code)));
+                                                   CaptionML=[ENU=No. of Opportunities;
+                                                              ESP=N§ de oportunidades;
+                                                              DEA=Anzahl Verkaufschancen];
+                                                   Editable=No }
+    { 4   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Won,Lost;
+                                                                    ESP=Ganada,Perdida;
+                                                                    DEA=Gewonnen,Verloren];
+                                                   OptionString=Won,Lost }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Type                    }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

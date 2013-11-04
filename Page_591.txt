@@ -1,0 +1,158 @@
+OBJECT Page 591 Payment Tolerance Warning
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Payment Tolerance Warning;
+               ESP=Advertencia tolerancia pagos;
+               DEA=Zahlungstoleranzwarnung];
+    PageType=ConfirmationDialog;
+    InstructionalTextML=[ENU=An action is requested regarding the Payment Tolerance Warning.;
+                         ESP=Se ha solicitado una acci¢n en relaci¢n con la advertencia de tolerancia de pagos.;
+                         DEA=FÅr die Zahlungstoleranzwarnung wird eine Aktion angefordert.];
+    RefreshOnActivate=Yes;
+    OnOpenPage=BEGIN
+                 Posting := Posting::"Remaining Amount";
+
+                 IF BalanceAmount = 0 THEN
+                   BalanceAmount := Amount + AppliedAmount;
+               END;
+
+    OnQueryClosePage=BEGIN
+                       IF CloseAction = ACTION::No THEN
+                         NoOnPush;
+                       IF CloseAction = ACTION::Yes THEN
+                         YesOnPush;
+                     END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 3   ;1   ;Field     ;
+                CaptionML=[ENU=Regarding the Balance amount, do you want to:;
+                           ESP=Respecto al importe del saldo, desea:;
+                           DEA=Welche der folgenden Aktionen mîchten Sie in Bezug auf den Restbetrag ausfÅhren?];
+                OptionCaptionML=[ENU=,Post the Balance as Payment Tolerance?,Leave a Remaining Amount?;
+                                 ESP=,®Registrar el saldo como tolerancia pago?,®Dejar un importe pendiente?;
+                                 DEA=,Restbetrag als Zahlungstoleranz buchen?,Restbetrag offen lassen?];
+                SourceExpr=Posting }
+
+    { 2   ;1   ;Group     ;
+                CaptionML=[ENU=Details;
+                           ESP=Detalles;
+                           DEA=Details];
+                InstructionalTextML=[ENU=Posting this application will create an outstanding balance. You can close all entries by posting the balance as a payment tolerance amount.;
+                                     ESP=Al registrar la aplicaci¢n crear† un saldo pendiente. Puede cerrar todos los movimientos registrando el saldo como importe de tolerancia de pagos.;
+                                     DEA=Beim Buchen dieses Ausgleichs wird ein Restbetrag verbleiben. Sie kînnen alle Posten schlie·en, indem Sie den Betrag als Zahlungstoleranz buchen.] }
+
+    { 7   ;2   ;Field     ;
+                CaptionML=[ENU=Posting Date;
+                           ESP=Fecha registro;
+                           DEA=Buchungsdatum];
+                SourceExpr=PostingDate;
+                Editable=FALSE }
+
+    { 19  ;2   ;Field     ;
+                CaptionML=[ENU=No;
+                           ESP=No;
+                           DEA=Nr.];
+                SourceExpr=CustVendNo;
+                Editable=FALSE }
+
+    { 20  ;2   ;Field     ;
+                CaptionML=[ENU=Document No.;
+                           ESP=Nß documento;
+                           DEA=Belegnr.];
+                SourceExpr=DocNo;
+                Editable=FALSE }
+
+    { 13  ;2   ;Field     ;
+                CaptionML=[ENU=Currency Code;
+                           ESP=C¢d. divisa;
+                           DEA=WÑhrungscode];
+                SourceExpr=CurrencyCode;
+                Editable=FALSE }
+
+    { 8   ;2   ;Field     ;
+                CaptionML=[ENU=Amount;
+                           ESP=Importe;
+                           DEA=Betrag];
+                SourceExpr=Amount;
+                Editable=FALSE }
+
+    { 15  ;2   ;Field     ;
+                CaptionML=[ENU=Applied Amount;
+                           ESP=Importe conciliado;
+                           DEA=Ausgleichsbetrag];
+                SourceExpr=AppliedAmount;
+                Editable=FALSE }
+
+    { 17  ;2   ;Field     ;
+                CaptionML=[ENU=Balance;
+                           ESP=Saldo;
+                           DEA=Saldo];
+                SourceExpr=BalanceAmount;
+                Editable=FALSE }
+
+  }
+  CODE
+  {
+    VAR
+      PostingDate@1002 : Date;
+      CustVendNo@1023 : Code[20];
+      DocNo@1003 : Code[20];
+      CurrencyCode@1001 : Code[10];
+      Amount@1006 : Decimal;
+      AppliedAmount@1011 : Decimal;
+      BalanceAmount@1009 : Decimal;
+      Posting@1015 : ' ,Payment Tolerance Accounts,Remaining Amount';
+      NewPostingAction@1005 : Integer;
+
+    PROCEDURE SetValues@1(ShowPostingDate@1000 : Date;ShowCustVendNo@1001 : Code[20];ShowDocNo@1003 : Code[20];ShowCurrencyCode@1002 : Code[10];ShowAmount@1004 : Decimal;ShowAppliedAmount@1005 : Decimal;ShowBalance@1007 : Decimal);
+    BEGIN
+      PostingDate := ShowPostingDate;
+      CustVendNo := ShowCustVendNo;
+      DocNo := ShowDocNo;
+      CurrencyCode := ShowCurrencyCode;
+      Amount := ShowAmount;
+      AppliedAmount := ShowAppliedAmount;
+      BalanceAmount := ShowBalance;
+    END;
+
+    PROCEDURE GetValues@2(VAR PostingAction@1001 : Integer);
+    BEGIN
+      PostingAction := NewPostingAction
+    END;
+
+    LOCAL PROCEDURE YesOnPush@19065578();
+    BEGIN
+      IF Posting = Posting::"Payment Tolerance Accounts" THEN
+        NewPostingAction := 1
+      ELSE
+        IF Posting = Posting::"Remaining Amount" THEN
+          NewPostingAction := 2;
+    END;
+
+    LOCAL PROCEDURE NoOnPush@19040112();
+    BEGIN
+      NewPostingAction := 3;
+    END;
+
+    PROCEDURE InitializeOption@3(OptionValue@1000 : Integer);
+    BEGIN
+      NewPostingAction := OptionValue;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,51 @@
+OBJECT Table 5958 Resource Service Zone
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Resource Service Zone;
+               ESP=Zona servicio recurso;
+               DEA=Ressourcenservicegebiet];
+    LookupPageID=Page6021;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Resource No.        ;Code20        ;TableRelation=Resource;
+                                                   CaptionML=[ENU=Resource No.;
+                                                              ESP=N§ recurso;
+                                                              DEA=Ressourcennr.];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Service Zone Code   ;Code10        ;TableRelation="Service Zone";
+                                                   CaptionML=[ENU=Service Zone Code;
+                                                              ESP=C¢d. zona servicio;
+                                                              DEA=Servicegebietscode];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
+                                                              ESP=Fecha inicial;
+                                                              DEA=Startdatum] }
+    { 4   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Resource No.,Service Zone Code,Starting Date;
+                                                   Clustered=Yes }
+    {    ;Service Zone Code,Starting Date,Resource No. }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

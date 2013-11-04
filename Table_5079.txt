@@ -1,0 +1,292 @@
+OBJECT Table 5079 Marketing Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Marketing Setup;
+               ESP=Configuraci¢n de marketing;
+               DEA=Marketing & Vertrieb Einr.];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Contact Nos.        ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Contact Nos.;
+                                                              ESP=Nß serie contacto;
+                                                              DEA=Kontaktnummern] }
+    { 3   ;   ;Campaign Nos.       ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Campaign Nos.;
+                                                              ESP=Nß serie campa§a;
+                                                              DEA=Kampagnennummern] }
+    { 4   ;   ;Segment Nos.        ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Segment Nos.;
+                                                              ESP=Nß serie segmento;
+                                                              DEA=Segmentnummern] }
+    { 5   ;   ;To-do Nos.          ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=To-do Nos.;
+                                                              ESP=Nß serie tarea;
+                                                              DEA=Aufgabennummern] }
+    { 6   ;   ;Opportunity Nos.    ;Code10        ;TableRelation="No. Series";
+                                                   CaptionML=[ENU=Opportunity Nos.;
+                                                              ESP=Nß serie oportunidad;
+                                                              DEA=Verkaufschancennummern] }
+    { 7   ;   ;Bus. Rel. Code for Customers;Code10;TableRelation="Business Relation";
+                                                   CaptionML=[ENU=Bus. Rel. Code for Customers;
+                                                              ESP=C¢d. relac. negocio para clie.;
+                                                              DEA=GeschÑftsbez.-Code Debitoren] }
+    { 8   ;   ;Bus. Rel. Code for Vendors;Code10  ;TableRelation="Business Relation";
+                                                   CaptionML=[ENU=Bus. Rel. Code for Vendors;
+                                                              ESP=C¢d. relac. negocio para prov.;
+                                                              DEA=GeschÑftsbez.-Code Kreditoren] }
+    { 9   ;   ;Bus. Rel. Code for Bank Accs.;Code10;
+                                                   TableRelation="Business Relation";
+                                                   CaptionML=[ENU=Bus. Rel. Code for Bank Accs.;
+                                                              ESP=C¢d. relac. negocio para banco;
+                                                              DEA=GeschÑftsbez.-Code Bankkonten] }
+    { 22  ;   ;Inherit Salesperson Code;Boolean   ;InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Salesperson Code;
+                                                              ESP=Hereda c¢d. vendedor;
+                                                              DEA=VerkÑufercode Åbernehmen] }
+    { 23  ;   ;Inherit Territory Code;Boolean     ;InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Territory Code;
+                                                              ESP=Hereda c¢d. territorio;
+                                                              DEA=Gebietscode Åbernehmen] }
+    { 24  ;   ;Inherit Country/Region Code;Boolean;InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Country/Region Code;
+                                                              ESP=Heredar c¢d. pa°s/regi¢n;
+                                                              DEA=LÑnder-/Regionscode Åbernehmen] }
+    { 25  ;   ;Inherit Language Code;Boolean      ;InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Language Code;
+                                                              ESP=Hereda c¢d. idioma;
+                                                              DEA=Sprachcode Åbernehmen] }
+    { 26  ;   ;Inherit Address Details;Boolean    ;InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Address Details;
+                                                              ESP=Hereda detalles direcci¢n;
+                                                              DEA=Adressdetails Åbernehmen] }
+    { 27  ;   ;Inherit Communication Details;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Inherit Communication Details;
+                                                              ESP=Hereda detalles comunicaci¢n;
+                                                              DEA=Kommunikationsdetails Åbern.] }
+    { 28  ;   ;Default Salesperson Code;Code10    ;TableRelation=Salesperson/Purchaser;
+                                                   CaptionML=[ENU=Default Salesperson Code;
+                                                              ESP=C¢d. vendedor genÇrico;
+                                                              DEA=StandardverkÑufercode] }
+    { 29  ;   ;Default Territory Code;Code10      ;TableRelation=Territory;
+                                                   CaptionML=[ENU=Default Territory Code;
+                                                              ESP=C¢d. territorio genÇr.;
+                                                              DEA=Standardgebietscode] }
+    { 30  ;   ;Default Country/Region Code;Code10 ;TableRelation=Country/Region;
+                                                   CaptionML=[ENU=Default Country/Region Code;
+                                                              ESP=C¢digo pa°s/regi¢n predet.;
+                                                              DEA=StandardlÑnder-/-regionscode] }
+    { 31  ;   ;Default Language Code;Code10       ;TableRelation=Language;
+                                                   CaptionML=[ENU=Default Language Code;
+                                                              ESP=C¢d. idioma genÇrico;
+                                                              DEA=Standardsprachcode] }
+    { 33  ;   ;Default Sales Cycle Code;Code10    ;TableRelation="Sales Cycle";
+                                                   CaptionML=[ENU=Default Sales Cycle Code;
+                                                              ESP=C¢d. ciclo ventas genÇr.;
+                                                              DEA=Standardverkaufsprozesscode] }
+    { 35  ;   ;Attachment Storage Type;Option     ;CaptionML=[ENU=Attachment Storage Type;
+                                                              ESP=Tipo almacenamiento anexo;
+                                                              DEA=Dateianhang-Speicherungsart];
+                                                   OptionCaptionML=[ENU=Embedded,Disk File;
+                                                                    ESP=Incorporado,Archivo disco;
+                                                                    DEA=Eingebettet,Extern];
+                                                   OptionString=Embedded,Disk File }
+    { 36  ;   ;Attachment Storage Location;Text250;CaptionML=[ENU=Attachment Storage Location;
+                                                              ESP=Ruta almcenamiento anexo;
+                                                              DEA=Pfad fÅr externe Speicherung] }
+    { 37  ;   ;Autosearch for Duplicates;Boolean  ;InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                IF "Autosearch for Duplicates" THEN
+                                                                  "Maintain Dupl. Search Strings" := TRUE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Autosearch for Duplicates;
+                                                              ESP=Busca duplicados autom†tic.;
+                                                              DEA=Automatische DublettenprÅfung] }
+    { 38  ;   ;Search Hit %        ;Integer       ;InitValue=60;
+                                                   CaptionML=[ENU=Search Hit %;
+                                                              ESP=% Acierto b£squeda;
+                                                              DEA=öbereinstimmung %];
+                                                   MinValue=1;
+                                                   MaxValue=100;
+                                                   NotBlank=Yes }
+    { 39  ;   ;Maintain Dupl. Search Strings;Boolean;
+                                                   InitValue=Yes;
+                                                   OnValidate=BEGIN
+                                                                IF NOT "Maintain Dupl. Search Strings" THEN
+                                                                  "Autosearch for Duplicates" := FALSE;
+                                                              END;
+
+                                                   CaptionML=[ENU=Maintain Dupl. Search Strings;
+                                                              ESP=Mantiene cadenas b£sq. duplic.;
+                                                              DEA=Index aktualisieren];
+                                                   NotBlank=Yes }
+    { 50  ;   ;Mergefield Language ID;Integer     ;TableRelation="Windows Language";
+                                                   CaptionML=[ENU=Mergefield Language ID;
+                                                              ESP=ID idioma campos comb.;
+                                                              DEA=Seriendruckfeld Sprach-ID];
+                                                   BlankZero=Yes }
+    { 51  ;   ;Def. Company Salutation Code;Code10;TableRelation=Salutation;
+                                                   CaptionML=[ENU=Def. Company Salutation Code;
+                                                              ESP=C¢d. saludo empresa genÇrico;
+                                                              DEA=Vorg.-Unternehmensanredecode] }
+    { 52  ;   ;Default Person Salutation Code;Code10;
+                                                   TableRelation=Salutation;
+                                                   CaptionML=[ENU=Default Person Salutation Code;
+                                                              ESP=C¢d. saludo persona genÇrico;
+                                                              DEA=Vorg.-Personenanredecode] }
+    { 53  ;   ;Default Correspondence Type;Option ;CaptionML=[ENU=Default Correspondence Type;
+                                                              ESP=Tipo correspondencia genÇrico;
+                                                              DEA=Vorg.-Korrespondenzart];
+                                                   OptionCaptionML=[ENU=" ,Hard Copy,E-Mail,Fax";
+                                                                    ESP=" ,Impresi¢n,Correo electr¢nico,Fax";
+                                                                    DEA=" ,Brief,E-Mail,Fax"];
+                                                   OptionString=[ ,Hard Copy,E-Mail,Fax] }
+    { 56  ;   ;Queue Folder Path   ;Text250       ;CaptionML=[ENU=Queue Folder Path;
+                                                              ESP=Ruta acceso carpeta cola;
+                                                              DEA=Warteschlangenordnerpfad];
+                                                   Editable=No }
+    { 57  ;   ;Queue Folder UID    ;BLOB          ;CaptionML=[ENU=Queue Folder UID;
+                                                              ESP=UID carpeta cola;
+                                                              DEA=Warteschlangenordner-UID] }
+    { 59  ;   ;Storage Folder Path ;Text250       ;CaptionML=[ENU=Storage Folder Path;
+                                                              ESP=Ruta acceso carpeta almacenam.;
+                                                              DEA=Speicherordnerpfad];
+                                                   Editable=No }
+    { 60  ;   ;Storage Folder UID  ;BLOB          ;CaptionML=[ENU=Storage Folder UID;
+                                                              ESP=UID carpeta almacenam.;
+                                                              DEA=Speicherordner-UID] }
+    { 67  ;   ;Default To-do Date Calculation;DateFormula;
+                                                   CaptionML=[ENU=Default To-do Date Calculation;
+                                                              ESP=C†lculo fecha tarea genÇrico;
+                                                              DEA=Vorg.-Aufg.-Datumsberechnung] }
+    { 68  ;   ;Enable Connector    ;Boolean       ;OnValidate=BEGIN
+                                                                CASE "Enable Connector" OF
+                                                                  TRUE:
+                                                                    IF CONFIRM(Text005,FALSE) THEN BEGIN
+                                                                      IF InheritanceEnabled THEN
+                                                                        IF NOT CONFIRM(Text009,FALSE) THEN
+                                                                          ERROR('');
+                                                                      IntegrationManagement.EnableConnector;
+                                                                      MESSAGE(Text006);
+                                                                    END ELSE
+                                                                      ERROR('');
+                                                                  FALSE:
+                                                                    IF CONFIRM(Text007,FALSE) THEN BEGIN
+                                                                      IntegrationManagement.DisableConnector;
+                                                                      MESSAGE(Text008);
+                                                                    END ELSE
+                                                                      ERROR('');
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Enable Connector;
+                                                              ESP=Habilitar Connector;
+                                                              DEA=Connector aktivieren] }
+    { 69  ;   ;Autodiscovery E-Mail Address;Text250;
+                                                   CaptionML=[ENU=Autodiscovery E-Mail Address;
+                                                              ESP=Det. autom. direcci¢n correo elect.;
+                                                              DEA=AutoErmittlung fÅr E-Mail-Adresse] }
+    { 70  ;   ;Email Batch Size    ;Integer       ;CaptionML=[ENU=Email Batch Size;
+                                                              ESP=Tama§o del lote de correo electr¢nico;
+                                                              DEA=E-Mail-Batchgrî·e];
+                                                   MinValue=0 }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text005@1003 : TextConst 'ENU=Do you want to enable integration with the Connector for Microsoft Dynamics?;ESP=®Desea habilitar la integraci¢n con Connector for Microsoft Dynamics?;DEA=Mîchten Sie die Integration in Connector for Microsoft Dynamics aktivieren?';
+      Text006@1004 : TextConst 'ENU=Integration with the Connector for Microsoft Dynamics is enabled.\The Microsoft Dynamics NAV service should be restarted.;ESP=Se habilit¢ la integraci¢n con Connector for Microsoft Dynamics.\Se recomienda reiniciar el servicio Microsoft Dynamics NAV.;DEA=Die Integration fÅr Connector for Microsoft Dynamics ist aktiviert.\Der Microsoft Dynamics NAV-Dienst muss neu gestartet werden.';
+      IntegrationManagement@1005 : Codeunit 5150;
+      Text007@1006 : TextConst 'ENU=Do you want to disable integration with the Connector for Microsoft Dynamics?;ESP=®Desea deshabilitar la integraci¢n con Connector for Microsoft Dynamics?;DEA=Mîchten Sie die Integration in Connector for Microsoft Dynamics deaktivieren?';
+      Text008@1007 : TextConst 'ENU=Integration with the Connector for Microsoft Dynamics is disabled.\The Microsoft Dynamics NAV service should be restarted.;ESP=Se deshabilit¢ la integraci¢n con Connector for Microsoft Dynamics.\Se recomienda reiniciar el servicio Microsoft Dynamics NAV.;DEA=Die Integration fÅr Connector for Microsoft Dynamics ist deaktiviert.\Der Microsoft Dynamics NAV-Dienst muss neu gestartet werden.';
+      Text009@1008 : TextConst 'ENU=Enabling the Connector while Inheritance is enabled may lead to data corruption. Do you want to continue?;ESP=Al activar el conector con la herencia activada se puede da§ar los datos. ®Desea continuar?;DEA=Wenn der Connector bei aktivierter öbernahme aktiviert wird, werden unter UmstÑnden Daten beschÑdigt. Soll der Vorgang fortgesetzt werden?';
+      Text010@1000 : TextConst 'ENU=The queue and storage folders cannot be the same. Choose a different folder.;ESP=Las carpetas de cola y almacenamiento no pueden ser la misma. Elija una carpeta distinta.;DEA=Bei Ablage- und Speicherordner darf es sich nicht um den gleichen Ordner handeln. WÑhlen Sie einen anderen Ordner aus.';
+
+    LOCAL PROCEDURE InheritanceEnabled@1() : Boolean;
+    BEGIN
+      EXIT("Inherit Salesperson Code" OR
+        "Inherit Territory Code" OR
+        "Inherit Country/Region Code" OR
+        "Inherit Language Code" OR
+        "Inherit Address Details" OR
+        "Inherit Communication Details");
+    END;
+
+    PROCEDURE SetQueueFolder@2(ExchangeFolder@1000 : Record 5320);
+    VAR
+      InStream@1001 : InStream;
+      OutStream@1002 : OutStream;
+    BEGIN
+      IF (ExchangeFolder.FullPath = "Storage Folder Path") AND (ExchangeFolder.FullPath <> '') THEN
+        ERROR(Text010);
+      IF (ExchangeFolder.ReadUniqueID = GetStorageFolderUID) AND ExchangeFolder."Unique ID".HASVALUE THEN
+        ERROR(Text010);
+
+      "Queue Folder Path" := ExchangeFolder.FullPath;
+
+      ExchangeFolder."Unique ID".CREATEINSTREAM(InStream);
+      "Queue Folder UID".CREATEOUTSTREAM(OutStream);
+      COPYSTREAM(OutStream,InStream);
+      MODIFY;
+    END;
+
+    PROCEDURE SetStorageFolder@3(ExchangeFolder@1000 : Record 5320);
+    VAR
+      InStream@1001 : InStream;
+      OutStream@1002 : OutStream;
+    BEGIN
+      IF (ExchangeFolder.FullPath = "Queue Folder Path") AND (ExchangeFolder.FullPath <> '') THEN
+        ERROR(Text010);
+      IF (ExchangeFolder.ReadUniqueID = GetQueueFolderUID) AND ExchangeFolder."Unique ID".HASVALUE THEN
+        ERROR(Text010);
+
+      "Storage Folder Path" := ExchangeFolder.FullPath;
+
+      ExchangeFolder."Unique ID".CREATEINSTREAM(InStream);
+      "Storage Folder UID".CREATEOUTSTREAM(OutStream);
+      COPYSTREAM(OutStream,InStream);
+      MODIFY;
+    END;
+
+    PROCEDURE GetQueueFolderUID@7() Return : Text;
+    VAR
+      Stream@1000 : InStream;
+    BEGIN
+      CALCFIELDS("Queue Folder UID");
+      "Queue Folder UID".CREATEINSTREAM(Stream);
+      Stream.READTEXT(Return);
+    END;
+
+    PROCEDURE GetStorageFolderUID@8() Return : Text;
+    VAR
+      Stream@1000 : InStream;
+    BEGIN
+      CALCFIELDS("Storage Folder UID");
+      "Storage Folder UID".CREATEINSTREAM(Stream);
+      Stream.READTEXT(Return);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,329 @@
+OBJECT Table 242 Source Code Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Source Code Setup;
+               ESP=Configuraci¢n c¢digos origen;
+               DEA=Herkunftscode Einrichtung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 2   ;   ;Sales               ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales;
+                                                              ESP=Ventas;
+                                                              DEA=Verkauf] }
+    { 3   ;   ;Purchases           ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchases;
+                                                              ESP=Compras;
+                                                              DEA=Einkauf] }
+    { 4   ;   ;Inventory Post Cost ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Inventory Post Cost;
+                                                              ESP=Ajuste inventario;
+                                                              DEA=Lagerregulierung] }
+    { 5   ;   ;Exchange Rate Adjmt.;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Exchange Rate Adjmt.;
+                                                              ESP=Ajuste divisa;
+                                                              DEA=Kursregulierung] }
+    { 6   ;   ;Post Recognition    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Post Recognition;
+                                                              ESP=Desactivar proyecto;
+                                                              DEA=Deaktivierung buchen] }
+    { 7   ;   ;Post Value          ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Post Value;
+                                                              ESP=Activar proyecto;
+                                                              DEA=Aktivierung buchen] }
+    { 8   ;   ;Close Income Statement;Code10      ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Close Income Statement;
+                                                              ESP=Asiento regularizaci¢n;
+                                                              DEA=GuV-Konten Nullstellung] }
+    { 9   ;   ;Consolidation       ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Consolidation;
+                                                              ESP=Consolidaci¢n;
+                                                              DEA=Konsolidierung] }
+    { 10  ;   ;General Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=General Journal;
+                                                              ESP=Diario general;
+                                                              DEA=Fibu Buch.-Blatt] }
+    { 11  ;   ;Sales Journal       ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales Journal;
+                                                              ESP=Diario ventas;
+                                                              DEA=Verkaufs Buch.-Blatt] }
+    { 12  ;   ;Purchase Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchase Journal;
+                                                              ESP=Diario compras;
+                                                              DEA=Einkaufs Buch.-Blatt] }
+    { 13  ;   ;Cash Receipt Journal;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cash Receipt Journal;
+                                                              ESP=Diario cobros;
+                                                              DEA=Zahlungseingangs Buch.-Blatt] }
+    { 14  ;   ;Payment Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Payment Journal;
+                                                              ESP=Diario pagos;
+                                                              DEA=Zahlungsausgangs Buch.-Blatt] }
+    { 16  ;   ;Item Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Item Journal;
+                                                              ESP=Diario productos;
+                                                              DEA=Artikel Buch.-Blatt] }
+    { 19  ;   ;Resource Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Resource Journal;
+                                                              ESP=Diario recursos;
+                                                              DEA=Ressourcen Buch.-Blatt] }
+    { 20  ;   ;Job Journal         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job Journal;
+                                                              ESP=Diario proyectos;
+                                                              DEA=Projekt Buch.-Blatt] }
+    { 21  ;   ;Sales Entry Application;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Sales Entry Application;
+                                                              ESP=Liq. movimiento de venta;
+                                                              DEA=Verk.-Posten ausgleichen] }
+    { 22  ;   ;Purchase Entry Application;Code10  ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Purchase Entry Application;
+                                                              ESP=Liq. movimiento de compra;
+                                                              DEA=Eink.-Posten ausgleichen] }
+    { 23  ;   ;VAT Settlement      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=VAT Settlement;
+                                                              ESP=Liquidaci¢n IVA;
+                                                              DEA=MwSt.-Abrechnung] }
+    { 24  ;   ;Compress G/L        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress G/L;
+                                                              ESP=Compresi¢n mov. contabilidad;
+                                                              DEA=Sachposten kompr.] }
+    { 25  ;   ;Compress VAT Entries;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress VAT Entries;
+                                                              ESP=Compresi¢n mov. IVA;
+                                                              DEA=MwSt.-Posten kompr.] }
+    { 26  ;   ;Compress Cust. Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Cust. Ledger;
+                                                              ESP=Compresi¢n mov. cliente;
+                                                              DEA=Debitorenposten kompr.] }
+    { 27  ;   ;Compress Vend. Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Vend. Ledger;
+                                                              ESP=Compresi¢n mov. proveedor;
+                                                              DEA=Kreditorenposten kompr.] }
+    { 28  ;   ;Compress Item Ledger;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Item Ledger;
+                                                              ESP=Compresi¢n mov. producto;
+                                                              DEA=Artikelposten kompr.] }
+    { 31  ;   ;Compress Res. Ledger;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Res. Ledger;
+                                                              ESP=Compresi¢n mov. recurso;
+                                                              DEA=Ressourcenposten kompr.] }
+    { 32  ;   ;Compress Job Ledger ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Job Ledger;
+                                                              ESP=Compresi¢n mov. proyecto;
+                                                              DEA=Projektposten kompr.] }
+    { 33  ;   ;Item Reclass. Journal;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Item Reclass. Journal;
+                                                              ESP=Diario reclasif. producto;
+                                                              DEA=Umlagerungs Buch.-Blatt] }
+    { 34  ;   ;Phys. Inventory Journal;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Phys. Inventory Journal;
+                                                              ESP=Diario inventario f°sico;
+                                                              DEA=Inventur Buch.-Blatt] }
+    { 35  ;   ;Compress Bank Acc. Ledger;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Bank Acc. Ledger;
+                                                              ESP=Compresi¢n mov. banco;
+                                                              DEA=Bankposten kompr.] }
+    { 36  ;   ;Compress Check Ledger;Code10       ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Check Ledger;
+                                                              ESP=Compresi¢n mov. cheque;
+                                                              DEA=Komprimierung von Scheckposten] }
+    { 37  ;   ;Financially Voided Check;Code10    ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Financially Voided Check;
+                                                              ESP=Anulaci¢n total cheque;
+                                                              DEA=Stornierter Scheck] }
+    { 38  ;   ;Finance Charge Memo ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Finance Charge Memo;
+                                                              ESP=Documento interÇs;
+                                                              DEA=Zinsrechnung] }
+    { 39  ;   ;Reminder            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Reminder;
+                                                              ESP=Recordatorio;
+                                                              DEA=Mahnung] }
+    { 40  ;   ;Deleted Document    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Deleted Document;
+                                                              ESP=Documento borrado;
+                                                              DEA=Gelîschter Beleg] }
+    { 41  ;   ;Adjust Add. Reporting Currency;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Adjust Add. Reporting Currency;
+                                                              ESP=Ajust. divisa adicional;
+                                                              DEA=BerichtswÑhrung regulieren] }
+    { 42  ;   ;Trans. Bank Rec. to Gen. Jnl.;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Trans. Bank Rec. to Gen. Jnl.;
+                                                              ESP=Transf. conciliaci¢n al diario;
+                                                              DEA=Bankkto. Ausgl. Fibu Buch.-Bl.] }
+    { 43  ;   ;IC General Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=IC General Journal;
+                                                              ESP=Diario general IC;
+                                                              DEA=IC-Fibu Buch.-Blatt] }
+    { 45  ;   ;Unapplied Sales Entry Appln.;Code10;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Unapplied Sales Entry Appln.;
+                                                              ESP=Liq. mov. venta desliq.;
+                                                              DEA=Ni. gebucht. VK-Posten-Ausgl.] }
+    { 46  ;   ;Unapplied Purch. Entry Appln.;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Unapplied Purch. Entry Appln.;
+                                                              ESP=Liq. mov. compra desliq.;
+                                                              DEA=Ni. gebucht. EK-Posten-Ausgl.] }
+    { 47  ;   ;Reversal            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Reversal;
+                                                              ESP=Reversi¢n;
+                                                              DEA=Storno] }
+    { 840 ;   ;Cash Flow Worksheet ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cash Flow Worksheet;
+                                                              ESP=Hoja flujos efectivo;
+                                                              DEA=Cashflowvorschlag] }
+    { 900 ;   ;Assembly            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Assembly;
+                                                              ESP=Ensamblado;
+                                                              DEA=Montage] }
+    { 1000;   ;Job G/L Journal     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job G/L Journal;
+                                                              ESP=Diario general proyecto;
+                                                              DEA=Fibu Buch.-Blatt Projekt] }
+    { 1001;   ;Job G/L WIP         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Job G/L WIP;
+                                                              ESP=WIP C/G proyecto;
+                                                              DEA=WIP-Projektsachposten] }
+    { 1100;   ;G/L Entry to CA     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=G/L Entry to CA;
+                                                              ESP=Mov. contab. en asign. costes;
+                                                              DEA=Sachposten in Kostenrechnung] }
+    { 1102;   ;Cost Journal        ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cost Journal;
+                                                              ESP=Diario costes;
+                                                              DEA=Kosten-Buch.-Blatt] }
+    { 1104;   ;Cost Allocation     ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Cost Allocation;
+                                                              ESP=Asignaci¢n costes;
+                                                              DEA=Kostenzuteilung] }
+    { 1105;   ;Transfer Budget to Actual;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Transfer Budget to Actual;
+                                                              ESP=Transferir presupuesto a real;
+                                                              DEA=Budget in Ist-Werte Åbertragen] }
+    { 5400;   ;Consumption Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Consumption Journal;
+                                                              ESP=Diario consumo;
+                                                              DEA=FA-Verbrauchs Buch.-Blatt] }
+    { 5402;   ;Output Journal      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Output Journal;
+                                                              ESP=Diario salida;
+                                                              DEA=FA-Istmeldungs Buch.-Blatt] }
+    { 5403;   ;Flushing            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Flushing;
+                                                              ESP=Consumo autom†tico;
+                                                              DEA=Buchung] }
+    { 5404;   ;Capacity Journal    ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Capacity Journal;
+                                                              ESP=Diario capacidad;
+                                                              DEA=KapazitÑts Buch.-Blatt] }
+    { 5500;   ;Production Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Production Journal;
+                                                              ESP=Diario de producci¢n;
+                                                              DEA=Produktions Buch.-Blatt] }
+    { 5600;   ;Fixed Asset Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Fixed Asset Journal;
+                                                              ESP=A/F Diario activos;
+                                                              DEA=Anlagen Buch.-Blatt] }
+    { 5601;   ;Fixed Asset G/L Journal;Code10     ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Fixed Asset G/L Journal;
+                                                              ESP=A/F Diario general;
+                                                              DEA=Anlagen Fibu Buch.-Blatt] }
+    { 5602;   ;Insurance Journal   ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Insurance Journal;
+                                                              ESP=Diario seguros;
+                                                              DEA=Versicherungs Buch.-Blatt] }
+    { 5603;   ;Compress FA Ledger  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress FA Ledger;
+                                                              ESP=A/F Compresi¢n mov.;
+                                                              DEA=Anlagenposten komprimieren] }
+    { 5604;   ;Compress Maintenance Ledger;Code10 ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Maintenance Ledger;
+                                                              ESP=Compresi¢n mov. mantenim.;
+                                                              DEA=Wartungsposten komprimieren] }
+    { 5605;   ;Compress Insurance Ledger;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Insurance Ledger;
+                                                              ESP=Compresi¢n mov. seguro;
+                                                              DEA=Versicherungsposten kompr.] }
+    { 5700;   ;Transfer            ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Transfer;
+                                                              ESP=Transferencia;
+                                                              DEA=Umlagerung] }
+    { 5800;   ;Revaluation Journal ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Revaluation Journal;
+                                                              ESP=Diario revalorizac.;
+                                                              DEA=Neubewertungs Buch.-Blatt] }
+    { 5801;   ;Adjust Cost         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Adjust Cost;
+                                                              ESP=Valorar stock;
+                                                              DEA=Einstandspreisregulierung] }
+    { 5900;   ;Service Management  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Service Management;
+                                                              ESP=Gesti¢n servicios;
+                                                              DEA=Service] }
+    { 7139;   ;Compress Item Budget;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Item Budget;
+                                                              ESP=Comprimir ppto. productos;
+                                                              DEA=Artikelbudget komprimieren] }
+    { 7300;   ;Whse. Item Journal  ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Item Journal;
+                                                              ESP=Diario producto almacÇn;
+                                                              DEA=Logistik Artikel Buch.-Blatt] }
+    { 7302;   ;Whse. Phys. Invt. Journal;Code10   ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Phys. Invt. Journal;
+                                                              ESP=Diario inv. f°s. almacÇn;
+                                                              DEA=Logistik Inventur Buch.-Blatt] }
+    { 7303;   ;Whse. Reclassification Journal;Code10;
+                                                   TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Reclassification Journal;
+                                                              ESP=Diario reclasificaci¢n almacÇn;
+                                                              DEA=Logistik Umlag. Buch.-Blatt] }
+    { 7304;   ;Whse. Put-away      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Put-away;
+                                                              ESP=Ubicar almacÇn;
+                                                              DEA=Einlagerung] }
+    { 7305;   ;Whse. Pick          ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Pick;
+                                                              ESP=Picking alm.;
+                                                              DEA=Kommissionierung] }
+    { 7306;   ;Whse. Movement      ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Whse. Movement;
+                                                              ESP=Movimiento alm.;
+                                                              DEA=Lagerpl.-Umlagerung] }
+    { 7307;   ;Compress Whse. Entries;Code10      ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Compress Whse. Entries;
+                                                              ESP=Compresi¢n movs. almacÇn;
+                                                              DEA=Lagerplatzposten kompr.] }
+    { 5005270;;Delivery Reminder   ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Delivery Reminder;
+                                                              DEA=Lieferanmahnung] }
+    { 5005350;;Phys. Invt. Order   ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Phys. Invt. Order;
+                                                              DEA=Inventurauftrag] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,258 @@
+OBJECT Report 296 Batch Post Sales Orders
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Batch Post Sales Orders;
+               ESP=Reg. lotes pedidos venta;
+               DEA=Auftr„ge stapelbuchen];
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+    { 6640;    ;DataItem;                    ;
+               DataItemTable=Table36;
+               DataItemTableView=SORTING(Document Type,No.)
+                                 WHERE(Document Type=CONST(Order));
+               ReqFilterHeadingML=[ENU=Sales Order;
+                                   DEA=Sales Order];
+               OnPreDataItem=BEGIN
+                               IF ReplacePostingDate AND (PostingDateReq = 0D) THEN
+                                 ERROR(Text000);
+
+                               ApprovalTemplate.SETCURRENTKEY("Table ID","Document Type",Enabled);
+                               ApprovalTemplate.SETRANGE("Table ID",DATABASE::"Sales Header");
+                               ApprovalTemplate.SETRANGE("Document Type","Sales Header"."Document Type"::Order);
+                               ApprovalTemplate.SETRANGE(Enabled,TRUE);
+                               IF ApprovalTemplate.FINDFIRST THEN
+                                 "Sales Header".SETRANGE(Status,"Sales Header".Status::Released);
+
+                               CounterTotal := COUNT;
+                               Window.OPEN(Text001);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF CalcInvDisc THEN
+                                    CalculateInvoiceDiscount;
+
+                                  Counter := Counter + 1;
+                                  Window.UPDATE(1,"No.");
+                                  Window.UPDATE(2,ROUND(Counter / CounterTotal * 10000,1));
+                                  "Sales Header".Ship := ShipReq;
+                                  "Sales Header".Invoice := InvReq;
+                                  CLEAR(SalesPost);
+                                  SalesPost.SetPostingDate(ReplacePostingDate,ReplaceDocumentDate,PostingDateReq);
+                                  IF IsApprovedForPostingBatch THEN BEGIN
+                                    IF SalesPost.RUN("Sales Header") THEN BEGIN
+                                      CounterOK := CounterOK + 1;
+                                      IF MARKEDONLY THEN
+                                        MARK(FALSE);
+                                    END;
+                                    IF Print THEN
+                                      CASE "Document Type" OF
+                                        "Document Type"::Order:
+                                          BEGIN
+                                            IF Ship THEN BEGIN
+                                              SalesShipHeader."No." := "Last Shipping No.";
+                                              SalesShipHeader.SETRECFILTER;
+                                              PrintReport(ReportSelection.Usage::"S.Shipment");
+                                            END;
+                                            IF Invoice THEN BEGIN
+                                              SalesInvHeader."No." := "Last Posting No.";
+                                              SalesInvHeader.SETRECFILTER;
+                                              PrintReport(ReportSelection.Usage::"S.Invoice");
+                                            END;
+                                          END;
+                                        "Document Type"::Invoice:
+                                          BEGIN
+                                            IF "Last Posting No." = '' THEN
+                                              SalesInvHeader."No." := "No."
+                                            ELSE
+                                              SalesInvHeader."No." := "Last Posting No.";
+                                            SalesInvHeader.SETRECFILTER;
+                                            PrintReport(ReportSelection.Usage::"S.Invoice");
+                                          END;
+                                        "Document Type"::"Credit Memo":
+                                          BEGIN
+                                            IF "Last Posting No." = '' THEN
+                                              SalesCrMemoHeader."No." := "No."
+                                            ELSE
+                                              SalesCrMemoHeader."No." := "Last Posting No.";
+                                            SalesCrMemoHeader.SETRECFILTER;
+                                            PrintReport(ReportSelection.Usage::"S.Cr.Memo");
+                                          END;
+                                      END;
+                                  END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                Window.CLOSE;
+                                MESSAGE(Text002,CounterOK,CounterTotal);
+                              END;
+
+               ReqFilterFields=No.,Status }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   SalesSetup.GET;
+                   CalcInvDisc := SalesSetup."Calc. Inv. Discount";
+                   ReplacePostingDate := FALSE;
+                   ReplaceDocumentDate := FALSE;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 1   ;2   ;Field     ;
+                  Name=Ship;
+                  CaptionML=[ENU=Ship;
+                             ESP=Env¡o;
+                             DEA=Warenausgang];
+                  SourceExpr=ShipReq }
+
+      { 2   ;2   ;Field     ;
+                  Name=Invoice;
+                  CaptionML=[ENU=Invoice;
+                             ESP=Factura;
+                             DEA=Rechnung];
+                  SourceExpr=InvReq }
+
+      { 3   ;2   ;Field     ;
+                  Name=PostingDate;
+                  CaptionML=[ENU=Posting Date;
+                             ESP=Fecha registro;
+                             DEA=Buchungsdatum];
+                  SourceExpr=PostingDateReq }
+
+      { 4   ;2   ;Field     ;
+                  CaptionML=[ENU=Replace Posting Date;
+                             ESP=Reemplazar fecha reg.;
+                             DEA=Buchungsdatum ersetzen];
+                  SourceExpr=ReplacePostingDate;
+                  OnValidate=BEGIN
+                               IF ReplacePostingDate THEN
+                                 MESSAGE(Text003);
+                             END;
+                              }
+
+      { 5   ;2   ;Field     ;
+                  CaptionML=[ENU=Replace Document Date;
+                             ESP=Reemplazar fecha documento;
+                             DEA=Belegdatum ersetzen];
+                  SourceExpr=ReplaceDocumentDate }
+
+      { 7   ;2   ;Field     ;
+                  CaptionML=[ENU=Calc. Inv. Discount;
+                             ESP=Calc. dto. factura y P.P.;
+                             DEA=Rechnungsrab. berechnen];
+                  SourceExpr=CalcInvDisc;
+                  OnValidate=BEGIN
+                               SalesSetup.GET;
+                               SalesSetup.TESTFIELD("Calc. Inv. Discount",FALSE);
+                             END;
+                              }
+
+      { 1150000;2;Field     ;
+                  CaptionML=[ENU=Print;
+                             DEA=Drucken];
+                  SourceExpr=Print }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=Please enter the posting date.;ESP=Introduzca la fecha registro.;DEA=Bitte das Buchungsdatum eingeben.';
+      Text001@1001 : TextConst 'ENU=Posting orders  #1########## @2@@@@@@@@@@@@@;ESP=Reg. pedidos    #1########## @2@@@@@@@@@@@@@;DEA=Auftr„ge werden gebucht #1########## @2@@@@@@@@@@@@@';
+      Text002@1002 : TextConst 'ENU=%1 orders out of a total of %2 have now been posted.;ESP=Se han registrado %1 pedidos de un total de %2.;DEA=%1 Auftr„ge von insgesamt %2 wurden gebucht.';
+      Text003@1003 : TextConst 'ENU=The exchange rate associated with the new posting date on the sales header will not apply to the sales lines.;ESP=El tipo cambio asociado con la nueva fecha registro en cab. venta no ser  aplicado en l¡ns. venta.;DEA=Der zu dem neuen Buchungsdatum geh”rige Wechselkurs auf dem Verkaufskopf wird nicht auf die Verkaufszeilen angewendet.';
+      SalesLine@1005 : Record 37;
+      SalesSetup@1006 : Record 311;
+      ApprovalTemplate@1021 : Record 464;
+      SalesCalcDisc@1007 : Codeunit 60;
+      SalesPost@1008 : Codeunit 80;
+      Window@1009 : Dialog;
+      ShipReq@1010 : Boolean;
+      InvReq@1011 : Boolean;
+      PostingDateReq@1012 : Date;
+      CounterTotal@1013 : Integer;
+      Counter@1014 : Integer;
+      CounterOK@1015 : Integer;
+      ReplacePostingDate@1016 : Boolean;
+      ReplaceDocumentDate@1017 : Boolean;
+      CalcInvDisc@1018 : Boolean;
+      ReportSelection@1150004 : Record 77;
+      SalesInvHeader@1150003 : Record 112;
+      SalesCrMemoHeader@1150002 : Record 114;
+      SalesShipHeader@1150001 : Record 110;
+      Print@1150000 : Boolean;
+
+    PROCEDURE CalculateInvoiceDiscount@1();
+    BEGIN
+      SalesLine.RESET;
+      SalesLine.SETRANGE("Document Type","Sales Header"."Document Type");
+      SalesLine.SETRANGE("Document No.","Sales Header"."No.");
+      IF SalesLine.FINDFIRST THEN
+        IF SalesCalcDisc.RUN(SalesLine) THEN BEGIN
+          "Sales Header".GET("Sales Header"."Document Type","Sales Header"."No.");
+          COMMIT;
+        END;
+    END;
+
+    PROCEDURE InitializeRequest@2(ShipParam@1000 : Boolean;InvoiceParam@1001 : Boolean;PostingDateParam@1002 : Date;ReplacePostingDateParam@1003 : Boolean;ReplaceDocumentDateParam@1004 : Boolean;CalcInvDiscParam@1005 : Boolean);
+    BEGIN
+      ShipReq := ShipParam;
+      InvReq := InvoiceParam;
+      PostingDateReq := PostingDateParam;
+      ReplacePostingDate := ReplacePostingDateParam;
+      ReplaceDocumentDate := ReplaceDocumentDateParam;
+      CalcInvDisc := CalcInvDiscParam;
+    END;
+
+    PROCEDURE PrintReport@1150000(ReportUse@1150000 : Integer);
+    BEGIN
+      ReportSelection.RESET;
+      ReportSelection.SETRANGE(Usage,ReportUse);
+      ReportSelection.FIND('-');
+      REPEAT
+        ReportSelection.TESTFIELD("Report ID");
+        CASE ReportUse OF
+          ReportSelection.Usage::"S.Invoice":
+            REPORT.RUNMODAL(ReportSelection."Report ID",FALSE,FALSE,SalesInvHeader);
+          ReportSelection.Usage::"S.Cr.Memo":
+            REPORT.RUNMODAL(ReportSelection."Report ID",FALSE,FALSE,SalesCrMemoHeader);
+          ReportSelection.Usage::"S.Shipment":
+            REPORT.RUNMODAL(ReportSelection."Report ID",FALSE,FALSE,SalesShipHeader);
+        END;
+      UNTIL ReportSelection.NEXT = 0;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

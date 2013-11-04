@@ -1,0 +1,47 @@
+OBJECT Table 5402 Unit of Measure Translation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Unit of Measure Translation;
+               ESP=Traducci¢n unidad medida;
+               DEA=EinheitenÅbersetzung];
+    LookupPageID=Page5402;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;TableRelation="Unit of Measure";
+                                                   CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Language Code       ;Code10        ;TableRelation=Language;
+                                                   CaptionML=[ENU=Language Code;
+                                                              ESP=C¢d. idioma;
+                                                              DEA=Sprachcode];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Description         ;Text10        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung];
+                                                   NotBlank=Yes }
+  }
+  KEYS
+  {
+    {    ;Code,Language Code                      ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

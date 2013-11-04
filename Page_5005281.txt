@@ -1,0 +1,87 @@
+OBJECT Page 5005281 Delivery Reminder Levels
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delivery Reminder Levels;
+               DEA=Lieferanmahnungsstufen];
+    SourceTable=Table5005277;
+    DataCaptionFields=Reminder Terms Code;
+    PageType=List;
+    OnOpenPage=BEGIN
+                 DeliveryReminderTerms.SETFILTER(Code,GETFILTER("Reminder Terms Code"));
+                 ShowColumn := TRUE;
+                 IF DeliveryReminderTerms.FINDFIRST THEN BEGIN
+                   DeliveryReminderTerms.SETRECFILTER;
+                   IF DeliveryReminderTerms.GETFILTER(Code) = GETFILTER("Reminder Terms Code") THEN
+                     ShowColumn := FALSE;
+                 END;
+                 "Reminder Terms CodeVisible" := ShowColumn;
+               END;
+
+    OnNewRecord=BEGIN
+                  NewRecord;
+                END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 1140010 ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Level;
+                                 DEA=&Stufe];
+                      Image=ReminderTerms }
+      { 1140011 ;2   ;Action    ;
+                      CaptionML=[ENU=Beginning Text;
+                                 DEA=Vortext];
+                      RunObject=Page 5005283;
+                      RunPageLink=Reminder Terms Code=FIELD(Reminder Terms Code),
+                                  Reminder Level=FIELD(No.),
+                                  Position=CONST(Beginning);
+                      Image=BeginningText }
+      { 1140012 ;2   ;Action    ;
+                      CaptionML=[ENU=Ending Text;
+                                 DEA=Nachtext];
+                      RunObject=Page 5005283;
+                      RunPageLink=Reminder Terms Code=FIELD(Reminder Terms Code),
+                                  Reminder Level=FIELD(No.),
+                                  Position=CONST(Ending);
+                      Image=EndingText }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1140000;1;Group     ;
+                GroupType=Repeater }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Reminder Terms Code";
+                Visible="Reminder Terms CodeVisible" }
+
+    { 1140003;2;Field     ;
+                SourceExpr="No." }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Due Date Calculation" }
+
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderTerms@1140000 : Record 5005276;
+      ShowColumn@1140001 : Boolean;
+      "Reminder Terms CodeVisible"@19022050 : Boolean INDATASET;
+
+    BEGIN
+    END.
+  }
+}
+

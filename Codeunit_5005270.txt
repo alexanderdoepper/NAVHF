@@ -1,0 +1,200 @@
+OBJECT Codeunit 5005270 Issue Delivery Reminder
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    Permissions=TableData 5005271=imd,
+                TableData 5005272=imd,
+                TableData 5005273=imd,
+                TableData 5005274=rimd;
+    OnRun=BEGIN
+            WITH DeliveryReminderHeader DO BEGIN
+              IF ReplacePostingDate THEN
+                "Posting Date" := PostingDate;
+
+              // Test Header
+              TESTFIELD("No.");
+              TESTFIELD("Vendor No.");
+              TESTFIELD("Posting Date");
+              TESTFIELD("Document Date");
+
+              DeliveryReminderLine.RESET;
+              DeliveryReminderLine.SETRANGE("Document No.","No.");
+              DeliveryReminderLine.SETFILTER(Quantity,'<>0');
+              IF NOT DeliveryReminderLine.FIND('-') THEN
+                ERROR(Text1140000);
+
+              Window.OPEN(
+                Text1140001 +
+                Text1140002 +
+                Text1140003);
+
+              Window.UPDATE(1,"No.");
+
+              IF ("Issuing No." = '') AND ("No. Series" <> "Issuing No. Series") THEN BEGIN
+                TESTFIELD("Issuing No. Series");
+                "Issuing No." := NoSeriesMgt.GetNextNo("Issuing No. Series","Posting Date",TRUE);
+                MODIFY;
+                COMMIT;
+              END;
+
+              IF "Issuing No." <> '' THEN
+                DocumentNo := "Issuing No."
+              ELSE
+                DocumentNo := "No.";
+
+              // Checking Lines
+              DeliveryReminderLine.RESET;
+              DeliveryReminderLine.SETRANGE("Document No.","No.");
+              LineCount := 0;
+              IF DeliveryReminderLine.FIND('-') THEN
+                REPEAT
+                  IF DeliveryReminderLine.Type = DeliveryReminderLine.Type::" " THEN
+                    DeliveryReminderLine.TESTFIELD(Quantity,0);
+                  IF (DeliveryReminderLine.Type <> DeliveryReminderLine.Type::" ")
+                     AND (DeliveryReminderLine."No." <> '')
+                  THEN BEGIN
+                    DeliveryReminderLine.TESTFIELD("Order No.");
+                    DeliveryReminderLine.TESTFIELD("Order Line No.");
+                  END;
+                  LineCount := LineCount + 1;
+                  Window.UPDATE(2,LineCount);
+                UNTIL DeliveryReminderLine.NEXT = 0;
+
+              // Issuing
+              SourceCodeSetup.GET('');
+              SourceCode := SourceCodeSetup."Delivery Reminder";
+
+              IssuedDeliveryReminderHeader.INIT;
+              IssuedDeliveryReminderHeader.TRANSFERFIELDS(DeliveryReminderHeader);
+              IssuedDeliveryReminderHeader."No." := DocumentNo;
+              IssuedDeliveryReminderHeader."Pre-Assigned No." := "No.";
+              IssuedDeliveryReminderHeader."Source Code" := SourceCode;
+              IssuedDeliveryReminderHeader."User ID" := USERID;
+              IssuedDeliveryReminderHeader."No. Printed" := 0;
+              IssuedDeliveryReminderHeader.INSERT;
+
+              IF NextEntryNo = 0 THEN BEGIN
+                DelivReminLedgerEntries.LOCKTABLE;
+                IF DelivReminLedgerEntries.FINDLAST THEN
+                  NextEntryNo := DelivReminLedgerEntries."Entry No." + 1
+                ELSE
+                  NextEntryNo := 1;
+              END;
+
+              DeliveryReminderLine.RESET;
+              DeliveryReminderLine.SETRANGE("Document No.","No.");
+              IF DeliveryReminderLine.FIND('-') THEN
+                REPEAT
+                  IF DeliveryReminderLine.Quantity <> 0 THEN BEGIN
+                    DelivReminLedgerEntries.INIT;
+                    DelivReminLedgerEntries."Entry No." := NextEntryNo;
+                    DelivReminLedgerEntries."Reminder No." := IssuedDeliveryReminderHeader."No.";
+                    DelivReminLedgerEntries."Reminder Line No." := DeliveryReminderLine."Line No.";
+                    DelivReminLedgerEntries."Vendor No." := "Vendor No.";
+                    DelivReminLedgerEntries."Posting Date" := "Posting Date";
+                    DelivReminLedgerEntries."Document Date" := "Document Date";
+                    DelivReminLedgerEntries."Reminder Level" := DeliveryReminderLine."Reminder Level";
+                    DelivReminLedgerEntries."Order No." := DeliveryReminderLine."Order No.";
+                    DelivReminLedgerEntries."Order Line No." := DeliveryReminderLine."Order Line No.";
+                    DelivReminLedgerEntries.Type := DeliveryReminderLine.Type;
+                    DelivReminLedgerEntries."No." := DeliveryReminderLine."No.";
+                    DelivReminLedgerEntries."Reorder Quantity" := DeliveryReminderLine."Reorder Quantity";
+                    DelivReminLedgerEntries."Remaining Quantity" := DeliveryReminderLine."Remaining Quantity";
+                    DelivReminLedgerEntries.Quantity := DeliveryReminderLine.Quantity;
+                    DelivReminLedgerEntries."User ID" := USERID;
+                    DelivReminLedgerEntries."Source Code" := SourceCode;
+                    DelivReminLedgerEntries."Purch. Expected Receipt Date" := DeliveryReminderLine."Expected Receipt Date";
+                    DelivReminLedgerEntries."Days overdue" := DeliveryReminderLine."Days overdue";
+                    DelivReminLedgerEntries.INSERT;
+                    NextEntryNo := NextEntryNo + 1;
+                  END;
+
+                  IssuedDeliveryReminderLine.INIT;
+                  IssuedDeliveryReminderLine.TRANSFERFIELDS(DeliveryReminderLine);
+                  IssuedDeliveryReminderLine."Document No." := IssuedDeliveryReminderHeader."No.";
+                  IssuedDeliveryReminderLine.INSERT;
+                UNTIL DeliveryReminderLine.NEXT = 0;
+              DeliveryReminderLine.DELETEALL;
+
+              DeliveryReminderCommentLine.RESET;
+              DeliveryReminderCommentLine.SETRANGE("Document Type",DeliveryReminderCommentLine."Document Type"::"Delivery Reminder");
+              DeliveryReminderCommentLine.SETRANGE("No.","No.");
+              IF DeliveryReminderCommentLine.FIND('-') THEN
+                REPEAT
+                  IssDelivReminCommLine2 := DeliveryReminderCommentLine;
+                  IssDelivReminCommLine2."Document Type" := DeliveryReminderCommentLine."Document Type"::"Issued Delivery Reminder";
+                  IssDelivReminCommLine2."No." := IssuedDeliveryReminderHeader."No.";
+                  IssDelivReminCommLine2.INSERT;
+                UNTIL DeliveryReminderCommentLine.NEXT = 0;
+              DeliveryReminderCommentLine.DELETEALL;
+
+              DELETE;
+            END;
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=There is nothing to issue.;DEA=Es gibt nichts zu registrieren.';
+      Text1140001@1140001 : TextConst 'ENU=Delivery Reminder  #1#########\\;DEA=Lieferanmahnung       #1#########\\';
+      Text1140002@1140002 : TextConst 'ENU=Checking lines        #2######\;DEA=Zeilen prÅfen         #2######\';
+      Text1140003@1140003 : TextConst 'ENU=Posting Lines         #3######\;DEA=Zeilen buchen         #3######\';
+      DeliveryReminderHeader@1140004 : Record 5005270;
+      DeliveryReminderLine@1140005 : Record 5005271;
+      IssuedDeliveryReminderHeader@1140006 : Record 5005272;
+      IssuedDeliveryReminderLine@1140007 : Record 5005273;
+      DelivReminLedgerEntries@1140008 : Record 5005274;
+      DeliveryReminderCommentLine@1140009 : Record 5005275;
+      IssDelivReminCommLine2@1140010 : Record 5005275;
+      SourceCodeSetup@1140011 : Record 242;
+      NoSeriesMgt@1140012 : Codeunit 396;
+      DocumentNo@1140013 : Code[20];
+      SourceCode@1140014 : Code[20];
+      NextEntryNo@1140015 : Integer;
+      Window@1140016 : Dialog;
+      LineCount@1140017 : Integer;
+      ReplacePostingDate@1140018 : Boolean;
+      PostingDate@1140019 : Date;
+
+    PROCEDURE Set@1140000(VAR NewDelivReminHeader@1140000 : Record 5005270;NewReplacementPostingDate@1140001 : Boolean;NewPostingDate@1140002 : Date);
+    BEGIN
+      DeliveryReminderHeader := NewDelivReminHeader;
+      ReplacePostingDate := NewReplacementPostingDate;
+      PostingDate := NewPostingDate;
+    END;
+
+    PROCEDURE GetIssDelivReminHeader@1140001(VAR IssDelivReminHeaderNew@1140000 : Record 5005272);
+    BEGIN
+      IssDelivReminHeaderNew := IssuedDeliveryReminderHeader;
+    END;
+
+    PROCEDURE IncrNoPrinted@1140002(VAR IssDelivReminHeader@1140000 : Record 5005272);
+    BEGIN
+      WITH IssDelivReminHeader DO BEGIN
+        FIND;
+        "No. Printed" := "No. Printed" + 1;
+        MODIFY;
+        COMMIT;
+      END;
+    END;
+
+    PROCEDURE DeleteIssuedDelivReminderLines@1140003(IssuedDelivReminderHeader@1140000 : Record 5005272);
+    VAR
+      IssuedDelivReminderLine@1140001 : Record 5005273;
+    BEGIN
+      IssuedDelivReminderLine.SETRANGE("Document No.",IssuedDelivReminderHeader."No.");
+      IssuedDelivReminderLine.DELETEALL;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

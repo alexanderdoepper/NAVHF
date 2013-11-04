@@ -1,0 +1,51 @@
+OBJECT Table 5005276 Delivery Reminder Term
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    OnDelete=BEGIN
+               DeliveryReminderLevel.SETRANGE("Reminder Terms Code",Code);
+               DeliveryReminderLevel.DELETEALL(TRUE);
+             END;
+
+    CaptionML=[ENU=Delivery Reminder Term;
+               DEA=Lieferanmahnungsmethode];
+    LookupPageID=Page5005280;
+    DrillDownPageID=Page5005280;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text30        ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Max. No. of Delivery Reminders;Integer;
+                                                   CaptionML=[ENU=Max. No. of Delivery Reminders;
+                                                              DEA=Max. Anzahl Lieferanmahnungen];
+                                                   MinValue=0 }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Max. No. of Delivery Reminders }
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderLevel@1140000 : Record 5005277;
+
+    BEGIN
+    END.
+  }
+}
+

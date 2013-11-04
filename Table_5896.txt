@@ -1,0 +1,382 @@
+OBJECT Table 5896 Inventory Adjmt. Entry (Order)
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Permissions=TableData 5896=i;
+    CaptionML=[ENU=Inventory Adjmt. Entry (Order);
+               ESP=Mov. ajuste inventario (pedido);
+               DEA=Lagerregulierungsposten (Auftrag)];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Order Type          ;Option        ;CaptionML=[ENU=Order Type;
+                                                              ESP=Tipo orden;
+                                                              DEA=Auftragsart];
+                                                   OptionCaptionML=[ENU=" ,Production,Transfer,Service,Assembly";
+                                                                    ESP=" ,Producci¢n,Transferencia,Servicio,Ensamblado";
+                                                                    DEA=" ,Fertigung,Umlagerung,Service,Montage"];
+                                                   OptionString=[ ,Production,Transfer,Service,Assembly] }
+    { 2   ;   ;Order No.           ;Code20        ;CaptionML=[ENU=Order No.;
+                                                              ESP=N§ pedido;
+                                                              DEA=Auftragsnr.] }
+    { 3   ;   ;Order Line No.      ;Integer       ;CaptionML=[ENU=Order Line No.;
+                                                              ESP=N§ l¡nea pedido;
+                                                              DEA=Auftragszeilennr.] }
+    { 4   ;   ;Item No.            ;Code20        ;TableRelation=Item;
+                                                   CaptionML=[ENU=Item No.;
+                                                              ESP=N§ producto;
+                                                              DEA=Artikelnr.] }
+    { 7   ;   ;Routing No.         ;Code20        ;TableRelation="Routing Header".No.;
+                                                   CaptionML=[ENU=Routing No.;
+                                                              ESP=N§ ruta;
+                                                              DEA=Arbeitsplannr.] }
+    { 8   ;   ;Routing Reference No.;Integer      ;CaptionML=[ENU=Routing Reference No.;
+                                                              ESP=N§ ruta referencia;
+                                                              DEA=Arbeitsplanref.-Nr.] }
+    { 21  ;   ;Indirect Cost %     ;Decimal       ;CaptionML=[ENU=Indirect Cost %;
+                                                              ESP=% Coste indirecto;
+                                                              DEA=Indirekte Kosten %];
+                                                   DecimalPlaces=0:5 }
+    { 22  ;   ;Overhead Rate       ;Decimal       ;CaptionML=[ENU=Overhead Rate;
+                                                              ESP=Tasa costes generales;
+                                                              DEA=Gemeinkostensatz];
+                                                   AutoFormatType=2 }
+    { 29  ;   ;Cost is Adjusted    ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Cost is Adjusted;
+                                                              ESP=Coste ajustado;
+                                                              DEA=Einstandspreis ist reguliert] }
+    { 30  ;   ;Allow Online Adjustment;Boolean    ;InitValue=Yes;
+                                                   CaptionML=[ENU=Allow Online Adjustment;
+                                                              ESP=Permitir ajuste online;
+                                                              DEA=Onlineregulierung zulassen] }
+    { 41  ;   ;Unit Cost           ;Decimal       ;CaptionML=[ENU=Unit Cost;
+                                                              ESP=Coste unitario;
+                                                              DEA=Einstandspreis];
+                                                   AutoFormatType=2 }
+    { 42  ;   ;Direct Cost         ;Decimal       ;CaptionML=[ENU=Direct Cost;
+                                                              ESP=Coste directo;
+                                                              DEA=Direkte Kosten];
+                                                   AutoFormatType=2 }
+    { 43  ;   ;Indirect Cost       ;Decimal       ;CaptionML=[ENU=Indirect Cost;
+                                                              ESP=Coste indirecto;
+                                                              DEA=Indirekte Kosten];
+                                                   AutoFormatType=2 }
+    { 44  ;   ;Single-Level Material Cost;Decimal ;CaptionML=[ENU=Single-Level Material Cost;
+                                                              ESP=Coste material a un nivel;
+                                                              DEA=Einstufige Materialkosten];
+                                                   AutoFormatType=2 }
+    { 45  ;   ;Single-Level Capacity Cost;Decimal ;CaptionML=[ENU=Single-Level Capacity Cost;
+                                                              ESP=Coste capacidad a un nivel;
+                                                              DEA=Einstufige Kapazit„tskosten];
+                                                   AutoFormatType=2 }
+    { 46  ;   ;Single-Level Subcontrd. Cost;Decimal;
+                                                   CaptionML=[ENU=Single-Level Subcontrd. Cost;
+                                                              ESP=Coste subcontrat. a un nivel;
+                                                              DEA=Einstufige Fremdarbeitskosten];
+                                                   AutoFormatType=2 }
+    { 47  ;   ;Single-Level Cap. Ovhd Cost;Decimal;CaptionML=[ENU=Single-Level Cap. Ovhd Cost;
+                                                              ESP=Costes gen. cap. a un nivel;
+                                                              DEA=Einstufige Kap.-Gemeinkosten];
+                                                   AutoFormatType=2 }
+    { 48  ;   ;Single-Level Mfg. Ovhd Cost;Decimal;CaptionML=[ENU=Single-Level Mfg. Ovhd Cost;
+                                                              ESP=Coste gen. fab. a un nivel;
+                                                              DEA=Einstufige Prod.-Gemeinkosten];
+                                                   AutoFormatType=2 }
+    { 52  ;   ;Direct Cost (ACY)   ;Decimal       ;CaptionML=[ENU=Direct Cost (ACY);
+                                                              ESP=Coste directo (DA);
+                                                              DEA=Direkte Kosten (BW)] }
+    { 53  ;   ;Indirect Cost (ACY) ;Decimal       ;CaptionML=[ENU=Indirect Cost (ACY);
+                                                              ESP=Coste indirecto (DA);
+                                                              DEA=Indirekte Kosten (BW)] }
+    { 54  ;   ;Single-Lvl Material Cost (ACY);Decimal;
+                                                   CaptionML=[ENU=Single-Lvl. Material Cost (ACY);
+                                                              ESP=Coste material a un nivel (DA);
+                                                              DEA=Einstufige Materialkosten (BW)];
+                                                   AutoFormatType=2 }
+    { 55  ;   ;Single-Lvl Capacity Cost (ACY);Decimal;
+                                                   CaptionML=[ENU=Single-Lvl. Capacity Cost (ACY);
+                                                              ESP=Coste capacidad a un nivel (DA);
+                                                              DEA=Einstufige Kapazit„tskosten (BW)];
+                                                   AutoFormatType=2 }
+    { 56  ;   ;Single-Lvl Subcontrd Cost(ACY);Decimal;
+                                                   CaptionML=[ENU=Single-Lvl. Subcontrd. Cost (ACY);
+                                                              ESP=Coste subcontr. a un nivel (DA);
+                                                              DEA=Einstufige Fremdarbeitskosten (BW)];
+                                                   AutoFormatType=2 }
+    { 57  ;   ;Single-Lvl Cap. Ovhd Cost(ACY);Decimal;
+                                                   CaptionML=[ENU=Single-Lvl. Cap. Ovhd. Cost (ACY);
+                                                              ESP=Coste gen. de cap. a un nivel (DA);
+                                                              DEA=Einstufige Kap.-Gemeinkosten (BW)];
+                                                   AutoFormatType=2 }
+    { 58  ;   ;Single-Lvl Mfg. Ovhd Cost(ACY);Decimal;
+                                                   CaptionML=[ENU=Single-Lvl. Mfg. Ovhd. Cost (ACY);
+                                                              ESP=Coste gen. de fab. a un nivel (DA);
+                                                              DEA=Einstufige Prod.-Gemeinkosten (BW)];
+                                                   AutoFormatType=2 }
+    { 61  ;   ;Completely Invoiced ;Boolean       ;CaptionML=[ENU=Completely Invoiced;
+                                                              ESP=Facturado completamente;
+                                                              DEA=Komplett fakturiert] }
+    { 62  ;   ;Is Finished         ;Boolean       ;CaptionML=[ENU=Is Finished;
+                                                              ESP=Finalizado;
+                                                              DEA=Abgeschlossen] }
+  }
+  KEYS
+  {
+    {    ;Order Type,Order No.,Order Line No.     ;Clustered=Yes }
+    {    ;Cost is Adjusted,Allow Online Adjustment }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      GLSetup@1002 : Record 98;
+      GLSetupRead@1003 : Boolean;
+      AmtRndgPrec@1001 : Decimal;
+      AmtRndgPrecACY@1000 : Decimal;
+
+    PROCEDURE RoundCosts@77(ShareOfTotalCost@1003 : Decimal);
+    BEGIN
+      GetRoundingPrecision(AmtRndgPrec,AmtRndgPrecACY);
+
+      "Direct Cost" := ROUND("Direct Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Indirect Cost" := ROUND("Indirect Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Single-Level Material Cost" := ROUND("Single-Level Material Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Single-Level Capacity Cost" := ROUND("Single-Level Capacity Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Single-Level Subcontrd. Cost" := ROUND("Single-Level Subcontrd. Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Single-Level Cap. Ovhd Cost" := ROUND("Single-Level Cap. Ovhd Cost" * ShareOfTotalCost,AmtRndgPrec);
+      "Single-Level Mfg. Ovhd Cost" := ROUND("Single-Level Mfg. Ovhd Cost" * ShareOfTotalCost,AmtRndgPrec);
+
+      "Direct Cost (ACY)" := ROUND("Direct Cost (ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Indirect Cost (ACY)" := ROUND("Indirect Cost (ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Single-Lvl Material Cost (ACY)" := ROUND("Single-Lvl Material Cost (ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Single-Lvl Capacity Cost (ACY)" := ROUND("Single-Lvl Capacity Cost (ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Single-Lvl Subcontrd Cost(ACY)" := ROUND("Single-Lvl Subcontrd Cost(ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Single-Lvl Cap. Ovhd Cost(ACY)" := ROUND("Single-Lvl Cap. Ovhd Cost(ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" := ROUND("Single-Lvl Mfg. Ovhd Cost(ACY)" * ShareOfTotalCost,AmtRndgPrecACY);
+    END;
+
+    PROCEDURE CalcOvhdCost@1(OutputQty@1001 : Decimal);
+    BEGIN
+      GetRoundingPrecision(AmtRndgPrec,AmtRndgPrecACY);
+
+      "Single-Level Mfg. Ovhd Cost" :=
+        (("Single-Level Material Cost" + "Single-Level Capacity Cost" +
+          "Single-Level Subcontrd. Cost" + "Single-Level Cap. Ovhd Cost") *
+         "Indirect Cost %" / 100) +
+        ("Overhead Rate" * OutputQty);
+      "Single-Level Mfg. Ovhd Cost" := ROUND("Single-Level Mfg. Ovhd Cost",AmtRndgPrec);
+
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" :=
+        (("Single-Lvl Material Cost (ACY)" + "Single-Lvl Capacity Cost (ACY)" +
+          "Single-Lvl Subcontrd Cost(ACY)" + "Single-Lvl Cap. Ovhd Cost(ACY)") *
+         "Indirect Cost %" / 100) +
+        ("Overhead Rate" * OutputQty * CalcCurrencyFactor);
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" := ROUND("Single-Lvl Mfg. Ovhd Cost(ACY)",AmtRndgPrecACY);
+    END;
+
+    PROCEDURE GetCostsFromItem@2(OutputQty@1000 : Decimal);
+    VAR
+      Item@1001 : Record 27;
+      CurrExchRate@1002 : Decimal;
+    BEGIN
+      Item.GET("Item No.");
+
+      "Indirect Cost %" := Item."Indirect Cost %";
+      "Overhead Rate" := Item."Overhead Rate";
+
+      "Single-Level Material Cost" := Item."Single-Level Material Cost";
+      "Single-Level Capacity Cost" := Item."Single-Level Capacity Cost";
+      "Single-Level Subcontrd. Cost" := Item."Single-Level Subcontrd. Cost";
+      "Single-Level Cap. Ovhd Cost" := Item."Single-Level Cap. Ovhd Cost";
+      "Single-Level Mfg. Ovhd Cost" := Item."Single-Level Mfg. Ovhd Cost";
+
+      CurrExchRate := CalcCurrencyFactor;
+      "Direct Cost (ACY)" := "Direct Cost" * CurrExchRate;
+      "Indirect Cost (ACY)" := "Indirect Cost" * CurrExchRate;
+      "Single-Lvl Material Cost (ACY)" := "Single-Level Material Cost" * CurrExchRate;
+      "Single-Lvl Capacity Cost (ACY)" := "Single-Level Capacity Cost" * CurrExchRate;
+      "Single-Lvl Subcontrd Cost(ACY)" := "Single-Level Subcontrd. Cost" * CurrExchRate;
+      "Single-Lvl Cap. Ovhd Cost(ACY)" := "Single-Level Cap. Ovhd Cost" * CurrExchRate;
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" := "Single-Level Mfg. Ovhd Cost" * CurrExchRate;
+
+      RoundCosts(OutputQty);
+      CalcDirectCostFromCostShares;
+      CalcIndirectCostFromCostShares;
+      CalcUnitCost;
+    END;
+
+    LOCAL PROCEDURE CalcCurrencyFactor@24() : Decimal;
+    VAR
+      OutputItemLedgEntry@1001 : Record 32;
+      CurrExchRate@1002 : Record 330;
+    BEGIN
+      GetRoundingPrecision(AmtRndgPrec,AmtRndgPrecACY);
+      IF GLSetup."Additional Reporting Currency" <> '' THEN BEGIN
+        OutputItemLedgEntry.SETCURRENTKEY("Order Type","Order No.","Order Line No.","Entry Type");
+        OutputItemLedgEntry.SETRANGE("Order Type","Order Type");
+        OutputItemLedgEntry.SETRANGE("Order No.","Order No.");
+        IF "Order Type" = "Order Type"::Production THEN
+          OutputItemLedgEntry.SETRANGE("Order Line No.","Order Line No.");
+        OutputItemLedgEntry.SETRANGE("Entry Type",OutputItemLedgEntry."Entry Type"::Output);
+        IF OutputItemLedgEntry.FINDLAST THEN
+          EXIT(CurrExchRate.ExchangeRate(OutputItemLedgEntry."Posting Date",GLSetup."Additional Reporting Currency"));
+      END;
+    END;
+
+    PROCEDURE SetProdOrderLine@3(ProdOrderLine@1000 : Record 5406);
+    BEGIN
+      INIT;
+      "Order Type" := "Order Type"::Production;
+      "Order No." := ProdOrderLine."Prod. Order No.";
+      "Order Line No." := ProdOrderLine."Line No.";
+      "Item No." := ProdOrderLine."Item No.";
+      "Routing No." := ProdOrderLine."Routing No.";
+      "Routing Reference No." := ProdOrderLine."Routing Reference No.";
+      "Cost is Adjusted" := FALSE;
+      "Is Finished" := ProdOrderLine.Status = ProdOrderLine.Status::Finished;
+      GetCostsFromItem(1);
+      IF NOT INSERT THEN;
+    END;
+
+    PROCEDURE SetAsmOrder@13(AssemblyHeader@1000 : Record 900);
+    BEGIN
+      SetAssemblyDoc(AssemblyHeader."No.",AssemblyHeader."Item No.");
+    END;
+
+    PROCEDURE SetPostedAsmOrder@16(PostedAssemblyHeader@1000 : Record 910);
+    BEGIN
+      SetAssemblyDoc(PostedAssemblyHeader."Order No.",PostedAssemblyHeader."Item No.");
+    END;
+
+    LOCAL PROCEDURE SetAssemblyDoc@17(OrderNo@1000 : Code[20];ItemNo@1001 : Code[20]);
+    BEGIN
+      INIT;
+      "Order Type" := "Order Type"::Assembly;
+      "Order No." := OrderNo;
+      "Item No." := ItemNo;
+      "Cost is Adjusted" := FALSE;
+      "Is Finished" := TRUE;
+      GetCostsFromItem(1);
+      IF NOT INSERT THEN;
+    END;
+
+    PROCEDURE CalcDirectCostFromCostShares@14();
+    BEGIN
+      "Direct Cost" :=
+        "Single-Level Material Cost" +
+        "Single-Level Capacity Cost" +
+        "Single-Level Subcontrd. Cost" +
+        "Single-Level Cap. Ovhd Cost";
+      "Direct Cost (ACY)" :=
+        "Single-Lvl Material Cost (ACY)" +
+        "Single-Lvl Capacity Cost (ACY)" +
+        "Single-Lvl Subcontrd Cost(ACY)" +
+        "Single-Lvl Cap. Ovhd Cost(ACY)";
+    END;
+
+    PROCEDURE CalcIndirectCostFromCostShares@15();
+    BEGIN
+      "Indirect Cost" := "Single-Level Mfg. Ovhd Cost";
+      "Indirect Cost (ACY)" := "Single-Lvl Mfg. Ovhd Cost(ACY)";
+    END;
+
+    PROCEDURE CalcUnitCost@4();
+    BEGIN
+      "Unit Cost" := "Direct Cost" + "Indirect Cost";
+    END;
+
+    PROCEDURE CalcDiff@7(VAR InvtAdjmtEntryOrder@1000 : Record 5896;OnlyCostShares@1001 : Boolean);
+    BEGIN
+      IF NOT OnlyCostShares THEN BEGIN
+        "Direct Cost" := InvtAdjmtEntryOrder."Direct Cost" - "Direct Cost";
+        "Indirect Cost" := InvtAdjmtEntryOrder."Indirect Cost" - "Indirect Cost";
+      END;
+      "Single-Level Material Cost" := InvtAdjmtEntryOrder."Single-Level Material Cost" - "Single-Level Material Cost";
+      "Single-Level Capacity Cost" := InvtAdjmtEntryOrder."Single-Level Capacity Cost" - "Single-Level Capacity Cost";
+      "Single-Level Subcontrd. Cost" := InvtAdjmtEntryOrder."Single-Level Subcontrd. Cost" - "Single-Level Subcontrd. Cost";
+      "Single-Level Cap. Ovhd Cost" := InvtAdjmtEntryOrder."Single-Level Cap. Ovhd Cost" - "Single-Level Cap. Ovhd Cost";
+      "Single-Level Mfg. Ovhd Cost" := InvtAdjmtEntryOrder."Single-Level Mfg. Ovhd Cost" - "Single-Level Mfg. Ovhd Cost";
+
+      IF NOT OnlyCostShares THEN BEGIN
+        "Direct Cost (ACY)" := InvtAdjmtEntryOrder."Direct Cost (ACY)" - "Direct Cost (ACY)";
+        "Indirect Cost (ACY)" := InvtAdjmtEntryOrder."Indirect Cost (ACY)" - "Indirect Cost (ACY)";
+      END;
+      "Single-Lvl Material Cost (ACY)" := InvtAdjmtEntryOrder."Single-Lvl Material Cost (ACY)" - "Single-Lvl Material Cost (ACY)";
+      "Single-Lvl Capacity Cost (ACY)" := InvtAdjmtEntryOrder."Single-Lvl Capacity Cost (ACY)" - "Single-Lvl Capacity Cost (ACY)";
+      "Single-Lvl Subcontrd Cost(ACY)" := InvtAdjmtEntryOrder."Single-Lvl Subcontrd Cost(ACY)" - "Single-Lvl Subcontrd Cost(ACY)";
+      "Single-Lvl Cap. Ovhd Cost(ACY)" := InvtAdjmtEntryOrder."Single-Lvl Cap. Ovhd Cost(ACY)" - "Single-Lvl Cap. Ovhd Cost(ACY)";
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" := InvtAdjmtEntryOrder."Single-Lvl Mfg. Ovhd Cost(ACY)" - "Single-Lvl Mfg. Ovhd Cost(ACY)";
+    END;
+
+    PROCEDURE AddDirectCost@5(CostAmtLCY@1000 : Decimal;CostAmtACY@1001 : Decimal);
+    BEGIN
+      "Direct Cost" += CostAmtLCY;
+      "Direct Cost (ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddIndirectCost@6(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Indirect Cost" += CostAmtLCY;
+      "Indirect Cost (ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddSingleLvlMaterialCost@8(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Single-Level Material Cost" += CostAmtLCY;
+      "Single-Lvl Material Cost (ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddSingleLvlCapacityCost@9(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Single-Level Capacity Cost" += CostAmtLCY;
+      "Single-Lvl Capacity Cost (ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddSingleLvlSubcontrdCost@10(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Single-Level Subcontrd. Cost" += CostAmtLCY;
+      "Single-Lvl Subcontrd Cost(ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddSingleLvlCapOvhdCost@11(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Single-Level Cap. Ovhd Cost" += CostAmtLCY;
+      "Single-Lvl Cap. Ovhd Cost(ACY)" += CostAmtACY;
+    END;
+
+    PROCEDURE AddSingleLvlMfgOvhdCost@12(CostAmtLCY@1001 : Decimal;CostAmtACY@1000 : Decimal);
+    BEGIN
+      "Single-Level Mfg. Ovhd Cost" += CostAmtLCY;
+      "Single-Lvl Mfg. Ovhd Cost(ACY)" += CostAmtACY;
+    END;
+
+    LOCAL PROCEDURE GetRoundingPrecision@30(VAR AmtRndingPrecLCY@1001 : Decimal;VAR AmtRndingPrecACY@1000 : Decimal);
+    VAR
+      Currency@1003 : Record 4;
+    BEGIN
+      IF GLSetupRead THEN
+        EXIT;
+      GLSetup.GET;
+      AmtRndingPrecLCY := GLSetup."Amount Rounding Precision";
+      AmtRndingPrecACY := Currency."Amount Rounding Precision";
+      IF GLSetup."Additional Reporting Currency" <> '' THEN BEGIN
+        Currency.GET(GLSetup."Additional Reporting Currency");
+        Currency.CheckAmountRoundingPrecision;
+        AmtRndingPrecACY := Currency."Amount Rounding Precision"
+      END;
+      GLSetupRead := TRUE;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

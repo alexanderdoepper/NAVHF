@@ -1,0 +1,146 @@
+OBJECT Page 11027 Data Exp. Rec. Fields
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Data Export Record Fields;
+               DEA=Datensatzfelder fÅr Datenexport];
+    InsertAllowed=No;
+    DeleteAllowed=No;
+    SourceTable=Table11005;
+    PageType=ListPart;
+    OnAfterGetRecord=BEGIN
+                       IF "Field Class" = "Field Class"::FlowField THEN
+                         FlowFieldStyle := 'StandardAccent'
+                       ELSE
+                         FlowFieldStyle := 'Normal';
+                     END;
+
+    ActionList=ACTIONS
+    {
+      { 1140007 ;    ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 1140010 ;1   ;Action    ;
+                      Name=[Add ];
+                      CaptionML=[ENU=Add;
+                                 DEA=HinzufÅgen];
+                      Image=Add;
+                      OnAction=VAR
+                                 Field@1140000 : Record 2000000041;
+                                 GDPdUFieldList@1140001 : Page 11009;
+                                 DataExportCode@1140003 : Code[10];
+                                 DataExportRecTypeCode@1140004 : Code[10];
+                                 CurrGroup@1140002 : Integer;
+                                 TableNo@1140005 : Text;
+                                 SelectedLineNo@1140006 : Integer;
+                               BEGIN
+                                 CurrGroup := FILTERGROUP;
+                                 FILTERGROUP(4);
+                                 TableNo := GETFILTER("Table No.");
+                                 DataExportCode := GETFILTER("Data Export Code");
+                                 DataExportRecTypeCode := GETFILTER("Data Exp. Rec. Type Code");
+                                 FILTERGROUP(CurrGroup);
+                                 Field.FILTERGROUP(4);
+                                 Field.SETFILTER(TableNo,TableNo);
+                                 Field.SETFILTER(Type,'%1|%2|%3|%4|%5|%6|%7',
+                                   Field.Type::Option,Field.Type::Text,Field.Type::Code,Field.Type::Integer,Field.Type::Decimal,
+                                   Field.Type::Date,Field.Type::Boolean);
+                                 Field.FILTERGROUP(0);
+
+                                 GDPdUFieldList.SETTABLEVIEW(Field);
+                                 GDPdUFieldList.LOOKUPMODE := TRUE;
+                                 IF GDPdUFieldList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+                                   GDPdUFieldList.SETSELECTIONFILTER(Field);
+                                   SelectedLineNo := GetSelectedFieldsLineNo(DataExportCode,DataExportRecTypeCode,TableNo);
+                                   InsertSelectedFields(Field,DataExportCode,DataExportRecTypeCode,SelectedLineNo);
+                                 END;
+                               END;
+                                }
+      { 1140008 ;1   ;Action    ;
+                      Name=Delete;
+                      CaptionML=[ENU=Delete;
+                                 DEA=Lîschen];
+                      Image=Delete;
+                      OnAction=VAR
+                                 DataExpRecField@1140000 : Record 11005;
+                               BEGIN
+                                 CurrPage.SETSELECTIONFILTER(DataExpRecField);
+                                 DataExpRecField.DELETEALL;
+                               END;
+                                }
+      { 1140011 ;1   ;Action    ;
+                      Name=MoveUp;
+                      CaptionML=[ENU=Move Up;
+                                 DEA=Nach oben];
+                      Image=MoveUp;
+                      OnAction=BEGIN
+                                 MoveRecordUp(Rec);
+                               END;
+                                }
+      { 1140012 ;1   ;Action    ;
+                      Name=MoveDown;
+                      CaptionML=[ENU=Move Down;
+                                 DEA=Nach unten];
+                      Image=MoveDown;
+                      OnAction=BEGIN
+                                 MoveRecordDown(Rec);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1140006;0;Container ;
+                ContainerType=ContentArea }
+
+    { 1140005;1;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Field No.";
+                Editable=FALSE }
+
+    { 1140004;2;Field     ;
+                SourceExpr="Field Name";
+                StyleExpr=FlowFieldStyle }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Field Class";
+                StyleExpr=FlowFieldStyle }
+
+    { 1140000;2;Field     ;
+                SourceExpr="Datefilter Handling" }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Export Field Name" }
+
+  }
+  CODE
+  {
+    VAR
+      FlowFieldStyle@1140000 : Text[30];
+
+    PROCEDURE GetSelectedFieldsLineNo@1140015(DataExportCode@1140000 : Code[10];DataExportRecTypeCode@1140001 : Code[10];TableNo@1140002 : Text) SelectedLineNo : Integer;
+    VAR
+      DataExpRecField@1140003 : Record 11005;
+    BEGIN
+      DataExpRecField.SETRANGE("Data Export Code",DataExportCode);
+      DataExpRecField.SETRANGE("Data Exp. Rec. Type Code",DataExportRecTypeCode);
+      DataExpRecField.SETFILTER("Table No.",TableNo);
+      IF DataExpRecField.ISEMPTY THEN
+        SelectedLineNo := 0
+      ELSE
+        SelectedLineNo := "Line No.";
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

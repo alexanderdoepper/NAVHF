@@ -1,0 +1,77 @@
+OBJECT Table 1019 Job Difference Buffer
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.11.08;
+    Time=12:00:00;
+    Version List=NAVW16.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Job Difference Buffer;
+               ESP=Mem. int. diferencias proyecto;
+               DEA=Projektabweichungspuffer];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Job No.             ;Code20        ;CaptionML=[ENU=Job No.;
+                                                              ESP=N§ proyecto;
+                                                              DEA=Projektnr.] }
+    { 2   ;   ;Job Task No.        ;Code20        ;CaptionML=[ENU=Job Task No.;
+                                                              ESP=N§ tarea proyecto;
+                                                              DEA=Projektaufgabennr.] }
+    { 3   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
+                                                              ESP=Tipo;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=Resource,Item,G/L Account;
+                                                                    ESP=Recurso,Producto,Cuenta;
+                                                                    DEA=Ressource,Artikel,Sachkonto];
+                                                   OptionString=Resource,Item,G/L Account }
+    { 4   ;   ;Location Code       ;Code10        ;CaptionML=[ENU=Location Code;
+                                                              ESP=C¢d. almac‚n;
+                                                              DEA=Lagerortcode] }
+    { 5   ;   ;Variant Code        ;Code10        ;CaptionML=[ENU=Variant Code;
+                                                              ESP=C¢d. variante;
+                                                              DEA=Variantencode] }
+    { 6   ;   ;Unit of Measure code;Code10        ;CaptionML=[ENU=Unit of Measure code;
+                                                              ESP=C¢d. unidad medida;
+                                                              DEA=Maáeinheitencode] }
+    { 7   ;   ;Entry type          ;Option        ;CaptionML=[ENU=Entry type;
+                                                              ESP=Tipo movimiento;
+                                                              DEA=Postenart];
+                                                   OptionCaptionML=[ENU=Schedule,Usage;
+                                                                    ESP=Previsi¢n,Uso;
+                                                                    DEA=Plan,Verbrauch];
+                                                   OptionString=Schedule,Usage }
+    { 8   ;   ;Work Type Code      ;Code10        ;CaptionML=[ENU=Work Type Code;
+                                                              ESP=C¢d. tipo trabajo;
+                                                              DEA=Arbeitstypencode] }
+    { 9   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=N§;
+                                                              DEA=Nr.] }
+    { 10  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
+                                                              ESP=Cantidad;
+                                                              DEA=Menge] }
+    { 11  ;   ;Total Cost          ;Decimal       ;CaptionML=[ENU=Total Cost;
+                                                              ESP=Coste total;
+                                                              DEA=Einstandsbetrag] }
+    { 12  ;   ;Line Amount         ;Decimal       ;CaptionML=[ENU=Line Amount;
+                                                              ESP=Importe l¡nea;
+                                                              DEA=Zeilenbetrag] }
+  }
+  KEYS
+  {
+    {    ;Job No.,Job Task No.,Type,Entry type,No.,Location Code,Variant Code,Unit of Measure code,Work Type Code;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

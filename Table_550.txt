@@ -1,0 +1,292 @@
+OBJECT Table 550 VAT Rate Change Setup
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=VAT Rate Change Setup;
+               ESP=Conf. cambio tasa IVA;
+               DEA=Einrichtung der MwSt.-SatzÑnderung];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Primary Key         ;Code10        ;CaptionML=[ENU=Primary Key;
+                                                              ESP=Clave primaria;
+                                                              DEA=PrimÑrschlÅssel] }
+    { 10  ;   ;Update Gen. Prod. Post. Groups;Option;
+                                                   InitValue=VAT Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Gen. Prod. Post. Groups;
+                                                              ESP=Actualizar grupos contables producto gen.;
+                                                              DEA=Produktbuchungsgruppen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,,,No;
+                                                                    ESP=Grupo contable IVA prod.,,,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,,,Nein];
+                                                   OptionString=VAT Prod. Posting Group,,,No }
+    { 15  ;   ;Update G/L Accounts ;Option        ;InitValue=Both;
+                                                   CaptionML=[ENU=Update G/L Accounts;
+                                                              ESP=Actualizar cuentas contables;
+                                                              DEA=Sachkonten aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 17  ;   ;Update Items        ;Option        ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Items;
+                                                              ESP=Actualizar productos;
+                                                              DEA=Artikel aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 18  ;   ;Update Item Categories;Option      ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Item Categories;
+                                                              ESP=Actualizar categor°as producto;
+                                                              DEA=Artikelkategorien aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 19  ;   ;Update Item Charges ;Option        ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Item Charges;
+                                                              ESP=Actualizar cargo producto;
+                                                              DEA=Artikel Zu-/AbschlÑge aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 21  ;   ;Update Resources    ;Option        ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Resources;
+                                                              ESP=Actualizar recursos;
+                                                              DEA=Ressourcen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 30  ;   ;Update Gen. Journal Lines;Option   ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Gen. Journal Lines;
+                                                              ESP=Actualizar l°neas diario general;
+                                                              DEA=Fibu Buch.-Blattzeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 31  ;   ;Update Gen. Journal Allocation;Option;
+                                                   InitValue=Both;
+                                                   CaptionML=[ENU=Update Gen. Journal Allocation;
+                                                              ESP=Actualizar asignaci¢n diario general;
+                                                              DEA=Fibu Buch.-Blattzuordnung aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 32  ;   ;Update Std. Gen. Jnl. Lines;Option ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Std. Gen. Jnl. Lines;
+                                                              ESP=Actualizar l°neas est†ndar diario general;
+                                                              DEA=Std. Fibu Buch.-Blattzeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 33  ;   ;Update Res. Journal Lines;Option   ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Res. Journal Lines;
+                                                              ESP=Actualizar l°neas diario recursos;
+                                                              DEA=Res. Buch.-Blattzeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 35  ;   ;Update Job Journal Lines;Option    ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Job Journal Lines;
+                                                              ESP=Actualizar l°neas diario proyecto;
+                                                              DEA=Projekt Buch.-Blattzeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 37  ;   ;Update Requisition Lines;Option    ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Requisition Lines;
+                                                              ESP=Actualizar l°neas demanda;
+                                                              DEA=Bestellvorschlagszeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 39  ;   ;Update Std. Item Jnl. Lines;Option ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Std. Item Jnl. Lines;
+                                                              ESP=Actualizar l°neas est†ndar diario productos;
+                                                              DEA=Std. Artikel Buch.-Blattzeilen aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 41  ;   ;Update Service Docs.;Option        ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Service Docs.;
+                                                              ESP=Actualizar docs. servicio;
+                                                              DEA=Servicebelege aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 43  ;   ;Update Serv. Price Adj. Detail;Option;
+                                                   InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Serv. Price Adj. Detail;
+                                                              ESP=Actualizar detalle ajuste precio servicio;
+                                                              DEA=Details fÅr Servicepreiskorrektur aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 50  ;   ;Update Sales Documents;Option      ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Sales Documents;
+                                                              ESP=Actualizar docs. ventas;
+                                                              DEA=Verkaufsbelege aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 55  ;   ;Update Purchase Documents;Option   ;InitValue=Both;
+                                                   CaptionML=[ENU=Update Purchase Documents;
+                                                              ESP=Actualizar docs. compras;
+                                                              DEA=Einkaufsbelege aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No;
+                                                                    ESP=Grupo contable IVA prod.,Grupos contables producto gen.,Ambos,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,Produktbuchungsgruppe,Beides,Nein];
+                                                   OptionString=VAT Prod. Posting Group,Gen. Prod. Posting Group,Both,No }
+    { 60  ;   ;Update Production Orders;Option    ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Production Orders;
+                                                              ESP=Actualizar ¢rdenes de producci¢n;
+                                                              DEA=FertigungsauftrÑge aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 62  ;   ;Update Work Centers ;Option        ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Work Centers;
+                                                              ESP=Actualizar centros trabajo;
+                                                              DEA=Arbeitsplatzgruppen aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 64  ;   ;Update Machine Centers;Option      ;InitValue=Gen. Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Machine Centers;
+                                                              ESP=Actualizar centros m†quina;
+                                                              DEA=ArbeitsplÑtze aktualisieren];
+                                                   OptionCaptionML=[ENU=,Gen. Prod. Posting Group,,No;
+                                                                    ESP=,Grupo contable producto gen.,,No;
+                                                                    DEA=,Produktbuchungsgruppe,,Nein];
+                                                   OptionString=,Gen. Prod. Posting Group,,No }
+    { 70  ;   ;Update Reminders    ;Option        ;InitValue=VAT Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Reminders;
+                                                              ESP=Actualizar recordatorio;
+                                                              DEA=Mahnungen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,,,No;
+                                                                    ESP=Grupo contable IVA prod.,,,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,,,Nein];
+                                                   OptionString=VAT Prod. Posting Group,,,No }
+    { 75  ;   ;Update Finance Charge Memos;Option ;InitValue=VAT Prod. Posting Group;
+                                                   CaptionML=[ENU=Update Finance Charge Memos;
+                                                              ESP=Actualizar memorandos interÇs;
+                                                              DEA=Zinsrechnungen aktualisieren];
+                                                   OptionCaptionML=[ENU=VAT Prod. Posting Group,,,No;
+                                                                    ESP=Grupo contable IVA prod.,,,No;
+                                                                    DEA=MwSt.-Produktbuchungsgruppe,,,Nein];
+                                                   OptionString=VAT Prod. Posting Group,,,No }
+    { 90  ;   ;VAT Rate Change Tool Completed;Boolean;
+                                                   InitValue=No;
+                                                   CaptionML=[ENU=VAT Rate Change Tool Completed;
+                                                              ESP=Herramienta cambio tasa IVA finalizada;
+                                                              DEA=Tool zum éndern des MwSt.-Satzes abgeschlossen] }
+    { 91  ;   ;Ignore Status on Sales Docs.;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Ignore Status on Sales Docs.;
+                                                              ESP=Ignorar estado en docs. ventas;
+                                                              DEA=Status in Verkaufsbelegen ignorieren] }
+    { 92  ;   ;Ignore Status on Purch. Docs.;Boolean;
+                                                   InitValue=Yes;
+                                                   CaptionML=[ENU=Ignore Status on Purch. Docs.;
+                                                              ESP=Ignorar estado en docs. compras;
+                                                              DEA=Status in Einkaufsbelegen ignorieren] }
+    { 93  ;   ;Perform Conversion  ;Boolean       ;CaptionML=[ENU=Perform Conversion;
+                                                              ESP=Realizar conversi¢n;
+                                                              DEA=Umrechnung ausfÅhren] }
+    { 100 ;   ;Item Filter         ;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Item Filter;
+                                                              ESP=Filtro producto;
+                                                              DEA=Artikelfilter] }
+    { 101 ;   ;Account Filter      ;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Account Filter;
+                                                              ESP=Filtro cuenta;
+                                                              DEA=Kontofilter] }
+    { 102 ;   ;Resource Filter     ;Text250       ;ValidateTableRelation=No;
+                                                   TestTableRelation=No;
+                                                   CaptionML=[ENU=Resource Filter;
+                                                              ESP=Filtro recurso;
+                                                              DEA=Ressourcenfilter] }
+  }
+  KEYS
+  {
+    {    ;Primary Key                             ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE LookUpItemFilter@57(VAR Text@1001 : Text[250]) : Boolean;
+    VAR
+      Item@1000 : Record 27;
+      ItemList@1003 : Page 31;
+    BEGIN
+      ItemList.LOOKUPMODE(TRUE);
+      ItemList.SETTABLEVIEW(Item);
+      IF ItemList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        ItemList.GETRECORD(Item);
+        Text := ItemList.GetSelectionFilter;
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    PROCEDURE LookUpResourceFilter@1(VAR Text@1001 : Text[250]) : Boolean;
+    VAR
+      Resource@1000 : Record 156;
+      ResourceList@1003 : Page 77;
+    BEGIN
+      ResourceList.LOOKUPMODE(TRUE);
+      ResourceList.SETTABLEVIEW(Resource);
+      IF ResourceList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        ResourceList.GETRECORD(Resource);
+        Text := Resource."No.";
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    PROCEDURE LookUpGLAccountFilter@2(VAR Text@1001 : Text[250]) : Boolean;
+    VAR
+      GLAccount@1000 : Record 15;
+      GLAccountList@1003 : Page 18;
+    BEGIN
+      GLAccountList.LOOKUPMODE(TRUE);
+      GLAccountList.SETTABLEVIEW(GLAccount);
+      IF GLAccountList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+        GLAccountList.GETRECORD(GLAccount);
+        Text := GLAccountList.GetSelectionFilter;
+        EXIT(TRUE);
+      END;
+      EXIT(FALSE)
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

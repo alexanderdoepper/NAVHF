@@ -1,0 +1,2769 @@
+OBJECT Report 11003 Customer Total-Balance
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Customer Total-Balance;
+               DEA=Debitor - Summen Saldenliste];
+    OnInitReport=BEGIN
+                   AdjustAmounts := TRUE;
+                 END;
+
+    OnPreReport=BEGIN
+                  CustFilter:= Customer.GETFILTERS;
+                  PeriodText := Customer.GETFILTER("Date Filter");
+                  StartDate := Customer.GETRANGEMIN("Date Filter");
+                  EndDate := Customer.GETRANGEMAX("Date Filter");
+
+                  AccountingPeriod.RESET;
+                  AccountingPeriod.SETRANGE("New Fiscal Year",TRUE);
+                  AccountingPeriod."Starting Date" := StartDate;
+                  AccountingPeriod.FIND('=<');
+                  YearStartDate := AccountingPeriod."Starting Date";
+                  IF AccountingPeriod.NEXT = 0 THEN
+                    ERROR(Text1140000);
+
+                  YearText := FORMAT(YearStartDate) + '..' + FORMAT(EndDate);
+
+                  GLSetup.GET;
+                  GLSetup.TESTFIELD("LCY Code");
+                  HeaderText := STRSUBSTNO(Text1140021,GLSetup."LCY Code");
+
+                  IF AdjustAmounts THEN
+                    AdjustText := Text1140022
+                  ELSE
+                    AdjustText := Text1140023;
+                END;
+
+  }
+  DATASET
+  {
+    { 6836;    ;DataItem;                    ;
+               DataItemTable=Table18;
+               DataItemTableView=SORTING(No.);
+               OnPreDataItem=BEGIN
+                               CurrReport.CREATETOTALS(
+                                 StartBalance,PeriodDebitAmount,PeriodCreditAmount,PeriodEndBalance,YearDebitAmount,YearCreditAmount,EndBalance);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  SETRANGE("Date Filter",0D,CLOSINGDATE(YearStartDate-1));
+                                  CALCFIELDS("Net Change (LCY)");
+                                  IF "Net Change (LCY)" <> 0 THEN
+                                    IF "Net Change (LCY)" > 0 THEN
+                                      StartBalanceType := StartBalanceType::Debit
+                                    ELSE
+                                      StartBalanceType := StartBalanceType::Credit
+                                  ELSE
+                                    StartBalanceType := 0;
+                                  StartBalance := "Net Change (LCY)";
+
+                                  SETRANGE("Date Filter",StartDate,EndDate);
+                                  CALCFIELDS("Debit Amount (LCY)","Credit Amount (LCY)");
+                                  PeriodDebitAmount := "Debit Amount (LCY)";
+                                  PeriodCreditAmount := "Credit Amount (LCY)";
+
+                                  IF AdjustAmounts THEN BEGIN
+                                    AdjPeriodAmount := 0;
+                                    DetailedCustomerLedgEntry.RESET;
+                                    DetailedCustomerLedgEntry.SETCURRENTKEY("Customer No.","Posting Date","Entry Type","Currency Code");
+                                    DetailedCustomerLedgEntry.SETRANGE("Customer No.","No.");
+                                    DetailedCustomerLedgEntry.SETRANGE("Posting Date",StartDate,EndDate);
+                                    DetailedCustomerLedgEntry.SETRANGE("Entry Type", DetailedCustomerLedgEntry."Entry Type"::"Realized Loss",
+                                                                                     DetailedCustomerLedgEntry."Entry Type"::"Realized Gain");
+                                    IF DetailedCustomerLedgEntry.FIND('-') THEN REPEAT
+                                      DetailedCustomerLedgEntry2.RESET;
+                                      DetailedCustomerLedgEntry2.SETCURRENTKEY("Cust. Ledger Entry No.","Entry Type","Posting Date");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Cust. Ledger Entry No.", DetailedCustomerLedgEntry."Cust. Ledger Entry No.");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Entry Type", DetailedCustomerLedgEntry2."Entry Type"::"Initial Entry");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Document Type", DetailedCustomerLedgEntry2."Document Type"::Payment);
+                                      IF DetailedCustomerLedgEntry2.FIND('-') THEN BEGIN
+                                        REPEAT
+                                          IF ((DetailedCustomerLedgEntry."Debit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Credit Amount (LCY)" <> 0)) OR
+                                             ((DetailedCustomerLedgEntry."Credit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Debit Amount (LCY)" <> 0))
+                                  THEN
+                                            AdjPeriodAmount := AdjPeriodAmount +
+                                                               DetailedCustomerLedgEntry."Debit Amount (LCY)" +
+                                                               DetailedCustomerLedgEntry."Credit Amount (LCY)";
+                                        UNTIL DetailedCustomerLedgEntry2.NEXT = 0;
+                                      END ELSE BEGIN
+                                        CustomerLedgEntry.GET(DetailedCustomerLedgEntry."Cust. Ledger Entry No.");
+                                        CustomerLedgEntryEntryNo := 0;
+                                        IF CustomerLedgEntry."Closed by Entry No." <> 0 THEN BEGIN
+                                          CustomerLedgEntry2.GET(CustomerLedgEntry."Closed by Entry No.");
+                                          IF CustomerLedgEntry2."Document Type" = CustomerLedgEntry2."Document Type"::Payment THEN BEGIN
+                                            CustomerLedgEntryEntryNo := CustomerLedgEntry2."Entry No.";
+                                            AdjPeriodAmount := GetAdjAmount(CustomerLedgEntry2."Entry No.");
+                                          END;
+                                         END ELSE BEGIN
+                                           CustomerLedgEntry2.RESET;
+                                           CustomerLedgEntry2.SETCURRENTKEY("Closed by Entry No.");
+                                           CustomerLedgEntry2.SETRANGE("Closed by Entry No.", CustomerLedgEntry."Entry No.");
+                                           CustomerLedgEntry2.SETRANGE("Document Type", CustomerLedgEntry2."Document Type"::Payment);
+                                           IF CustomerLedgEntry2.FIND('-') THEN REPEAT
+                                             AdjPeriodAmount := AdjPeriodAmount + GetAdjAmount(CustomerLedgEntry2."Entry No.");
+                                           UNTIL CustomerLedgEntry2.NEXT = 0;
+                                         END;
+                                      END;
+
+                                    UNTIL DetailedCustomerLedgEntry.NEXT = 0;
+                                    PeriodDebitAmount := PeriodDebitAmount - AdjPeriodAmount;
+                                    PeriodCreditAmount := PeriodCreditAmount - AdjPeriodAmount;
+                                  END;
+
+                                  SETRANGE("Date Filter",0D,EndDate);
+                                  CALCFIELDS("Net Change (LCY)");
+                                  IF "Net Change (LCY)" <> 0 THEN
+                                    IF "Net Change (LCY)" > 0 THEN
+                                      PeriodEndBalanceType := PeriodEndBalanceType::Debit
+                                    ELSE
+                                      PeriodEndBalanceType := PeriodEndBalanceType::Credit
+                                  ELSE
+                                    PeriodEndBalanceType := 0;
+                                  PeriodEndBalance := "Net Change (LCY)";
+
+                                  SETRANGE("Date Filter",YearStartDate,EndDate);
+                                  CALCFIELDS("Debit Amount (LCY)","Credit Amount (LCY)");
+                                  YearDebitAmount := "Debit Amount (LCY)";
+                                  YearCreditAmount := "Credit Amount (LCY)";
+
+                                  IF AdjustAmounts THEN BEGIN
+                                    AdjYearAmount := 0;
+                                    DetailedCustomerLedgEntry.RESET;
+                                    DetailedCustomerLedgEntry.SETCURRENTKEY("Customer No.","Posting Date","Entry Type","Currency Code");
+                                    DetailedCustomerLedgEntry.SETRANGE("Customer No.","No.");
+                                    DetailedCustomerLedgEntry.SETRANGE("Posting Date",YearStartDate,EndDate);
+                                    DetailedCustomerLedgEntry.SETRANGE("Entry Type", DetailedCustomerLedgEntry."Entry Type"::"Realized Loss",
+                                                                                     DetailedCustomerLedgEntry."Entry Type"::"Realized Gain");
+                                    IF DetailedCustomerLedgEntry.FIND('-') THEN REPEAT
+                                      DetailedCustomerLedgEntry2.RESET;
+                                      DetailedCustomerLedgEntry2.SETCURRENTKEY("Cust. Ledger Entry No.","Entry Type","Posting Date");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Cust. Ledger Entry No.", DetailedCustomerLedgEntry."Cust. Ledger Entry No.");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Entry Type", DetailedCustomerLedgEntry2."Entry Type"::"Initial Entry");
+                                      DetailedCustomerLedgEntry2.SETRANGE("Document Type", DetailedCustomerLedgEntry2."Document Type"::Payment);
+                                      IF DetailedCustomerLedgEntry2.FIND('-') THEN BEGIN
+                                        REPEAT
+                                          IF ((DetailedCustomerLedgEntry."Debit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Credit Amount (LCY)" <> 0)) OR
+                                             ((DetailedCustomerLedgEntry."Credit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Debit Amount (LCY)" <> 0))
+                                  THEN
+                                            AdjYearAmount := AdjYearAmount +
+                                                             DetailedCustomerLedgEntry."Debit Amount (LCY)" +
+                                                             DetailedCustomerLedgEntry."Credit Amount (LCY)";
+                                        UNTIL DetailedCustomerLedgEntry2.NEXT = 0;
+                                      END ELSE BEGIN
+                                        CustomerLedgEntry.GET(DetailedCustomerLedgEntry."Cust. Ledger Entry No.");
+                                        CustomerLedgEntryEntryNo := 0;
+                                        IF CustomerLedgEntry."Closed by Entry No." <> 0 THEN BEGIN
+                                          CustomerLedgEntry2.GET(CustomerLedgEntry."Closed by Entry No.");
+                                          IF CustomerLedgEntry2."Document Type" = CustomerLedgEntry2."Document Type"::Payment THEN BEGIN
+                                            CustomerLedgEntryEntryNo := CustomerLedgEntry2."Entry No.";
+                                            AdjYearAmount := GetAdjAmount(CustomerLedgEntry2."Entry No.");
+                                          END;
+                                         END ELSE BEGIN
+                                           CustomerLedgEntry2.RESET;
+                                           CustomerLedgEntry2.SETCURRENTKEY("Closed by Entry No.");
+                                           CustomerLedgEntry2.SETRANGE("Closed by Entry No.", CustomerLedgEntry."Entry No.");
+                                           CustomerLedgEntry2.SETRANGE("Document Type", CustomerLedgEntry2."Document Type"::Payment);
+                                           IF CustomerLedgEntry2.FIND('-') THEN REPEAT
+                                             AdjYearAmount := AdjYearAmount + GetAdjAmount(CustomerLedgEntry2."Entry No.");
+                                           UNTIL CustomerLedgEntry2.NEXT = 0;
+                                         END;
+                                      END;
+                                    UNTIL DetailedCustomerLedgEntry.NEXT = 0;
+                                    YearDebitAmount := YearDebitAmount - AdjYearAmount;
+                                    YearCreditAmount := YearCreditAmount - AdjYearAmount;
+                                  END;
+
+                                  SETRANGE("Date Filter",0D,AccountingPeriod."Starting Date" - 1);
+                                  CALCFIELDS("Net Change (LCY)");
+                                  IF "Net Change (LCY)" <> 0 THEN
+                                    IF "Net Change (LCY)" > 0 THEN
+                                      EndBalanceType := EndBalanceType::Debit
+                                    ELSE
+                                      EndBalanceType := EndBalanceType::Credit
+                                  ELSE
+                                    EndBalanceType := 0;
+                                  EndBalance := "Net Change (LCY)";
+
+                                  SETRANGE("Date Filter",StartDate,EndDate);
+                                END;
+
+               ReqFilterFields=No.,Date Filter,Global Dimension 1 Filter,Global Dimension 2 Filter }
+
+    { 1140002;1;Column  ;TodayFormatted      ;
+               SourceExpr=FORMAT(TODAY,0,4) }
+
+    { 1140003;1;Column  ;PeriodTextPeriodText;
+               SourceExpr=STRSUBSTNO(Text1140001,PeriodText) }
+
+    { 1140006;1;Column  ;CompanyName         ;
+               SourceExpr=COMPANYNAME }
+
+    { 1140000;1;Column  ;AdjustText          ;
+               SourceExpr=AdjustText }
+
+    { 1140053;1;Column  ;HeaderText          ;
+               SourceExpr=HeaderText }
+
+    { 1140008;1;Column  ;CustFilterTableCaption;
+               SourceExpr=Customer.TABLECAPTION + ': ' + CustFilter }
+
+    { 1140054;1;Column  ;CustFilter          ;
+               SourceExpr=CustFilter }
+
+    { 1140011;1;Column  ;YearStartDateFormatted;
+               SourceExpr='..'+FORMAT(YearStartDate-1) }
+
+    { 1140016;1;Column  ;PeriodText          ;
+               SourceExpr=PeriodText }
+
+    { 1140017;1;Column  ;PeriodCaption       ;
+               SourceExpr=PeriodCaptionLbl }
+
+    { 1140019;1;Column  ;EndDateFormatted    ;
+               SourceExpr='..'+FORMAT(EndDate) }
+
+    { 1140024;1;Column  ;YearCaption         ;
+               SourceExpr=YearCaptionLbl }
+
+    { 1140025;1;Column  ;YearText            ;
+               SourceExpr=YearText }
+
+    { 1140028;1;Column  ;AccPeriodStartingDate;
+               SourceExpr='..'+FORMAT(AccountingPeriod."Starting Date"-1) }
+
+    { 1140030;1;Column  ;No_Cust             ;
+               SourceExpr=Customer."No." }
+
+    { 1140031;1;Column  ;Name_Cust           ;
+               SourceExpr=Customer.Name }
+
+    { 1140032;1;Column  ;ABSStartBalance     ;
+               SourceExpr=ABS(StartBalance);
+               AutoFormatType=1 }
+
+    { 1140033;1;Column  ;PeriodDebitAmount   ;
+               SourceExpr=PeriodDebitAmount;
+               AutoFormatType=1 }
+
+    { 1140034;1;Column  ;StartBalanceType    ;
+               OptionCaptionML=[ENU=" ,Debit,Credit";
+                                DEA=" ,Debit,Credit"];
+               SourceExpr=StartBalanceType }
+
+    { 1140035;1;Column  ;PeriodCreditAmount  ;
+               SourceExpr=PeriodCreditAmount;
+               AutoFormatType=1 }
+
+    { 1140036;1;Column  ;ABSPeriodEndBalance ;
+               SourceExpr=ABS(PeriodEndBalance);
+               AutoFormatType=1 }
+
+    { 1140037;1;Column  ;YearDebitAmount     ;
+               SourceExpr=YearDebitAmount;
+               AutoFormatType=1 }
+
+    { 1140038;1;Column  ;PeriodEndBalanceType;
+               OptionCaptionML=[ENU=" ,Debit,Credit";
+                                DEA=" ,Debit,Credit"];
+               SourceExpr=PeriodEndBalanceType }
+
+    { 1140039;1;Column  ;YearCreditAmount    ;
+               SourceExpr=YearCreditAmount;
+               AutoFormatType=1 }
+
+    { 1140040;1;Column  ;ABSEndBalance       ;
+               SourceExpr=ABS(EndBalance);
+               AutoFormatType=1 }
+
+    { 1140041;1;Column  ;EndBalanceType      ;
+               OptionCaptionML=[ENU=" ,Debit,Credit";
+                                DEA=" ,Debit,Credit"];
+               SourceExpr=EndBalanceType }
+
+    { 1102601000;1;Column;StartBalance       ;
+               SourceExpr=StartBalance;
+               AutoFormatType=1 }
+
+    { 1102601001;1;Column;PeriodEndBalance   ;
+               SourceExpr=PeriodEndBalance;
+               AutoFormatType=1 }
+
+    { 1102601002;1;Column;EndBalance         ;
+               SourceExpr=EndBalance;
+               AutoFormatType=1 }
+
+    { 1140001;1;Column  ;CustTotalBalanceCaption;
+               SourceExpr=CustTotalBalanceCaptionLbl }
+
+    { 1140004;1;Column  ;CurrReportPageNoCaption;
+               SourceExpr=CurrReportPageNoCaptionLbl }
+
+    { 1140009;1;Column  ;NoCaption_Cust      ;
+               SourceExpr=FIELDCAPTION("No.") }
+
+    { 1140010;1;Column  ;NameCaption_Cust    ;
+               SourceExpr=FIELDCAPTION(Name) }
+
+    { 1140012;1;Column  ;StartingBalanceCaption;
+               SourceExpr=StartingBalanceCaptionLbl }
+
+    { 1140013;1;Column  ;DebitCreditCaption  ;
+               SourceExpr=DebitCreditCaptionLbl }
+
+    { 1140014;1;Column  ;DebitCaption        ;
+               SourceExpr=DebitCaptionLbl }
+
+    { 1140018;1;Column  ;CreditCaption       ;
+               SourceExpr=CreditCaptionLbl }
+
+    { 1140020;1;Column  ;PeriodEndingBalanceCaption;
+               SourceExpr=PeriodEndingBalanceCaptionLbl }
+
+    { 1140027;1;Column  ;YearEndingBalanceCaption;
+               SourceExpr=YearEndingBalanceCaptionLbl }
+
+    { 1140042;1;Column  ;TotalCaption        ;
+               SourceExpr=TotalCaptionLbl }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 1140000;2;Field     ;
+                  Name=AdjustExchRateDifferences;
+                  CaptionML=[ENU=Adjust Exch. Rate Differences;
+                             DEA=Kursdiff. bereinigen];
+                  SourceExpr=AdjustAmounts }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=Accounting Period is not available;DEA=Buchhaltungsperiode ist nicht verfÅgbar';
+      Text1140001@1140001 : TextConst 'ENU=Period: %1;DEA=Periode: %1';
+      Text1140021@1140021 : TextConst 'ENU=All amounts are in %1;DEA=Alle BetrÑge in %1';
+      Text1140022@1140022 : TextConst 'ENU="Exch. Rate Differences Adjustment; Debit and creditamounts are adjusted by real. losses and gains";DEA="Kursdifferenzen bereinigt; Soll- und HabenbetrÑge sind um realisierte Verluste und Gewinne bereinigt"';
+      Text1140023@1140023 : TextConst 'ENU="No Exch. Rate Differences Adjustment; Debit and creditamounts are not adjusted by real. losses and gains";DEA="Kursdifferenzen nicht bereinigt; Soll- und HabenbetrÑge sind nicht um realisierte Verluste und Gewinne bereinigt"';
+      AccountingPeriod@1140004 : Record 50;
+      GLSetup@1140024 : Record 98;
+      CustomerLedgEntry@1140025 : Record 21;
+      CustomerLedgEntry2@1140026 : Record 21;
+      DetailedCustomerLedgEntry@1140027 : Record 379;
+      DetailedCustomerLedgEntry2@1140028 : Record 379;
+      CustFilter@1140005 : Text[250];
+      PeriodText@1140006 : Text[30];
+      YearText@1140007 : Text[30];
+      HeaderText@1140029 : Text[50];
+      AdjustText@1140030 : Text[250];
+      StartDate@1140008 : Date;
+      EndDate@1140009 : Date;
+      YearStartDate@1140010 : Date;
+      StartBalanceType@1140011 : ' ,Debit,Credit';
+      StartBalance@1140012 : Decimal;
+      PeriodDebitAmount@1140013 : Decimal;
+      PeriodCreditAmount@1140014 : Decimal;
+      PeriodEndBalance@1140015 : Decimal;
+      PeriodEndBalanceType@1140016 : ' ,Debit,Credit';
+      YearDebitAmount@1140017 : Decimal;
+      YearCreditAmount@1140018 : Decimal;
+      EndBalanceType@1140019 : ' ,Debit,Credit';
+      EndBalance@1140020 : Decimal;
+      AdjPeriodAmount@1140031 : Decimal;
+      AdjYearAmount@1140032 : Decimal;
+      CustomerLedgEntryEntryNo@1140033 : Integer;
+      AdjustAmounts@1140034 : Boolean;
+      PeriodCaptionLbl@1148452 : TextConst 'ENU=Period;DEA=Periode';
+      YearCaptionLbl@1149576 : TextConst 'ENU=Year;DEA=Jahr';
+      CustTotalBalanceCaptionLbl@1143932 : TextConst 'ENU=Customer Total-Balance;DEA=Debitor - Summen Saldenliste';
+      CurrReportPageNoCaptionLbl@1143005 : TextConst 'ENU=Page;DEA=Seite';
+      StartingBalanceCaptionLbl@1141509 : TextConst 'ENU=Starting Balance;DEA=Saldovortrag';
+      DebitCreditCaptionLbl@1140547 : TextConst 'ENU=Debit/ Credit;DEA=Soll/Haben';
+      DebitCaptionLbl@1140763 : TextConst 'ENU=Debit;DEA=Soll';
+      CreditCaptionLbl@1144793 : TextConst 'ENU=Credit;DEA=Haben';
+      PeriodEndingBalanceCaptionLbl@1143030 : TextConst 'ENU=Period Ending Balance;DEA=Periode Endsaldo';
+      YearEndingBalanceCaptionLbl@1140997 : TextConst 'ENU=Year Ending Balance;DEA=Jahr Endsaldo';
+      TotalCaptionLbl@1142937 : TextConst 'ENU=Total;DEA=Gesamt';
+
+    PROCEDURE GetAdjAmount@1140000(CustomerLedgEntryEntryNo@1140000 : Integer) : Decimal;
+    VAR
+      AdjAmount@1140001 : Decimal;
+    BEGIN
+      AdjAmount := 0;
+      DetailedCustomerLedgEntry2.RESET;
+      DetailedCustomerLedgEntry2.SETRANGE("Cust. Ledger Entry No.", CustomerLedgEntryEntryNo);
+      DetailedCustomerLedgEntry2.SETRANGE("Entry Type", DetailedCustomerLedgEntry2."Entry Type"::"Initial Entry");
+      DetailedCustomerLedgEntry2.SETRANGE("Document Type", DetailedCustomerLedgEntry2."Document Type"::Payment);
+      IF DetailedCustomerLedgEntry2.FIND('-') THEN REPEAT
+        IF ((DetailedCustomerLedgEntry."Debit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Credit Amount (LCY)" <> 0)) OR
+           ((DetailedCustomerLedgEntry."Credit Amount (LCY)" <> 0) AND (DetailedCustomerLedgEntry2."Debit Amount (LCY)" <> 0)) THEN
+          AdjAmount := AdjAmount + DetailedCustomerLedgEntry."Debit Amount (LCY)" + DetailedCustomerLedgEntry."Credit Amount (LCY)";
+      UNTIL DetailedCustomerLedgEntry2.NEXT = 0;
+      EXIT(AdjAmount);
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+    <?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:DataSourceID>ac3e4bd1-0e2a-4efd-8c99-d2a07d5c1b4c</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="TodayFormatted">
+          <DataField>TodayFormatted</DataField>
+        </Field>
+        <Field Name="PeriodTextPeriodText">
+          <DataField>PeriodTextPeriodText</DataField>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="AdjustText">
+          <DataField>AdjustText</DataField>
+        </Field>
+        <Field Name="HeaderText">
+          <DataField>HeaderText</DataField>
+        </Field>
+        <Field Name="CustFilterTableCaption">
+          <DataField>CustFilterTableCaption</DataField>
+        </Field>
+        <Field Name="CustFilter">
+          <DataField>CustFilter</DataField>
+        </Field>
+        <Field Name="YearStartDateFormatted">
+          <DataField>YearStartDateFormatted</DataField>
+        </Field>
+        <Field Name="EmptyString">
+          <DataField>EmptyString</DataField>
+        </Field>
+        <Field Name="PeriodText">
+          <DataField>PeriodText</DataField>
+        </Field>
+        <Field Name="PeriodCaption">
+          <DataField>PeriodCaption</DataField>
+        </Field>
+        <Field Name="EndDateFormatted">
+          <DataField>EndDateFormatted</DataField>
+        </Field>
+        <Field Name="YearCaption">
+          <DataField>YearCaption</DataField>
+        </Field>
+        <Field Name="YearText">
+          <DataField>YearText</DataField>
+        </Field>
+        <Field Name="AccPeriodStartingDate">
+          <DataField>AccPeriodStartingDate</DataField>
+        </Field>
+        <Field Name="No_Cust">
+          <DataField>No_Cust</DataField>
+        </Field>
+        <Field Name="Name_Cust">
+          <DataField>Name_Cust</DataField>
+        </Field>
+        <Field Name="ABSStartBalance">
+          <DataField>ABSStartBalance</DataField>
+        </Field>
+        <Field Name="ABSStartBalanceFormat">
+          <DataField>ABSStartBalanceFormat</DataField>
+        </Field>
+        <Field Name="PeriodDebitAmount">
+          <DataField>PeriodDebitAmount</DataField>
+        </Field>
+        <Field Name="PeriodDebitAmountFormat">
+          <DataField>PeriodDebitAmountFormat</DataField>
+        </Field>
+        <Field Name="StartBalanceType">
+          <DataField>StartBalanceType</DataField>
+        </Field>
+        <Field Name="PeriodCreditAmount">
+          <DataField>PeriodCreditAmount</DataField>
+        </Field>
+        <Field Name="PeriodCreditAmountFormat">
+          <DataField>PeriodCreditAmountFormat</DataField>
+        </Field>
+        <Field Name="ABSPeriodEndBalance">
+          <DataField>ABSPeriodEndBalance</DataField>
+        </Field>
+        <Field Name="ABSPeriodEndBalanceFormat">
+          <DataField>ABSPeriodEndBalanceFormat</DataField>
+        </Field>
+        <Field Name="YearDebitAmount">
+          <DataField>YearDebitAmount</DataField>
+        </Field>
+        <Field Name="YearDebitAmountFormat">
+          <DataField>YearDebitAmountFormat</DataField>
+        </Field>
+        <Field Name="PeriodEndBalanceType">
+          <DataField>PeriodEndBalanceType</DataField>
+        </Field>
+        <Field Name="YearCreditAmount">
+          <DataField>YearCreditAmount</DataField>
+        </Field>
+        <Field Name="YearCreditAmountFormat">
+          <DataField>YearCreditAmountFormat</DataField>
+        </Field>
+        <Field Name="ABSEndBalance">
+          <DataField>ABSEndBalance</DataField>
+        </Field>
+        <Field Name="ABSEndBalanceFormat">
+          <DataField>ABSEndBalanceFormat</DataField>
+        </Field>
+        <Field Name="EndBalanceType">
+          <DataField>EndBalanceType</DataField>
+        </Field>
+        <Field Name="StartBalance">
+          <DataField>StartBalance</DataField>
+        </Field>
+        <Field Name="StartBalanceFormat">
+          <DataField>StartBalanceFormat</DataField>
+        </Field>
+        <Field Name="PeriodEndBalance">
+          <DataField>PeriodEndBalance</DataField>
+        </Field>
+        <Field Name="PeriodEndBalanceFormat">
+          <DataField>PeriodEndBalanceFormat</DataField>
+        </Field>
+        <Field Name="EndBalance">
+          <DataField>EndBalance</DataField>
+        </Field>
+        <Field Name="EndBalanceFormat">
+          <DataField>EndBalanceFormat</DataField>
+        </Field>
+        <Field Name="CustTotalBalanceCaption">
+          <DataField>CustTotalBalanceCaption</DataField>
+        </Field>
+        <Field Name="CurrReportPageNoCaption">
+          <DataField>CurrReportPageNoCaption</DataField>
+        </Field>
+        <Field Name="NoCaption_Cust">
+          <DataField>NoCaption_Cust</DataField>
+        </Field>
+        <Field Name="NameCaption_Cust">
+          <DataField>NameCaption_Cust</DataField>
+        </Field>
+        <Field Name="StartingBalanceCaption">
+          <DataField>StartingBalanceCaption</DataField>
+        </Field>
+        <Field Name="DebitCreditCaption">
+          <DataField>DebitCreditCaption</DataField>
+        </Field>
+        <Field Name="DebitCaption">
+          <DataField>DebitCaption</DataField>
+        </Field>
+        <Field Name="CreditCaption">
+          <DataField>CreditCaption</DataField>
+        </Field>
+        <Field Name="PeriodEndingBalanceCaption">
+          <DataField>PeriodEndingBalanceCaption</DataField>
+        </Field>
+        <Field Name="YearEndingBalanceCaption">
+          <DataField>YearEndingBalanceCaption</DataField>
+        </Field>
+        <Field Name="TotalCaption">
+          <DataField>TotalCaption</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet</rd:DataSetName>
+        <rd:SchemaPath>Report.xsd</rd:SchemaPath>
+        <rd:TableName>Result</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Tablix Name="Table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>0.62008in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.62467in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.02587in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.16732in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.77756in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.77756in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.87489in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.16732in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.77756in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.77756in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.87489in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.16732in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox1">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>69</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox11">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>68</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox12">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>67</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox13">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>66</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Text1140002">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!PeriodCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>65</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox15">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>64</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox16">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>63</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Text1140003">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!YearCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>62</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox18">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>61</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox19">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>60</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox110">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>57</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <ZIndex>56</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Starting_BalanceCaption">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!StartingBalanceCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>55</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox112">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!DebitCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>54</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodText">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!PeriodText.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>53</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Period_Ending_BalanceCaption">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!PeriodEndingBalanceCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>52</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox8">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!DebitCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>51</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="YearText">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!YearText.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>50</ZIndex>
+                      <Style>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Year_Ending_BalanceCaption">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!YearEndingBalanceCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>49</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox14">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!DebitCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>48</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Customer__No__Caption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!NoCaption_Cust.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>45</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Customer_NameCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!NameCaption_Cust.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>44</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FORMAT_YearStartDate_1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!YearStartDateFormatted.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>43</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox124">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!CreditCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>42</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DebitCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!DebitCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>41</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CreditCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!CreditCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>40</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FORMAT_EndDate_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!EndDateFormatted.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>39</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox10">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!CreditCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>38</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="DebitCaption_Control1140022">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DebitCaption.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>37</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CreditCaption_Control1140026">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CreditCaption.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>36</ZIndex>
+                      <Style>
+                        <TopBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </TopBorder>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FORMAT_AccountingPeriod__Starting_Date__1_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!AccPeriodStartingDate.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>35</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox17">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(First(Fields!CreditCaption.Value),1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>34</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Customer__No__">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!No_Cust.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>17</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Customer_Name">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Name_Cust.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>16</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ABS_StartBalance_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!ABSStartBalance.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!ABSStartBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>15</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="StartBalanceType">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(Fields!StartBalanceType.Value,1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>14</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodDebitAmount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!PeriodDebitAmount.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PeriodDebitAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>13</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodCreditAmount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!PeriodCreditAmount.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PeriodCreditAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>12</ZIndex>
+                      <Style>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ABS_PeriodEndBalance_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!ABSPeriodEndBalance.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!ABSPeriodEndBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>11</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodEndBalanceType">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(Fields!PeriodEndBalanceType.Value,1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>10</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="YearDebitAmount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!YearDebitAmount.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!YearDebitAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>9</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="YearCreditAmount">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!YearCreditAmount.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!YearCreditAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="ABS_EndBalance_">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Fields!ABSEndBalance.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!ABSEndBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="EndBalanceType">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Left(Fields!EndBalanceType.Value,1)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TextBox127">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>31</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="TotalCaption">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!TotalCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>30</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="StartBalance">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Abs(Sum(Fields!StartBalance.Value)))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!StartBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>29</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="StartBalanceType_Control1140044">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Switch(Sum(Fields!StartBalance.Value) = 0," ",
+Sum(Fields!StartBalance.Value) &gt; 0,Left(Fields!DebitCaption.Value,1),
+Sum(Fields!StartBalance.Value) &lt; 0,Left(Fields!CreditCaption.Value,1))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>28</ZIndex>
+                      <Visibility>
+                        <Hidden>=Sum(Fields!ABSStartBalance.Value)=0</Hidden>
+                      </Visibility>
+                      <DataElementOutput>NoOutput</DataElementOutput>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodDebitAmount_Control1140045">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Sum(Fields!PeriodDebitAmount.Value))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PeriodDebitAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>27</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodCreditAmount_Control1140046">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Sum(Fields!PeriodCreditAmount.Value))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PeriodCreditAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>26</ZIndex>
+                      <Style>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodEndBalance">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Abs(Sum(Fields!PeriodEndBalance.Value)))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PeriodEndBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>25</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="PeriodEndBalanceType_Control1140048">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Switch(Sum(Fields!PeriodEndBalance.Value) = 0," ",
+Sum(Fields!PeriodEndBalance.Value) &gt; 0,Left(Fields!DebitCaption.Value,1),
+Sum(Fields!PeriodEndBalance.Value) &lt; 0,Left(Fields!CreditCaption.Value,1))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>24</ZIndex>
+                      <Visibility>
+                        <Hidden>=Sum(Fields!ABSPeriodEndBalance.Value)=0</Hidden>
+                      </Visibility>
+                      <DataElementOutput>NoOutput</DataElementOutput>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="YearDebitAmount_Control1140049">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Sum(Fields!YearDebitAmount.Value))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!YearDebitAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>23</ZIndex>
+                      <Style>
+                        <RightBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </RightBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.1cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="YearCreditAmount_Control1140050">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Sum(Fields!YearCreditAmount.Value))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!YearCreditAmountFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>22</ZIndex>
+                      <Style>
+                        <LeftBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </LeftBorder>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="EndBalance">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Code.BlankZero(Abs(Sum(Fields!EndBalance.Value)))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!EndBalanceFormat.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>21</ZIndex>
+                      <Style>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="EndBalanceType_Control1140052">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Switch(Sum(Fields!EndBalance.Value) = 0," ",
+Sum(Fields!EndBalance.Value) &gt; 0,Left(Fields!DebitCaption.Value,1),
+Sum(Fields!EndBalance.Value) &lt; 0,Left(Fields!CreditCaption.Value,1))</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>20</ZIndex>
+                      <Visibility>
+                        <Hidden>=Sum(Fields!ABSEndBalance.Value)=0</Hidden>
+                      </Visibility>
+                      <DataElementOutput>NoOutput</DataElementOutput>
+                      <Style>
+                        <PaddingLeft>0.075cm</PaddingLeft>
+                        <PaddingRight>0.1cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <RepeatOnNewPage>true</RepeatOnNewPage>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Table1_Details_Group">
+                <DataElementName>Detail</DataElementName>
+              </Group>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+              <DataElementName>Detail_Collection</DataElementName>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <KeepWithGroup>Before</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet_Result</DataSetName>
+        <Top>0.63492cm</Top>
+        <Height>2.11506cm</Height>
+        <Width>24.46679cm</Width>
+        <Style />
+      </Tablix>
+      <Textbox Name="textbox5">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!CustFilterTableCaption.Value)</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Height>0.423cm</Height>
+        <Width>17.10635cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>2.74998cm</Height>
+    <Style />
+  </Body>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Width>24.4918cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>2.523cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="HeaderText1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!HeaderText.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>2.1cm</Top>
+          <Height>0.423cm</Height>
+          <Width>14.28571cm</Width>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="CurrReport_PAGENOCaption1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!CurrReportPageNoCaption.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Left>23.2918cm</Left>
+          <Height>0.423cm</Height>
+          <Width>0.75cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="Customer_Total_BalanceCaption1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!CustTotalBalanceCaption.Value</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Height>0.423cm</Height>
+          <Width>7.5cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="AdjustText1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!AdjustText.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>1.5873cm</Top>
+          <Height>0.423cm</Height>
+          <Width>14.4cm</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="COMPANYNAME1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!CompanyName.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.846cm</Top>
+          <Height>0.423cm</Height>
+          <Width>7.5cm</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="STRSUBSTNO_Text1140001_PeriodText_1">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Fields!PeriodTextPeriodText.Value</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Height>0.423cm</Height>
+          <Width>7.5cm</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="ExecutionTimeTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!ExecutionTime</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                    <Format>g</Format>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Left>21.3418cm</Left>
+          <Height>0.423cm</Height>
+          <Width>3.15cm</Width>
+          <ZIndex>6</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="UserIdTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=User!UserID</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.846cm</Top>
+          <Left>21.2418cm</Left>
+          <Height>0.423cm</Height>
+          <Width>3.25cm</Width>
+          <ZIndex>7</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+        <Textbox Name="PageNumberTextBox">
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontSize>7pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <Top>0.423cm</Top>
+          <Left>24.0418cm</Left>
+          <Height>0.423cm</Height>
+          <Width>0.45cm</Width>
+          <ZIndex>8</ZIndex>
+          <Style>
+            <VerticalAlign>Middle</VerticalAlign>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageHeight>21cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
+    <LeftMargin>1.5cm</LeftMargin>
+    <TopMargin>2cm</TopMargin>
+    <BottomMargin>2cm</BottomMargin>
+    <Style />
+  </Page>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>70729d6d-dcb9-4b97-a5d1-d234cfcad1fa</rd:ReportID>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+</Report>
+    END_OF_RDLDATA
+  }
+}
+

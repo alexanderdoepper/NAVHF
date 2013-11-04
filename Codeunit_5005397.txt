@@ -1,0 +1,40 @@
+OBJECT Codeunit 5005397 Format Adress Comfort
+{
+  OBJECT-PROPERTIES
+  {
+    Date=01.10.04;
+    Time=12:00:00;
+    Version List=NAVDACH4.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      AddrFormat@1140000 : Codeunit 365;
+
+    PROCEDURE DelifRemindVend@1140000(VAR AddrArray@1140000 : ARRAY [8] OF Text[50];VAR DeliveryReminderHeader@1140001 : Record 5005270);
+    BEGIN
+      WITH DeliveryReminderHeader DO
+        AddrFormat.FormatAddr(
+          AddrArray,Name,"Name 2",Contact,Address,"Address 2",
+          City,"Post Code",County,"Country/Region Code");
+    END;
+
+    PROCEDURE IssDelivRemindVend@1140001(VAR AddrArray@1140000 : ARRAY [8] OF Text[50];VAR IssuedDeliveryReminderHeader@1140001 : Record 5005272);
+    BEGIN
+      WITH IssuedDeliveryReminderHeader DO
+        AddrFormat.FormatAddr(
+          AddrArray,Name,"Name 2",Contact,Address,"Address 2",
+          City,"Post Code",County,"Country/Region Code");
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,78 @@
+OBJECT Report 1141 Delete Old Cost Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Delete Old Cost Entries;
+               ESP=Eliminar movs. coste antiguos;
+               DEA=Alte Kostenposten l”schen];
+    ProcessingOnly=Yes;
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1   ;    ;Container ;
+                  ContainerType=ContentArea }
+
+      { 2   ;1   ;Field     ;
+                  Name=YearEndingDate;
+                  CaptionML=[ENU=Year Ending Date;
+                             ESP=Fecha final ejercicio;
+                             DEA=Jahresenddatum];
+                  SourceExpr=YearEndDate;
+                  OnValidate=BEGIN
+                               IF YearEndDate <> CALCDATE('<CY>',YearEndDate) THEN
+                                 ERROR(Text001,YearEndDate);
+
+                               IF WORKDATE - YearEndDate < 365 THEN
+                                 ERROR(Text002,YearEndDate);
+
+                               IF NOT CONFIRM(Text003,FALSE,YearEndDate) THEN
+                                 EXIT;
+
+                               CostEntry.SETCURRENTKEY("Cost Type No.","Posting Date");
+                               CostEntry.SETRANGE("Posting Date",0D,YearEndDate);
+                               IF NOT CostEntry.ISEMPTY THEN BEGIN
+                                 CostEntry.DELETEALL;
+                                 MESSAGE(Text004,YearEndDate);
+                               END ELSE
+                                 ERROR(Text005,YearEndDate);
+                             END;
+                              }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      CostEntry@1006 : Record 1104;
+      YearEndDate@1000 : Date;
+      Text001@1005 : TextConst 'ENU=%1 is not at year''s end.;ESP=%1 no es el fin del a¤o.;DEA=%1 ist nicht am Jahresende.';
+      Text002@1004 : TextConst 'ENU=The selected year ending date %1 must be older than last year.;ESP=La fecha fin a¤o %1 seleccionada debe ser anterior al a¤o previo.;DEA=Das ausgew„hlte Jahresenddatum %1 muss nach dem Vorjahr liegen.';
+      Text003@1003 : TextConst 'ENU=Are you sure you want to delete all cost entries up to and including %1?;ESP=¨Est  seguro de que desea eliminar todos los movs. de coste hasta e incluyendo %1?;DEA=M”chten Sie wirklich alle Kostenposten bis einschlieálich %1 l”schen?';
+      Text004@1002 : TextConst 'ENU=All cost entries up to and including %1 deleted.;ESP=Se han eliminado todos los movs. coste hasta %1, inclusive.;DEA=Alle Kostenposten bis einschlieálich %1 wurden gel”scht.';
+      Text005@1001 : TextConst 'ENU=No cost entries were found before %1.;ESP=No se encontraron movs. coste delante de %1.;DEA=Es wurden keine Kostenposten vor %1 gefunden.';
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

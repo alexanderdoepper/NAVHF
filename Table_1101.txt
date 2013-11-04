@@ -1,0 +1,298 @@
+OBJECT Table 1101 Cost Journal Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               LOCKTABLE;
+               CostJournalTemplate.GET("Journal Template Name");
+               CostJournalBatch.GET("Journal Template Name","Journal Batch Name");
+               "Reason Code" := CostJournalBatch."Reason Code";
+
+               IF "Source Code" = '' THEN BEGIN
+                 SourceCodeSetup.GET;
+                 "Source Code" := SourceCodeSetup."Cost Journal";
+               END;
+             END;
+
+    OnModify=BEGIN
+               "System-Created Entry" := FALSE;
+             END;
+
+    CaptionML=[ENU=Cost Journal Line;
+               ESP=L°nea diario costes;
+               DEA=Kosten-Buch.-Blattzeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Cost Journal Template";
+                                                   CaptionML=[ENU=Journal Template Name;
+                                                              ESP=Nombre libro diario;
+                                                              DEA=Buch.-Blattvorlagenname] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 4   ;   ;Cost Type No.       ;Code20        ;TableRelation="Cost Type";
+                                                   OnValidate=BEGIN
+                                                                IF CostType.GET("Cost Type No.") THEN BEGIN
+                                                                  CostType.TESTFIELD(Blocked,FALSE);
+                                                                  CostType.TESTFIELD(Type,CostType.Type::"Cost Type");
+                                                                  "Cost Center Code" := CostType."Cost Center Code";
+                                                                  "Cost Object Code" := CostType."Cost Object Code";
+                                                                  Description := CostType.Name;
+                                                                END;
+
+                                                                CalcBalance;
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Type No.;
+                                                              ESP=Nß tipo coste;
+                                                              DEA=Kostenartnr.] }
+    { 5   ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
+                                                              ESP=Fecha registro;
+                                                              DEA=Buchungsdatum];
+                                                   ClosingDates=Yes }
+    { 7   ;   ;Document No.        ;Code20        ;CaptionML=[ENU=Document No.;
+                                                              ESP=Nß documento;
+                                                              DEA=Belegnr.] }
+    { 8   ;   ;Description         ;Text80        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 9   ;   ;Journal Batch Name  ;Code10        ;TableRelation="Cost Journal Batch".Name WHERE (Journal Template Name=FIELD(Journal Template Name));
+                                                   CaptionML=[ENU=Journal Batch Name;
+                                                              ESP=Nombre secci¢n diario;
+                                                              DEA=Buch.-Blattname] }
+    { 11  ;   ;Bal. Cost Type No.  ;Code20        ;TableRelation="Cost Type";
+                                                   OnValidate=BEGIN
+                                                                IF CostType.GET("Bal. Cost Type No.") THEN BEGIN
+                                                                  CostType.TESTFIELD(Blocked,FALSE);
+                                                                  CostType.TESTFIELD(Type,CostType.Type::"Cost Type");
+                                                                  "Bal. Cost Center Code" := CostType."Cost Center Code";
+                                                                  "Bal. Cost Object Code" := CostType."Cost Object Code";
+                                                                END;
+
+                                                                CalcBalance;
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Cost Type No.;
+                                                              ESP=Nß tipo coste saldo;
+                                                              DEA=Nummer fÅr Saldokostenart] }
+    { 16  ;   ;Amount              ;Decimal       ;OnValidate=BEGIN
+                                                                CalcBalance;
+                                                                UpdateDebitCreditAmounts;
+                                                              END;
+
+                                                   CaptionML=[ENU=Amount;
+                                                              ESP=Importe;
+                                                              DEA=Betrag] }
+    { 17  ;   ;Balance             ;Decimal       ;CaptionML=[ENU=Balance;
+                                                              ESP=Saldo;
+                                                              DEA=Saldo];
+                                                   Editable=No }
+    { 18  ;   ;Debit Amount        ;Decimal       ;OnValidate=BEGIN
+                                                                VALIDATE(Amount,"Debit Amount");
+                                                              END;
+
+                                                   CaptionML=[ENU=Debit Amount;
+                                                              ESP=Importe debe;
+                                                              DEA=Sollbetrag] }
+    { 19  ;   ;Credit Amount       ;Decimal       ;OnValidate=BEGIN
+                                                                VALIDATE(Amount,-"Credit Amount");
+                                                              END;
+
+                                                   CaptionML=[ENU=Credit Amount;
+                                                              ESP=Importe haber;
+                                                              DEA=Habenbetrag] }
+    { 20  ;   ;Cost Center Code    ;Code20        ;TableRelation="Cost Center";
+                                                   OnValidate=BEGIN
+                                                                CheckCostCenter("Cost Center Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Center Code;
+                                                              ESP=C¢digo centro coste;
+                                                              DEA=Kostenstellencode] }
+    { 21  ;   ;Cost Object Code    ;Code20        ;TableRelation="Cost Object";
+                                                   OnValidate=BEGIN
+                                                                CheckCostObject("Cost Object Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Cost Object Code;
+                                                              ESP=C¢digo objeto coste;
+                                                              DEA=KostentrÑgercode] }
+    { 22  ;   ;Bal. Cost Center Code;Code20       ;TableRelation="Cost Center";
+                                                   OnValidate=BEGIN
+                                                                CheckCostCenter("Bal. Cost Center Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Cost Center Code;
+                                                              ESP=C¢digo centro coste saldo;
+                                                              DEA=Code fÅr Saldokostenstelle] }
+    { 23  ;   ;Bal. Cost Object Code;Code20       ;TableRelation="Cost Object";
+                                                   OnValidate=BEGIN
+                                                                CheckCostObject("Bal. Cost Object Code");
+                                                              END;
+
+                                                   CaptionML=[ENU=Bal. Cost Object Code;
+                                                              ESP=C¢digo objeto coste saldo;
+                                                              DEA=Code fÅr SaldokostentrÑger] }
+    { 27  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
+                                                   CaptionML=[ENU=Reason Code;
+                                                              ESP=C¢d. auditor°a;
+                                                              DEA=Ursachencode] }
+    { 29  ;   ;G/L Entry No.       ;Integer       ;TableRelation="G/L Entry";
+                                                   CaptionML=[ENU=G/L Entry No.;
+                                                              ESP=Nß mov. contabilidad;
+                                                              DEA=Sachposten Lfd. Nr.];
+                                                   Editable=No }
+    { 30  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
+                                                   CaptionML=[ENU=Source Code;
+                                                              ESP=C¢d. origen;
+                                                              DEA=Herkunftscode] }
+    { 31  ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
+                                                              ESP=Asiento autom†tico;
+                                                              DEA=Systembuchung];
+                                                   Editable=No }
+    { 32  ;   ;Cost Entry No.      ;Integer       ;CaptionML=[ENU=Cost Entry No.;
+                                                              ESP=Nß mov. coste;
+                                                              DEA=Kostenpostennr.];
+                                                   Editable=No }
+    { 33  ;   ;Allocated           ;Boolean       ;CaptionML=[ENU=Allocated;
+                                                              ESP=Asignado;
+                                                              DEA=Zugeordnet] }
+    { 50  ;   ;Allocation Description;Text80      ;CaptionML=[ENU=Allocation Description;
+                                                              ESP=Descripci¢n asignaci¢n;
+                                                              DEA=Verteilungsbeschreibung] }
+    { 51  ;   ;Allocation ID       ;Code10        ;CaptionML=[ENU=Allocation ID;
+                                                              ESP=Id. asignaci¢n;
+                                                              DEA=Verteilungs-ID] }
+    { 68  ;   ;Additional-Currency Amount;Decimal ;CaptionML=[ENU=Additional-Currency Amount;
+                                                              ESP=Importe divisa-adicional;
+                                                              DEA=Betrag (BW)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 69  ;   ;Add.-Currency Debit Amount;Decimal ;CaptionML=[ENU=Add.-Currency Debit Amount;
+                                                              ESP=Debe div.-adic.;
+                                                              DEA=Sollbetrag (BW)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 70  ;   ;Add.-Currency Credit Amount;Decimal;CaptionML=[ENU=Add.-Currency Credit Amount;
+                                                              ESP=Haber div.-adic.;
+                                                              DEA=Habenbetrag (BW)];
+                                                   Editable=No;
+                                                   AutoFormatType=1 }
+    { 100 ;   ;Budget Name         ;Code10        ;CaptionML=[ENU=Budget Name;
+                                                              ESP=Nombre ppto.;
+                                                              DEA=Budgetname];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Journal Template Name,Journal Batch Name,Line No.;
+                                                   SumIndexFields=Balance;
+                                                   Clustered=Yes }
+    {    ;Cost Type No.,Cost Center Code,Cost Object Code }
+    {    ;G/L Entry No.                            }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      SourceCodeSetup@1005 : Record 242;
+      CostType@1004 : Record 1103;
+      CostJournalBatch@1003 : Record 1102;
+      CostJournalTemplate@1002 : Record 1100;
+      Text000@1006 : TextConst '@@@="%2 = Cost Center or Cost Object; %3 = Cost Center or Cost Object Code";ENU=Line Type must be %1 or Begin-Total in %2 %3.;ESP=Tipo l°nea debe ser %1 o Inicio-Total en %2 %3.;DEA=Die Zeilenart muss in %2 %3 auf ''%1'' oder ''Von-Summe'' festgelegt sein.';
+
+    PROCEDURE CalcBalance@1();
+    BEGIN
+      CASE TRUE OF
+        ("Cost Type No." <> '') AND ("Bal. Cost Type No." <> ''):
+          Balance := 0;
+        "Bal. Cost Type No." <> '':
+          Balance := -Amount;
+        ELSE
+          Balance := Amount;
+      END;
+    END;
+
+    PROCEDURE CheckCostCenter@2(CostCenterCode@1000 : Code[20]);
+    VAR
+      CostCenter@1001 : Record 1112;
+    BEGIN
+      IF CostCenter.GET(CostCenterCode) THEN BEGIN
+        IF NOT (CostCenter."Line Type" IN [CostCenter."Line Type"::"Cost Center",CostCenter."Line Type"::"Begin-Total"]) THEN
+          ERROR(Text000,CostCenter."Line Type"::"Cost Center",CostCenter.TABLECAPTION,CostCenter.Code);
+        CostCenter.TESTFIELD(Blocked,FALSE);
+      END;
+    END;
+
+    PROCEDURE CheckCostObject@3(CostObjectCode@1000 : Code[20]);
+    VAR
+      CostObject@1001 : Record 1113;
+    BEGIN
+      IF CostObject.GET(CostObjectCode) THEN BEGIN
+        IF NOT (CostObject."Line Type" IN [CostObject."Line Type"::"Cost Object",CostObject."Line Type"::"Begin-Total"]) THEN
+          ERROR(Text000,CostObject."Line Type"::"Cost Object",CostObject.TABLECAPTION,CostObject.Code);
+        CostObject.TESTFIELD(Blocked,FALSE);
+      END;
+    END;
+
+    PROCEDURE SetUpNewLine@8(LastCostJournalLine@1000 : Record 1101);
+    VAR
+      CostJournalLine@1001 : Record 1101;
+    BEGIN
+      CostJournalTemplate.GET("Journal Template Name");
+      CostJournalBatch.GET("Journal Template Name","Journal Batch Name");
+      CostJournalLine.SETRANGE("Journal Template Name","Journal Template Name");
+      CostJournalLine.SETRANGE("Journal Batch Name","Journal Batch Name");
+      IF CostJournalLine.FINDFIRST THEN BEGIN
+        "Posting Date" := LastCostJournalLine."Posting Date";
+        "Document No." := LastCostJournalLine."Document No.";
+      END ELSE
+        "Posting Date" := WORKDATE;
+
+      "Source Code" := CostJournalTemplate."Source Code";
+      "Reason Code" := CostJournalBatch."Reason Code";
+      "Bal. Cost Type No." := CostJournalBatch."Bal. Cost Type No.";
+      "Bal. Cost Center Code" := CostJournalBatch."Bal. Cost Center Code";
+      "Bal. Cost Object Code" := CostJournalBatch."Bal. Cost Object Code";
+    END;
+
+    PROCEDURE EmptyLine@4() : Boolean;
+    BEGIN
+      EXIT(Amount = 0);
+    END;
+
+    PROCEDURE UpdateDebitCreditAmounts@5();
+    BEGIN
+      CASE TRUE OF
+        Amount > 0:
+          BEGIN
+            "Debit Amount" := Amount;
+            "Credit Amount" := 0;
+          END;
+        Amount < 0:
+          BEGIN
+            "Debit Amount" := 0;
+            "Credit Amount" := -Amount;
+          END;
+        Amount = 0:
+          BEGIN
+            "Debit Amount" := 0;
+            "Credit Amount" := 0;
+          END;
+      END;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

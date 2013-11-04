@@ -1,0 +1,128 @@
+OBJECT Report 1140 Update Cost Acctg. Dimensions
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Update Cost Acctg. Dimensions;
+               ESP=Actualizar dimensiones contabilidad costes;
+               DEA=Kostenrechnungsdimensionen aktualisieren];
+    ProcessingOnly=Yes;
+    OnPostReport=BEGIN
+                   IF UpdateDimension THEN BEGIN
+                     IF NOT CONFIRM(Text001,TRUE) THEN
+                       ERROR('');
+
+                     CostAccSetup.VALIDATE("Cost Center Dimension",NewCCDimension);
+                     CostAccSetup.VALIDATE("Cost Object Dimension",NewCODimension);
+                     CostAccSetup.MODIFY(TRUE);
+                   END;
+                 END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      OnOpenPage=BEGIN
+                   CostAccSetup.GET;
+                   GetInitialDimensions;
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1   ;    ;Container ;
+                  ContainerType=ContentArea }
+
+      { 2   ;1   ;Group     ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen];
+                  GroupType=Group }
+
+      { 3   ;2   ;Field     ;
+                  Name=CostCenterDimension;
+                  CaptionML=[ENU=Cost Center Dimension;
+                             ESP=Dimensi¢n centro coste;
+                             DEA=Kostenstellendimension];
+                  SourceExpr=NewCCDimension;
+                  TableRelation=Dimension;
+                  OnValidate=BEGIN
+                               IF NewCCDimension = '' THEN BEGIN
+                                 GetInitialDimensions;
+                                 UpdateDimension := FALSE;
+                                 ERROR(Text003,CostAccSetup.FIELDCAPTION("Cost Center Dimension"));
+                               END;
+                               IF NewCCDimension = NewCODimension THEN BEGIN
+                                 GetInitialDimensions;
+                                 UpdateDimension := FALSE;
+                                 ERROR(Text002);
+                               END;
+
+                               IF CostAccSetup."Cost Center Dimension" <> NewCCDimension THEN
+                                 UpdateDimension := TRUE;
+                             END;
+                              }
+
+      { 4   ;2   ;Field     ;
+                  Name=CostObjectDimension;
+                  CaptionML=[ENU=Cost Object Dimension;
+                             ESP=Dimensi¢n objeto coste;
+                             DEA=KostentrÑgerdimension];
+                  SourceExpr=NewCODimension;
+                  TableRelation=Dimension;
+                  OnValidate=BEGIN
+                               IF NewCODimension = '' THEN BEGIN
+                                 GetInitialDimensions;
+                                 UpdateDimension := FALSE;
+                                 ERROR(Text003,CostAccSetup.FIELDCAPTION("Cost Object Dimension"));
+                               END;
+                               IF NewCCDimension = NewCODimension THEN BEGIN
+                                 GetInitialDimensions;
+                                 UpdateDimension := FALSE;
+                                 ERROR(Text002);
+                               END;
+
+                               IF CostAccSetup."Cost Object Dimension" <> NewCODimension THEN
+                                 UpdateDimension := TRUE;
+                             END;
+                              }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      CostAccSetup@1000 : Record 1108;
+      NewCCDimension@1001 : Code[20];
+      NewCODimension@1002 : Code[20];
+      UpdateDimension@1003 : Boolean;
+      Text001@1004 : TextConst 'ENU=Before you change the corresponding dimension on G/L entries, make sure all G/L entries using the previously defined dimension have been transferred to Cost Accounting. \\Do you want to proceed?;ESP=Antes de cambiar la dimensi¢n correspondiente en Movs. contabilidad, aseg£rese de que todos los Movs. contabilidad que utilicen la dimensi¢n definida previamente se hayan transferido a Contabilidad de costes. \\®Desea continuar?;DEA=Vergewissern Sie sich vor dem éndern der entsprechenden Dimension fÅr Sachposten, dass alle Sachposten mit der zuvor definierten Dimension in die Kostenrechnung Åbertragen wurden. \\Mîchten Sie den Vorgang fortsetzen?';
+      Text002@1005 : TextConst 'ENU=The dimension values for cost center and cost object cannot be same.;ESP=Los valores de dimensi¢n para el centro de coste o el objeto de coste no pueden ser iguales.;DEA=Die Dimensionswerte fÅr Kostenstelle und KostentrÑger dÅrfen nicht Åbereinstimmen.';
+      Text003@1006 : TextConst 'ENU=%1 must be filled in. Enter a value.;ESP=%1 debe rellenarse. Especifique un valor.;DEA=''%1'' muss ausgefÅllt werden. Geben Sie einen Wert ein.';
+
+    PROCEDURE GetInitialDimensions@1();
+    BEGIN
+      NewCCDimension := CostAccSetup."Cost Center Dimension";
+      NewCODimension := CostAccSetup."Cost Object Dimension";
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

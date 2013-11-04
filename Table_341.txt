@@ -1,0 +1,48 @@
+OBJECT Table 341 Item Discount Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnDelete=VAR
+               SalesLineDiscount@1000 : Record 7004;
+             BEGIN
+               SalesLineDiscount.SETRANGE(Type,SalesLineDiscount.Type::"Item Disc. Group");
+               SalesLineDiscount.SETRANGE(Code,Code);
+               SalesLineDiscount.DELETEALL(TRUE);
+             END;
+
+    CaptionML=[ENU=Item Discount Group;
+               ESP=Grupo descuento producto;
+               DEA=Artikelrabattgruppe];
+    LookupPageID=Page513;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code20        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

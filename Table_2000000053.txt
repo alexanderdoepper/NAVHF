@@ -1,0 +1,44 @@
+OBJECT Table 2000000053 Access Control
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Control de acceso;
+  }
+  FIELDS
+  {
+    { 1   ;   ;User Security ID    ;GUID          ;TableRelation=User."User Security ID";
+                                                   CaptionML=ESP=Id. de seguridad de usuario }
+    { 2   ;   ;Role ID             ;Code20        ;TableRelation="Permission Set"."Role ID";
+                                                   CaptionML=ESP=Id. rol }
+    { 3   ;   ;Company Name        ;Text30        ;TableRelation=Company.Name;
+                                                   CaptionML=ESP=Nombre empresa }
+    { 5   ;   ;User Name           ;Code50        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(User."User Name" WHERE (User Security ID=FIELD(User Security ID)));
+                                                   CaptionML=ESP=Nombre usuario }
+    { 7   ;   ;Role Name           ;Text30        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup("Permission Set".Name WHERE (Role ID=FIELD(Role ID)));
+                                                   CaptionML=ESP=Nombre rol }
+  }
+  KEYS
+  {
+    {    ;User Security ID,Role ID,Company Name   ;Clustered=Yes }
+    {    ;Role ID                                  }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,48 @@
+OBJECT Table 6635 Return Reason
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Return Reason;
+               ESP=Causa devoluci¢n;
+               DEA=Reklamationsgrund];
+    LookupPageID=Page6635;
+    DrillDownPageID=Page6635;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Default Location Code;Code10       ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
+                                                   CaptionML=[ENU=Default Location Code;
+                                                              ESP=C¢digo alm. gen‚rico;
+                                                              DEA=Standardlagerortcode] }
+    { 4   ;   ;Inventory Value Zero;Boolean       ;CaptionML=[ENU=Inventory Value Zero;
+                                                              ESP=Inventario valor cero;
+                                                              DEA=Ohne Lagerbewertung] }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+    { 1   ;DropDown            ;Code,Description,Default Location Code,Inventory Value Zero }
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

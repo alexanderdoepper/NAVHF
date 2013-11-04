@@ -1,0 +1,158 @@
+OBJECT Table 5005271 Delivery Reminder Line
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    OnInsert=BEGIN
+               DeliveryReminderHeader.GET("Document No.");
+               "Attached to Line No." := 0;
+             END;
+
+    OnDelete=BEGIN
+               DeliveryReminderLine.RESET;
+               DeliveryReminderLine.SETCURRENTKEY("Document No.","Attached to Line No.");
+               DeliveryReminderLine.SETRANGE("Document No.","Document No.");
+               DeliveryReminderLine.SETRANGE("Attached to Line No.","Line No.");
+               DeliveryReminderLine.DELETEALL;
+             END;
+
+    CaptionML=[ENU=Delivery Reminder Line;
+               DEA=Lieferanmahnungszeile];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Document No.        ;Code20        ;TableRelation="Delivery Reminder Header";
+                                                   CaptionML=[ENU=Document No.;
+                                                              DEA=Belegnr.];
+                                                   Editable=No }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.];
+                                                   NotBlank=Yes;
+                                                   Editable=No }
+    { 3   ;   ;Order No.           ;Code20        ;TableRelation="Purchase Header".No. WHERE (Document Type=CONST(Order));
+                                                   CaptionML=[ENU=Order No.;
+                                                              DEA=Bestellnummer];
+                                                   Editable=No }
+    { 4   ;   ;Order Line No.      ;Integer       ;CaptionML=[ENU=Order Line No.;
+                                                              DEA=Bestellzeilennr.];
+                                                   Editable=No }
+    { 5   ;   ;Type                ;Option        ;OnValidate=BEGIN
+                                                                TempType := Type;
+                                                                INIT;
+                                                                Type := TempType;
+                                                              END;
+
+                                                   CaptionML=[ENU=Type;
+                                                              DEA=Art];
+                                                   OptionCaptionML=[ENU=" ,Account (G/L),Item,,Fixed Asset";
+                                                                    DEA=" ,Sachkonto,Artikel,,WG/Anlage"];
+                                                   OptionString=[ ,Account (G/L),Item,,Fixed Asset] }
+    { 6   ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(" ")) "Standard Text"
+                                                                 ELSE IF (Type=CONST("Account (G/L)")) "G/L Account"
+                                                                 ELSE IF (Type=CONST(Item)) Item
+                                                                 ELSE IF (Type=CONST(3)) Resource
+                                                                 ELSE IF (Type=CONST(Fixed Asset)) "Fixed Asset";
+                                                   OnValidate=BEGIN
+                                                                IF "No." = '' THEN
+                                                                  EXIT;
+
+                                                                TESTFIELD(Type,Type::" ");
+
+                                                                StandardText.GET("No.");
+                                                                Description := StandardText.Description;
+                                                              END;
+
+                                                   CaptionML=[ENU=No.;
+                                                              DEA=Nr.] }
+    { 7   ;   ;Description         ;Text100       ;CaptionML=[ENU=Description;
+                                                              DEA=Beschreibung] }
+    { 8   ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
+                                                              DEA=Beschreibung 2] }
+    { 9   ;   ;Unit of Measure     ;Text10        ;CaptionML=[ENU=Unit of Measure;
+                                                              DEA=Einheit];
+                                                   Editable=No }
+    { 10  ;   ;Reorder Quantity    ;Decimal       ;CaptionML=[ENU=Reorder Quantity;
+                                                              DEA=Bestellmenge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 11  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[ENU=Remaining Quantity;
+                                                              DEA=Restmenge];
+                                                   DecimalPlaces=0:5;
+                                                   Editable=No }
+    { 12  ;   ;Quantity            ;Decimal       ;OnValidate=BEGIN
+                                                                IF Quantity <> 0 THEN BEGIN
+                                                                  TESTFIELD(Type);
+                                                                  TESTFIELD("No.");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Quantity;
+                                                              DEA=Menge];
+                                                   DecimalPlaces=0:5 }
+    { 13  ;   ;Reminder Level      ;Integer       ;OnValidate=BEGIN
+                                                                IF "Reminder Level" <> 0 THEN
+                                                                  TESTFIELD(Type);
+                                                              END;
+
+                                                   CaptionML=[ENU=Reminder Level;
+                                                              DEA=Mahnstufe];
+                                                   MinValue=0 }
+    { 14  ;   ;Order Date          ;Date          ;CaptionML=[ENU=Order Date;
+                                                              DEA=Bestelldatum];
+                                                   Editable=No }
+    { 15  ;   ;Expected Receipt Date;Date         ;CaptionML=[ENU=Expected Receipt Date;
+                                                              DEA=Erwartetes Wareneingangsdatum];
+                                                   Editable=No }
+    { 16  ;   ;Days overdue        ;Integer       ;OnValidate=BEGIN
+                                                                IF "Reminder Level" <> 0 THEN
+                                                                  TESTFIELD(Type);
+                                                              END;
+
+                                                   CaptionML=[ENU=Days overdue;
+                                                              DEA=Tage ÅberfÑllig];
+                                                   Editable=No }
+    { 17  ;   ;Attached to Line No.;Integer       ;CaptionML=[ENU=Attached to Line No.;
+                                                              DEA=Gehîrt zu Zeilennr.];
+                                                   Editable=No }
+    { 18  ;   ;Vendor Item No.     ;Text20        ;CaptionML=[ENU=Vendor Item No.;
+                                                              DEA=Kred.-Artikelnr.] }
+    { 19  ;   ;Requested Receipt Date;Date        ;CaptionML=[ENU=Requested Receipt Date;
+                                                              DEA=GewÅnschtes Wareneingangsdatum];
+                                                   Editable=No }
+    { 20  ;   ;Promised Receipt Date;Date         ;CaptionML=[ENU=Promised Receipt Date;
+                                                              DEA=Zugesagtes Wareneingangsdatum];
+                                                   Editable=No }
+    { 21  ;   ;Del. Rem. Date Field;Option        ;CaptionML=[ENU=Del. Rem. Date Field;
+                                                              DEA=Lief.-Mahnung Datumsfeld];
+                                                   OptionCaptionML=[ENU=" ,Requested Receipt Date,Promised Receipt Date,Expected Receipt Date";
+                                                                    DEA=" ,GewÅnschtes Wareneingangsdatum,Zugesagtes Wareneingangsdatum,Erwartetes Wareneingangsdatum"];
+                                                   OptionString=[ ,Requested Receipt Date,Promised Receipt Date,Expected Receipt Date];
+                                                   ValuesAllowed=[Requested Receipt Date;Promised Receipt Date;Expected Receipt Date];
+                                                   Editable=No }
+  }
+  KEYS
+  {
+    {    ;Document No.,Line No.                   ;Clustered=Yes }
+    {    ;Document No.,Attached to Line No.        }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      DeliveryReminderHeader@1140000 : Record 5005270;
+      DeliveryReminderLine@1140001 : Record 5005271;
+      StandardText@1140002 : Record 7;
+      TempType@1140004 : Integer;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,33 @@
+OBJECT Page 7184 Return Shipment Lines Subform
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=Lines;
+               ESP=L¡neas;
+               DEA=Zeilen];
+    MultipleNewLines=Yes;
+    SourceTable=Table6651;
+    PageType=ListPart;
+  }
+  CONTROLS
+  {
+  }
+  CODE
+  {
+
+    PROCEDURE GetSelectedLine@1(VAR FromReturnShipmentLine@1000 : Record 6651);
+    BEGIN
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

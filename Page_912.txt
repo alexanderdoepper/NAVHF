@@ -1,0 +1,48 @@
+OBJECT Page 912 Component - Resource Details
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Component - Resource Details;
+               ESP=Componente - Detalles de recurso;
+               DEA=Komponente - Ressourcendetails];
+    SourceTable=Table156;
+    PageType=CardPart;
+  }
+  CONTROLS
+  {
+    { 1   ;0   ;Container ;
+                ContainerType=ContentArea }
+
+    { 2   ;1   ;Field     ;
+                CaptionML=[ENU=Resource No.;
+                           ESP=N§ recurso;
+                           DEA=Ressourcennr.];
+                SourceExpr="No." }
+
+    { 3   ;1   ;Field     ;
+                SourceExpr=Type }
+
+    { 4   ;1   ;Field     ;
+                SourceExpr="Job Title" }
+
+    { 5   ;1   ;Field     ;
+                SourceExpr="Base Unit of Measure" }
+
+    { 6   ;1   ;Field     ;
+                SourceExpr="Unit Cost" }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

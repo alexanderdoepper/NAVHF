@@ -1,0 +1,310 @@
+OBJECT Page 446 Finance Charge Memo
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Finance Charge Memo;
+               ESP=Documento inter‚s;
+               DEA=Zinsrechnung];
+    SourceTable=Table302;
+    PageType=Document;
+    OnDeleteRecord=BEGIN
+                     CurrPage.SAVERECORD;
+                     EXIT(ConfirmDeletion);
+                   END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 31      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Memo;
+                                 ESP=&Documento;
+                                 DEA=Rec&hnung];
+                      Image=Notes }
+      { 35      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+L;
+                      CaptionML=[ENU=List;
+                                 ESP=Lista;
+                                 DEA=šbersicht];
+                      Image=OpportunitiesList;
+                      OnAction=BEGIN
+                                 FinChrgMemoHeader.COPY(Rec);
+                                 IF PAGE.RUNMODAL(0,FinChrgMemoHeader) = ACTION::LookupOK THEN
+                                   Rec := FinChrgMemoHeader;
+                               END;
+                                }
+      { 38      ;2   ;Action    ;
+                      CaptionML=[ENU=Co&mments;
+                                 ESP=C&omentarios;
+                                 DEA=Be&merkungen];
+                      RunObject=Page 454;
+                      RunPageLink=Type=CONST(Finance Charge Memo),
+                                  No.=FIELD(No.);
+                      Image=ViewComments }
+      { 37      ;2   ;Action    ;
+                      CaptionML=[ENU=C&ustomer;
+                                 ESP=&Cliente;
+                                 DEA=D&ebitor];
+                      RunObject=Page 22;
+                      RunPageLink=No.=FIELD(Customer No.);
+                      Image=Customer }
+      { 27      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESP=Dimensiones;
+                                 DEA=Dimensionen];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ShowDocDim;
+                                 CurrPage.SAVERECORD;
+                               END;
+                                }
+      { 32      ;2   ;Separator  }
+      { 25      ;2   ;Action    ;
+                      ShortCutKey=F7;
+                      CaptionML=[ENU=Statistics;
+                                 ESP=Estad¡sticas;
+                                 DEA=Statistik];
+                      RunObject=Page 449;
+                      RunPageLink=No.=FIELD(No.);
+                      Promoted=Yes;
+                      Image=Statistics;
+                      PromotedCategory=Process }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 30      ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 ESP=Acci&ones;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 24      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Create Finance Charge Memos;
+                                 ESP=Crear documentos inter‚s;
+                                 DEA=Zinsrechnungen erstellen];
+                      Promoted=Yes;
+                      Image=CreateFinanceChargememo;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 REPORT.RUNMODAL(REPORT::"Create Finance Charge Memos");
+                               END;
+                                }
+      { 14      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Suggest Fin. Charge Memo Lines;
+                                 ESP=Proponer l¡neas doc. inter‚s;
+                                 DEA=Zinsrech.-Zeilen vorschlagen];
+                      Image=SuggestLines;
+                      OnAction=BEGIN
+                                 CurrPage.SETSELECTIONFILTER(FinChrgMemoHeader);
+                                 REPORT.RUNMODAL(REPORT::"Suggest Fin. Charge Memo Lines",TRUE,FALSE,FinChrgMemoHeader);
+                               END;
+                                }
+      { 15      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Update Finance Charge Text;
+                                 ESP=Actualizar texto inter‚s;
+                                 DEA=Zinsrech. Text aktualisieren];
+                      Image=RefreshText;
+                      OnAction=BEGIN
+                                 CurrPage.SETSELECTIONFILTER(FinChrgMemoHeader);
+                                 REPORT.RUNMODAL(REPORT::"Update Finance Charge Text",TRUE,FALSE,FinChrgMemoHeader);
+                               END;
+                                }
+      { 48      ;1   ;ActionGroup;
+                      CaptionML=[ENU=&Issuing;
+                                 ESP=E&misi¢n;
+                                 DEA=&Registrieren];
+                      Image=Add }
+      { 50      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Test Report;
+                                 ESP=Informe prueba;
+                                 DEA=Testbericht];
+                      Image=TestReport;
+                      OnAction=BEGIN
+                                 CurrPage.SETSELECTIONFILTER(FinChrgMemoHeader);
+                                 FinChrgMemoHeader.PrintRecords;
+                               END;
+                                }
+      { 56      ;2   ;Action    ;
+                      ShortCutKey=F9;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Issue;
+                                 ESP=Emitir;
+                                 DEA=Registrieren];
+                      Promoted=Yes;
+                      Image=ReleaseDoc;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 CurrPage.SETSELECTIONFILTER(FinChrgMemoHeader);
+                                 REPORT.RUNMODAL(REPORT::"Issue Finance Charge Memos",TRUE,TRUE,FinChrgMemoHeader);
+                               END;
+                                }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1900427306;1 ;Action    ;
+                      CaptionML=[ENU=Finance Charge Memo Test;
+                                 ESP=Test de doc. inter‚s;
+                                 DEA=Zinsrechnung - Test];
+                      RunObject=Report 123;
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report }
+      { 1902355906;1 ;Action    ;
+                      CaptionML=[ENU=Finance Charge Memo Nos.;
+                                 ESP=N§ ser. documento inter‚s;
+                                 DEA=Zinsrechnungsnummern];
+                      RunObject=Report 127;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+      { 1903158706;1 ;Action    ;
+                      CaptionML=[ENU=Finance Charge Memo;
+                                 ESP=Documento inter‚s;
+                                 DEA=Zinsrechnung];
+                      RunObject=Report 118;
+                      Promoted=No;
+                      Image=FinChargeMemo;
+                      PromotedCategory=Report }
+      { 1902299006;1 ;Action    ;
+                      CaptionML=[ENU=Customer - Balance to Date;
+                                 ESP=Cliente - Saldo por fechas;
+                                 DEA=Debitorenposten per];
+                      RunObject=Report 121;
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report }
+      { 1906871306;1 ;Action    ;
+                      CaptionML=[ENU=Customer - Detail Trial Bal.;
+                                 ESP=Cliente - Movimientos;
+                                 DEA=Debitor - Kontoblatt];
+                      RunObject=Report 104;
+                      Promoted=No;
+                      Image=Report;
+                      PromotedCategory=Report }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=General;
+                           ESP=General;
+                           DEA=Allgemein] }
+
+    { 51  ;2   ;Field     ;
+                SourceExpr="No.";
+                Importance=Promoted;
+                OnAssistEdit=BEGIN
+                               IF AssistEdit(xRec) THEN
+                                 CurrPage.UPDATE;
+                             END;
+                              }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr="Customer No.";
+                Importance=Promoted }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr=Name;
+                Importance=Promoted }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr=Address }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="Address 2" }
+
+    { 41  ;2   ;Field     ;
+                SourceExpr="Post Code" }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr=City }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr=Contact }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Posting Date";
+                Importance=Promoted }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="Document Date" }
+
+    { 34  ;2   ;Field     ;
+                SourceExpr="Assigned User ID" }
+
+    { 29  ;1   ;Part      ;
+                Name=FinChrgMemoLines;
+                SubPageLink=Finance Charge Memo No.=FIELD(No.);
+                PagePartID=Page447 }
+
+    { 1904784501;1;Group  ;
+                CaptionML=[ENU=Posting;
+                           ESP=Registro;
+                           DEA=Buchung] }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Fin. Charge Terms Code";
+                Importance=Promoted }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Due Date";
+                Importance=Promoted }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Currency Code";
+                Importance=Promoted;
+                OnAssistEdit=BEGIN
+                               TESTFIELD("Posting Date");
+                               ChangeExchangeRate.SetParameter(
+                                 "Currency Code",
+                                 CurrExchRate.ExchangeRate("Posting Date","Currency Code"),
+                                 "Posting Date");
+                               ChangeExchangeRate.EDITABLE(FALSE);
+                               IF ChangeExchangeRate.RUNMODAL = ACTION::OK THEN;
+                               CLEAR(ChangeExchangeRate);
+                             END;
+                              }
+
+    { 45  ;2   ;Field     ;
+                SourceExpr="Shortcut Dimension 1 Code" }
+
+    { 54  ;2   ;Field     ;
+                SourceExpr="Shortcut Dimension 2 Code" }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=TRUE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      FinChrgMemoHeader@1000 : Record 302;
+      CurrExchRate@1001 : Record 330;
+      ChangeExchangeRate@1002 : Page 511;
+
+    BEGIN
+    END.
+  }
+}
+

@@ -1,0 +1,109 @@
+OBJECT Table 250 Gen. Business Posting Group
+{
+  OBJECT-PROPERTIES
+  {
+    Date=06.06.13;
+    Time=14:53:54;
+    Modified=Yes;
+    Version List=NAVW17.00,CIC001;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Code,Description;
+    CaptionML=[ENU=Gen. Business Posting Group;
+               ESP=Gr. contable negocio;
+               DEA=GeschÑftsbuchungsgrp.];
+    LookupPageID=Page312;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
+                                                              ESP=Descripci¢n;
+                                                              DEA=Beschreibung] }
+    { 3   ;   ;Def. VAT Bus. Posting Group;Code10 ;TableRelation="VAT Business Posting Group";
+                                                   OnValidate=BEGIN
+                                                                IF "Def. VAT Bus. Posting Group" <> xRec."Def. VAT Bus. Posting Group" THEN BEGIN
+                                                                  GLAcc.SETCURRENTKEY("Gen. Bus. Posting Group");
+                                                                  GLAcc.SETRANGE("Gen. Bus. Posting Group",Code);
+                                                                  GLAcc.SETRANGE("VAT Bus. Posting Group",xRec."Def. VAT Bus. Posting Group");
+                                                                  IF GLAcc.FIND('-') THEN
+                                                                    REPEAT
+                                                                      GLAcc2 := GLAcc;
+                                                                      GLAcc2."VAT Bus. Posting Group" := "Def. VAT Bus. Posting Group";
+                                                                      GLAcc2.MODIFY;
+                                                                    UNTIL GLAcc.NEXT = 0;
+
+                                                                  Cust.SETCURRENTKEY("Gen. Bus. Posting Group");
+                                                                  Cust.SETRANGE("Gen. Bus. Posting Group",Code);
+                                                                  Cust.SETRANGE("VAT Bus. Posting Group",xRec."Def. VAT Bus. Posting Group");
+                                                                  IF Cust.FIND('-') THEN
+                                                                    REPEAT
+                                                                      Cust2 := Cust;
+                                                                      Cust2."VAT Bus. Posting Group" := "Def. VAT Bus. Posting Group";
+                                                                      Cust2.MODIFY;
+                                                                    UNTIL Cust.NEXT = 0;
+
+                                                                  Vend.SETCURRENTKEY("Gen. Bus. Posting Group");
+                                                                  Vend.SETRANGE("Gen. Bus. Posting Group",Code);
+                                                                  Vend.SETRANGE("VAT Bus. Posting Group",xRec."Def. VAT Bus. Posting Group");
+                                                                  IF Vend.FIND('-') THEN
+                                                                    REPEAT
+                                                                      Vend2 := Vend;
+                                                                      Vend2."VAT Bus. Posting Group" := "Def. VAT Bus. Posting Group";
+                                                                      Vend2.MODIFY;
+                                                                    UNTIL Vend.NEXT = 0;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[ENU=Def. VAT Bus. Posting Group;
+                                                              ESP=Grupo reg. IVA neg. genÇr.;
+                                                              DEA=Vorg.-MwSt.-GeschÑftsbuch.Gr.] }
+    { 4   ;   ;Auto Insert Default ;Boolean       ;InitValue=Yes;
+                                                   CaptionML=[ENU=Auto Insert Default;
+                                                              ESP=Inserta genÇr. aut.;
+                                                              DEA=Autom. als Standard einfÅgen] }
+    { 50000;  ;VAT Registration Number;Text50     ;CaptionML=[ENU=VAT Registration Number;
+                                                              DEA=UID Number];
+                                                   Description=CIC001 }
+  }
+  KEYS
+  {
+    {    ;Code                                    ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      GLAcc@1001 : Record 15;
+      GLAcc2@1002 : Record 15;
+      Cust@1003 : Record 18;
+      Cust2@1004 : Record 18;
+      Vend@1005 : Record 23;
+      Vend2@1006 : Record 23;
+
+    PROCEDURE ValidateVatBusPostingGroup@2(VAR GenBusPostingGrp@1000 : Record 250;EnteredGenBusPostingGroup@1001 : Code[10]) : Boolean;
+    BEGIN
+      IF EnteredGenBusPostingGroup <> '' THEN
+        GenBusPostingGrp.GET(EnteredGenBusPostingGroup)
+      ELSE
+        GenBusPostingGrp.INIT;
+      EXIT(GenBusPostingGrp."Auto Insert Default");
+    END;
+
+    BEGIN
+    {
+      CICERO CONSULTING
+
+      VERSION TICKET NAME DATE       DESCRIPTION
+      CIC001  xxxxxx SEG  2013-04-07 Added field "VAT Registration Number"
+    }
+    END.
+  }
+}
+

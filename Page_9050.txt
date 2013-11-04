@@ -1,0 +1,136 @@
+OBJECT Page 9050 Whse Ship & Receive Activities
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9050;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+
+                 SETRANGE("Date Filter",0D,WORKDATE);
+                 SETRANGE("Date Filter2",WORKDATE,WORKDATE);
+
+                 LocationCode := WhseWMSCue.GetEmployeeLocation(USERID);
+                 SETFILTER("Location Filter",LocationCode);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                CaptionML=[ENU=Outbound - Today;
+                           ESP=Salida - Hoy;
+                           DEA=Ausgehend - Heute];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 8       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Transfer Order;
+                                             ESP=Nuevo pedido transferencia;
+                                             DEA=Neuer Umlagerungsauftrag];
+                                  RunObject=Page 5740;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 5   ;2   ;Field     ;
+                DrillDown=Yes;
+                SourceExpr="Released Sales Orders - Today";
+                DrillDownPageID=Sales Order List }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Posted Sales Shipments - Today";
+                DrillDownPageID=Posted Sales Shipments }
+
+    { 7   ;1   ;Group     ;
+                CaptionML=[ENU=Inbound - Today;
+                           ESP=Entrada - Hoy;
+                           DEA=Eingehend - Heute];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 14      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Order;
+                                             ESP=Nuevo pedido de compra;
+                                             DEA=Neue Bestellung];
+                                  RunObject=Page 50;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="Expected Purch. Orders - Today";
+                DrillDownPageID=Purchase Order List }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Posted Purch. Receipts - Today";
+                DrillDownPageID=Posted Purchase Receipts }
+
+    { 15  ;1   ;Group     ;
+                CaptionML=[ENU=Internal;
+                           ESP=Interno;
+                           DEA=Intern];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 21      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Inventory Pick;
+                                             ESP=Nuevo picking inventario;
+                                             DEA=Neue Lagerkommissionierung];
+                                  RunObject=Page 7377;
+                                  RunPageMode=Create }
+                  { 22      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Inventory Put-away;
+                                             ESP=Nueva ubicaci¢n inventario;
+                                             DEA=Neue Lagereinlagerung];
+                                  RunObject=Page 7375;
+                                  RunPageMode=Create }
+                  { 23      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Item Reclassification Journal;
+                                             ESP=Editar diario reclasificaci¢n almac‚n;
+                                             DEA=Artikel Umlag. Buch.-Blatt bearbeiten];
+                                  RunObject=Page 393;
+                                  Image=OpenWorksheet }
+                }
+                 }
+
+    { 19  ;2   ;Field     ;
+                SourceExpr="Inventory Picks - Today";
+                DrillDownPageID=Inventory Picks }
+
+    { 17  ;2   ;Field     ;
+                SourceExpr="Inventory Put-aways - Today";
+                DrillDownPageID=Inventory Put-aways }
+
+    { 114000;2 ;Field     ;
+                SourceExpr="Open Phys. Invt. Orders";
+                DrillDownPageID=Phys. Inventory Order List }
+
+  }
+  CODE
+  {
+    VAR
+      WhseWMSCue@1001 : Record 9051;
+      LocationCode@1000 : Text[1024];
+
+    BEGIN
+    END.
+  }
+}
+

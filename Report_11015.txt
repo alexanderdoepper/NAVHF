@@ -1,0 +1,914 @@
+OBJECT Report 11015 Export Business Data
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Export Business Data;
+               DEA=Unternehmensdaten exportieren];
+    ProcessingOnly=Yes;
+    OnInitReport=VAR
+                   AccPeriod@1140000 : Record 50;
+                 BEGIN
+                   Startdate := AccPeriod.GetFiscalYearStartDate(WORKDATE);
+                   Enddate := AccPeriod.GetFiscalYearEndDate(WORKDATE);
+                 END;
+
+  }
+  DATASET
+  {
+    { 8791;    ;DataItem;                    ;
+               DataItemTable=Table11003;
+               DataItemTableView=SORTING(Data Export Code,Data Exp. Rec. Type Code);
+               OnPreDataItem=BEGIN
+                               IF Startdate = 0D THEN
+                                 ERROR(Text1140008);
+
+                               IF Enddate = 0D THEN
+                                 ERROR(Text1140009);
+
+                               Window.OPEN(Text1140042 + Text1140089);
+                               NotCreated := TRUE;
+                               FolderExist := TRUE;
+                               CheckPath := TRUE;
+
+                               TempRecRef.OPEN(11010,TRUE);
+                             END;
+
+               OnAfterGetRecord=VAR
+                                  GDPdUMgt@1140000 : Codeunit 11000;
+                                BEGIN
+                                  TESTFIELD(Description);
+                                  TESTFIELD("Export Path");
+                                  IF "DTD File Name" = '' THEN
+                                    ERROR(Text1140012);
+                                  DTDFileName := "DTD File Name";
+
+                                  FillFilesExportBuffer("Data Export Record Definition");
+
+                                  NotCreated := TRUE;
+
+                                  IF "Export Path"[STRLEN("Export Path")] = '\' THEN
+                                    "Export Path" := DELSTR("Export Path",STRLEN("Export Path"),1);
+
+                                  IF NOT ClientDirectoryHelper.Exists("Export Path") THEN
+                                    ERROR(Text1140004);
+
+                                  ExportPath := "Export Path" + '\' + "Data Exp. Rec. Type Code";
+                                  CreateExportFolder(ExportPath);
+
+                                  Window.UPDATE(1,Text1140005);
+                                  GDPdUMgt.CreateIndexXML(TempDataExportRecordSource,ExportPath,Description,Startdate,Enddate,DTDFileName);
+                                  DTDPathFileName := ExportFile("Data Export Record Definition",FALSE);
+                                  CopyDTDFile(ExportPath);
+
+                                  CheckingRecordDefFields("Data Export Code","Data Exp. Rec. Type Code");
+
+                                  NextEntryNo := 0;
+                                  OldTableNo := 0;
+
+                                  FileIsOpen := FALSE;
+                                  ExportGDPdURecDefTable("Data Export Code","Data Exp. Rec. Type Code");
+
+                                  Window.UPDATE(1,Text1140046);
+                                  CreateLogFile(ExportPath);
+
+                                  DeleteTempTables;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                TempRecRef.CLOSE;
+                              END;
+
+               ReqFilterFields=Data Export Code,Data Exp. Rec. Type Code }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             DEA=Optionen] }
+
+      { 1140000;2;Field     ;
+                  CaptionML=[ENU=Starting Date;
+                             DEA=Startdatum];
+                  SourceExpr=Startdate }
+
+      { 1140002;2;Field     ;
+                  CaptionML=[ENU=Ending Date;
+                             DEA=Enddatum];
+                  SourceExpr=Enddate }
+
+      { 1140084;2;Field     ;
+                  CaptionML=[ENU=Include Closing Date;
+                             DEA=Ultimodatum einschlie·en];
+                  SourceExpr=CloseDate }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      TempGDPdUExportBuffer@1140013 : TEMPORARY Record 11008;
+      TempDataExportRecordSource@1140014 : TEMPORARY Record 11004;
+      KeyFieldBuffer@1140015 : TEMPORARY Record 11010;
+      TempFilesGDPdUExportBuffer@1140062 : TEMPORARY Record 11008;
+      TempRecRef@1140016 : RecordRef;
+      FileMgt@1140049 : Codeunit 419;
+      ClientDirectoryHelper@1140017 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Directory" RUNONCLIENT;
+      ClientFileHelper@1140043 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.File" RUNONCLIENT;
+      PathHelper@1140057 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Path";
+      OutServerFile@1140032 : File;
+      Startdate@1140020 : Date;
+      Enddate@1140021 : Date;
+      Window@1140022 : Dialog;
+      FldRefTable@1140097 : FieldRef;
+      NextEntryNo@1140023 : Integer;
+      ExportBufferNextLineNo@1140033 : Integer;
+      OldTableNo@1140034 : Integer;
+      TotalNoOfRecords@1140070 : Integer;
+      NextNo@1140077 : Integer;
+      NoOfRecords@1140066 : Integer;
+      StepValue@1101100002 : Integer;
+      NextStep@1101100001 : Integer;
+      ExportPath@1140027 : Text[250];
+      DTDPathFileName@1140028 : Text[250];
+      DTDFileName@1140029 : Text[250];
+      GDPdUExportBufferFilename@1140036 : Text[250];
+      BufferTextRec@1140075 : Text[1024];
+      TempPath@1140054 : Text[1024];
+      FileName@1140084 : Text[50];
+      Path@1140085 : Text[1024];
+      FileIsOpen@1140030 : Boolean;
+      CloseDate@1140071 : Boolean;
+      NotCreated@1140063 : Boolean;
+      FolderExist@1140093 : Boolean;
+      CheckPath@1140060 : Boolean;
+      TextStreamIsOpen@1140018 : Boolean;
+      Text1140001@1140001 : TextConst 'ENU="""";DEA=""""';
+      Text1140004@1140004 : TextConst 'ENU=The export path does not exist.;DEA=Der Exportpfad existiert nicht.';
+      Text1140005@1140005 : TextConst 'ENU=Creating XML File...;DEA=Erstelle XML Datei...';
+      Text1140006@1140006 : TextConst 'ENU=Choose DTD File;DEA=DTD Datei auswÑhlen';
+      Text1140007@1140007 : TextConst 'ENU=DTD Files|*.dtd|All Files|*.*;DEA=DTD Dateien|*.dtd|Alle Dateien|*.*';
+      Text1140008@1140008 : TextConst 'ENU=You must enter a starting date.;DEA=Sie mÅssen ein Startdatum angeben.';
+      Text1140009@1140009 : TextConst 'ENU=You must enter an ending date.;DEA=Sie mÅssen ein Enddatum angeben.';
+      Text1140010@1140010 : TextConst 'ENU=You must define a %1 for table %2.;DEA=FÅr die Tabelle ''%2'' muss eine %1 definiert werden.';
+      Text1140012@1140012 : TextConst 'ENU=The DTD file does not exist.;DEA=Die DTD Datei existiert nicht.';
+      Text1140037@1140037 : TextConst 'ENU=Important Notice:;DEA=Wichtiger Hinweis:';
+      Text1140038@1140038 : TextConst 'ENU=The %1 for table %2 you defined contains primary key fields which are not specified at the top of the list.;DEA=Der %1 fÅr die von Ihnen definierte Tabelle %2 enthÑlt PrimÑrschlÅsselfelder, die nicht oben in der Liste angegeben sind.';
+      Text1140039@1140039 : TextConst 'ENU=Please keep in mind that in this case the order of the fields to be exported won''t match the order stated in the XML file.;DEA=Beachten Sie, dass in diesem Fall die Reihenfolge der zu exportierenden Felder nicht mit der in der XML-Datei angegebenen Reihenfolge Åbereinstimmt.';
+      Text1140040@1140040 : TextConst 'ENU=If you want to use the exported data for GDPdU purposes please make sure that primary key fields are specified first and then ordinary fields.;DEA=Wenn Sie die exportierten Daten fÅr GDPdU-Zwecke verwenden mîchten, stellen Sie sicher, dass die PrimÑrschlÅsselfelder zuerst und die gewîhnlichen Felder daran anschlie·end angegeben werden.';
+      Text1140041@1140041 : TextConst 'ENU=Do you want to continue?;DEA=Soll der Vorgang fortgesetzt werden?';
+      Text1140042@1140042 : TextConst 'ENU=Table Name:       #1#################\;DEA=Tabellenname:                   #1#################\';
+      Text1140046@1140046 : TextConst 'ENU=Creating Log File...;DEA=Protokolldatei wird erstellt...';
+      Text1140047@1140047 : TextConst 'ENU="Table ";DEA="Tabelle "';
+      Text1140050@1140050 : TextConst 'ENU="Number of defined tables:  ";DEA="Anzahl der definierten Tabellen:  "';
+      Text1140051@1140051 : TextConst 'ENU="Number of empty tables:  ";DEA="Anzahl der leeren Tabellen:  "';
+      Text1140052@1140052 : TextConst 'ENU=,;DEA=,';
+      Text1140053@1140053 : TextConst 'ENU="A file / folder with the same name already exist. Would you like to overwrite it? ";DEA="Eine Datei bzw. ein Ordner mit dem gleichen Namen ist bereits vorhanden. öberschreiben? "';
+      Text1140086@1140086 : TextConst 'ENU=" file(s) created";DEA=" erstellte Datei(en)"';
+      Text1140089@1140089 : TextConst 'ENU=Progress:         @5@@@@@@@@@@@@@@@@@\;DEA=Status:                         @5@@@@@@@@@@@@@@@@@\';
+      Text1140090@1140090 : TextConst 'ENU=" data records exported,";DEA=" DatensÑtze exportiert,"';
+      FlowFilterFieldsErr@1140000 : TextConst 'ENU=You cannot export data because the %1 data export uses filters for fields that are not included in the data export.;DEA=Sie kînnen keine Daten exportieren, da beim %1-Datenexport Filter fÅr Felder verwendet werden, die nicht im Datenexport enthalten sind.';
+      NoExportFieldsErr@1140002 : TextConst 'ENU=You cannot export data because no fields have been defined for one or more tables in the %1 data export.;DEA=Sie kînnen keine Daten exportieren, da im %1-Datenexport fÅr mindestens eine Tabelle keine Felder definiert sind.';
+
+    PROCEDURE InitializeRequest@1140020(FromDate@1140000 : Date;ToDate@1140001 : Date;NewDTDFileName@1140002 : Text);
+    BEGIN
+      Startdate := FromDate;
+      Enddate := ToDate;
+      CloseDate := FALSE;
+    END;
+
+    LOCAL PROCEDURE FillFilesExportBuffer@1140023(DataExportRecordDefinition@1140000 : Record 11003);
+    VAR
+      DataExportRecordSource@1140001 : Record 11004;
+      RecordRefTable@1140002 : RecordRef;
+      TotalRecords@1140003 : Integer;
+    BEGIN
+      WITH DataExportRecordSource DO BEGIN
+        SETCURRENTKEY("Data Export Code","Data Exp. Rec. Type Code","Line No.");
+        SETRANGE("Data Export Code",DataExportRecordDefinition."Data Export Code");
+        SETRANGE("Data Exp. Rec. Type Code",DataExportRecordDefinition."Data Exp. Rec. Type Code");
+        IF FINDSET THEN
+          REPEAT
+            VALIDATE("Table Filter");
+
+            CALCFIELDS("Table Name");
+            Window.UPDATE(1,"Table Name");
+
+            RecordRefTable.OPEN("Table No.");
+            RecordRefTable.CURRENTKEYINDEX(GetKeyIndex("Key No."));
+            SetPeriodFilter("Period Field No.",RecordRefTable,FldRefTable);
+            IF NOT RecordRefTable.ISEMPTY THEN BEGIN
+              InsertTableExportBuffer(DataExportRecordSource);
+              TotalRecords := RecordRefTable.COUNT;
+            END ELSE
+              TotalRecords := 0;
+            RecordRefTable.CLOSE;
+
+            InsertFilesExportBuffer("Table No.","Table Name",TotalRecords);
+
+            TotalNoOfRecords := TotalNoOfRecords + TotalRecords;
+          UNTIL NEXT = 0;
+        Window.UPDATE(1,'');
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertFilesExportBuffer@1140046(TableNo@1140001 : Integer;TableNameValue@1140000 : Text[250];TotalRecords@1140002 : Integer);
+    BEGIN
+      WITH TempFilesGDPdUExportBuffer DO BEGIN
+        RESET;
+        SETCURRENTKEY("Table No.","Line No.");
+        SETRANGE("Table No.",TableNo);
+        IF ISEMPTY THEN BEGIN
+          NextNo := NextNo + 1;
+          INIT;
+          "Entry No." := NextNo;
+          "Table No." := TableNo;
+          "Field Value" := TableNameValue;
+          "Line No." := TotalRecords;
+          INSERT;
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertTableExportBuffer@1140027(DataExportRecordSource@1140000 : Record 11004);
+    BEGIN
+      TempDataExportRecordSource := DataExportRecordSource;
+      TempDataExportRecordSource.INSERT;
+    END;
+
+    LOCAL PROCEDURE CreateLogFile@1140021(ExportPath@1140006 : Text[250]);
+    VAR
+      LogFile@1140000 : File;
+      LogFileName@1140001 : Text;
+      LogFilePath@1140002 : Text;
+      FileCount@1140003 : Integer;
+      NoOfDefinedTables@1140005 : Integer;
+      NoOfEmptyTables@1140004 : Integer;
+    BEGIN
+      NoOfDefinedTables := 0;
+      NoOfEmptyTables := 0;
+
+      LogFileName := 'Log.txt';
+      LogFilePath := ExportPath + '\' + LogFileName;
+      LogFile.TEXTMODE(TRUE);
+      LogFile.CREATE(LogFilePath);
+
+      LogFile.WRITE(FORMAT(Startdate) + ' To ' + FORMAT(Enddate));
+      LogFile.WRITE(FORMAT(TODAY));
+      LogFile.WRITE("Data Export Record Definition"."Data Export Code" + ';' + "Data Export Record Definition"."Data Exp. Rec. Type Code");
+      TempFilesGDPdUExportBuffer.RESET;
+      TempFilesGDPdUExportBuffer.SETRANGE("Entry No.");
+      IF TempFilesGDPdUExportBuffer.FINDSET THEN
+        REPEAT
+          IF TempFilesGDPdUExportBuffer."Line No." <> 0 THEN BEGIN
+            FileCount := 1;
+            NoOfDefinedTables := NoOfDefinedTables + 1;
+          END ELSE BEGIN
+            FileCount := 0;
+            NoOfEmptyTables := NoOfEmptyTables + 1;
+          END;
+          LogFile.WRITE(
+            Text1140047 + TempFilesGDPdUExportBuffer."Field Value" + Text1140052 +
+            FORMAT(TempFilesGDPdUExportBuffer."Line No.") + Text1140090 +
+            FORMAT(FileCount) + Text1140086);
+        UNTIL TempFilesGDPdUExportBuffer.NEXT = 0;
+      LogFile.WRITE(Text1140050 + FORMAT(NoOfDefinedTables));
+      LogFile.WRITE(Text1140051 + FORMAT(NoOfEmptyTables));
+      LogFile.CLOSE;
+
+      TempPath := FileMgt.DownloadTempFile(LogFilePath);
+      ERASE(LogFilePath);
+      FileMgt.MoveAndRenameClientFile(TempPath,LogFileName,ExportPath);
+    END;
+
+    LOCAL PROCEDURE ExportGDPdURecDefTable@1140000(GDPdUDefGrpCode@1140000 : Code[10];GDPdURecordCode@1140001 : Code[10]);
+    VAR
+      GDPdURecDefTable@1140002 : Record 11004;
+      RecRef@1140003 : RecordRef;
+      FldRef@1140004 : FieldRef;
+      FullFileName@1140005 : Text;
+    BEGIN
+      WITH GDPdURecDefTable DO BEGIN
+        SETCURRENTKEY("Data Export Code","Data Exp. Rec. Type Code","Relation To Table No.");
+        SETRANGE("Data Export Code",GDPdUDefGrpCode);
+        SETRANGE("Data Exp. Rec. Type Code",GDPdURecordCode);
+        SETRANGE("Relation To Table No.",0);
+        IF FINDSET THEN
+          REPEAT
+            RecRef.OPEN("Table No.");
+            FindRecordRef(GDPdURecDefTable,RecRef,FldRef);
+            RecRef.CLOSE;
+          UNTIL NEXT = 0;
+      END;
+
+      TextStreamClose;
+
+      WITH TempGDPdUExportBuffer DO BEGIN
+        RESET;
+        IF FINDSET THEN
+          REPEAT
+            FullFileName := Path + '\' + "Field Value";
+            IF EXISTS(PathHelper.GetFullPath(FullFileName)) THEN BEGIN
+              FileName := "Field Value";
+              TempPath := FileMgt.DownloadTempFile(FullFileName);
+              ERASE(FullFileName);
+              FileMgt.MoveAndRenameClientFile(TempPath,FileName,ExportPath);
+            END;
+          UNTIL NEXT = 0;
+      END;
+    END;
+
+    LOCAL PROCEDURE FindRecordRef@1140001(GDPdURecDefTable@1140000 : Record 11004;VAR RecRef@1140001 : RecordRef;VAR FldRef@1140002 : FieldRef);
+    BEGIN
+      WITH GDPdURecDefTable DO BEGIN
+        TESTFIELD("Export File Name");
+        SetPeriodFilter("Period Field No.",RecRef,FldRef);
+        RecRef.CURRENTKEYINDEX(GetKeyIndex("Key No."));
+        ApplyTableFilter(GDPdURecDefTable,RecRef);
+        IF RecRef.FINDFIRST THEN
+          FindGDPdURecDefField(GDPdURecDefTable,RecRef,FALSE);
+
+        UpdateTempDataExportBuffer("Table No.",RecRef.COUNT);
+        IF RecRef.FINDSET THEN BEGIN
+          Window.UPDATE(1,RecRef.CAPTION);
+          REPEAT
+            IF InsertTempKeyBuffer(RecRef) THEN BEGIN
+              FindGDPdURecDefField(GDPdURecDefTable,RecRef,TRUE);
+              FindRelatedRecords("Data Export Code","Data Exp. Rec. Type Code","Table No.",RecRef);
+            END;
+          UNTIL RecRef.NEXT = 0;
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE ApplyTableFilter@1140016(GDPdURecDefTable@1140001 : Record 11004;VAR RecRef@1140000 : RecordRef);
+    VAR
+      TempTableFilter@1140006 : TEMPORARY Record 9805;
+      DataExportRecordField@1140005 : Record 11005;
+      TableFilterPage@1140004 : Page 9805;
+      TableFilterText@1140003 : Text;
+      ViewFilter@1140002 : Text;
+    BEGIN
+      WITH GDPdURecDefTable DO BEGIN
+        EVALUATE(TableFilterText,FORMAT("Table Filter"));
+        IF TableFilterText <> '' THEN BEGIN
+          TableFilterPage.SetSourceTable(FORMAT("Table Filter"),"Table No.","Table Name");
+          ViewFilter := TableFilterPage.GetViewFilter;
+          TableFilterPage.GetFilterFieldsList(TempTableFilter);
+          CheckExportFieldExists(TempTableFilter,GDPdURecDefTable);
+          RecRef.FILTERGROUP(2);
+          RecRef.SETVIEW(ViewFilter);
+          RecRef.FILTERGROUP(0);
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE GetKeyIndex@1140022(KeyNo@1140000 : Integer) : Integer;
+    BEGIN
+      IF KeyNo = 0 THEN
+        EXIT(1);
+      EXIT(KeyNo);
+    END;
+
+    LOCAL PROCEDURE FindRelatedRecords@1140002(GDPdUDefGrpCode@1140000 : Code[10];GDPdURecordCode@1140001 : Code[10];RelToTableID@1140002 : Integer;RecRef@1140003 : RecordRef);
+    VAR
+      GDPdURecDefTable@1140004 : Record 11004;
+      GDPdUTableRelation@1140005 : Record 11006;
+      RelatedRecRef@1140006 : RecordRef;
+      RelatedFldRef@1140007 : FieldRef;
+      FldRef@1140008 : FieldRef;
+    BEGIN
+      WITH GDPdURecDefTable DO BEGIN
+        SETCURRENTKEY("Data Export Code","Data Exp. Rec. Type Code","Line No.");
+        SETRANGE("Data Export Code",GDPdUDefGrpCode);
+        SETRANGE("Data Exp. Rec. Type Code",GDPdURecordCode);
+        SETRANGE("Relation To Table No.",RelToTableID);
+        IF FINDSET THEN BEGIN
+          GDPdUTableRelation.RESET;
+          GDPdUTableRelation.SETRANGE("Data Export Code",GDPdUDefGrpCode);
+          GDPdUTableRelation.SETRANGE("Data Exp. Rec. Type Code",GDPdURecordCode);
+          GDPdUTableRelation.SETRANGE("From Table No.",RelToTableID);
+          REPEAT
+            TESTFIELD("Export File Name");
+            GDPdUTableRelation.SETRANGE("To Table No.","Table No.");
+            IF GDPdUTableRelation.FINDSET THEN BEGIN
+              RelatedRecRef.OPEN("Table No.");
+              REPEAT
+                FldRef := RecRef.FIELD(GDPdUTableRelation."From Field No.");
+                RelatedFldRef := RelatedRecRef.FIELD(GDPdUTableRelation."To Field No.");
+                RelatedFldRef.SETRANGE(FldRef.VALUE);
+                FindKeyFields("Table No.",RelatedFldRef.NAME);
+              UNTIL GDPdUTableRelation.NEXT = 0;
+            END ELSE BEGIN
+              CALCFIELDS("Table Name");
+              ERROR(Text1140010,GDPdUTableRelation.TABLECAPTION,"Table Name");
+            END;
+            FindRecordRef(GDPdURecDefTable,RelatedRecRef,RelatedFldRef);
+            RelatedRecRef.CLOSE;
+          UNTIL NEXT = 0;
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE SetPeriodFilter@1140003(PeriodFieldNo@1140000 : Integer;VAR RecRef@1140001 : RecordRef;VAR FldRef@1140002 : FieldRef);
+    BEGIN
+      IF PeriodFieldNo <> 0 THEN BEGIN
+        FldRef := RecRef.FIELD(PeriodFieldNo);
+        IF NOT CloseDate THEN
+          FldRef.SETRANGE(Startdate,Enddate)
+        ELSE BEGIN
+          IF Enddate <> CLOSINGDATE(Enddate) THEN
+            Enddate := CLOSINGDATE(Enddate);
+
+          FldRef.SETRANGE(Startdate,Enddate);
+        END;
+        FindKeyFields(RecRef.NUMBER,FldRef.NAME);
+      END;
+    END;
+
+    LOCAL PROCEDURE FindGDPdURecDefField@1140004(GDPdURecDefTable@1140000 : Record 11004;VAR RecRef@1140001 : RecordRef;InsertExportBuffer@1140010 : Boolean);
+    VAR
+      GDPdURecDefField@1140002 : Record 11005;
+      NewString@1140005 : Text[1024];
+      LastField@1140006 : Boolean;
+    BEGIN
+      GetDataExportRecFields(GDPdURecDefField,GDPdURecDefTable);
+      IF GDPdURecDefField.FINDSET THEN
+        REPEAT
+          GetDataExportRecFieldValue(
+            GDPdURecDefTable."Table No.",
+            GDPdURecDefField."Field No.",
+            GDPdURecDefField."Datefilter Handling",
+            GDPdURecDefTable."Date Filter Field No.",
+            RecRef,NewString);
+          LastField := GDPdURecDefField.NEXT = 0;
+          IF InsertExportBuffer THEN
+            InsertTempGDPdUExportBuffer(
+              NewString,GDPdURecDefTable."Table No.",LastField,GDPdURecDefTable);
+        UNTIL LastField
+      ELSE
+        ERROR(NoExportFieldsErr,GDPdURecDefTable."Data Export Code");
+    END;
+
+    LOCAL PROCEDURE FormatField2String@1140005(VAR FldRef@1140000 : FieldRef;TableNo@1140001 : Integer;FieldNo@1140002 : Integer;VAR NewString@1140003 : Text[1024]);
+    VAR
+      Field@1140004 : Record 2000000041;
+      GLSetup@1140005 : Record 98;
+      OptionNo@1140006 : Integer;
+      i@1140007 : Integer;
+      OptionStr@1140008 : Text[1024];
+      MaxDecLen@1140009 : Text[1];
+    BEGIN
+      Field.GET(TableNo,FieldNo);
+      GLSetup.GET;
+      CASE Field.Type OF
+        Field.Type::Option:
+          BEGIN
+            OptionNo := FldRef.VALUE;
+            OptionStr := FORMAT(FldRef.OPTIONCAPTION);
+            FOR i := 1 TO OptionNo DO
+              OptionStr := COPYSTR(OptionStr,STRPOS(OptionStr,',') + 1);
+            NewString := OptionStr;
+            IF STRPOS(OptionStr,',') > 0 THEN
+              IF STRPOS(OptionStr,',') = 1 THEN
+                NewString := ''
+              ELSE
+                NewString := COPYSTR(OptionStr,1,STRPOS(OptionStr,',') - 1);
+          END;
+        Field.Type::Decimal:
+          BEGIN
+            MaxDecLen := COPYSTR(GLSetup."Amount Decimal Places",STRLEN(GLSetup."Amount Decimal Places"));
+            NewString := FORMAT(FldRef.VALUE,0,'<Precision,' + MaxDecLen + ':' + MaxDecLen + '><Standard Format,0>');
+          END;
+        Field.Type::Date:
+          NewString := FORMAT(FldRef.VALUE,10,'<day,2>.<month,2>.<year4>');
+        ELSE
+          NewString := FORMAT(FldRef.VALUE);
+      END;
+
+      IF Field.Type IN [Field.Type::Boolean,Field.Type::Code,Field.Type::Option,Field.Type::Text] THEN BEGIN
+        ConvertString(NewString);
+        NewString := Text1140001 + NewString + Text1140001;
+      END;
+    END;
+
+    LOCAL PROCEDURE ConvertString@1140006(VAR NewString@1140000 : Text);
+    VAR
+      i@1140001 : Integer;
+      StrgLength@1140002 : Integer;
+      String1@1140003 : Text[10];
+      String2@1140004 : Text[250];
+      Char@1140005 : Char;
+    BEGIN
+      CLEAR(String2);
+      StrgLength := STRLEN(NewString);
+      FOR i := 1 TO StrgLength DO BEGIN
+        String1 := ConvertSpecialChars(FORMAT(NewString[i]));
+        String2 := String2 + String1;
+      END;
+      NewString := String2;
+      FOR i := 128 TO 255 DO BEGIN
+        Char := i;
+        NewString := DELCHR(NewString,'=',FORMAT(Char));
+      END;
+    END;
+
+    LOCAL PROCEDURE ConvertSpecialChars@1140007(Text@1140000 : Text[10]) : Text[10];
+    BEGIN
+      IF (Text[1] = 10) OR (Text[1] = 13) OR (Text[1] = 34) OR (Text[1] = 39) THEN
+        EXIT('');
+      CASE Text OF
+        'é':
+          Text := 'Ae';
+        'Ñ':
+          Text := 'ae';
+        'ô':
+          Text := 'Oe';
+        'î':
+          Text := 'oe';
+        'ö':
+          Text := 'Ue';
+        'Å':
+          Text := 'ue';
+        '·':
+          Text := 'ss';
+      END;
+      EXIT(Text);
+    END;
+
+    LOCAL PROCEDURE InsertTempGDPdUExportBuffer@1140008(FieldValue@1140000 : Text;TableNo@1140001 : Integer;LineFeed@1140002 : Boolean;GDPdURecDefTable@1140003 : Record 11004);
+    BEGIN
+      TempGDPdUExportBuffer.RESET;
+      TempGDPdUExportBuffer.SETCURRENTKEY("Table No.","Line No.");
+      TempGDPdUExportBuffer.SETRANGE("Table No.",TableNo);
+      IF NOT TempGDPdUExportBuffer.FINDLAST THEN BEGIN
+        NextEntryNo := NextEntryNo + 1;
+        ExportBufferNextLineNo := 10000;
+        GDPdUExportBufferFilename := GDPdURecDefTable."Export File Name";
+        TempGDPdUExportBuffer.INIT;
+        TempGDPdUExportBuffer."Entry No." := NextEntryNo;
+        TempGDPdUExportBuffer."Table No." := TableNo;
+        TempGDPdUExportBuffer."Field Value" := GDPdUExportBufferFilename;
+        TempGDPdUExportBuffer."Line No." := ExportBufferNextLineNo;
+        TempGDPdUExportBuffer.INSERT;
+
+        IF CheckPath THEN BEGIN
+          Path := GetTempFilePath;
+          CheckPath := FALSE;
+        END;
+        OpenNewFile(Path + '\' + GDPdUExportBufferFilename);
+
+        ExportTempGDPdUExportBuffer(FieldValue,LineFeed);
+        OldTableNo := TableNo;
+        TextStreamClose;
+      END ELSE BEGIN
+        IF TableNo <> OldTableNo THEN BEGIN
+          IF EXISTS(Path + '\' + GDPdURecDefTable."Export File Name") THEN
+            FileSysOpenTextFile(Path + '\' + GDPdURecDefTable."Export File Name")
+          ELSE BEGIN
+            OpenNewFile(Path + '\' + GDPdURecDefTable."Export File Name");
+            FileIsOpen := TRUE;
+          END;
+          OldTableNo := TableNo;
+          ExportTempGDPdUExportBuffer(FieldValue,LineFeed);
+          TextStreamClose;
+        END ELSE BEGIN
+          FileSysOpenTextFile(Path + '\' + GDPdURecDefTable."Export File Name");
+
+          ExportTempGDPdUExportBuffer(FieldValue,LineFeed);
+          TextStreamClose;
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertTempKeyBuffer@1140010(RecRef@1140000 : RecordRef) : Boolean;
+    VAR
+      KeyRef@1140001 : KeyRef;
+      FldRef@1140002 : FieldRef;
+      TempFldRef@1140003 : FieldRef;
+      i@1140004 : Integer;
+      MaxIndexFields@1140005 : Integer;
+    BEGIN
+      // Limitation due to no of primary key fields in buffer table
+      MaxIndexFields := 7;
+
+      TempRecRef.DELETEALL;
+
+      TempRecRef.INIT;
+      TempFldRef := TempRecRef.FIELD(1);
+      TempFldRef.VALUE := RecRef.NUMBER;
+
+      KeyRef := RecRef.KEYINDEX(1);
+      FOR i := 1 TO KeyRef.FIELDCOUNT DO BEGIN
+        IF i <= 7 THEN BEGIN
+          FldRef := KeyRef.FIELDINDEX(i);
+          TempFldRef := TempRecRef.FIELD(i + 1);
+          TempFldRef.VALUE := FORMAT(FldRef.VALUE);
+        END;
+      END;
+
+      IF NOT TempRecRef.FIND THEN BEGIN
+        TempRecRef.INSERT;
+        EXIT(TRUE);
+      END;
+    END;
+
+    LOCAL PROCEDURE ExportTempGDPdUExportBuffer@1140011(FieldValue@1140003 : Text[250];LineFeed@1140004 : Boolean);
+    BEGIN
+      WriteFieldsToFile(FieldValue,LineFeed);
+      IF LineFeed THEN BEGIN
+        NoOfRecords := NoOfRecords + 1;
+        IF NoOfRecords >= NextStep THEN BEGIN
+          Window.UPDATE(5,ROUND(NoOfRecords / TotalNoOfRecords * 10000,1));
+          NextStep := NextStep + StepValue;
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE CreateExportFolder@1140012(NewFolder@1140001 : Text[250]);
+    BEGIN
+      IF NOT ClientDirectoryHelper.Exists(NewFolder) THEN
+        ClientDirectoryHelper.CreateDirectory(NewFolder)
+      ELSE BEGIN
+        IF FolderExist THEN BEGIN
+          IF NOT CONFIRM(Text1140053) THEN
+            CurrReport.BREAK
+            ;
+          ClientDirectoryHelper.Delete(NewFolder,TRUE);
+          ClientDirectoryHelper.CreateDirectory(NewFolder);
+          FolderExist := FALSE;
+        END ELSE BEGIN
+          ClientDirectoryHelper.Delete(NewFolder,TRUE);
+          ClientDirectoryHelper.CreateDirectory(NewFolder);
+        END;
+      END;
+    END;
+
+    LOCAL PROCEDURE CopyDTDFile@1140009(ExportPath@1140000 : Text[250]);
+    BEGIN
+      ClientFileHelper.Copy(DTDPathFileName,ExportPath + '\' + DTDFileName,TRUE);
+    END;
+
+    LOCAL PROCEDURE OpenNewFile@1140013(NewFileName@1140000 : Text);
+    BEGIN
+      OutServerFile.TEXTMODE(TRUE);
+      OutServerFile.CREATE(NewFileName);
+      TextStreamIsOpen := TRUE;
+      FileIsOpen := TRUE;
+    END;
+
+    LOCAL PROCEDURE WriteFieldsToFile@1140014(NewString@1140000 : Text[250];LastField@1140001 : Boolean);
+    BEGIN
+      IF NOT LastField THEN BEGIN
+        NewString := NewString + ';';
+        IF STRLEN(BufferTextRec) + STRLEN(NewString) > 1024 THEN BEGIN
+          OutServerFile.WRITE(BufferTextRec);
+          BufferTextRec := '' ;
+          BufferTextRec := NewString;
+        END ELSE
+          BufferTextRec := BufferTextRec + NewString;
+      END ELSE BEGIN
+        NewString := NewString;
+        IF STRLEN(BufferTextRec) + STRLEN(NewString) > 1024 THEN BEGIN
+          OutServerFile.WRITE(BufferTextRec);
+          BufferTextRec := '' ;
+          BufferTextRec := NewString;
+        END ELSE
+          BufferTextRec := BufferTextRec + NewString;
+        OutServerFile.WRITE(BufferTextRec);
+        BufferTextRec := '';
+      END;
+    END;
+
+    PROCEDURE FindKeyFields@1140015(TableNo@1140000 : Integer;FieldName@1140001 : Text[30]);
+    BEGIN
+      IF NOT KeyFieldBuffer.GET(TableNo,FieldName) THEN BEGIN
+        KeyFieldBuffer.INIT;
+        KeyFieldBuffer."Table No." := TableNo;
+        KeyFieldBuffer."Index Value 1" := FieldName;
+        KeyFieldBuffer.INSERT;
+      END;
+    END;
+
+    LOCAL PROCEDURE GetTempFilePath@1140017() : Text[1024];
+    VAR
+      TempFile@1140001 : File;
+      TempFileName@1101100000 : Text[1024];
+    BEGIN
+      TempFile.CREATETEMPFILE;
+      TempFileName := TempFile.NAME;
+      TempFile.CLOSE;
+      EXIT(
+        PathHelper.GetFullPath(
+          PathHelper.Combine(
+            PathHelper.GetDirectoryName(TempFileName),
+            '..')));
+    END;
+
+    LOCAL PROCEDURE DeleteTempTables@1140018();
+    BEGIN
+      TempGDPdUExportBuffer.RESET;
+      IF TempGDPdUExportBuffer.FIND('-') THEN
+        REPEAT
+          GDPdUExportBufferFilename := TempGDPdUExportBuffer."Field Value";
+          IF ERASE(GDPdUExportBufferFilename) THEN;
+        UNTIL TempGDPdUExportBuffer.NEXT = 0;
+      TempGDPdUExportBuffer.DELETEALL;
+      TempDataExportRecordSource.DELETEALL;
+      TempRecRef.DELETEALL;
+      TempFilesGDPdUExportBuffer.DELETEALL;
+    END;
+
+    LOCAL PROCEDURE CheckingRecordDefFields@1140019(GDPdUDefGroupCode@1140000 : Code[10];GDPdURecordCode@1140001 : Code[10]);
+    VAR
+      GDPdURecDefTable@1140002 : Record 11004;
+      GDPdURecDefField@1140003 : Record 11005;
+      RecRef@1140004 : RecordRef;
+      KeyRef@1140005 : KeyRef;
+      FldRef@1140006 : FieldRef;
+      ActiveKeyFound@1140007 : Boolean;
+      KeyFieldFound@1140008 : Boolean;
+      NonKeyFieldFound@1140009 : Boolean;
+      GDPdURecDefFieldMismatch@1140010 : Boolean;
+      i@1140011 : Integer;
+      j@1140012 : Integer;
+    BEGIN
+      GDPdURecDefTable.RESET;
+      GDPdURecDefTable.SETRANGE("Data Export Code",GDPdUDefGroupCode);
+      GDPdURecDefTable.SETRANGE("Data Exp. Rec. Type Code",GDPdURecordCode);
+      IF GDPdURecDefTable.FINDSET THEN BEGIN
+        GDPdURecDefField.RESET;
+        GDPdURecDefField.SETRANGE("Data Export Code",GDPdUDefGroupCode);
+        GDPdURecDefField.SETRANGE("Data Exp. Rec. Type Code",GDPdURecordCode);
+        REPEAT
+          RecRef.OPEN(GDPdURecDefTable."Table No.");
+          i := 0;
+          ActiveKeyFound := FALSE;
+          NonKeyFieldFound := FALSE;
+          GDPdURecDefFieldMismatch := FALSE;
+          REPEAT
+            i := i + 1;
+            KeyRef := RecRef.KEYINDEX(i);
+            IF KeyRef.ACTIVE THEN
+              ActiveKeyFound := TRUE;
+          UNTIL (i >= RecRef.KEYCOUNT) OR ActiveKeyFound;
+          IF ActiveKeyFound THEN BEGIN
+            GDPdURecDefField.SETRANGE("Table No.",GDPdURecDefTable."Table No.");
+            IF GDPdURecDefField.FINDSET THEN
+              REPEAT
+                KeyFieldFound := FALSE;
+                FOR j := 1 TO KeyRef.FIELDCOUNT DO BEGIN
+                  FldRef := KeyRef.FIELDINDEX(j);
+                  IF GDPdURecDefField."Field No." = FldRef.NUMBER THEN
+                    KeyFieldFound := TRUE;
+                END;
+                IF NOT KeyFieldFound THEN
+                  NonKeyFieldFound := TRUE;
+                IF NonKeyFieldFound AND KeyFieldFound THEN BEGIN
+                  GDPdURecDefFieldMismatch := TRUE;
+                  GDPdURecDefField.CALCFIELDS("Table Name");
+                  IF NOT CONFIRM(Text1140037 + '\' + '\' +
+                       Text1140038 + ' ' +
+                       Text1140039 + ' ' +
+                       Text1140040 + '\' + '\' +
+                       Text1140041,
+                       TRUE,
+                       GDPdURecDefField.TABLECAPTION,
+                       GDPdURecDefField."Table Name")
+                  THEN
+                    ERROR('');
+                END;
+              UNTIL GDPdURecDefFieldMismatch OR (GDPdURecDefField.NEXT = 0);
+          END;
+          RecRef.CLOSE;
+        UNTIL GDPdURecDefFieldMismatch OR (GDPdURecDefTable.NEXT = 0);
+      END;
+    END;
+
+    PROCEDURE TextStreamClose@1140024();
+    BEGIN
+      IF TextStreamIsOpen THEN BEGIN
+        OutServerFile.CLOSE;
+        TextStreamIsOpen := FALSE;
+      END;
+    END;
+
+    PROCEDURE FileSysOpenTextFile@1140025(FileName@1140001 : Text[1024]);
+    BEGIN
+      OutServerFile.TEXTMODE(TRUE);
+      OutServerFile.WRITEMODE(TRUE);
+      OutServerFile.OPEN(FileName);
+      OutServerFile.SEEK(OutServerFile.LEN);
+      TextStreamIsOpen := TRUE;
+    END;
+
+    PROCEDURE GetDataExportRecFields@1140026(VAR DataExportRecField@1140000 : Record 11005;DataExportRecSource@1140001 : Record 11004);
+    BEGIN
+      WITH DataExportRecField DO BEGIN
+        SETRANGE("Data Export Code",DataExportRecSource."Data Export Code");
+        SETRANGE("Data Exp. Rec. Type Code",DataExportRecSource."Data Exp. Rec. Type Code");
+        SETRANGE("Table No.",DataExportRecSource."Table No.");
+      END;
+    END;
+
+    PROCEDURE GetDataExportRecFieldValue@1140029(TableNo@1140000 : Integer;FieldNo@1140001 : Integer;DateFilterHandling@1140002 : Option;DateFilterFieldNo@1140009 : Integer;VAR RecRef@1140003 : RecordRef;VAR FieldValueString@1140004 : Text[1024]);
+    VAR
+      Field@1140005 : Record 2000000041;
+      DataExportRecField@1140007 : Record 11005;
+      FldRef@1140008 : FieldRef;
+      I@1140006 : Integer;
+    BEGIN
+      FldRef := RecRef.FIELD(FieldNo);
+      Field.GET(TableNo,FieldNo);
+      IF Field.Class = Field.Class::FlowField THEN BEGIN
+        IF DateFilterFieldNo > 0 THEN BEGIN
+          FldRef := RecRef.FIELD(DateFilterFieldNo);
+          SetDateFilter(FldRef,DateFilterHandling);
+        END ELSE
+          FOR I := 1 TO RecRef.FIELDCOUNT DO BEGIN
+            FldRef := RecRef.FIELDINDEX(I);
+            IF FldRef.ACTIVE THEN BEGIN
+              Field.GET(TableNo,FldRef.NUMBER);
+              IF (Field.Type = Field.Type::Date) AND (Field.Class = Field.Class::FlowFilter) THEN
+                SetDateFilter(FldRef,DateFilterHandling);
+            END;
+          END;
+
+        FldRef := RecRef.FIELD(FieldNo);
+        FldRef.CALCFIELD;
+      END;
+      FormatField2String(FldRef,RecRef.NUMBER,FldRef.NUMBER,FieldValueString);
+    END;
+
+    PROCEDURE SetDateFilter@1140030(VAR FieldRef@1140001 : FieldRef;DateFilterHandling@1140000 : Option);
+    VAR
+      DataExportRecField@1140002 : Record 11005;
+    BEGIN
+      CASE DateFilterHandling OF
+        DataExportRecField."Datefilter Handling"::"Startdate..Enddate":
+          FieldRef.SETRANGE(Startdate,Enddate);
+        DataExportRecField."Datefilter Handling"::"..Enddate":
+          FieldRef.SETRANGE(0D,Enddate);
+        DataExportRecField."Datefilter Handling"::"..Startdate":
+          FieldRef.SETRANGE(0D,CLOSINGDATE(Startdate - 1));
+      END;
+    END;
+
+    PROCEDURE UpdateTempDataExportBuffer@1140034(TableNo@1140000 : Integer;ExportedRecCount@1140001 : Integer);
+    BEGIN
+      WITH TempFilesGDPdUExportBuffer DO BEGIN
+        RESET;
+        SETCURRENTKEY("Table No.","Line No.");
+        SETRANGE("Table No.",TableNo);
+        IF FINDLAST THEN BEGIN
+          "Line No." := ExportedRecCount;
+          MODIFY;
+        END;
+      END;
+    END;
+
+    PROCEDURE CheckExportFieldExists@1140043(VAR TempTableFilter@1140000 : Record 9805;DataExportRecordSource@1140001 : Record 11004);
+    VAR
+      DataExportRecordField@1140002 : Record 11005;
+      Field@1140003 : Record 2000000041;
+    BEGIN
+      DataExportRecordField.SETRANGE("Data Export Code",DataExportRecordSource."Data Export Code");
+      DataExportRecordField.SETRANGE("Data Exp. Rec. Type Code",DataExportRecordSource."Data Exp. Rec. Type Code");
+      DataExportRecordField.SETRANGE("Table No.",DataExportRecordSource."Table No.");
+      IF TempTableFilter.FINDSET THEN
+        REPEAT
+          DataExportRecordField.SETRANGE("Field No.",TempTableFilter."Field Number");
+          IF DataExportRecordField.ISEMPTY THEN BEGIN
+            Field.GET(TempTableFilter."Table Number",TempTableFilter."Field Number");
+            IF Field.Class = Field.Class::FlowField THEN
+              ERROR(FlowFilterFieldsErr,DataExportRecordSource."Data Export Code");
+          END;
+        UNTIL TempTableFilter.NEXT = 0;
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

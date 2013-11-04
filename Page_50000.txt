@@ -1,0 +1,158 @@
+OBJECT Page 50000 CICERO Obj. Export
+{
+  OBJECT-PROPERTIES
+  {
+    Date=04.11.13;
+    Time=13:56:14;
+    Modified=Yes;
+    Version List=CIC001;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=CICERO Obj. Export;
+               DEA=CICERO Obj. Export];
+    SourceTable=Table2000000001;
+    PageType=List;
+    OnOpenPage=BEGIN
+                 SETFILTER(Type,'<> %1',Type::TableData);
+                 Server := 'WIN8ALEX\NAVDEMO';
+                 Database_ := 'Encome';
+                 FinSQL := 'C:\Program Files (x86)\Microsoft Dynamics NAV\70\RoleTailored Client\finsql.exe';
+                 Path := 'C:\Users\adopper\Documents\GitHub\NAVHF\';
+               END;
+
+    ActionList=ACTIONS
+    {
+      { 1000000011;0 ;ActionContainer;
+                      ActionContainerType=NewDocumentItems }
+      { 1000000010;1 ;ActionGroup }
+      { 1000000012;2 ;Action    ;
+                      Name=Export;
+                      Promoted=Yes;
+                      Image=Export;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 startCMD@1000000006 : DotNet "'System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Diagnostics.Process" RUNONCLIENT;
+                                 Filename@1000000000 : Text;
+                                 counter@1000000001 : Integer;
+                                 yes@1000000002 : TextConst 'ENU=yes;DEA=ja';
+                               BEGIN
+                                 Logfile := Path+'exportlog.txt';
+
+                                 ObjectTemp.RESET;
+                                 ObjectTemp.DELETEALL;
+
+                                 CurrPage.SETSELECTIONFILTER(Rec);
+                                 IF Rec.FIND('-') THEN BEGIN
+                                   REPEAT
+                                     ObjectTemp.INIT;
+                                     ObjectTemp.TRANSFERFIELDS(Rec);
+                                     ObjectTemp.INSERT;
+                                   UNTIL Rec.NEXT = 0;
+                                 END;
+
+                                 ObjectTemp.RESET;
+
+                                 IF ObjectTemp.FIND('-') THEN BEGIN
+                                   counter := 0;
+                                   Process.OPEN('Generating Files...');
+                                   REPEAT
+                                     Filename := Path + FORMAT(ObjectTemp.Type)+'_'+FORMAT(ObjectTemp.ID)+'.txt';
+                                     startCMD.Start(FinSQL,
+                                     ' command=exportobjects, file="'+Filename+'", servername="'+Server+'", database="'+Database_+'",'+
+                                     ' filter="Type='+FORMAT(ObjectTemp.Type)+';ID='+FORMAT(ObjectTemp.ID)+'", ntauthentication='+yes);
+                                     counter += 1;
+                                     SLEEP(250);
+                                     IF counter MOD 100 = 0 THEN
+                                     IF NOT CONFIRM('Continue ?') THEN
+                                       EXIT;
+                                   UNTIL ObjectTemp.NEXT = 0;
+                                   Process.CLOSE();
+                                 END;
+
+                                 Rec.RESET;
+                                 Rec.SETFILTER(Type,'<> %1',Type::TableData);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1000000000;0;Container;
+                ContainerType=ContentArea }
+
+    { 1000000013;1;Group  ;
+                GroupType=Group }
+
+    { 1000000014;2;Field  ;
+                CaptionML=[ENU=Export Folder;
+                           DEA=Export Ordner];
+                SourceExpr=Path }
+
+    { 1000000015;2;Field  ;
+                CaptionML=[ENU=Server\Instance;
+                           DEA=Server\Instanz];
+                SourceExpr=Server }
+
+    { 1000000016;2;Field  ;
+                CaptionML=[ENU=Database;
+                           DEA=Datenbank];
+                SourceExpr=Database_ }
+
+    { 1000000017;2;Field  ;
+                CaptionML=[ENU=Path to finsql.exe;
+                           DEA=Pfad zu finsql.exe];
+                SourceExpr=FinSQL }
+
+    { 1000000001;1;Group  ;
+                Name=Group;
+                Editable=False;
+                GroupType=Repeater }
+
+    { 1000000002;2;Field  ;
+                SourceExpr=Type }
+
+    { 1000000003;2;Field  ;
+                SourceExpr=ID }
+
+    { 1000000004;2;Field  ;
+                SourceExpr=Name }
+
+    { 1000000009;2;Field  ;
+                SourceExpr=Caption }
+
+    { 1000000005;2;Field  ;
+                SourceExpr=Modified }
+
+    { 1000000006;2;Field  ;
+                SourceExpr=Date }
+
+    { 1000000007;2;Field  ;
+                SourceExpr=Time }
+
+    { 1000000008;2;Field  ;
+                SourceExpr="Version List" }
+
+  }
+  CODE
+  {
+    VAR
+      ObjectTemp@1000000000 : TEMPORARY Record 2000000001;
+      Server@1000000004 : Text;
+      Database_@1000000003 : Text;
+      FinSQL@1000000002 : Text;
+      Logfile@1000000001 : Text;
+      Path@1000000006 : Text;
+      Process@1000000005 : Dialog;
+
+    BEGIN
+    {
+      CICERO-CONSULTING
+
+      VERSION WHO DATE        DESCR.
+      CIC001  ALD 2013-10-14  Created this Page - Exports many NAV Objects as seperated .txt Files.
+    }
+    END.
+  }
+}
+

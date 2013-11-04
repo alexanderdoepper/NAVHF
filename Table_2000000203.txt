@@ -1,0 +1,37 @@
+OBJECT Table 2000000203 Database Key Groups
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.08.13;
+    Time=10:36:10;
+    Version List=;
+  }
+  PROPERTIES
+  {
+    DataPerCompany=No;
+    CaptionML=ESP=Database grupos claves;
+  }
+  FIELDS
+  {
+    { 1   ;   ;Key Group           ;Text10        ;CaptionML=ESP=Grupo clave }
+    { 2   ;   ;Last Change         ;Option        ;CaptionML=ESP=élt. cambio;
+                                                   OptionCaptionML=[ENU=" ,Enabled,Disabled";
+                                                                    ESP=" ,Activado,Desactivado";
+                                                                    DEA=" ,Aktiviert,Deaktiviert"];
+                                                   OptionString=[ ,Enabled,Disabled] }
+  }
+  KEYS
+  {
+    {    ;Key Group                               ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

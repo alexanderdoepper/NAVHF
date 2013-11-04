@@ -1,0 +1,343 @@
+OBJECT Codeunit 8618 Config. Excel Exchange
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    OnRun=BEGIN
+          END;
+
+  }
+  CODE
+  {
+    VAR
+      ConfigPackage@1019 : Record 8623;
+      FileMgt@1003 : Codeunit 419;
+      ConfigXMLExchange@1023 : Codeunit 8614;
+      ConfigProgressBar@1004 : Codeunit 8615;
+      ConfigValidateMgt@1021 : Codeunit 8617;
+      XlApp@1034 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00024500-0000-0000-C000-000000000046}:Unknown Automation Server.Application";
+      XlBook@1033 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00020819-0000-0000-C000-000000000046}:Unknown Automation Server.Workbook";
+      XlSheet@1032 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00020820-0000-0000-C000-000000000046}:Unknown Automation Server.Worksheet";
+      Text017@1017 : TextConst 'ENU=Importing Excel data\;DEA=Excel-Daten werden importiert\';
+      Text018@1016 : TextConst 'ENU=Could not create XML Schema.;DEA=Fehler beim Erstellen des XML-Schemas.';
+      Text019@1015 : TextConst 'ENU=Could not create Excel instance.;DEA=Fehler beim Erstellen einer Excel-Instanz.';
+      Text020@1014 : TextConst 'ENU=Excel does not contain XML mappings.;DEA=Excel enth„lt keine XML-Zuordnungen.';
+      Text024@1011 : TextConst 'ENU=Creating Excel worksheet\;DEA=Excel-Tabelle wird erstellt\';
+      Text028@1008 : TextConst 'ENU=Import File;DEA=Datei importieren';
+      HideDialog@1005 : Boolean;
+      Text030@1022 : TextConst 'ENU=Export File;DEA=Datei exportieren';
+
+    PROCEDURE ExportExcelFromConfig@19(VAR ConfigLine@1006 : Record 8622);
+    VAR
+      ConfigPackageTable@1005 : Record 8613;
+      ConfigMgt@1000 : Codeunit 8616;
+      FileMgt@1004 : Codeunit 419;
+      XLSDataFile@1001 : Text;
+      Filter@1003 : Text;
+    BEGIN
+      XLSDataFile := FileMgt.SaveFileDialog(Text030,'.xlsx','');
+      IF XLSDataFile = '' THEN
+        EXIT;
+
+      ConfigLine.FINDFIRST;
+      ConfigPackageTable.SETRANGE("Package Code",ConfigLine."Package Code");
+      Filter := ConfigMgt.MakeTableFilter(ConfigLine,TRUE);
+      IF Filter <> '' THEN
+        ConfigPackageTable.SETFILTER("Table ID",Filter);
+
+      ConfigPackageTable.SETRANGE("Dimensions as Columns",TRUE);
+      IF ConfigPackageTable.FINDSET THEN
+        REPEAT
+          IF NOT (ConfigPackageTable.DimensionPackageDataExist OR (ConfigPackageTable.DimensionFieldsCount > 0)) THEN
+            ConfigPackageTable.InitDimensionFields;
+        UNTIL ConfigPackageTable.NEXT = 0;
+      ConfigPackageTable.SETRANGE("Dimensions as Columns");
+
+      IF ExportExcel(XLSDataFile,ConfigPackageTable,TRUE) THEN
+        OpenBook(XLSDataFile);
+    END;
+
+    PROCEDURE ExportExcelFromPackage@20(ConfigPackage@1000 : Record 8623) : Boolean;
+    VAR
+      ConfigPackageTable@1006 : Record 8613;
+      FileMgt@1001 : Codeunit 419;
+      XLSDataFile@1004 : Text;
+    BEGIN
+      XLSDataFile := FileMgt.SaveFileDialog(Text030,'.xlsx','');
+      IF XLSDataFile = '' THEN
+        EXIT(FALSE);
+
+      ConfigPackageTable.SETRANGE("Package Code",ConfigPackage.Code);
+      EXIT(ExportExcel(XLSDataFile,ConfigPackageTable,FALSE));
+    END;
+
+    PROCEDURE ExportExcelFromTables@3(VAR ConfigPackageTable@1000 : Record 8613) : Boolean;
+    VAR
+      FileMgt@1003 : Codeunit 419;
+      XLSDataFile@1002 : Text;
+    BEGIN
+      XLSDataFile := FileMgt.SaveFileDialog(Text030,'.xlsx','');
+      IF XLSDataFile = '' THEN
+        EXIT(FALSE);
+
+      IF ExportExcel(XLSDataFile,ConfigPackageTable,FALSE) THEN BEGIN
+        OpenBook(XLSDataFile);
+        EXIT(TRUE);
+      END;
+    END;
+
+    PROCEDURE ExportExcel@13(ExcelFile@1008 : Text;VAR ConfigPackageTable@1001 : Record 8613;ExportFromWksht@1010 : Boolean) : Boolean;
+    VAR
+      ConfigPackageField@1011 : Record 8616;
+      Field@1022 : Record 2000000041;
+      Dimension@1005 : Record 348;
+      ConfigDataSchema@1006 : XMLport 8610;
+      OStream@1007 : OutStream;
+      TempSchemaFile@1002 : File;
+      XMLMap@1009 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{0002447B-0000-0000-C000-000000000046}:Unknown Automation Server.XmlMap";
+      ListObject@1017 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00024471-0000-0000-C000-000000000046}:Unknown Automation Server.ListObject";
+      ListColumns@1016 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00024472-0000-0000-C000-000000000046}:Unknown Automation Server.ListColumns";
+      ListColumn@1015 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00024473-0000-0000-C000-000000000046}:Unknown Automation Server.ListColumn";
+      Range@1014 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00020846-0000-0000-C000-000000000046}:Unknown Automation Server.Range";
+      RecRef@1019 : RecordRef;
+      RecRef1@1021 : RecordRef;
+      FieldRef@1020 : FieldRef;
+      TempSetupDataFileName@1000 : Text;
+      TempSetupDataFileNameCL@1003 : Text;
+      TempSchemaFileName@1004 : Text;
+      TempSchemaFileNameCL@1013 : Text;
+      i@1012 : Integer;
+    BEGIN
+      TempSchemaFile.CREATETEMPFILE;
+      TempSchemaFileName := TempSchemaFile.NAME + '.xsd';
+      TempSchemaFile.CLOSE;
+
+      TempSchemaFile.CREATE(TempSchemaFileName);
+      TempSchemaFile.CREATEOUTSTREAM(OStream);
+      ConfigDataSchema.SETDESTINATION(OStream);
+      ConfigDataSchema.SETTABLEVIEW(ConfigPackageTable);
+      IF NOT ConfigDataSchema.EXPORT THEN
+        ERROR(Text018);
+      TempSchemaFile.CLOSE;
+
+      TempSetupDataFileName := FileMgt.ServerTempFileName('');
+      CLEAR(ConfigXMLExchange);
+      ConfigXMLExchange.SetExcelMode(TRUE);
+      ConfigXMLExchange.SetCalledFromCode(TRUE);
+      ConfigXMLExchange.SetExportFromWksht(ExportFromWksht);
+      ConfigXMLExchange.ExportPackageXML(ConfigPackageTable,TempSetupDataFileName);
+      ConfigXMLExchange.SetExcelMode(FALSE);
+
+      TempSetupDataFileNameCL := FileMgt.DownloadTempFile(TempSetupDataFileName);
+      TempSchemaFileNameCL := FileMgt.DownloadTempFile(TempSchemaFileName);
+
+      CreateBook;
+      XlApp.DisplayAlerts(FALSE);
+      XlBook.XmlMaps.Add(TempSchemaFileNameCL);
+      XMLMap := XlBook.XmlMaps.Item(1);
+
+      IF NOT HideDialog THEN
+        ConfigProgressBar.Init(ConfigPackageTable.COUNT,Text024);
+      IF ConfigPackageTable.FINDSET THEN
+        REPEAT
+          ConfigPackageTable.CALCFIELDS("Table Name");
+          IF NOT HideDialog THEN
+            ConfigProgressBar.Update(ConfigPackageTable."Table Name");
+          XlSheet := XlBook.Worksheets.Add;
+          XlSheet.Name := ConfigXMLExchange.GetElementName(ConfigPackageTable."Table Name");
+
+          Range := XlSheet.Range('A1');
+          Range.Value := ConfigPackageTable."Package Code";
+          Range.XPath.SetValue(
+            XMLMap,
+            '/DataList/' +
+            (ConfigXMLExchange.GetElementName(ConfigPackageTable."Table Name") + 'List') +
+            '/' + ConfigXMLExchange.GetElementName(ConfigPackageTable.FIELDNAME("Package Code")));
+
+          Range := XlSheet.Range('B1');
+          RecRef1.OPEN(ConfigPackageTable."Table ID");
+          Range.Value := RecRef1.CAPTION;
+          RecRef1.CLOSE;
+
+          Range := XlSheet.Range('C1');
+          Range.Value := ConfigPackageTable."Table ID";
+          Range.XPath.SetValue(
+            XMLMap,
+            '/DataList/' +
+            (ConfigXMLExchange.GetElementName(ConfigPackageTable."Table Name") + 'List') +
+            '/' + ConfigXMLExchange.GetElementName(ConfigPackageTable.FIELDNAME("Table ID")));
+
+          ConfigPackageField.RESET;
+          ConfigPackageField.SETRANGE("Package Code",ConfigPackageTable."Package Code");
+          ConfigPackageField.SETRANGE("Table ID",ConfigPackageTable."Table ID");
+          ConfigPackageField.SETRANGE("Include Field",TRUE);
+          IF NOT ExportFromWksht THEN
+            ConfigPackageField.SETRANGE(Dimension,FALSE);
+
+          Range := XlSheet.Range('A3',FORMAT(GetXLColumnID(ConfigPackageField.COUNT)) + '3');
+          Range.Select;
+          ListObject := XlSheet.ListObjects.Add;
+          ListColumns := ListObject.ListColumns;
+
+          i := 1;
+          RecRef.OPEN(ConfigPackageTable."Table ID");
+          IF ConfigPackageField.FINDSET THEN
+            REPEAT
+              ListColumn := ListColumns.Item(i);
+              IF Field.GET(ConfigPackageField."Table ID",ConfigPackageField."Field ID") OR ConfigPackageField.Dimension THEN BEGIN
+                IF ConfigPackageField.Dimension THEN
+                  ListColumn.Name := ConfigPackageField."Field Caption" + ' ' + STRSUBSTNO('(%1)',Dimension.TABLECAPTION)
+                ELSE
+                  ListColumn.Name := ConfigPackageField."Field Caption";
+                ListColumn.XPath.SetValue(
+                  XMLMap,'/DataList/' + (ConfigXMLExchange.GetElementName(ConfigPackageTable."Table Name") + 'List') +
+                  '/' + ConfigXMLExchange.GetElementName(ConfigPackageTable."Table Name") +
+                  '/' + ConfigXMLExchange.GetElementName(ConfigPackageField."Field Name"));
+                IF NOT ConfigPackageField.Dimension THEN BEGIN
+                  FieldRef := RecRef.FIELD(ConfigPackageField."Field ID");
+                  XlSheet.Range(FORMAT(GetXLColumnID(i)) + '3').AddComment.Text := ConfigValidateMgt.AddComment(FieldRef);
+                END;
+                i := i + 1;
+              END;
+            UNTIL ConfigPackageField.NEXT = 0;
+          RecRef.CLOSE;
+
+          Range := XlSheet.Range('A1',FORMAT(GetXLColumnID(ConfigPackageField.COUNT)) + '3');
+          Range.Columns.AutoFit;
+        UNTIL ConfigPackageTable.NEXT = 0;
+
+      XMLMap.Import(TempSetupDataFileNameCL,TRUE);
+
+      XlBook._SaveAs(ExcelFile);
+
+      CloseXlApp;
+
+      FILE.ERASE(TempSchemaFileName);
+      FILE.ERASE(TempSetupDataFileName);
+
+      IF NOT HideDialog THEN
+        ConfigProgressBar.Close;
+
+      EXIT(TRUE);
+    END;
+
+    PROCEDURE ImportExcelFromConfig@16(ConfigLine@1000 : Record 8622);
+    VAR
+      FileMgt@1005 : Codeunit 419;
+      XLSDataFile@1002 : Text;
+    BEGIN
+      XLSDataFile := FileMgt.OpenFileDialog(Text028,'.xlsx','');
+      IF XLSDataFile = '' THEN
+        EXIT;
+
+      ConfigLine.TESTFIELD("Line Type",ConfigLine."Line Type"::Table);
+      ConfigLine.TESTFIELD("Table ID");
+      IF ConfigPackage.GET(ConfigLine."Package Code") THEN
+        ImportExcel(XLSDataFile);
+    END;
+
+    PROCEDURE ImportExcelFromPackage@18() : Boolean;
+    VAR
+      FileMgt@1001 : Codeunit 419;
+      XLSDataFile@1004 : Text;
+    BEGIN
+      XLSDataFile := FileMgt.OpenFileDialog(Text028,'.xlsx','');
+      IF XLSDataFile = '' THEN
+        EXIT(FALSE);
+
+      EXIT(ImportExcel(XLSDataFile));
+    END;
+
+    PROCEDURE ImportExcel@24(XLSDataFile@1000 : Text) Imported : Boolean;
+    VAR
+      TmpXmlFile@1004 : File;
+      XmlMaps@1002 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{0002447C-0000-0000-C000-000000000046}:Unknown Automation Server.XmlMaps";
+      XmlMap@1003 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{0002447B-0000-0000-C000-000000000046}:Unknown Automation Server.XmlMap";
+      InStream@1009 : InStream;
+      XMLDataFile@1005 : Text;
+      XMLDataFileServer@1007 : Text;
+    BEGIN
+      IF ISCLEAR(XlApp) THEN
+        IF NOT CREATE(XlApp,TRUE,TRUE) THEN
+          ERROR(Text019);
+
+      XlApp.Workbooks._Open(XLSDataFile);
+      XlBook := XlApp.ActiveWorkbook;
+
+      XMLDataFile := ''; // To Avoid Precal
+      XmlMaps := XlBook.XmlMaps;
+      IF XmlMaps.Count <> 0 THEN BEGIN
+        TmpXmlFile.CREATETEMPFILE;
+        TmpXmlFile.CREATEINSTREAM(InStream);
+        DOWNLOADFROMSTREAM(InStream,'',FileMgt.Magicpath,'',XMLDataFile);
+        TmpXmlFile.CLOSE;
+
+        XmlMap := XmlMaps.Item(1);
+        XmlMap.Export(XMLDataFile,TRUE);
+
+        XMLDataFileServer := FileMgt.UploadFile(Text017,XMLDataFile);
+        ConfigXMLExchange.SetExcelMode(TRUE);
+        IF ConfigXMLExchange.ImportPackageXML(XMLDataFileServer) THEN
+          Imported := TRUE;
+        CloseXlApp;
+      END ELSE BEGIN
+        CloseXlApp;
+        ERROR(Text020);
+      END;
+
+      EXIT(Imported);
+    END;
+
+    PROCEDURE CloseXlApp@7();
+    BEGIN
+      CLEAR(XlSheet);
+      XlBook.Close(FALSE);
+      CLEAR(XlBook);
+      XlApp.Quit;
+      CLEAR(XlApp);
+    END;
+
+    LOCAL PROCEDURE CreateBook@27();
+    BEGIN
+      IF ISCLEAR(XlApp) THEN
+        IF NOT CREATE(XlApp,TRUE,TRUE) THEN
+          ERROR(Text019);
+      XlApp.Visible(FALSE);
+      XlBook := XlApp.Workbooks.Add(-4167);
+    END;
+
+    PROCEDURE OpenBook@2(XLSDataFile@1000 : Text);
+    BEGIN
+      IF ISCLEAR(XlApp) THEN
+        IF NOT CREATE(XlApp,TRUE,TRUE) THEN
+          ERROR(Text019);
+
+      XlApp.Workbooks._Open(XLSDataFile);
+      XlBook := XlApp.ActiveWorkbook;
+      XlApp.Visible(TRUE);
+    END;
+
+    PROCEDURE GetXLColumnID@14(ColumnNo@1003 : Integer) : Text[10];
+    VAR
+      ExcelBuf@1000 : Record 370;
+    BEGIN
+      ExcelBuf.INIT;
+      ExcelBuf.VALIDATE("Column No.",ColumnNo);
+      EXIT(ExcelBuf.xlColID);
+    END;
+
+    PROCEDURE SetHideDialog@1(NewHideDialog@1000 : Boolean);
+    BEGIN
+      HideDialog := NewHideDialog;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

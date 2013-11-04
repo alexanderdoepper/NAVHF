@@ -1,0 +1,397 @@
+OBJECT Page 5823 G/L - Item Ledger Relation
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    Editable=No;
+    CaptionML=[ENU=G/L - Item Ledger Relation;
+               ESP=Relaci¢n movs. productos - C/G;
+               DEA=Sachposten - Artikelpostenverbindung];
+    SourceTable=Table5823;
+    DataCaptionExpr=GetCaption;
+    PageType=List;
+    OnAfterGetRecord=BEGIN
+                       IF NOT ValueEntry.GET("Value Entry No.") THEN
+                         ValueEntry.INIT;
+                     END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 33      ;1   ;ActionGroup;
+                      CaptionML=[ENU=Value Ent&ry;
+                                 ESP=&Movimiento valor;
+                                 DEA=We&rtposten];
+                      Image=Entry }
+      { 74      ;2   ;Action    ;
+                      ShortCutKey=Shift+Ctrl+D;
+                      CaptionML=[ENU=Dimensions;
+                                 ESP=Dimensiones;
+                                 DEA=Dimensionen];
+                      Image=Dimensions;
+                      OnAction=BEGIN
+                                 ValueEntry.ShowDimensions;
+                               END;
+                                }
+      { 75      ;2   ;Action    ;
+                      CaptionML=[ENU=General Ledger;
+                                 ESP=Contabilidad;
+                                 DEA=Finanzbuchhaltung];
+                      Image=GLRegisters;
+                      OnAction=BEGIN
+                                 ValueEntry.ShowGL;
+                               END;
+                                }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 32      ;1   ;Action    ;
+                      CaptionML=[ENU=&Navigate;
+                                 ESP=&Navegar;
+                                 DEA=&Navigate];
+                      Promoted=Yes;
+                      Image=Navigate;
+                      PromotedCategory=Process;
+                      OnAction=VAR
+                                 Navigate@1000 : Page 344;
+                               BEGIN
+                                 Navigate.SetDoc(ValueEntry."Posting Date",ValueEntry."Document No.");
+                                 Navigate.RUN;
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 6   ;2   ;Field     ;
+                CaptionML=[ENU=Posting Date;
+                           ESP=Fecha registro;
+                           DEA=Buchungsdatum];
+                SourceExpr=ValueEntry."Posting Date" }
+
+    { 4   ;2   ;Field     ;
+                CaptionML=[ENU=Item No.;
+                           ESP=N§ producto;
+                           DEA=Artikelnr.];
+                SourceExpr=ValueEntry."Item No." }
+
+    { 42  ;2   ;Field     ;
+                CaptionML=[ENU=Source Type;
+                           ESP=Tipo procedencia mov.;
+                           DEA=Herkunftsart];
+                SourceExpr=FORMAT(ValueEntry."Source Type") }
+
+    { 10  ;2   ;Field     ;
+                CaptionML=[ENU=Source No.;
+                           ESP=C¢d. procedencia mov.;
+                           DEA=Herkunftsnr.];
+                SourceExpr=ValueEntry."Source No." }
+
+    { 52  ;2   ;Field     ;
+                CaptionML=[ENU=External Document No.;
+                           ESP=N§ documento externo;
+                           DEA=Externe Belegnummer];
+                SourceExpr=ValueEntry."External Document No.";
+                Visible=FALSE }
+
+    { 60  ;2   ;Field     ;
+                CaptionML=[ENU=Document Type;
+                           ESP=Tipo documento;
+                           DEA=Belegart];
+                SourceExpr=FORMAT(ValueEntry."Document Type");
+                Visible=FALSE }
+
+    { 12  ;2   ;Field     ;
+                CaptionML=[ENU=Document No.;
+                           ESP=N§ documento;
+                           DEA=Belegnr.];
+                SourceExpr=ValueEntry."Document No." }
+
+    { 62  ;2   ;Field     ;
+                CaptionML=[ENU=Document Line No.;
+                           ESP=N§ l¡n. documento;
+                           DEA=Belegzeilennr.];
+                SourceExpr=ValueEntry."Document Line No.";
+                Visible=FALSE }
+
+    { 14  ;2   ;Field     ;
+                CaptionML=[ENU=Description;
+                           ESP=Descripci¢n;
+                           DEA=Beschreibung];
+                SourceExpr=ValueEntry.Description }
+
+    { 16  ;2   ;Field     ;
+                CaptionML=[ENU=Location Code;
+                           ESP=C¢d. almac‚n;
+                           DEA=Lagerortcode];
+                SourceExpr=ValueEntry."Location Code" }
+
+    { 18  ;2   ;Field     ;
+                CaptionML=[ENU=Inventory Posting Group;
+                           ESP=Grupo contable inventario;
+                           DEA=Lagerbuchungsgruppe];
+                SourceExpr=ValueEntry."Inventory Posting Group" }
+
+    { 48  ;2   ;Field     ;
+                CaptionML=[ENU=Gen. Bus. Posting Group;
+                           ESP=Grupo contable negocio;
+                           DEA=Gesch„ftsbuchungsgruppe];
+                SourceExpr=ValueEntry."Gen. Bus. Posting Group" }
+
+    { 50  ;2   ;Field     ;
+                CaptionML=[ENU=Gen. Prod. Posting Group;
+                           ESP=Grupo contable producto;
+                           DEA=Produktbuchungsgruppe];
+                SourceExpr=ValueEntry."Gen. Prod. Posting Group" }
+
+    { 20  ;2   ;Field     ;
+                CaptionML=[ENU=Source Posting Group;
+                           ESP=Grupo contable origen;
+                           DEA=Herkunftsbuchungsgruppe];
+                SourceExpr=ValueEntry."Source Posting Group" }
+
+    { 8   ;2   ;Field     ;
+                CaptionML=[ENU=Item Ledger Entry Type;
+                           ESP=Tipo mov. producto;
+                           DEA=Artikelpostenart];
+                SourceExpr=FORMAT(ValueEntry."Item Ledger Entry Type") }
+
+    { 22  ;2   ;Field     ;
+                CaptionML=[ENU=Item Ledger Entry No.;
+                           ESP=N§ mov. producto;
+                           DEA=Artikelposten Lfd. Nr.];
+                SourceExpr=ValueEntry."Item Ledger Entry No." }
+
+    { 24  ;2   ;Field     ;
+                CaptionML=[ENU=Valued Quantity;
+                           ESP=Cdad. valorada;
+                           DEA=Bewertete Menge];
+                DecimalPlaces=0:5;
+                SourceExpr=ValueEntry."Valued Quantity" }
+
+    { 26  ;2   ;Field     ;
+                CaptionML=[ENU=Item Ledger Entry Quantity;
+                           ESP=Cantidad mov. producto;
+                           DEA=Artikelpostenmenge];
+                DecimalPlaces=0:5;
+                SourceExpr=ValueEntry."Item Ledger Entry Quantity" }
+
+    { 28  ;2   ;Field     ;
+                CaptionML=[ENU=Invoiced Quantity;
+                           ESP=Cantidad facturada;
+                           DEA=Fakturierte Menge];
+                DecimalPlaces=0:5;
+                SourceExpr=ValueEntry."Invoiced Quantity" }
+
+    { 30  ;2   ;Field     ;
+                CaptionML=[ENU=Cost per Unit;
+                           ESP=Coste por ud.;
+                           DEA=Lagerwert pro Einheit];
+                SourceExpr=ValueEntry."Cost per Unit" }
+
+    { 34  ;2   ;Field     ;
+                CaptionML=[ENU=User ID;
+                           ESP=Id. usuario;
+                           DEA=Benutzer-ID];
+                SourceExpr=ValueEntry."User ID";
+                Visible=FALSE }
+
+    { 36  ;2   ;Field     ;
+                CaptionML=[ENU=Source Code;
+                           ESP=C¢d. origen;
+                           DEA=Herkunftscode];
+                SourceExpr=ValueEntry."Source Code";
+                Visible=FALSE }
+
+    { 44  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Amount (Actual);
+                           ESP=Importe coste (Real);
+                           DEA=Einstandsbetrag (tats„chl.)];
+                SourceExpr=ValueEntry."Cost Amount (Actual)";
+                AutoFormatType=1 }
+
+    { 46  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Posted to G/L;
+                           ESP=Coste regis. en contab.;
+                           DEA=Gebuchte Lagerregulierung];
+                SourceExpr=ValueEntry."Cost Posted to G/L";
+                AutoFormatType=1 }
+
+    { 54  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Amount (Actual) (ACY);
+                           ESP=Importe coste (Real) (DA);
+                           DEA=Einst.-Betrag (tats„chl.) (BW)];
+                SourceExpr=ValueEntry."Cost Amount (Actual) (ACY)";
+                AutoFormatType=1;
+                Visible=FALSE }
+
+    { 56  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Posted to G/L (ACY);
+                           ESP=Coste regis. en contab. (DA);
+                           DEA=Gebuchte Lagerregulierung (BW)];
+                SourceExpr=ValueEntry."Cost Posted to G/L (ACY)";
+                AutoFormatType=1 }
+
+    { 58  ;2   ;Field     ;
+                CaptionML=[ENU=Cost per Unit (ACY);
+                           ESP=Coste por unidad (DA);
+                           DEA=Lagerwert pro Einheit (BW)];
+                SourceExpr=ValueEntry."Cost per Unit (ACY)";
+                AutoFormatType=2;
+                Visible=FALSE }
+
+    { 38  ;2   ;Field     ;
+                CaptionML=[ENU=Global Dimension 1 Code;
+                           ESP=C¢d. dimensi¢n global 1;
+                           DEA=Globaler Dimensionscode 1];
+                SourceExpr=ValueEntry."Global Dimension 1 Code";
+                CaptionClass='1,1,1';
+                Visible=FALSE }
+
+    { 40  ;2   ;Field     ;
+                CaptionML=[ENU=Global Dimension 2 Code;
+                           ESP=C¢d. dimensi¢n global 2;
+                           DEA=Globaler Dimensionscode 2];
+                SourceExpr=ValueEntry."Global Dimension 2 Code";
+                CaptionClass='1,1,2';
+                Visible=FALSE }
+
+    { 64  ;2   ;Field     ;
+                CaptionML=[ENU=Expected Cost;
+                           ESP=Coste previsto;
+                           DEA=Soll-Kosten];
+                SourceExpr=ValueEntry."Expected Cost";
+                Visible=FALSE }
+
+    { 66  ;2   ;Field     ;
+                CaptionML=[ENU=Item Charge No.;
+                           ESP=N§ cargo prod.;
+                           DEA=Artikel Zu-/Abschlagsnr.];
+                SourceExpr=ValueEntry."Item Charge No.";
+                Visible=FALSE }
+
+    { 68  ;2   ;Field     ;
+                CaptionML=[ENU=Entry Type;
+                           ESP=Tipo movimiento;
+                           DEA=Postenart];
+                SourceExpr=FORMAT(ValueEntry."Entry Type") }
+
+    { 70  ;2   ;Field     ;
+                CaptionML=[ENU=Variance Type;
+                           ESP=Tipo desviaci¢n;
+                           DEA=Abweichungsart];
+                SourceExpr=FORMAT(ValueEntry."Variance Type");
+                Visible=FALSE }
+
+    { 72  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Amount (Expected);
+                           ESP=Importe coste (Esperado);
+                           DEA=Einstandsbetrag (erwartet)];
+                SourceExpr=ValueEntry."Cost Amount (Expected)";
+                AutoFormatType=1;
+                Visible=FALSE }
+
+    { 76  ;2   ;Field     ;
+                CaptionML=[ENU=Cost Amount (Expected) (ACY);
+                           ESP=Importe coste (Esperado) (DA);
+                           DEA=Einstandsbetrag (erw.) (BW)];
+                SourceExpr=ValueEntry."Cost Amount (Expected) (ACY)";
+                AutoFormatType=1;
+                Visible=FALSE }
+
+    { 80  ;2   ;Field     ;
+                CaptionML=[ENU=Expected Cost Posted to G/L;
+                           ESP=Coste esperado reg. en cont.;
+                           DEA=Auf Sachkonto geb. Soll-Kosten];
+                SourceExpr=ValueEntry."Expected Cost Posted to G/L";
+                AutoFormatType=1;
+                Visible=FALSE }
+
+    { 82  ;2   ;Field     ;
+                CaptionML=[ENU=Exp. Cost Posted to G/L (ACY);
+                           ESP=Coste esperado reg. cont. (DA);
+                           DEA=Auf Sachkto. geb. Soll-K. (BW)];
+                SourceExpr=ValueEntry."Exp. Cost Posted to G/L (ACY)";
+                AutoFormatType=1;
+                Visible=FALSE }
+
+    { 84  ;2   ;Field     ;
+                CaptionML=[ENU=Variant Code;
+                           ESP=C¢d. variante;
+                           DEA=Variantencode];
+                SourceExpr=ValueEntry."Variant Code";
+                Visible=FALSE }
+
+    { 86  ;2   ;Field     ;
+                CaptionML=[ENU=Adjustment;
+                           ESP=Ajuste;
+                           DEA=Ausgleich];
+                SourceExpr=ValueEntry.Adjustment;
+                Visible=FALSE }
+
+    { 88  ;2   ;Field     ;
+                CaptionML=[ENU=Capacity Ledger Entry No.;
+                           ESP=N§ mov. capacidad;
+                           DEA=Kapazit„tsposten Lfd. Nr.];
+                SourceExpr=ValueEntry."Capacity Ledger Entry No.";
+                Visible=FALSE }
+
+    { 90  ;2   ;Field     ;
+                CaptionML=[ENU=Type;
+                           ESP=Tipo;
+                           DEA=Art];
+                SourceExpr=FORMAT(ValueEntry.Type);
+                Visible=FALSE }
+
+    { 97  ;2   ;Field     ;
+                SourceExpr="G/L Entry No." }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Value Entry No." }
+
+    { 99  ;2   ;Field     ;
+                SourceExpr="G/L Register No.";
+                Visible=FALSE }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      ValueEntry@1000 : Record 5802;
+
+    PROCEDURE GetCaption@3() : Text[250];
+    VAR
+      GLRegister@1000 : Record 45;
+    BEGIN
+      EXIT(STRSUBSTNO('%1 %2',GLRegister.TABLECAPTION,GETFILTER("G/L Register No.")));
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

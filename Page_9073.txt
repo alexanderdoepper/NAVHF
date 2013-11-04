@@ -1,0 +1,154 @@
+OBJECT Page 9073 Small Business Owner Act.
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Activities;
+               ESP=Actividades;
+               DEA=Aktivit„ten];
+    SourceTable=Table9060;
+    PageType=CardPart;
+    OnOpenPage=BEGIN
+                 RESET;
+                 IF NOT GET THEN BEGIN
+                   INIT;
+                   INSERT;
+                 END;
+                 SETFILTER("Overdue Date Filter",'<%1',WORKDATE);
+               END;
+
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 10  ;1   ;Group     ;
+                CaptionML=[ENU=Sales;
+                           ESP=Ventas;
+                           DEA=Verkauf];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 8       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Customer;
+                                             ESP=Nuevo cliente;
+                                             DEA=Neuer Debitor];
+                                  RunObject=Page 21;
+                                  RunPageMode=Create }
+                  { 9       ;0   ;Action    ;
+                                  CaptionML=[ENU=New Sales Order;
+                                             ESP=Nuevo pedido venta;
+                                             DEA=Neuer Verkaufsauftrag];
+                                  RunObject=Page 42;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 1   ;2   ;Field     ;
+                SourceExpr="Released Sales Quotes";
+                DrillDownPageID=Sales Quotes }
+
+    { 3   ;2   ;Field     ;
+                SourceExpr="Open Sales Orders";
+                DrillDownPageID=Sales Order List }
+
+    { 5   ;2   ;Field     ;
+                SourceExpr="Released Sales Orders";
+                DrillDownPageID=Sales Order List }
+
+    { 11  ;1   ;Group     ;
+                CaptionML=[ENU=Purchase;
+                           ESP=Compra;
+                           DEA=Einkauf];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 15      ;0   ;Action    ;
+                                  CaptionML=[ENU=New Purchase Order;
+                                             ESP=Nuevo pedido de compra;
+                                             DEA=Neue Bestellung];
+                                  RunObject=Page 50;
+                                  RunPageMode=Create }
+                }
+                 }
+
+    { 13  ;2   ;Field     ;
+                SourceExpr="Released Purchase Orders";
+                DrillDownPageID=Purchase Order List }
+
+    { 16  ;1   ;Group     ;
+                CaptionML=[ENU=Receivables;
+                           ESP=Cobros;
+                           DEA=Forderungen];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 24      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Cash Receipt Journal;
+                                             ESP=Editar diario de cobros;
+                                             DEA=Zahlungseingangs Buch.-Blatt bearbeiten];
+                                  RunObject=Page 255 }
+                  { 25      ;0   ;Action    ;
+                                  CaptionML=[ENU=Navigate;
+                                             ESP=Navegar;
+                                             DEA=Navigate];
+                                  RunObject=Page 344;
+                                  Image=Navigate }
+                }
+                 }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Overdue Sales Documents";
+                DrillDownPageID=Customer Ledger Entries }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="SOs Shipped Not Invoiced";
+                DrillDownPageID=Sales Order List }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr="Customers - Blocked";
+                DrillDownPageID=Customer List }
+
+    { 26  ;1   ;Group     ;
+                CaptionML=[ENU=Payables;
+                           ESP=Pagos;
+                           DEA=Verbindlichkeiten];
+                GroupType=CueGroup;
+                ActionList=ACTIONS
+                {
+                  { 32      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Payment Journal;
+                                             ESP=Editar diario de pagos;
+                                             DEA=Zahlungsausgangs Buch.-Blatt bearbeiten];
+                                  RunObject=Page 256 }
+                  { 33      ;0   ;Action    ;
+                                  CaptionML=[ENU=Edit Bank Acc. Reconciliation;
+                                             ESP=Editar conciliaci¢n banco;
+                                             DEA=Bankkontoabstimmung bearbeiten];
+                                  RunObject=Page 379 }
+                }
+                 }
+
+    { 29  ;2   ;Field     ;
+                SourceExpr="Purchase Invoices Due Today";
+                DrillDownPageID=Vendor Ledger Entries }
+
+    { 30  ;2   ;Field     ;
+                SourceExpr="Vendors - Payment on Hold";
+                DrillDownPageID=Vendor List }
+
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

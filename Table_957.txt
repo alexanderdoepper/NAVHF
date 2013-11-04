@@ -1,0 +1,50 @@
+OBJECT Table 957 Time Sheet Cmt. Line Archive
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Time Sheet Cmt. Line Archive;
+               ESP=Archivo l°nea comentarios hoja horas;
+               DEA=Bemerkungszeilenarchiv fÅr Arbeitszeittabelle];
+  }
+  FIELDS
+  {
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
+                                                              ESP=Nß;
+                                                              DEA=Nr.] }
+    { 2   ;   ;Time Sheet Line No. ;Integer       ;CaptionML=[ENU=Time Sheet Line No.;
+                                                              ESP=Nß l°nea hoja horas;
+                                                              DEA=Arbeitszeittabelle - Zeilennr.] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              ESP=Nß l°nea;
+                                                              DEA=Zeilennr.] }
+    { 4   ;   ;Date                ;Date          ;CaptionML=[ENU=Date;
+                                                              ESP=Fecha;
+                                                              DEA=Datum] }
+    { 5   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
+                                                              ESP=C¢digo;
+                                                              DEA=Code] }
+    { 6   ;   ;Comment             ;Text80        ;CaptionML=[ENU=Comment;
+                                                              ESP=Comentario;
+                                                              DEA=Bemerkung] }
+  }
+  KEYS
+  {
+    {    ;No.,Time Sheet Line No.,Line No.        ;Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+
+    BEGIN
+    END.
+  }
+}
+

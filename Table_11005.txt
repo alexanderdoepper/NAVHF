@@ -1,0 +1,278 @@
+OBJECT Table 11005 Data Exp. Rec. Field
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    DataCaptionFields=Data Export Code,Data Exp. Rec. Type Code;
+    OnInsert=BEGIN
+               TESTFIELD("Data Export Code");
+               TESTFIELD("Data Exp. Rec. Type Code");
+               CheckIfInsertAllowed(Rec);
+             END;
+
+    CaptionML=[ENU=Data Exp. Rec. Field;
+               DEA=Datensatzfeld fÅr Datenexport];
+  }
+  FIELDS
+  {
+    { 1   ;   ;Data Export Code    ;Code10        ;TableRelation="Data Export";
+                                                   CaptionML=[ENU=Data Export Code;
+                                                              DEA=Datenexportcode];
+                                                   NotBlank=Yes }
+    { 2   ;   ;Data Exp. Rec. Type Code;Code10    ;TableRelation="Data Export Record Type";
+                                                   CaptionML=[ENU=Data Export Record Type Code;
+                                                              DEA=Datensatztypcode fÅr Datenexport];
+                                                   NotBlank=Yes }
+    { 3   ;   ;Table No.           ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
+                                                   CaptionML=[ENU=Table No.;
+                                                              DEA=Tabellennr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 4   ;   ;Table Name          ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Table),
+                                                                                                                Object ID=FIELD(Table No.)));
+                                                   CaptionML=[ENU=Table Name;
+                                                              DEA=Tabellenname];
+                                                   Editable=No }
+    { 5   ;   ;Field No.           ;Integer       ;TableRelation=Field.No. WHERE (TableNo=FIELD(Table No.),
+                                                                                  Type=FILTER(Option|Text|Code|Integer|Decimal|Date|Boolean));
+                                                   OnValidate=VAR
+                                                                GDPdUManagement@1140000 : Codeunit 11000;
+                                                              BEGIN
+                                                                CALCFIELDS("Field Name");
+                                                                "Export Field Name" := GDPdUManagement.FormatForIndexXML("Field Name");
+
+                                                                TESTFIELD("Export Field Name");
+                                                              END;
+
+                                                   CaptionML=[ENU=Field No.;
+                                                              DEA=Feldnr.];
+                                                   NotBlank=Yes;
+                                                   BlankZero=Yes }
+    { 6   ;   ;Field Name          ;Text80        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(Table No.),
+                                                                                                   No.=FIELD(Field No.)));
+                                                   CaptionML=[ENU=Field Name;
+                                                              DEA=Feldname];
+                                                   Editable=No }
+    { 7   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
+                                                              DEA=Zeilennr.] }
+    { 8   ;   ;Field Class         ;Option        ;FieldClass=FlowField;
+                                                   CalcFormula=Lookup(Field.Class WHERE (TableNo=FIELD(Table No.),
+                                                                                         No.=FIELD(Field No.)));
+                                                   CaptionML=[ENU=Field Class;
+                                                              DEA=Feldeigenschaft];
+                                                   OptionCaptionML=[ENU=Normal,FlowField,FlowFilter;
+                                                                    DEA=Normal,FlowField,FlowFilter];
+                                                   OptionString=Normal,FlowField,FlowFilter;
+                                                   Editable=No }
+    { 9   ;   ;Datefilter Handling ;Option        ;OnValidate=BEGIN
+                                                                CALCFIELDS("Field Class");
+                                                                IF "Field Class" <> "Field Class"::FlowField THEN
+                                                                  ERROR(Text1140000,FIELDCAPTION("Datefilter Handling"));
+                                                              END;
+
+                                                   CaptionML=[ENU=Datefilter Handling;
+                                                              DEA=Behandlung von Datumsfiltern];
+                                                   OptionCaptionML=[ENU=" ,Startdate..Enddate,..Enddate,..Startdate";
+                                                                    DEA=" ,Startdatum..Enddatum,..Enddatum,..Startdatum"];
+                                                   OptionString=[ ,Startdate..Enddate,..Enddate,..Startdate] }
+    { 50  ;   ;Export Field Name   ;Text20        ;CaptionML=[ENU=Export Field Name;
+                                                              DEA=Feldname exportieren] }
+  }
+  KEYS
+  {
+    {    ;Data Export Code,Data Exp. Rec. Type Code,Table No.,Line No.;
+                                                   Clustered=Yes }
+  }
+  FIELDGROUPS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text1140000@1140000 : TextConst 'ENU=The %1 can only be modified for fields of Field Class "FlowField".;DEA=%1 kann nur fÅr Felder mit der Eigenschaft "FlowField" geÑndert werden.';
+      Text1140001@1140001 : TextConst 'ENU=The %1 field has already been added. Only fields of type "FlowField" can be added more than once.;DEA=Das Feld %1 wurde bereits hinzugefÅgt. Nur Felder vom Typ "FlowField" kînnen mehrmals hinzugefÅgt werden.';
+
+    PROCEDURE MoveRecordUp@1140000(SelectedGdpduRecordDefField@1140000 : Record 11005) NewLineNo : Integer;
+    BEGIN
+      NewLineNo := FindPreviousRecordLineNo(SelectedGdpduRecordDefField);
+      MoveRecord(SelectedGdpduRecordDefField,NewLineNo);
+    END;
+
+    PROCEDURE MoveRecordDown@1140081(SelectedGdpduRecordDefField@1140000 : Record 11005) NewLineNo : Integer;
+    BEGIN
+      NewLineNo := FindNextRecordLineNo(SelectedGdpduRecordDefField);
+      MoveRecord(SelectedGdpduRecordDefField,NewLineNo);
+    END;
+
+    LOCAL PROCEDURE MoveRecord@1140044(SelectedGdpduRecordDefField@1140000 : Record 11005;NewLineNo@1140001 : Integer);
+    BEGIN
+      IF NewLineNo = -1 THEN BEGIN
+        NewLineNo := SelectedGdpduRecordDefField."Line No.";
+      END ELSE BEGIN
+        GET(
+          SelectedGdpduRecordDefField."Data Export Code",SelectedGdpduRecordDefField."Data Exp. Rec. Type Code",
+          SelectedGdpduRecordDefField."Table No.",NewLineNo);
+        Swap(Rec,SelectedGdpduRecordDefField);
+      END;
+    END;
+
+    LOCAL PROCEDURE Swap@1140007(GdpduRecordDefField1@1140000 : Record 11005;GdpduRecordDefField2@1140001 : Record 11005);
+    VAR
+      TempLineNo1@1140002 : Integer;
+      TempLineNo2@1140003 : Integer;
+    BEGIN
+      TempLineNo1 := GdpduRecordDefField1."Line No.";
+      TempLineNo2 := GdpduRecordDefField2."Line No.";
+      WITH GdpduRecordDefField1 DO
+        RENAME("Data Export Code","Data Exp. Rec. Type Code","Table No.",FindUnusedLineNo(GdpduRecordDefField1));
+
+      WITH GdpduRecordDefField2 DO
+        RENAME("Data Export Code","Data Exp. Rec. Type Code","Table No.",TempLineNo1);
+
+      WITH GdpduRecordDefField1 DO
+        RENAME("Data Export Code","Data Exp. Rec. Type Code","Table No.",TempLineNo2);
+    END;
+
+    LOCAL PROCEDURE FindPreviousRecordLineNo@1140020(SearchGdpduRecordDefField@1140000 : Record 11005) : Integer;
+    BEGIN
+      EXIT(FindAdjacentRecordLineNo(SearchGdpduRecordDefField,-1));
+    END;
+
+    LOCAL PROCEDURE FindNextRecordLineNo@1140082(SearchGdpduRecordDefField@1140000 : Record 11005) : Integer;
+    BEGIN
+      EXIT(FindAdjacentRecordLineNo(SearchGdpduRecordDefField,1));
+    END;
+
+    LOCAL PROCEDURE FindAdjacentRecordLineNo@1140052(SearchGdpduRecordDefField@1140002 : Record 11005;Step@1140000 : Integer) NextRecLineNo : Integer;
+    VAR
+      CurrentPosition@1140001 : Text[1024];
+    BEGIN
+      NextRecLineNo := -1;
+      CurrentPosition := SearchGdpduRecordDefField.GETPOSITION;
+      SetFiltersForKeyWithoutLineNo(
+        SearchGdpduRecordDefField,SearchGdpduRecordDefField."Data Export Code",SearchGdpduRecordDefField."Data Exp. Rec. Type Code",
+        SearchGdpduRecordDefField."Table No.");
+      IF SearchGdpduRecordDefField.NEXT(Step) <> 0 THEN
+        NextRecLineNo := SearchGdpduRecordDefField."Line No.";
+
+      SearchGdpduRecordDefField.SETPOSITION(CurrentPosition);
+    END;
+
+    LOCAL PROCEDURE FindUnusedLineNo@1140051(SearchGdpduRecordDefField@1140001 : Record 11005) : Integer;
+    VAR
+      DataExpRecField@1140002 : Record 11005;
+      UnusedLineNo@1140000 : Integer;
+    BEGIN
+      UnusedLineNo := -9999;
+      WHILE DataExpRecField.GET(
+              SearchGdpduRecordDefField."Data Export Code",
+              SearchGdpduRecordDefField."Data Exp. Rec. Type Code",
+              SearchGdpduRecordDefField."Table No.",
+              UnusedLineNo)
+      DO
+        UnusedLineNo += 1;
+      EXIT(UnusedLineNo);
+    END;
+
+    LOCAL PROCEDURE InsertLine@1140002(DefGroupCode@1140004 : Code[10];RecordCode@1140003 : Code[10];TableNo@1140002 : Integer;FieldNo@1140000 : Integer;SelectedLineNo@1140001 : Integer) NewLineNo : Integer;
+    VAR
+      NewRec@1140005 : Record 11005;
+    BEGIN
+      NewLineNo := InsertLineAtEnd(DefGroupCode,RecordCode,TableNo,FieldNo);
+      IF SelectedLineNo = 0 THEN
+        EXIT;
+
+      NewRec.GET(DefGroupCode,RecordCode,TableNo,NewLineNo);
+      WHILE FindPreviousRecordLineNo(NewRec) <> SelectedLineNo DO BEGIN
+        NewLineNo := MoveRecordUp(NewRec);
+        NewRec.GET(DefGroupCode,RecordCode,TableNo,NewLineNo);
+      END;
+    END;
+
+    LOCAL PROCEDURE InsertLineAtEnd@1140003(DefGroupCode@1140000 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140002 : Integer;FieldNo@1140003 : Integer) NewLineNo : Integer;
+    VAR
+      NewGdpduRecordDefField@1140004 : Record 11005;
+    BEGIN
+      NewLineNo := GetLineNoForLastRecord(DefGroupCode,RecordCode,TableNo);
+
+      NewGdpduRecordDefField.INIT;
+      NewGdpduRecordDefField."Data Export Code" := DefGroupCode;
+      NewGdpduRecordDefField."Data Exp. Rec. Type Code" := RecordCode;
+      NewGdpduRecordDefField."Table No." := TableNo;
+      NewGdpduRecordDefField.VALIDATE("Field No.",FieldNo);
+      NewGdpduRecordDefField."Line No." := NewLineNo;
+      NewGdpduRecordDefField.INSERT(TRUE);
+    END;
+
+    PROCEDURE InsertSelectedFields@1140001(VAR SelectedFields@1140000 : Record 2000000041;DataExportCode@1140001 : Code[10];DataExpRecTypeCode@1140002 : Code[10];SelectedLineNo@1140003 : Integer);
+    VAR
+      TableNo@1140004 : Integer;
+      NewLineNo@1140005 : Integer;
+    BEGIN
+      LOCKTABLE;
+      NewLineNo := SelectedLineNo;
+      IF SelectedFields.FINDSET THEN BEGIN
+        TableNo := SelectedFields.TableNo;
+        REPEAT
+          NewLineNo := InsertLine(DataExportCode,DataExpRecTypeCode,TableNo,SelectedFields."No.",NewLineNo);
+        UNTIL SelectedFields.NEXT = 0;
+      END;
+
+      // Keep the original selection
+      IF SelectedLineNo = 0 THEN
+        SelectedLineNo := GetFirstLineNo;
+      GET(DataExportCode,DataExpRecTypeCode,TableNo,SelectedLineNo);
+    END;
+
+    LOCAL PROCEDURE GetFirstLineNo@1140013() : Integer;
+    BEGIN
+      EXIT(1000);
+    END;
+
+    LOCAL PROCEDURE GetLineNoStep@1140016() : Integer;
+    BEGIN
+      EXIT(1000);
+    END;
+
+    LOCAL PROCEDURE CheckIfInsertAllowed@1140006(DataExpRecField@1140000 : Record 11005);
+    BEGIN
+      SetFiltersForKeyWithoutLineNo(
+        DataExpRecField,DataExpRecField."Data Export Code",DataExpRecField."Data Exp. Rec. Type Code",DataExpRecField."Table No.");
+      DataExpRecField.SETRANGE("Field No.",DataExpRecField."Field No.");
+      DataExpRecField.SETFILTER("Field Class",'%1|%2',"Field Class"::Normal,"Field Class"::FlowFilter);
+      IF NOT DataExpRecField.ISEMPTY THEN BEGIN
+        DataExpRecField.CALCFIELDS("Field Name");
+        ERROR(Text1140001,FORMAT(DataExpRecField."Field Name"));
+      END;
+    END;
+
+    LOCAL PROCEDURE GetLineNoForLastRecord@1140005(DefGroupCode@1140002 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140000 : Integer) NewLine : Integer;
+    VAR
+      DataExpRecField@1140003 : Record 11005;
+    BEGIN
+      SetFiltersForKeyWithoutLineNo(DataExpRecField,DefGroupCode,RecordCode,TableNo);
+      IF DataExpRecField.FINDLAST THEN
+        NewLine := DataExpRecField."Line No." + GetLineNoStep
+      ELSE
+        NewLine := GetFirstLineNo;
+    END;
+
+    LOCAL PROCEDURE SetFiltersForKeyWithoutLineNo@1140008(VAR DataExpRecField@1140003 : Record 11005;DefGroupCode@1140002 : Code[10];RecordCode@1140001 : Code[10];TableNo@1140000 : Integer);
+    BEGIN
+      DataExpRecField.SETRANGE("Data Export Code",DefGroupCode);
+      DataExpRecField.SETRANGE("Data Exp. Rec. Type Code",RecordCode);
+      DataExpRecField.SETRANGE("Table No.",TableNo);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

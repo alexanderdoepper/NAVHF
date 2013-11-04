@@ -1,0 +1,237 @@
+OBJECT Page 317 VAT Statement
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00,NAVDACH7.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=VAT Statement;
+               ESP=Declaraci¢n IVA;
+               DEA=MwSt.-Abrechnung];
+    SaveValues=Yes;
+    MultipleNewLines=Yes;
+    SourceTable=Table256;
+    PageType=Worksheet;
+    AutoSplitKey=Yes;
+    OnOpenPage=VAR
+                 StmtSelected@1000 : Boolean;
+               BEGIN
+                 OpenedFromBatch := ("Statement Name" <> '') AND ("Statement Template Name" = '');
+                 IF OpenedFromBatch THEN BEGIN
+                   CurrentStmtName := "Statement Name";
+                   VATStmtManagement.OpenStmt(CurrentStmtName,Rec);
+                   EXIT;
+                 END;
+                 VATStmtManagement.TemplateSelection(PAGE::"VAT Statement",Rec,StmtSelected);
+                 IF NOT StmtSelected THEN
+                   ERROR('');
+                 VATStmtManagement.OpenStmt(CurrentStmtName,Rec);
+               END;
+
+    ActionList=ACTIONS
+    {
+      { 1900000003;0 ;ActionContainer;
+                      ActionContainerType=RelatedInformation }
+      { 28      ;1   ;ActionGroup;
+                      CaptionML=[ENU=VAT &Statement;
+                                 ESP=&Declaraci¢n IVA;
+                                 DEA=&MwSt.-Abrechnung];
+                      Image=Suggest }
+      { 37      ;2   ;Action    ;
+                      CaptionML=[ENU=P&review;
+                                 ESP=Vista p&relim.;
+                                 DEA=&Vorschau];
+                      RunObject=Page 474;
+                      RunPageLink=Statement Template Name=FIELD(Statement Template Name),
+                                  Name=FIELD(Statement Name);
+                      Promoted=Yes;
+                      Image=View;
+                      PromotedCategory=Process }
+      { 1900000006;0 ;ActionContainer;
+                      ActionContainerType=Reports }
+      { 1902106506;1 ;Action    ;
+                      CaptionML=[ENU=VAT Statement;
+                                 ESP=Declaraci¢n IVA;
+                                 DEA=MwSt.-Abrechnung];
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report;
+                      OnAction=BEGIN
+                                 ReportPrint.PrintVATStmtLine(Rec);
+                               END;
+                                }
+      { 1900000004;0 ;ActionContainer;
+                      ActionContainerType=ActionItems }
+      { 31      ;1   ;ActionGroup;
+                      CaptionML=[ENU=F&unctions;
+                                 ESP=Acci&ones;
+                                 DEA=F&unktion];
+                      Image=Action }
+      { 32      ;2   ;Action    ;
+                      Name=Print;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Print;
+                                 ESP=Imprimir;
+                                 DEA=Drucken];
+                      Promoted=Yes;
+                      Image=Print;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 VATStmtName.GET("Statement Template Name","Statement Name");
+                                 ReportPrint.PrintVATStmtName(VATStmtName);
+                               END;
+                                }
+      { 33      ;2   ;Action    ;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Calc. and Post VAT Settlement;
+                                 ESP=Calc. y registrar liq. IVA;
+                                 DEA=MwSt. abrechnen und buchen];
+                      RunObject=Report 20;
+                      Promoted=Yes;
+                      Image=SettleOpenTransactions;
+                      PromotedCategory=Process }
+      { 1140000 ;2   ;Action    ;
+                      Name=SalesVATAdvNotAccProof;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=Sales VAT Adv. Not. Acc. Proof;
+                                 DEA=UVA Kontennachweis];
+                      Promoted=Yes;
+                      Image=Report;
+                      PromotedCategory=Report;
+                      OnAction=BEGIN
+                                 VATStmtName.SETFILTER(Name,CurrentStmtName);
+                                 VATStmtName.SETFILTER("Statement Template Name","Statement Template Name");
+                                 VATStmtName.FINDFIRST;
+                                 VATStmtName.SETRECFILTER;
+                                 DocPrint.PrintSalesVATAdvNotAccProof(VATStmtName);
+                               END;
+                                }
+      { 1140001 ;2   ;Separator  }
+      { 1140002 ;2   ;Action    ;
+                      Name=VATStatementSchedule;
+                      Ellipsis=Yes;
+                      CaptionML=[ENU=VAT Statement Schedule;
+                                 DEA=MwSt.-Abrechnung Schema];
+                      Image=Planning;
+                      PromotedCategory=Report;
+                      OnAction=BEGIN
+                                 VATStmtName.SETFILTER(Name,CurrentStmtName);
+                                 VATStmtName.FINDFIRST;
+                                 VATStmtName.SETRECFILTER;
+                                 DocPrint.PrintVATStatementSchedule(VATStmtName);
+                               END;
+                                }
+    }
+  }
+  CONTROLS
+  {
+    { 1900000001;0;Container;
+                ContainerType=ContentArea }
+
+    { 35  ;1   ;Field     ;
+                Lookup=Yes;
+                CaptionML=[ENU=Name;
+                           ESP=Nombre;
+                           DEA=Name];
+                SourceExpr=CurrentStmtName;
+                OnValidate=BEGIN
+                             VATStmtManagement.CheckName(CurrentStmtName,Rec);
+                             CurrentStmtNameOnAfterValidate;
+                           END;
+
+                OnLookup=BEGIN
+                           EXIT(VATStmtManagement.LookupName(GETRANGEMAX("Statement Template Name"),CurrentStmtName,Text));
+                         END;
+                          }
+
+    { 1   ;1   ;Group     ;
+                GroupType=Repeater }
+
+    { 2   ;2   ;Field     ;
+                SourceExpr="Row No." }
+
+    { 4   ;2   ;Field     ;
+                SourceExpr=Description }
+
+    { 6   ;2   ;Field     ;
+                SourceExpr=Type }
+
+    { 8   ;2   ;Field     ;
+                SourceExpr="Account Totaling";
+                OnLookup=VAR
+                           GLAccountList@1000 : Page 18;
+                         BEGIN
+                           GLAccountList.LOOKUPMODE(TRUE);
+                           IF NOT (GLAccountList.RUNMODAL = ACTION::LookupOK) THEN
+                             EXIT(FALSE);
+                           Text := GLAccountList.GetSelectionFilter;
+                           EXIT(TRUE);
+                         END;
+                          }
+
+    { 10  ;2   ;Field     ;
+                SourceExpr="Gen. Posting Type" }
+
+    { 12  ;2   ;Field     ;
+                SourceExpr="VAT Bus. Posting Group" }
+
+    { 14  ;2   ;Field     ;
+                SourceExpr="VAT Prod. Posting Group" }
+
+    { 16  ;2   ;Field     ;
+                SourceExpr="Amount Type" }
+
+    { 18  ;2   ;Field     ;
+                SourceExpr="Row Totaling" }
+
+    { 20  ;2   ;Field     ;
+                SourceExpr="Calculate with" }
+
+    { 22  ;2   ;Field     ;
+                SourceExpr=Print }
+
+    { 24  ;2   ;Field     ;
+                SourceExpr="Print with" }
+
+    { 26  ;2   ;Field     ;
+                SourceExpr="New Page" }
+
+    { 1900000007;0;Container;
+                ContainerType=FactBoxArea }
+
+    { 1900383207;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=RecordLinks }
+
+    { 1905767507;1;Part   ;
+                Visible=FALSE;
+                PartType=System;
+                SystemPartID=Notes }
+
+  }
+  CODE
+  {
+    VAR
+      VATStmtName@1140000 : Record 257;
+      ReportPrint@1000 : Codeunit 228;
+      VATStmtManagement@1001 : Codeunit 340;
+      DocPrint@1140001 : Codeunit 229;
+      CurrentStmtName@1002 : Code[10];
+      OpenedFromBatch@1003 : Boolean;
+
+    LOCAL PROCEDURE CurrentStmtNameOnAfterValidate@19076269();
+    BEGIN
+      CurrPage.SAVERECORD;
+      VATStmtManagement.SetName(CurrentStmtName,Rec);
+      CurrPage.UPDATE(FALSE);
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

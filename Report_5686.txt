@@ -1,0 +1,88 @@
+OBJECT Report 5686 Cancel FA Entries
+{
+  OBJECT-PROPERTIES
+  {
+    Date=28.03.13;
+    Time=12:00:00;
+    Version List=NAVW17.00;
+  }
+  PROPERTIES
+  {
+    CaptionML=[ENU=Cancel FA Entries;
+               ESP=Cancelar movs. A/F;
+               DEA=Anlagenposten storn.];
+    ProcessingOnly=Yes;
+    OnPreReport=BEGIN
+                  IF UseNewPosting THEN
+                    IF NewPostingDate = 0D THEN
+                      ERROR(Text000);
+                  IF NOT UseNewPosting THEN
+                    IF NewPostingDate > 0D THEN
+                      ERROR(Text001);
+                  IF NewPostingDate > 0D THEN
+                    IF NORMALDATE(NewPostingDate) <> NewPostingDate THEN
+                      ERROR(Text002);
+
+                  CancelFALedgEntries.TransferLine(FALedgEntry,FALSE,NewPostingDate);
+                END;
+
+  }
+  DATASET
+  {
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+    }
+    CONTROLS
+    {
+      { 1900000001;0;Container;
+                  ContainerType=ContentArea }
+
+      { 1900000002;1;Group  ;
+                  CaptionML=[ENU=Options;
+                             ESP=Opciones;
+                             DEA=Optionen] }
+
+      { 3   ;2   ;Field     ;
+                  CaptionML=[ENU=Use New Posting Date;
+                             ESP=Usar nueva fecha registro;
+                             DEA=Neues Buchungsdatum verwenden];
+                  SourceExpr=UseNewPosting }
+
+      { 1   ;2   ;Field     ;
+                  CaptionML=[ENU=New Posting Date;
+                             ESP=Nueva fecha registro;
+                             DEA=Neues Buchungsdatum];
+                  SourceExpr=NewPostingDate }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      Text000@1000 : TextConst 'ENU=You must specify New Posting Date.;ESP=Debe especificar nueva fecha registro.;DEA=Sie mÅssen ein neues Buchungsdatum angeben.';
+      Text001@1001 : TextConst 'ENU=You must not specify New Posting Date.;ESP=No debe especificar nueva fecha registro.;DEA=Sie dÅrfen kein neues Buchungsdatum angeben.';
+      Text002@1002 : TextConst 'ENU=You must not specify a closing date.;ESP=No debe especificar una fecha de cierre.;DEA=Sie dÅrfen kein Ultimodatum angeben.';
+      FALedgEntry@1003 : Record 5601;
+      CancelFALedgEntries@1004 : Codeunit 5624;
+      UseNewPosting@1005 : Boolean;
+      NewPostingDate@1006 : Date;
+
+    PROCEDURE GetFALedgEntry@1(VAR FALedgEntry2@1000 : Record 5601);
+    BEGIN
+      FALedgEntry.COPY(FALedgEntry2);
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

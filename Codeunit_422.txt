@@ -2,9 +2,9 @@ OBJECT Codeunit 422 XBRL Import Taxonomy Spec. 2
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -132,19 +132,19 @@ OBJECT Codeunit 422 XBRL Import Taxonomy Spec. 2
       TaxonomyDocument@1020013 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";
       NamespaceMgr@1004 : DotNet "'System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlNamespaceManager";
       ProgressBox@1020010 : Dialog;
-      Text000@1020012 : TextConst 'ENU=#1###################################### \Progress            @2@@@@@@@@@@@@@@@@@@;ESP=#1###################################### \Progreso          @2@@@@@@@@@@@@@@@@@@;DEA=#1###################################### \Fortschritt            @2@@@@@@@@@@@@@@@@@@';
-      Text001@1020011 : TextConst 'ENU=Importing taxonomy %1;ESP=Importando taxonom°a %1;DEA=Taxonomie %1 wird importiert';
-      Text002@1020000 : TextConst 'ENU=You must first import a taxonomy into %1 %2.;ESP=Debe importar antes una taxonom°a en %1 %2.;DEA=Sie mÅssen zuerst eine Taxonomie in das %1 %2 importieren.';
+      Text000@1020012 : TextConst 'DEU=#1###################################### \Fortschritt            @2@@@@@@@@@@@@@@@@@@;ENU=#1###################################### \Progress            @2@@@@@@@@@@@@@@@@@@';
+      Text001@1020011 : TextConst 'DEU=Taxonomie %1 wird importiert;ENU=Importing taxonomy %1';
+      Text002@1020000 : TextConst 'DEU=Sie mÅssen zuerst eine Taxonomie in das %1 %2 importieren.;ENU=You must first import a taxonomy into %1 %2.';
       NextLineNo@1020028 : Integer;
-      Text005@1020023 : TextConst 'ENU=%1 %2 has no Elements.;ESP=%1 %2 no tiene Elementos.;DEA=FÅr das %1 %2 sind keine Elemente vorhanden.';
-      Text007@1020030 : TextConst 'ENU=Unexpected type: "%1".;ESP=Tipo inesperado: type: "%1".;DEA=Unerwartetes Format: "%1".';
-      Text008@1000 : TextConst 'ENU=Updating new taxonomy from existing taxonomy;ESP=Actualizando la nueva taxonom°a a partir de la existente;DEA=Neue Taxonomie wird von vorhandener aktualisiert';
-      Text009@1001 : TextConst 'ENU=Updating database;ESP=Actualizando base de datos;DEA=Datenbank wird aktualisiert';
-      Text012@1003 : TextConst 'ENU=You must first import a linkbase into %1 %2.;ESP=Debe importar primero una base de enlaces en %1 %2.;DEA=Sie mÅssen zuerst eine Linkbase in das %1 %2 importieren.';
-      Text013@1006 : TextConst 'ENU=%1 %2\%3 #4######## #5##################\@6@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@;ESP=%1 %2\%3 #4######## #5##################\@6@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@;DEA=%1 %2\%3 #4######## #5##################\@6@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@';
-      Text015@1008 : TextConst 'ENU=There is no Schemalocation defined in the document.;ESP=No se ha definido ning£n Schemalocation en el documento.;DEA=In dem Dokument wurde keine Schemalocation angegeben.';
-      Text017@1015 : TextConst 'ENU=%1 %2 has a different version than %3 %4. Do you want to continue anyway?;ESP=%1 %2 tiene una versi¢n distinta que %3 %4. ®Confirma que desea continuar de todas formas?;DEA=Das %1 %2 verwendet nicht dieselbe Version wie die %3 %4. Mîchten Sie trotzdem fortfahren?';
-      Text018@1016 : TextConst 'ENU=This document has an unknown version (%1).;ESP=Este documento tiene una versi¢n desconocida (%1).;DEA=Dieses Dokument verwendet eine unbekannte Version (%1).';
+      Text005@1020023 : TextConst 'DEU=FÅr das %1 %2 sind keine Elemente vorhanden.;ENU=%1 %2 has no Elements.';
+      Text007@1020030 : TextConst 'DEU=Unerwartetes Format: "%1".;ENU=Unexpected type: "%1".';
+      Text008@1000 : TextConst 'DEU=Neue Taxonomie wird von vorhandener aktualisiert;ENU=Updating new taxonomy from existing taxonomy';
+      Text009@1001 : TextConst 'DEU=Datenbank wird aktualisiert;ENU=Updating database';
+      Text012@1003 : TextConst 'DEU=Sie mÅssen zuerst eine Linkbase in das %1 %2 importieren.;ENU=You must first import a linkbase into %1 %2.';
+      Text013@1006 : TextConst 'DEU=%1 %2\%3 #4######## #5##################\@6@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@;ENU=%1 %2\%3 #4######## #5##################\@6@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@';
+      Text015@1008 : TextConst 'DEU=In dem Dokument wurde keine Schemalocation angegeben.;ENU=There is no Schemalocation defined in the document.';
+      Text017@1015 : TextConst 'DEU=Das %1 %2 verwendet nicht dieselbe Version wie die %3 %4. Mîchten Sie trotzdem fortfahren?;ENU=%1 %2 has a different version than %3 %4. Do you want to continue anyway?';
+      Text018@1016 : TextConst 'DEU=Dieses Dokument verwendet eine unbekannte Version (%1).;ENU=This document has an unknown version (%1).';
       targetNamespacePrefix@1009 : Text;
       xsdPrefix@1018 : Text;
       xbrliPrefix@1019 : Text;

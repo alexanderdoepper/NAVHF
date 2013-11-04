@@ -2,9 +2,9 @@ OBJECT Table 23 Vendor
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -125,9 +125,8 @@ OBJECT Table 23 Vendor
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Vendor;
-               ESP=Proveedor;
-               DEA=Kreditor];
+    CaptionML=[DEU=Kreditor;
+               ENU=Vendor];
     LookupPageID=Page27;
     DrillDownPageID=Page27;
   }
@@ -144,29 +143,23 @@ OBJECT Table 23 Vendor
                                                                   "Invoice Disc. Code" := "No.";
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 2   ;   ;Name                ;Text50        ;OnValidate=BEGIN
                                                                 IF ("Search Name" = UPPERCASE(xRec.Name)) OR ("Search Name" = '') THEN
                                                                   "Search Name" := Name;
                                                               END;
 
-                                                   CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -175,9 +168,8 @@ OBJECT Table 23 Vendor
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 8   ;   ;Contact             ;Text50        ;OnValidate=BEGIN
                                                                 IF RMSetup.GET THEN
                                                                   IF RMSetup."Bus. Rel. Code for Vendors" <> '' THEN
@@ -189,144 +181,114 @@ OBJECT Table 23 Vendor
                                                                     END
                                                               END;
 
-                                                   CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
+                                                   CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
     { 9   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
-    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[ENU=Telex No.;
-                                                              ESP=Nß tÇlex;
-                                                              DEA=Telexnr.] }
-    { 14  ;   ;Our Account No.     ;Text20        ;CaptionML=[ENU=Our Account No.;
-                                                              ESP=Ntro. nß cuenta;
-                                                              DEA=Unsere Kontonr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[DEU=Telexnr.;
+                                                              ENU=Telex No.] }
+    { 14  ;   ;Our Account No.     ;Text20        ;CaptionML=[DEU=Unsere Kontonr.;
+                                                              ENU=Our Account No.] }
     { 15  ;   ;Territory Code      ;Code10        ;TableRelation=Territory;
-                                                   CaptionML=[ENU=Territory Code;
-                                                              ESP=C¢d. territorio;
-                                                              DEA=Gebietscode] }
+                                                   CaptionML=[DEU=Gebietscode;
+                                                              ENU=Territory Code] }
     { 16  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 17  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Global Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
-    { 19  ;   ;Budgeted Amount     ;Decimal       ;CaptionML=[ENU=Budgeted Amount;
-                                                              ESP=Importe pptdo.;
-                                                              DEA=Budgetierter Betrag];
+    { 19  ;   ;Budgeted Amount     ;Decimal       ;CaptionML=[DEU=Budgetierter Betrag;
+                                                              ENU=Budgeted Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 21  ;   ;Vendor Posting Group;Code10        ;TableRelation="Vendor Posting Group";
-                                                   CaptionML=[ENU=Vendor Posting Group;
-                                                              ESP=Grupo contable proveedor;
-                                                              DEA=Kreditorenbuchungsgruppe] }
+                                                   CaptionML=[DEU=Kreditorenbuchungsgruppe;
+                                                              ENU=Vendor Posting Group] }
     { 22  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
     { 24  ;   ;Language Code       ;Code10        ;TableRelation=Language;
-                                                   CaptionML=[ENU=Language Code;
-                                                              ESP=C¢d. idioma;
-                                                              DEA=Sprachcode] }
-    { 26  ;   ;Statistics Group    ;Integer       ;CaptionML=[ENU=Statistics Group;
-                                                              ESP=Nß grupo estad°stico;
-                                                              DEA=Statistikgruppe] }
+                                                   CaptionML=[DEU=Sprachcode;
+                                                              ENU=Language Code] }
+    { 26  ;   ;Statistics Group    ;Integer       ;CaptionML=[DEU=Statistikgruppe;
+                                                              ENU=Statistics Group] }
     { 27  ;   ;Payment Terms Code  ;Code10        ;TableRelation="Payment Terms";
-                                                   CaptionML=[ENU=Payment Terms Code;
-                                                              ESP=C¢d. tÇrminos pago;
-                                                              DEA=Zlg.-Bedingungscode] }
+                                                   CaptionML=[DEU=Zlg.-Bedingungscode;
+                                                              ENU=Payment Terms Code] }
     { 28  ;   ;Fin. Charge Terms Code;Code10      ;TableRelation="Finance Charge Terms";
-                                                   CaptionML=[ENU=Fin. Charge Terms Code;
-                                                              ESP=C¢d. interÇs;
-                                                              DEA=Zinskonditionencode] }
+                                                   CaptionML=[DEU=Zinskonditionencode;
+                                                              ENU=Fin. Charge Terms Code] }
     { 29  ;   ;Purchaser Code      ;Code10        ;TableRelation=Salesperson/Purchaser;
-                                                   CaptionML=[ENU=Purchaser Code;
-                                                              ESP=C¢d. comprador;
-                                                              DEA=EinkÑufercode] }
+                                                   CaptionML=[DEU=EinkÑufercode;
+                                                              ENU=Purchaser Code] }
     { 30  ;   ;Shipment Method Code;Code10        ;TableRelation="Shipment Method";
-                                                   CaptionML=[ENU=Shipment Method Code;
-                                                              ESP=C¢d. condiciones env°o;
-                                                              DEA=Lieferbedingungscode] }
+                                                   CaptionML=[DEU=Lieferbedingungscode;
+                                                              ENU=Shipment Method Code] }
     { 31  ;   ;Shipping Agent Code ;Code10        ;TableRelation="Shipping Agent";
-                                                   CaptionML=[ENU=Shipping Agent Code;
-                                                              ESP=C¢d. transportista;
-                                                              DEA=Zustellercode] }
+                                                   CaptionML=[DEU=Zustellercode;
+                                                              ENU=Shipping Agent Code] }
     { 33  ;   ;Invoice Disc. Code  ;Code20        ;TableRelation=Vendor;
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Invoice Disc. Code;
-                                                              ESP=C¢d. dto. factura;
-                                                              DEA=Rechnungsrabattcode] }
+                                                   CaptionML=[DEU=Rechnungsrabattcode;
+                                                              ENU=Invoice Disc. Code] }
     { 35  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 38  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Comment Line" WHERE (Table Name=CONST(Vendor),
                                                                                            No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 39  ;   ;Blocked             ;Option        ;CaptionML=[ENU=Blocked;
-                                                              ESP=Bloqueado;
-                                                              DEA=Gesperrt];
-                                                   OptionCaptionML=[ENU=" ,Payment,All";
-                                                                    ESP=" ,Pago,Todos";
-                                                                    DEA=" ,Zahlung,Alle"];
+    { 39  ;   ;Blocked             ;Option        ;CaptionML=[DEU=Gesperrt;
+                                                              ENU=Blocked];
+                                                   OptionCaptionML=[DEU=" ,Zahlung,Alle";
+                                                                    ENU=" ,Payment,All"];
                                                    OptionString=[ ,Payment,All] }
     { 45  ;   ;Pay-to Vendor No.   ;Code20        ;TableRelation=Vendor;
-                                                   CaptionML=[ENU=Pay-to Vendor No.;
-                                                              ESP=Pago-a Nß proveedor;
-                                                              DEA=Zahlung an Kred.-Nr.] }
-    { 46  ;   ;Priority            ;Integer       ;CaptionML=[ENU=Priority;
-                                                              ESP=Prioridad;
-                                                              DEA=PrioritÑt] }
+                                                   CaptionML=[DEU=Zahlung an Kred.-Nr.;
+                                                              ENU=Pay-to Vendor No.] }
+    { 46  ;   ;Priority            ;Integer       ;CaptionML=[DEU=PrioritÑt;
+                                                              ENU=Priority] }
     { 47  ;   ;Payment Method Code ;Code10        ;TableRelation="Payment Method";
-                                                   CaptionML=[ENU=Payment Method Code;
-                                                              ESP=C¢d. forma pago;
-                                                              DEA=Zahlungsformcode] }
-    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+                                                   CaptionML=[DEU=Zahlungsformcode;
+                                                              ENU=Payment Method Code] }
+    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 55  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 56  ;   ;Global Dimension 1 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
-                                                   CaptionML=[ENU=Global Dimension 1 Filter;
-                                                              ESP=Filtro dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionsfilter 1];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 1;
+                                                              ENU=Global Dimension 1 Filter];
                                                    CaptionClass='1,3,1' }
     { 57  ;   ;Global Dimension 2 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
-                                                   CaptionML=[ENU=Global Dimension 2 Filter;
-                                                              ESP=Filtro dimensi¢n global  2;
-                                                              DEA=Globaler Dimensionsfilter 2];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 2;
+                                                              ENU=Global Dimension 2 Filter];
                                                    CaptionClass='1,3,2' }
     { 58  ;   ;Balance             ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry".Amount WHERE (Vendor No.=FIELD(No.),
                                                                                                                 Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Balance;
-                                                              ESP=Saldo;
-                                                              DEA=Saldo];
+                                                   CaptionML=[DEU=Saldo;
+                                                              ENU=Balance];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -335,9 +297,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Balance (LCY);
-                                                              ESP=Saldo (DL);
-                                                              DEA=Saldo (MW)];
+                                                   CaptionML=[DEU=Saldo (MW);
+                                                              ENU=Balance (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 60  ;   ;Net Change          ;Decimal       ;FieldClass=FlowField;
@@ -346,9 +307,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Net Change;
-                                                              ESP=Saldo periodo;
-                                                              DEA=Bewegung];
+                                                   CaptionML=[DEU=Bewegung;
+                                                              ENU=Net Change];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -358,9 +318,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Net Change (LCY);
-                                                              ESP=Saldo periodo (DL);
-                                                              DEA=Bewegung (MW)];
+                                                   CaptionML=[DEU=Bewegung (MW);
+                                                              ENU=Net Change (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 62  ;   ;Purchases (LCY)     ;Decimal       ;FieldClass=FlowField;
@@ -369,9 +328,8 @@ OBJECT Table 23 Vendor
                                                                                                                   Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                   Posting Date=FIELD(Date Filter),
                                                                                                                   Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Purchases (LCY);
-                                                              ESP=Compras (DL);
-                                                              DEA=Einkauf (MW)];
+                                                   CaptionML=[DEU=Einkauf (MW);
+                                                              ENU=Purchases (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 64  ;   ;Inv. Discounts (LCY);Decimal       ;FieldClass=FlowField;
@@ -380,9 +338,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Inv. Discounts (LCY);
-                                                              ESP=Dtos. factura (DL);
-                                                              DEA=Rechnungsrabatte (MW)];
+                                                   CaptionML=[DEU=Rechnungsrabatte (MW);
+                                                              ENU=Inv. Discounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 65  ;   ;Pmt. Discounts (LCY);Decimal       ;FieldClass=FlowField;
@@ -392,9 +349,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Pmt. Discounts (LCY);
-                                                              ESP=Dto. P.P. (DL);
-                                                              DEA=Skonto (MW)];
+                                                   CaptionML=[DEU=Skonto (MW);
+                                                              ENU=Pmt. Discounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 66  ;   ;Balance Due         ;Decimal       ;FieldClass=FlowField;
@@ -404,9 +360,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Balance Due;
-                                                              ESP=Saldo vencido;
-                                                              DEA=FÑlliger Saldo];
+                                                   CaptionML=[DEU=FÑlliger Saldo;
+                                                              ENU=Balance Due];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -417,9 +372,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 1=FIELD(Global Dimension 1 Filter),
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Balance Due (LCY);
-                                                              ESP=Saldo vencido (DL);
-                                                              DEA=FÑlliger Saldo (MW)];
+                                                   CaptionML=[DEU=FÑlliger Saldo (MW);
+                                                              ENU=Balance Due (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 69  ;   ;Payments            ;Decimal       ;FieldClass=FlowField;
@@ -430,9 +384,8 @@ OBJECT Table 23 Vendor
                                                                                                                Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                Posting Date=FIELD(Date Filter),
                                                                                                                Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Payments;
-                                                              ESP=Pagos;
-                                                              DEA=Zahlungen];
+                                                   CaptionML=[DEU=Zahlungen;
+                                                              ENU=Payments];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -444,9 +397,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Invoice Amounts;
-                                                              ESP=Facturado;
-                                                              DEA=Fakturierter Betrag];
+                                                   CaptionML=[DEU=Fakturierter Betrag;
+                                                              ENU=Invoice Amounts];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -458,9 +410,8 @@ OBJECT Table 23 Vendor
                                                                                                                Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                Posting Date=FIELD(Date Filter),
                                                                                                                Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Cr. Memo Amounts;
-                                                              ESP=Imp. abonos;
-                                                              DEA=Gutgeschriebener Betrag];
+                                                   CaptionML=[DEU=Gutgeschriebener Betrag;
+                                                              ENU=Cr. Memo Amounts];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -472,9 +423,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Finance Charge Memo Amounts;
-                                                              ESP=Importes doc. interÇs;
-                                                              DEA=Zinsrechnungsbetrag];
+                                                   CaptionML=[DEU=Zinsrechnungsbetrag;
+                                                              ENU=Finance Charge Memo Amounts];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -486,9 +436,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Payments (LCY);
-                                                              ESP=Pagos (DL);
-                                                              DEA=Bezahlt (MW)];
+                                                   CaptionML=[DEU=Bezahlt (MW);
+                                                              ENU=Payments (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 75  ;   ;Inv. Amounts (LCY)  ;Decimal       ;FieldClass=FlowField;
@@ -499,9 +448,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Inv. Amounts (LCY);
-                                                              ESP=Facturado (DL);
-                                                              DEA=Fakturierter Betrag (MW)];
+                                                   CaptionML=[DEU=Fakturierter Betrag (MW);
+                                                              ENU=Inv. Amounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 76  ;   ;Cr. Memo Amounts (LCY);Decimal     ;FieldClass=FlowField;
@@ -512,9 +460,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Cr. Memo Amounts (LCY);
-                                                              ESP=Abonos (DL);
-                                                              DEA=Gutgeschriebener Betrag (MW)];
+                                                   CaptionML=[DEU=Gutgeschriebener Betrag (MW);
+                                                              ENU=Cr. Memo Amounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 77  ;   ;Fin. Charge Memo Amounts (LCY);Decimal;
@@ -526,9 +473,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Fin. Charge Memo Amounts (LCY);
-                                                              ESP=Importes doc. interÇs (DL);
-                                                              DEA=Zinsrechnungsbetrag (MW)];
+                                                   CaptionML=[DEU=Zinsrechnungsbetrag (MW);
+                                                              ENU=Fin. Charge Memo Amounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 78  ;   ;Outstanding Orders  ;Decimal       ;FieldClass=FlowField;
@@ -537,9 +483,8 @@ OBJECT Table 23 Vendor
                                                                                                                Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Outstanding Orders;
-                                                              ESP=Importe pedidos pendientes;
-                                                              DEA=Bestellungsbestand];
+                                                   CaptionML=[DEU=Bestellungsbestand;
+                                                              ENU=Outstanding Orders];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -549,18 +494,15 @@ OBJECT Table 23 Vendor
                                                                                                                    Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                    Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                    Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Amt. Rcd. Not Invoiced;
-                                                              ESP=Importe recibido no facturado;
-                                                              DEA=Nicht fakt. Lieferbetrag];
+                                                   CaptionML=[DEU=Nicht fakt. Lieferbetrag;
+                                                              ENU=Amt. Rcd. Not Invoiced];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 80  ;   ;Application Method  ;Option        ;CaptionML=[ENU=Application Method;
-                                                              ESP=MÇtodo liquidaci¢n;
-                                                              DEA=Ausgleichsmethode];
-                                                   OptionCaptionML=[ENU=Manual,Apply to Oldest;
-                                                                    ESP=Manual,Por antigÅedad;
-                                                                    DEA=Offener Posten,Saldomethode];
+    { 80  ;   ;Application Method  ;Option        ;CaptionML=[DEU=Ausgleichsmethode;
+                                                              ENU=Application Method];
+                                                   OptionCaptionML=[DEU=Offener Posten,Saldomethode;
+                                                                    ENU=Manual,Apply to Oldest];
                                                    OptionString=Manual,Apply to Oldest }
     { 82  ;   ;Prices Including VAT;Boolean       ;OnValidate=VAR
                                                                 PurchPrice@1000 : Record 7012;
@@ -606,24 +548,20 @@ OBJECT Table 23 Vendor
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Prices Including VAT;
-                                                              ESP=Precios IVA incluido;
-                                                              DEA=EK-Preise inkl. MwSt.] }
-    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
-                                                              ESP=Nß tÇlex respuesta;
-                                                              DEA=Telex Namengeber] }
+                                                   CaptionML=[DEU=EK-Preise inkl. MwSt.;
+                                                              ENU=Prices Including VAT] }
+    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[DEU=Telex Namengeber;
+                                                              ENU=Telex Answer Back] }
     { 86  ;   ;VAT Registration No.;Text20        ;OnValidate=VAR
                                                                 VATRegNoFormat@1000 : Record 381;
                                                               BEGIN
                                                                 VATRegNoFormat.Test("VAT Registration No.","Country/Region Code","No.",DATABASE::Vendor);
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Registration No.;
-                                                              ESP=CIF/NIF;
-                                                              DEA=USt-IdNr.] }
+                                                   CaptionML=[DEU=USt-IdNr.;
+                                                              ENU=VAT Registration No.] }
     { 88  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF xRec."Gen. Bus. Posting Group" <> "Gen. Bus. Posting Group" THEN
@@ -631,12 +569,10 @@ OBJECT Table 23 Vendor
                                                                     VALIDATE("VAT Bus. Posting Group",GenBusPostingGrp."Def. VAT Bus. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
-                                                              ESP=Grupo contable negocio;
-                                                              DEA=GeschÑftsbuchungsgruppe] }
-    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+                                                   CaptionML=[DEU=GeschÑftsbuchungsgruppe;
+                                                              ENU=Gen. Bus. Posting Group] }
+    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
     { 91  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
@@ -646,12 +582,10 @@ OBJECT Table 23 Vendor
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 92  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 92  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 97  ;   ;Debit Amount        ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Detailed Vendor Ledg. Entry"."Debit Amount" WHERE (Vendor No.=FIELD(No.),
                                                                                                                        Entry Type=FILTER(<>Application),
@@ -659,9 +593,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Debit Amount;
-                                                              ESP=Importe debe;
-                                                              DEA=Sollbetrag];
+                                                   CaptionML=[DEU=Sollbetrag;
+                                                              ENU=Debit Amount];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1;
@@ -673,9 +606,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Credit Amount;
-                                                              ESP=Importe haber;
-                                                              DEA=Habenbetrag];
+                                                   CaptionML=[DEU=Habenbetrag;
+                                                              ENU=Credit Amount];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1;
@@ -687,9 +619,8 @@ OBJECT Table 23 Vendor
                                                                                                                              Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                              Posting Date=FIELD(Date Filter),
                                                                                                                              Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Debit Amount (LCY);
-                                                              ESP=Importe debe (DL);
-                                                              DEA=Sollbetrag (MW)];
+                                                   CaptionML=[DEU=Sollbetrag (MW);
+                                                              ENU=Debit Amount (LCY)];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1 }
@@ -700,20 +631,17 @@ OBJECT Table 23 Vendor
                                                                                                                               Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                               Posting Date=FIELD(Date Filter),
                                                                                                                               Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Credit Amount (LCY);
-                                                              ESP=Importe haber (DL);
-                                                              DEA=Habenbetrag (MW)];
+                                                   CaptionML=[DEU=Habenbetrag (MW);
+                                                              ENU=Credit Amount (LCY)];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 102 ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 103 ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P†gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 104 ;   ;Reminder Amounts    ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry".Amount WHERE (Initial Document Type=CONST(Reminder),
                                                                                                                 Entry Type=CONST(Initial Entry),
@@ -722,9 +650,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Reminder Amounts;
-                                                              ESP=Importe recordatorio;
-                                                              DEA=Mahnbetrag];
+                                                   CaptionML=[DEU=Mahnbetrag;
+                                                              ENU=Reminder Amounts];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -736,41 +663,34 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Reminder Amounts (LCY);
-                                                              ESP=Importe recordatorio (DL);
-                                                              DEA=Mahnbetrag (MW)];
+                                                   CaptionML=[DEU=Mahnbetrag (MW);
+                                                              ENU=Reminder Amounts (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 107 ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 108 ;   ;Tax Area Code       ;Code20        ;TableRelation="Tax Area";
-                                                   CaptionML=[ENU=Tax Area Code;
-                                                              ESP=C¢d. †rea impuesto;
-                                                              DEA=Steuergebietscode] }
-    { 109 ;   ;Tax Liable          ;Boolean       ;CaptionML=[ENU=Tax Liable;
-                                                              ESP=Sujeto a impuesto;
-                                                              DEA=Steuerpflichtig] }
+                                                   CaptionML=[DEU=Steuergebietscode;
+                                                              ENU=Tax Area Code] }
+    { 109 ;   ;Tax Liable          ;Boolean       ;CaptionML=[DEU=Steuerpflichtig;
+                                                              ENU=Tax Liable] }
     { 110 ;   ;VAT Bus. Posting Group;Code10      ;TableRelation="VAT Business Posting Group";
-                                                   CaptionML=[ENU=VAT Bus. Posting Group;
-                                                              ESP=Grupo registro IVA neg.;
-                                                              DEA=MwSt.-GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-GeschÑftsbuchungsgruppe;
+                                                              ENU=VAT Bus. Posting Group] }
     { 111 ;   ;Currency Filter     ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation=Currency;
-                                                   CaptionML=[ENU=Currency Filter;
-                                                              ESP=Filtro divisa;
-                                                              DEA=WÑhrungsfilter] }
+                                                   CaptionML=[DEU=WÑhrungsfilter;
+                                                              ENU=Currency Filter] }
     { 113 ;   ;Outstanding Orders (LCY);Decimal   ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Purchase Line"."Outstanding Amount (LCY)" WHERE (Document Type=CONST(Order),
                                                                                                                      Pay-to Vendor No.=FIELD(No.),
                                                                                                                      Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                      Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Outstanding Orders (LCY);
-                                                              ESP=Pedidos pendientes (DL);
-                                                              DEA=Bestellungsbestand (MW)];
+                                                   CaptionML=[DEU=Bestellungsbestand (MW);
+                                                              ENU=Outstanding Orders (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 114 ;   ;Amt. Rcd. Not Invoiced (LCY);Decimal;
@@ -780,14 +700,12 @@ OBJECT Table 23 Vendor
                                                                                                                          Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                          Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                          Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Amt. Rcd. Not Invoiced (LCY);
-                                                              ESP=Imp. recibido no factur. (DL);
-                                                              DEA=Nicht fakt. Lieferbetrag (MW)];
+                                                   CaptionML=[DEU=Nicht fakt. Lieferbetrag (MW);
+                                                              ENU=Amt. Rcd. Not Invoiced (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 116 ;   ;Block Payment Tolerance;Boolean    ;CaptionML=[ENU=Block Payment Tolerance;
-                                                              ESP=Bloquear tolerancia pagos;
-                                                              DEA=Zahlungstoleranz sperren] }
+    { 116 ;   ;Block Payment Tolerance;Boolean    ;CaptionML=[DEU=Zahlungstoleranz sperren;
+                                                              ENU=Block Payment Tolerance] }
     { 117 ;   ;Pmt. Disc. Tolerance (LCY);Decimal ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Detailed Vendor Ledg. Entry"."Amount (LCY)" WHERE (Vendor No.=FIELD(No.),
                                                                                                                        Entry Type=FILTER(Payment Discount Tolerance|'Payment Discount Tolerance (VAT Adjustment)'|'Payment Discount Tolerance (VAT Excl.)'),
@@ -795,9 +713,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Pmt. Disc. Tolerance (LCY);
-                                                              ESP=Tolerancia dto. P.P (DL);
-                                                              DEA=Skontotoleranz (MW)];
+                                                   CaptionML=[DEU=Skontotoleranz (MW);
+                                                              ENU=Pmt. Disc. Tolerance (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 118 ;   ;Pmt. Tolerance (LCY);Decimal       ;FieldClass=FlowField;
@@ -807,9 +724,8 @@ OBJECT Table 23 Vendor
                                                                                                                        Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                        Posting Date=FIELD(Date Filter),
                                                                                                                        Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Pmt. Tolerance (LCY);
-                                                              ESP=Tolerancia pagos (DL);
-                                                              DEA=Zahlungstoleranz (MW)];
+                                                   CaptionML=[DEU=Zahlungstoleranz (MW);
+                                                              ENU=Pmt. Tolerance (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 119 ;   ;IC Partner Code     ;Code20        ;TableRelation="IC Partner";
@@ -851,9 +767,8 @@ OBJECT Table 23 Vendor
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=IC Partner Code;
-                                                              ESP=C¢digo socio IC;
-                                                              DEA=IC-Partnercode] }
+                                                   CaptionML=[DEU=IC-Partnercode;
+                                                              ENU=IC Partner Code] }
     { 120 ;   ;Refunds             ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry".Amount WHERE (Initial Document Type=CONST(Refund),
                                                                                                                 Entry Type=CONST(Initial Entry),
@@ -862,9 +777,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Refunds;
-                                                              ESP=Reembolsos;
-                                                              DEA=Erstattungen] }
+                                                   CaptionML=[DEU=Erstattungen;
+                                                              ENU=Refunds] }
     { 121 ;   ;Refunds (LCY)       ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry"."Amount (LCY)" WHERE (Initial Document Type=CONST(Refund),
                                                                                                                         Entry Type=CONST(Initial Entry),
@@ -873,9 +787,8 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Refunds (LCY);
-                                                              ESP=Reembolsos (DL);
-                                                              DEA=Erstattungen (MW)] }
+                                                   CaptionML=[DEU=Erstattungen (MW);
+                                                              ENU=Refunds (LCY)] }
     { 122 ;   ;Other Amounts       ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry".Amount WHERE (Initial Document Type=CONST(" "),
                                                                                                                 Entry Type=CONST(Initial Entry),
@@ -884,9 +797,8 @@ OBJECT Table 23 Vendor
                                                                                                                 Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                 Posting Date=FIELD(Date Filter),
                                                                                                                 Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Other Amounts;
-                                                              ESP=Otros importes;
-                                                              DEA=Weitere BetrÑge] }
+                                                   CaptionML=[DEU=Weitere BetrÑge;
+                                                              ENU=Other Amounts] }
     { 123 ;   ;Other Amounts (LCY) ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Detailed Vendor Ledg. Entry"."Amount (LCY)" WHERE (Initial Document Type=CONST(" "),
                                                                                                                         Entry Type=CONST(Initial Entry),
@@ -895,12 +807,10 @@ OBJECT Table 23 Vendor
                                                                                                                         Initial Entry Global Dim. 2=FIELD(Global Dimension 2 Filter),
                                                                                                                         Posting Date=FIELD(Date Filter),
                                                                                                                         Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Other Amounts (LCY);
-                                                              ESP=Otros importes (DL);
-                                                              DEA=Weitere BetrÑge (MW)] }
-    { 124 ;   ;Prepayment %        ;Decimal       ;CaptionML=[ENU=Prepayment %;
-                                                              ESP=% prepago;
-                                                              DEA=Vorauszahlung %];
+                                                   CaptionML=[DEU=Weitere BetrÑge (MW);
+                                                              ENU=Other Amounts (LCY)] }
+    { 124 ;   ;Prepayment %        ;Decimal       ;CaptionML=[DEU=Vorauszahlung %;
+                                                              ENU=Prepayment %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100 }
@@ -910,9 +820,8 @@ OBJECT Table 23 Vendor
                                                                                                                Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Outstanding Invoices;
-                                                              ESP=Facturas pendientes;
-                                                              DEA=Ausstehende Rechnungen];
+                                                   CaptionML=[DEU=Ausstehende Rechnungen;
+                                                              ENU=Outstanding Invoices];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -922,28 +831,24 @@ OBJECT Table 23 Vendor
                                                                                                                      Shortcut Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Shortcut Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                      Currency Code=FIELD(Currency Filter)));
-                                                   CaptionML=[ENU=Outstanding Invoices (LCY);
-                                                              ESP=Facturas pendientes (DL);
-                                                              DEA=Ausstehende Rechnungen (MW)];
+                                                   CaptionML=[DEU=Ausstehende Rechnungen (MW);
+                                                              ENU=Outstanding Invoices (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 130 ;   ;Pay-to No. Of Archived Doc.;Integer;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header Archive" WHERE (Document Type=CONST(Order),
                                                                                                       Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. Of Archived Doc.;
-                                                              ESP=Pago a-Nß de doc. archivado;
-                                                              DEA=Anzahl archivierter Belege fÅr Zahlung an] }
+                                                   CaptionML=[DEU=Anzahl archivierter Belege fÅr Zahlung an;
+                                                              ENU=Pay-to No. Of Archived Doc.] }
     { 131 ;   ;Buy-from No. Of Archived Doc.;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header Archive" WHERE (Document Type=CONST(Order),
                                                                                                       Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Buy-from No. Of Archived Doc.;
-                                                              ESP=Compra a-Nß de doc. archivado;
-                                                              DEA=Anzahl archivierter Belege fÅr Eink. von] }
+                                                   CaptionML=[DEU=Anzahl archivierter Belege fÅr Eink. von;
+                                                              ENU=Buy-from No. Of Archived Doc.] }
     { 840 ;   ;Cash Flow Payment Terms Code;Code10;TableRelation="Payment Terms";
-                                                   CaptionML=[ENU=Cash Flow Payment Terms Code;
-                                                              ESP=C¢d. condiciones de pago de flujo de efectivo;
-                                                              DEA=Cashflow - Zlg.-Bedingungscode] }
+                                                   CaptionML=[DEU=Cashflow - Zlg.-Bedingungscode;
+                                                              ENU=Cash Flow Payment Terms Code] }
     { 5049;   ;Primary Contact No. ;Code20        ;TableRelation=Contact;
                                                    OnValidate=VAR
                                                                 Cont@1001 : Record 5050;
@@ -984,171 +889,145 @@ OBJECT Table 23 Vendor
                                                                 VALIDATE("Primary Contact No.",Cont."No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Primary Contact No.;
-                                                              ESP=Nß contacto principal;
-                                                              DEA=PrimÑre Kontaktnr.] }
+                                                   CaptionML=[DEU=PrimÑre Kontaktnr.;
+                                                              ENU=Primary Contact No.] }
     { 5700;   ;Responsibility Center;Code10       ;TableRelation="Responsibility Center";
-                                                   CaptionML=[ENU=Responsibility Center;
-                                                              ESP=Centro responsabilidad;
-                                                              DEA=ZustÑndigkeitseinheitencode] }
+                                                   CaptionML=[DEU=ZustÑndigkeitseinheitencode;
+                                                              ENU=Responsibility Center] }
     { 5701;   ;Location Code       ;Code10        ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
-    { 5790;   ;Lead Time Calculation;DateFormula  ;CaptionML=[ENU=Lead Time Calculation;
-                                                              ESP=Plazo entrega (d°as);
-                                                              DEA=Beschaffungszeit] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
+    { 5790;   ;Lead Time Calculation;DateFormula  ;CaptionML=[DEU=Beschaffungszeit;
+                                                              ENU=Lead Time Calculation] }
     { 7177;   ;No. of Pstd. Receipts;Integer      ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Rcpt. Header" WHERE (Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Pstd. Receipts;
-                                                              ESP=Nß albaranes registrados;
-                                                              DEA=Anz. gebuchter ZugÑnge];
+                                                   CaptionML=[DEU=Anz. gebuchter ZugÑnge;
+                                                              ENU=No. of Pstd. Receipts];
                                                    Editable=No }
     { 7178;   ;No. of Pstd. Invoices;Integer      ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Inv. Header" WHERE (Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Pstd. Invoices;
-                                                              ESP=Nß de facturas registradas;
-                                                              DEA=Anzahl gebuchter Rechnungen];
+                                                   CaptionML=[DEU=Anzahl gebuchter Rechnungen;
+                                                              ENU=No. of Pstd. Invoices];
                                                    Editable=No }
     { 7179;   ;No. of Pstd. Return Shipments;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Return Shipment Header" WHERE (Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Pstd. Return Shipments;
-                                                              ESP=Nß env°os devoluci¢n reg.;
-                                                              DEA=Anz. gebuchter RÅcklieferungen];
+                                                   CaptionML=[DEU=Anz. gebuchter RÅcklieferungen;
+                                                              ENU=No. of Pstd. Return Shipments];
                                                    Editable=No }
     { 7180;   ;No. of Pstd. Credit Memos;Integer  ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Cr. Memo Hdr." WHERE (Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Pstd. Credit Memos;
-                                                              ESP=Nß de abonos registrados;
-                                                              DEA=Anzahl gebuchter Gutschriften];
+                                                   CaptionML=[DEU=Anzahl gebuchter Gutschriften;
+                                                              ENU=No. of Pstd. Credit Memos];
                                                    Editable=No }
     { 7181;   ;Pay-to No. of Orders;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Order),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Orders;
-                                                              ESP=Pago a-Nß de pedidos;
-                                                              DEA=Anzahl der Bestellungen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl der Bestellungen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Orders];
                                                    Editable=No }
     { 7182;   ;Pay-to No. of Invoices;Integer     ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Invoice),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Invoices;
-                                                              ESP=Pago a-Nß de facturas;
-                                                              DEA=Anzahl der Rechnungen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl der Rechnungen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Invoices];
                                                    Editable=No }
     { 7183;   ;Pay-to No. of Return Orders;Integer;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Return Order),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Return Orders;
-                                                              ESP=Pago a-Nß de devoluciones;
-                                                              DEA=Anzahl der Reklamationen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl der Reklamationen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Return Orders];
                                                    Editable=No }
     { 7184;   ;Pay-to No. of Credit Memos;Integer ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Credit Memo),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Credit Memos;
-                                                              ESP=Pago a-Nß de abonos;
-                                                              DEA=Anzahl der Gutschriften fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl der Gutschriften fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Credit Memos];
                                                    Editable=No }
     { 7185;   ;Pay-to No. of Pstd. Receipts;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Rcpt. Header" WHERE (Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Pstd. Receipts;
-                                                              ESP=Pago a-Nß de albaranes registrados;
-                                                              DEA=Anzahl gebuchter Belege fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl gebuchter Belege fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Pstd. Receipts];
                                                    Editable=No }
     { 7186;   ;Pay-to No. of Pstd. Invoices;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Inv. Header" WHERE (Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Pstd. Invoices;
-                                                              ESP=Pago a-Nß de facturas registradas;
-                                                              DEA=Anzahl gebuchter Rechnungen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl gebuchter Rechnungen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Pstd. Invoices];
                                                    Editable=No }
     { 7187;   ;Pay-to No. of Pstd. Return S.;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Return Shipment Header" WHERE (Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Pstd. Return S.;
-                                                              ESP=Pago a-Nß de env°os devoluci¢n reg.;
-                                                              DEA=Anzahl gebuchter RÅcklieferungen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl gebuchter RÅcklieferungen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Pstd. Return S.];
                                                    Editable=No }
     { 7188;   ;Pay-to No. of Pstd. Cr. Memos;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Purch. Cr. Memo Hdr." WHERE (Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Pstd. Cr. Memos;
-                                                              ESP=Pago a-Nß de abonos registrados;
-                                                              DEA=Anzahl gebuchter Gutschriften fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl gebuchter Gutschriften fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Pstd. Cr. Memos];
                                                    Editable=No }
     { 7189;   ;No. of Quotes       ;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Quote),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Quotes;
-                                                              ESP=Nß de ofertas;
-                                                              DEA=Anzahl Angebote];
+                                                   CaptionML=[DEU=Anzahl Angebote;
+                                                              ENU=No. of Quotes];
                                                    Editable=No }
     { 7190;   ;No. of Blanket Orders;Integer      ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Blanket Order),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Blanket Orders;
-                                                              ESP=Nß de pedidos abiertos;
-                                                              DEA=Anzahl RahmenauftrÑge];
+                                                   CaptionML=[DEU=Anzahl RahmenauftrÑge;
+                                                              ENU=No. of Blanket Orders];
                                                    Editable=No }
     { 7191;   ;No. of Orders       ;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Order),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Orders;
-                                                              ESP=Nß de pedidos;
-                                                              DEA=Anzahl AuftrÑge] }
+                                                   CaptionML=[DEU=Anzahl AuftrÑge;
+                                                              ENU=No. of Orders] }
     { 7192;   ;No. of Invoices     ;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Invoice),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Invoices;
-                                                              ESP=Nß de facturas;
-                                                              DEA=Anzahl Rechnungen];
+                                                   CaptionML=[DEU=Anzahl Rechnungen;
+                                                              ENU=No. of Invoices];
                                                    Editable=No }
     { 7193;   ;No. of Return Orders;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Return Order),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Return Orders;
-                                                              ESP=Nß de devoluciones;
-                                                              DEA=Anzahl Reklamationen];
+                                                   CaptionML=[DEU=Anzahl Reklamationen;
+                                                              ENU=No. of Return Orders];
                                                    Editable=No }
     { 7194;   ;No. of Credit Memos ;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Credit Memo),
                                                                                               Buy-from Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Credit Memos;
-                                                              ESP=Nß de abonos;
-                                                              DEA=Anzahl Gutschriften];
+                                                   CaptionML=[DEU=Anzahl Gutschriften;
+                                                              ENU=No. of Credit Memos];
                                                    Editable=No }
     { 7195;   ;No. of Order Addresses;Integer     ;FieldClass=FlowField;
                                                    CalcFormula=Count("Order Address" WHERE (Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Order Addresses;
-                                                              ESP=Nß de direcciones de pedido;
-                                                              DEA=Anzahl der Bestelladressen];
+                                                   CaptionML=[DEU=Anzahl der Bestelladressen;
+                                                              ENU=No. of Order Addresses];
                                                    Editable=No }
     { 7196;   ;Pay-to No. of Quotes;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Quote),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Quotes;
-                                                              ESP=Pago a-Nß de ofertas;
-                                                              DEA=Anzahl der Anfragen fÅr Zahlung an];
+                                                   CaptionML=[DEU=Anzahl der Anfragen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Quotes];
                                                    Editable=No }
     { 7197;   ;Pay-to No. of Blanket Orders;Integer;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Count("Purchase Header" WHERE (Document Type=CONST(Blanket Order),
                                                                                               Pay-to Vendor No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Pay-to No. of Blanket Orders;
-                                                              ESP=Pago a-Nß de pedidos abiertos;
-                                                              DEA=Anzahl der Rahmenbestellungen fÅr Zahlung an] }
+                                                   CaptionML=[DEU=Anzahl der Rahmenbestellungen fÅr Zahlung an;
+                                                              ENU=Pay-to No. of Blanket Orders] }
     { 7600;   ;Base Calendar Code  ;Code10        ;TableRelation="Base Calendar";
-                                                   CaptionML=[ENU=Base Calendar Code;
-                                                              ESP=C¢digo calendario base;
-                                                              DEA=Basiskalendercode] }
-    { 11000;  ;Registration No.    ;Text20        ;CaptionML=[ENU=Registration No.;
-                                                              DEA=Steuernummer] }
+                                                   CaptionML=[DEU=Basiskalendercode;
+                                                              ENU=Base Calendar Code] }
+    { 11000;  ;Registration No.    ;Text20        ;CaptionML=[DEU=Steuernummer;
+                                                              ENU=Registration No.] }
     { 5005270;;Delivery Reminder Terms;Code10     ;TableRelation="Delivery Reminder Term";
-                                                   CaptionML=[ENU=Delivery Reminder Terms;
-                                                              DEA=Lieferanmahnungsmethodencode] }
+                                                   CaptionML=[DEU=Lieferanmahnungsmethodencode;
+                                                              ENU=Delivery Reminder Terms] }
   }
   KEYS
   {
@@ -1173,9 +1052,9 @@ OBJECT Table 23 Vendor
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot delete %1 %2 because there is at least one outstanding Purchase %3 for this vendor.;ESP=No puede borrar %1 %2 porque hay al menos una compra pendiente %3 para este proveedor.;DEA=Sie kînnen %1 %2 nicht lîschen, da noch ein(e) %3 (oder mehrere) fÅr diesen Kreditor vorhanden ist.';
-      Text002@1001 : TextConst 'ENU=You have set %1 to %2. Do you want to update the %3 price list accordingly?;ESP=Tiene fijado %1 a %2. ®Quiere actualizar el %3 lista precio en concordancia?;DEA=Sie haben die %1 auf %2 gesetzt. Mîchten Sie die %3-Preisliste entsprechend aktualisieren?';
-      Text003@1002 : TextConst 'ENU=Do you wish to create a contact for %1 %2?;ESP=®Confirma que desea crear un contacto para %1 %2?;DEA=Mîchten Sie einen Kontakt fÅr %1 %2 erstellen?';
+      Text000@1000 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da noch ein(e) %3 (oder mehrere) fÅr diesen Kreditor vorhanden ist.;ENU=You cannot delete %1 %2 because there is at least one outstanding Purchase %3 for this vendor.';
+      Text002@1001 : TextConst 'DEU=Sie haben die %1 auf %2 gesetzt. Mîchten Sie die %3-Preisliste entsprechend aktualisieren?;ENU=You have set %1 to %2. Do you want to update the %3 price list accordingly?';
+      Text003@1002 : TextConst 'DEU=Mîchten Sie einen Kontakt fÅr %1 %2 erstellen?;ENU=Do you wish to create a contact for %1 %2?';
       PurchSetup@1003 : Record 312;
       CommentLine@1005 : Record 97;
       PurchOrderLine@1006 : Record 39;
@@ -1191,14 +1070,14 @@ OBJECT Table 23 Vendor
       UpdateContFromVend@1013 : Codeunit 5057;
       DimMgt@1014 : Codeunit 408;
       InsertFromContact@1015 : Boolean;
-      Text004@1019 : TextConst 'ENU=Contact %1 %2 is not related to vendor %3 %4.;ESP=Contacto %1 %2 no est† relacionado con proveedor %3 %4.;DEA=Kontakt %1 %2 ist nicht mit Kreditor %3 %4 verknÅpft.';
-      Text005@1021 : TextConst 'ENU=post;ESP=registrar;DEA=buchen';
-      Text006@1022 : TextConst 'ENU=create;ESP=crear;DEA=erstellen';
-      Text007@1023 : TextConst 'ENU=You cannot %1 this type of document when Vendor %2 is blocked with type %3;ESP=No puede %1 este tipo de documento cuando el proveedor %2 est† bloqueado por el tipo %3;DEA=Sie kînnen diese Belegart nicht %1, wenn der Kreditor %2 fÅr die Art %3 gesperrt ist.';
-      Text008@1025 : TextConst 'ENU=The %1 %2 has been assigned to %3 %4.\The same %1 cannot be entered on more than one %3.;ESP=%1 %2 se asign¢ a %3 %4.\No es posible seleccionar de nuevo %1 para m†s de un %3.;DEA=%1 %2 wurde %3 %4 zugewiesen.\Derselbe %1 kann nicht auf mehr als einen %3 eingegeben werden.';
-      Text009@1027 : TextConst 'ENU=Reconciling IC transactions may be difficult if you change IC Partner Code because this %1 has ledger entries in a fiscal year that has not yet been closed.\ Do you still want to change the IC Partner Code?;ESP=El control de transacciones de IC puede ser dif°cil si cambia el campo C¢digo socio IC porque este %1 contiene movimientos contables de un ejercicio que a£n no est† cerrado.\ ®Todav°a quiere cambiar el campo C¢digo socio IC?;DEA=Das Abstimmen von IC-Buchungen kann schwierig sein, wenn Sie den IC-Partnercode Ñndern, weil %1 Posten in einem noch nicht geschlossenen GeschÑftsjahr aufweist.\ Mîchten Sie den IC-Partnercode trotzdem Ñndern?';
-      Text010@1026 : TextConst 'ENU=You cannot change the contents of the %1 field because this %2 has one or more open ledger entries.;ESP=No puede cambiar el contenido del campo %1. %2 contiene al menos un movimiento contable abierto.;DEA=Sie kînnen den Inhalt des Feldes %1 nicht Ñndern, weil fÅr dieses %2 ein oder mehrere offene Posten vorliegen.';
-      Text011@1004 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text004@1019 : TextConst 'DEU=Kontakt %1 %2 ist nicht mit Kreditor %3 %4 verknÅpft.;ENU=Contact %1 %2 is not related to vendor %3 %4.';
+      Text005@1021 : TextConst 'DEU=buchen;ENU=post';
+      Text006@1022 : TextConst 'DEU=erstellen;ENU=create';
+      Text007@1023 : TextConst 'DEU=Sie kînnen diese Belegart nicht %1, wenn der Kreditor %2 fÅr die Art %3 gesperrt ist.;ENU=You cannot %1 this type of document when Vendor %2 is blocked with type %3';
+      Text008@1025 : TextConst 'DEU=%1 %2 wurde %3 %4 zugewiesen.\Derselbe %1 kann nicht auf mehr als einen %3 eingegeben werden.;ENU=The %1 %2 has been assigned to %3 %4.\The same %1 cannot be entered on more than one %3.';
+      Text009@1027 : TextConst 'DEU=Das Abstimmen von IC-Buchungen kann schwierig sein, wenn Sie den IC-Partnercode Ñndern, weil %1 Posten in einem noch nicht geschlossenen GeschÑftsjahr aufweist.\ Mîchten Sie den IC-Partnercode trotzdem Ñndern?;ENU=Reconciling IC transactions may be difficult if you change IC Partner Code because this %1 has ledger entries in a fiscal year that has not yet been closed.\ Do you still want to change the IC Partner Code?';
+      Text010@1026 : TextConst 'DEU=Sie kînnen den Inhalt des Feldes %1 nicht Ñndern, weil fÅr dieses %2 ein oder mehrere offene Posten vorliegen.;ENU=You cannot change the contents of the %1 field because this %2 has one or more open ledger entries.';
+      Text011@1004 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
 
     PROCEDURE AssistEdit@2(OldVend@1000 : Record 23) : Boolean;
     VAR

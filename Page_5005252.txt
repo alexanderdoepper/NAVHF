@@ -2,15 +2,15 @@ OBJECT Page 5005252 Blank. Purch. Order Arch. Sub.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Lines;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     SourceTable=Table5110;
     SourceTableView=WHERE(Document Type=CONST(Blanket Order));
     PageType=ListPart;
@@ -19,13 +19,13 @@ OBJECT Page 5005252 Blank. Purch. Order Arch. Sub.
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1907935204;1 ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 1902649504;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  // This functionality was copied from page #5005251. Unsupported part was commented. Please check it.
@@ -34,8 +34,8 @@ OBJECT Page 5005252 Blank. Purch. Order Arch. Sub.
                                END;
                                 }
       { 1905626904;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       Image=ViewComments;
                       OnAction=BEGIN
                                  // This functionality was copied from page #5005251. Unsupported part was commented. Please check it.
@@ -45,8 +45,8 @@ OBJECT Page 5005252 Blank. Purch. Order Arch. Sub.
                                 }
       { 1903160804;2 ;Action    ;
                       Name=DocumentLineTracking;
-                      CaptionML=[ENU=Document &Line Tracking;
-                                 DEA=&Belegzeilenverfolgung];
+                      CaptionML=[DEU=&Belegzeilenverfolgung;
+                                 ENU=Document &Line Tracking];
                       OnAction=BEGIN
                                  // This functionality was copied from page #5005251. Unsupported part was commented. Please check it.
                                  {CurrPage.PurchLinesArchive.PAGE.}

@@ -2,9 +2,9 @@ OBJECT Table 5050 Contact
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -179,9 +179,8 @@ OBJECT Table 5050 Contact
                VALIDATE("Lookup Contact No.");
              END;
 
-    CaptionML=[ENU=Contact;
-               ESP=Contacto;
-               DEA=Kontakt];
+    CaptionML=[DEU=Kontakt;
+               ENU=Contact];
     LookupPageID=Page5052;
   }
   FIELDS
@@ -195,29 +194,23 @@ OBJECT Table 5050 Contact
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 2   ;   ;Name                ;Text50        ;OnValidate=BEGIN
                                                                 NameBreakdown;
                                                                 ProcessNameChange;
                                                               END;
 
-                                                   CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -226,66 +219,52 @@ OBJECT Table 5050 Contact
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 9   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
-    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[ENU=Telex No.;
-                                                              ESP=Nß tÇlex;
-                                                              DEA=Telexnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[DEU=Telexnr.;
+                                                              ENU=Telex No.] }
     { 15  ;   ;Territory Code      ;Code10        ;TableRelation=Territory;
-                                                   CaptionML=[ENU=Territory Code;
-                                                              ESP=C¢d. territorio;
-                                                              DEA=Gebietscode] }
+                                                   CaptionML=[DEU=Gebietscode;
+                                                              ENU=Territory Code] }
     { 22  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
     { 24  ;   ;Language Code       ;Code10        ;TableRelation=Language;
-                                                   CaptionML=[ENU=Language Code;
-                                                              ESP=C¢d. idioma;
-                                                              DEA=Sprachcode] }
+                                                   CaptionML=[DEU=Sprachcode;
+                                                              ENU=Language Code] }
     { 29  ;   ;Salesperson Code    ;Code10        ;TableRelation=Salesperson/Purchaser;
-                                                   CaptionML=[ENU=Salesperson Code;
-                                                              ESP=C¢d. vendedor;
-                                                              DEA=VerkÑufercode] }
+                                                   CaptionML=[DEU=VerkÑufercode;
+                                                              ENU=Salesperson Code] }
     { 35  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 38  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Rlshp. Mgt. Comment Line" WHERE (Table Name=CONST(Contact),
                                                                                                        No.=FIELD(No.),
                                                                                                        Sub No.=CONST(0)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
-    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
-                                                              ESP=Nß tÇlex respuesta;
-                                                              DEA=Telex Namengeber] }
+    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[DEU=Telex Namengeber;
+                                                              ENU=Telex Answer Back] }
     { 86  ;   ;VAT Registration No.;Text20        ;OnValidate=VAR
                                                                 VATRegNoFormat@1000 : Record 381;
                                                               BEGIN
                                                                 VATRegNoFormat.Test("VAT Registration No.","Country/Region Code","No.",DATABASE::Contact);
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Registration No.;
-                                                              ESP=CIF/NIF;
-                                                              DEA=USt-IdNr.] }
-    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+                                                   CaptionML=[DEU=USt-IdNr.;
+                                                              ENU=VAT Registration No.] }
+    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
     { 91  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
@@ -295,29 +274,24 @@ OBJECT Table 5050 Contact
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 92  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 92  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 102 ;   ;E-Mail              ;Text80        ;OnValidate=BEGIN
                                                                 IF ("Search E-Mail" = UPPERCASE(xRec."E-Mail")) OR ("Search E-Mail" = '') THEN
                                                                   "Search E-Mail" := "E-Mail";
                                                               END;
 
                                                    ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 103 ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P†gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 107 ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie] }
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series] }
     { 5050;   ;Type                ;Option        ;OnValidate=BEGIN
                                                                 IF CurrFieldNo <> 0 THEN BEGIN
                                                                   TypeChange;
@@ -325,12 +299,10 @@ OBJECT Table 5050 Contact
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Type;
-                                                              ESP=Tipo;
-                                                              DEA=Art];
-                                                   OptionCaptionML=[ENU=Company,Person;
-                                                                    ESP=Empresa,Persona;
-                                                                    DEA=Unternehmen,Person];
+                                                   CaptionML=[DEU=Art;
+                                                              ENU=Type];
+                                                   OptionCaptionML=[DEU=Unternehmen,Person;
+                                                                    ENU=Company,Person];
                                                    OptionString=Company,Person }
     { 5051;   ;Company No.         ;Code20        ;TableRelation=Contact WHERE (Type=CONST(Company));
                                                    OnValidate=VAR
@@ -418,12 +390,10 @@ OBJECT Table 5050 Contact
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Company No.;
-                                                              ESP=Nß empresa;
-                                                              DEA=Unternehmensnr.] }
-    { 5052;   ;Company Name        ;Text50        ;CaptionML=[ENU=Company Name;
-                                                              ESP=Nombre empresa;
-                                                              DEA=Unternehmensname];
+                                                   CaptionML=[DEU=Unternehmensnr.;
+                                                              ENU=Company No.] }
+    { 5052;   ;Company Name        ;Text50        ;CaptionML=[DEU=Unternehmensname;
+                                                              ENU=Company Name];
                                                    Editable=No }
     { 5053;   ;Lookup Contact No.  ;Code20        ;TableRelation=Contact;
                                                    OnValidate=BEGIN
@@ -433,124 +403,103 @@ OBJECT Table 5050 Contact
                                                                   "Lookup Contact No." := "No.";
                                                               END;
 
-                                                   CaptionML=[ENU=Lookup Contact No.;
-                                                              ESP=Lookup nß contacto;
-                                                              DEA=Look-up Kontaktnr.];
+                                                   CaptionML=[DEU=Look-up Kontaktnr.;
+                                                              ENU=Lookup Contact No.];
                                                    Editable=No }
     { 5054;   ;First Name          ;Text30        ;OnValidate=BEGIN
                                                                 Name := CalculatedName;
                                                                 ProcessNameChange;
                                                               END;
 
-                                                   CaptionML=[ENU=First Name;
-                                                              ESP=Primer nombre;
-                                                              DEA=Vorname] }
+                                                   CaptionML=[DEU=Vorname;
+                                                              ENU=First Name] }
     { 5055;   ;Middle Name         ;Text30        ;OnValidate=BEGIN
                                                                 Name := CalculatedName;
                                                                 ProcessNameChange;
                                                               END;
 
-                                                   CaptionML=[ENU=Middle Name;
-                                                              ESP=1ß Apellido;
-                                                              DEA=Vorname 2] }
+                                                   CaptionML=[DEU=Vorname 2;
+                                                              ENU=Middle Name] }
     { 5056;   ;Surname             ;Text30        ;OnValidate=BEGIN
                                                                 Name := CalculatedName;
                                                                 ProcessNameChange;
                                                               END;
 
-                                                   CaptionML=[ENU=Surname;
-                                                              ESP=2ß Apellido;
-                                                              DEA=Nachname] }
-    { 5058;   ;Job Title           ;Text30        ;CaptionML=[ENU=Job Title;
-                                                              ESP=Cargo;
-                                                              DEA=Titel] }
-    { 5059;   ;Initials            ;Text30        ;CaptionML=[ENU=Initials;
-                                                              ESP=Iniciales;
-                                                              DEA=Initialen] }
-    { 5060;   ;Extension No.       ;Text30        ;CaptionML=[ENU=Extension No.;
-                                                              ESP=Nß extensi¢n;
-                                                              DEA=Durchwahl] }
+                                                   CaptionML=[DEU=Nachname;
+                                                              ENU=Surname] }
+    { 5058;   ;Job Title           ;Text30        ;CaptionML=[DEU=Titel;
+                                                              ENU=Job Title] }
+    { 5059;   ;Initials            ;Text30        ;CaptionML=[DEU=Initialen;
+                                                              ENU=Initials] }
+    { 5060;   ;Extension No.       ;Text30        ;CaptionML=[DEU=Durchwahl;
+                                                              ENU=Extension No.] }
     { 5061;   ;Mobile Phone No.    ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Mobile Phone No.;
-                                                              ESP=Nß telÇfono m¢vil;
-                                                              DEA=Mobiltelefonnr.] }
-    { 5062;   ;Pager               ;Text30        ;CaptionML=[ENU=Pager;
-                                                              ESP=Nß buscapersona;
-                                                              DEA=Pager] }
+                                                   CaptionML=[DEU=Mobiltelefonnr.;
+                                                              ENU=Mobile Phone No.] }
+    { 5062;   ;Pager               ;Text30        ;CaptionML=[DEU=Pager;
+                                                              ENU=Pager] }
     { 5063;   ;Organizational Level Code;Code10   ;TableRelation="Organizational Level";
-                                                   CaptionML=[ENU=Organizational Level Code;
-                                                              ESP=C¢d. nivel organizacional;
-                                                              DEA=Positionscode] }
-    { 5064;   ;Exclude from Segment;Boolean       ;CaptionML=[ENU=Exclude from Segment;
-                                                              ESP=Excluye de segmento;
-                                                              DEA=Nicht segmentieren] }
+                                                   CaptionML=[DEU=Positionscode;
+                                                              ENU=Organizational Level Code] }
+    { 5064;   ;Exclude from Segment;Boolean       ;CaptionML=[DEU=Nicht segmentieren;
+                                                              ENU=Exclude from Segment] }
     { 5065;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 5066;   ;Next To-do Date     ;Date          ;FieldClass=FlowField;
                                                    CalcFormula=Min(To-do.Date WHERE (Contact Company No.=FIELD(FILTER(Company No.)),
                                                                                      Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                      Closed=CONST(No),
                                                                                      System To-do Type=CONST(Contact Attendee)));
-                                                   CaptionML=[ENU=Next To-do Date;
-                                                              ESP=Fecha siguiente tarea;
-                                                              DEA=NÑchste Aufgabe am];
+                                                   CaptionML=[DEU=NÑchste Aufgabe am;
+                                                              ENU=Next To-do Date];
                                                    Editable=No }
     { 5067;   ;Last Date Attempted ;Date          ;FieldClass=FlowField;
                                                    CalcFormula=Max("Interaction Log Entry".Date WHERE (Contact Company No.=FIELD(Company No.),
                                                                                                        Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                        Initiated By=CONST(Us),
                                                                                                        Postponed=CONST(No)));
-                                                   CaptionML=[ENU=Last Date Attempted;
-                                                              ESP=Èlt. fecha intento;
-                                                              DEA=Letzte Kontaktaufnahme am];
+                                                   CaptionML=[DEU=Letzte Kontaktaufnahme am;
+                                                              ENU=Last Date Attempted];
                                                    Editable=No }
     { 5068;   ;Date of Last Interaction;Date      ;FieldClass=FlowField;
                                                    CalcFormula=Max("Interaction Log Entry".Date WHERE (Contact Company No.=FIELD(Company No.),
                                                                                                        Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                        Attempt Failed=CONST(No),
                                                                                                        Postponed=CONST(No)));
-                                                   CaptionML=[ENU=Date of Last Interaction;
-                                                              ESP=Fecha £lt. interacci¢n;
-                                                              DEA=Letzte AktivitÑt am];
+                                                   CaptionML=[DEU=Letzte AktivitÑt am;
+                                                              ENU=Date of Last Interaction];
                                                    Editable=No }
     { 5069;   ;No. of Job Responsibilities;Integer;FieldClass=FlowField;
                                                    CalcFormula=Count("Contact Job Responsibility" WHERE (Contact No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Job Responsibilities;
-                                                              ESP=Nß responsabilidades cargo;
-                                                              DEA=Anzahl Verantwortlichkeiten];
+                                                   CaptionML=[DEU=Anzahl Verantwortlichkeiten;
+                                                              ENU=No. of Job Responsibilities];
                                                    Editable=No }
     { 5070;   ;No. of Industry Groups;Integer     ;FieldClass=FlowField;
                                                    CalcFormula=Count("Contact Industry Group" WHERE (Contact No.=FIELD(Company No.)));
-                                                   CaptionML=[ENU=No. of Industry Groups;
-                                                              ESP=Nß grupos industria;
-                                                              DEA=Anzahl Branchen];
+                                                   CaptionML=[DEU=Anzahl Branchen;
+                                                              ENU=No. of Industry Groups];
                                                    Editable=No }
     { 5071;   ;No. of Business Relations;Integer  ;FieldClass=FlowField;
                                                    CalcFormula=Count("Contact Business Relation" WHERE (Contact No.=FIELD(Company No.)));
-                                                   CaptionML=[ENU=No. of Business Relations;
-                                                              ESP=Nß relaciones negocio;
-                                                              DEA=Anzahl GeschÑftsbeziehungen];
+                                                   CaptionML=[DEU=Anzahl GeschÑftsbeziehungen;
+                                                              ENU=No. of Business Relations];
                                                    Editable=No }
     { 5072;   ;No. of Mailing Groups;Integer      ;FieldClass=FlowField;
                                                    CalcFormula=Count("Contact Mailing Group" WHERE (Contact No.=FIELD(No.)));
-                                                   CaptionML=[ENU=No. of Mailing Groups;
-                                                              ESP=Nß grupos de correo;
-                                                              DEA=Anzahl Verteiler];
+                                                   CaptionML=[DEU=Anzahl Verteiler;
+                                                              ENU=No. of Mailing Groups];
                                                    Editable=No }
-    { 5073;   ;External ID         ;Code20        ;CaptionML=[ENU=External ID;
-                                                              ESP=ID externo;
-                                                              DEA=Externe ID] }
+    { 5073;   ;External ID         ;Code20        ;CaptionML=[DEU=Externe ID;
+                                                              ENU=External ID] }
     { 5074;   ;No. of Interactions ;Integer       ;FieldClass=FlowField;
                                                    CalcFormula=Count("Interaction Log Entry" WHERE (Contact Company No.=FIELD(FILTER(Company No.)),
                                                                                                     Canceled=CONST(No),
                                                                                                     Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                     Date=FIELD(Date Filter),
                                                                                                     Postponed=CONST(No)));
-                                                   CaptionML=[ENU=No. of Interactions;
-                                                              ESP=Nß de interacciones;
-                                                              DEA=Anzahl AktivitÑten];
+                                                   CaptionML=[DEU=Anzahl AktivitÑten;
+                                                              ENU=No. of Interactions];
                                                    Editable=No }
     { 5076;   ;Cost (LCY)          ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Interaction Log Entry"."Cost (LCY)" WHERE (Contact Company No.=FIELD(Company No.),
@@ -558,9 +507,8 @@ OBJECT Table 5050 Contact
                                                                                                                Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                                Date=FIELD(Date Filter),
                                                                                                                Postponed=CONST(No)));
-                                                   CaptionML=[ENU=Cost (LCY);
-                                                              ESP=Coste (DL);
-                                                              DEA=Einstandsbetrag (MW)];
+                                                   CaptionML=[DEU=Einstandsbetrag (MW);
+                                                              ENU=Cost (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 5077;   ;Duration (Min.)     ;Decimal       ;FieldClass=FlowField;
@@ -569,9 +517,8 @@ OBJECT Table 5050 Contact
                                                                                                                     Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                                     Date=FIELD(Date Filter),
                                                                                                                     Postponed=CONST(No)));
-                                                   CaptionML=[ENU=Duration (Min.);
-                                                              ESP=Duraci¢n (Min.);
-                                                              DEA=Dauer (Min.)];
+                                                   CaptionML=[DEU=Dauer (Min.);
+                                                              ENU=Duration (Min.)];
                                                    DecimalPlaces=0:0;
                                                    Editable=No }
     { 5078;   ;No. of Opportunities;Integer       ;FieldClass=FlowField;
@@ -580,9 +527,8 @@ OBJECT Table 5050 Contact
                                                                                                 Estimated Close Date=FIELD(Date Filter),
                                                                                                 Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                 Action Taken=FIELD(Action Taken Filter)));
-                                                   CaptionML=[ENU=No. of Opportunities;
-                                                              ESP=Nß de oportunidades;
-                                                              DEA=Anzahl Verkaufschancen];
+                                                   CaptionML=[DEU=Anzahl Verkaufschancen;
+                                                              ENU=No. of Opportunities];
                                                    Editable=No }
     { 5079;   ;Estimated Value (LCY);Decimal      ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Opportunity Entry"."Estimated Value (LCY)" WHERE (Active=CONST(Yes),
@@ -590,9 +536,8 @@ OBJECT Table 5050 Contact
                                                                                                                       Estimated Close Date=FIELD(Date Filter),
                                                                                                                       Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                                       Action Taken=FIELD(Action Taken Filter)));
-                                                   CaptionML=[ENU=Estimated Value (LCY);
-                                                              ESP=Valor estimado (DL);
-                                                              DEA=Erwarteter Wert (MW)];
+                                                   CaptionML=[DEU=Erwarteter Wert (MW);
+                                                              ENU=Estimated Value (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 5080;   ;Calcd. Current Value (LCY);Decimal ;FieldClass=FlowField;
@@ -601,9 +546,8 @@ OBJECT Table 5050 Contact
                                                                                                                            Estimated Close Date=FIELD(Date Filter),
                                                                                                                            Contact No.=FIELD(FILTER(Lookup Contact No.)),
                                                                                                                            Action Taken=FIELD(Action Taken Filter)));
-                                                   CaptionML=[ENU=Calcd. Current Value (LCY);
-                                                              ESP=Valor actual calculado (DL);
-                                                              DEA=Berech. aktueller Wert (MW)];
+                                                   CaptionML=[DEU=Berech. aktueller Wert (MW);
+                                                              ENU=Calcd. Current Value (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 5082;   ;Opportunity Entry Exists;Boolean   ;FieldClass=FlowField;
@@ -622,9 +566,8 @@ OBJECT Table 5050 Contact
                                                                                                 Probability %=FIELD(Probability % Filter),
                                                                                                 Estimated Close Date=FIELD(Date Filter),
                                                                                                 Close Opportunity Code=FIELD(Close Opportunity Filter)));
-                                                   CaptionML=[ENU=Opportunity Entry Exists;
-                                                              ESP=Existe mov. oportunidad;
-                                                              DEA=Verkaufschancenposten vorh.];
+                                                   CaptionML=[DEU=Verkaufschancenposten vorh.;
+                                                              ENU=Opportunity Entry Exists];
                                                    Editable=No }
     { 5083;   ;To-do Entry Exists  ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist(To-do WHERE (Contact Company No.=FIELD(Company No.),
@@ -636,120 +579,95 @@ OBJECT Table 5050 Contact
                                                                                   Status=FIELD(To-do Status Filter),
                                                                                   Priority=FIELD(Priority Filter),
                                                                                   Closed=FIELD(To-do Closed Filter)));
-                                                   CaptionML=[ENU=To-do Entry Exists;
-                                                              ESP=Existe mov. tarea;
-                                                              DEA=Aufgabenposten vorhanden];
+                                                   CaptionML=[DEU=Aufgabenposten vorhanden;
+                                                              ENU=To-do Entry Exists];
                                                    Editable=No }
     { 5084;   ;Salesperson Filter  ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation=Salesperson/Purchaser;
-                                                   CaptionML=[ENU=Salesperson Filter;
-                                                              ESP=Filtro vendedor;
-                                                              DEA=VerkÑuferfilter] }
+                                                   CaptionML=[DEU=VerkÑuferfilter;
+                                                              ENU=Salesperson Filter] }
     { 5085;   ;Campaign Filter     ;Code20        ;FieldClass=FlowFilter;
                                                    TableRelation=Campaign;
-                                                   CaptionML=[ENU=Campaign Filter;
-                                                              ESP=Filtro campa§a;
-                                                              DEA=Kampagnenfilter] }
+                                                   CaptionML=[DEU=Kampagnenfilter;
+                                                              ENU=Campaign Filter] }
     { 5087;   ;Action Taken Filter ;Option        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Action Taken Filter;
-                                                              ESP=Filtro accci¢n tomada;
-                                                              DEA=Kriterienaktionsfilter];
-                                                   OptionCaptionML=[ENU=" ,Next,Previous,Updated,Jumped,Won,Lost";
-                                                                    ESP=" ,Siguiente,Anterior,Actualizado,Saltado,Ganado,Perdido";
-                                                                    DEA=" ,NÑchster Schritt,Vorheriger Schritt,Aktualisiert,Schritt Åbersprungen,Gewonnen,Verloren"];
+                                                   CaptionML=[DEU=Kriterienaktionsfilter;
+                                                              ENU=Action Taken Filter];
+                                                   OptionCaptionML=[DEU=" ,NÑchster Schritt,Vorheriger Schritt,Aktualisiert,Schritt Åbersprungen,Gewonnen,Verloren";
+                                                                    ENU=" ,Next,Previous,Updated,Jumped,Won,Lost"];
                                                    OptionString=[ ,Next,Previous,Updated,Jumped,Won,Lost] }
     { 5088;   ;Sales Cycle Filter  ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation="Sales Cycle";
-                                                   CaptionML=[ENU=Sales Cycle Filter;
-                                                              ESP=Filtro ciclo ventas;
-                                                              DEA=Verkaufsprozessfilter] }
+                                                   CaptionML=[DEU=Verkaufsprozessfilter;
+                                                              ENU=Sales Cycle Filter] }
     { 5089;   ;Sales Cycle Stage Filter;Integer   ;FieldClass=FlowFilter;
                                                    TableRelation="Sales Cycle Stage".Stage WHERE (Sales Cycle Code=FIELD(Sales Cycle Filter));
-                                                   CaptionML=[ENU=Sales Cycle Stage Filter;
-                                                              ESP=Filtro etapa ciclo ventas;
-                                                              DEA=Verkaufsprozess-Stufenfilter] }
+                                                   CaptionML=[DEU=Verkaufsprozess-Stufenfilter;
+                                                              ENU=Sales Cycle Stage Filter] }
     { 5090;   ;Probability % Filter;Decimal       ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Probability % Filter;
-                                                              ESP=Filtro % probabilidad;
-                                                              DEA=Wahrscheinlichkeit % Filter];
+                                                   CaptionML=[DEU=Wahrscheinlichkeit % Filter;
+                                                              ENU=Probability % Filter];
                                                    DecimalPlaces=1:1;
                                                    MinValue=0;
                                                    MaxValue=100 }
     { 5091;   ;Completed % Filter  ;Decimal       ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Completed % Filter;
-                                                              ESP=Filtro % completado;
-                                                              DEA=Abgeschlossen % Filter];
+                                                   CaptionML=[DEU=Abgeschlossen % Filter;
+                                                              ENU=Completed % Filter];
                                                    DecimalPlaces=1:1;
                                                    MinValue=0;
                                                    MaxValue=100 }
     { 5092;   ;Estimated Value Filter;Decimal     ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Estimated Value Filter;
-                                                              ESP=Filtro valor estimado;
-                                                              DEA=Erwarteter Wert Filter];
+                                                   CaptionML=[DEU=Erwarteter Wert Filter;
+                                                              ENU=Estimated Value Filter];
                                                    AutoFormatType=1 }
     { 5093;   ;Calcd. Current Value Filter;Decimal;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Calcd. Current Value Filter;
-                                                              ESP=Filtro valor actual calculado;
-                                                              DEA=Berech. aktueller Wert Filter];
+                                                   CaptionML=[DEU=Berech. aktueller Wert Filter;
+                                                              ENU=Calcd. Current Value Filter];
                                                    AutoFormatType=1 }
     { 5094;   ;Chances of Success % Filter;Decimal;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Chances of Success % Filter;
-                                                              ESP=Filtro % posibilidades Çxito;
-                                                              DEA=Erfolgschancen % Filter];
+                                                   CaptionML=[DEU=Erfolgschancen % Filter;
+                                                              ENU=Chances of Success % Filter];
                                                    DecimalPlaces=0:0;
                                                    MinValue=0;
                                                    MaxValue=100 }
     { 5095;   ;To-do Status Filter ;Option        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=To-do Status Filter;
-                                                              ESP=Filtro estado tarea;
-                                                              DEA=Aufgabenstatusfilter];
-                                                   OptionCaptionML=[ENU=Not Started,In Progress,Completed,Waiting,Postponed;
-                                                                    ESP=No iniciado,En progreso,Completado,Esperando,Aplazado;
-                                                                    DEA=Nicht begonnen,In Bearbeitung,Erledigt,Warten,ZurÅckgestellt];
+                                                   CaptionML=[DEU=Aufgabenstatusfilter;
+                                                              ENU=To-do Status Filter];
+                                                   OptionCaptionML=[DEU=Nicht begonnen,In Bearbeitung,Erledigt,Warten,ZurÅckgestellt;
+                                                                    ENU=Not Started,In Progress,Completed,Waiting,Postponed];
                                                    OptionString=Not Started,In Progress,Completed,Waiting,Postponed }
     { 5096;   ;To-do Closed Filter ;Boolean       ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=To-do Closed Filter;
-                                                              ESP=Filtro tarea cerrada;
-                                                              DEA=Abgeschlossene Aufgaben Filter] }
+                                                   CaptionML=[DEU=Abgeschlossene Aufgaben Filter;
+                                                              ENU=To-do Closed Filter] }
     { 5097;   ;Priority Filter     ;Option        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Priority Filter;
-                                                              ESP=Filtro prioridad;
-                                                              DEA=PrioritÑtenfilter];
-                                                   OptionCaptionML=[ENU=Low,Normal,High;
-                                                                    ESP=Baja,Normal,Alta;
-                                                                    DEA=Niedrig,Normal,Hoch];
+                                                   CaptionML=[DEU=PrioritÑtenfilter;
+                                                              ENU=Priority Filter];
+                                                   OptionCaptionML=[DEU=Niedrig,Normal,Hoch;
+                                                                    ENU=Low,Normal,High];
                                                    OptionString=Low,Normal,High }
     { 5098;   ;Team Filter         ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation=Team;
-                                                   CaptionML=[ENU=Team Filter;
-                                                              ESP=Filtro equipo;
-                                                              DEA=Teamfilter] }
+                                                   CaptionML=[DEU=Teamfilter;
+                                                              ENU=Team Filter] }
     { 5099;   ;Close Opportunity Filter;Code10    ;FieldClass=FlowFilter;
                                                    TableRelation="Close Opportunity Code";
-                                                   CaptionML=[ENU=Close Opportunity Filter;
-                                                              ESP=Cerrar filtro oportunidad;
-                                                              DEA=Verkaufschancenabschlussfilter] }
-    { 5100;   ;Correspondence Type ;Option        ;CaptionML=[ENU=Correspondence Type;
-                                                              ESP=Tipo correspondencia;
-                                                              DEA=Korrespondenzart];
-                                                   OptionCaptionML=[ENU=" ,Hard Copy,E-Mail,Fax";
-                                                                    ESP=" ,Impresi¢n,Correo electr¢nico,Fax";
-                                                                    DEA=" ,Brief,E-Mail,Fax"];
+                                                   CaptionML=[DEU=Verkaufschancenabschlussfilter;
+                                                              ENU=Close Opportunity Filter] }
+    { 5100;   ;Correspondence Type ;Option        ;CaptionML=[DEU=Korrespondenzart;
+                                                              ENU=Correspondence Type];
+                                                   OptionCaptionML=[DEU=" ,Brief,E-Mail,Fax";
+                                                                    ENU=" ,Hard Copy,E-Mail,Fax"];
                                                    OptionString=[ ,Hard Copy,E-Mail,Fax] }
     { 5101;   ;Salutation Code     ;Code10        ;TableRelation=Salutation;
-                                                   CaptionML=[ENU=Salutation Code;
-                                                              ESP=C¢d. saludo;
-                                                              DEA=Anredecode] }
-    { 5102;   ;Search E-Mail       ;Code80        ;CaptionML=[ENU=Search E-Mail;
-                                                              ESP=Correo electr¢nico de b£squeda;
-                                                              DEA=E-Mail-Suchbegriff] }
-    { 5104;   ;Last Time Modified  ;Time          ;CaptionML=[ENU=Last Time Modified;
-                                                              ESP=Èlt. hora modificaci¢n;
-                                                              DEA=Korrigiert um] }
+                                                   CaptionML=[DEU=Anredecode;
+                                                              ENU=Salutation Code] }
+    { 5102;   ;Search E-Mail       ;Code80        ;CaptionML=[DEU=E-Mail-Suchbegriff;
+                                                              ENU=Search E-Mail] }
+    { 5104;   ;Last Time Modified  ;Time          ;CaptionML=[DEU=Korrigiert um;
+                                                              ENU=Last Time Modified] }
     { 5105;   ;E-Mail 2            ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail 2;
-                                                              ESP=Correo electr¢nico 2;
-                                                              DEA=E-Mail 2] }
+                                                   CaptionML=[DEU=E-Mail 2;
+                                                              ENU=E-Mail 2] }
   }
   KEYS
   {
@@ -773,15 +691,15 @@ OBJECT Table 5050 Contact
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot delete the %2 record of the %1 because there are one or more to-dos open.;ESP=No puede borrar el registro %2 de %1 porque existen una o m†s tareas abiertas.;DEA=Sie kînnen %1 %2 nicht lîschen, da es eine oder mehrere offene Aufgaben gibt.';
-      Text001@1001 : TextConst 'ENU=You cannot delete the %2 record of the %1 because the contact is assigned one or more unlogged segments.;ESP=No puede eliminar el registro %2 porque de %1 porque el contacto est† asignado a uno o m†s segmentos sin archivar.;DEA=Sie kînnen %1 %2 nicht lîschen, da der Kontakt einem oder mehreren unprotokollierten Segmenten zugeordnet ist.';
-      Text002@1002 : TextConst 'ENU=You cannot delete the %2 record of the %1 because one or more opportunities are in not started or progress.;ESP=No puede eliminar el registro %2 de %1 porque existen una o m†s oportunidades en progreso o no iniciadas.;DEA=Sie kînnen %1 %2 nicht lîschen, da es eine oder mehrere Verkaufschancen gibt, die in Bearbeitung sind oder noch nicht begonnen wurden.';
-      Text003@1003 : TextConst 'ENU=%1 cannot be changed because one or more interaction log entries are linked to the contact.;ESP=No se puede cambiar %1 porque uno o m†s movs. log interacci¢n est†n relacionados con el contacto.;DEA=%1 kann nicht geÑndert werden, da mindestens ein AktivitÑtenprotokollposten mit dem Kontakt verknÅpft ist.';
-      Text005@1005 : TextConst 'ENU=%1 cannot be changed because one or more to-dos are linked to the contact.;ESP=No se puede cambiar %1 porque una o m†s tareas est†n relacionadas con el contacto.;DEA=%1 kann nicht geÑndert werden, da mindestens eine Aufgabe mit dem Kontakt verknÅpft ist.';
-      Text006@1006 : TextConst 'ENU=%1 cannot be changed because one or more opportunities are linked to the contact.;ESP=No se puede cambiar %1 porque una o m†s oportunidades est†n relacionadas con el contacto.;DEA=%1 kann nicht geÑndert werden, da mindestens eine Verkaufschance mit dem Kontakt verknÅpft ist.';
-      Text007@1007 : TextConst 'ENU=%1 cannot be changed because there are one or more related people linked to the contact.;ESP=No se puede cambiar %1 porque existen una o m†s personas relacionadas con el contacto.;DEA=%1 kann nicht geÑndert werden, da es eine oder mehrere Personen gibt, die mit dem Kontakt verknÅpft sind.';
-      Text009@1009 : TextConst 'ENU=The %2 record of the %1 has been created.;ESP=Se ha creado el registro %2 de %1.;DEA=%1 %2 wurde erstellt.';
-      Text010@1010 : TextConst 'ENU=The %2 record of the %1 is not linked with any other table.;ESP=El registro %2 de %1 no est† relacionado con otra tabla.;DEA=%1 %2 ist nicht mit einer anderen Tabelle verknÅpft.';
+      Text000@1000 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da es eine oder mehrere offene Aufgaben gibt.;ENU=You cannot delete the %2 record of the %1 because there are one or more to-dos open.';
+      Text001@1001 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da der Kontakt einem oder mehreren unprotokollierten Segmenten zugeordnet ist.;ENU=You cannot delete the %2 record of the %1 because the contact is assigned one or more unlogged segments.';
+      Text002@1002 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da es eine oder mehrere Verkaufschancen gibt, die in Bearbeitung sind oder noch nicht begonnen wurden.;ENU=You cannot delete the %2 record of the %1 because one or more opportunities are in not started or progress.';
+      Text003@1003 : TextConst 'DEU=%1 kann nicht geÑndert werden, da mindestens ein AktivitÑtenprotokollposten mit dem Kontakt verknÅpft ist.;ENU=%1 cannot be changed because one or more interaction log entries are linked to the contact.';
+      Text005@1005 : TextConst 'DEU=%1 kann nicht geÑndert werden, da mindestens eine Aufgabe mit dem Kontakt verknÅpft ist.;ENU=%1 cannot be changed because one or more to-dos are linked to the contact.';
+      Text006@1006 : TextConst 'DEU=%1 kann nicht geÑndert werden, da mindestens eine Verkaufschance mit dem Kontakt verknÅpft ist.;ENU=%1 cannot be changed because one or more opportunities are linked to the contact.';
+      Text007@1007 : TextConst 'DEU=%1 kann nicht geÑndert werden, da es eine oder mehrere Personen gibt, die mit dem Kontakt verknÅpft sind.;ENU=%1 cannot be changed because there are one or more related people linked to the contact.';
+      Text009@1009 : TextConst 'DEU=%1 %2 wurde erstellt.;ENU=The %2 record of the %1 has been created.';
+      Text010@1010 : TextConst 'DEU=%1 %2 ist nicht mit einer anderen Tabelle verknÅpft.;ENU=The %2 record of the %1 is not linked with any other table.';
       RMSetup@1012 : Record 5079;
       Cont@1013 : Record 5050;
       ContBusRel@1014 : Record 5054;
@@ -792,15 +710,15 @@ OBJECT Table 5050 Contact
       CampaignMgt@1050 : Codeunit 7030;
       ContChanged@1018 : Boolean;
       SkipDefaults@1019 : Boolean;
-      Text012@1020 : TextConst 'ENU=You cannot change %1 because one or more unlogged segments are assigned to the contact.;ESP=No puede cambiar %1 porque hay uno o m†s segmentos sin archivar asignados al contacto.;DEA=Sie kînnen %1 nicht Ñndern, da diesem Kontakt mindestens ein unprotokolliertes Segment zugeordnet ist.';
-      Text019@1022 : TextConst 'ENU=The %2 record of the %1 already has the %3 with %4 %5.;ESP=El registro %1 de %2 ya tiene %3 con %4 %5.;DEA=%1 %2 hat bereits die %3 mit %4 %5.';
-      Text020@1021 : TextConst 'ENU=Do you want to create a contact %1 %2 as a customer using a customer template?;ESP=®Desea crear un contacto %1 %2 como cliente utilizando una plantilla cliente?;DEA=Mîchten Sie aus dem Kontakt %1 %2 einen Debitor unter Verwendung einer Debitorenvorlage erstellen?';
-      Text021@1023 : TextConst 'ENU=You have to set up formal and informal salutation formulas in %1  language for the %2 contact.;ESP=Debe configurar f¢rmulas de saludo formales e informales en %1 para el contacto %2.;DEA=Sie mÅssen formelle und informelle Anredeformeln in der Sprache %1 fÅr den Kontakt %2 einrichten.';
+      Text012@1020 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, da diesem Kontakt mindestens ein unprotokolliertes Segment zugeordnet ist.;ENU=You cannot change %1 because one or more unlogged segments are assigned to the contact.';
+      Text019@1022 : TextConst 'DEU=%1 %2 hat bereits die %3 mit %4 %5.;ENU=The %2 record of the %1 already has the %3 with %4 %5.';
+      Text020@1021 : TextConst 'DEU=Mîchten Sie aus dem Kontakt %1 %2 einen Debitor unter Verwendung einer Debitorenvorlage erstellen?;ENU=Do you want to create a contact %1 %2 as a customer using a customer template?';
+      Text021@1023 : TextConst 'DEU=Sie mÅssen formelle und informelle Anredeformeln in der Sprache %1 fÅr den Kontakt %2 einrichten.;ENU=You have to set up formal and informal salutation formulas in %1  language for the %2 contact.';
       HideValidationDialog@1032 : Boolean;
-      Text022@1034 : TextConst 'ENU=The creation of the customer has been aborted.;ESP=Se cancel¢ la creaci¢n del cliente.;DEA=Die Erstellung des Debitors wurde abgebrochen.';
-      Text029@1045 : TextConst 'ENU=The total length of first name, middle name and surname is %1 character(s)longer than the maximum length allowed for the Name field.;ESP=La longitud total del nombre, 1ß apellido y 2ß apellido supera en %1 caracteres la longitud m†xima permitida en el campo Nombre.;DEA=Die GesamtlÑnge von Vorname, zweitem Vornamen und Nachnamen ist %1 Zeichen lÑnger als die zulÑssige MaximallÑnge fÅr das Namensfeld.';
-      Text032@1048 : TextConst 'ENU=The length of %1 is %2 character(s)longer than the maximum length allowed for the %1 field.;ESP=La longitud de %1 supera la longitud m†xima permitida para el campo %1 en %2 caracteres.;DEA=Die LÑnge von %1 ist um %2 Zeichen lÑnger als die maximal zulÑssige LÑnge des %1-Felds.';
-      Text033@1008 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text022@1034 : TextConst 'DEU=Die Erstellung des Debitors wurde abgebrochen.;ENU=The creation of the customer has been aborted.';
+      Text029@1045 : TextConst 'DEU=Die GesamtlÑnge von Vorname, zweitem Vornamen und Nachnamen ist %1 Zeichen lÑnger als die zulÑssige MaximallÑnge fÅr das Namensfeld.;ENU=The total length of first name, middle name and surname is %1 character(s)longer than the maximum length allowed for the Name field.';
+      Text032@1048 : TextConst 'DEU=Die LÑnge von %1 ist um %2 Zeichen lÑnger als die maximal zulÑssige LÑnge des %1-Felds.;ENU=The length of %1 is %2 character(s)longer than the maximum length allowed for the %1 field.';
+      Text033@1008 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
 
     PROCEDURE OnModify@4(xRec@1005 : Record 5050);
     VAR

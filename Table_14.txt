@@ -2,9 +2,9 @@ OBJECT Table 14 Location
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -33,34 +33,27 @@ OBJECT Table 14 Location
                  UNTIL WorkCenter.NEXT = 0;
              END;
 
-    CaptionML=[ENU=Location;
-               ESP=AlmacÇn;
-               DEA=Lagerort];
+    CaptionML=[DEU=Lagerort;
+               ENU=Location];
     LookupPageID=Page15;
     DrillDownPageID=Page15;
   }
   FIELDS
   {
-    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
     { 130 ;   ;Default Bin Code    ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
-                                                   CaptionML=[ENU=Default Bin Code;
-                                                              ESP=C¢d. ubic. predeterminado;
-                                                              DEA=Standardlagerplatzcode] }
-    { 5700;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5701;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 5702;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Standardlagerplatzcode;
+                                                              ENU=Default Bin Code] }
+    { 5700;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5701;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 5702;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 5703;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -69,26 +62,20 @@ OBJECT Table 14 Location
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 5704;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
     { 5705;   ;Phone No. 2         ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No. 2;
-                                                              ESP=Nß telÇfono 2;
-                                                              DEA=Telefonnr. 2] }
-    { 5706;   ;Telex No.           ;Text30        ;CaptionML=[ENU=Telex No.;
-                                                              ESP=Nß tÇlex;
-                                                              DEA=Telexnr.] }
-    { 5707;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 5713;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
+                                                   CaptionML=[DEU=Telefonnr. 2;
+                                                              ENU=Phone No. 2] }
+    { 5706;   ;Telex No.           ;Text30        ;CaptionML=[DEU=Telexnr.;
+                                                              ENU=Telex No.] }
+    { 5707;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 5713;   ;Contact             ;Text50        ;CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
     { 5714;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -97,24 +84,19 @@ OBJECT Table 14 Location
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 5715;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 5715;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 5718;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 5719;   ;Home Page           ;Text90        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P†gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 5720;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 5724;   ;Use As In-Transit   ;Boolean       ;OnValidate=BEGIN
                                                                 IF "Use As In-Transit" THEN BEGIN
                                                                   TESTFIELD("Require Put-away",FALSE);
@@ -126,9 +108,8 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Use As In-Transit;
-                                                              ESP=Utiliz.como tr†nsito;
-                                                              DEA=Als Transitlager verwenden] }
+                                                   CaptionML=[DEU=Als Transitlager verwenden;
+                                                              ENU=Use As In-Transit] }
     { 5726;   ;Require Put-away    ;Boolean       ;OnValidate=VAR
                                                                 WhseActivHeader@1000 : Record 5766;
                                                                 WhseRcptHeader@1001 : Record 7316;
@@ -149,9 +130,8 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Require Put-away;
-                                                              ESP=Ubicaci¢n requerida;
-                                                              DEA=Einlagerung erforderlich] }
+                                                   CaptionML=[DEU=Einlagerung erforderlich;
+                                                              ENU=Require Put-away] }
     { 5727;   ;Require Pick        ;Boolean       ;OnValidate=VAR
                                                                 WhseActivHeader@1000 : Record 5766;
                                                                 WhseShptHeader@1001 : Record 7320;
@@ -173,13 +153,11 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Require Pick;
-                                                              ESP=Picking requerido;
-                                                              DEA=Kommissionierung erforderlich] }
+                                                   CaptionML=[DEU=Kommissionierung erforderlich;
+                                                              ENU=Require Pick] }
     { 5728;   ;Cross-Dock Due Date Calc.;DateFormula;
-                                                   CaptionML=[ENU=Cross-Dock Due Date Calc.;
-                                                              ESP=Calcular fecha vto. tr†ns.directo;
-                                                              DEA=Zuord.-FÑlligkeitsdatum ber.] }
+                                                   CaptionML=[DEU=Zuord.-FÑlligkeitsdatum ber.;
+                                                              ENU=Cross-Dock Due Date Calc.] }
     { 5729;   ;Use Cross-Docking   ;Boolean       ;OnValidate=BEGIN
                                                                 IF "Use Cross-Docking" THEN BEGIN
                                                                   TESTFIELD("Require Receive");
@@ -190,9 +168,8 @@ OBJECT Table 14 Location
                                                                   "Cross-Dock Bin Code" := '';
                                                               END;
 
-                                                   CaptionML=[ENU=Use Cross-Docking;
-                                                              ESP=Utilizar tr†nsito directo;
-                                                              DEA=Zuordnung verwenden] }
+                                                   CaptionML=[DEU=Zuordnung verwenden;
+                                                              ENU=Use Cross-Docking] }
     { 5730;   ;Require Receive     ;Boolean       ;OnValidate=VAR
                                                                 WhseRcptHeader@1000 : Record 7316;
                                                                 WhseActivHeader@1001 : Record 5766;
@@ -214,9 +191,8 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Require Receive;
-                                                              ESP=Recepci¢n requerida;
-                                                              DEA=Wareneingang erforderlich] }
+                                                   CaptionML=[DEU=Wareneingang erforderlich;
+                                                              ENU=Require Receive] }
     { 5731;   ;Require Shipment    ;Boolean       ;OnValidate=VAR
                                                                 WhseShptHeader@1000 : Record 7320;
                                                                 WhseActivHeader@1001 : Record 5766;
@@ -238,9 +214,8 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Require Shipment;
-                                                              ESP=Env°o requerido;
-                                                              DEA=Warenausgang erforderlich] }
+                                                   CaptionML=[DEU=Warenausgang erforderlich;
+                                                              ENU=Require Shipment] }
     { 5732;   ;Bin Mandatory       ;Boolean       ;OnValidate=VAR
                                                                 ItemLedgEntry@1004 : Record 32;
                                                                 WhseEntry@1000 : Record 7312;
@@ -295,9 +270,8 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Bin Mandatory;
-                                                              ESP=Ubicac. obligatoria;
-                                                              DEA=Lagerplatz notwendig] }
+                                                   CaptionML=[DEU=Lagerplatz notwendig;
+                                                              ENU=Bin Mandatory] }
     { 5733;   ;Directed Put-away and Pick;Boolean ;OnValidate=VAR
                                                                 WhseActivHeader@1002 : Record 5766;
                                                                 WhseShptHeader@1001 : Record 7320;
@@ -336,48 +310,37 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Directed Put-away and Pick;
-                                                              ESP=Ubicac. y pick. directo;
-                                                              DEA=Gesteuerte Einlag. u. Kommiss.] }
+                                                   CaptionML=[DEU=Gesteuerte Einlag. u. Kommiss.;
+                                                              ENU=Directed Put-away and Pick] }
     { 5734;   ;Default Bin Selection;Option       ;OnValidate=BEGIN
                                                                 IF ("Default Bin Selection" <> xRec."Default Bin Selection") AND ("Default Bin Selection" = "Default Bin Selection"::" ") THEN
                                                                   TESTFIELD("Directed Put-away and Pick");
                                                               END;
 
-                                                   CaptionML=[ENU=Default Bin Selection;
-                                                              ESP=Selecci¢n ubicaci¢n genÇrica;
-                                                              DEA=Vorg.-Lagerplatzauswahl];
-                                                   OptionCaptionML=[ENU=" ,Fixed Bin,Last-Used Bin";
-                                                                    ESP=" ,Ubic. fija,Èltima ubic. utiliz.";
-                                                                    DEA=" ,fester Lagerplatz,Zuletzt verw. Lagerplatz"];
+                                                   CaptionML=[DEU=Vorg.-Lagerplatzauswahl;
+                                                              ENU=Default Bin Selection];
+                                                   OptionCaptionML=[DEU=" ,fester Lagerplatz,Zuletzt verw. Lagerplatz";
+                                                                    ENU=" ,Fixed Bin,Last-Used Bin"];
                                                    OptionString=[ ,Fixed Bin,Last-Used Bin] }
     { 5790;   ;Outbound Whse. Handling Time;DateFormula;
-                                                   CaptionML=[ENU=Outbound Whse. Handling Time;
-                                                              ESP=Tiempo manip. alm. salida;
-                                                              DEA=Ausgeh. Lagerdurchlaufzeit] }
+                                                   CaptionML=[DEU=Ausgeh. Lagerdurchlaufzeit;
+                                                              ENU=Outbound Whse. Handling Time] }
     { 5791;   ;Inbound Whse. Handling Time;DateFormula;
-                                                   CaptionML=[ENU=Inbound Whse. Handling Time;
-                                                              ESP=Tiempo manip. alm. entrada;
-                                                              DEA=Eingeh. Lagerdurchlaufzeit] }
+                                                   CaptionML=[DEU=Eingeh. Lagerdurchlaufzeit;
+                                                              ENU=Inbound Whse. Handling Time] }
     { 7305;   ;Put-away Template Code;Code10      ;TableRelation="Put-away Template Header";
-                                                   CaptionML=[ENU=Put-away Template Code;
-                                                              ESP=C¢d. plantilla ubicar;
-                                                              DEA=Einlagerungsvorlagencode] }
-    { 7306;   ;Use Put-away Worksheet;Boolean     ;CaptionML=[ENU=Use Put-away Worksheet;
-                                                              ESP=Utilizar hoj. trab. ubicaci¢n;
-                                                              DEA=Einlagerungsvorschl. verwenden] }
-    { 7307;   ;Pick According to FEFO;Boolean     ;CaptionML=[ENU=Pick According to FEFO;
-                                                              ESP=Picking seg£n FEFO (Primero en caducar, primero en salir);
-                                                              DEA=GemÑ· FEFO kommissionieren] }
-    { 7308;   ;Allow Breakbulk     ;Boolean       ;CaptionML=[ENU=Allow Breakbulk;
-                                                              ESP=Permite divisi¢n bulto;
-                                                              DEA=Gebindeanbruch zulassen] }
-    { 7309;   ;Bin Capacity Policy ;Option        ;CaptionML=[ENU=Bin Capacity Policy;
-                                                              ESP=Directiva capacidad ubicaci¢n;
-                                                              DEA=LagerplatzkapazitÑtsprÅfung];
-                                                   OptionCaptionML=[ENU=Never Check Capacity,Allow More Than Max. Capacity,Prohibit More Than Max. Cap.;
-                                                                    ESP=Nunca comprob. capacidad,Permite m†s que capac. m†x.,Prohibido m†s que cap. m†x..;
-                                                                    DEA=KapazitÑt nie prÅfen,KapazitÑtsÅberschreitung zulassen,KapazitÑtsÅberschreitung verhindern];
+                                                   CaptionML=[DEU=Einlagerungsvorlagencode;
+                                                              ENU=Put-away Template Code] }
+    { 7306;   ;Use Put-away Worksheet;Boolean     ;CaptionML=[DEU=Einlagerungsvorschl. verwenden;
+                                                              ENU=Use Put-away Worksheet] }
+    { 7307;   ;Pick According to FEFO;Boolean     ;CaptionML=[DEU=GemÑ· FEFO kommissionieren;
+                                                              ENU=Pick According to FEFO] }
+    { 7308;   ;Allow Breakbulk     ;Boolean       ;CaptionML=[DEU=Gebindeanbruch zulassen;
+                                                              ENU=Allow Breakbulk] }
+    { 7309;   ;Bin Capacity Policy ;Option        ;CaptionML=[DEU=LagerplatzkapazitÑtsprÅfung;
+                                                              ENU=Bin Capacity Policy];
+                                                   OptionCaptionML=[DEU=KapazitÑt nie prÅfen,KapazitÑtsÅberschreitung zulassen,KapazitÑtsÅberschreitung verhindern;
+                                                                    ENU=Never Check Capacity,Allow More Than Max. Capacity,Prohibit More Than Max. Cap.];
                                                    OptionString=Never Check Capacity,Allow More Than Max. Capacity,Prohibit More Than Max. Cap. }
     { 7313;   ;Open Shop Floor Bin Code;Code20    ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
@@ -389,9 +352,8 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=Open Shop Floor Bin Code;
-                                                              ESP=Abre ubic. aprovision. manual;
-                                                              DEA=Off. Fert.-Ber.-Lagerpl.-Code] }
+                                                   CaptionML=[DEU=Off. Fert.-Ber.-Lagerpl.-Code;
+                                                              ENU=Open Shop Floor Bin Code] }
     { 7314;   ;To-Production Bin Code;Code20      ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -402,9 +364,8 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=To-Production Bin Code;
-                                                              ESP=C¢d. ubic. para producci¢n;
-                                                              DEA=Fert.-Bereitst.-Lagerplatzcode] }
+                                                   CaptionML=[DEU=Fert.-Bereitst.-Lagerplatzcode;
+                                                              ENU=To-Production Bin Code] }
     { 7315;   ;From-Production Bin Code;Code20    ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -415,9 +376,8 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=From-Production Bin Code;
-                                                              ESP=C¢d. ubic. desde producci¢n;
-                                                              DEA=Fert.-Ausgangslagerplatzcode] }
+                                                   CaptionML=[DEU=Fert.-Ausgangslagerplatzcode;
+                                                              ENU=From-Production Bin Code] }
     { 7317;   ;Adjustment Bin Code ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=BEGIN
                                                                 IF "Adjustment Bin Code" <> xRec."Adjustment Bin Code" THEN BEGIN
@@ -432,34 +392,26 @@ OBJECT Table 14 Location
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Adjustment Bin Code;
-                                                              ESP=C¢d. ubicaci¢n ajuste;
-                                                              DEA=Ausgleichslagerplatzcode] }
-    { 7319;   ;Always Create Put-away Line;Boolean;CaptionML=[ENU=Always Create Put-away Line;
-                                                              ESP=Crea siempre l°n. ubicaci¢n;
-                                                              DEA=Einlag.-Zeilen immer erstellen] }
-    { 7320;   ;Always Create Pick Line;Boolean    ;CaptionML=[ENU=Always Create Pick Line;
-                                                              ESP=Crea siempre l°n. picking;
-                                                              DEA=Komm.-Zeilen immer erstellen] }
-    { 7321;   ;Special Equipment   ;Option        ;CaptionML=[ENU=Special Equipment;
-                                                              ESP=Equipo especial;
-                                                              DEA=Lagerhilfsmittel];
-                                                   OptionCaptionML=[ENU=" ,According to Bin,According to SKU/Item";
-                                                                    ESP=" ,Seg£n ubicaci¢n,Seg£n Ud. almac./producto";
-                                                                    DEA=" ,Nach Lagerplatz,Nach Lagerhaltungsdaten/Artikel"];
+                                                   CaptionML=[DEU=Ausgleichslagerplatzcode;
+                                                              ENU=Adjustment Bin Code] }
+    { 7319;   ;Always Create Put-away Line;Boolean;CaptionML=[DEU=Einlag.-Zeilen immer erstellen;
+                                                              ENU=Always Create Put-away Line] }
+    { 7320;   ;Always Create Pick Line;Boolean    ;CaptionML=[DEU=Komm.-Zeilen immer erstellen;
+                                                              ENU=Always Create Pick Line] }
+    { 7321;   ;Special Equipment   ;Option        ;CaptionML=[DEU=Lagerhilfsmittel;
+                                                              ENU=Special Equipment];
+                                                   OptionCaptionML=[DEU=" ,Nach Lagerplatz,Nach Lagerhaltungsdaten/Artikel";
+                                                                    ENU=" ,According to Bin,According to SKU/Item"];
                                                    OptionString=[ ,According to Bin,According to SKU/Item] }
     { 7323;   ;Receipt Bin Code    ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
-                                                   CaptionML=[ENU=Receipt Bin Code;
-                                                              ESP=C¢d. ubicaci¢n recepci¢n;
-                                                              DEA=Wareneingangslagerplatzcode] }
+                                                   CaptionML=[DEU=Wareneingangslagerplatzcode;
+                                                              ENU=Receipt Bin Code] }
     { 7325;   ;Shipment Bin Code   ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
-                                                   CaptionML=[ENU=Shipment Bin Code;
-                                                              ESP=C¢d. ubicaci¢n env°o;
-                                                              DEA=Warenausgangslagerplatzcode] }
+                                                   CaptionML=[DEU=Warenausgangslagerplatzcode;
+                                                              ENU=Shipment Bin Code] }
     { 7326;   ;Cross-Dock Bin Code ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
-                                                   CaptionML=[ENU=Cross-Dock Bin Code;
-                                                              ESP=C¢d. ubicac. tr†nsito directo;
-                                                              DEA=Zuordnungslagerplatzcode] }
+                                                   CaptionML=[DEU=Zuordnungslagerplatzcode;
+                                                              ENU=Cross-Dock Bin Code] }
     { 7330;   ;To-Assembly Bin Code;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -470,9 +422,8 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=To-Assembly Bin Code;
-                                                              ESP=C¢d. ubic. para ensamblado;
-                                                              DEA=Bis Montagelagerplatzcode] }
+                                                   CaptionML=[DEU=Bis Montagelagerplatzcode;
+                                                              ENU=To-Assembly Bin Code] }
     { 7331;   ;From-Assembly Bin Code;Code20      ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -483,9 +434,8 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=From-Assembly Bin Code;
-                                                              ESP=C¢d. ubic. desde ensamblado;
-                                                              DEA=Von Montagelagerplatzcode] }
+                                                   CaptionML=[DEU=Von Montagelagerplatzcode;
+                                                              ENU=From-Assembly Bin Code] }
     { 7332;   ;Asm.-to-Order Shpt. Bin Code;Code20;TableRelation=Bin.Code WHERE (Location Code=FIELD(Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -496,16 +446,13 @@ OBJECT Table 14 Location
                                                                   DATABASE::Location,Code);
                                                               END;
 
-                                                   CaptionML=[ENU=Asm.-to-Order Shpt. Bin Code;
-                                                              ESP=C¢d. ubic. ens.contra-pedido;
-                                                              DEA=LP-Code f. Prog.fert.lief.] }
+                                                   CaptionML=[DEU=LP-Code f. Prog.fert.lief.;
+                                                              ENU=Asm.-to-Order Shpt. Bin Code] }
     { 7600;   ;Base Calendar Code  ;Code10        ;TableRelation="Base Calendar";
-                                                   CaptionML=[ENU=Base Calendar Code;
-                                                              ESP=C¢digo calendario base;
-                                                              DEA=Basiskalendercode] }
-    { 7700;   ;Use ADCS            ;Boolean       ;CaptionML=[ENU=Use ADCS;
-                                                              ESP=Utilizar ADCS;
-                                                              DEA=MDE verwenden] }
+                                                   CaptionML=[DEU=Basiskalendercode;
+                                                              ENU=Base Calendar Code] }
+    { 7700;   ;Use ADCS            ;Boolean       ;CaptionML=[DEU=MDE verwenden;
+                                                              ENU=Use ADCS] }
   }
   KEYS
   {
@@ -524,21 +471,21 @@ OBJECT Table 14 Location
       WhseSetup@1002 : Record 5769;
       InvtSetup@1003 : Record 313;
       Location@1004 : Record 14;
-      Text000@1005 : TextConst 'ENU=You cannot delete the %1 %2, because they contain items.;ESP=No puede borrar el %1 %2, porque contienen productos.;DEA=Sie kînnen den %1 %2 nicht lîschen, da dort Artikel vorhanden sind.';
-      Text001@1006 : TextConst 'ENU=You cannot delete the %1 %2, because one or more Warehouse Activity Lines exist for this %1.;ESP=No puede borrar el %1 %2 , porque existen una o m†s l°ns. actividad almacÇn para este %1.;DEA=Sie kînnen den %1 %2 nicht lîschen, da eine oder mehrere LageraktivitÑtszeilen fÅr diesen %1 vorhanden sind.';
-      Text002@1007 : TextConst 'ENU=%1 must be Yes, because the bins contain items.;ESP=%1 tiene que ser s°, porque las ubic. contienen prods.;DEA=Das Feld %1 muss ein HÑkchen enthalten, da an den LagerplÑtzen Artikel vorhanden sind.';
-      Text003@1009 : TextConst 'ENU=Cancelled.;ESP=Cancelado.;DEA=Abgebrochen.';
-      Text004@1010 : TextConst 'ENU=The total quantity of items in the warehouse is 0, but the Adjustment Bin contains a negative quantity and other bins contain a positive quantity.\;ESP=La cdad. total de prods. en el alm. es 0, pero la ubic. de ajuste contiene una cantidad negativa y otras ubic. contienen una cantidad positiva.\;DEA=Die Gesamtmenge der Artikel im Lager ist 0, doch der Ausgleichslagerplatz enthÑlt eine negative Menge und die anderen LagerplÑtze enthalten eine positive Menge.\';
-      Text005@1012 : TextConst 'ENU=Do you still want to delete this %1?;ESP=®Quiere todav°a borrar este %1?;DEA=Mîchten Sie diesen %1 wirklich lîschen?';
-      Text006@1011 : TextConst 'ENU=You cannot change the %1 until the inventory stored in %2 %3 is 0.;ESP=No puede cambiar el %1 hasta que el invent. almacenado en %2 %3 sea 0.;DEA=Sie kînnen das Feld %1 erst Ñndern, wenn der auf %2 %3 vorhandene Lagerbestand 0 ist.';
-      Text007@1013 : TextConst 'ENU=You have to delete all Adjustment Warehouse Journal Lines first before you can change the %1.;ESP=Primero debe eliminar todos los ajustes de l°neas diario almacÇn para poder cambiar el %1.;DEA=Sie mÅssen alle Logistik Buch.-Blattzeilen des Ausgleichs lîschen, bevor Sie den %1 Ñndern kînnen.';
-      Text008@1008 : TextConst 'ENU=%1 must be %2, because one or more %3 exist.;ESP=%1 tiene que ser %2, porque uno o m†s %3 existen.;DEA=%1 muss %2 sein, da ein %3 (oder mehrere) vorhanden ist.';
-      Text009@1014 : TextConst 'ENU=You cannot change %1 because there are one or more open ledger entries on this location.;ESP=No puede cambiar %1 por que hay uno ¢ m†s movs. abiertos en este almacÇn.;DEA=Sie kînnen %1 nicht Ñndern, da zu diesem Lagerplatz ein oder mehrere offene Posten vorhanden sind.';
-      Text010@1015 : TextConst 'ENU=Checking item ledger entries for open entries...;ESP=Chequear movs. contab. para movs. abiertos...;DEA=Artikelposten werden auf offene Posten geprÅft ...';
-      Text011@1016 : TextConst 'ENU=You cannot change the %1 to %2 until the inventory stored in this bin is 0.;ESP=No puede cambiar %1 a %2 hasta que el valor del inventario almacenado en esta ubicaci¢n sea 0.;DEA=Sie kînnen das Feld %1 erst dann in %2 Ñndern, wenn der Lagerbestand an diesem Lagerplatz 0 ist.';
-      Text012@1017 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
-      Text013@1018 : TextConst 'ENU=You cannot delete %1 because there are one or more ledger entries on this location.;ESP=No puede eliminar %1 porque hay uno o m†s movimientos en este almacÇn.;DEA=''%1'' kann nicht gelîscht werden, da fÅr diesen Lagerplatz mindestens ein Posten vorhanden ist.';
-      Text014@1019 : TextConst 'ENU=You cannot change %1 because one or more %2 exist.;ESP=No puede cambiar %1 porque existen uno o m†s %2.;DEA=''%1'' kann nicht geÑndert werden, da mindestens ein Element vom Typ ''%2'' vorhanden ist.';
+      Text000@1005 : TextConst 'DEU=Sie kînnen den %1 %2 nicht lîschen, da dort Artikel vorhanden sind.;ENU=You cannot delete the %1 %2, because they contain items.';
+      Text001@1006 : TextConst 'DEU=Sie kînnen den %1 %2 nicht lîschen, da eine oder mehrere LageraktivitÑtszeilen fÅr diesen %1 vorhanden sind.;ENU=You cannot delete the %1 %2, because one or more Warehouse Activity Lines exist for this %1.';
+      Text002@1007 : TextConst 'DEU=Das Feld %1 muss ein HÑkchen enthalten, da an den LagerplÑtzen Artikel vorhanden sind.;ENU=%1 must be Yes, because the bins contain items.';
+      Text003@1009 : TextConst 'DEU=Abgebrochen.;ENU=Cancelled.';
+      Text004@1010 : TextConst 'DEU=Die Gesamtmenge der Artikel im Lager ist 0, doch der Ausgleichslagerplatz enthÑlt eine negative Menge und die anderen LagerplÑtze enthalten eine positive Menge.\;ENU=The total quantity of items in the warehouse is 0, but the Adjustment Bin contains a negative quantity and other bins contain a positive quantity.\';
+      Text005@1012 : TextConst 'DEU=Mîchten Sie diesen %1 wirklich lîschen?;ENU=Do you still want to delete this %1?';
+      Text006@1011 : TextConst 'DEU=Sie kînnen das Feld %1 erst Ñndern, wenn der auf %2 %3 vorhandene Lagerbestand 0 ist.;ENU=You cannot change the %1 until the inventory stored in %2 %3 is 0.';
+      Text007@1013 : TextConst 'DEU=Sie mÅssen alle Logistik Buch.-Blattzeilen des Ausgleichs lîschen, bevor Sie den %1 Ñndern kînnen.;ENU=You have to delete all Adjustment Warehouse Journal Lines first before you can change the %1.';
+      Text008@1008 : TextConst 'DEU=%1 muss %2 sein, da ein %3 (oder mehrere) vorhanden ist.;ENU=%1 must be %2, because one or more %3 exist.';
+      Text009@1014 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, da zu diesem Lagerplatz ein oder mehrere offene Posten vorhanden sind.;ENU=You cannot change %1 because there are one or more open ledger entries on this location.';
+      Text010@1015 : TextConst 'DEU=Artikelposten werden auf offene Posten geprÅft ...;ENU=Checking item ledger entries for open entries...';
+      Text011@1016 : TextConst 'DEU=Sie kînnen das Feld %1 erst dann in %2 Ñndern, wenn der Lagerbestand an diesem Lagerplatz 0 ist.;ENU=You cannot change the %1 to %2 until the inventory stored in this bin is 0.';
+      Text012@1017 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
+      Text013@1018 : TextConst 'DEU=''%1'' kann nicht gelîscht werden, da fÅr diesen Lagerplatz mindestens ein Posten vorhanden ist.;ENU=You cannot delete %1 because there are one or more ledger entries on this location.';
+      Text014@1019 : TextConst 'DEU=''%1'' kann nicht geÑndert werden, da mindestens ein Element vom Typ ''%2'' vorhanden ist.;ENU=You cannot change %1 because one or more %2 exist.';
 
     PROCEDURE RequireShipment@5(LocationCode@1000 : Code[10]) : Boolean;
     BEGIN
@@ -688,7 +635,7 @@ OBJECT Table 14 Location
 
     PROCEDURE GetRequirementText@6(FieldNumber@1000 : Integer) : Text[50];
     VAR
-      Text000@1002 : TextConst 'ENU=Shipment,Receive,Pick,Put-Away;ESP=Env°o,Recibir,Picking,Ubicar;DEA=Warenausgang,Wareneingang,Kommissionierung,Einlagerung';
+      Text000@1002 : TextConst 'DEU=Warenausgang,Wareneingang,Kommissionierung,Einlagerung;ENU=Shipment,Receive,Pick,Put-Away';
     BEGIN
       CASE FieldNumber OF
         FIELDNO("Require Shipment"):

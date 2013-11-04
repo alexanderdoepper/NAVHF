@@ -2,9 +2,9 @@ OBJECT Table 7321 Warehouse Shipment Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -42,59 +42,47 @@ OBJECT Table 7321 Warehouse Shipment Line
                ERROR(Text008,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Warehouse Shipment Line;
-               ESP=L°n. env°o almacÇn;
-               DEA=Warenausgangszeile];
+    CaptionML=[DEU=Warenausgangszeile;
+               ENU=Warehouse Shipment Line];
     PasteIsValid=No;
     LookupPageID=Page7341;
     DrillDownPageID=Page7341;
   }
   FIELDS
   {
-    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.];
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[DEU=Nr.;
+                                                              ENU=No.];
                                                    Editable=No }
-    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.];
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.];
                                                    Editable=No }
-    { 3   ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
-                                                              ESP=Tipo procedencia mov.;
-                                                              DEA=Herkunftsart];
+    { 3   ;   ;Source Type         ;Integer       ;CaptionML=[DEU=Herkunftsart;
+                                                              ENU=Source Type];
                                                    Editable=No }
-    { 4   ;   ;Source Subtype      ;Option        ;CaptionML=[ENU=Source Subtype;
-                                                              ESP=Subtipo origen;
-                                                              DEA=Herkunftsunterart];
-                                                   OptionCaptionML=[ENU=0,1,2,3,4,5,6,7,8,9,10;
-                                                                    ESP=0,1,2,3,4,5,6,7,8,9,10;
-                                                                    DEA=0,1,2,3,4,5,6,7,8,9,10];
+    { 4   ;   ;Source Subtype      ;Option        ;CaptionML=[DEU=Herkunftsunterart;
+                                                              ENU=Source Subtype];
+                                                   OptionCaptionML=[DEU=0,1,2,3,4,5,6,7,8,9,10;
+                                                                    ENU=0,1,2,3,4,5,6,7,8,9,10];
                                                    OptionString=0,1,2,3,4,5,6,7,8,9,10;
                                                    Editable=No }
-    { 6   ;   ;Source No.          ;Code20        ;CaptionML=[ENU=Source No.;
-                                                              ESP=C¢d. procedencia mov.;
-                                                              DEA=Herkunftsnr.];
+    { 6   ;   ;Source No.          ;Code20        ;CaptionML=[DEU=Herkunftsnr.;
+                                                              ENU=Source No.];
                                                    Editable=No }
-    { 7   ;   ;Source Line No.     ;Integer       ;CaptionML=[ENU=Source Line No.;
-                                                              ESP=Nß l°n. origen;
-                                                              DEA=Herkunftszeilennr.];
+    { 7   ;   ;Source Line No.     ;Integer       ;CaptionML=[DEU=Herkunftszeilennr.;
+                                                              ENU=Source Line No.];
                                                    Editable=No }
-    { 9   ;   ;Source Document     ;Option        ;CaptionML=[ENU=Source Document;
-                                                              ESP=Documento origen;
-                                                              DEA=Herkunftsbeleg];
-                                                   OptionCaptionML=[ENU=,Sales Order,,,Sales Return Order,Purchase Order,,,Purchase Return Order,,Outbound Transfer,,,,,,,,Service Order;
-                                                                    ESP=,Pedido venta,,,Devoluci¢n venta,Pedido compra,,,Devoluci¢n compra,,Transferencia salida,,,,,,,,Pedido servicio;
-                                                                    DEA=,Auftrag,,,Verkaufsreklamation,Bestellung,,,Einkaufsreklamation,,Ausgeh. Umlagerung,,,,,,,,Serviceauftrag];
+    { 9   ;   ;Source Document     ;Option        ;CaptionML=[DEU=Herkunftsbeleg;
+                                                              ENU=Source Document];
+                                                   OptionCaptionML=[DEU=,Auftrag,,,Verkaufsreklamation,Bestellung,,,Einkaufsreklamation,,Ausgeh. Umlagerung,,,,,,,,Serviceauftrag;
+                                                                    ENU=,Sales Order,,,Sales Return Order,Purchase Order,,,Purchase Return Order,,Outbound Transfer,,,,,,,,Service Order];
                                                    OptionString=,Sales Order,,,Sales Return Order,Purchase Order,,,Purchase Return Order,,Outbound Transfer,,,,,,,,Service Order;
                                                    Editable=No }
     { 10  ;   ;Location Code       ;Code10        ;TableRelation=Location;
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode];
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code];
                                                    Editable=No }
-    { 11  ;   ;Shelf No.           ;Code10        ;CaptionML=[ENU=Shelf No.;
-                                                              ESP=Nß estante;
-                                                              DEA=Regalnr.] }
+    { 11  ;   ;Shelf No.           ;Code10        ;CaptionML=[DEU=Regalnr.;
+                                                              ENU=Shelf No.] }
     { 12  ;   ;Bin Code            ;Code20        ;TableRelation=IF (Zone Code=FILTER('')) Bin.Code WHERE (Location Code=FIELD(Location Code))
                                                                  ELSE IF (Zone Code=FILTER(<>'')) Bin.Code WHERE (Location Code=FIELD(Location Code),
                                                                                                                   Zone Code=FIELD(Zone Code));
@@ -118,9 +106,8 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                   END;
                                                               END;
 
-                                                   CaptionML=[ENU=Bin Code;
-                                                              ESP=C¢d. ubicaci¢n;
-                                                              DEA=Lagerplatzcode] }
+                                                   CaptionML=[DEU=Lagerplatzcode;
+                                                              ENU=Bin Code] }
     { 13  ;   ;Zone Code           ;Code10        ;TableRelation=Zone.Code WHERE (Location Code=FIELD(Location Code));
                                                    OnValidate=BEGIN
                                                                 TestReleased;
@@ -133,13 +120,11 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Zone Code;
-                                                              ESP=C¢d. zona;
-                                                              DEA=Zonencode] }
+                                                   CaptionML=[DEU=Zonencode;
+                                                              ENU=Zone Code] }
     { 14  ;   ;Item No.            ;Code20        ;TableRelation=Item;
-                                                   CaptionML=[ENU=Item No.;
-                                                              ESP=Nß producto;
-                                                              DEA=Artikelnr.];
+                                                   CaptionML=[DEU=Artikelnr.;
+                                                              ENU=Item No.];
                                                    Editable=No }
     { 15  ;   ;Quantity            ;Decimal       ;OnValidate=VAR
                                                                 OrderStatus@1000 : Integer;
@@ -173,15 +158,13 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    Editable=No }
-    { 16  ;   ;Qty. (Base)         ;Decimal       ;CaptionML=[ENU=Qty. (Base);
-                                                              ESP=Cantidad (Base);
-                                                              DEA=Menge (Basis)];
+    { 16  ;   ;Qty. (Base)         ;Decimal       ;CaptionML=[DEU=Menge (Basis);
+                                                              ENU=Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 19  ;   ;Qty. Outstanding    ;Decimal       ;OnValidate=VAR
@@ -202,14 +185,12 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                     "Item No.","Unit of Measure Code","Qty. Outstanding",Cubage,Weight);
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. Outstanding;
-                                                              ESP=Cdad. pendiente;
-                                                              DEA=Restmenge];
+                                                   CaptionML=[DEU=Restmenge;
+                                                              ENU=Qty. Outstanding];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 20  ;   ;Qty. Outstanding (Base);Decimal    ;CaptionML=[ENU=Qty. Outstanding (Base);
-                                                              ESP=Cdad. pendiente (base);
-                                                              DEA=Restmenge (Basis)];
+    { 20  ;   ;Qty. Outstanding (Base);Decimal    ;CaptionML=[DEU=Restmenge (Basis);
+                                                              ENU=Qty. Outstanding (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 21  ;   ;Qty. to Ship        ;Decimal       ;OnValidate=VAR
@@ -255,42 +236,36 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                   ATOLink.UpdateQtyToAsmFromWhseShptLine(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Ship;
-                                                              ESP=Cantidad a enviar;
-                                                              DEA=Zu liefern];
+                                                   CaptionML=[DEU=Zu liefern;
+                                                              ENU=Qty. to Ship];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 22  ;   ;Qty. to Ship (Base) ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Qty. to Ship",CalcQty("Qty. to Ship (Base)"));
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Ship (Base);
-                                                              ESP=Cdad. a enviar (base);
-                                                              DEA=Zu liefern (Basis)];
+                                                   CaptionML=[DEU=Zu liefern (Basis);
+                                                              ENU=Qty. to Ship (Base)];
                                                    DecimalPlaces=0:5 }
     { 23  ;   ;Qty. Picked         ;Decimal       ;FieldClass=Normal;
                                                    OnValidate=BEGIN
                                                                 "Qty. Picked (Base)" := CalcBaseQty("Qty. Picked");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. Picked;
-                                                              ESP=Cdad. preparada pedido;
-                                                              DEA=Menge kommissioniert];
+                                                   CaptionML=[DEU=Menge kommissioniert;
+                                                              ENU=Qty. Picked];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 24  ;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[ENU=Qty. Picked (Base);
-                                                              ESP=Cdad. preparada pedido (base);
-                                                              DEA=Menge kommissioniert (Basis)];
+    { 24  ;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[DEU=Menge kommissioniert (Basis);
+                                                              ENU=Qty. Picked (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 25  ;   ;Qty. Shipped        ;Decimal       ;CaptionML=[ENU=Qty. Shipped;
-                                                              ESP=Cdad. enviada;
-                                                              DEA=Menge geliefert];
+    { 25  ;   ;Qty. Shipped        ;Decimal       ;CaptionML=[DEU=Menge geliefert;
+                                                              ENU=Qty. Shipped];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 26  ;   ;Qty. Shipped (Base) ;Decimal       ;CaptionML=[ENU=Qty. Shipped (Base);
-                                                              ESP=Cdad. enviada (base);
-                                                              DEA=Menge geliefert (Basis)];
+    { 26  ;   ;Qty. Shipped (Base) ;Decimal       ;CaptionML=[DEU=Menge geliefert (Basis);
+                                                              ENU=Qty. Shipped (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 27  ;   ;Pick Qty.           ;Decimal       ;FieldClass=FlowField;
@@ -303,9 +278,8 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                                                                        Original Breakbulk=CONST(No),
                                                                                                                        Breakbulk No.=CONST(0),
                                                                                                                        Assemble to Order=CONST(No)));
-                                                   CaptionML=[ENU=Pick Qty.;
-                                                              ESP=Cdad. picking;
-                                                              DEA=Menge fÅr Kommissionierung];
+                                                   CaptionML=[DEU=Menge fÅr Kommissionierung;
+                                                              ENU=Pick Qty.];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 28  ;   ;Pick Qty. (Base)    ;Decimal       ;FieldClass=FlowField;
@@ -317,99 +291,77 @@ OBJECT Table 7321 Warehouse Shipment Line
                                                                                                                               Original Breakbulk=CONST(No),
                                                                                                                               Breakbulk No.=CONST(0),
                                                                                                                               Assemble to Order=CONST(No)));
-                                                   CaptionML=[ENU=Pick Qty. (Base);
-                                                              ESP=Cdad. picking (Base);
-                                                              DEA=Menge fÅr Kommiss. (Basis)];
+                                                   CaptionML=[DEU=Menge fÅr Kommiss. (Basis);
+                                                              ENU=Pick Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 29  ;   ;Unit of Measure Code;Code10        ;TableRelation="Item Unit of Measure".Code WHERE (Item No.=FIELD(Item No.));
-                                                   CaptionML=[ENU=Unit of Measure Code;
-                                                              ESP=C¢d. unidad medida;
-                                                              DEA=Einheitencode];
+                                                   CaptionML=[DEU=Einheitencode;
+                                                              ENU=Unit of Measure Code];
                                                    Editable=No }
     { 30  ;   ;Qty. per Unit of Measure;Decimal   ;InitValue=1;
-                                                   CaptionML=[ENU=Qty. per Unit of Measure;
-                                                              ESP=Cdad. por unidad medida;
-                                                              DEA=Menge pro Einheit];
+                                                   CaptionML=[DEU=Menge pro Einheit;
+                                                              ENU=Qty. per Unit of Measure];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 31  ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
-                                                   CaptionML=[ENU=Variant Code;
-                                                              ESP=C¢d. variante;
-                                                              DEA=Variantencode];
+                                                   CaptionML=[DEU=Variantencode;
+                                                              ENU=Variant Code];
                                                    Editable=No }
-    { 32  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung];
+    { 32  ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description];
                                                    Editable=No }
-    { 33  ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
-                                                              ESP=Descripci¢n 2;
-                                                              DEA=Beschreibung 2];
+    { 33  ;   ;Description 2       ;Text50        ;CaptionML=[DEU=Beschreibung 2;
+                                                              ENU=Description 2];
                                                    Editable=No }
-    { 34  ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
-                                                              ESP=Estado;
-                                                              DEA=Status];
-                                                   OptionCaptionML=[ENU=" ,Partially Picked,Partially Shipped,Completely Picked,Completely Shipped";
-                                                                    ESP=" ,Picking parcial,Enviado parcial,Picking completo,Enviado completo";
-                                                                    DEA=" ,Teilweise kommissioniert,Teilweise geliefert,Komplett kommissioniert,Komplett geliefert"];
+    { 34  ;   ;Status              ;Option        ;CaptionML=[DEU=Status;
+                                                              ENU=Status];
+                                                   OptionCaptionML=[DEU=" ,Teilweise kommissioniert,Teilweise geliefert,Komplett kommissioniert,Komplett geliefert";
+                                                                    ENU=" ,Partially Picked,Partially Shipped,Completely Picked,Completely Shipped"];
                                                    OptionString=[ ,Partially Picked,Partially Shipped,Completely Picked,Completely Shipped];
                                                    Editable=No }
-    { 35  ;   ;Sorting Sequence No.;Integer       ;CaptionML=[ENU=Sorting Sequence No.;
-                                                              ESP=Nß secuencia clasif.;
-                                                              DEA=Sortierreihenfolge];
+    { 35  ;   ;Sorting Sequence No.;Integer       ;CaptionML=[DEU=Sortierreihenfolge;
+                                                              ENU=Sorting Sequence No.];
                                                    Editable=No }
-    { 36  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
-                                                              ESP=Fecha vencimiento;
-                                                              DEA=FÑlligkeitsdatum] }
-    { 39  ;   ;Destination Type    ;Option        ;CaptionML=[ENU=Destination Type;
-                                                              ESP=Tipo destino;
-                                                              DEA=FÅr Art];
-                                                   OptionCaptionML=[ENU=" ,Customer,Vendor,Location";
-                                                                    ESP=" ,Cliente,Proveedor,AlmacÇn";
-                                                                    DEA=" ,Debitor,Kreditor,Lagerort"];
+    { 36  ;   ;Due Date            ;Date          ;CaptionML=[DEU=FÑlligkeitsdatum;
+                                                              ENU=Due Date] }
+    { 39  ;   ;Destination Type    ;Option        ;CaptionML=[DEU=FÅr Art;
+                                                              ENU=Destination Type];
+                                                   OptionCaptionML=[DEU=" ,Debitor,Kreditor,Lagerort";
+                                                                    ENU=" ,Customer,Vendor,Location"];
                                                    OptionString=[ ,Customer,Vendor,Location];
                                                    Editable=No }
     { 40  ;   ;Destination No.     ;Code20        ;TableRelation=IF (Destination Type=CONST(Customer)) Customer.No.
                                                                  ELSE IF (Destination Type=CONST(Vendor)) Vendor.No.
                                                                  ELSE IF (Destination Type=CONST(Location)) Location.Code;
-                                                   CaptionML=[ENU=Destination No.;
-                                                              ESP=Nß destino;
-                                                              DEA=FÅr Nr.];
+                                                   CaptionML=[DEU=FÅr Nr.;
+                                                              ENU=Destination No.];
                                                    Editable=No }
-    { 41  ;   ;Cubage              ;Decimal       ;CaptionML=[ENU=Cubage;
-                                                              ESP=Cubicaje;
-                                                              DEA=Volumen];
+    { 41  ;   ;Cubage              ;Decimal       ;CaptionML=[DEU=Volumen;
+                                                              ENU=Cubage];
                                                    DecimalPlaces=0:5 }
-    { 42  ;   ;Weight              ;Decimal       ;CaptionML=[ENU=Weight;
-                                                              ESP=Peso;
-                                                              DEA=Gewicht];
+    { 42  ;   ;Weight              ;Decimal       ;CaptionML=[DEU=Gewicht;
+                                                              ENU=Weight];
                                                    DecimalPlaces=0:5 }
-    { 44  ;   ;Shipping Advice     ;Option        ;CaptionML=[ENU=Shipping Advice;
-                                                              ESP=Aviso env°o;
-                                                              DEA=Versandanweisung];
-                                                   OptionCaptionML=[ENU=Partial,Complete;
-                                                                    ESP=Parcial,Completo;
-                                                                    DEA=Teillieferung,Komplettlieferung];
+    { 44  ;   ;Shipping Advice     ;Option        ;CaptionML=[DEU=Versandanweisung;
+                                                              ENU=Shipping Advice];
+                                                   OptionCaptionML=[DEU=Teillieferung,Komplettlieferung;
+                                                                    ENU=Partial,Complete];
                                                    OptionString=Partial,Complete;
                                                    Editable=No }
-    { 45  ;   ;Shipment Date       ;Date          ;CaptionML=[ENU=Shipment Date;
-                                                              ESP=Fecha env°o;
-                                                              DEA=Warenausg.-Datum] }
-    { 46  ;   ;Completely Picked   ;Boolean       ;CaptionML=[ENU=Completely Picked;
-                                                              ESP=Picking completo;
-                                                              DEA=Komplett kommissioniert];
+    { 45  ;   ;Shipment Date       ;Date          ;CaptionML=[DEU=Warenausg.-Datum;
+                                                              ENU=Shipment Date] }
+    { 46  ;   ;Completely Picked   ;Boolean       ;CaptionML=[DEU=Komplett kommissioniert;
+                                                              ENU=Completely Picked];
                                                    Editable=No }
-    { 48  ;   ;Not upd. by Src. Doc. Post.;Boolean;CaptionML=[ENU=Not upd. by Src. Doc. Post.;
-                                                              ESP=No actualiz. por regis. doc.;
-                                                              DEA=Nicht b. Herk.-Bel. Buch. akt.];
+    { 48  ;   ;Not upd. by Src. Doc. Post.;Boolean;CaptionML=[DEU=Nicht b. Herk.-Bel. Buch. akt.;
+                                                              ENU=Not upd. by Src. Doc. Post.];
                                                    Editable=No }
-    { 49  ;   ;Posting from Whse. Ref.;Integer    ;CaptionML=[ENU=Posting from Whse. Ref.;
-                                                              ESP=Regis. desde almac. ref.;
-                                                              DEA=Buchung von Lagerref.-Nr.];
+    { 49  ;   ;Posting from Whse. Ref.;Integer    ;CaptionML=[DEU=Buchung von Lagerref.-Nr.;
+                                                              ENU=Posting from Whse. Ref.];
                                                    Editable=No }
-    { 900 ;   ;Assemble to Order   ;Boolean       ;CaptionML=[ENU=Assemble to Order;
-                                                              ESP=Ensamblar para pedido;
-                                                              DEA=Auftragsmontage];
+    { 900 ;   ;Assemble to Order   ;Boolean       ;CaptionML=[DEU=Auftragsmontage;
+                                                              ENU=Assemble to Order];
                                                    Editable=No }
   }
   KEYS
@@ -439,25 +391,20 @@ OBJECT Table 7321 Warehouse Shipment Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot handle more than the outstanding %1 units.;ESP=No puede manipular m†s de %1 unidades pendientes.;DEA=Sie kînnen nicht mehr als %1 offene Einheiten bewegen.';
+      Text000@1000 : TextConst 'DEU=Sie kînnen nicht mehr als %1 offene Einheiten bewegen.;ENU=You cannot handle more than the outstanding %1 units.';
       Location@1001 : Record 14;
       Item@1016 : Record 27;
       WhseShptHeader@1002 : Record 7320;
-      Text001@1003 : TextConst 'ENU=must not be less than %1 units;ESP=no debe ser menor que %1 unidades;DEA=darf nicht weniger als %1 Einheiten sein';
-      Text002@1004 : TextConst 'ENU=must not be greater than %1 units;ESP=no debe ser mayor que %1 unidades;DEA=darf nicht grî·er als %1 Einheiten sein';
-      Text003@1005 : TextConst 'ENU=must be greater than zero;ESP=debe ser mayor que cero;DEA=muss grî·er als 0 sein';
-      Text005@1007 : TextConst 'ENU=The picked quantity is not enough to ship all lines.;ESP=La cdad. preparada pedido no es suficiente para enviar todas las l°neas.;DEA=Die kommissionierte Menge ist nicht ausreichend, um alle Zeilen zu liefern.';
+      Text001@1003 : TextConst 'DEU=darf nicht weniger als %1 Einheiten sein;ENU=must not be less than %1 units';
+      Text002@1004 : TextConst 'DEU=darf nicht grî·er als %1 Einheiten sein;ENU=must not be greater than %1 units';
+      Text003@1005 : TextConst 'DEU=muss grî·er als 0 sein;ENU=must be greater than zero';
+      Text005@1007 : TextConst 'DEU=Die kommissionierte Menge ist nicht ausreichend, um alle Zeilen zu liefern.;ENU=The picked quantity is not enough to ship all lines.';
       HideValidationDialog@1008 : Boolean;
-
-      Text007@1010 : TextConst
-        '@@@="Qty. Picked = 2 is greater than Qty. Shipped = 0. If you delete the Warehouse Shipment Line, the items will remain in the shipping area until you put them away.\Related Item Tracking information defined during pick will be deleted.\Do you still want to delete the Warehouse Shipment Line?"',
-        'ENU="%1 = %2 is greater than %3 = %4. If you delete the %5, the items will remain in the shipping area until you put them away.\Related Item Tracking information defined during pick will be deleted.\Do you still want to delete the %5?"',
-        'ESP="%1 = %2 es mayor que %3 = %4. Si elimina el %5, los productos permanecer†n en el †rea de env°o hasta que los ubique.\Se eliminar† la informaci¢n de seguim. prod. definida durante la preparaci¢n.\®Todav°a desea eliminar el %5?"',
-        'DEA="''%1 = %2'' ist grî·er als ''%3 = %4''. Wenn Sie ''%5'' lîschen, verbleiben die Artikel im Versandbereich, bis sie eingelagert werden.\Entsprechende Artikelverfolgungsinformationen, die bei der Kommissionierung eingegeben wurden, werden gelîscht.\Mîchten Sie ''%5'' wirklich lîschen?"';
-      Text008@1011 : TextConst 'ENU=You cannot rename a %1.;ESP=No se puede cambiar el nombre a %1.;DEA=Sie kînnen eine %1 nicht umbenennen.';
-      Text009@1013 : TextConst 'ENU=%1 is set to %2. %3 should be %4.\\;ESP=%1 se fija a %2. %3 deber°a ser %4.\\;DEA=Die %1 wird auf %2 gesetzt. Die %3 sollte %4 sein.\\';
-      Text010@1012 : TextConst 'ENU=Accept the entered value?;ESP=Acepta el valor introducido?;DEA=Soll der eingegebene Wert akzeptiert werden?';
-      Text011@1014 : TextConst 'ENU=Nothing to handle.;ESP=Nada a manipular.;DEA=Es gibt nichts zu bewegen.';
+      Text007@1010 : TextConst '@@@="Qty. Picked = 2 is greater than Qty. Shipped = 0. If you delete the Warehouse Shipment Line, the items will remain in the shipping area until you put them away.\Related Item Tracking information defined during pick will be deleted.\Do you still want to delete the Warehouse Shipment Line?";DEU="''%1 = %2'' ist grî·er als ''%3 = %4''. Wenn Sie ''%5'' lîschen, verbleiben die Artikel im Versandbereich, bis sie eingelagert werden.\Entsprechende Artikelverfolgungsinformationen, die bei der Kommissionierung eingegeben wurden, werden gelîscht.\Mîchten Sie ''%5'' wirklich lîschen?";ENU="%1 = %2 is greater than %3 = %4. If you delete the %5, the items will remain in the shipping area until you put them away.\Related Item Tracking information defined during pick will be deleted.\Do you still want to delete the %5?"';
+      Text008@1011 : TextConst 'DEU=Sie kînnen eine %1 nicht umbenennen.;ENU=You cannot rename a %1.';
+      Text009@1013 : TextConst 'DEU=Die %1 wird auf %2 gesetzt. Die %3 sollte %4 sein.\\;ENU=%1 is set to %2. %3 should be %4.\\';
+      Text010@1012 : TextConst 'DEU=Soll der eingegebene Wert akzeptiert werden?;ENU=Accept the entered value?';
+      Text011@1014 : TextConst 'DEU=Es gibt nichts zu bewegen.;ENU=Nothing to handle.';
       IgnoreErrors@1006 : Boolean;
       ErrorOccured@1017 : Boolean;
 

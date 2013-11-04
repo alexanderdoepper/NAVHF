@@ -2,14 +2,14 @@ OBJECT Report 11507 Vendor Payments List
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Vendor Payments List;
-               DEA=Kreditorenzahlungen - Liste];
+    CaptionML=[DEU=Kreditorenzahlungen - Liste;
+               ENU=Vendor Payments List];
   }
   DATASET
   {
@@ -357,8 +357,8 @@ OBJECT Report 11507 Vendor Payments List
                SourceExpr=TempVendorLedgerEntry."Document No." }
 
     { 1150009;2;Column  ;TempVendorLedgerEntry__Document_Type__Control1150009;
-               OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
-                                DEA=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund"];
+               OptionCaptionML=[DEU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
+                                ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund"];
                OptionString=,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund;
                SourceExpr=TempVendorLedgerEntry."Document Type" }
 
@@ -378,23 +378,23 @@ OBJECT Report 11507 Vendor Payments List
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=Sorting;
-                  CaptionML=[ENU=Sorting;
-                             DEA=Sortieren];
-                  OptionCaptionML=[ENU=Vendor with Group Total,Chronological by Entry No.;
-                                   DEA=Kreditor mit Gruppensumme,Chronologisch nach Lfd. Nr.];
+                  CaptionML=[DEU=Sortieren;
+                             ENU=Sorting];
+                  OptionCaptionML=[DEU=Kreditor mit Gruppensumme,Chronologisch nach Lfd. Nr.;
+                                   ENU=Vendor with Group Total,Chronological by Entry No.];
                   SourceExpr=Sorting }
 
       { 4   ;2   ;Field     ;
                   Name=Layout;
-                  CaptionML=[ENU=Layout;
-                             DEA=Layout];
-                  OptionCaptionML=[ENU=Standard,FCY Amounts,Posting Info;
-                                   DEA=Standard,FW-Betr„ge,Buchungsdaten];
+                  CaptionML=[DEU=Layout;
+                             ENU=Layout];
+                  OptionCaptionML=[DEU=Standard,FW-Betr„ge,Buchungsdaten;
+                                   ENU=Standard,FCY Amounts,Posting Info];
                   SourceExpr=Layout }
 
     }
@@ -405,12 +405,12 @@ OBJECT Report 11507 Vendor Payments List
   CODE
   {
     VAR
-      Text000@1150013 : TextConst 'ENU=C;DEA=C';
-      Text001@1150014 : TextConst 'ENU=O;DEA=O';
-      Text002@1150015 : TextConst 'ENU=PP;DEA=EP';
-      Text003@1150016 : TextConst 'ENU="Layout ";DEA="Layout "';
-      Text004@1150017 : TextConst 'ENU="Filter: ";DEA="Filter: "';
-      Text005@1150018 : TextConst 'ENU=Total Vendor;DEA=Kreditor gesamt';
+      Text000@1150013 : TextConst 'DEU=C;ENU=C';
+      Text001@1150014 : TextConst 'DEU=O;ENU=O';
+      Text002@1150015 : TextConst 'DEU=EP;ENU=PP';
+      Text003@1150016 : TextConst 'DEU="Layout ";ENU="Layout "';
+      Text004@1150017 : TextConst 'DEU="Filter: ";ENU="Filter: "';
+      Text005@1150018 : TextConst 'DEU=Kreditor gesamt;ENU=Total Vendor';
       GlSetup@1150000 : Record 98;
       Sorting@1150001 : 'Vendor,Chronological';
       Layout@1150002 : 'Standard,FCY Amounts,Posting Info';
@@ -422,43 +422,43 @@ OBJECT Report 11507 Vendor Payments List
       AccName@1150010 : Text[50];
       Status@1150011 : Text[2];
       Exrate@1150012 : Decimal;
-      Text006@1150019 : TextConst 'ENU=Standard,FCY Amounts,Posting Info;DEA=Standard,FW-Betr„ge,Buchungsdaten';
+      Text006@1150019 : TextConst 'DEU=Standard,FW-Betr„ge,Buchungsdaten;ENU=Standard,FCY Amounts,Posting Info';
       PmtDiscLCY@1150021 : Decimal;
       PaymentLCY@1150020 : Decimal;
       LayoutInt@1140000 : Integer;
       SortInt@1140002 : Integer;
       PrevAccNo@1140001 : Text[30];
-      Vendor_Payments_ListCaptionLbl@5265 : TextConst 'ENU=Vendor Payments List;DEA=Liste Kreditorenzahlungen';
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;DEA=Seite';
-      AccNoCaptionLbl@9799 : TextConst 'ENU=Vendor No.;DEA=Kreditorennr.';
-      Vendor_Ledger_Entry__Posting_Date_CaptionLbl@1767 : TextConst 'ENU=Date;DEA=Datum';
-      Vendor_Ledger_Entry__Document_No__CaptionLbl@4496 : TextConst 'ENU=Doc.;DEA=Dok.';
-      Vendor_Ledger_Entry__Amount__LCY__CaptionLbl@1475 : TextConst 'ENU=Amt. LCY;DEA=Betrag MW';
-      AccNameCaptionLbl@8342 : TextConst 'ENU=Name;DEA=Name';
-      Applies_to_Doc__No_CaptionLbl@3504 : TextConst 'ENU=Applies-to Doc. No.;DEA=Ausgleich mit Belegnr.';
-      PaymentLCYCaptionLbl@1158265 : TextConst 'ENU=Payment (LCY);DEA=Zahlung (MW)';
-      PmtDiscLCYCaptionLbl@1156153 : TextConst 'ENU=Pmt. Disc.& Curr.Diff.;DEA=Skonto & Akt. Diff.';
-      Vendor_Ledger_Entry__Document_No___Control11CaptionLbl@7686 : TextConst 'ENU=Doc.;DEA=Dok.';
-      Vendor_Ledger_Entry__Posting_Date__Control17CaptionLbl@5477 : TextConst 'ENU=Date;DEA=Datum';
-      AccNo_Control23CaptionLbl@4037 : TextConst 'ENU=Vendor No.;DEA=Kreditorennr.';
-      Vendor_Ledger_Entry_AmountCaptionLbl@7442 : TextConst 'ENU=Amount;DEA=Betrag';
-      Vendor_Ledger_Entry__Amount__LCY___Control56CaptionLbl@6799 : TextConst 'ENU=Applic. LCY;DEA=Ausgl. (MW)';
-      StatusCaptionLbl@7033 : TextConst 'ENU=Status;DEA=Status';
-      ExrateCaptionLbl@5450 : TextConst 'ENU=Exchange Rate;DEA=Wechselkurs';
-      Vendor_Ledger_Entry_DescriptionCaptionLbl@8151 : TextConst 'ENU=Text;DEA=Text';
-      Vendor_Ledger_Entry__Original_Amount_CaptionLbl@9432 : TextConst 'ENU=Payment;DEA=Zahlung';
-      Vendor_Ledger_Entry__Amount__LCY___Control41CaptionLbl@7452 : TextConst 'ENU=Amt. LCY;DEA=Betrag MW';
-      AccNo_Control42CaptionLbl@8501 : TextConst 'ENU=Vendor No.;DEA=Kreditorennr.';
-      Vendor_Ledger_Entry__Source_Code_CaptionLbl@7871 : TextConst 'ENU=Src;DEA=Herk.';
-      Vendor_Ledger_Entry__User_ID_CaptionLbl@2651 : TextConst 'ENU=User ID;DEA=Benutzer-ID';
-      Vendor_Ledger_Entry__Purchaser_Code_CaptionLbl@5611 : TextConst 'ENU=P.P.;DEA=P.P.';
-      Vendor_Ledger_Entry__Global_Dimension_2_Code_CaptionLbl@1978 : TextConst 'ENU=CO;DEA=KT';
-      Vendor_Ledger_Entry__Global_Dimension_1_Code_CaptionLbl@4742 : TextConst 'ENU=CC;DEA=KS';
-      Vendor_Ledger_Entry__Transaction_No__CaptionLbl@5841 : TextConst 'ENU=Tr No;DEA=Tr.-Nr.';
-      Vendor_Ledger_Entry__Vendor_Posting_Group_CaptionLbl@5394 : TextConst 'ENU=Post Gr.;DEA=Buch.-Gr.';
-      Vendor_Ledger_Entry__Document_No___Control85CaptionLbl@4243 : TextConst 'ENU=Doc.;DEA=Dok.';
-      Vendor_Ledger_Entry__Posting_Date__Control83CaptionLbl@3571 : TextConst 'ENU=Date;DEA=Datum';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;DEA=Gesamt';
+      Vendor_Payments_ListCaptionLbl@5265 : TextConst 'DEU=Kreditorenzahlungen - Liste;ENU=Vendor Payments List';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      AccNoCaptionLbl@9799 : TextConst 'DEU=Kreditorennr.;ENU=Vendor No.';
+      Vendor_Ledger_Entry__Posting_Date_CaptionLbl@1767 : TextConst 'DEU=Datum;ENU=Date';
+      Vendor_Ledger_Entry__Document_No__CaptionLbl@4496 : TextConst 'DEU=Beleg;ENU=Doc.';
+      Vendor_Ledger_Entry__Amount__LCY__CaptionLbl@1475 : TextConst 'DEU=Betrag MW;ENU=Amt. LCY';
+      AccNameCaptionLbl@8342 : TextConst 'DEU=Name;ENU=Name';
+      Applies_to_Doc__No_CaptionLbl@3504 : TextConst 'DEU=Ausgleich mit Belegnr.;ENU=Applies-to Doc. No.';
+      PaymentLCYCaptionLbl@1158265 : TextConst 'DEU=Bezahlt (MW);ENU=Payment (LCY)';
+      PmtDiscLCYCaptionLbl@1156153 : TextConst 'DEU=Skonto & W„hr.diff.;ENU=Pmt. Disc.& Curr.Diff.';
+      Vendor_Ledger_Entry__Document_No___Control11CaptionLbl@7686 : TextConst 'DEU=Beleg;ENU=Doc.';
+      Vendor_Ledger_Entry__Posting_Date__Control17CaptionLbl@5477 : TextConst 'DEU=Datum;ENU=Date';
+      AccNo_Control23CaptionLbl@4037 : TextConst 'DEU=Kreditorennr.;ENU=Vendor No.';
+      Vendor_Ledger_Entry_AmountCaptionLbl@7442 : TextConst 'DEU=Betrag;ENU=Amount';
+      Vendor_Ledger_Entry__Amount__LCY___Control56CaptionLbl@6799 : TextConst 'DEU=Geltende MW;ENU=Applic. LCY';
+      StatusCaptionLbl@7033 : TextConst 'DEU=Status;ENU=Status';
+      ExrateCaptionLbl@5450 : TextConst 'DEU=Wechselkurs;ENU=Exchange Rate';
+      Vendor_Ledger_Entry_DescriptionCaptionLbl@8151 : TextConst 'DEU=Text;ENU=Text';
+      Vendor_Ledger_Entry__Original_Amount_CaptionLbl@9432 : TextConst 'DEU=Zahlung;ENU=Payment';
+      Vendor_Ledger_Entry__Amount__LCY___Control41CaptionLbl@7452 : TextConst 'DEU=Betrag MW;ENU=Amt. LCY';
+      AccNo_Control42CaptionLbl@8501 : TextConst 'DEU=Kreditorennr.;ENU=Vendor No.';
+      Vendor_Ledger_Entry__Source_Code_CaptionLbl@7871 : TextConst 'DEU=Herk.;ENU=Src';
+      Vendor_Ledger_Entry__User_ID_CaptionLbl@2651 : TextConst 'DEU=Benutzer-ID;ENU=User ID';
+      Vendor_Ledger_Entry__Purchaser_Code_CaptionLbl@5611 : TextConst 'DEU=EP;ENU=P.P.';
+      Vendor_Ledger_Entry__Global_Dimension_2_Code_CaptionLbl@1978 : TextConst 'DEU=KT;ENU=CO';
+      Vendor_Ledger_Entry__Global_Dimension_1_Code_CaptionLbl@4742 : TextConst 'DEU=KS;ENU=CC';
+      Vendor_Ledger_Entry__Transaction_No__CaptionLbl@5841 : TextConst 'DEU=Tr.nr.;ENU=Tr No';
+      Vendor_Ledger_Entry__Vendor_Posting_Group_CaptionLbl@5394 : TextConst 'DEU=Gr. buchen;ENU=Post Gr.';
+      Vendor_Ledger_Entry__Document_No___Control85CaptionLbl@4243 : TextConst 'DEU=Beleg;ENU=Doc.';
+      Vendor_Ledger_Entry__Posting_Date__Control83CaptionLbl@3571 : TextConst 'DEU=Datum;ENU=Date';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     PROCEDURE CalcExrate@13(_FcyAmt@1150001 : Decimal;_LcyAmt@1150002 : Decimal) _ExRate@1150000 : Decimal;
     VAR

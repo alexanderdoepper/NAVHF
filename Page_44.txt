@@ -2,16 +2,14 @@ OBJECT Page 44 Sales Credit Memo
 {
   OBJECT-PROPERTIES
   {
-    Date=12.09.13;
-    Time=13:26:30;
-    Modified=Yes;
-    Version List=NAVW17.00,CIC001;
+    Date=05.04.13;
+    Time=12:00:00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Credit Memo;
-               ESP=Abono venta;
-               DEA=Verkaufsgutschrift];
+    CaptionML=[DEU=Verkaufsgutschrift;
+               ENU=Sales Credit Memo];
     SourceTable=Table36;
     SourceTableView=WHERE(Document Type=FILTER(Credit Memo));
     PageType=Document;
@@ -42,16 +40,14 @@ OBJECT Page 44 Sales Credit Memo
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 49      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Credit Memo;
-                                 ESP=A&bono;
-                                 DEA=&Gutschrift];
+                      CaptionML=[DEU=&Gutschrift;
+                                 ENU=&Credit Memo];
                       Image=CreditMemo }
       { 51      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -63,16 +59,14 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 52      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Customer;
-                                 ESP=Cliente;
-                                 DEA=Debitor];
+                      CaptionML=[DEU=Debitor;
+                                 ENU=Customer];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Sell-to Customer No.);
                       Image=EditLines }
       { 53      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 67;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
@@ -80,9 +74,8 @@ OBJECT Page 44 Sales Credit Memo
                       Image=ViewComments }
       { 105     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -90,9 +83,8 @@ OBJECT Page 44 Sales Credit Memo
                                END;
                                 }
       { 121     ;2   ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  ApprovalEntries@1001 : Page 658;
@@ -104,16 +96,14 @@ OBJECT Page 44 Sales Credit Memo
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 122     ;2   ;Action    ;
                       Name=Release;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Promoted=Yes;
                       Image=ReleaseDoc;
                       PromotedCategory=Process;
@@ -124,9 +114,8 @@ OBJECT Page 44 Sales Credit Memo
                                END;
                                 }
       { 123     ;2   ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleaseSalesDoc@1001 : Codeunit 414;
@@ -135,24 +124,22 @@ OBJECT Page 44 Sales Credit Memo
                                END;
                                 }
       { 58      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 120     ;2   ;Action    ;
                       Name=GetPostedDocumentLinesToReverse;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get Posted Doc&ument Lines to Reverse;
-                                 ESP=Revertir l°neas doc&umentos registrados;
-                                 DEA=Z&u stornierende gebuchte Belegzeilen abrufen];
+                      CaptionML=[DEU=Z&u stornierende gebuchte Belegzeilen abrufen;
+                                 ENU=Get Posted Doc&ument Lines to Reverse];
                       Image=ReverseLines;
                       OnAction=BEGIN
                                  GetPstdDocLinesToRevere;
                                END;
                                 }
       { 114     ;2   ;Action    ;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrab. berechnen];
+                      CaptionML=[DEU=&Rechnungsrab. berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -162,9 +149,8 @@ OBJECT Page 44 Sales Credit Memo
       { 150     ;2   ;Action    ;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process;
@@ -175,9 +161,8 @@ OBJECT Page 44 Sales Credit Memo
       { 126     ;2   ;Separator  }
       { 112     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get St&d. Cust. Sales Codes;
-                                 ESP=Traer c¢d. est†nd. &vtas. clie.;
-                                 DEA=Std.-&Deb.-Verkaufscodes holen];
+                      CaptionML=[DEU=Std.-&Deb.-Verkaufscodes holen;
+                                 ENU=Get St&d. Cust. Sales Codes];
                       Image=CustomerCode;
                       OnAction=VAR
                                  StdCustSalesCode@1000 : Record 172;
@@ -188,9 +173,8 @@ OBJECT Page 44 Sales Credit Memo
       { 128     ;2   ;Separator  }
       { 115     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Document;
-                                 ESP=Copiar l°neas;
-                                 DEA=Beleg kopieren];
+                      CaptionML=[DEU=Beleg kopieren;
+                                 ENU=Copy Document];
                       Promoted=Yes;
                       Image=CopyDocument;
                       PromotedCategory=Process;
@@ -202,9 +186,8 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 56      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Move Negative Lines;
-                                 ESP=Mover l°neas negativas;
-                                 DEA=Negative Zeilen Åbertragen];
+                      CaptionML=[DEU=Negative Zeilen Åbertragen;
+                                 ENU=Move Negative Lines];
                       Image=MoveNegativeLines;
                       OnAction=BEGIN
                                  CLEAR(MoveNegSalesLines);
@@ -215,14 +198,12 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 141     ;2   ;Separator  }
       { 9       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 139     ;2   ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -231,9 +212,8 @@ OBJECT Page 44 Sales Credit Memo
                                END;
                                 }
       { 140     ;2   ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -243,15 +223,13 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 130     ;2   ;Separator  }
       { 59      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 61      ;2   ;Action    ;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -262,9 +240,8 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 60      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintSalesHeader(Rec);
@@ -272,9 +249,8 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 62      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -285,9 +261,8 @@ OBJECT Page 44 Sales Credit Memo
                                 }
       { 63      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Sales Credit Memos",TRUE,TRUE,Rec);
@@ -295,9 +270,8 @@ OBJECT Page 44 Sales Credit Memo
                                END;
                                 }
       { 3       ;2   ;Action    ;
-                      CaptionML=[ENU=Remove From Job Queue;
-                                 ESP=Quitar de cola de proyecto;
-                                 DEA=Aus Aufgabenwarteschlange entfernen];
+                      CaptionML=[DEU=Aus Aufgabenwarteschlange entfernen;
+                                 ENU=Remove From Job Queue];
                       Visible=JobQueueVisible;
                       Image=RemoveLine;
                       OnAction=BEGIN
@@ -312,9 +286,8 @@ OBJECT Page 44 Sales Credit Memo
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -357,15 +330,6 @@ OBJECT Page 44 Sales Credit Memo
                 SourceExpr="Sell-to Post Code";
                 Importance=Additional }
 
-    { 1000000000;2;Field  ;
-                SourceExpr="Sales Typ" }
-
-    { 1000000001;2;Field  ;
-                SourceExpr="Posting Description" }
-
-    { 1000000002;2;Field  ;
-                SourceExpr="Invoicing Description" }
-
     { 69  ;2   ;Field     ;
                 SourceExpr="Sell-to City" }
 
@@ -398,6 +362,10 @@ OBJECT Page 44 Sales Credit Memo
                 SourceExpr="Responsibility Center";
                 Importance=Additional }
 
+    { 119 ;2   ;Field     ;
+                SourceExpr="Assigned User ID";
+                Importance=Additional }
+
     { 5   ;2   ;Field     ;
                 SourceExpr="Job Queue Status";
                 Importance=Additional }
@@ -406,19 +374,14 @@ OBJECT Page 44 Sales Credit Memo
                 SourceExpr=Status;
                 Importance=Promoted }
 
-    { 119 ;2   ;Field     ;
-                SourceExpr="Assigned User ID";
-                Importance=Additional }
-
     { 48  ;1   ;Part      ;
                 Name=SalesLines;
                 SubPageLink=Document No.=FIELD(No.);
                 PagePartID=Page96 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 18  ;2   ;Field     ;
                 SourceExpr="Bill-to Customer No.";
@@ -499,15 +462,13 @@ OBJECT Page 44 Sales Credit Memo
                 SourceExpr="Credit Card No." }
 
     { 148 ;2   ;Field     ;
-                CaptionML=[ENU=Cr. Card Number (Last 4 Digits);
-                           ESP=N£mero tarjeta crÇdito (cuatro £ltimos d°gitos);
-                           DEA=Kreditkartennummer (letzte vier Stellen)];
+                CaptionML=[DEU=Kreditkartennummer (letzte vier Stellen);
+                           ENU=Cr. Card Number (Last 4 Digits)];
                 SourceExpr=GetCreditcardNumber }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env°o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 32  ;2   ;Field     ;
                 SourceExpr="Ship-to Name";
@@ -540,9 +501,8 @@ OBJECT Page 44 Sales Credit Memo
                 Importance=Promoted }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Au·enhandel] }
+                CaptionML=[DEU=Au·enhandel;
+                           ENU=Foreign Trade] }
 
     { 91  ;2   ;Field     ;
                 SourceExpr="Currency Code";
@@ -584,9 +544,8 @@ OBJECT Page 44 Sales Credit Memo
                 SourceExpr=Area }
 
     { 1904409301;1;Group  ;
-                CaptionML=[ENU=Application;
-                           ESP=Liquidaci¢n;
-                           DEA=Ausgleich] }
+                CaptionML=[DEU=Ausgleich;
+                           ENU=Application] }
 
     { 14  ;2   ;Field     ;
                 SourceExpr="Applies-to Doc. Type" }
@@ -721,12 +680,6 @@ OBJECT Page 44 Sales Credit Memo
     END;
 
     BEGIN
-    {
-      CICERO CONSULTING
-
-      VERSION TICKET NAME DATE       DESCRIPTION
-      CIC001  xxxxxx ALD  2013-09-09 Added fields Posting Description, Invoicing Description, Sales Type
-    }
     END.
   }
 }

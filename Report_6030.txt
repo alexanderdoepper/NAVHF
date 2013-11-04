@@ -2,15 +2,14 @@ OBJECT Report 6030 Create Contract Invoices
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Create Contract Invoices;
-               ESP=Crear facturas contrato;
-               DEA=Rechnungen fÅr VertrÑge erst.];
+    CaptionML=[DEU=Rechnungen fÅr VertrÑge erst.;
+               ENU=Create Contract Invoices];
     ProcessingOnly=Yes;
     OnInitReport=BEGIN
                    IF NOT SetOptionsCalled THEN
@@ -147,32 +146,27 @@ OBJECT Report 6030 Create Contract Invoices
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
                   Name=PostingDate;
-                  CaptionML=[ENU=Posting Date;
-                             ESP=Fecha registro;
-                             DEA=Buchungsdatum];
+                  CaptionML=[DEU=Buchungsdatum;
+                             ENU=Posting Date];
                   SourceExpr=PostingDate }
 
       { 2   ;2   ;Field     ;
                   Name=InvoiceToDate;
-                  CaptionML=[ENU=Invoice to Date;
-                             ESP=Factura hasta fecha;
-                             DEA=Fakturierung bis heute];
+                  CaptionML=[DEU=Fakturierung bis heute;
+                             ENU=Invoice to Date];
                   SourceExpr=InvoiceToDate }
 
       { 5   ;2   ;Field     ;
                   Name=CreateInvoices;
-                  CaptionML=[ENU=Action;
-                             ESP=Acci¢n;
-                             DEA=Aktion];
-                  OptionCaptionML=[ENU=Create Invoices,Print Only;
-                                   ESP=Crear facturas,S¢lo imprimir;
-                                   DEA=Rechnungen erstellen,Nur Drucken];
+                  CaptionML=[DEU=Aktion;
+                             ENU=Action];
+                  OptionCaptionML=[DEU=Rechnungen erstellen,Nur Drucken;
+                                   ENU=Create Invoices,Print Only];
                   SourceExpr=CreateInvoices }
 
     }
@@ -183,16 +177,16 @@ OBJECT Report 6030 Create Contract Invoices
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You have not filled in the posting date.;ESP=No ha rellenado la fecha de registro.;DEA=Sie haben kein Buchungsdatum angegeben.';
-      Text001@1001 : TextConst 'ENU=The posting date is later than the work date.\\Confirm that this is the correct date.;ESP=La fecha registro es posterior a la fecha trabajo.\\Confirma que la fecha es correcta.;DEA=Das Buchungsdatum liegt nach dem Arbeitsdatum.\\BestÑtigen Sie, dass das Datum korrekt ist.';
-      Text002@1002 : TextConst 'ENU=The program has stopped the batch job at your request.;ESP=El programa ha parado el proceso bajo su petici¢n.;DEA=Das Programm hat die Stapelverarbeitung auf Ihren Befehl angehalten.';
-      Text003@1003 : TextConst 'ENU=You must fill in the Invoice-to Date field.;ESP=Debe rellenar el campo Factura a-Fecha.;DEA=Sie mÅssen das Feld Fakturierung bis heute ausfÅllen.';
-      Text004@1004 : TextConst 'ENU=The Invoice-to Date is later than the work date.\\Confirm that this is the correct date.;ESP=La Factura a-Fecha es posterior a la fecha trabajo.\\Confirma que es la fecha correcta.;DEA=Das Datum fÅr Fakturierung bis heute liegt nach dem Arbeitsdatum.\\BestÑtigen Sie, dass das Datum korrekt ist.';
-      Text005@1005 : TextConst 'ENU=Creating contract invoices...\\;ESP=Creando facturas contrato...\\;DEA=Serv.-Rech. zu Vertr. werden erstellt ...\\';
-      Text006@1006 : TextConst 'ENU=Service Order is missing;ESP=No existe pedido servicio;DEA=Serviceauftrag fehlt';
-      Text009@1008 : TextConst 'ENU=%1 is missing;ESP=Falta %1;DEA=%1 fehlt';
-      Text010@1009 : TextConst 'ENU=%1 invoices were created.;ESP=Se han creado %1 facturas.;DEA=%1 Rechnungen wurden erstellt.';
-      Text011@1010 : TextConst 'ENU=%1 invoice was created.;ESP=Se ha creado %1 factura.;DEA=%1 Rechnung wurde erstellt.';
+      Text000@1000 : TextConst 'DEU=Sie haben kein Buchungsdatum angegeben.;ENU=You have not filled in the posting date.';
+      Text001@1001 : TextConst 'DEU=Das Buchungsdatum liegt nach dem Arbeitsdatum.\\BestÑtigen Sie, dass das Datum korrekt ist.;ENU=The posting date is later than the work date.\\Confirm that this is the correct date.';
+      Text002@1002 : TextConst 'DEU=Das Programm hat die Stapelverarbeitung auf Ihren Befehl angehalten.;ENU=The program has stopped the batch job at your request.';
+      Text003@1003 : TextConst 'DEU=Sie mÅssen das Feld Fakturierung bis heute ausfÅllen.;ENU=You must fill in the Invoice-to Date field.';
+      Text004@1004 : TextConst 'DEU=Das Datum fÅr Fakturierung bis heute liegt nach dem Arbeitsdatum.\\BestÑtigen Sie, dass das Datum korrekt ist.;ENU=The Invoice-to Date is later than the work date.\\Confirm that this is the correct date.';
+      Text005@1005 : TextConst 'DEU=Serv.-Rech. zu Vertr. werden erstellt ...\\;ENU=Creating contract invoices...\\';
+      Text006@1006 : TextConst 'DEU=Serviceauftrag fehlt;ENU=Service Order is missing';
+      Text009@1008 : TextConst 'DEU=%1 fehlt;ENU=%1 is missing';
+      Text010@1009 : TextConst 'DEU=%1 Rechnungen wurden erstellt.;ENU=%1 invoices were created.';
+      Text011@1010 : TextConst 'DEU=%1 Rechnung wurde erstellt.;ENU=%1 invoice was created.';
       Cust@1011 : Record 18;
       ServContractHeader@1015 : Record 5965;
       ServContractAccGr@1037 : Record 5973;

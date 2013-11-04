@@ -2,238 +2,174 @@ OBJECT Table 99000853 Inventory Profile
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Inventory Profile;
-               ESP=Perfil inventario;
-               DEA=Lagerprofil];
+    CaptionML=[DEU=Lagerprofil;
+               ENU=Inventory Profile];
   }
   FIELDS
   {
-    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.] }
-    { 4   ;   ;Attribute Priority  ;Integer       ;CaptionML=[ENU=Attribute Priority;
-                                                              ESP=Prioridad atributo;
-                                                              DEA=AttributprioritÑt] }
-    { 5   ;   ;Order Priority      ;Integer       ;CaptionML=[ENU=Order Priority;
-                                                              ESP=Prioridad pedido;
-                                                              DEA=AuftragsprioritÑt] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.] }
+    { 4   ;   ;Attribute Priority  ;Integer       ;CaptionML=[DEU=AttributprioritÑt;
+                                                              ENU=Attribute Priority] }
+    { 5   ;   ;Order Priority      ;Integer       ;CaptionML=[DEU=AuftragsprioritÑt;
+                                                              ENU=Order Priority] }
     { 11  ;   ;Item No.            ;Code20        ;TableRelation=Item;
-                                                   CaptionML=[ENU=Item No.;
-                                                              ESP=Nß producto;
-                                                              DEA=Artikelnr.] }
+                                                   CaptionML=[DEU=Artikelnr.;
+                                                              ENU=Item No.] }
     { 12  ;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.),
                                                                                             Code=FIELD(Variant Code));
-                                                   CaptionML=[ENU=Variant Code;
-                                                              ESP=C¢d. variante;
-                                                              DEA=Variantencode] }
+                                                   CaptionML=[DEU=Variantencode;
+                                                              ENU=Variant Code] }
     { 13  ;   ;Location Code       ;Code10        ;TableRelation=Location;
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
     { 14  ;   ;Bin Code            ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
-                                                   CaptionML=[ENU=Bin Code;
-                                                              ESP=C¢d. ubicaci¢n;
-                                                              DEA=Lagerplatzcode] }
-    { 15  ;   ;IsSupply            ;Boolean       ;CaptionML=[ENU=IsSupply;
-                                                              ESP=EsSuministro;
-                                                              DEA=Ist-Vorrat] }
-    { 16  ;   ;Order Relation      ;Option        ;CaptionML=[ENU=Order Relation;
-                                                              ESP=Relaci¢n pedido;
-                                                              DEA=Auftragsverbindung];
-                                                   OptionCaptionML=[ENU=Normal,Safety Stock,Reorder Point;
-                                                                    ESP=Normal,Stock seguridad,Punto de pedido;
-                                                                    DEA=Normal,Sicherheitsbestand,Minimalbestand];
+                                                   CaptionML=[DEU=Lagerplatzcode;
+                                                              ENU=Bin Code] }
+    { 15  ;   ;IsSupply            ;Boolean       ;CaptionML=[DEU=Ist-Vorrat;
+                                                              ENU=IsSupply] }
+    { 16  ;   ;Order Relation      ;Option        ;CaptionML=[DEU=Auftragsverbindung;
+                                                              ENU=Order Relation];
+                                                   OptionCaptionML=[DEU=Normal,Sicherheitsbestand,Minimalbestand;
+                                                                    ENU=Normal,Safety Stock,Reorder Point];
                                                    OptionString=Normal,Safety Stock,Reorder Point }
-    { 21  ;   ;Source Type         ;Integer       ;CaptionML=[ENU=Source Type;
-                                                              ESP=Tipo procedencia mov.;
-                                                              DEA=Herkunftsart] }
-    { 22  ;   ;Source Order Status ;Integer       ;CaptionML=[ENU=Source Order Status;
-                                                              ESP=Estado orden origen;
-                                                              DEA=Herkunftsstatus] }
-    { 23  ;   ;Source ID           ;Code20        ;CaptionML=[ENU=Source ID;
-                                                              ESP=Id. origen;
-                                                              DEA=Herkunfts-ID] }
-    { 24  ;   ;Source Batch Name   ;Code10        ;CaptionML=[ENU=Source Batch Name;
-                                                              ESP=Nombre secci¢n origen;
-                                                              DEA=Herkunftsbuch.-Blattname] }
-    { 25  ;   ;Source Ref. No.     ;Integer       ;CaptionML=[ENU=Source Ref. No.;
-                                                              ESP=Nß ref. origen;
-                                                              DEA=Herkunftsref.-Nr.] }
-    { 26  ;   ;Source Prod. Order Line;Integer    ;CaptionML=[ENU=Source Prod. Order Line;
-                                                              ESP=L°nea O.P. origen;
-                                                              DEA=Herkunfts-FA-Zeile] }
-    { 27  ;   ;Primary Order Status;Integer       ;CaptionML=[ENU=Primary Order Status;
-                                                              ESP=Estado orden primaria;
-                                                              DEA=Urspr. Auftragsstatus] }
-    { 28  ;   ;Primary Order No.   ;Code20        ;CaptionML=[ENU=Primary Order No.;
-                                                              ESP=Nß orden primaria;
-                                                              DEA=Urspr. Auftragsnr.] }
-    { 29  ;   ;Primary Order Line  ;Integer       ;CaptionML=[ENU=Primary Order Line;
-                                                              ESP=L°nea orden primaria;
-                                                              DEA=Urspr. Auftragszeile] }
-    { 30  ;   ;Primary Order Type  ;Integer       ;CaptionML=[ENU=Primary Order Type;
-                                                              ESP=Tipo orden primaria;
-                                                              DEA=Urspr. Auftragsart] }
-    { 31  ;   ;Original Quantity   ;Decimal       ;CaptionML=[ENU=Original Quantity;
-                                                              ESP=Cantidad original;
-                                                              DEA=Urspr. Menge];
+    { 21  ;   ;Source Type         ;Integer       ;CaptionML=[DEU=Herkunftsart;
+                                                              ENU=Source Type] }
+    { 22  ;   ;Source Order Status ;Integer       ;CaptionML=[DEU=Herkunftsstatus;
+                                                              ENU=Source Order Status] }
+    { 23  ;   ;Source ID           ;Code20        ;CaptionML=[DEU=Herkunfts-ID;
+                                                              ENU=Source ID] }
+    { 24  ;   ;Source Batch Name   ;Code10        ;CaptionML=[DEU=Herkunftsbuch.-Blattname;
+                                                              ENU=Source Batch Name] }
+    { 25  ;   ;Source Ref. No.     ;Integer       ;CaptionML=[DEU=Herkunftsref.-Nr.;
+                                                              ENU=Source Ref. No.] }
+    { 26  ;   ;Source Prod. Order Line;Integer    ;CaptionML=[DEU=Herkunfts-FA-Zeile;
+                                                              ENU=Source Prod. Order Line] }
+    { 27  ;   ;Primary Order Status;Integer       ;CaptionML=[DEU=Urspr. Auftragsstatus;
+                                                              ENU=Primary Order Status] }
+    { 28  ;   ;Primary Order No.   ;Code20        ;CaptionML=[DEU=Urspr. Auftragsnr.;
+                                                              ENU=Primary Order No.] }
+    { 29  ;   ;Primary Order Line  ;Integer       ;CaptionML=[DEU=Urspr. Auftragszeile;
+                                                              ENU=Primary Order Line] }
+    { 30  ;   ;Primary Order Type  ;Integer       ;CaptionML=[DEU=Urspr. Auftragsart;
+                                                              ENU=Primary Order Type] }
+    { 31  ;   ;Original Quantity   ;Decimal       ;CaptionML=[DEU=Urspr. Menge;
+                                                              ENU=Original Quantity];
                                                    DecimalPlaces=0:5 }
-    { 32  ;   ;Remaining Quantity (Base);Decimal  ;CaptionML=[ENU=Remaining Quantity (Base);
-                                                              ESP=Cantidad pendiente (base);
-                                                              DEA=Restmenge (Basis)];
+    { 32  ;   ;Remaining Quantity (Base);Decimal  ;CaptionML=[DEU=Restmenge (Basis);
+                                                              ENU=Remaining Quantity (Base)];
                                                    DecimalPlaces=0:5 }
-    { 33  ;   ;Untracked Quantity  ;Decimal       ;CaptionML=[ENU=Untracked Quantity;
-                                                              ESP=Cantidad no seguida;
-                                                              DEA=Menge ohne Bedarfsverursacher];
+    { 33  ;   ;Untracked Quantity  ;Decimal       ;CaptionML=[DEU=Menge ohne Bedarfsverursacher;
+                                                              ENU=Untracked Quantity];
                                                    DecimalPlaces=0:5 }
-    { 34  ;   ;Original Due Date   ;Date          ;CaptionML=[ENU=Original Due Date;
-                                                              ESP=Fecha vencim. orig.;
-                                                              DEA=Urspr. FÑlligkeitsdatum] }
-    { 35  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
-                                                              ESP=Fecha vencimiento;
-                                                              DEA=FÑlligkeitsdatum] }
-    { 36  ;   ;Planning Flexibility;Option        ;CaptionML=[ENU=Planning Flexibility;
-                                                              ESP=Flexib. planificaci¢n;
-                                                              DEA=PlanungsflexibilitÑt];
-                                                   OptionCaptionML=[ENU=Unlimited,None,Reduce Only;
-                                                                    ESP=Ilimitada,Ninguna,S¢lo reducir;
-                                                                    DEA=UnbeschrÑnkt,Keine,Nur reduzieren];
+    { 34  ;   ;Original Due Date   ;Date          ;CaptionML=[DEU=Urspr. FÑlligkeitsdatum;
+                                                              ENU=Original Due Date] }
+    { 35  ;   ;Due Date            ;Date          ;CaptionML=[DEU=FÑlligkeitsdatum;
+                                                              ENU=Due Date] }
+    { 36  ;   ;Planning Flexibility;Option        ;CaptionML=[DEU=PlanungsflexibilitÑt;
+                                                              ENU=Planning Flexibility];
+                                                   OptionCaptionML=[DEU=UnbeschrÑnkt,Keine,Nur reduzieren;
+                                                                    ENU=Unlimited,None,Reduce Only];
                                                    OptionString=Unlimited,None,Reduce Only }
-    { 37  ;   ;Fixed Date          ;Date          ;CaptionML=[ENU=Fixed Date;
-                                                              ESP=Fecha fija;
-                                                              DEA=Festes Datum] }
-    { 38  ;   ;Action Message      ;Option        ;CaptionML=[ENU=Action Message;
-                                                              ESP=Mensaje acci¢n;
-                                                              DEA=Ereignismeldung];
-                                                   OptionCaptionML=[ENU=" ,New,Change Qty.,Reschedule,Resched.& Chg. Qty.,Cancel";
-                                                                    ESP=" ,Nuevo,Cambiar cdad.,Reprogramar,Reprog. y camb. cdad.,Cancelar";
-                                                                    DEA=" ,Neu,Menge Ñndern,Neu berechnen,Neu berechnen & Menge Ñndern,Stornieren"];
+    { 37  ;   ;Fixed Date          ;Date          ;CaptionML=[DEU=Festes Datum;
+                                                              ENU=Fixed Date] }
+    { 38  ;   ;Action Message      ;Option        ;CaptionML=[DEU=Ereignismeldung;
+                                                              ENU=Action Message];
+                                                   OptionCaptionML=[DEU=" ,Neu,Menge Ñndern,Neu berechnen,Neu berechnen & Menge Ñndern,Stornieren";
+                                                                    ENU=" ,New,Change Qty.,Reschedule,Resched.& Chg. Qty.,Cancel"];
                                                    OptionString=[ ,New,Change Qty.,Reschedule,Resched.& Chg. Qty.,Cancel] }
-    { 39  ;   ;Binding             ;Option        ;CaptionML=[ENU=Binding;
-                                                              ESP=Atado;
-                                                              DEA=VerknÅpfung];
-                                                   OptionCaptionML=[ENU=" ,Order-to-Order";
-                                                                    ESP=" ,Pedido contra pedido";
-                                                                    DEA=" ,Eins-zu-Eins"];
+    { 39  ;   ;Binding             ;Option        ;CaptionML=[DEU=VerknÅpfung;
+                                                              ENU=Binding];
+                                                   OptionCaptionML=[DEU=" ,Eins-zu-Eins";
+                                                                    ENU=" ,Order-to-Order"];
                                                    OptionString=[ ,Order-to-Order];
                                                    Editable=No }
-    { 40  ;   ;Quantity (Base)     ;Decimal       ;CaptionML=[ENU=Quantity (Base);
-                                                              ESP=Cantidad (base);
-                                                              DEA=Menge (Basis)];
+    { 40  ;   ;Quantity (Base)     ;Decimal       ;CaptionML=[DEU=Menge (Basis);
+                                                              ENU=Quantity (Base)];
                                                    DecimalPlaces=0:5 }
-    { 41  ;   ;Min. Quantity       ;Decimal       ;CaptionML=[ENU=Min. Quantity;
-                                                              ESP=Cdad. m°nima;
-                                                              DEA=Min. Menge];
+    { 41  ;   ;Min. Quantity       ;Decimal       ;CaptionML=[DEU=Min. Menge;
+                                                              ENU=Min. Quantity];
                                                    DecimalPlaces=0:5 }
-    { 42  ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
-                                                              ESP=Fecha inicial;
-                                                              DEA=Startdatum] }
-    { 43  ;   ;Planning Line No.   ;Integer       ;CaptionML=[ENU=Planning Line No.;
-                                                              ESP=Nß l°nea planif.;
-                                                              DEA=Planungszeilennr.] }
-    { 44  ;   ;Unit of Measure Code;Code10        ;CaptionML=[ENU=Unit of Measure Code;
-                                                              ESP=C¢d. unidad medida;
-                                                              DEA=Einheitencode] }
-    { 45  ;   ;Qty. per Unit of Measure;Decimal   ;CaptionML=[ENU=Qty. per Unit of Measure;
-                                                              ESP=Cdad. por unidad medida;
-                                                              DEA=Menge pro Einheit];
+    { 42  ;   ;Starting Date       ;Date          ;CaptionML=[DEU=Startdatum;
+                                                              ENU=Starting Date] }
+    { 43  ;   ;Planning Line No.   ;Integer       ;CaptionML=[DEU=Planungszeilennr.;
+                                                              ENU=Planning Line No.] }
+    { 44  ;   ;Unit of Measure Code;Code10        ;CaptionML=[DEU=Einheitencode;
+                                                              ENU=Unit of Measure Code] }
+    { 45  ;   ;Qty. per Unit of Measure;Decimal   ;CaptionML=[DEU=Menge pro Einheit;
+                                                              ENU=Qty. per Unit of Measure];
                                                    DecimalPlaces=0:5 }
-    { 46  ;   ;Quantity            ;Decimal       ;CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+    { 46  ;   ;Quantity            ;Decimal       ;CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5 }
-    { 47  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[ENU=Remaining Quantity;
-                                                              ESP=Cantidad pendiente;
-                                                              DEA=Restmenge];
+    { 47  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[DEU=Restmenge;
+                                                              ENU=Remaining Quantity];
                                                    DecimalPlaces=0:5 }
-    { 48  ;   ;Finished Quantity   ;Decimal       ;CaptionML=[ENU=Finished Quantity;
-                                                              ESP=Cantidad terminada;
-                                                              DEA=Fertig gestellte Menge];
+    { 48  ;   ;Finished Quantity   ;Decimal       ;CaptionML=[DEU=Fertig gestellte Menge;
+                                                              ENU=Finished Quantity];
                                                    DecimalPlaces=0:5 }
-    { 50  ;   ;Planning Level Code ;Integer       ;CaptionML=[ENU=Planning Level Code;
-                                                              ESP=C¢d. nivel planif.;
-                                                              DEA=Planungsebenennr.];
+    { 50  ;   ;Planning Level Code ;Integer       ;CaptionML=[DEU=Planungsebenennr.;
+                                                              ENU=Planning Level Code];
                                                    Editable=No }
-    { 51  ;   ;Planning Line Phase ;Option        ;CaptionML=[ENU=Planning Line Phase;
-                                                              ESP=Fase l°nea planif.;
-                                                              DEA=Planungszeilenzustand];
-                                                   OptionCaptionML=[ENU=" ,Line Created,Routing Created,Exploded";
-                                                                    ESP=" ,L°nea creada,Ruta creada,Desplegada";
-                                                                    DEA=" ,Zeile erstellt,Arbeitsplan erstellt,Aufgelîst"];
+    { 51  ;   ;Planning Line Phase ;Option        ;CaptionML=[DEU=Planungszeilenzustand;
+                                                              ENU=Planning Line Phase];
+                                                   OptionCaptionML=[DEU=" ,Zeile erstellt,Arbeitsplan erstellt,Aufgelîst";
+                                                                    ENU=" ,Line Created,Routing Created,Exploded"];
                                                    OptionString=[ ,Line Created,Routing Created,Exploded] }
-    { 52  ;   ;Due Time            ;Time          ;CaptionML=[ENU=Due Time;
-                                                              ESP=Tiempo fin.;
-                                                              DEA=FÑlligkeitszeit] }
+    { 52  ;   ;Due Time            ;Time          ;CaptionML=[DEU=FÑlligkeitszeit;
+                                                              ENU=Due Time] }
     { 53  ;   ;Sell-to Customer No.;Code20        ;TableRelation=Customer;
-                                                   CaptionML=[ENU=Sell-to Customer No.;
-                                                              ESP=Venta a-Nß cliente;
-                                                              DEA=Verk. an Deb.-Nr.] }
-    { 54  ;   ;Drop Shipment       ;Boolean       ;CaptionML=[ENU=Drop Shipment;
-                                                              ESP=Env°o directo;
-                                                              DEA=Direktlieferung] }
-    { 55  ;   ;Special Order       ;Boolean       ;CaptionML=[ENU=Special Order;
-                                                              ESP=Pedido especial;
-                                                              DEA=Spezialauftrag] }
-    { 56  ;   ;Ref. Order No.      ;Code20        ;CaptionML=[ENU=Ref. Order No.;
-                                                              ESP=Nß orden ref.;
-                                                              DEA=Ref.-Nr.];
+                                                   CaptionML=[DEU=Verk. an Deb.-Nr.;
+                                                              ENU=Sell-to Customer No.] }
+    { 54  ;   ;Drop Shipment       ;Boolean       ;CaptionML=[DEU=Direktlieferung;
+                                                              ENU=Drop Shipment] }
+    { 55  ;   ;Special Order       ;Boolean       ;CaptionML=[DEU=Spezialauftrag;
+                                                              ENU=Special Order] }
+    { 56  ;   ;Ref. Order No.      ;Code20        ;CaptionML=[DEU=Ref.-Nr.;
+                                                              ENU=Ref. Order No.];
                                                    Editable=No }
-    { 57  ;   ;Ref. Line No.       ;Integer       ;CaptionML=[ENU=Ref. Line No.;
-                                                              ESP=Nß l°n. ref.;
-                                                              DEA=Ref. Zeilennr.];
+    { 57  ;   ;Ref. Line No.       ;Integer       ;CaptionML=[DEU=Ref. Zeilennr.;
+                                                              ENU=Ref. Line No.];
                                                    BlankZero=Yes;
                                                    Editable=No }
-    { 58  ;   ;Derived from Blanket Order;Boolean ;CaptionML=[ENU=Derived from Blanket Order;
-                                                              ESP=Proviene de ped. abierto;
-                                                              DEA=öbern. von Rahmenauftr./-best.] }
-    { 59  ;   ;Ref. Blanket Order No.;Code20      ;CaptionML=[ENU=Ref. Blanket Order No.;
-                                                              ESP=Nß ped. abierto ref.;
-                                                              DEA=Ref. Rahmenauftr.-/-bestellnr.] }
-    { 60  ;   ;Tracking Reference  ;Integer       ;CaptionML=[ENU=Tracking Reference;
-                                                              ESP=Referencia seguimiento;
-                                                              DEA=Verfolgungsreferenz] }
-    { 61  ;   ;Lot No.             ;Code20        ;CaptionML=[ENU=Lot No.;
-                                                              ESP=Nß lote;
-                                                              DEA=Chargennr.] }
-    { 62  ;   ;Serial No.          ;Code20        ;CaptionML=[ENU=Serial No.;
-                                                              ESP=Nß serie;
-                                                              DEA=Seriennr.] }
-    { 63  ;   ;Max. Quantity       ;Decimal       ;CaptionML=[ENU=Max. Quantity;
-                                                              ESP=Cantidad m†x.;
-                                                              DEA=Max. Menge];
+    { 58  ;   ;Derived from Blanket Order;Boolean ;CaptionML=[DEU=öbern. von Rahmenauftr./-best.;
+                                                              ENU=Derived from Blanket Order] }
+    { 59  ;   ;Ref. Blanket Order No.;Code20      ;CaptionML=[DEU=Ref. Rahmenauftr.-/-bestellnr.;
+                                                              ENU=Ref. Blanket Order No.] }
+    { 60  ;   ;Tracking Reference  ;Integer       ;CaptionML=[DEU=Verfolgungsreferenz;
+                                                              ENU=Tracking Reference] }
+    { 61  ;   ;Lot No.             ;Code20        ;CaptionML=[DEU=Chargennr.;
+                                                              ENU=Lot No.] }
+    { 62  ;   ;Serial No.          ;Code20        ;CaptionML=[DEU=Seriennr.;
+                                                              ENU=Serial No.] }
+    { 63  ;   ;Max. Quantity       ;Decimal       ;CaptionML=[DEU=Max. Menge;
+                                                              ENU=Max. Quantity];
                                                    DecimalPlaces=0:5 }
-    { 64  ;   ;Safety Stock Quantity;Decimal      ;CaptionML=[ENU=Safety Stock Quantity;
-                                                              ESP=Stock de seguridad;
-                                                              DEA=Sicherheitsbestand];
+    { 64  ;   ;Safety Stock Quantity;Decimal      ;CaptionML=[DEU=Sicherheitsbestand;
+                                                              ENU=Safety Stock Quantity];
                                                    DecimalPlaces=0:5 }
-    { 65  ;   ;Is Exception Order  ;Boolean       ;CaptionML=[ENU=Is Exception Order;
-                                                              ESP=Pedido excepci¢n;
-                                                              DEA=Ist Ausnahmeauftrag] }
+    { 65  ;   ;Is Exception Order  ;Boolean       ;CaptionML=[DEU=Ist Ausnahmeauftrag;
+                                                              ENU=Is Exception Order] }
     { 66  ;   ;Transfer Location Not Planned;Boolean;
-                                                   CaptionML=[ENU=Transfer Location Not Planned;
-                                                              ESP=Alm. transferencia no planificada;
-                                                              DEA=Umlagerungsort nicht geplant] }
-    { 67  ;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
-                                                              ESP=Fecha caducidad;
-                                                              DEA=Ablaufdatum];
+                                                   CaptionML=[DEU=Umlagerungsort nicht geplant;
+                                                              ENU=Transfer Location Not Planned] }
+    { 67  ;   ;Expiration Date     ;Date          ;CaptionML=[DEU=Ablaufdatum;
+                                                              ENU=Expiration Date];
                                                    Editable=No }
-    { 68  ;   ;Ref. Order Type     ;Option        ;CaptionML=[ENU=Ref. Order Type;
-                                                              ESP=Tipo orden ref.;
-                                                              DEA=Ref. Auftragsart];
-                                                   OptionCaptionML=[ENU=" ,Purchase,Prod. Order,Transfer,Assembly";
-                                                                    ESP=" ,Compra,Orden prod.,Transferencia,Ensamblado";
-                                                                    DEA=" ,Einkauf,Fertigungsauftrag,Umlagerung,Montage"];
+    { 68  ;   ;Ref. Order Type     ;Option        ;CaptionML=[DEU=Ref. Auftragsart;
+                                                              ENU=Ref. Order Type];
+                                                   OptionCaptionML=[DEU=" ,Einkauf,Fertigungsauftrag,Umlagerung,Montage";
+                                                                    ENU=" ,Purchase,Prod. Order,Transfer,Assembly"];
                                                    OptionString=[ ,Purchase,Prod. Order,Transfer,Assembly];
                                                    Editable=No }
-    { 69  ;   ;Disallow Cancellation;Boolean      ;CaptionML=[ENU=Disallow Cancellation;
-                                                              ESP=No permitir cancelaci¢n;
-                                                              DEA=Keine Stornierung zulassen] }
+    { 69  ;   ;Disallow Cancellation;Boolean      ;CaptionML=[DEU=Keine Stornierung zulassen;
+                                                              ENU=Disallow Cancellation] }
   }
   KEYS
   {
@@ -248,7 +184,7 @@ OBJECT Table 99000853 Inventory Profile
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Tab99000853, TransferToTrackingEntry: Illegal Source Type: %1.;ESP=Tab99000853, TransfDesdeMovSeguimien: Tipo fuente incorrecta: %1.;DEA=Tab99000853, TransferNachBedVerursPosten: UngÅltige Herkunftsart: %1.';
+      Text000@1000 : TextConst 'DEU=Tab99000853, TransferNachBedVerursPosten: UngÅltige Herkunftsart: %1.;ENU=Tab99000853, TransferToTrackingEntry: Illegal Source Type: %1.';
 
     PROCEDURE TransferFromItemLedgerEntry@1(VAR ItemLedgerEntry@1000 : Record 32;VAR TrackingEntry@1004 : Record 337);
     VAR

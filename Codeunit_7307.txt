@@ -2,9 +2,9 @@ OBJECT Codeunit 7307 Whse.-Activity-Register
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -27,9 +27,9 @@ OBJECT Codeunit 7307 Whse.-Activity-Register
   CODE
   {
     VAR
-      Text000@1001 : TextConst 'ENU=Warehouse Activity    #1##########\\;ESP=Actividad almacÇn    #1##########\\;DEA=LageraktivitÑt        #1##########\\';
-      Text001@1002 : TextConst 'ENU=Checking lines        #2######\;ESP=Comprobando l°neas   #2######\;DEA=Zeilen prÅfen         #2######\';
-      Text002@1005 : TextConst 'ENU=Registering lines     #3###### @4@@@@@@@@@@@@@;ESP=Registrando l°neas   #3###### @4@@@@@@@@@@@@@;DEA=Zeilen registrieren   #3###### @4@@@@@@@@@@@@@';
+      Text000@1001 : TextConst 'DEU=LageraktivitÑt        #1##########\\;ENU=Warehouse Activity    #1##########\\';
+      Text001@1002 : TextConst 'DEU=Zeilen prÅfen         #2######\;ENU=Checking lines        #2######\';
+      Text002@1005 : TextConst 'DEU=Zeilen registrieren   #3###### @4@@@@@@@@@@@@@;ENU=Registering lines     #3###### @4@@@@@@@@@@@@@';
       Location@1006 : Record 14;
       Item@1029 : Record 27;
       WhseActivHeader@1000 : Record 5766;
@@ -62,9 +62,9 @@ OBJECT Codeunit 7307 Whse.-Activity-Register
       NoOfRecords@1034 : Integer;
       LineCount@1035 : Integer;
       HideDialog@1036 : Boolean;
-      Text003@1003 : TextConst 'ENU=There is nothing to register.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu registrieren.';
-      Text004@1024 : TextConst 'ENU=Item tracking defined for the source line accounts for more than the quantity you have entered.\You must adjust the existing item tracking and then reenter the new quantity.;ESP=Seguim. prod. definido para l°n. origen tiene una cantidad mayor que la que ha introducido.\Debe ajustar el seguim. prod. actual y volver a introducir la nueva cdad.;DEA=Die der Artikelverfolgung zugeordnete Herkunftszeile enthÑlt eine grî·ere als die eingegebene Menge.\Die vorhandene Artikelverfolgung muss angepasst und danach die Menge erneut eingegeben werden.';
-      Text005@1028 : TextConst 'ENU=%1 %2 is not available on inventory or it has already been reserved for another document.;ESP=%1 %2 no est† disponible en el inventario o fue reservado para otro documento.;DEA=%1 %2 ist im Lagerbestand nicht verfÅgbar oder wurde bereits fÅr einen anderen Beleg reserviert.';
+      Text003@1003 : TextConst 'DEU=Es gibt nichts zu registrieren.;ENU=There is nothing to register.';
+      Text004@1024 : TextConst 'DEU=Die der Artikelverfolgung zugeordnete Herkunftszeile enthÑlt eine grî·ere als die eingegebene Menge.\Die vorhandene Artikelverfolgung muss angepasst und danach die Menge erneut eingegeben werden.;ENU=Item tracking defined for the source line accounts for more than the quantity you have entered.\You must adjust the existing item tracking and then reenter the new quantity.';
+      Text005@1028 : TextConst 'DEU=%1 %2 ist im Lagerbestand nicht verfÅgbar oder wurde bereits fÅr einen anderen Beleg reserviert.;ENU=%1 %2 is not available on inventory or it has already been reserved for another document.';
 
     LOCAL PROCEDURE Code@3();
     VAR

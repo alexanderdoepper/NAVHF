@@ -2,16 +2,15 @@ OBJECT Page 5709 Get Receipt Lines
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Get Receipt Lines;
-               ESP=Traer l¡ns. albar n;
-               DEA=Wareneingangszeilen holen];
+    CaptionML=[DEU=Wareneingangszeilen holen;
+               ENU=Get Receipt Lines];
     SourceTable=Table121;
     PageType=List;
     SourceTableTemporary=Yes;
@@ -30,15 +29,13 @@ OBJECT Page 5709 Get Receipt Lines
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 45      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L¡nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 46      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Show Document;
-                                 ESP=Muestra documento;
-                                 DEA=Beleg anzeigen];
+                      CaptionML=[DEU=Beleg anzeigen;
+                                 ENU=Show Document];
                       Image=View;
                       OnAction=BEGIN
                                  PurchRcptHeader.GET("Document No.");
@@ -47,18 +44,16 @@ OBJECT Page 5709 Get Receipt Lines
                                 }
       { 47      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
                                END;
                                 }
       { 28      ;2   ;Action    ;
-                      CaptionML=[ENU=Item &Tracking Entries;
-                                 ESP=Movs. &seguim. prod.;
-                                 DEA=Artikel&verfolgungsposten];
+                      CaptionML=[DEU=Artikel&verfolgungsposten;
+                                 ENU=Item &Tracking Entries];
                       Image=ItemTrackingLedger;
                       OnAction=BEGIN
                                  ShowItemTrackingLines;

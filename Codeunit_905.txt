@@ -2,9 +2,9 @@ OBJECT Codeunit 905 Assembly Line Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -16,14 +16,14 @@ OBJECT Codeunit 905 Assembly Line Management
   CODE
   {
     VAR
-      Text001@1002 : TextConst 'ENU=Do you want to update the %1 on the lines?;ESP=®Confirma que desea actualizar %1 en las l°neas?;DEA=Mîchten Sie ''%1'' in den Zeilen wirklich aktualisieren?';
-      Text002@1003 : TextConst 'ENU=Do you want to update the Dimensions on the lines?;ESP=®Confirma que desea actualizar las dimensiones en las l°neas?;DEA=Mîchten Sie die Dimensionen in den Zeilen wirklich aktualisieren?';
-      Text003@1001 : TextConst 'ENU=Changing %1 will change all the lines. Do you want to change the %1 from %2 to %3?;ESP=Al cambiar %1 se cambiar†n todas las l°neas. ®Desea cambiar el %1 de %2 a %3?;DEA=Die énderung von ''%1'' wirkt sich auf alle Zeilen aus. Mîchten Sie ''%1'' wirklich von ''%2'' in ''%3'' Ñndern?';
+      Text001@1002 : TextConst 'DEU=Mîchten Sie ''%1'' in den Zeilen wirklich aktualisieren?;ENU=Do you want to update the %1 on the lines?';
+      Text002@1003 : TextConst 'DEU=Mîchten Sie die Dimensionen in den Zeilen wirklich aktualisieren?;ENU=Do you want to update the Dimensions on the lines?';
+      Text003@1001 : TextConst 'DEU=Die énderung von ''%1'' wirkt sich auf alle Zeilen aus. Mîchten Sie ''%1'' wirklich von ''%2'' in ''%3'' Ñndern?;ENU=Changing %1 will change all the lines. Do you want to change the %1 from %2 to %3?';
       WarningModeOff@1000 : Boolean;
-      Text004@1004 : TextConst 'ENU=This assembly order may have customized lines. Are you sure that you want to reset the lines according to the assembly BOM?;ESP=Este pedido de ensamblado puede tener l°neas personalizadas. ®Est† seguro de que desea restablecer las l°neas en base a L.M. de ensamblado?;DEA=Dieser Montageauftrag enthÑlt mîglicherweise angepasste Zeilen. Mîchten Sie die Zeilen wirklich gemÑ· der MontagestÅckliste zurÅcksetzen?';
-      Text005@1005 : TextConst 'ENU=Due Date %1 is before work date %2 in one or more of the assembly lines.;ESP=La fecha de vencimiento %1 es anterior a la fecha de trabajo %2 en una o m†s de las l°neas de ensamblado.;DEA=Das FÑlligkeitsdatum (%1) liegt in mindestens einer Montagezeile vor dem Arbeitsdatum (%2).';
-      Text006@1006 : TextConst 'ENU=Item %1 is not a BOM.;ESP=El producto %1 no es una L.M.;DEA=Artikel %1 ist keine StÅckliste.';
-      Text007@1007 : TextConst 'ENU=There is not enough space to explode the BOM.;ESP=No hay suficiente espacio para desplegar la lista de materiales.;DEA=Es ist nicht genÅgend Platz, um die StÅckliste zu entfalten.';
+      Text004@1004 : TextConst 'DEU=Dieser Montageauftrag enthÑlt mîglicherweise angepasste Zeilen. Mîchten Sie die Zeilen wirklich gemÑ· der MontagestÅckliste zurÅcksetzen?;ENU=This assembly order may have customized lines. Are you sure that you want to reset the lines according to the assembly BOM?';
+      Text005@1005 : TextConst 'DEU=Das FÑlligkeitsdatum (%1) liegt in mindestens einer Montagezeile vor dem Arbeitsdatum (%2).;ENU=Due Date %1 is before work date %2 in one or more of the assembly lines.';
+      Text006@1006 : TextConst 'DEU=Artikel %1 ist keine StÅckliste.;ENU=Item %1 is not a BOM.';
+      Text007@1007 : TextConst 'DEU=Es ist nicht genÅgend Platz, um die StÅckliste zu entfalten.;ENU=There is not enough space to explode the BOM.';
 
     LOCAL PROCEDURE LinesExist@3(AsmHeader@1001 : Record 900) : Boolean;
     VAR

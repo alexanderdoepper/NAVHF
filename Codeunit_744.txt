@@ -2,9 +2,9 @@ OBJECT Codeunit 744 VAT Report Validate
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
@@ -13,8 +13,8 @@ OBJECT Codeunit 744 VAT Report Validate
             ClearErrorLog;
 
             ValidateVATReportLinesExists(Rec);
-            ValidateVATReportHeader;
-            ValidateVATReportLines;
+            ValidateVATReportHeader(Rec);
+            ValidateVATReportLines(Rec);
 
             ShowErrorLog;
           END;
@@ -23,10 +23,14 @@ OBJECT Codeunit 744 VAT Report Validate
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot release the VAT report because no lines exist.;ESP=No se puede publicar el informe de IVA porque no existen l¡neas.;DEA=Sie k”nnen den MwSt.-Bericht nicht freigeben, weil keine Zeilen vorhanden sind.';
+      Text000@1000 : TextConst 'DEU=Sie k”nnen den MwSt.-Bericht nicht freigeben, weil keine Zeilen vorhanden sind.;ENU=You cannot release the VAT report because no lines exist.';
       TempVATReportErrorLog@1003 : TEMPORARY Record 745;
       VATReportLine@1002 : Record 741;
       ErrorID@1001 : Integer;
+      Text001@1140000 : TextConst 'DEU=Feld %1 muss in Tabelle %2 ausgefllt werden.;ENU=Field %1 should be filled in table %2.';
+      Text002@1140001 : TextConst 'DEU=Zeitraum von %1 bis %2 ist bereits in MwSt. Bericht %3 vorhanden.;ENU=Period from %1 till %2 already exists on VAT Report %3.';
+      Text003@1140002 : TextConst 'DEU=Jede Stornozeile muss einen Bezug zu einer Korrekturzeile haben.;ENU=Each cancellation line should have related corrective line.';
+      Text004@1140004 : TextConst 'DEU=Das %1 kann nicht vor dem %1 %2 liegen (MwSt.-Bericht %3).;ENU=The %1 cannot be earlier than the %1 %2 (VAT Report %3).';
 
     PROCEDURE ClearErrorLog@1();
     BEGIN
@@ -64,12 +68,100 @@ OBJECT Codeunit 744 VAT Report Validate
       END;
     END;
 
-    PROCEDURE ValidateVATReportHeader@6();
+    PROCEDURE ValidateVATReportHeader@6(VATReportHeader@1140000 : Record 740);
+    VAR
+      OrigVATReport@1140001 : Record 740;
     BEGIN
+      WITH VATReportHeader DO BEGIN
+        IF "No." = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("No."),TABLECAPTION));
+        IF "Start Date" = 0D THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Start Date"),TABLECAPTION));
+        IF "End Date" = 0D THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("End Date"),TABLECAPTION));
+        IF "Processing Date" = 0D THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Processing Date"),TABLECAPTION));
+        IF "Report Period Type" = "Report Period Type"::" " THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Report Period Type"),TABLECAPTION));
+        IF "Report Period No." = 0 THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Report Period No."),TABLECAPTION));
+        IF "Report Year" = 0 THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Report Year"),TABLECAPTION));
+        IF "Company Name" = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Company Name"),TABLECAPTION));
+        IF "Company Address" = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Company Address"),TABLECAPTION));
+        IF "Post Code" = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Post Code"),TABLECAPTION));
+        IF City = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION(City),TABLECAPTION));
+        IF "VAT Registration No." = '' THEN
+          InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("VAT Registration No."),TABLECAPTION));
+        CASE "VAT Report Type" OF
+          "VAT Report Type"::Standard:
+            BEGIN
+              TESTFIELD("Original Report No.",'');
+              ValidateVATReportPeriod(VATReportHeader);
+            END;
+          "VAT Report Type"::Corrective:
+            BEGIN
+              TESTFIELD("Original Report No.");
+              OrigVATReport.GET("Original Report No.");
+              TESTFIELD("Start Date",OrigVATReport."Start Date");
+              TESTFIELD("End Date",OrigVATReport."End Date");
+              TESTFIELD("Report Period Type",OrigVATReport."Report Period Type");
+              TESTFIELD("Report Period No.",OrigVATReport."Report Period No.");
+              TESTFIELD("Report Year",OrigVATReport."Report Year");
+              IF OrigVATReport."Processing Date" > "Processing Date" THEN
+                ERROR(Text004,
+                  FIELDCAPTION("Processing Date"),OrigVATReport."Processing Date",OrigVATReport."No.");
+            END;
+        END;
+      END;
     END;
 
-    PROCEDURE ValidateVATReportLines@7();
+    PROCEDURE ValidateVATReportLines@7(VATReportHeader@1140000 : Record 740);
+    VAR
+      VATReportLine@1140001 : Record 741;
+      CancelLines@1140002 : Integer;
+      CorrectLines@1140003 : Integer;
     BEGIN
+      WITH VATReportLine DO BEGIN
+        SETRANGE("VAT Report No.",VATReportHeader."No.");
+        IF FINDSET THEN
+          REPEAT
+            IF "Country/Region Code" = '' THEN
+              InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("Country/Region Code"),TABLECAPTION));
+            IF "VAT Registration No." = '' THEN
+              InsertErrorLog(STRSUBSTNO(Text001,FIELDCAPTION("VAT Registration No."),TABLECAPTION));
+            CASE "Line Type" OF
+              "Line Type"::Cancellation:
+                CancelLines += 1;
+              "Line Type"::Correction:
+                CorrectLines += 1;
+            END;
+          UNTIL NEXT = 0;
+        IF CancelLines <> CorrectLines THEN
+          ERROR(Text003);
+      END;
+    END;
+
+    PROCEDURE ValidateVATReportPeriod@1140000(VATReportHeader@1140000 : Record 740);
+    VAR
+      VATReportHeader2@1140001 : Record 740;
+    BEGIN
+      IF VATReportHeader."Original Report No." = '' THEN BEGIN
+        VATReportHeader2.RESET;
+        VATReportHeader2.SETRANGE("Start Date",VATReportHeader."Start Date");
+        VATReportHeader2.SETRANGE("End Date",VATReportHeader."End Date");
+        VATReportHeader2.SETRANGE("Original Report No.",'');
+        VATReportHeader2.SETRANGE("VAT Report Type",VATReportHeader."VAT Report Type");
+        VATReportHeader2.SETRANGE("Trade Type",VATReportHeader."Trade Type");
+        VATReportHeader2.SETFILTER("No.",'<>%1',VATReportHeader."No.");
+        IF VATReportHeader2.FINDFIRST THEN
+          ERROR(Text002,
+            VATReportHeader."Start Date",VATReportHeader."End Date",VATReportHeader2."No.");
+      END;
     END;
 
     BEGIN

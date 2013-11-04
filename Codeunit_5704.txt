@@ -2,9 +2,9 @@ OBJECT Codeunit 5704 TransferOrder-Post Shipment
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -309,14 +309,14 @@ OBJECT Codeunit 5704 TransferOrder-Post Shipment
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Transfer order %2 cannot be posted because %3 and %4 are the same.;ESP=Ped. transfer. %2 no se puede registrar porque %3 y %4 son el mismo.;DEA=Der Umlagerungsauftrag %2 kann nicht gebucht werden, da der %3 und der %4 identisch sind.';
-      Text001@1001 : TextConst 'ENU=There is nothing to post.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu buchen.';
-      Text002@1002 : TextConst 'ENU="Warehouse handling is required for Transfer order = %1, %2 = %3.";ESP="Manipulaci¢n alm. requerida para ped. transfer. = %1, %2 = %3.";DEA="Lagerdurchlauf ist notwendig fÅr Umlagerungsauftrag = %1, %2 = %3."';
-      Text003@1003 : TextConst 'ENU=Posting transfer lines     #2######;ESP=Regis. l°ns. transfer.     #2######;DEA=Umlagerungszeilen buchen   #2######';
-      Text004@1004 : TextConst 'ENU=Transfer Order %1;ESP=Ped. transfer. %1;DEA=Umlagerungsauftrag %1';
-      Text005@1005 : TextConst 'ENU=The combination of dimensions used in transfer order %1 is blocked. %2;ESP=La combinaci¢n de dimens. utiliz. en ped. transf. %1 est† bloqueada. %2;DEA=Die Kombination der in dem Umlagerungsauftrag %1 verwendeten Dimensionen ist gesperrt. %2';
-      Text006@1006 : TextConst 'ENU=The combination of dimensions used in transfer order %1, line no. %2 is blocked. %3;ESP=La combinaci¢n de dimens. utiliz. en ped. transf. %1, nß l°n. %2 est† bloqueada. %3;DEA=Die Kombination der in dem Umlagerungsauftrag %1, Zeilennr. %2, verwendeten Dimensionen ist gesperrt. %3';
-      Text007@1007 : TextConst 'ENU=The dimensions that are used in transfer order %1, line no. %2 are not valid. %3.;ESP=Las dimensiones que se usan en el pedido de transferencia %1, nß de l°nea %2 no son v†lidas. %3.;DEA=Die im Umlagerungsauftrag %1 (Zeilennr. %2) verwendeten Dimensionen sind ungÅltig. %3.';
+      Text000@1000 : TextConst 'DEU=Der Umlagerungsauftrag %2 kann nicht gebucht werden, da der %3 und der %4 identisch sind.;ENU=Transfer order %2 cannot be posted because %3 and %4 are the same.';
+      Text001@1001 : TextConst 'DEU=Es gibt nichts zu buchen.;ENU=There is nothing to post.';
+      Text002@1002 : TextConst 'DEU="Lagerdurchlauf ist notwendig fÅr Umlagerungsauftrag = %1, %2 = %3.";ENU="Warehouse handling is required for Transfer order = %1, %2 = %3."';
+      Text003@1003 : TextConst 'DEU=Umlagerungszeilen buchen   #2######;ENU=Posting transfer lines     #2######';
+      Text004@1004 : TextConst 'DEU=Umlagerungsauftrag %1;ENU=Transfer Order %1';
+      Text005@1005 : TextConst 'DEU=Die Kombination der in dem Umlagerungsauftrag %1 verwendeten Dimensionen ist gesperrt. %2;ENU=The combination of dimensions used in transfer order %1 is blocked. %2';
+      Text006@1006 : TextConst 'DEU=Die Kombination der in dem Umlagerungsauftrag %1, Zeilennr. %2, verwendeten Dimensionen ist gesperrt. %3;ENU=The combination of dimensions used in transfer order %1, line no. %2 is blocked. %3';
+      Text007@1007 : TextConst 'DEU=Die im Umlagerungsauftrag %1 (Zeilennr. %2) verwendeten Dimensionen sind ungÅltig. %3.;ENU=The dimensions that are used in transfer order %1, line no. %2 are not valid. %3.';
       TransShptHeader@1008 : Record 5744;
       TransShptLine@1009 : Record 5745;
       TransHeader@1010 : Record 5740;
@@ -349,8 +349,8 @@ OBJECT Codeunit 5704 TransferOrder-Post Shipment
       WhseReference@1038 : Integer;
       OriginalQuantity@1031 : Decimal;
       OriginalQuantityBase@1032 : Decimal;
-      Text008@11042 : TextConst 'ENU=This order must be a complete shipment.;ESP=Este pedido debe ser un env°o completo.;DEA=Dieser Auftrag muss eine vollstÑndige Lieferung darstellen.';
-      Text009@1042 : TextConst 'ENU=Item %1 is not in inventory.;ESP=El producto %1 no est† en inventario.;DEA=Artikel %1 befindet sich nicht im Lager.';
+      Text008@11042 : TextConst 'DEU=Dieser Auftrag muss eine vollstÑndige Lieferung darstellen.;ENU=This order must be a complete shipment.';
+      Text009@1042 : TextConst 'DEU=Artikel %1 befindet sich nicht im Lager.;ENU=Item %1 is not in inventory.';
 
     LOCAL PROCEDURE PostItemJnlLine@2(VAR TransLine3@1000 : Record 5741;TransShptHeader2@1001 : Record 5744;TransShptLine2@1002 : Record 5745);
     BEGIN
@@ -638,6 +638,8 @@ OBJECT Codeunit 5704 TransferOrder-Post Shipment
     BEGIN
       WITH Item DO BEGIN
         GET(TransLine."Item No.");
+        SETFILTER("Variant Filter",TransLine."Variant Code");
+        SETFILTER("Location Filter",TransLine."Transfer-from Code");
         CALCFIELDS(Inventory);
         IF Inventory <= 0 THEN
           ERROR(Text009,TransLine."Item No.");

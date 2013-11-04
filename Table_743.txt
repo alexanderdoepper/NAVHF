@@ -2,28 +2,41 @@ OBJECT Table 743 VAT Report Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Report Setup;
-               ESP=Configuraci¢n informe IVA;
-               DEA=MwSt.-Bericht - Einrichtung];
+    CaptionML=[DEU=MwSt.-Bericht - Einrichtung;
+               ENU=VAT Report Setup];
   }
   FIELDS
   {
-    { 1   ;   ;Primary key         ;Code10        ;CaptionML=[ENU=Primary key;
-                                                              ESP=Clave primaria;
-                                                              DEA=PrimÑrschlÅssel] }
+    { 1   ;   ;Primary key         ;Code10        ;CaptionML=[DEU=PrimÑrschlÅssel;
+                                                              ENU=Primary key] }
     { 2   ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie] }
-    { 3   ;   ;Modify Submitted Reports;Boolean   ;CaptionML=[ENU=Modify Submitted Reports;
-                                                              ESP=Modificar informes enviados;
-                                                              DEA=öbermittelte Berichte Ñndern] }
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series] }
+    { 3   ;   ;Modify Submitted Reports;Boolean   ;CaptionML=[DEU=öbermittelte Berichte Ñndern;
+                                                              ENU=Modify Submitted Reports] }
+    { 4   ;   ;Default Export Folder;Text250      ;CaptionML=[DEU=Standardordner fÅr Export;
+                                                              ENU=Default Export Folder] }
+    { 11000;  ;Source Identifier   ;Text11        ;CaptionML=[DEU=BZSt-Nummer;
+                                                              ENU=Source Identifier] }
+    { 11001;  ;Transmission Process ID;Text3      ;CaptionML=[DEU=öbertragungsprozess-ID;
+                                                              ENU=Transmission Process ID] }
+    { 11002;  ;Supplier ID         ;Text3         ;CaptionML=[DEU=Lieferanten-ID;
+                                                              ENU=Supplier ID] }
+    { 11003;  ;Codepage            ;Option        ;CaptionML=[DEU=Codepage;
+                                                              ENU=Codepage];
+                                                   OptionCaptionML=[DEU=IBM-850,EBCDIC273,EBCDIC1141;
+                                                                    ENU=IBM-850,EBCDIC273,EBCDIC1141];
+                                                   OptionString=IBM-850,EBCDIC273,EBCDIC1141 }
+    { 11004;  ;Registration ID     ;Text6         ;CaptionML=[DEU=Registrierungs-ID;
+                                                              ENU=Registration ID] }
+    { 11005;  ;Export Cancellation Lines;Boolean  ;CaptionML=[DEU=Export Cancellation Lines;
+                                                              ENU=Export Cancellation Lines] }
   }
   KEYS
   {

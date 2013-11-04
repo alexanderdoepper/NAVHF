@@ -2,15 +2,14 @@ OBJECT Page 138 Posted Purchase Invoice
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Posted Purchase Invoice;
-               ESP=Hist¢rico facturas compra;
-               DEA=Geb. Einkaufsrechnung];
+    CaptionML=[DEU=Geb. Einkaufsrechnung;
+               ENU=Posted Purchase Invoice];
     InsertAllowed=No;
     SourceTable=Table122;
     PageType=Document;
@@ -24,25 +23,22 @@ OBJECT Page 138 Posted Purchase Invoice
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 53      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Invoice;
-                                 ESP=&Factura;
-                                 DEA=R&echnung];
+                      CaptionML=[DEU=R&echnung;
+                                 ENU=&Invoice];
                       Image=Invoice }
       { 45      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       RunObject=Page 400;
                       RunPageLink=No.=FIELD(No.);
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process }
       { 55      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 66;
                       RunPageLink=Document Type=CONST(Posted Invoice),
                                   No.=FIELD(No.),
@@ -50,18 +46,16 @@ OBJECT Page 138 Posted Purchase Invoice
                       Image=ViewComments }
       { 89      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
                                END;
                                 }
       { 106     ;2   ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  PostedApprovalEntries@1001 : Page 659;
@@ -74,9 +68,8 @@ OBJECT Page 138 Posted Purchase Invoice
                       ActionContainerType=ActionItems }
       { 56      ;1   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -86,9 +79,8 @@ OBJECT Page 138 Posted Purchase Invoice
                                END;
                                 }
       { 57      ;1   ;Action    ;
-                      CaptionML=[ENU=&Navigate;
-                                 ESP=&Navegar;
-                                 DEA=&Navigate];
+                      CaptionML=[DEU=&Navigate;
+                                 ENU=&Navigate];
                       Promoted=Yes;
                       Image=Navigate;
                       PromotedCategory=Process;
@@ -104,9 +96,8 @@ OBJECT Page 138 Posted Purchase Invoice
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -197,9 +188,8 @@ OBJECT Page 138 Posted Purchase Invoice
                 PagePartID=Page139 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 18  ;2   ;Field     ;
                 SourceExpr="Pay-to Vendor No.";
@@ -265,9 +255,8 @@ OBJECT Page 138 Posted Purchase Invoice
                 Editable=FALSE }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env¡o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 38  ;2   ;Field     ;
                 SourceExpr="Ship-to Name";
@@ -308,9 +297,8 @@ OBJECT Page 138 Posted Purchase Invoice
                 Editable=FALSE }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Auáenhandel] }
+                CaptionML=[DEU=Auáenhandel;
+                           ENU=Foreign Trade] }
 
     { 87  ;2   ;Field     ;
                 SourceExpr="Currency Code";

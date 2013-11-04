@@ -2,18 +2,15 @@ OBJECT Page 741 VAT Report Subform
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Lines;
-               ESP=L¡neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     InsertAllowed=No;
-    DeleteAllowed=No;
-    ModifyAllowed=Yes;
     SourceTable=Table741;
     PageType=ListPart;
   }
@@ -25,31 +22,16 @@ OBJECT Page 741 VAT Report Subform
     { 1   ;1   ;Group     ;
                 GroupType=Repeater }
 
-    { 6   ;2   ;Field     ;
-                SourceExpr="Gen. Prod. Posting Group" }
-
-    { 8   ;2   ;Field     ;
-                SourceExpr="Posting Date" }
-
-    { 10  ;2   ;Field     ;
-                SourceExpr="Document No." }
-
-    { 12  ;2   ;Field     ;
-                SourceExpr="Document Type" }
-
-    { 14  ;2   ;Field     ;
-                SourceExpr=Type }
-
-    { 16  ;2   ;Field     ;
-                SourceExpr=Base }
+    { 1140002;2;Field     ;
+                SourceExpr="Line Type" }
 
     { 18  ;2   ;Field     ;
-                SourceExpr=Amount;
+                SourceExpr=Base;
                 OnAssistEdit=VAR
-                               VATReportLineRelation@1001 : Record 744;
-                               VATEntry@1002 : Record 254;
-                               FilterText@1003 : Text[1024];
-                               TableNo@1004 : Integer;
+                               VATReportLineRelation@1140000 : Record 744;
+                               VATEntry@1140001 : Record 254;
+                               FilterText@1140002 : Text[1024];
+                               TableNo@1140003 : Integer;
                              BEGIN
                                FilterText := VATReportLineRelation.CreateFilterForAmountMapping("VAT Report No.","Line No.",TableNo);
                                CASE TableNo OF
@@ -62,44 +44,17 @@ OBJECT Page 741 VAT Report Subform
                              END;
                               }
 
-    { 20  ;2   ;Field     ;
-                SourceExpr="VAT Calculation Type" }
-
-    { 22  ;2   ;Field     ;
-                SourceExpr="Bill-to/Pay-to No." }
-
-    { 24  ;2   ;Field     ;
-                SourceExpr="EU 3-Party Trade" }
-
-    { 28  ;2   ;Field     ;
-                SourceExpr="Source Code" }
-
-    { 30  ;2   ;Field     ;
-                SourceExpr="Reason Code" }
-
     { 32  ;2   ;Field     ;
                 SourceExpr="Country/Region Code" }
 
-    { 34  ;2   ;Field     ;
-                SourceExpr="Internal Ref. No." }
-
-    { 36  ;2   ;Field     ;
-                SourceExpr="Unrealized Amount" }
-
-    { 38  ;2   ;Field     ;
-                SourceExpr="Unrealized Base" }
-
-    { 40  ;2   ;Field     ;
-                SourceExpr="External Document No." }
-
-    { 42  ;2   ;Field     ;
-                SourceExpr="VAT Bus. Posting Group" }
-
-    { 44  ;2   ;Field     ;
-                SourceExpr="VAT Prod. Posting Group" }
-
     { 46  ;2   ;Field     ;
                 SourceExpr="VAT Registration No." }
+
+    { 1140000;2;Field     ;
+                SourceExpr="EU 3-Party Trade" }
+
+    { 1140001;2;Field     ;
+                SourceExpr="EU Service" }
 
   }
   CODE

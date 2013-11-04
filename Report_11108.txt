@@ -2,14 +2,14 @@ OBJECT Report 11108 VAT - VIES Declaration XML
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT - VIES Declaration XML;
-               DEA=Zusammenfassende Meldung XML];
+    CaptionML=[DEU=Zusammenfassende Meldung XML;
+               ENU=VAT - VIES Declaration XML];
     ProcessingOnly=No;
     OnInitReport=BEGIN
                    Exportfilename := TextExportFileName;
@@ -130,13 +130,13 @@ OBJECT Report 11108 VAT - VIES Declaration XML
                SourceExpr=FORMAT(RepPeriodTo) }
 
     { 1000000003;1;Column;XMLFileName        ;
-               OptionCaptionML=[ENU=XML-File;
-                                DEA=XML-File];
+               OptionCaptionML=[DEU=XML-File;
+                                ENU=XML-File];
                SourceExpr=XMLFileName }
 
     { 1000000004;1;Column;PaketNr            ;
-               OptionCaptionML=[ENU=Paketnr.;
-                                DEA=Paketnr.];
+               OptionCaptionML=[DEU=Paketnr.;
+                                ENU=Paketnr.];
                SourceExpr=PaketNr }
 
     { 1140000;1;Column  ;NoOfRecs            ;
@@ -340,41 +340,41 @@ OBJECT Report 11108 VAT - VIES Declaration XML
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 17  ;2   ;Group     ;
-                  CaptionML=[ENU=Statement Period;
-                             DEA=Abrechnungsperiode] }
+                  CaptionML=[DEU=Abrechnungsperiode;
+                             ENU=Statement Period] }
 
       { 3   ;3   ;Field     ;
-                  CaptionML=[ENU=Starting Date;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=RepPeriodFrom }
 
       { 5   ;3   ;Field     ;
-                  CaptionML=[ENU=Ending Date;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=RepPeriodTo }
 
       { 9   ;2   ;Field     ;
                   Name=ReportingDate;
-                  CaptionML=[ENU=Reporting Date;
-                             DEA=Berichtsdatum];
+                  CaptionML=[DEU=Berichtsdatum;
+                             ENU=Reporting Date];
                   SourceExpr=Reportingdate }
 
       { 7   ;2   ;Field     ;
                   Name=ReportingType;
-                  CaptionML=[ENU=Reporting Type;
-                             DEA=Berichtstyp];
-                  OptionCaptionML=[ENU=Normal transmission,Recall of an earlier report;
-                                   DEA=Normale öbertragung,erneutes Aufrufen eines frÅheren Berichts];
+                  CaptionML=[DEU=Berichtstyp;
+                             ENU=Reporting Type];
+                  OptionCaptionML=[DEU=Normale öbertragung,RÅckruf eines frÅheren Berichts;
+                                   ENU=Normal transmission,Recall of an earlier report];
                   SourceExpr=Reportingtype }
 
       { 1   ;2   ;Field     ;
                   Name=XMLFileNameControl;
-                  CaptionML=[ENU=XML File Name;
-                             DEA=XML-Dateiname];
+                  CaptionML=[DEU=XML-Dateiname;
+                             ENU=XML File Name];
                   SourceExpr=XMLFileName;
                   Visible=XMLFileNameControlVisible;
                   OnAssistEdit=BEGIN
@@ -385,14 +385,14 @@ OBJECT Report 11108 VAT - VIES Declaration XML
       { 1150000;2;Field     ;
                   Name=NoSeries;
                   Lookup=Yes;
-                  CaptionML=[ENU=No. Series;
-                             DEA=Nummernserie];
+                  CaptionML=[DEU=Nummernserie;
+                             ENU=No. Series];
                   SourceExpr=NoSeries.Code;
                   TableRelation="No. Series" }
 
       { 15  ;2   ;Field     ;
-                  CaptionML=[ENU=Show Amounts in Add. Reporting Currency;
-                             DEA=BetrÑge in BerichtswÑhrung ausgeben];
+                  CaptionML=[DEU=BetrÑge in BerichtswÑhrung ausgeben;
+                             ENU=Show Amounts in Add. Reporting Currency];
                   SourceExpr=AmountsInReportCurrency;
                   MultiLine=Yes }
 
@@ -404,18 +404,18 @@ OBJECT Report 11108 VAT - VIES Declaration XML
   CODE
   {
     VAR
-      Text000@1160000 : TextConst 'ENU=Recall of an earlier report;DEA=Erneutes Aufrufen eines frÅheren Berichts';
-      Text001@1160001 : TextConst 'ENU=File Name must not be empty.;DEA=Dateiname darf nicht leer sein.';
-      Text002@1160002 : TextConst 'ENU=Reportingdate must be empty, if marking is "Normal transmission".;DEA=Das Berichtsdatum muss leer sein, falls die Kennzeichnung ''Normale öbertragung'' ist.';
-      Text003@1160003 : TextConst 'ENU=Reportingdate must not be empty, if marking is "recall of an earlier report".;DEA=Das Berichtsdatum darf nicht leer sein, falls die Kennzeichnung ''Erneutes Aufrufen eines frÅheren Berichts'' ist.';
-      Text014@1160014 : TextConst 'ENU=Customer %1, %2 doesn''t have an UID.;DEA=Debitor %1 %2 hat keine USt-IdNr.';
-      Text015@1140002 : TextConst 'ENU=R11108 File Name for ZM;DEA=R11108 Dateiname fÅr ZM';
-      Text1160004@1150004 : TextConst 'ENU=You didn''t define a No. Series.;DEA=Sie haben keine Nummernserie definiert.';
-      Text1160005@1150002 : TextConst 'ENU=No XML File was created, since you didn''t define a XML Filename.;DEA=Es wurde keine XML-Datei erstellt, weil Sie keinen XML-Dateinamen definiert haben.';
-      Text1160006@1150006 : TextConst 'ENU=The No. Series %1 has not 9 digits.;DEA=Die Nummerserie %1 weist keine 9 Stellen auf.';
-      Text1160007@1160016 : TextConst 'ENU=The No. Series should only contain numbers.;DEA=Die Nummernserie darf nur Zahlen enthalten.';
-      TextExportFileName@1140003 : TextConst 'ENU=ZM_jjjj_Qnn.xml;DEA=ZM_jjjj_Qnn.xml';
-      TextExportFileType@1140004 : TextConst 'ENU=XML Files (*.xml)|*.xml|All Files (*.*)|*.*;DEA=XML-Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*';
+      Text000@1160000 : TextConst 'DEU=Erneutes Aufrufen eines frÅheren Berichts;ENU=Recall of an earlier report';
+      Text001@1160001 : TextConst 'DEU=Dateiname darf nicht leer sein.;ENU=File Name must not be empty.';
+      Text002@1160002 : TextConst 'DEU=Das Berichtsdatum muss leer sein, falls die Kennzeichnung ''Normale öbertragung'' ist.;ENU=Reportingdate must be empty, if marking is "Normal transmission".';
+      Text003@1160003 : TextConst 'DEU=Das Berichtsdatum darf nicht leer sein, falls die Kennzeichnung ''Erneutes Aufrufen eines frÅheren Berichts'' ist.;ENU=Reportingdate must not be empty, if marking is "recall of an earlier report".';
+      Text014@1160014 : TextConst 'DEU=Debitor %1 %2 hat keine USt-IdNr.;ENU=Customer %1, %2 doesn''t have an UID.';
+      Text015@1140002 : TextConst 'DEU=R11108 Dateiname fÅr ZM;ENU=R11108 File Name for ZM';
+      Text1160004@1150004 : TextConst 'DEU=Sie haben keine Nummernserie definiert.;ENU=You didn''t define a No. Series.';
+      Text1160005@1150002 : TextConst 'DEU=Es wurde keine XML-Datei erstellt, weil Sie keinen XML-Dateinamen definiert haben.;ENU=No XML File was created, since you didn''t define a XML Filename.';
+      Text1160006@1150006 : TextConst 'DEU=Die Nummerserie %1 weist keine 9 Stellen auf.;ENU=The No. Series %1 has not 9 digits.';
+      Text1160007@1160016 : TextConst 'DEU=Die Nummernserie darf nur Zahlen enthalten.;ENU=The No. Series should only contain numbers.';
+      TextExportFileName@1140003 : TextConst 'DEU=ZM_jjjj_Qnn.xml;ENU=ZM_jjjj_Qnn.xml';
+      TextExportFileType@1140004 : TextConst 'DEU=XML-Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*;ENU=XML Files (*.xml)|*.xml|All Files (*.*)|*.*';
       Customer@1160024 : Record 18;
       Companyinfo@1160018 : Record 79;
       tempVATEntry@1160047 : TEMPORARY Record 254;
@@ -443,20 +443,20 @@ OBJECT Report 11108 VAT - VIES Declaration XML
       AmountsInReportCurrency@1160040 : Boolean;
       GesamtrueckDone@1160054 : Boolean;
       XMLFileNameControlVisible@19030808 : Boolean INDATASET;
-      VAT__VIES_Declaration_DiskCaptionLbl@9260 : TextConst 'ENU=VAT- VIES Declaration Disk;DEA=Zusammenfassende Meldung Disk';
-      Reportingperiod_fromCaptionLbl@6327 : TextConst 'ENU=Reporting period from;DEA=Meldezeitraum ab';
-      Reportingperiod_toCaptionLbl@8129 : TextConst 'ENU=Reporting period to;DEA=Meldezeitraum bis';
-      FilterCaptionLbl@8235 : TextConst 'ENU=Filter;DEA=Filter';
-      XMLFileNameCaptionLbl@1000389384 : TextConst 'ENU=XML-File;DEA=XML-Datei';
-      PaketNrCaptionLbl@1000930281 : TextConst 'ENU=Package No.;DEA=Paketnr.';
-      SumPrn_Control1160019CaptionLbl@5872 : TextConst 'ENU=Base amount EU 3-Party Trade;DEA=Bemessungsgrundlage EU-DreiecksgeschÑft';
-      SumPrnCaptionLbl@9752 : TextConst 'ENU=Base amount;DEA=Bemessungsgrundlage';
-      Customer_NameCaptionLbl@2383 : TextConst 'ENU=Customer Name;DEA=Debitor Name';
-      tempVATEntry__Bill_to_Pay_to_No__CaptionLbl@8984 : TextConst 'ENU=Customer No.;DEA=Debitorennr.';
-      tempVATEntry__VAT_Registration_No__CaptionLbl@5810 : TextConst 'ENU=UID;DEA=UID';
-      tempVATEntry__Country_Region_Code_CaptionLbl@8913 : TextConst 'ENU=Country Code;DEA=LÑndercode';
-      IntegerCaptionLbl@1141485 : TextConst 'ENU=Integer;DEA=Ganzzahl';
-      TotalSumCaptionLbl@9507 : TextConst 'ENU=Total;DEA=Gesamt';
+      VAT__VIES_Declaration_DiskCaptionLbl@9260 : TextConst 'DEU=Zusammenfassende Meldung Disk;ENU=VAT- VIES Declaration Disk';
+      Reportingperiod_fromCaptionLbl@6327 : TextConst 'DEU=Meldezeitraum ab;ENU=Reporting period from';
+      Reportingperiod_toCaptionLbl@8129 : TextConst 'DEU=Meldezeitraum bis;ENU=Reporting period to';
+      FilterCaptionLbl@8235 : TextConst 'DEU=Filter;ENU=Filter';
+      XMLFileNameCaptionLbl@1000389384 : TextConst 'DEU=XML-Datei;ENU=XML-File';
+      PaketNrCaptionLbl@1000930281 : TextConst 'DEU=Paketnr.;ENU=Package No.';
+      SumPrn_Control1160019CaptionLbl@5872 : TextConst 'DEU=Bemessungsgrundlage EU-DreiecksgeschÑft;ENU=Base amount EU 3-Party Trade';
+      SumPrnCaptionLbl@9752 : TextConst 'DEU=Bemessungsgrundlage;ENU=Base amount';
+      Customer_NameCaptionLbl@2383 : TextConst 'DEU=Debitor Name;ENU=Customer Name';
+      tempVATEntry__Bill_to_Pay_to_No__CaptionLbl@8984 : TextConst 'DEU=Debitorennr.;ENU=Customer No.';
+      tempVATEntry__VAT_Registration_No__CaptionLbl@5810 : TextConst 'DEU=UID;ENU=UID';
+      tempVATEntry__Country_Region_Code_CaptionLbl@8913 : TextConst 'DEU=LÑndercode;ENU=Country Code';
+      IntegerCaptionLbl@1141485 : TextConst 'DEU=Ganzzahl;ENU=Integer';
+      TotalSumCaptionLbl@9507 : TextConst 'DEU=Gesamt;ENU=Total';
 
     PROCEDURE WriteXMLHeader@1160000();
     BEGIN

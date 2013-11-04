@@ -2,9 +2,9 @@ OBJECT Codeunit 99000774 Calculate Routing Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -24,14 +24,14 @@ OBJECT Codeunit 99000774 Calculate Routing Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Error when calculating %1. Calendar is not available %2 %3 for %4 %5.;ESP=Error al calcular %1. No esta disponible el calendario %2 %3 para %4 %5.;DEA=Fehler beim Berechnen von %1. Kalender ist fÅr %2 %3 nicht verfÅgbar fÅr %4 %5.';
-      Text001@1001 : TextConst 'ENU=backward;ESP=atr†s;DEA=RÅckwÑrts';
-      Text002@1002 : TextConst 'ENU=before;ESP=antes;DEA=Vorher';
-      Text003@1003 : TextConst 'ENU=forward;ESP=adelante;DEA=vorwÑrts';
-      Text004@1004 : TextConst 'ENU=after;ESP=despues;DEA=nach';
-      Text005@1005 : TextConst 'ENU=The sum of setup, move and wait time exceeds the available time in the period.;ESP=La suma del tpo. preparaci¢n, movto. y espera excede el tpo. disp. del periodo.;DEA=Die Summe aus RÅst-, Transport- und Wartezeit Åberschreitet die verfÅgbare Zeit innerhalb des Intervalls.';
-      Text006@1006 : TextConst 'ENU=fixed schedule;ESP=prev. fija;DEA=fixer Plan';
-      Text007@1007 : TextConst 'ENU=Starting time must be before ending time.;ESP=Hora inicial debe ser anterior a hora final;DEA=Die Startzeit muss vor der Endzeit liegen.';
+      Text000@1000 : TextConst 'DEU=Fehler beim Berechnen von %1. Kalender ist fÅr %2 %3 nicht verfÅgbar fÅr %4 %5.;ENU=Error when calculating %1. Calendar is not available %2 %3 for %4 %5.';
+      Text001@1001 : TextConst 'DEU=RÅckwÑrts;ENU=backward';
+      Text002@1002 : TextConst 'DEU=Vorher;ENU=before';
+      Text003@1003 : TextConst 'DEU=vorwÑrts;ENU=forward';
+      Text004@1004 : TextConst 'DEU=nach;ENU=after';
+      Text005@1005 : TextConst 'DEU=Die Summe aus RÅst-, Transport- und Wartezeit Åberschreitet die verfÅgbare Zeit innerhalb des Intervalls.;ENU=The sum of setup, move and wait time exceeds the available time in the period.';
+      Text006@1006 : TextConst 'DEU=fixer Plan;ENU=fixed schedule';
+      Text007@1007 : TextConst 'DEU=Die Startzeit muss vor der Endzeit liegen.;ENU=Starting time must be before ending time.';
       MfgSetup@1008 : Record 99000765;
       Workcenter@1009 : Record 99000754;
       Workcenter2@1010 : Record 99000754;

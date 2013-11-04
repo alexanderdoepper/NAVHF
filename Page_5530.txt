@@ -2,15 +2,14 @@ OBJECT Page 5530 Item Availability by Event
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Item Availability by Event;
-               ESP=Disponibilidad prod. por evento;
-               DEA=ArtikelverfÅgbarkeit nach Ereignis];
+    CaptionML=[DEU=ArtikelverfÅgbarkeit nach Ereignis;
+               ENU=Item Availability by Event];
     InsertAllowed=No;
     DeleteAllowed=No;
     ModifyAllowed=No;
@@ -43,9 +42,8 @@ OBJECT Page 5530 Item Availability by Event
       { 3       ;0   ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 6       ;1   ;Action    ;
-                      CaptionML=[ENU=Recalculate;
-                                 ESP=Volver a calcular;
-                                 DEA=Neu berechnen];
+                      CaptionML=[DEU=Neu berechnen;
+                                 ENU=Recalculate];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=Refresh;
@@ -56,9 +54,8 @@ OBJECT Page 5530 Item Availability by Event
                                 }
       { 17      ;1   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Show Document;
-                                 ESP=Mostrar documento;
-                                 DEA=Beleg anzeigen];
+                      CaptionML=[DEU=Beleg anzeigen;
+                                 ENU=Show Document];
                       Promoted=Yes;
                       Enabled=EnableShowDocumentAction;
                       PromotedIsBig=Yes;
@@ -71,55 +68,48 @@ OBJECT Page 5530 Item Availability by Event
       { 24      ;    ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 23      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Item;
-                                 ESP=&Producto;
-                                 DEA=Art&ikel];
+                      CaptionML=[DEU=Art&ikel;
+                                 ENU=&Item];
                       Image=Item }
       { 22      ;2   ;ActionGroup;
-                      CaptionML=[ENU=&Item Availability by;
-                                 ESP=&Disponibilidad prod. por;
-                                 DEA=Art&ikelverfÅgbarkeit nach];
+                      CaptionML=[DEU=Art&ikelverfÅgbarkeit nach;
+                                 ENU=&Item Availability by];
                       Image=ItemAvailability }
       { 20      ;3   ;Action    ;
-                      CaptionML=[ENU=Event;
-                                 ESP=Evento;
-                                 DEA=Ereignis];
+                      CaptionML=[DEU=Ereignis;
+                                 ENU=Event];
                       Image=Event;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromItem(Item,ItemAvailFormsMgt.ByEvent);
                                END;
                                 }
       { 18      ;3   ;Action    ;
-                      CaptionML=[ENU=Period;
-                                 ESP=Periodo;
-                                 DEA=Periode];
+                      CaptionML=[DEU=Periode;
+                                 ENU=Period];
                       Image=Period;
                       OnAction=BEGIN
                                  PAGE.RUN(PAGE::"Item Availability by Periods",Item,Item."No.");
                                END;
                                 }
       { 11      ;3   ;Action    ;
-                      CaptionML=[ENU=Variant;
-                                 ESP=Variante;
-                                 DEA=Variante];
+                      CaptionML=[DEU=Variante;
+                                 ENU=Variant];
                       Image=ItemVariant;
                       OnAction=BEGIN
                                  PAGE.RUN(PAGE::"Item Availability by Variant",Item,Item."No.");
                                END;
                                 }
       { 7       ;3   ;Action    ;
-                      CaptionML=[ENU=Location;
-                                 ESP=Lugar;
-                                 DEA=Lagerort];
+                      CaptionML=[DEU=Lagerort;
+                                 ENU=Location];
                       Image=Warehouse;
                       OnAction=BEGIN
                                  PAGE.RUN(PAGE::"Item Availability by Location",Item,Item."No.");
                                END;
                                 }
       { 25      ;3   ;Action    ;
-                      CaptionML=[ENU=BOM Level;
-                                 ESP=Nivel L.M.;
-                                 DEA=StÅcklistenebene];
+                      CaptionML=[DEU=StÅcklistenebene;
+                                 ENU=BOM Level];
                       Image=BOMLevel;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromItem(Item,ItemAvailFormsMgt.ByBOM);
@@ -133,15 +123,13 @@ OBJECT Page 5530 Item Availability by Event
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=Options;
-                           ESP=Opciones;
-                           DEA=Optionen];
+                CaptionML=[DEU=Optionen;
+                           ENU=Options];
                 GroupType=Group }
 
     { 30  ;2   ;Field     ;
-                CaptionML=[ENU=Item No.;
-                           ESP=Nß producto;
-                           DEA=Artikelnr.];
+                CaptionML=[DEU=Artikelnr.;
+                           ENU=Item No.];
                 SourceExpr=ItemNo;
                 TableRelation=Item;
                 OnValidate=BEGIN
@@ -157,9 +145,8 @@ OBJECT Page 5530 Item Availability by Event
                             }
 
     { 35  ;2   ;Field     ;
-                CaptionML=[ENU=Variant Filter;
-                           ESP=Filtro variante;
-                           DEA=Variantenfilter];
+                CaptionML=[DEU=Variantenfilter;
+                           ENU=Variant Filter];
                 SourceExpr=VariantFilter;
                 OnValidate=BEGIN
                              IF VariantFilter <> Item.GETFILTER("Variant Filter") THEN BEGIN
@@ -187,9 +174,8 @@ OBJECT Page 5530 Item Availability by Event
                           }
 
     { 4   ;2   ;Field     ;
-                CaptionML=[ENU=Location Filter;
-                           ESP=Filtro almacÇn;
-                           DEA=Lagerortfilter];
+                CaptionML=[DEU=Lagerortfilter;
+                           ENU=Location Filter];
                 SourceExpr=LocationFilter;
                 OnValidate=BEGIN
                              IF LocationFilter <> Item.GETFILTER("Location Filter") THEN BEGIN
@@ -216,12 +202,10 @@ OBJECT Page 5530 Item Availability by Event
                           }
 
     { 15  ;2   ;Field     ;
-                CaptionML=[ENU=View by;
-                           ESP=Ver por;
-                           DEA=Anzeigen nach];
-                OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year;
-                                 ESP=D°a,Semana,Mes,Trimestre,A§o;
-                                 DEA=Tag,Woche,Monat,Quartal,Jahr];
+                CaptionML=[DEU=Anzeigen nach;
+                           ENU=View by];
+                OptionCaptionML=[DEU=Tag,Woche,Monat,Quartal,Jahr;
+                                 ENU=Day,Week,Month,Quarter,Year];
                 SourceExpr=PeriodType;
                 Importance=Promoted;
                 OnValidate=BEGIN
@@ -230,17 +214,15 @@ OBJECT Page 5530 Item Availability by Event
                             }
 
     { 13  ;2   ;Field     ;
-                CaptionML=[ENU=Last Updated;
-                           ESP=Èltima actualizaci¢n;
-                           DEA=Letzte Aktualisierung];
+                CaptionML=[DEU=Letzte Aktualisierung;
+                           ENU=Last Updated];
                 SourceExpr=LastUpdateTime;
                 Importance=Promoted;
                 Editable=FALSE }
 
     { 9   ;2   ;Field     ;
-                CaptionML=[ENU=Forecast Name;
-                           ESP=Nombre de previsi¢n;
-                           DEA=Planungsname];
+                CaptionML=[DEU=Planungsname;
+                           ENU=Forecast Name];
                 SourceExpr=ForecastName;
                 TableRelation="Production Forecast Name";
                 Importance=Promoted;
@@ -250,9 +232,8 @@ OBJECT Page 5530 Item Availability by Event
                             }
 
     { 32  ;2   ;Field     ;
-                CaptionML=[ENU=Include Planning Suggestions;
-                           ESP=Incluir sugerencias de planificaci¢n;
-                           DEA=PlanungsvorschlÑge einschlie·en];
+                CaptionML=[DEU=PlanungsvorschlÑge einschlie·en;
+                           ENU=Include Planning Suggestions];
                 SourceExpr=IncludePlanningSuggestions;
                 OnValidate=BEGIN
                              IF IncludePlanningSuggestions THEN
@@ -263,9 +244,8 @@ OBJECT Page 5530 Item Availability by Event
                             }
 
     { 16  ;2   ;Field     ;
-                CaptionML=[ENU=Include Blanket Sales Orders;
-                           ESP=Incluir pedidos abiertos de ventas;
-                           DEA=RahmenauftrÑge einschlie·en];
+                CaptionML=[DEU=RahmenauftrÑge einschlie·en;
+                           ENU=Include Blanket Sales Orders];
                 SourceExpr=IncludeBlanketOrders;
                 Editable=NOT IncludePlanningSuggestions;
                 OnValidate=BEGIN
@@ -281,9 +261,8 @@ OBJECT Page 5530 Item Availability by Event
                 GroupType=Repeater }
 
     { 39  ;2   ;Field     ;
-                CaptionML=[ENU=Period;
-                           ESP=Inicio periodo;
-                           DEA=Periode];
+                CaptionML=[DEU=Period;
+                           ENU=Period];
                 SourceExpr=Code;
                 Editable=FALSE;
                 Style=Strong;

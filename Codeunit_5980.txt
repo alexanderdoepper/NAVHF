@@ -2,9 +2,9 @@ OBJECT Codeunit 5980 Service-Post
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -50,13 +50,13 @@ OBJECT Codeunit 5980 Service-Post
       Ship@1008 : Boolean;
       Consume@1009 : Boolean;
       Invoice@1010 : Boolean;
-      Text001@1025 : TextConst 'ENU=There is nothing to post.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu buchen.';
-      Text002@1024 : TextConst 'ENU=Posting lines              #2######\;ESP=Registrando l¡neas         #2######\;DEA=Zeilen buchen                 #2######\';
-      Text003@1023 : TextConst 'ENU=Posting serv. and VAT      #3######\;ESP=Registrando serv. e IVA    #3######\;DEA=Service und MwSt. buchen      #3######\';
-      Text004@1022 : TextConst 'ENU=Posting to customers       #4######\;ESP=Registrando cliente        #4######\;DEA=Debitor buchen                #4######\';
-      Text005@1021 : TextConst 'ENU=Posting to bal. account    #5######;DEA=Buchung an Gegenkonto         #5######';
-      Text006@1020 : TextConst 'ENU=Posting lines              #2######;ESP=Registrando l¡neas         #2######;DEA=Zeilen buchen                 #2######';
-      Text007@1003 : TextConst 'ENU=is not within your range of allowed posting dates;ESP=no est  dentro del periodo de fechas de registro permitidas;DEA=liegt nicht innerhalb des zugelassenen Buchungszeitraums';
+      Text001@1025 : TextConst 'DEU=Es gibt nichts zu buchen.;ENU=There is nothing to post.';
+      Text002@1024 : TextConst 'DEU=Zeilen buchen                 #2######\;ENU=Posting lines              #2######\';
+      Text003@1023 : TextConst 'DEU=Service und MwSt. buchen      #3######\;ENU=Posting serv. and VAT      #3######\';
+      Text004@1022 : TextConst 'DEU=Debitor buchen                #4######\;ENU=Posting to customers       #4######\';
+      Text005@1021 : TextConst 'DEU=Buchung an Gegenkonto         #5######;ENU=Posting to bal. account    #5######';
+      Text006@1020 : TextConst 'DEU=Zeilen buchen                 #2######;ENU=Posting lines              #2######';
+      Text007@1003 : TextConst 'DEU=liegt nicht innerhalb des zugelassenen Buchungszeitraums;ENU=is not within your range of allowed posting dates';
       WhseShip@1017 : Boolean;
 
     PROCEDURE PostWithLines@9(VAR PassedServHeader@1003 : Record 5900;VAR PassedServLine@1011 : Record 5902;VAR PassedShip@1002 : Boolean;VAR PassedConsume@1001 : Boolean;VAR PassedInvoice@1000 : Boolean);

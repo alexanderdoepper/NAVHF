@@ -2,9 +2,9 @@ OBJECT Codeunit 6500 Item Tracking Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -23,24 +23,24 @@ OBJECT Codeunit 6500 Item Tracking Management
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=The quantity to %1 does not match the quantity defined in item tracking.;ESP=La cantidad que hay que %1 no coincide con la cantidad definida en seguimiento producto.;DEA=Die zu %1de Menge entspricht nicht der in der Artikelverfolgung angegebenen Menge.';
-      Text002@1015 : TextConst 'ENU=Cannot match item tracking.;ESP=No coincide seguimiento producto.;DEA=Artikelverfolgung kann nicht angewendet werden.';
-      Text003@1002 : TextConst 'ENU=No information exists for %1 %2.;ESP=No existe informaci¢n para %1 %2.;DEA=FÅr %1 %2 sind keine Informationen vorhanden.';
-      Text004@1003 : TextConst 'ENU=Counting records...;ESP=Contando registros...;DEA=DatensÑtze werden gezÑhlt...';
-      Text005@1004 : TextConst 'ENU=Warehouse item tracking is not enabled for %1 %2.;ESP=No est† habilitado el seguimiento pdto. almacÇn para %1 %2.;DEA=FÅr %1 %2 wurde keine Artikelverfolgung in der Logistik aktiviert.';
+      Text001@1000 : TextConst 'DEU=Die zu %1de Menge entspricht nicht der in der Artikelverfolgung angegebenen Menge.;ENU=The quantity to %1 does not match the quantity defined in item tracking.';
+      Text002@1015 : TextConst 'DEU=Artikelverfolgung kann nicht angewendet werden.;ENU=Cannot match item tracking.';
+      Text003@1002 : TextConst 'DEU=FÅr %1 %2 sind keine Informationen vorhanden.;ENU=No information exists for %1 %2.';
+      Text004@1003 : TextConst 'DEU=DatensÑtze werden gezÑhlt...;ENU=Counting records...';
+      Text005@1004 : TextConst 'DEU=FÅr %1 %2 wurde keine Artikelverfolgung in der Logistik aktiviert.;ENU=Warehouse item tracking is not enabled for %1 %2.';
       SourceSpecification@1005 : TEMPORARY Record 336;
       TempTrackingSpecification@1006 : TEMPORARY Record 336;
       TempGlobalWhseItemTrkgLine@1014 : TEMPORARY Record 6550;
       DueDate@1007 : Date;
-      Text006@1008 : TextConst 'ENU=Synchronization cancelled.;ESP=Sincronizaci¢n cancelada.;DEA=Synchronisation abgebrochen.';
+      Text006@1008 : TextConst 'DEU=Synchronisation abgebrochen.;ENU=Synchronization cancelled.';
       Registering@1009 : Boolean;
-      Text007@1001 : TextConst 'ENU=There are multiple expiration dates registered for lot %1.;ESP=Existen varias fechas de caducidad registradas para el lote %1.;DEA=Es sind mehrere Ablaufdaten fÅr Charge %1 erfasst.';
-      text008@1010 : TextConst 'ENU=%1 already exists for %2 %3. Do you want to overwrite the existing information?;ESP=%1 ya existe para %2 %3. ®Desea sobrescribir la informaci¢n existente?;DEA=%1 ist fÅr %2 %3 bereits vorhanden. Mîchten Sie die vorhandenen Informationen Åberschreiben?';
-      Text009@1011 : TextConst 'ENU=Table %1 is not supported.;ESP=No se admite la tabla %1.;DEA=Tabelle %1 wird nicht unterstÅtzt.';
+      Text007@1001 : TextConst 'DEU=Es sind mehrere Ablaufdaten fÅr Charge %1 erfasst.;ENU=There are multiple expiration dates registered for lot %1.';
+      text008@1010 : TextConst 'DEU=%1 ist fÅr %2 %3 bereits vorhanden. Mîchten Sie die vorhandenen Informationen Åberschreiben?;ENU=%1 already exists for %2 %3. Do you want to overwrite the existing information?';
+      Text009@1011 : TextConst 'DEU=Tabelle %1 wird nicht unterstÅtzt.;ENU=Table %1 is not supported.';
       IsConsume@1012 : Boolean;
-      Text010@1013 : TextConst 'ENU=invoice;ESP=factura;DEA=fakturieren';
-      Text011@1018 : TextConst 'ENU=%1 must not be %2.;ESP=%1 no debe ser %2.;DEA=%1 darf nicht %2 sein.';
-      Text012@1016 : TextConst 'ENU=Only one expiration date is allowed per lot number.\%1 currently has two different expiration dates: %2 and %3.;ESP=S¢lo se permite una fecha de caducidad por n£mero de lote.\%1 tiene dos fechas de caducidad diferentes: %2 y %3.;DEA=Pro Chargennummer ist nur ein Ablaufdatum zulÑssig.\%1 weist derzeit zwei unterschiedliche Ablaufdatumswerte auf: %2 und %3.';
+      Text010@1013 : TextConst 'DEU=fakturieren;ENU=invoice';
+      Text011@1018 : TextConst 'DEU=%1 darf nicht %2 sein.;ENU=%1 must not be %2.';
+      Text012@1016 : TextConst 'DEU=Pro Chargennummer ist nur ein Ablaufdatum zulÑssig.\%1 weist derzeit zwei unterschiedliche Ablaufdatumswerte auf: %2 und %3.;ENU=Only one expiration date is allowed per lot number.\%1 currently has two different expiration dates: %2 and %3.';
       IsPick@1017 : Boolean;
       RetrieveAsmItemTracking@1019 : Boolean;
       DeleteReservationEntries@1021 : Boolean;

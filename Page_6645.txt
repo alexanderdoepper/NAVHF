@@ -2,16 +2,15 @@ OBJECT Page 6645 Purch Return Order Arc Subform
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Lines;
-               ESP=L¡neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     SourceTable=Table5110;
     SourceTableView=WHERE(Document Type=CONST(Return Order));
     PageType=ListPart;
@@ -20,32 +19,29 @@ OBJECT Page 6645 Purch Return Order Arc Subform
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1907935204;1 ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L¡nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 1906874004;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
                                END;
                                 }
       { 1907838004;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       Image=ViewComments;
                       OnAction=BEGIN
                                  ShowLineComments;
                                END;
                                 }
       { 1905483604;2 ;Action    ;
-                      CaptionML=[ENU=Document &Line Tracking;
-                                 DEA=&Belegzeilenverfolgung];
+                      CaptionML=[DEU=&Belegzeilenverfolgung;
+                                 ENU=Document &Line Tracking];
                       Image=Navigate;
                       OnAction=BEGIN
                                  // This functionality was copied from page #6644. Unsupported part was commented. Please check it.

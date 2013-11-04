@@ -2,16 +2,15 @@ OBJECT Page 9306 Purchase Quotes
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Purchase Quotes;
-               ESP=Ofertas compra;
-               DEA=Einkaufsanfragen];
+    CaptionML=[DEU=Einkaufsanfragen;
+               ENU=Purchase Quotes];
     SourceTable=Table38;
     SourceTableView=WHERE(Document Type=CONST(Quote));
     PageType=List;
@@ -25,16 +24,14 @@ OBJECT Page 9306 Purchase Quotes
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1102601018;1 ;ActionGroup;
-                      CaptionML=[ENU=&Quote;
-                                 ESP=&Oferta;
-                                 DEA=&Anfrage];
+                      CaptionML=[DEU=&Anfrage;
+                                 ENU=&Quote];
                       Image=Quote }
       { 1102601020;2 ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -45,9 +42,8 @@ OBJECT Page 9306 Purchase Quotes
                                END;
                                 }
       { 1102601022;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 66;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
@@ -55,18 +51,16 @@ OBJECT Page 9306 Purchase Quotes
                       Image=ViewComments }
       { 1102601023;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
                                END;
                                 }
       { 1102601024;2 ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  ApprovalEntries@1001 : Page 658;
@@ -78,9 +72,8 @@ OBJECT Page 9306 Purchase Quotes
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 50      ;1   ;Action    ;
-                      CaptionML=[ENU=Make &Order;
-                                 ESP=Convertir en pedid&o;
-                                 DEA=Auftrag &erst.];
+                      CaptionML=[DEU=Auftrag &erst.;
+                                 ENU=Make &Order];
                       Promoted=Yes;
                       Image=MakeOrder;
                       PromotedCategory=Process;
@@ -94,9 +87,8 @@ OBJECT Page 9306 Purchase Quotes
                                 }
       { 51      ;1   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -105,16 +97,14 @@ OBJECT Page 9306 Purchase Quotes
                                END;
                                 }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 1102601013;2 ;Separator  }
       { 1102601014;2 ;Action    ;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Image=ReleaseDoc;
                       OnAction=VAR
                                  ReleasePurchDoc@1000 : Codeunit 415;
@@ -123,9 +113,8 @@ OBJECT Page 9306 Purchase Quotes
                                END;
                                 }
       { 1102601015;2 ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleasePurchDoc@1001 : Codeunit 415;
@@ -134,14 +123,12 @@ OBJECT Page 9306 Purchase Quotes
                                END;
                                 }
       { 1102601000;1 ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=F&unciones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 1102601011;2 ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -150,9 +137,8 @@ OBJECT Page 9306 Purchase Quotes
                                END;
                                 }
       { 1102601012;2 ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;

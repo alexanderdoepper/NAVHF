@@ -2,9 +2,9 @@ OBJECT Table 222 Ship-to Address
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -22,34 +22,27 @@ OBJECT Table 222 Ship-to Address
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Ship-to Address;
-               ESP=Env°o a-Direcci¢n;
-               DEA=Lief. an Adresse];
+    CaptionML=[DEU=Lief. an Adresse;
+               ENU=Ship-to Address];
     LookupPageID=Page301;
   }
   FIELDS
   {
     { 1   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
-                                                   CaptionML=[ENU=Customer No.;
-                                                              ESP=Nß cliente;
-                                                              DEA=Debitorennr.];
+                                                   CaptionML=[DEU=Debitorennr.;
+                                                              ENU=Customer No.];
                                                    NotBlank=Yes }
-    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -58,53 +51,41 @@ OBJECT Table 222 Ship-to Address
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
-    { 8   ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
+    { 8   ;   ;Contact             ;Text50        ;CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
     { 9   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
-    { 10  ;   ;Telex No.           ;Text30        ;CaptionML=[ENU=Telex No.;
-                                                              ESP=Nß tÇlex;
-                                                              DEA=Telexnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 10  ;   ;Telex No.           ;Text30        ;CaptionML=[DEU=Telexnr.;
+                                                              ENU=Telex No.] }
     { 30  ;   ;Shipment Method Code;Code10        ;TableRelation="Shipment Method";
-                                                   CaptionML=[ENU=Shipment Method Code;
-                                                              ESP=C¢d. condiciones env°o;
-                                                              DEA=Lieferbedingungscode] }
+                                                   CaptionML=[DEU=Lieferbedingungscode;
+                                                              ENU=Shipment Method Code] }
     { 31  ;   ;Shipping Agent Code ;Code10        ;TableRelation="Shipping Agent";
                                                    OnValidate=BEGIN
                                                                 IF "Shipping Agent Code" <> xRec."Shipping Agent Code" THEN
                                                                   VALIDATE("Shipping Agent Service Code",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Shipping Agent Code;
-                                                              ESP=C¢d. transportista;
-                                                              DEA=Zustellercode] }
-    { 32  ;   ;Place of Export     ;Code20        ;CaptionML=[ENU=Place of Export;
-                                                              ESP=Lugar de salida;
-                                                              DEA=Transitstelle] }
+                                                   CaptionML=[DEU=Zustellercode;
+                                                              ENU=Shipping Agent Code] }
+    { 32  ;   ;Place of Export     ;Code20        ;CaptionML=[DEU=Transitstelle;
+                                                              ENU=Place of Export] }
     { 35  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
-    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
+    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 83  ;   ;Location Code       ;Code10        ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
-    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
-                                                              ESP=Nß tÇlex respuesta;
-                                                              DEA=Telex Namengeber] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
+    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[DEU=Telex Namengeber;
+                                                              ENU=Telex Answer Back] }
     { 91  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -113,35 +94,27 @@ OBJECT Table 222 Ship-to Address
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 92  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 92  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 102 ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 103 ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P†gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 108 ;   ;Tax Area Code       ;Code20        ;TableRelation="Tax Area";
-                                                   CaptionML=[ENU=Tax Area Code;
-                                                              ESP=C¢d. †rea impuesto;
-                                                              DEA=Steuergebietscode] }
-    { 109 ;   ;Tax Liable          ;Boolean       ;CaptionML=[ENU=Tax Liable;
-                                                              ESP=Sujeto a impuesto;
-                                                              DEA=Steuerpflichtig] }
+                                                   CaptionML=[DEU=Steuergebietscode;
+                                                              ENU=Tax Area Code] }
+    { 109 ;   ;Tax Liable          ;Boolean       ;CaptionML=[DEU=Steuerpflichtig;
+                                                              ENU=Tax Liable] }
     { 5792;   ;Shipping Agent Service Code;Code10 ;TableRelation="Shipping Agent Services".Code WHERE (Shipping Agent Code=FIELD(Shipping Agent Code));
-                                                   CaptionML=[ENU=Shipping Agent Service Code;
-                                                              ESP=C¢d. servicio transportista;
-                                                              DEA=Zustellertransportartencode] }
+                                                   CaptionML=[DEU=Zustellertransportartencode;
+                                                              ENU=Shipping Agent Service Code] }
     { 5900;   ;Service Zone Code   ;Code10        ;TableRelation="Service Zone";
-                                                   CaptionML=[ENU=Service Zone Code;
-                                                              ESP=C¢d. zona servicio;
-                                                              DEA=Servicegebietscode] }
+                                                   CaptionML=[DEU=Servicegebietscode;
+                                                              ENU=Service Zone Code] }
   }
   KEYS
   {
@@ -154,10 +127,10 @@ OBJECT Table 222 Ship-to Address
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=untitled;ESP=SinT°tulo;DEA=unbenannt';
+      Text000@1000 : TextConst 'DEU=unbenannt;ENU=untitled';
       Cust@1001 : Record 18;
       PostCode@1002 : Record 225;
-      Text001@1003 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text001@1003 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
 
     PROCEDURE Caption@1() : Text[130];
     BEGIN

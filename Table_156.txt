@@ -2,9 +2,9 @@ OBJECT Table 156 Resource
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -93,9 +93,8 @@ OBJECT Table 156 Resource
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Resource;
-               ESP=Recurso;
-               DEA=Ressource];
+    CaptionML=[DEU=Ressource;
+               ENU=Resource];
     LookupPageID=Page77;
     DrillDownPageID=Page77;
   }
@@ -110,36 +109,28 @@ OBJECT Table 156 Resource
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
-    { 2   ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
-                                                              ESP=Tipo;
-                                                              DEA=Art];
-                                                   OptionCaptionML=[ENU=Person,Machine;
-                                                                    ESP=Persona,M†quina;
-                                                                    DEA=Person,Maschine];
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
+    { 2   ;   ;Type                ;Option        ;CaptionML=[DEU=Art;
+                                                              ENU=Type];
+                                                   OptionCaptionML=[DEU=Person,Maschine;
+                                                                    ENU=Person,Machine];
                                                    OptionString=Person,Machine }
     { 3   ;   ;Name                ;Text50        ;OnValidate=BEGIN
                                                                 IF ("Search Name" = UPPERCASE(xRec.Name)) OR ("Search Name" = '') THEN
                                                                   "Search Name" := Name;
                                                               END;
 
-                                                   CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 4   ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 5   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 6   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 7   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 4   ;   ;Search Name         ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 5   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 6   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 7   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 8   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -148,24 +139,18 @@ OBJECT Table 156 Resource
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
-    { 9   ;   ;Social Security No. ;Text30        ;CaptionML=[ENU=Social Security No.;
-                                                              ESP=Nß seguridad social;
-                                                              DEA=Soz.-Versicherungsnr.] }
-    { 10  ;   ;Job Title           ;Text30        ;CaptionML=[ENU=Job Title;
-                                                              ESP=Cargo;
-                                                              DEA=Funktion] }
-    { 11  ;   ;Education           ;Text30        ;CaptionML=[ENU=Education;
-                                                              ESP=Profesi¢n;
-                                                              DEA=Ausbildung] }
-    { 12  ;   ;Contract Class      ;Text30        ;CaptionML=[ENU=Contract Class;
-                                                              ESP=Convenio laboral;
-                                                              DEA=öbereinkommen] }
-    { 13  ;   ;Employment Date     ;Date          ;CaptionML=[ENU=Employment Date;
-                                                              ESP=Fecha contrataci¢n;
-                                                              DEA=Anstellungsdatum] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
+    { 9   ;   ;Social Security No. ;Text30        ;CaptionML=[DEU=Soz.-Versicherungsnr.;
+                                                              ENU=Social Security No.] }
+    { 10  ;   ;Job Title           ;Text30        ;CaptionML=[DEU=Funktion;
+                                                              ENU=Job Title] }
+    { 11  ;   ;Education           ;Text30        ;CaptionML=[DEU=Ausbildung;
+                                                              ENU=Education] }
+    { 12  ;   ;Contract Class      ;Text30        ;CaptionML=[DEU=öbereinkommen;
+                                                              ENU=Contract Class] }
+    { 13  ;   ;Employment Date     ;Date          ;CaptionML=[DEU=Anstellungsdatum;
+                                                              ENU=Employment Date] }
     { 14  ;   ;Resource Group No.  ;Code20        ;TableRelation="Resource Group";
                                                    OnValidate=BEGIN
                                                                 IF "Resource Group No." = xRec."Resource Group No." THEN
@@ -197,26 +182,23 @@ OBJECT Table 156 Resource
                                                                 PlanningLine.MODIFYALL("Resource Group No.","Resource Group No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Resource Group No.;
-                                                              ESP=Nß fam. recurso;
-                                                              DEA=Res.-Gruppennr.] }
+                                                   CaptionML=[DEU=Res.-Gruppennr.;
+                                                              ENU=Resource Group No.] }
     { 16  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 17  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Global Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
     { 18  ;   ;Base Unit of Measure;Code10        ;TableRelation="Resource Unit of Measure".Code WHERE (Resource No.=FIELD(No.));
                                                    OnValidate=VAR
@@ -237,42 +219,37 @@ OBJECT Table 156 Resource
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Base Unit of Measure;
-                                                              ESP=Unidad medida base;
-                                                              DEA=Basiseinheitencode] }
+                                                   CaptionML=[DEU=Basiseinheitencode;
+                                                              ENU=Base Unit of Measure] }
     { 19  ;   ;Direct Unit Cost    ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Indirect Cost %");
                                                               END;
 
-                                                   CaptionML=[ENU=Direct Unit Cost;
-                                                              ESP=Coste unit. directo;
-                                                              DEA=EK-Preis];
+                                                   CaptionML=[DEU=EK-Preis;
+                                                              ENU=Direct Unit Cost];
                                                    MinValue=0;
                                                    AutoFormatType=2 }
     { 20  ;   ;Indirect Cost %     ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Unit Cost",ROUND("Direct Unit Cost" * (1 + "Indirect Cost %" / 100)));
                                                               END;
 
-                                                   CaptionML=[ENU=Indirect Cost %;
-                                                              ESP=% Coste indirecto;
-                                                              DEA=Indirekte Kosten %];
+                                                   CaptionML=[DEU=Indirekte Kosten %;
+                                                              ENU=Indirect Cost %];
                                                    DecimalPlaces=2:2 }
     { 21  ;   ;Unit Cost           ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Price/Profit Calculation");
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Cost;
-                                                              ESP=Coste unitario;
-                                                              DEA=Einstandspreis];
+                                                   CaptionML=[DEU=Einstandspreis;
+                                                              ENU=Unit Cost];
                                                    MinValue=0;
                                                    AutoFormatType=2 }
     { 22  ;   ;Profit %            ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Price/Profit Calculation");
                                                               END;
 
-                                                   CaptionML=[ENU=Profit %;
-                                                              ESP=% Bfß bruto;
-                                                              DEA=DB %];
+                                                   CaptionML=[DEU=DB %;
+                                                              ENU=Profit %];
                                                    DecimalPlaces=0:5 }
     { 23  ;   ;Price/Profit Calculation;Option    ;OnValidate=BEGIN
                                                                 CASE "Price/Profit Calculation" OF
@@ -287,55 +264,45 @@ OBJECT Table 156 Resource
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Price/Profit Calculation;
-                                                              ESP=C†lculo precio/bfß bruto;
-                                                              DEA=VK-Preis/DB - Berechnung];
-                                                   OptionCaptionML=[ENU="Profit=Price-Cost,Price=Cost+Profit,No Relationship";
-                                                                    ESP="Beneficio=Precio-Coste,Precio=Coste+Beneficio,Sin relaci¢n";
-                                                                    DEA="DB = VK - EP,VK = EP + DB,kein Bezug"];
+                                                   CaptionML=[DEU=VK-Preis/DB - Berechnung;
+                                                              ENU=Price/Profit Calculation];
+                                                   OptionCaptionML=[DEU="DB = VK - EP,VK = EP + DB,kein Bezug";
+                                                                    ENU="Profit=Price-Cost,Price=Cost+Profit,No Relationship"];
                                                    OptionString=Profit=Price-Cost,Price=Cost+Profit,No Relationship }
     { 24  ;   ;Unit Price          ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Price/Profit Calculation");
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Price;
-                                                              ESP=Precio venta;
-                                                              DEA=VK-Preis];
+                                                   CaptionML=[DEU=VK-Preis;
+                                                              ENU=Unit Price];
                                                    MinValue=0;
                                                    AutoFormatType=2 }
     { 25  ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
-                                                   CaptionML=[ENU=Vendor No.;
-                                                              ESP=Nß proveedor;
-                                                              DEA=Kreditorennr.] }
-    { 26  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+                                                   CaptionML=[DEU=Kreditorennr.;
+                                                              ENU=Vendor No.] }
+    { 26  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 27  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Comment Line" WHERE (Table Name=CONST(Resource),
                                                                                            No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 38  ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
-                                                              ESP=Bloqueado;
-                                                              DEA=Gesperrt] }
+    { 38  ;   ;Blocked             ;Boolean       ;CaptionML=[DEU=Gesperrt;
+                                                              ENU=Blocked] }
     { 39  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 40  ;   ;Unit of Measure Filter;Code10      ;FieldClass=FlowFilter;
                                                    TableRelation="Unit of Measure";
-                                                   CaptionML=[ENU=Unit of Measure Filter;
-                                                              ESP=Filtro unidad medida;
-                                                              DEA=Einheitenfilter] }
+                                                   CaptionML=[DEU=Einheitenfilter;
+                                                              ENU=Unit of Measure Filter] }
     { 41  ;   ;Capacity            ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Res. Capacity Entry".Capacity WHERE (Resource No.=FIELD(No.),
                                                                                                          Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Capacity;
-                                                              ESP=Capacidad;
-                                                              DEA=KapazitÑt];
+                                                   CaptionML=[DEU=KapazitÑt;
+                                                              ENU=Capacity];
                                                    DecimalPlaces=0:5 }
     { 42  ;   ;Qty. on Order (Job) ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Planning Line"."Quantity (Base)" WHERE (Status=CONST(Order),
@@ -343,9 +310,8 @@ OBJECT Table 156 Resource
                                                                                                                 Type=CONST(Resource),
                                                                                                                 No.=FIELD(No.),
                                                                                                                 Planning Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Qty. on Order (Job);
-                                                              ESP=Cdad. pedida en proyectos;
-                                                              DEA=Menge in Auftrag (Proj.)];
+                                                   CaptionML=[DEU=Menge in Auftrag (Proj.);
+                                                              ENU=Qty. on Order (Job)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 43  ;   ;Qty. Quoted (Job)   ;Decimal       ;FieldClass=FlowField;
@@ -354,9 +320,8 @@ OBJECT Table 156 Resource
                                                                                                                 Type=CONST(Resource),
                                                                                                                 No.=FIELD(No.),
                                                                                                                 Planning Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Qty. Quoted (Job);
-                                                              ESP=Cdad. ofertada en proyectos;
-                                                              DEA=Menge in Angebot (Proj.)];
+                                                   CaptionML=[DEU=Menge in Angebot (Proj.);
+                                                              ENU=Qty. Quoted (Job)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 44  ;   ;Usage (Qty.)        ;Decimal       ;FieldClass=FlowField;
@@ -365,9 +330,8 @@ OBJECT Table 156 Resource
                                                                                                                 Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                                 Resource No.=FIELD(No.),
                                                                                                                 Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Usage (Qty.);
-                                                              ESP=Consumo (cdad.);
-                                                              DEA=Verbrauch (Menge)];
+                                                   CaptionML=[DEU=Verbrauch (Menge);
+                                                              ENU=Usage (Qty.)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 45  ;   ;Usage (Cost)        ;Decimal       ;FieldClass=FlowField;
@@ -376,9 +340,8 @@ OBJECT Table 156 Resource
                                                                                                            Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                            Resource No.=FIELD(No.),
                                                                                                            Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Usage (Cost);
-                                                              ESP=Consumo (p. coste);
-                                                              DEA=Verbrauch (Einst.-Betrag)];
+                                                   CaptionML=[DEU=Verbrauch (Einst.-Betrag);
+                                                              ENU=Usage (Cost)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
     { 46  ;   ;Usage (Price)       ;Decimal       ;FieldClass=FlowField;
@@ -387,9 +350,8 @@ OBJECT Table 156 Resource
                                                                                                             Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                             Resource No.=FIELD(No.),
                                                                                                             Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Usage (Price);
-                                                              ESP=Imp. consumido a p. venta;
-                                                              DEA=Verbrauch (VK-Preis)];
+                                                   CaptionML=[DEU=Verbrauch (VK-Preis);
+                                                              ENU=Usage (Price)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
     { 47  ;   ;Sales (Qty.)        ;Decimal       ;FieldClass=FlowField;
@@ -397,9 +359,8 @@ OBJECT Table 156 Resource
                                                                                                                  Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                                  Resource No.=FIELD(No.),
                                                                                                                  Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Sales (Qty.);
-                                                              ESP=Ventas (cdad.);
-                                                              DEA=Verkauf (Menge)];
+                                                   CaptionML=[DEU=Verkauf (Menge);
+                                                              ENU=Sales (Qty.)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 48  ;   ;Sales (Cost)        ;Decimal       ;FieldClass=FlowField;
@@ -407,9 +368,8 @@ OBJECT Table 156 Resource
                                                                                                             Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                             Resource No.=FIELD(No.),
                                                                                                             Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Sales (Cost);
-                                                              ESP=Imp. coste de ventas;
-                                                              DEA=Verkauf (Einst.-Preis)];
+                                                   CaptionML=[DEU=Verkauf (Einst.-Preis);
+                                                              ENU=Sales (Cost)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
     { 49  ;   ;Sales (Price)       ;Decimal       ;FieldClass=FlowField;
@@ -417,15 +377,13 @@ OBJECT Table 156 Resource
                                                                                                              Unit of Measure Code=FIELD(Unit of Measure Filter),
                                                                                                              Resource No.=FIELD(No.),
                                                                                                              Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Sales (Price);
-                                                              ESP=Imp. ventas;
-                                                              DEA=Verkauf (VK-Preis)];
+                                                   CaptionML=[DEU=Verkauf (VK-Preis);
+                                                              ENU=Sales (Price)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
     { 50  ;   ;Chargeable Filter   ;Boolean       ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Chargeable Filter;
-                                                              ESP=Filtro facturable;
-                                                              DEA=Fakturierbarfilter] }
+                                                   CaptionML=[DEU=Fakturierbarfilter;
+                                                              ENU=Chargeable Filter] }
     { 51  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF xRec."Gen. Prod. Posting Group" <> "Gen. Prod. Posting Group" THEN
@@ -433,12 +391,10 @@ OBJECT Table 156 Resource
                                                                     VALIDATE("VAT Prod. Posting Group",GenProdPostingGrp."Def. VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
-    { 52  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
+    { 52  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
     { 53  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
@@ -448,45 +404,36 @@ OBJECT Table 156 Resource
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 54  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
-    { 55  ;   ;Automatic Ext. Texts;Boolean       ;CaptionML=[ENU=Automatic Ext. Texts;
-                                                              ESP=Texto adicional autom†tico;
-                                                              DEA=Automat. Textbaustein] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 54  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
+    { 55  ;   ;Automatic Ext. Texts;Boolean       ;CaptionML=[DEU=Automat. Textbaustein;
+                                                              ENU=Automatic Ext. Texts] }
     { 56  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 57  ;   ;Tax Group Code      ;Code10        ;TableRelation="Tax Group";
-                                                   CaptionML=[ENU=Tax Group Code;
-                                                              ESP=C¢d. grupo impuesto;
-                                                              DEA=Steuergruppencode] }
+                                                   CaptionML=[DEU=Steuergruppencode;
+                                                              ENU=Tax Group Code] }
     { 58  ;   ;VAT Prod. Posting Group;Code10     ;TableRelation="VAT Product Posting Group";
-                                                   CaptionML=[ENU=VAT Prod. Posting Group;
-                                                              ESP=Grupo registro IVA prod.;
-                                                              DEA=MwSt.-Produktbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-Produktbuchungsgruppe;
+                                                              ENU=VAT Prod. Posting Group] }
     { 59  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 60  ;   ;IC Partner Purch. G/L Acc. No.;Code20;
                                                    TableRelation="IC G/L Account";
-                                                   CaptionML=[ENU=IC Partner Purch. G/L Acc. No.;
-                                                              ESP=Nß cuenta compra IC asociada;
-                                                              DEA=IC-Partner Eink.-Sachkontonr.] }
+                                                   CaptionML=[DEU=IC-Partner Eink.-Sachkontonr.;
+                                                              ENU=IC Partner Purch. G/L Acc. No.] }
     { 900 ;   ;Qty. on Assembly Order;Decimal     ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Assembly Line"."Remaining Quantity (Base)" WHERE (Document Type=CONST(Order),
                                                                                                                       Type=CONST(Resource),
                                                                                                                       No.=FIELD(No.),
                                                                                                                       Due Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Qty. on Assembly Order;
-                                                              ESP=Cdad. en pedido de ensamblado;
-                                                              DEA=Menge in Montageauftrag];
+                                                   CaptionML=[DEU=Menge in Montageauftrag;
+                                                              ENU=Qty. on Assembly Order];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 950 ;   ;Use Time Sheet      ;Boolean       ;OnValidate=BEGIN
@@ -495,9 +442,8 @@ OBJECT Table 156 Resource
                                                                     ERROR(Text005,FIELDCAPTION("Use Time Sheet"));
                                                               END;
 
-                                                   CaptionML=[ENU=Use Time Sheet;
-                                                              ESP=Usar hoja horas;
-                                                              DEA=Arbeitszeittabelle verwenden] }
+                                                   CaptionML=[DEU=Arbeitszeittabelle verwenden;
+                                                              ENU=Use Time Sheet] }
     { 951 ;   ;Time Sheet Owner User ID;Code50    ;TableRelation="User Setup";
                                                    OnValidate=BEGIN
                                                                 IF "Time Sheet Owner User ID" <> xRec."Time Sheet Owner User ID" THEN BEGIN
@@ -509,9 +455,8 @@ OBJECT Table 156 Resource
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Time Sheet Owner User ID;
-                                                              ESP=Id. usuario prop. hoja horas;
-                                                              DEA=Benutzer-ID des Arbeitszeittabellenbesitzers] }
+                                                   CaptionML=[DEU=Benutzer-ID des Arbeitszeittabellenbesitzers;
+                                                              ENU=Time Sheet Owner User ID] }
     { 952 ;   ;Time Sheet Approver User ID;Code50 ;TableRelation="User Setup";
                                                    OnValidate=BEGIN
                                                                 IF "Time Sheet Approver User ID" <> xRec."Time Sheet Approver User ID" THEN
@@ -519,29 +464,25 @@ OBJECT Table 156 Resource
                                                                     ERROR(Text005,FIELDCAPTION("Time Sheet Approver User ID"));
                                                               END;
 
-                                                   CaptionML=[ENU=Time Sheet Approver User ID;
-                                                              ESP=Id. usuario aprob. hoja horas;
-                                                              DEA=Benutzer-ID des Arbeitszeittabellengenehmigers] }
+                                                   CaptionML=[DEU=Benutzer-ID des Arbeitszeittabellengenehmigers;
+                                                              ENU=Time Sheet Approver User ID] }
     { 5900;   ;Qty. on Service Order;Decimal      ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Service Order Allocation"."Allocated Hours" WHERE (Posted=CONST(No),
                                                                                                                        Resource No.=FIELD(No.),
                                                                                                                        Allocation Date=FIELD(Date Filter),
                                                                                                                        Status=CONST(Active)));
-                                                   CaptionML=[ENU=Qty. on Service Order;
-                                                              ESP=Cdad. en ped. servicio;
-                                                              DEA=Menge in Serviceauftrag];
+                                                   CaptionML=[DEU=Menge in Serviceauftrag;
+                                                              ENU=Qty. on Service Order];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5901;   ;Service Zone Filter ;Code10        ;TableRelation="Service Zone";
-                                                   CaptionML=[ENU=Service Zone Filter;
-                                                              ESP=Filtro zona servicio;
-                                                              DEA=Servicegebietsfilter] }
+                                                   CaptionML=[DEU=Servicegebietsfilter;
+                                                              ENU=Service Zone Filter] }
     { 5902;   ;In Customer Zone    ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Resource Service Zone" WHERE (Resource No.=FIELD(No.),
                                                                                                     Service Zone Code=FIELD(Service Zone Filter)));
-                                                   CaptionML=[ENU=In Customer Zone;
-                                                              ESP=En zona cliente;
-                                                              DEA=Im Gebiet des Debitors];
+                                                   CaptionML=[DEU=Im Gebiet des Debitors;
+                                                              ENU=In Customer Zone];
                                                    Editable=No }
   }
   KEYS
@@ -560,8 +501,8 @@ OBJECT Table 156 Resource
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot delete %1 %2 because there are one or more outstanding Sales Orders that include this resource.;ESP=No puede borrar %1 %2 porque hay uno o m†s pedidos de ventas pendientes que incluyen este recurso;DEA=Sie kînnen %1 %2 nicht lîschen, da noch mindestens ein ausstehender Verkaufsauftrag fÅr diese Ressource vorhanden ist.';
-      Text001@1001 : TextConst 'ENU=Do you want to change %1?;ESP=®Confirma que desea cambiar %1?;DEA=Mîchten Sie %1 Ñndern?';
+      Text000@1000 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da noch mindestens ein ausstehender Verkaufsauftrag fÅr diese Ressource vorhanden ist.;ENU=You cannot delete %1 %2 because there are one or more outstanding Sales Orders that include this resource.';
+      Text001@1001 : TextConst 'DEU=Mîchten Sie %1 Ñndern?;ENU=Do you want to change %1?';
       ResSetup@1002 : Record 314;
       Res@1003 : Record 156;
       ResCapacityEntry@1004 : Record 160;
@@ -580,12 +521,12 @@ OBJECT Table 156 Resource
       NoSeriesMgt@1013 : Codeunit 396;
       MoveEntries@1014 : Codeunit 361;
       DimMgt@1015 : Codeunit 408;
-      Text002@1019 : TextConst 'ENU=You cannot change %1 because there are ledger entries for this resource.;ESP=No puede cambiar el %1 por que hay movs. contables para este recurso.;DEA=Sie kînnen %1 nicht Ñndern, da fÅr diese Ressource Posten vorhanden sind.';
-      Text003@1021 : TextConst 'ENU=You cannot delete %1 %2 because there are one or more outstanding Sales Return Orders that include this resource.;ESP=No puede borrar %1 %2 porque hay uno o m†s pedidos de devoluci¢n de venta pendientes que incluyen este recurso.;DEA=Sie kînnen %1 %2 nicht lîschen, da noch mindestens eine ausstehende Verkaufsreklamation fÅr diese Ressource vorhanden ist.';
-      Text004@1022 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text002@1019 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, da fÅr diese Ressource Posten vorhanden sind.;ENU=You cannot change %1 because there are ledger entries for this resource.';
+      Text003@1021 : TextConst 'DEU=Sie kînnen %1 %2 nicht lîschen, da noch mindestens eine ausstehende Verkaufsreklamation fÅr diese Ressource vorhanden ist.;ENU=You cannot delete %1 %2 because there are one or more outstanding Sales Return Orders that include this resource.';
+      Text004@1022 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
       TimeSheetMgt@1023 : Codeunit 950;
-      Text005@1024 : TextConst 'ENU=%1 cannot be changed since unprocessed time sheet lines exist for this resource.;ESP=%1 no se puede cambiar puesto que existen l°neas de hoja de horas no procesadas para este recurso.;DEA=''%1'' kann nicht geÑndert werden, da fÅr diese Ressource nicht verarbeitete Arbeitszeittabellenzeilen vorhanden sind.';
-      Text006@1025 : TextConst '@@@=You cannot delete Resource LIFT since unprocessed time sheet lines exist for this resource.;ENU=You cannot delete %1 %2 because unprocessed time sheet lines exist for this resource.;ESP=No se puede eliminar %1 %2 porque existen l°neas de hoja de horas no procesadas para este recurso.;DEA=%1 ''%2'' kann nicht gelîscht werden, da fÅr diese Ressource nicht verarbeitete Arbeitszeittabellenzeilen vorhanden sind.';
+      Text005@1024 : TextConst 'DEU=''%1'' kann nicht geÑndert werden, da fÅr diese Ressource nicht verarbeitete Arbeitszeittabellenzeilen vorhanden sind.;ENU=%1 cannot be changed since unprocessed time sheet lines exist for this resource.';
+      Text006@1025 : TextConst '@@@=You cannot delete Resource LIFT since unprocessed time sheet lines exist for this resource.;DEU=%1 ''%2'' kann nicht gelîscht werden, da fÅr diese Ressource nicht verarbeitete Arbeitszeittabellenzeilen vorhanden sind.;ENU=You cannot delete %1 %2 because unprocessed time sheet lines exist for this resource.';
 
     PROCEDURE AssistEdit@2(OldRes@1000 : Record 156) : Boolean;
     BEGIN

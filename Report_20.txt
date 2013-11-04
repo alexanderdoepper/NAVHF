@@ -2,16 +2,15 @@ OBJECT Report 20 Calc. and Post VAT Settlement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Permissions=TableData 254=imd;
-    CaptionML=[ENU=Calc. and Post VAT Settlement;
-               ESP=Calc. y registrar liq. IVA;
-               DEA=MwSt. abrechnen und buchen];
+    CaptionML=[DEU=MwSt. abrechnen und buchen;
+               ENU=Calc. and Post VAT Settlement];
     OnPreReport=BEGIN
                   IF PostingDate = 0D THEN
                     ERROR(Text000);
@@ -105,7 +104,7 @@ OBJECT Report 20 Calc. and Post VAT Settlement
                SourceExpr=PostSettlement }
 
     { 10  ;1   ;Column  ;PostingDate         ;
-               SourceExpr=PostingDate }
+               SourceExpr=FORMAT(PostingDate) }
 
     { 12  ;1   ;Column  ;DocNo               ;
                SourceExpr=DocNo }
@@ -633,41 +632,36 @@ OBJECT Report 20 Calc. and Post VAT Settlement
                   ContainerType=ContentArea }
 
       { 9   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=EntrdStartDate }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=EndDateReq }
 
       { 3   ;2   ;Field     ;
                   Name=PostingDt;
-                  CaptionML=[ENU=Posting Date;
-                             ESP=Fecha registro;
-                             DEA=Buchungsdatum];
+                  CaptionML=[DEU=Buchungsdatum;
+                             ENU=Posting Date];
                   SourceExpr=PostingDate }
 
       { 4   ;2   ;Field     ;
                   Name=DocumentNo;
-                  CaptionML=[ENU=Document No.;
-                             ESP=N§ documento;
-                             DEA=Belegnr.];
+                  CaptionML=[DEU=Belegnr.;
+                             ENU=Document No.];
                   SourceExpr=DocNo }
 
       { 5   ;2   ;Field     ;
                   Name=SettlementAcc;
-                  CaptionML=[ENU=Settlement Account;
-                             ESP=Cuenta liquidaci¢n;
-                             DEA=Ausgleichskonto];
+                  CaptionML=[DEU=Ausgleichskonto;
+                             ENU=Settlement Account];
                   SourceExpr=GLAccSettle."No.";
                   TableRelation="G/L Account";
                   OnValidate=BEGIN
@@ -680,22 +674,19 @@ OBJECT Report 20 Calc. and Post VAT Settlement
 
       { 6   ;2   ;Field     ;
                   Name=ShowVATEntries;
-                  CaptionML=[ENU=Show VAT Entries;
-                             ESP=Muestra movs. IVA;
-                             DEA=MwSt.-Posten anzeigen];
+                  CaptionML=[DEU=MwSt.-Posten anzeigen;
+                             ENU=Show VAT Entries];
                   SourceExpr=PrintVATEntries }
 
       { 7   ;2   ;Field     ;
-                  CaptionML=[ENU=Post;
-                             ESP=Registrar;
-                             DEA=Buchen];
+                  CaptionML=[DEU=Buchen;
+                             ENU=Post];
                   SourceExpr=PostSettlement }
 
       { 8   ;2   ;Field     ;
                   Name=AmtsinAddReportingCurr;
-                  CaptionML=[ENU=Show Amounts in Add. Reporting Currency;
-                             ESP=Muestra importes en div.-adic.;
-                             DEA=Betr„ge in Berichtsw„hrung ausgeben];
+                  CaptionML=[DEU=Betr„ge in Berichtsw„hrung ausgeben;
+                             ENU=Show Amounts in Add. Reporting Currency];
                   SourceExpr=UseAmtsInAddCurr;
                   MultiLine=Yes }
 
@@ -707,15 +698,15 @@ OBJECT Report 20 Calc. and Post VAT Settlement
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Please enter the posting date.;ESP=Introduzca la fecha registro.;DEA=Bitte das Buchungsdatum eingeben.';
-      Text001@1001 : TextConst 'ENU=Please enter the document no.;ESP=Introduzca el n§ documento;DEA=Bitte Belegnummer eingeben.';
-      Text002@1002 : TextConst 'ENU=Please enter the settlement account;ESP=Introduzca la cuenta de liquidaci¢n;DEA=Bitte Gegenkonto eingeben.';
-      Text003@1003 : TextConst 'ENU=Do you want to calculate and post the VAT Settlement?;ESP=¨Confirma que desea calcular y registrar la liquidaci¢n de IVA?;DEA=M”chten Sie die MwSt.-Abrechnung berechnen und buchen?';
-      Text004@1004 : TextConst 'ENU=VAT Settlement;ESP=Liquidaci¢n IVA;DEA=MwSt.-Abrechnung';
-      Text005@1005 : TextConst 'ENU=Period: %1;ESP=Periodo: %1;DEA=Periode: %1';
-      Text006@1006 : TextConst 'ENU=All amounts are in %1;ESP=Importes en %1;DEA=Alle Betr„ge in %1';
-      Text007@1007 : TextConst 'ENU=Purchase VAT settlement: #1######## #2########;ESP=Liquidar IVA compras...: #1######## #2########;DEA=Vorsteuerausgleich     : #1######## #2########';
-      Text008@1008 : TextConst 'ENU=Sales VAT settlement  : #1######## #2########;ESP=Liquidar IVA ventas...:  #1######## #2########;DEA=Umsatzsteuerausgleich  : #1######## #2########';
+      Text000@1000 : TextConst 'DEU=Bitte das Buchungsdatum eingeben.;ENU=Please enter the posting date.';
+      Text001@1001 : TextConst 'DEU=Bitte Belegnummer eingeben.;ENU=Please enter the document no.';
+      Text002@1002 : TextConst 'DEU=Bitte Gegenkonto eingeben.;ENU=Please enter the settlement account';
+      Text003@1003 : TextConst 'DEU=M”chten Sie die MwSt.-Abrechnung berechnen und buchen?;ENU=Do you want to calculate and post the VAT Settlement?';
+      Text004@1004 : TextConst 'DEU=MwSt.-Abrechnung;ENU=VAT Settlement';
+      Text005@1005 : TextConst 'DEU=Periode: %1;ENU=Period: %1';
+      Text006@1006 : TextConst 'DEU=Alle Betr„ge in %1;ENU=All amounts are in %1';
+      Text007@1007 : TextConst 'DEU=Vorsteuerausgleich     : #1######## #2########;ENU=Purchase VAT settlement: #1######## #2########';
+      Text008@1008 : TextConst 'DEU=Umsatzsteuerausgleich  : #1######## #2########;ENU=Sales VAT settlement  : #1######## #2########';
       GLAccSettle@1009 : Record 15;
       SourceCodeSetup@1010 : Record 242;
       GenJnlLine@1011 : Record 81;
@@ -744,16 +735,16 @@ OBJECT Report 20 Calc. and Post VAT Settlement
       VATDateFilter@1034 : Text[30];
       UseAmtsInAddCurr@1035 : Boolean;
       HeaderText@1036 : Text[30];
-      CalcandPostVATSettlementCaptionLbl@1384 : TextConst 'ENU=Calc. and Post VAT Settlement;DEA=MwSt. abrechnen und buchen';
-      PageCaptionLbl@6215 : TextConst 'ENU=Page;DEA=Seite';
-      TestReportnotpostedCaptionLbl@4405 : TextConst 'ENU=Test Report (Not Posted);DEA=Testbericht (nicht gebucht)';
-      DocNoCaptionLbl@2117 : TextConst 'ENU=Document No.;ESP=N§ documento;DEA=Belegnr.';
-      SettlementAccCaptionLbl@4332 : TextConst 'ENU=Settlement Account;DEA=Ausgleichskonto';
-      DocumentTypeCaptionLbl@5905 : TextConst 'ENU=Document Type;DEA=Belegart';
-      UserIDCaptionLbl@6950 : TextConst 'ENU=User ID;DEA=Benutzer-ID';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;DEA=Gesamt';
-      PostingDateCaptionLbl@4591 : TextConst 'ENU=Posting Date;ESP=Fecha registro;DEA=Buchungsdatum';
-      SettlementCaptionLbl@6937 : TextConst 'ENU=Settlement;DEA=Ausgleich';
+      CalcandPostVATSettlementCaptionLbl@1384 : TextConst 'DEU=MwSt. abrechnen und buchen;ENU=Calc. and Post VAT Settlement';
+      PageCaptionLbl@6215 : TextConst 'DEU=Seite;ENU=Page';
+      TestReportnotpostedCaptionLbl@4405 : TextConst 'DEU=Testbericht (nicht gebucht);ENU=Test Report (Not Posted)';
+      DocNoCaptionLbl@2117 : TextConst 'DEU=Belegnr.;ENU=Document No.';
+      SettlementAccCaptionLbl@4332 : TextConst 'DEU=Ausgleichskonto;ENU=Settlement Account';
+      DocumentTypeCaptionLbl@5905 : TextConst 'DEU=Belegart;ENU=Document Type';
+      UserIDCaptionLbl@6950 : TextConst 'DEU=Benutzer-ID;ENU=User ID';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      PostingDateCaptionLbl@4591 : TextConst 'DEU=Buchungsdatum;ENU=Posting Date';
+      SettlementCaptionLbl@6937 : TextConst 'DEU=Ausgleich;ENU=Settlement';
 
     PROCEDURE InitializeRequest@1(NewStartDate@1000 : Date;NewEndDate@1001 : Date;NewPostingDate@1002 : Date;NewDocNo@1003 : Code[20];NewSettlementAcc@1004 : Code[20];ShowVATEntries@1005 : Boolean;Post@1006 : Boolean);
     BEGIN

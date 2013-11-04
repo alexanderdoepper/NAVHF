@@ -2,15 +2,14 @@ OBJECT Report 212 Sales Prepmt. Document Test
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Prepmt. Document Test;
-               ESP=Test doc. prepago ventas;
-               DEA=Verkaufsvorauszahlungsbeleg-Test];
+    CaptionML=[DEU=Verkaufsvorauszahlungsbeleg-Test;
+               ENU=Sales Prepmt. Document Test];
     OnPreReport=BEGIN
                   SalesHeaderFilter := "Sales Header".GETFILTERS;
 
@@ -29,8 +28,8 @@ OBJECT Report 212 Sales Prepmt. Document Test
     { 6640;    ;DataItem;                    ;
                DataItemTable=Table36;
                DataItemTableView=WHERE(Document Type=CONST(Order));
-               ReqFilterHeadingML=[ENU=Prepayment Sales Document;
-                                   DEA=Prepayment Sales Document];
+               ReqFilterHeadingML=[DEU=Prepayment Sales Document;
+                                   ENU=Prepayment Sales Document];
                OnAfterGetRecord=VAR
                                   FormatAddr@1000 : Codeunit 365;
                                   TableID@1002 : ARRAY [10] OF Integer;
@@ -808,24 +807,21 @@ OBJECT Report 212 Sales Prepmt. Document Test
                   ContainerType=ContentArea }
 
       { 2   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 4   ;2   ;Field     ;
                   Name=PrepaymentDocumentType;
-                  CaptionML=[ENU=Prepayment Document Type;
-                             ESP=Tipo documento prepago;
-                             DEA=Belegart Vorauszahlung];
-                  OptionCaptionML=[ENU=Invoice,Credit Memo;
-                                   ESP=Factura,Abono;
-                                   DEA=Rechnung,Gutschrift];
+                  CaptionML=[DEU=Belegart Vorauszahlung;
+                             ENU=Prepayment Document Type];
+                  OptionCaptionML=[DEU=Rechnung,Gutschrift;
+                                   ENU=Invoice,Credit Memo];
                   SourceExpr=DocumentType }
 
       { 1   ;2   ;Field     ;
                   Name=ShowDimensions;
-                  CaptionML=[ENU=Show Dimensions;
-                             ESP=Mostrar dimensiones;
-                             DEA=Dimensionen anzeigen];
+                  CaptionML=[DEU=Dimensionen anzeigen;
+                             ENU=Show Dimensions];
                   SourceExpr=ShowDim }
 
     }
@@ -850,8 +846,8 @@ OBJECT Report 212 Sales Prepmt. Document Test
       GenJnlCheckLine@1021 : Codeunit 11;
       DimMgt@1022 : Codeunit 408;
       SalesHeaderFilter@1000 : Text[250];
-      Text000@1013 : TextConst 'ENU=%1 must be Order.;ESP=%1 debe ser Pedido.;DEA=%1 muss ''Auftrag'' sein.';
-      Text001@1001 : TextConst 'ENU=Sales Document: %1;ESP=Documento ventas: %1;DEA=Verkaufsbeleg: %1';
+      Text000@1013 : TextConst 'DEU=%1 muss ''Auftrag'' sein.;ENU=%1 must be Order.';
+      Text001@1001 : TextConst 'DEU=Verkaufsbeleg: %1;ENU=Sales Document: %1';
       SellToAddr@1005 : ARRAY [8] OF Text[50];
       BillToAddr@1004 : ARRAY [8] OF Text[50];
       ShipToAddr@1003 : ARRAY [8] OF Text[50];
@@ -859,9 +855,9 @@ OBJECT Report 212 Sales Prepmt. Document Test
       TotalText@1009 : Text[50];
       TotalExclVATText@1008 : Text[50];
       TotalInclVATText@1007 : Text[50];
-      Text002@1010 : TextConst 'ENU=Total %1;ESP=Total %1;DEA=Total %1';
-      Text003@1011 : TextConst 'ENU=Total %1 Excl. VAT;ESP=Total %1 IVA excl.;DEA=Total %1 ohne MwSt.';
-      Text004@1012 : TextConst 'ENU=Total %1 Incl. VAT;ESP=Total %1 IVA incl.;DEA=Total %1 inkl. MwSt.';
+      Text002@1010 : TextConst 'DEU=Total %1;ENU=Total %1';
+      Text003@1011 : TextConst 'DEU=Total %1 ohne MwSt.;ENU=Total %1 Excl. VAT';
+      Text004@1012 : TextConst 'DEU=Total %1 inkl. MwSt.;ENU=Total %1 Incl. VAT';
       DimText@1027 : Text[120];
       ErrorText@1015 : ARRAY [99] OF Text[250];
       DocumentType@1024 : 'Invoice,Credit Memo';
@@ -869,40 +865,40 @@ OBJECT Report 212 Sales Prepmt. Document Test
       VATBaseAmount@1030 : Decimal;
       TotalAmountInclVAT@1031 : Decimal;
       ErrorCounter@1014 : Integer;
-      Text005@1016 : TextConst 'ENU=%1 must be specified.;ESP=Se debe indicar %1.;DEA=%1 muss angegeben werden.';
-      Text006@1035 : TextConst 'ENU=%1 %2 %3 does not exist.;ESP=No existe %1 %2 %3.;DEA=%1 %2 %3 existiert nicht.';
-      Text007@1017 : TextConst 'ENU=%1 %2 does not exist.;ESP=No existe %1 %2.;DEA=%1 %2 existiert nicht.';
-      Text008@1018 : TextConst 'ENU=%1 must not be %2 for %3 %4.;ESP=%1 no debe ser %2 para %3 %4.;DEA=FÅr %3 %4 darf %1 nicht %2 sein.';
-      Text009@1019 : TextConst 'ENU=%1 must not be a closing date.;ESP=%1 no debe ser una fecha de cierre.;DEA=%1 darf kein Ultimodatum sein.';
-      Text010@1020 : TextConst 'ENU=%1 is not within your allowed range of posting dates.;ESP=%1 no se encuentra en su rango permitido de fechas de registro.;DEA=%1 ist nicht innerhalb des zugelassenen Buchungszeitraums.';
-      Text011@1023 : TextConst 'ENU=There is nothing to post.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu buchen.';
+      Text005@1016 : TextConst 'DEU=%1 muss angegeben werden.;ENU=%1 must be specified.';
+      Text006@1035 : TextConst 'DEU=%1 %2 %3 existiert nicht.;ENU=%1 %2 %3 does not exist.';
+      Text007@1017 : TextConst 'DEU=%1 %2 existiert nicht.;ENU=%1 %2 does not exist.';
+      Text008@1018 : TextConst 'DEU=FÅr %3 %4 darf %1 nicht %2 sein.;ENU=%1 must not be %2 for %3 %4.';
+      Text009@1019 : TextConst 'DEU=%1 darf kein Ultimodatum sein.;ENU=%1 must not be a closing date.';
+      Text010@1020 : TextConst 'DEU=%1 ist nicht innerhalb des zugelassenen Buchungszeitraums.;ENU=%1 is not within your allowed range of posting dates.';
+      Text011@1023 : TextConst 'DEU=Es gibt nichts zu buchen.;ENU=There is nothing to post.';
       ShowDim@1025 : Boolean;
       Continue@1026 : Boolean;
-      Text012@1042 : TextConst 'ENU=%1 must be entered.;ESP=Se debe indicar %1.;DEA=%1 muss eingegeben werden.';
-      Text013@1038 : TextConst 'ENU=Prepayment Invoice;ESP=Factura prepago;DEA=Vorauszahlungsrechnung';
-      Text014@1039 : TextConst 'ENU=Prepayment Credit Memo;ESP=Abono prepago;DEA=Vorauszahlungsgutschrift';
+      Text012@1042 : TextConst 'DEU=%1 muss eingegeben werden.;ENU=%1 must be entered.';
+      Text013@1038 : TextConst 'DEU=Vorauszahlungsrechnung;ENU=Prepayment Invoice';
+      Text014@1039 : TextConst 'DEU=Vorauszahlungsgutschrift;ENU=Prepayment Credit Memo';
       SumPrepaymInvLineBufferAmount@1000000000 : Decimal;
-      SalesPrepmtDocTestCaptionLbl@3067 : TextConst 'ENU=Sales Prepayment Document - Test;ESP=Documento prepago ventas - Test;DEA=Beleg Verkaufsvorauszahlung - Test';
-      CurrReportPageNoCaptionLbl@8565 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      SelltoCaptionLbl@3662 : TextConst 'ENU=Sell-to;ESP=Direcci¢n venta;DEA=Verk. an';
-      ShiptoCaptionLbl@2661 : TextConst 'ENU=Ship-to;ESP=Direcci¢n env°o;DEA=Lief. an';
-      BilltoCaptionLbl@1498 : TextConst 'ENU=Bill-to;ESP=Direcci¢n facturaci¢n;DEA=Rech. an';
-      PostDateSalesHeaderCaptionLbl@3657 : TextConst 'ENU=Posting Date;ESP=Fecha registro;DEA=Buchungsdatum';
-      DocDateSalesHeaderCaptionLbl@7028 : TextConst 'ENU=Document Date;ESP=Fecha emisi¢n documento;DEA=Belegdatum';
-      ShipmentDateSalesHeaderCaptionLbl@3962 : TextConst 'ENU=Shipment Date;ESP=Fecha env°o;DEA=Warenausg.-Datum';
-      OrderDateSalesHeaderCaptionLbl@9054 : TextConst 'ENU=Order Date;ESP=Fecha pedido;DEA=Auftragsdatum';
-      PrepmtDueDateSalesHeaderCaptionLbl@1333 : TextConst 'ENU=Prepayment Due Date;ESP=Fecha vencimiento prepago;DEA=FÑlligkeitsdatum Vorauszahlung';
-      PrepmtPmtDiscDateSalesHeaderCaptionLbl@7843 : TextConst 'ENU=Prepmt. Pmt. Discount Date;ESP=Fecha descuento prepago;DEA=Skontodatum Vorauszahlung';
-      HeaderDimensionsCaptionLbl@4011 : TextConst 'ENU=Header Dimensions;ESP=Dimensiones cabecera;DEA=Kopfdimensionen';
-      ErrorTextHeaderErrorCounterCaptionLbl@5070 : TextConst 'ENU=Warning!;ESP=Advertencia;DEA=Warnung!';
-      LineDimensionsCaptionLbl@3103 : TextConst 'ENU=Line Dimensions;ESP=Dimensiones l°nea;DEA=Zeilendimensionen';
-      VATAmtLineVATAmtCaptionLbl@6145 : TextConst 'ENU=VAT Amount;ESP=Importe IVA;DEA=MwSt.-Betrag';
-      VATAmtLineVATBaseCaptionLbl@8040 : TextConst 'ENU=VAT Base;ESP=Base IVA;DEA=MwSt.-Bemessungsgrundlage';
-      VATAmtLineLineAmtCaptionLbl@9467 : TextConst 'ENU=Line Amount;ESP=Importe l°nea;DEA=Zeilenbetrag';
-      VATAmtLineVATCaptionLbl@6736 : TextConst 'ENU=VAT %;ESP=% IVA;DEA=MwSt. %';
-      VATAmtLineVATIdentifierCaptionLbl@6385 : TextConst 'ENU=VAT Identifier;ESP=Identific. IVA;DEA=MwSt.-Kennzeichen';
-      VATAmtSpecificationCaptionLbl@5688 : TextConst 'ENU=VAT Amount Specification;ESP=Especificaci¢n importe IVA;DEA=MwSt.-Betrag - Spezifikation';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      SalesPrepmtDocTestCaptionLbl@3067 : TextConst 'DEU=Beleg Verkaufsvorauszahlung - Test;ENU=Sales Prepayment Document - Test';
+      CurrReportPageNoCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      SelltoCaptionLbl@3662 : TextConst 'DEU=Verk. an;ENU=Sell-to';
+      ShiptoCaptionLbl@2661 : TextConst 'DEU=Lief. an;ENU=Ship-to';
+      BilltoCaptionLbl@1498 : TextConst 'DEU=Rech. an;ENU=Bill-to';
+      PostDateSalesHeaderCaptionLbl@3657 : TextConst 'DEU=Buchungsdatum;ENU=Posting Date';
+      DocDateSalesHeaderCaptionLbl@7028 : TextConst 'DEU=Belegdatum;ENU=Document Date';
+      ShipmentDateSalesHeaderCaptionLbl@3962 : TextConst 'DEU=Warenausg.-Datum;ENU=Shipment Date';
+      OrderDateSalesHeaderCaptionLbl@9054 : TextConst 'DEU=Auftragsdatum;ENU=Order Date';
+      PrepmtDueDateSalesHeaderCaptionLbl@1333 : TextConst 'DEU=FÑlligkeitsdatum Vorauszahlung;ENU=Prepayment Due Date';
+      PrepmtPmtDiscDateSalesHeaderCaptionLbl@7843 : TextConst 'DEU=Skontodatum Vorauszahlung;ENU=Prepmt. Pmt. Discount Date';
+      HeaderDimensionsCaptionLbl@4011 : TextConst 'DEU=Kopfdimensionen;ENU=Header Dimensions';
+      ErrorTextHeaderErrorCounterCaptionLbl@5070 : TextConst 'DEU=Warnung!;ENU=Warning!';
+      LineDimensionsCaptionLbl@3103 : TextConst 'DEU=Zeilendimensionen;ENU=Line Dimensions';
+      VATAmtLineVATAmtCaptionLbl@6145 : TextConst 'DEU=MwSt.-Betrag;ENU=VAT Amount';
+      VATAmtLineVATBaseCaptionLbl@8040 : TextConst 'DEU=MwSt.-Bemessungsgrundlage;ENU=VAT Base';
+      VATAmtLineLineAmtCaptionLbl@9467 : TextConst 'DEU=Zeilenbetrag;ENU=Line Amount';
+      VATAmtLineVATCaptionLbl@6736 : TextConst 'DEU=MwSt. %;ENU=VAT %';
+      VATAmtLineVATIdentifierCaptionLbl@6385 : TextConst 'DEU=MwSt.-Kennzeichen;ENU=VAT Identifier';
+      VATAmtSpecificationCaptionLbl@5688 : TextConst 'DEU=MwSt.-Betrag - Spezifikation;ENU=VAT Amount Specification';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     LOCAL PROCEDURE AddError@1(Text@1000 : Text[250]);
     BEGIN

@@ -2,15 +2,14 @@ OBJECT Page 113 Budget
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Budget;
-               ESP=Presupuesto;
-               DEA=Budget];
+    CaptionML=[DEU=Budget;
+               ENU=Budget];
     SaveValues=Yes;
     InsertAllowed=No;
     DeleteAllowed=No;
@@ -74,15 +73,13 @@ OBJECT Page 113 Budget
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1102601009;1 ;ActionGroup;
-                      CaptionML=[ENU=&Balance;
-                                 ESP=&Saldo;
-                                 DEA=&Saldo];
+                      CaptionML=[DEU=&Saldo;
+                                 ENU=&Balance];
                       Image=Balance }
       { 1102601011;2 ;Action    ;
                       Name=Page G/L Balance/Budget;
-                      CaptionML=[ENU=G/L Balance/B&udget;
-                                 ESP=&Saldo/Ppto. cuenta;
-                                 DEA=Saldo/&Budget];
+                      CaptionML=[DEU=Saldo/&Budget;
+                                 ENU=G/L Balance/B&udget];
                       Image=ChartOfAccounts;
                       OnAction=VAR
                                  GLAccount@1000 : Record 15;
@@ -94,35 +91,30 @@ OBJECT Page 113 Budget
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1102601001;1 ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 1102601002;2 ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Budget;
-                                 ESP=Copiar presupuesto;
-                                 DEA=Budget kopieren];
+                      CaptionML=[DEU=Budget kopieren;
+                                 ENU=Copy Budget];
                       RunObject=Report 96;
                       Image=CopyBudget }
       { 1102601003;2 ;Action    ;
-                      CaptionML=[ENU=Delete Budget;
-                                 ESP=Borrar presupuesto;
-                                 DEA=Budget lîschen];
+                      CaptionML=[DEU=Budget lîschen;
+                                 ENU=Delete Budget];
                       Image=Delete;
                       OnAction=BEGIN
                                  DeleteBudget;
                                END;
                                 }
       { 1102601004;2 ;Separator ;
-                      CaptionML=[ENU="";
-                                 ESP="";
-                                 DEA=""] }
+                      CaptionML=[DEU="";
+                                 ENU=""] }
       { 1102601005;2 ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Export to Excel;
-                                 ESP=Exportar a Excel;
-                                 DEA=In Excel exportieren];
+                      CaptionML=[DEU=In Excel exportieren;
+                                 ENU=Export to Excel];
                       Image=ExportToExcel;
                       OnAction=VAR
                                  GLBudgetEntry@1001 : Record 96;
@@ -141,9 +133,8 @@ OBJECT Page 113 Budget
                                 }
       { 1102601006;2 ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Import from Excel;
-                                 ESP=Importar desde Excel;
-                                 DEA=Aus Excel importieren];
+                      CaptionML=[DEU=Aus Excel importieren;
+                                 ENU=Import from Excel];
                       Image=ImportExcel;
                       OnAction=VAR
                                  ImportBudgetfromExcel@1001 : Report 81;
@@ -154,9 +145,8 @@ OBJECT Page 113 Budget
                                 }
       { 1102601007;2 ;Separator  }
       { 1102601008;2 ;Action    ;
-                      CaptionML=[ENU=Reverse Lines and Columns;
-                                 ESP=Invertir l°neas y columnas;
-                                 DEA=Zeilen- und Spaltenansicht vertauschen];
+                      CaptionML=[DEU=Zeilen- und Spaltenansicht vertauschen;
+                                 ENU=Reverse Lines and Columns];
                       Image=Undo;
                       OnAction=VAR
                                  TempDimCode@1102601000 : Text[30];
@@ -172,9 +162,8 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 22      ;1   ;Action    ;
-                      CaptionML=[ENU=Next Period;
-                                 ESP=Periodo siguiente;
-                                 DEA=Folgeperiode];
+                      CaptionML=[DEU=Folgeperiode;
+                                 ENU=Next Period];
                       Promoted=Yes;
                       Image=NextRecord;
                       PromotedCategory=Process;
@@ -187,9 +176,8 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 21      ;1   ;Action    ;
-                      CaptionML=[ENU=Previous Period;
-                                 ESP=Periodo anterior;
-                                 DEA=Vorperiode];
+                      CaptionML=[DEU=Vorperiode;
+                                 ENU=Previous Period];
                       Promoted=Yes;
                       Image=PreviousRecord;
                       PromotedCategory=Process;
@@ -202,12 +190,10 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 12      ;1   ;Action    ;
-                      CaptionML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
-                      ToolTipML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
+                      CaptionML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
+                      ToolTipML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PreviousSet;
@@ -218,9 +204,8 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 50      ;1   ;Action    ;
-                      CaptionML=[ENU=Previous Column;
-                                 ESP=Columna anterior;
-                                 DEA=Vorherige Spalte];
+                      CaptionML=[DEU=Vorherige Spalte;
+                                 ENU=Previous Column];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PreviousRecord;
@@ -231,9 +216,8 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 52      ;1   ;Action    ;
-                      CaptionML=[ENU=Next Column;
-                                 ESP=Columna siguiente;
-                                 DEA=NÑchste Spalte];
+                      CaptionML=[DEU=NÑchste Spalte;
+                                 ENU=Next Column];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=NextRecord;
@@ -244,12 +228,10 @@ OBJECT Page 113 Budget
                                END;
                                 }
       { 111     ;1   ;Action    ;
-                      CaptionML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=NÑchster Satz];
-                      ToolTipML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=NÑchster Satz];
+                      CaptionML=[DEU=NÑchster Satz;
+                                 ENU=Next Set];
+                      ToolTipML=[DEU=NÑchster Satz;
+                                 ENU=Next Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=NextSet;
@@ -267,14 +249,12 @@ OBJECT Page 113 Budget
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 5   ;2   ;Field     ;
-                CaptionML=[ENU=Budget Name;
-                           ESP=Nombre ppto.;
-                           DEA=Budgetname];
+                CaptionML=[DEU=Budgetname;
+                           ENU=Budget Name];
                 SourceExpr=BudgetName;
                 TableRelation="G/L Budget Name";
                 OnValidate=BEGIN
@@ -309,9 +289,8 @@ OBJECT Page 113 Budget
                           }
 
     { 6   ;2   ;Field     ;
-                CaptionML=[ENU=Show as Lines;
-                           ESP=Muestra como l°neas;
-                           DEA=Zeilenansicht];
+                CaptionML=[DEU=Zeilenansicht;
+                           ENU=Show as Lines];
                 SourceExpr=LineDimCode;
                 OnValidate=VAR
                              MATRIX_SetWanted@1001 : 'First,Previous,Same,Next';
@@ -341,9 +320,8 @@ OBJECT Page 113 Budget
                           }
 
     { 9   ;2   ;Field     ;
-                CaptionML=[ENU=Show as Columns;
-                           ESP=Muestra como columnas;
-                           DEA=Spaltenansicht];
+                CaptionML=[DEU=Spaltenansicht;
+                           ENU=Show as Columns];
                 SourceExpr=ColumnDimCode;
                 OnValidate=VAR
                              MATRIX_Step@1001 : 'First,Previous,Same,Next';
@@ -376,12 +354,10 @@ OBJECT Page 113 Budget
 
     { 15  ;2   ;Field     ;
                 Name=PeriodType;
-                CaptionML=[ENU=View by;
-                           ESP=Ver por;
-                           DEA=Anzeigen nach];
-                OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year,Accounting Period;
-                                 ESP=D°a,Semana,Mes,Trimestre,A§o,Periodo contable;
-                                 DEA=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode];
+                CaptionML=[DEU=Anzeigen nach;
+                           ENU=View by];
+                OptionCaptionML=[DEU=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode;
+                                 ENU=Day,Week,Month,Quarter,Year,Accounting Period];
                 SourceExpr=PeriodType;
                 Enabled=PeriodTypeEnable;
                 OnValidate=BEGIN
@@ -391,12 +367,10 @@ OBJECT Page 113 Budget
                             }
 
     { 19  ;2   ;Field     ;
-                CaptionML=[ENU=Rounding Factor;
-                           ESP=Factor redondeo;
-                           DEA=Rundungsfaktor];
-                OptionCaptionML=[ENU=None,1,1000,1000000;
-                                 ESP=No,1,1000,1000000;
-                                 DEA=Kein,1,1000,1000000];
+                CaptionML=[DEU=Rundungsfaktor;
+                           ENU=Rounding Factor];
+                OptionCaptionML=[DEU=Kein,1,1000,1000000;
+                                 ENU=None,1,1000,1000000];
                 SourceExpr=RoundingFactor;
                 OnValidate=BEGIN
                              UpdateMatrixSubform;
@@ -404,9 +378,8 @@ OBJECT Page 113 Budget
                             }
 
     { 18  ;2   ;Field     ;
-                CaptionML=[ENU=Show Column Name;
-                           ESP=Muestra nombre columna;
-                           DEA=Spaltennamen anzeigen];
+                CaptionML=[DEU=Spaltennamen anzeigen;
+                           ENU=Show Column Name];
                 SourceExpr=ShowColumnName;
                 OnValidate=BEGIN
                              ShowColumnNameOnPush;
@@ -418,14 +391,12 @@ OBJECT Page 113 Budget
                 PagePartID=Page9203 }
 
     { 1907524401;1;Group  ;
-                CaptionML=[ENU=Filters;
-                           ESP=Filtros;
-                           DEA=Filter] }
+                CaptionML=[DEU=Filter;
+                           ENU=Filters] }
 
     { 36  ;2   ;Field     ;
-                CaptionML=[ENU=Date Filter;
-                           ESP=Filtro fecha;
-                           DEA=Datumsfilter];
+                CaptionML=[DEU=Datumsfilter;
+                           ENU=Date Filter];
                 SourceExpr=DateFilter;
                 OnValidate=VAR
                              ApplicationManagement@1001 : Codeunit 1;
@@ -439,9 +410,8 @@ OBJECT Page 113 Budget
                             }
 
     { 38  ;2   ;Field     ;
-                CaptionML=[ENU=G/L Account Filter;
-                           ESP=Filtro cuenta;
-                           DEA=Sachkontofilter];
+                CaptionML=[DEU=Sachkontofilter;
+                           ENU=G/L Account Filter];
                 SourceExpr=GLAccFilter;
                 OnValidate=BEGIN
                              GLAccFilterOnAfterValidate;
@@ -461,9 +431,8 @@ OBJECT Page 113 Budget
 
     { 49  ;2   ;Field     ;
                 Name=GlobalDim1Filter;
-                CaptionML=[ENU=Global Dimension 1 Filter;
-                           ESP=Filtro dimensi¢n global 1;
-                           DEA=Globaler Dimensionsfilter 1];
+                CaptionML=[DEU=Globaler Dimensionsfilter 1;
+                           ENU=Global Dimension 1 Filter];
                 SourceExpr=GlobalDim1Filter;
                 CaptionClass='1,3,1';
                 Enabled=GlobalDim1FilterEnable;
@@ -478,9 +447,8 @@ OBJECT Page 113 Budget
 
     { 48  ;2   ;Field     ;
                 Name=GlobalDim2Filter;
-                CaptionML=[ENU=Global Dimension 2 Filter;
-                           ESP=Filtro dimensi¢n global  2;
-                           DEA=Globaler Dimensionsfilter 2];
+                CaptionML=[DEU=Globaler Dimensionsfilter 2;
+                           ENU=Global Dimension 2 Filter];
                 SourceExpr=GlobalDim2Filter;
                 CaptionClass='1,3,2';
                 Enabled=GlobalDim2FilterEnable;
@@ -495,9 +463,8 @@ OBJECT Page 113 Budget
 
     { 34  ;2   ;Field     ;
                 Name=BudgetDim1Filter;
-                CaptionML=[ENU=Budget Dimension 1 Filter;
-                           ESP=Filtro dim. presupuesto 1;
-                           DEA=Budgetdimensionsfilter 1];
+                CaptionML=[DEU=Budgetdimensionsfilter 1;
+                           ENU=Budget Dimension 1 Filter];
                 SourceExpr=BudgetDim1Filter;
                 CaptionClass=GetCaptionClass(1);
                 Enabled=BudgetDim1FilterEnable;
@@ -512,9 +479,8 @@ OBJECT Page 113 Budget
 
     { 30  ;2   ;Field     ;
                 Name=BudgetDim2Filter;
-                CaptionML=[ENU=Budget Dimension 2 Filter;
-                           ESP=Filtro dim. presupuesto 2;
-                           DEA=Budgetdimensionsfilter 2];
+                CaptionML=[DEU=Budgetdimensionsfilter 2;
+                           ENU=Budget Dimension 2 Filter];
                 SourceExpr=BudgetDim2Filter;
                 CaptionClass=GetCaptionClass(2);
                 Enabled=BudgetDim2FilterEnable;
@@ -529,9 +495,8 @@ OBJECT Page 113 Budget
 
     { 46  ;2   ;Field     ;
                 Name=BudgetDim3Filter;
-                CaptionML=[ENU=Budget Dimension 3 Filter;
-                           ESP=Filtro dim. presupuesto 3;
-                           DEA=Budgetdimensionsfilter 3];
+                CaptionML=[DEU=Budgetdimensionsfilter 3;
+                           ENU=Budget Dimension 3 Filter];
                 SourceExpr=BudgetDim3Filter;
                 CaptionClass=GetCaptionClass(3);
                 Enabled=BudgetDim3FilterEnable;
@@ -546,9 +511,8 @@ OBJECT Page 113 Budget
 
     { 35  ;2   ;Field     ;
                 Name=BudgetDim4Filter;
-                CaptionML=[ENU=Budget Dimension 4 Filter;
-                           ESP=Filtro dim. presupuesto 4;
-                           DEA=Budgetdimensionsfilter 4];
+                CaptionML=[DEU=Budgetdimensionsfilter 4;
+                           ENU=Budget Dimension 4 Filter];
                 SourceExpr=BudgetDim4Filter;
                 CaptionClass=GetCaptionClass(4);
                 Enabled=BudgetDim4FilterEnable;
@@ -574,16 +538,16 @@ OBJECT Page 113 Budget
       MATRIX_CaptionRange@1193 : Text[80];
       MATRIX_PrimKeyFirstCaptionInCu@1197 : Text[80];
       MATRIX_CurrentNoOfColumns@1198 : Integer;
-      Text001@1001 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
-      Text003@1003 : TextConst 'ENU=Do you want to delete the budget entries shown?;ESP=®Confirma que desea borrar los movs. presupuest. mostrados?;DEA=Mîchten Sie die angezeigten Budgetposten lîschen?';
-      Text004@1004 : TextConst 'ENU=DEFAULT;ESP=GENERICO;DEA=STANDARD';
-      Text005@1005 : TextConst 'ENU=Default budget;ESP=Ppto. genÇrico;DEA=Standardbudget';
-      Text006@1006 : TextConst 'ENU=%1 is not a valid line definition.;ESP=%1 no es una def. de l°nea v†lida.;DEA=%1 ist keine gÅltige Zeilendefinition.';
-      Text007@1007 : TextConst 'ENU=%1 is not a valid column definition.;ESP=%1 no es una def. de columna v†lida.;DEA=%1 ist keine gÅltige Spaltendefinition.';
-      Text008@1008 : TextConst 'ENU=1,6,,Budget Dimension 1 Filter;ESP=1,6,,Filtro dimensi¢n presupuesto 1;DEA=1,6,,Budgetdimensionsfilter 1';
-      Text009@1009 : TextConst 'ENU=1,6,,Budget Dimension 2 Filter;ESP=1,6,,Filtro dimensi¢n presupuesto 2;DEA=1,6,,Budgetdimensionsfilter 2';
-      Text010@1010 : TextConst 'ENU=1,6,,Budget Dimension 3 Filter;ESP=1,6,,Filtro dimensi¢n presupuesto 3;DEA=1,6,,Budgetdimensionsfilter 3';
-      Text011@1011 : TextConst 'ENU=1,6,,Budget Dimension 4 Filter;ESP=1,6,,Filtro dimensi¢n presupuesto 4;DEA=1,6,,Budgetdimensionsfilter 4';
+      Text001@1001 : TextConst 'DEU=Periode;ENU=Period';
+      Text003@1003 : TextConst 'DEU=Mîchten Sie die angezeigten Budgetposten lîschen?;ENU=Do you want to delete the budget entries shown?';
+      Text004@1004 : TextConst 'DEU=STANDARD;ENU=DEFAULT';
+      Text005@1005 : TextConst 'DEU=Standardbudget;ENU=Default budget';
+      Text006@1006 : TextConst 'DEU=%1 ist keine gÅltige Zeilendefinition.;ENU=%1 is not a valid line definition.';
+      Text007@1007 : TextConst 'DEU=%1 ist keine gÅltige Spaltendefinition.;ENU=%1 is not a valid column definition.';
+      Text008@1008 : TextConst 'DEU=1,6,,Budgetdimensionsfilter 1;ENU=1,6,,Budget Dimension 1 Filter';
+      Text009@1009 : TextConst 'DEU=1,6,,Budgetdimensionsfilter 2;ENU=1,6,,Budget Dimension 2 Filter';
+      Text010@1010 : TextConst 'DEU=1,6,,Budgetdimensionsfilter 3;ENU=1,6,,Budget Dimension 3 Filter';
+      Text011@1011 : TextConst 'DEU=1,6,,Budgetdimensionsfilter 4;ENU=1,6,,Budget Dimension 4 Filter';
       MATRIX_Step@1015 : 'First,Previous,Same,Next,PreviousColumn,NextColumn';
       BudgetName@1016 : Code[10];
       NewBudgetName@1042 : Code[10];

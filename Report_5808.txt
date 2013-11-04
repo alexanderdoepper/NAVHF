@@ -2,15 +2,14 @@ OBJECT Report 5808 Item Age Composition - Value
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Item Age Composition - Value;
-               ESP=Composici¢n antig. prod.-valor;
-               DEA=Artikellagerzeit - Wert];
+    CaptionML=[DEU=Artikellagerzeit - Wert;
+               ENU=Item Age Composition - Value];
     OnPreReport=VAR
                   NegPeriodLength@1000 : DateFormula;
                 BEGIN
@@ -233,15 +232,13 @@ OBJECT Report 5808 Item Age Composition - Value
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=EndingDate;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=PeriodStartDate[5];
                   OnValidate=BEGIN
                                IF PeriodStartDate[5] = 0D THEN
@@ -251,9 +248,8 @@ OBJECT Report 5808 Item Age Composition - Value
 
       { 2   ;2   ;Field     ;
                   Name=PeriodLength;
-                  CaptionML=[ENU=Period Length;
-                             ESP=Longitud periodo;
-                             DEA=Periodenl„nge];
+                  CaptionML=[DEU=Periodenl„nge;
+                             ENU=Period Length];
                   SourceExpr=PeriodLength;
                   OnValidate=BEGIN
                                IF FORMAT(PeriodLength) = '' THEN
@@ -269,7 +265,7 @@ OBJECT Report 5808 Item Age Composition - Value
   CODE
   {
     VAR
-      Text002@1001 : TextConst 'ENU=Enter the ending date;ESP=Introducir la fecha final;DEA=Geben Sie das Enddatum ein';
+      Text002@1001 : TextConst 'DEU=Geben Sie das Enddatum ein;ENU=Enter the ending date';
       ItemCostMgt@1004 : Codeunit 5804;
       ItemFilter@1005 : Text[250];
       InvtValue@1006 : ARRAY [6] OF Decimal;
@@ -285,14 +281,14 @@ OBJECT Report 5808 Item Age Composition - Value
       PrintLine@1015 : Boolean;
       AverageCost@1016 : Decimal;
       AverageCostACY@1017 : Decimal;
-      ItemAgeCompositionValueCaptionLbl@3756 : TextConst 'ENU=Item Age Composition - Value;ESP=Composici¢n antig. prod.-valor;DEA=Artikellagerzeit - Wert';
-      CurrReportPageNoCaptionLbl@2595 : TextConst 'ENU=Page;ESP=P g.;DEA=Seite';
-      AfterCaptionLbl@7202 : TextConst 'ENU=After...;ESP=Despu‚s...;DEA=Neuer Inhalt...';
-      BeforeCaptionLbl@6488 : TextConst 'ENU=...Before;ESP=...Antes;DEA=...alter Inhalt';
-      InventoryValueCaptionLbl@5879 : TextConst 'ENU=Inventory Value;ESP=Valor inventario;DEA=Lagerwert';
-      ItemDescriptionCaptionLbl@5694 : TextConst 'ENU=Description;ESP=Descripci¢n;DEA=Beschreibung';
-      ItemNoCaptionLbl@7986 : TextConst 'ENU=Item No.;ESP=N§ producto;DEA=Artikelnr.';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      ItemAgeCompositionValueCaptionLbl@3756 : TextConst 'DEU=Artikellagerzeit - Wert;ENU=Item Age Composition - Value';
+      CurrReportPageNoCaptionLbl@2595 : TextConst 'DEU=Seite;ENU=Page';
+      AfterCaptionLbl@7202 : TextConst 'DEU=Neuer Inhalt...;ENU=After...';
+      BeforeCaptionLbl@6488 : TextConst 'DEU=...alter Inhalt;ENU=...Before';
+      InventoryValueCaptionLbl@5879 : TextConst 'DEU=Lagerwert;ENU=Inventory Value';
+      ItemDescriptionCaptionLbl@5694 : TextConst 'DEU=Beschreibung;ENU=Description';
+      ItemNoCaptionLbl@7986 : TextConst 'DEU=Artikelnr.;ENU=Item No.';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     PROCEDURE CalcRemainingQty@1();
     BEGIN

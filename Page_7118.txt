@@ -2,15 +2,14 @@ OBJECT Page 7118 Purchase Analysis Report
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Purchase Analysis Report;
-               ESP=Informe de an†lisis de compras;
-               DEA=Einkaufsanalysebericht];
+    CaptionML=[DEU=Einkaufsanalysebericht;
+               ENU=Purchase Analysis Report];
     SaveValues=Yes;
     InsertAllowed=No;
     DeleteAllowed=No;
@@ -62,15 +61,13 @@ OBJECT Page 7118 Purchase Analysis Report
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Actions;
-                                 ESP=&Acciones;
-                                 DEA=&Aktionen];
+                      CaptionML=[DEU=&Aktionen;
+                                 ENU=&Actions];
                       Image=Action }
       { 17      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Set Up &Lines;
-                                 ESP=Configurar &l°neas;
-                                 DEA=&Zeilen einrichten];
+                      CaptionML=[DEU=&Zeilen einrichten;
+                                 ENU=Set Up &Lines];
                       Image=SetupLines;
                       OnAction=BEGIN
                                  AnalysisReportMgt.OpenAnalysisLinesForm(Rec,CurrentLineTemplate);
@@ -79,9 +76,8 @@ OBJECT Page 7118 Purchase Analysis Report
                                 }
       { 18      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Set Up &Columns;
-                                 ESP=Configurar &columnas;
-                                 DEA=&Spalten einrichten];
+                      CaptionML=[DEU=&Spalten einrichten;
+                                 ENU=Set Up &Columns];
                       Image=SetupColumns;
                       OnAction=BEGIN
                                  AnalysisReportMgt.OpenAnalysisColumnsForm(Rec,CurrentColumnTemplate);
@@ -91,9 +87,8 @@ OBJECT Page 7118 Purchase Analysis Report
       { 19      ;2   ;Separator  }
       { 20      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Export to Excel;
-                                 ESP=Exportar a Excel;
-                                 DEA=Nach Excel exportieren];
+                      CaptionML=[DEU=Nach Excel exportieren;
+                                 ENU=Export to Excel];
                       Image=ExportToExcel;
                       OnAction=VAR
                                  ExportAnalysisRepToExcel@1000 : Report 7113;
@@ -103,14 +98,12 @@ OBJECT Page 7118 Purchase Analysis Report
                                END;
                                 }
       { 22      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Reports;
-                                 ESP=&Informes;
-                                 DEA=B&erichte];
+                      CaptionML=[DEU=B&erichte;
+                                 ENU=&Reports];
                       Image=Report }
       { 37      ;2   ;Action    ;
-                      CaptionML=[ENU=Print;
-                                 ESP=Imprimir;
-                                 DEA=Drucken];
+                      CaptionML=[DEU=Drucken;
+                                 ENU=Print];
                       Image=Print;
                       OnAction=VAR
                                  AnalysisReport@1006 : Report 7112;
@@ -138,9 +131,8 @@ OBJECT Page 7118 Purchase Analysis Report
                       ActionContainerType=ActionItems }
       { 1       ;1   ;Action    ;
                       Name=ShowMatrix;
-                      CaptionML=[ENU=&Show Matrix;
-                                 ESP=&Mostrar matriz;
-                                 DEA=&Matrix anzeigen];
+                      CaptionML=[DEU=&Matrix anzeigen;
+                                 ENU=&Show Matrix];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=ShowMatrix;
@@ -159,12 +151,10 @@ OBJECT Page 7118 Purchase Analysis Report
                                END;
                                 }
       { 7       ;1   ;Action    ;
-                      CaptionML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=NÑchster Satz];
-                      ToolTipML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=NÑchster Satz];
+                      CaptionML=[DEU=NÑchster Satz;
+                                 ENU=Next Set];
+                      ToolTipML=[DEU=NÑchster Satz;
+                                 ENU=Next Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=NextSet;
@@ -175,12 +165,10 @@ OBJECT Page 7118 Purchase Analysis Report
                                END;
                                 }
       { 6       ;1   ;Action    ;
-                      CaptionML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
-                      ToolTipML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
+                      CaptionML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
+                      ToolTipML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PreviousSet;
@@ -198,14 +186,12 @@ OBJECT Page 7118 Purchase Analysis Report
                 ContainerType=ContentArea }
 
     { 29  ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 40  ;2   ;Field     ;
-                CaptionML=[ENU=Analysis Report Name;
-                           ESP=Nombre del informe de an†lisis;
-                           DEA=Analyseberichtsname];
+                CaptionML=[DEU=Analyseberichtsname;
+                           ENU=Analysis Report Name];
                 SourceExpr=CurrentReportName;
                 OnValidate=BEGIN
                              AnalysisReportMgt.CheckReportName(CurrentReportName,Rec);
@@ -221,9 +207,8 @@ OBJECT Page 7118 Purchase Analysis Report
                           }
 
     { 9   ;2   ;Field     ;
-                CaptionML=[ENU=Analysis Line Template;
-                           ESP=Plantilla de l°nea de an†lisis;
-                           DEA=Analysezeilenvorlage];
+                CaptionML=[DEU=Analysezeilenvorlage;
+                           ENU=Analysis Line Template];
                 SourceExpr=CurrentLineTemplate;
                 OnValidate=BEGIN
                              AnalysisReportMgt.CheckAnalysisLineTemplName(CurrentLineTemplate,Rec);
@@ -239,9 +224,8 @@ OBJECT Page 7118 Purchase Analysis Report
                           }
 
     { 8   ;2   ;Field     ;
-                CaptionML=[ENU=Analysis Column Template;
-                           ESP=Plantilla columna de an†lisis;
-                           DEA=Analysespaltenvorlage];
+                CaptionML=[DEU=Analysespaltenvorlage;
+                           ENU=Analysis Column Template];
                 SourceExpr=CurrentColumnTemplate;
                 OnValidate=BEGIN
                              AnalysisReportMgt.GetColumnTemplate(GETRANGEMAX("Analysis Area"),CurrentColumnTemplate);
@@ -257,17 +241,14 @@ OBJECT Page 7118 Purchase Analysis Report
                           }
 
     { 1907524401;1;Group  ;
-                CaptionML=[ENU=Filters;
-                           ESP=Filtros;
-                           DEA=Filter] }
+                CaptionML=[DEU=Filter;
+                           ENU=Filters] }
 
     { 27  ;2   ;Field     ;
-                CaptionML=[ENU=Source Type Filter;
-                           ESP=Filtro tipo origen;
-                           DEA=Herkunftsartenfilter];
-                OptionCaptionML=[ENU=" ,Customer,Vendor,Item";
-                                 ESP=" ,Cliente,Proveedor,Producto";
-                                 DEA=" ,Debitor,Kreditor,Artikel"];
+                CaptionML=[DEU=Herkunftsartenfilter;
+                           ENU=Source Type Filter];
+                OptionCaptionML=[DEU=" ,Debitor,Kreditor,Artikel";
+                                 ENU=" ,Customer,Vendor,Item"];
                 SourceExpr=CurrentSourceTypeFilter;
                 OnValidate=BEGIN
                              SETRANGE("Source Type Filter",CurrentSourceTypeFilter);
@@ -278,9 +259,8 @@ OBJECT Page 7118 Purchase Analysis Report
                             }
 
     { 25  ;2   ;Field     ;
-                CaptionML=[ENU=Source No. Filter;
-                           ESP=Filtro nß origen;
-                           DEA=Herkunftsnr.-Filter];
+                CaptionML=[DEU=Herkunftsnr.-Filter;
+                           ENU=Source No. Filter];
                 SourceExpr=CurrentSourceTypeNoFilter;
                 OnValidate=BEGIN
                              CurrentSourceTypeNoFilterOnAft;
@@ -293,31 +273,25 @@ OBJECT Page 7118 Purchase Analysis Report
                           }
 
     { 1903121901;1;Group  ;
-                CaptionML=[ENU=Options;
-                           ESP=Opciones;
-                           DEA=Optionen] }
+                CaptionML=[DEU=Optionen;
+                           ENU=Options] }
 
     { 32  ;2   ;Field     ;
-                CaptionML=[ENU=Show Error;
-                           ESP=Mostrar error;
-                           DEA=Fehler anzeigen];
-                OptionCaptionML=[ENU=None,Division by Zero,Period Error,Invalid Formula,Cyclic Formula,All;
-                                 ESP=Ninguno,Divisi¢n entre cero,Error Periodo,F¢rmula no v†lida,F¢rmula c°clica,Todo;
-                                 DEA=Keine,Nulldivision,Periodenfehler,UngÅltige Formel,Zirkelbezug,Alle];
+                CaptionML=[DEU=Fehler anzeigen;
+                           ENU=Show Error];
+                OptionCaptionML=[DEU=Keine,Nulldivision,Periodenfehler,UngÅltige Formel,Zirkelbezug,Alle;
+                                 ENU=None,Division by Zero,Period Error,Invalid Formula,Cyclic Formula,All];
                 SourceExpr=ShowError }
 
     { 1906098301;1;Group  ;
-                CaptionML=[ENU=Matrix Options;
-                           ESP=Opciones matriz;
-                           DEA=Matrixoptionen] }
+                CaptionML=[DEU=Matrixoptionen;
+                           ENU=Matrix Options] }
 
     { 2   ;2   ;Field     ;
-                CaptionML=[ENU=View by;
-                           ESP=Ver por;
-                           DEA=Anzeigen nach];
-                OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year,Accounting Period;
-                                 ESP=D°a,Semana,Mes,Trimestre,A§o,Periodo contable;
-                                 DEA=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode];
+                CaptionML=[DEU=Anzeigen nach;
+                           ENU=View by];
+                OptionCaptionML=[DEU=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode;
+                                 ENU=Day,Week,Month,Quarter,Year,Accounting Period];
                 SourceExpr=PeriodType;
                 OnValidate=BEGIN
                              FindPeriod('');
@@ -325,9 +299,8 @@ OBJECT Page 7118 Purchase Analysis Report
                             }
 
     { 5   ;2   ;Field     ;
-                CaptionML=[ENU=Column Set;
-                           ESP=Conjunto de columnas;
-                           DEA=Spaltensatz];
+                CaptionML=[DEU=Spaltensatz;
+                           ENU=Column Set];
                 SourceExpr=ColumnsSet }
 
   }

@@ -2,15 +2,14 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Invt. Analysis by Dimensions;
-               ESP=An lisis de inventario por dimensiones;
-               DEA=Lageranalyse nach Dim.];
+    CaptionML=[DEU=Lageranalyse nach Dim.;
+               ENU=Invt. Analysis by Dimensions];
     SaveValues=Yes;
     InsertAllowed=No;
     DeleteAllowed=No;
@@ -55,14 +54,12 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 58      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Actions;
-                                 ESP=&Acciones;
-                                 DEA=&Aktionen];
+                      CaptionML=[DEU=&Aktionen;
+                                 ENU=&Actions];
                       Image=Action }
       { 59      ;2   ;Action    ;
-                      CaptionML=[ENU=Reverse Lines and Columns;
-                                 ESP=Invertir l¡neas y columnas;
-                                 DEA=Zeilen- und Spaltenansicht vertauschen];
+                      CaptionML=[DEU=Zeilen- und Spaltenansicht vertauschen;
+                                 ENU=Reverse Lines and Columns];
                       Image=Undo;
                       OnAction=VAR
                                  TempDimCode@1001 : Text[30];
@@ -79,9 +76,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                                END;
                                 }
       { 56      ;2   ;Action    ;
-                      CaptionML=[ENU=Export to Excel;
-                                 ESP=Exportar a Excel;
-                                 DEA=Nach Excel exportieren];
+                      CaptionML=[DEU=Nach Excel exportieren;
+                                 ENU=Export to Excel];
                       Image=ExportToExcel;
                       OnAction=VAR
                                  ItemAnalysisViewEntry@1000 : Record 7154;
@@ -100,9 +96,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 19      ;1   ;Action    ;
-                      CaptionML=[ENU=&Show Matrix;
-                                 ESP=&Mostrar matriz;
-                                 DEA=&Matrix anzeigen];
+                      CaptionML=[DEU=&Matrix anzeigen;
+                                 ENU=&Show Matrix];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=ShowMatrix;
@@ -119,12 +114,10 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                                END;
                                 }
       { 1143    ;1   ;Action    ;
-                      CaptionML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=N„chster Satz];
-                      ToolTipML=[ENU=Next Set;
-                                 ESP=Conjunto siguiente;
-                                 DEA=N„chster Satz];
+                      CaptionML=[DEU=N„chster Satz;
+                                 ENU=Next Set];
+                      ToolTipML=[DEU=N„chster Satz;
+                                 ENU=Next Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=NextSet;
@@ -134,12 +127,10 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                                END;
                                 }
       { 1141    ;1   ;Action    ;
-                      CaptionML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
-                      ToolTipML=[ENU=Previous Set;
-                                 ESP=Conjunto anterior;
-                                 DEA=Vorheriger Satz];
+                      CaptionML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
+                      ToolTipML=[DEU=Vorheriger Satz;
+                                 ENU=Previous Set];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PreviousSet;
@@ -156,14 +147,12 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 5   ;2   ;Field     ;
-                CaptionML=[ENU=Analysis View Code;
-                           ESP=C¢d. vista an lisis;
-                           DEA=Analyseansichtscode];
+                CaptionML=[DEU=Analyseansichtscode;
+                           ENU=Analysis View Code];
                 SourceExpr=CurrentItemAnalysisViewCode;
                 OnValidate=BEGIN
                              ItemAnalysisMgt.CheckAnalysisView(CurrentAnalysisArea,CurrentItemAnalysisViewCode,ItemAnalysisView);
@@ -188,9 +177,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 6   ;2   ;Field     ;
-                CaptionML=[ENU=Show as Lines;
-                           ESP=Muestra como l¡neas;
-                           DEA=Zeilenansicht];
+                CaptionML=[DEU=Zeilenansicht;
+                           ENU=Show as Lines];
                 SourceExpr=LineDimCode;
                 OnValidate=BEGIN
                              IF (UPPERCASE(LineDimCode) = UPPERCASE(ColumnDimCode)) AND (LineDimCode <> '') THEN BEGIN
@@ -221,9 +209,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 9   ;2   ;Field     ;
-                CaptionML=[ENU=Show as Columns;
-                           ESP=Muestra como columnas;
-                           DEA=Spaltenansicht];
+                CaptionML=[DEU=Spaltenansicht;
+                           ENU=Show as Columns];
                 SourceExpr=ColumnDimCode;
                 OnValidate=BEGIN
                              IF (UPPERCASE(LineDimCode) = UPPERCASE(ColumnDimCode)) AND (LineDimCode <> '') THEN BEGIN
@@ -253,23 +240,19 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 47  ;2   ;Field     ;
-                CaptionML=[ENU=Show Value As;
-                           ESP=Mostrar valor como;
-                           DEA=Wert anzeigen als];
-                OptionCaptionML=[ENU=Sales Amount,Inventory Value,Quantity;
-                                 ESP=Importe venta,Valor inventario,Cantidad;
-                                 DEA=Verkaufsbetrag,Lagerbestandswert,Menge];
+                CaptionML=[DEU=Wert anzeigen als;
+                           ENU=Show Value As];
+                OptionCaptionML=[DEU=Verkaufsbetrag,Lagerbestandswert,Menge;
+                                 ENU=Sales Amount,Inventory Value,Quantity];
                 SourceExpr=ValueType }
 
     { 1907524401;1;Group  ;
-                CaptionML=[ENU=Filters;
-                           ESP=Filtros;
-                           DEA=Filter] }
+                CaptionML=[DEU=Filter;
+                           ENU=Filters] }
 
     { 36  ;2   ;Field     ;
-                CaptionML=[ENU=Date Filter;
-                           ESP=Filtro fecha;
-                           DEA=Datumsfilter];
+                CaptionML=[DEU=Datumsfilter;
+                           ENU=Date Filter];
                 SourceExpr=DateFilter;
                 OnValidate=VAR
                              ApplicationManagement@1002 : Codeunit 1;
@@ -285,9 +268,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                             }
 
     { 38  ;2   ;Field     ;
-                CaptionML=[ENU=Item Filter;
-                           ESP=Filtro producto;
-                           DEA=Artikelfilter];
+                CaptionML=[DEU=Artikelfilter;
+                           ENU=Item Filter];
                 SourceExpr=ItemFilter;
                 OnValidate=BEGIN
                              ItemStatisticsBuffer.SETFILTER("Item Filter",ItemFilter);
@@ -308,9 +290,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 13  ;2   ;Field     ;
-                CaptionML=[ENU=Location Filter;
-                           ESP=Filtro almac‚n;
-                           DEA=Lagerortfilter];
+                CaptionML=[DEU=Lagerortfilter;
+                           ENU=Location Filter];
                 SourceExpr=LocationFilter;
                 OnValidate=BEGIN
                              ItemStatisticsBuffer.SETFILTER("Location Filter",LocationFilter);
@@ -331,9 +312,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 17  ;2   ;Field     ;
-                CaptionML=[ENU=Budget Filter;
-                           ESP=Filtro presupuesto;
-                           DEA=Budgetfilter];
+                CaptionML=[DEU=Budgetfilter;
+                           ENU=Budget Filter];
                 SourceExpr=BudgetFilter;
                 OnValidate=BEGIN
                              ItemStatisticsBuffer.SETFILTER("Budget Filter",BudgetFilter);
@@ -355,9 +335,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
 
     { 34  ;2   ;Field     ;
                 Name=Dim1Filter;
-                CaptionML=[ENU=Dimension 1 Filter;
-                           ESP=Filtro dimensi¢n 1;
-                           DEA=Dimensionsfilter 1];
+                CaptionML=[DEU=Dimensionsfilter 1;
+                           ENU=Dimension 1 Filter];
                 SourceExpr=Dim1Filter;
                 CaptionClass=ItemAnalysisMgt.GetCaptionClass(1,ItemAnalysisView);
                 Enabled=Dim1FilterEnable;
@@ -375,9 +354,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
 
     { 30  ;2   ;Field     ;
                 Name=Dim2Filter;
-                CaptionML=[ENU=Dimension 2 Filter;
-                           ESP=Filtro dimensi¢n 2;
-                           DEA=Dimensionsfilter 2];
+                CaptionML=[DEU=Dimensionsfilter 2;
+                           ENU=Dimension 2 Filter];
                 SourceExpr=Dim2Filter;
                 CaptionClass=ItemAnalysisMgt.GetCaptionClass(2,ItemAnalysisView);
                 Enabled=Dim2FilterEnable;
@@ -395,9 +373,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
 
     { 46  ;2   ;Field     ;
                 Name=Dim3Filter;
-                CaptionML=[ENU=Dimension 3 Filter;
-                           ESP=Filtro dimensi¢n 3;
-                           DEA=Dimensionsfilter 3];
+                CaptionML=[DEU=Dimensionsfilter 3;
+                           ENU=Dimension 3 Filter];
                 SourceExpr=Dim3Filter;
                 CaptionClass=ItemAnalysisMgt.GetCaptionClass(3,ItemAnalysisView);
                 Enabled=Dim3FilterEnable;
@@ -414,32 +391,26 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                           }
 
     { 1903121901;1;Group  ;
-                CaptionML=[ENU=Options;
-                           ESP=Opciones;
-                           DEA=Optionen] }
+                CaptionML=[DEU=Optionen;
+                           ENU=Options] }
 
     { 32  ;2   ;Field     ;
-                CaptionML=[ENU=Show;
-                           ESP=Mostrar;
-                           DEA=Anzeigen];
-                OptionCaptionML=[ENU=Actual Amounts,Budgeted Amounts,Variance,Variance%,Index%;
-                                 ESP=Importes reales,Importes pptados.,Desviaci¢n,% Desviaci¢n,% Öndice;
-                                 DEA=Tats„chliche Betr„ge,Budgetierte Betr„ge,Abweichung,Abweichung %,Index %];
+                CaptionML=[DEU=Anzeigen;
+                           ENU=Show];
+                OptionCaptionML=[DEU=Tats„chliche Betr„ge,Budgetierte Betr„ge,Abweichung,Abweichung %,Index %;
+                                 ENU=Actual Amounts,Budgeted Amounts,Variance,Variance%,Index%];
                 SourceExpr=ShowActualBudget }
 
     { 18  ;2   ;Field     ;
-                CaptionML=[ENU=Rounding Factor;
-                           ESP=Factor redondeo;
-                           DEA=Rundungsfaktor];
-                OptionCaptionML=[ENU=None,1,1000,1000000;
-                                 ESP=No,1,1000,1000000;
-                                 DEA=Kein,1,1000,1000000];
+                CaptionML=[DEU=Rundungsfaktor;
+                           ENU=Rounding Factor];
+                OptionCaptionML=[DEU=Kein,1,1000,1000000;
+                                 ENU=None,1,1000,1000000];
                 SourceExpr=RoundingFactor }
 
     { 4   ;2   ;Field     ;
-                CaptionML=[ENU=Show Column Name;
-                           ESP=Muestra nombre columna;
-                           DEA=Spaltennamen anzeigen];
+                CaptionML=[DEU=Spaltennamen anzeigen;
+                           ENU=Show Column Name];
                 SourceExpr=ShowColumnName;
                 OnValidate=BEGIN
                              MATRIX_GenerateColumnCaptions(MATRIX_Step::Same);
@@ -447,24 +418,20 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                             }
 
     { 50  ;2   ;Field     ;
-                CaptionML=[ENU=Show Opposite Sign;
-                           ESP=Muestra signo opuesto;
-                           DEA=Umgekehrtes Vorzeichen anz.];
+                CaptionML=[DEU=Umgekehrtes Vorzeichen anz.;
+                           ENU=Show Opposite Sign];
                 SourceExpr=ShowOppositeSign;
                 MultiLine=Yes }
 
     { 1906098301;1;Group  ;
-                CaptionML=[ENU=Matrix Options;
-                           ESP=Opciones matriz;
-                           DEA=Matrixoptionen] }
+                CaptionML=[DEU=Matrixoptionen;
+                           ENU=Matrix Options] }
 
     { 1138;2   ;Field     ;
-                CaptionML=[ENU=View by;
-                           ESP=Ver por;
-                           DEA=Anzeigen nach];
-                OptionCaptionML=[ENU=Day,Week,Month,Quarter,Year,Accounting Period;
-                                 ESP=D¡a,Semana,Mes,Trimestre,A¤o,Periodo contable;
-                                 DEA=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode];
+                CaptionML=[DEU=Anzeigen nach;
+                           ENU=View by];
+                OptionCaptionML=[DEU=Tag,Woche,Monat,Quartal,Jahr,Buchhaltungsperiode;
+                                 ENU=Day,Week,Month,Quarter,Year,Accounting Period];
                 SourceExpr=PeriodType;
                 OnValidate=BEGIN
                              FindPeriod('');
@@ -474,9 +441,8 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
                             }
 
     { 1140;2   ;Field     ;
-                CaptionML=[ENU=Column Set;
-                           ESP=Conjunto de columnas;
-                           DEA=Spaltensatz];
+                CaptionML=[DEU=Spaltensatz;
+                           ENU=Column Set];
                 SourceExpr=MATRIX_CaptionRange;
                 Editable=FALSE }
 
@@ -515,7 +481,7 @@ OBJECT Page 7159 Invt. Analysis by Dimensions
       PeriodInitialized@1015 : Boolean;
       ShowColumnName@1029 : Boolean;
       ShowOppositeSign@1030 : Boolean;
-      Text100@1000 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
+      Text100@1000 : TextConst 'DEU=Periode;ENU=Period';
       NewItemAnalysisCode@1028 : Code[10];
       Dim1FilterEnable@19054192 : Boolean INDATASET;
       Dim2FilterEnable@19062512 : Boolean INDATASET;

@@ -2,15 +2,14 @@ OBJECT Page 6630 Sales Return Order
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Return Order;
-               ESP=Devoluci¢n venta;
-               DEA=Verkaufsreklamation];
+    CaptionML=[DEU=Verkaufsreklamation;
+               ENU=Sales Return Order];
     SourceTable=Table36;
     SourceTableView=WHERE(Document Type=FILTER(Return Order));
     PageType=Document;
@@ -41,16 +40,14 @@ OBJECT Page 6630 Sales Return Order
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 49      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Return Order;
-                                 ESP=&Devoluci¢n;
-                                 DEA=Rekla&mation];
+                      CaptionML=[DEU=Rekla&mation;
+                                 ENU=&Return Order];
                       Image=Return }
       { 51      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=Statistics;
@@ -63,9 +60,8 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 52      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Sell-to Customer No.);
                       Promoted=No;
@@ -73,9 +69,8 @@ OBJECT Page 6630 Sales Return Order
                       Image=EditLines }
       { 105     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Promoted=No;
                       PromotedIsBig=No;
                       Image=Dimensions;
@@ -85,9 +80,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 140     ;2   ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Promoted=No;
                       PromotedIsBig=No;
                       Image=Approvals;
@@ -99,9 +93,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 53      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 67;
                       RunPageLink=Document Type=CONST(Return Order),
                                   No.=FIELD(No.),
@@ -110,45 +103,39 @@ OBJECT Page 6630 Sales Return Order
                       PromotedIsBig=No;
                       Image=ViewComments }
       { 15      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Documents;
-                                 ESP=Documentos;
-                                 DEA=Belege];
+                      CaptionML=[DEU=Belege;
+                                 ENU=Documents];
                       Image=Documents }
       { 5801    ;2   ;Action    ;
-                      CaptionML=[ENU=Return Receipts;
-                                 ESP=Recep. devoluci¢n;
-                                 DEA=RÅcksendungen];
+                      CaptionML=[DEU=RÅcksendungen;
+                                 ENU=Return Receipts];
                       RunObject=Page 6662;
                       RunPageView=SORTING(Return Order No.);
                       RunPageLink=Return Order No.=FIELD(No.);
                       Image=ReturnReceipt }
       { 5802    ;2   ;Action    ;
-                      CaptionML=[ENU=Cred&it Memos;
-                                 ESP=&Abono;
-                                 DEA=&Gutschriften];
+                      CaptionML=[DEU=&Gutschriften;
+                                 ENU=Cred&it Memos];
                       RunObject=Page 144;
                       RunPageView=SORTING(Return Order No.);
                       RunPageLink=Return Order No.=FIELD(No.);
                       Image=CreditMemo }
       { 131     ;2   ;Separator  }
       { 17      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Warehouse;
-                                 ESP=AlmacÇn;
-                                 DEA=Lager];
+                      CaptionML=[DEU=Lager;
+                                 ENU=Warehouse];
                       Image=Warehouse }
       { 130     ;2   ;Action    ;
-                      CaptionML=[ENU=In&vt. Put-away/Pick Lines;
-                                 ESP=L°neas ubicac./ pic&k exist.;
-                                 DEA=Lager&belegzeilen];
+                      CaptionML=[DEU=Lager&belegzeilen;
+                                 ENU=In&vt. Put-away/Pick Lines];
                       RunObject=Page 5774;
                       RunPageView=SORTING(Source Document,Source No.,Location Code);
                       RunPageLink=Source Document=CONST(Sales Return Order),
                                   Source No.=FIELD(No.);
                       Image=PickLines }
       { 120     ;2   ;Action    ;
-                      CaptionML=[ENU=Whse. Receipt Lines;
-                                 ESP=L°neas recep. alm.;
-                                 DEA=Wareneingangszeilen];
+                      CaptionML=[DEU=Wareneingangszeilen;
+                                 ENU=Whse. Receipt Lines];
                       RunObject=Page 7342;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.,Source Line No.);
                       RunPageLink=Source Type=CONST(37),
@@ -159,9 +146,8 @@ OBJECT Page 6630 Sales Return Order
                       ActionContainerType=ActionItems }
       { 119     ;1   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -170,16 +156,14 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 112     ;2   ;Action    ;
                       Name=Release;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Image=ReleaseDoc;
                       OnAction=VAR
                                  ReleaseSalesDoc@1000 : Codeunit 414;
@@ -188,9 +172,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 113     ;2   ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleaseSalesDoc@1001 : Codeunit 414;
@@ -200,13 +183,12 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 600     ;2   ;Separator  }
       { 54      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 55      ;2   ;Action    ;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrab. berechnen];
+                      CaptionML=[DEU=&Rechnungsrab. berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -216,9 +198,8 @@ OBJECT Page 6630 Sales Return Order
       { 93      ;2   ;Action    ;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process;
@@ -228,9 +209,8 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 115     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Create Return-Related &Documents;
-                                 ESP=Crear docs. &relacionados-dev.;
-                                 DEA=Rekla&mationsbez. Belege erstellen];
+                      CaptionML=[DEU=Rekla&mationsbez. Belege erstellen;
+                                 ENU=Create Return-Related &Documents];
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process;
@@ -245,9 +225,8 @@ OBJECT Page 6630 Sales Return Order
       { 56      ;2   ;Action    ;
                       Name=CopyDocument;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Document;
-                                 ESP=Copiar l°neas;
-                                 DEA=Beleg kopieren];
+                      CaptionML=[DEU=Beleg kopieren;
+                                 ENU=Copy Document];
                       Promoted=Yes;
                       Image=CopyDocument;
                       PromotedCategory=Process;
@@ -260,9 +239,8 @@ OBJECT Page 6630 Sales Return Order
       { 118     ;2   ;Action    ;
                       Name=MoveNegativeLines;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Move Negative Lines;
-                                 ESP=Mover l°neas negativas;
-                                 DEA=Negative Zeilen Åbertragen];
+                      CaptionML=[DEU=Negative Zeilen Åbertragen;
+                                 ENU=Move Negative Lines];
                       Image=MoveNegativeLines;
                       OnAction=BEGIN
                                  CLEAR(MoveNegSalesLines);
@@ -274,9 +252,8 @@ OBJECT Page 6630 Sales Return Order
       { 139     ;2   ;Action    ;
                       Name=GetPostedDocumentLinesToReverse;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get Posted Doc&ument Lines to Reverse;
-                                 ESP=Revertir l°neas doc&umentos registrados;
-                                 DEA=Z&u stornierende gebuchte Belegzeilen abrufen];
+                      CaptionML=[DEU=Z&u stornierende gebuchte Belegzeilen abrufen;
+                                 ENU=Get Posted Doc&ument Lines to Reverse];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=ReverseLines;
@@ -286,9 +263,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 145     ;2   ;Action    ;
-                      CaptionML=[ENU=Archive Document;
-                                 ESP=Archivar documento;
-                                 DEA=Beleg archivieren];
+                      CaptionML=[DEU=Beleg archivieren;
+                                 ENU=Archive Document];
                       Image=Archive;
                       OnAction=BEGIN
                                  ArchiveManagement.ArchiveSalesDocument(Rec);
@@ -296,9 +272,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 31      ;2   ;Action    ;
-                      CaptionML=[ENU=Send IC Return Order Cnfmn.;
-                                 ESP=Confirmar env°o devoluci¢n IC;
-                                 DEA=IC-Reklamationsbest. senden];
+                      CaptionML=[DEU=IC-Reklamationsbest. senden;
+                                 ENU=Send IC Return Order Cnfmn.];
                       Image=IntercompanyOrder;
                       OnAction=VAR
                                  ICInOutboxMgt@1000 : Codeunit 427;
@@ -311,18 +286,15 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 135     ;2   ;Separator  }
       { 9       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung] }
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval] }
       { 11      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 142     ;3   ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1000 : Codeunit 439;
@@ -331,9 +303,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 143     ;3   ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1000 : Codeunit 439;
@@ -342,15 +313,13 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Warehouse;
-                                 ESP=AlmacÇn;
-                                 DEA=Lager];
+                      CaptionML=[DEU=Lager;
+                                 ENU=Warehouse];
                       Image=Warehouse }
       { 136     ;2   ;Separator  }
       { 122     ;2   ;Action    ;
-                      CaptionML=[ENU=Create &Whse. Receipt;
-                                 ESP=Crear &recibo almacÇn;
-                                 DEA=&Wareneingang erstellen];
+                      CaptionML=[DEU=&Wareneingang erstellen;
+                                 ENU=Create &Whse. Receipt];
                       Image=NewReceipt;
                       OnAction=VAR
                                  GetSourceDocInbound@1000 : Codeunit 5751;
@@ -360,9 +329,8 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 121     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Create Inventor&y Put-away / Pick;
-                                 ESP=Crear &ubicac./ pick. inventario;
-                                 DEA=La&gerbelege erstellen];
+                      CaptionML=[DEU=La&gerbelege erstellen;
+                                 ENU=Create Inventor&y Put-away / Pick];
                       Image=CreateInventoryPickup;
                       OnAction=BEGIN
                                  CreateInvtPutAwayPick;
@@ -370,16 +338,14 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 30      ;2   ;Separator  }
       { 59      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 61      ;2   ;Action    ;
                       ShortCutKey=F9;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -390,9 +356,8 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 60      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintSalesHeader(Rec);
@@ -401,9 +366,8 @@ OBJECT Page 6630 Sales Return Order
       { 62      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -414,9 +378,8 @@ OBJECT Page 6630 Sales Return Order
                                 }
       { 63      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Sales Return Orders",TRUE,TRUE,Rec);
@@ -424,9 +387,8 @@ OBJECT Page 6630 Sales Return Order
                                END;
                                 }
       { 3       ;2   ;Action    ;
-                      CaptionML=[ENU=Remove From Job Queue;
-                                 ESP=Quitar de cola de proyecto;
-                                 DEA=Aus Aufgabenwarteschlange entfernen];
+                      CaptionML=[DEU=Aus Aufgabenwarteschlange entfernen;
+                                 ENU=Remove From Job Queue];
                       Visible=JobQueueVisible;
                       Image=RemoveLine;
                       OnAction=BEGIN
@@ -441,9 +403,8 @@ OBJECT Page 6630 Sales Return Order
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -543,9 +504,8 @@ OBJECT Page 6630 Sales Return Order
                 PagePartID=Page6631 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 18  ;2   ;Field     ;
                 SourceExpr="Bill-to Customer No.";
@@ -612,9 +572,8 @@ OBJECT Page 6630 Sales Return Order
                 SourceExpr="VAT Bus. Posting Group" }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env°o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 32  ;2   ;Field     ;
                 SourceExpr="Ship-to Name" }
@@ -643,9 +602,8 @@ OBJECT Page 6630 Sales Return Order
                 Importance=Promoted }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Au·enhandel] }
+                CaptionML=[DEU=Au·enhandel;
+                           ENU=Foreign Trade] }
 
     { 91  ;2   ;Field     ;
                 SourceExpr="Currency Code";

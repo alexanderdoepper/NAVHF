@@ -2,15 +2,14 @@ OBJECT Report 1497 Trans. Bank Rec. to Gen. Jnl.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Trans. Bank Rec. to Gen. Jnl.;
-               ESP=Transf. conciliaci¢n al diario;
-               DEA=Bankkto. Ausgl. Fibu Buch.-Bl.];
+    CaptionML=[DEU=Bankkto. Ausgl. Fibu Buch.-Bl.;
+               ENU=Trans. Bank Rec. to Gen. Jnl.];
     ProcessingOnly=Yes;
   }
   DATASET
@@ -61,6 +60,8 @@ OBJECT Report 1497 Trans. Bank Rec. to Gen. Jnl.
                                       GenJnlLine."Document No." := NoSeriesMgt.GetNextNo(
                                           GenJnlBatch."No. Series","Transaction Date",FALSE);
                                   GenJnlLine."Posting No. Series" := GenJnlBatch."Posting No. Series";
+                                  GenJnlLine.VALIDATE("Bal. Account Type",GenJnlBatch."Bal. Account Type");
+                                  GenJnlLine.VALIDATE("Bal. Account No.",GenJnlBatch."Bal. Account No.");
                                   GenJnlLine.Description := Description;
                                   GenJnlLine.VALIDATE(Amount,Difference);
                                   GenJnlLine.INSERT;
@@ -82,23 +83,20 @@ OBJECT Report 1497 Trans. Bank Rec. to Gen. Jnl.
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Gen. Journal Template;
-                             ESP=Libro del diario general;
-                             DEA=Fibu Buch.-Blattvorlage];
+                  CaptionML=[DEU=Fibu Buch.-Blattvorlage;
+                             ENU=Gen. Journal Template];
                   NotBlank=Yes;
                   SourceExpr=GenJnlLine."Journal Template Name";
                   TableRelation="Gen. Journal Template" }
 
       { 3   ;2   ;Field     ;
                   Lookup=Yes;
-                  CaptionML=[ENU=Gen. Journal Batch;
-                             ESP=Secci¢n diario general;
-                             DEA=Fibu Buch.-Blattname];
+                  CaptionML=[DEU=Fibu Buch.-Blattname;
+                             ENU=Gen. Journal Batch];
                   NotBlank=Yes;
                   SourceExpr=GenJnlLine."Journal Batch Name";
                   OnValidate=BEGIN

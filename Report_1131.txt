@@ -2,15 +2,14 @@ OBJECT Report 1131 Cost Allocation
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Cost Allocation;
-               ESP=Asignaci¢n costes;
-               DEA=Kostenzuteilung];
+    CaptionML=[DEU=Kostenzuteilung;
+               ENU=Cost Allocation];
     ProcessingOnly=Yes;
     OnInitReport=BEGIN
                    InitializeRequest(1,99,WORKDATE,'','');
@@ -288,49 +287,43 @@ OBJECT Report 1131 Cost Allocation
                   ContainerType=ContentArea }
 
       { 2   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
                   Name=From Alloc. Level;
-                  CaptionML=[ENU=From Alloc. Level;
-                             ESP=Desde nivel asig.;
-                             DEA=Von Verteilungsebene];
+                  CaptionML=[DEU=Von Verteilungsebene;
+                             ENU=From Alloc. Level];
                   SourceExpr=FromLevel;
                   MinValue=1;
                   MaxValue=99 }
 
       { 4   ;2   ;Field     ;
                   Name=To Alloc. Level;
-                  CaptionML=[ENU=To Alloc. Level;
-                             ESP=Hasta nivel asig.;
-                             DEA=Bis Verteilungsebene];
+                  CaptionML=[DEU=Bis Verteilungsebene;
+                             ENU=To Alloc. Level];
                   SourceExpr=ToLevel;
                   MinValue=1;
                   MaxValue=99 }
 
       { 5   ;2   ;Field     ;
                   Name=Allocation Date;
-                  CaptionML=[ENU=Allocation Date;
-                             ESP=Fecha asignaci¢n;
-                             DEA=Zuordnungsdatum];
+                  CaptionML=[DEU=Zuordnungsdatum;
+                             ENU=Allocation Date];
                   SourceExpr=AllocDate }
 
       { 6   ;2   ;Field     ;
                   Name=Group;
-                  CaptionML=[ENU=Group;
-                             ESP=Grupo;
-                             DEA=Gruppe];
+                  CaptionML=[DEU=Gruppe;
+                             ENU=Group];
                   BlankZero=Yes;
                   SourceExpr=AllocVariant }
 
       { 7   ;2   ;Field     ;
                   Name=Budget Name;
                   Lookup=Yes;
-                  CaptionML=[ENU=Budget Name;
-                             ESP=Nombre ppto.;
-                             DEA=Budgetname];
+                  CaptionML=[DEU=Budgetname;
+                             ENU=Budget Name];
                   BlankZero=Yes;
                   SourceExpr=CostBudgetName.Name;
                   TableRelation="Cost Budget Name" }
@@ -371,29 +364,29 @@ OBJECT Report 1131 Cost Allocation
       MsgText@1024 : Text[80];
       AllocSourceErrorFound@1025 : Boolean;
       AllocTargetErrorFound@1026 : Boolean;
-      Text000@1027 : TextConst 'ENU=Allocation date must be defined.;ESP=Debe definirse la fecha de asignaci¢n.;DEA=Geben Sie das Zuordnungsdatum an.';
-      Text001@1028 : TextConst 'ENU=From Alloc. Level must not be higher than To Alloc. Level.;ESP=Desde nivel asig. no puede ser superior a Hasta nivel asig.;DEA=Die Von-Verteilungsebene darf nicht grî·er sein als die Bis-Verteilungsebene.';
-      Text002@1029 : TextConst 'ENU=Budget cost from budget;ESP=Coste presupuestario;DEA=Budgetkosten aus Budget';
-      Text003@1030 : TextConst 'ENU=Actual cost;ESP=Coste real;DEA=Ist-Kosten';
-      Text004@1031 : TextConst 'ENU=%1 will be allocated for levels %2 to %3.\Posting date: %4,  group: "%5"\Do you want to start the job?;ESP=%1 se asignar† para los niveles del %2 al %3.\Fecha registro: %4, grupo: "%5"\®Desea iniciar el proyecto?;DEA=''%1'' wird fÅr die Ebenen %2 bis %3 verteilt.\Buchungsdatum: %4, Gruppe: %5\Mîchten Sie das Projekt starten?';
-      Text005@1032 : TextConst 'ENU="Cost allocation\Level                      #1####### \Source ID                  #2####### \Sum source entries         #3####### \Write allocation entries   #4####### ";ESP="Asignaci¢n costes\Nivel                         #1####### \Id. origen                  #2####### \Suma movs. proced.         #3####### \Escribir movs. asignaci¢n   #4####### ";DEA="Kostenzuteilung\Ebene                       #1####### \Herkunfts-ID                #2####### \Herkunftsposten summieren   #3####### \Zuordnungen schreiben       #4####### "';
-      Text006@1033 : TextConst 'ENU=No entries have been created for the selected allocations.;ESP=No se han creado movimientos para las asignaciones seleccionadas.;DEA=FÅr die ausgewÑhlten Zuordnungen wurden keine Posten erstellt.';
-      Text007@1034 : TextConst 'ENU=%1 allocation entries have been generated and processed.;ESP=Se generaron y procesaron %1 movimientos de asignaci¢n.;DEA=%1 Zuordnungen wurden generiert und verarbeitet.';
-      Text008@1035 : TextConst 'ENU=Alloc. Source:;ESP=Origen asignaci¢n:;DEA=Zuordnungsquelle:';
-      Text009@1036 : TextConst 'ENU="Alloc. Target: ";ESP="Destino asignaci¢n: ";DEA="Zuordnungsziel: "';
-      Text010@1037 : TextConst 'ENU=Alloc: %1 of %2 shares. Base LCY %3;ESP=Asig.: %1 de %2 partes. %3 DL base;DEA=Verteilung: %1 von %2 Anteilen. Zugrunde liegende MW: %3';
-      Text011@1038 : TextConst 'ENU=Alloc: %1 pct of %2 shares;ESP=Asig.: %1 por ciento de %2 partes;DEA=Verteilung: %1 Prozent von %2 Anteilen';
-      Text012@1039 : TextConst 'ENU=Alloc: %1 LCY of %2 shares;ESP=Asig.: DL %1 de %2 partes;DEA=Verteilung: %1 MW von %2 Anteilen';
-      Text013@1040 : TextConst 'ENU=" ... etc.";ESP=" ... etc.";DEA=" ...usw."';
-      Text014@1041 : TextConst 'ENU=Alloc. level %1 of %2;ESP=Nivel asig. %1 de %2;DEA=Verteilungsebene %1 von %2';
-      Text015@1042 : TextConst 'ENU=Not all cost types for debit and credit are defined for allocation ID %1.;ESP=No se han definido todos los tipos coste de debe y haber para Id. asignaci¢n %1.;DEA=FÅr die Verteilungs-ID %1 wurden nicht alle Kostenarten fÅr Soll und Haben definiert.';
-      Text016@1043 : TextConst 'ENU=For allocation ID %1, cost center or cost object must be defined for debit and credit. Cost center: "%2", cost object "%3".;ESP=Debe definirse centro de coste u objeto de coste de debe y haber para id. asig. %1. Centro de coste: "%2", objeto de coste "%3".;DEA=FÅr die Verteilungs-ID %1 muss die Kostenstelle oder der KostentrÑger fÅr Soll und Haben angegeben werden. Kostenstelle: "%2", KostentrÑger: "%3".';
-      Text017@1044 : TextConst 'ENU=Cost Type;ESP=Tipo coste;DEA=Kostenart';
-      Text018@1045 : TextConst 'ENU=Cost Center;ESP=Centro coste;DEA=Kostenstelle';
-      Text019@1046 : TextConst 'ENU=Cost Object;ESP=Objeto coste;DEA=KostentrÑger';
-      Text020@1047 : TextConst 'ENU=One or more allocation targets do not have a cost center or cost object defined. The allocation cannot continue.;ESP=Uno o m†s destinos de asignaci¢n no tienen un centro de coste u objeto de coste definido. La asignaci¢n no puede continuar.;DEA=FÅr mindestens ein Verteilungsziel wurde keine Kostenstelle oder kein KostentrÑger definiert. Die Verteilung kann nicht fortgesetzt werden.';
-      Text021@1048 : TextConst 'ENU=One or more allocation sources do not have a cost center or cost object defined. The allocation cannot continue.;ESP=Uno o m†s or°genes de asignaci¢n no tienen un centro de coste u objeto de coste definido. La asignaci¢n no puede continuar.;DEA=FÅr mindestens eine Verteilungsquelle wurde keine Kostenstelle oder kein KostentrÑger definiert. Die Verteilung kann nicht fortgesetzt werden.';
-      Text022@1049 : TextConst 'ENU=Posting Cost Entries @1@@@@@@@@@@\;ESP=Registrando movimientos de coste                @1@@@@@@@@@@\;DEA=Kostenposten werden gebucht...              @1@@@@@@@@@@\';
+      Text000@1027 : TextConst 'DEU=Geben Sie das Zuordnungsdatum an.;ENU=Allocation date must be defined.';
+      Text001@1028 : TextConst 'DEU=Die Von-Verteilungsebene darf nicht grî·er sein als die Bis-Verteilungsebene.;ENU=From Alloc. Level must not be higher than To Alloc. Level.';
+      Text002@1029 : TextConst 'DEU=Budgetkosten aus Budget;ENU=Budget cost from budget';
+      Text003@1030 : TextConst 'DEU=Ist-Kosten;ENU=Actual cost';
+      Text004@1031 : TextConst 'DEU=''%1'' wird fÅr die Ebenen %2 bis %3 verteilt.\Buchungsdatum: %4, Gruppe: %5\Mîchten Sie das Projekt starten?;ENU=%1 will be allocated for levels %2 to %3.\Posting date: %4,  group: "%5"\Do you want to start the job?';
+      Text005@1032 : TextConst 'DEU="Kostenzuteilung\Ebene                       #1####### \Herkunfts-ID                #2####### \Herkunftsposten summieren   #3####### \Zuordnungen schreiben       #4####### ";ENU="Cost allocation\Level                      #1####### \Source ID                  #2####### \Sum source entries         #3####### \Write allocation entries   #4####### "';
+      Text006@1033 : TextConst 'DEU=FÅr die ausgewÑhlten Zuordnungen wurden keine Posten erstellt.;ENU=No entries have been created for the selected allocations.';
+      Text007@1034 : TextConst 'DEU=%1 Zuordnungen wurden generiert und verarbeitet.;ENU=%1 allocation entries have been generated and processed.';
+      Text008@1035 : TextConst 'DEU=Zuordnungsquelle:;ENU=Alloc. Source:';
+      Text009@1036 : TextConst 'DEU="Zuordnungsziel: ";ENU="Alloc. Target: "';
+      Text010@1037 : TextConst 'DEU=Verteilung: %1 von %2 Anteilen. Zugrunde liegende MW: %3;ENU=Alloc: %1 of %2 shares. Base LCY %3';
+      Text011@1038 : TextConst 'DEU=Verteilung: %1 Prozent von %2 Anteilen;ENU=Alloc: %1 pct of %2 shares';
+      Text012@1039 : TextConst 'DEU=Verteilung: %1 MW von %2 Anteilen;ENU=Alloc: %1 LCY of %2 shares';
+      Text013@1040 : TextConst 'DEU=" ...usw.";ENU=" ... etc."';
+      Text014@1041 : TextConst 'DEU=Verteilungsebene %1 von %2;ENU=Alloc. level %1 of %2';
+      Text015@1042 : TextConst 'DEU=FÅr die Verteilungs-ID %1 wurden nicht alle Kostenarten fÅr Soll und Haben definiert.;ENU=Not all cost types for debit and credit are defined for allocation ID %1.';
+      Text016@1043 : TextConst 'DEU=FÅr die Verteilungs-ID %1 muss die Kostenstelle oder der KostentrÑger fÅr Soll und Haben angegeben werden. Kostenstelle: "%2", KostentrÑger: "%3".;ENU=For allocation ID %1, cost center or cost object must be defined for debit and credit. Cost center: "%2", cost object "%3".';
+      Text017@1044 : TextConst 'DEU=Kostenart;ENU=Cost Type';
+      Text018@1045 : TextConst 'DEU=Kostenstelle;ENU=Cost Center';
+      Text019@1046 : TextConst 'DEU=KostentrÑger;ENU=Cost Object';
+      Text020@1047 : TextConst 'DEU=FÅr mindestens ein Verteilungsziel wurde keine Kostenstelle oder kein KostentrÑger definiert. Die Verteilung kann nicht fortgesetzt werden.;ENU=One or more allocation targets do not have a cost center or cost object defined. The allocation cannot continue.';
+      Text021@1048 : TextConst 'DEU=FÅr mindestens eine Verteilungsquelle wurde keine Kostenstelle oder kein KostentrÑger definiert. Die Verteilung kann nicht fortgesetzt werden.;ENU=One or more allocation sources do not have a cost center or cost object defined. The allocation cannot continue.';
+      Text022@1049 : TextConst 'DEU=Kostenposten werden gebucht...              @1@@@@@@@@@@\;ENU=Posting Cost Entries @1@@@@@@@@@@\';
 
     PROCEDURE ShowAllocations@2(CheckTargets@1001 : Boolean);
     VAR

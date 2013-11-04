@@ -1,42 +1,94 @@
-OBJECT MenuSuite 1030 Dept - Country AT
+OBJECT MenuSuite 1030 Dept - Country DE
 {
   OBJECT-PROPERTIES
   {
-    Date=14.08.09;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVAT6.00.01;
+    Version List=NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
   }
   MENUNODES
   {
+    {                ;[{F2596877-E625-46EC-B6AB-2989FC1AF3AC}] ;Deleted=Yes }
+    {                ;[{06E5A214-491B-4EC8-BFFE-1A99534972A2}] ;Deleted=Yes }
+    {                ;[{71BC9BE2-3B48-430F-9F15-D6D3E58DE459}] ;Deleted=Yes }
+    {                ;[{9BAB2056-B403-43A6-A7CD-FB88215CF166}] ;Deleted=Yes }
+    {                ;[{6F1C7D34-46A7-43E9-8238-A0C24D2BF276}] ;Deleted=Yes }
+    {                ;[{996FAABB-5F19-4855-9EDA-2D6FCBB023F1}] ;Deleted=Yes }
     {                ;[{AD837DA9-676E-4361-9F06-8C564AC3A7D2}] ;Deleted=Yes }
-    {                ;[{DFCC261C-2218-4E01-BEE9-AA0960BF15A7}] ;Deleted=Yes }
-    {                ;[{9B75E932-2435-404C-9FFB-794B579D6E69}] ;Deleted=Yes }
-    {                ;[{46606D75-C43F-44F5-9D0C-7632CE2DD31E}] ;Deleted=Yes }
-    {                ;[{5942E37A-0F59-4C2E-9F0E-E3469C96B62D}] ;Deleted=Yes }
-    {                ;[{9739898A-8DE8-4132-8DDE-5593776E89A3}] ;Deleted=Yes }
-    {                ;[{17AAC4B6-27E9-4F5D-923A-4B63468BA91B}] ;Deleted=Yes }
     {                ;[{D9EA6198-93A2-44FD-91E1-5713CBAAA81B}] ;Deleted=Yes }
-    {                ;[{D7D691B0-E62F-490A-ADBE-1BADCB88D441}] ;Deleted=Yes }
+    {                ;[{D7D691B0-E62F-490A-ADBE-1BADCB88D441}] ;NextNodeID=[{1352A094-785C-41AD-A789-E3F5FE31F6AC}];
+                                                                Deleted=Yes }
     {                ;[{2D2855D7-7960-4B98-824B-5530D7A651A8}] ;Deleted=Yes }
     {                ;[{08C8A480-9A90-4517-8FAB-E8435D1A7C7D}] ;Deleted=Yes }
-    {                ;[{F4B7F9E4-D8B8-4EBE-A6E2-90E05122B398}] ;Deleted=Yes }
-    {                ;[{C9258E99-B2A9-4B18-B381-A9D3087419C1}] ;Deleted=Yes }
-    {                ;[{BC35C7E6-7AC0-45B9-A205-7475EC0839A7}] ;Deleted=Yes }
-    {                ;[{46ABA44B-DE9F-4A57-87AC-27A779810A0B}] ;Deleted=Yes }
-    {                ;[{556C6B48-2D81-479C-A93A-8C90DB044AE8}] ;Deleted=Yes }
+    {                ;[{8202F27D-B049-457E-86B5-57E17A7C47AC}] ;Deleted=Yes }
+    {                ;[{98049953-C2B2-44AB-A6EA-197D620C9D96}] ;Deleted=Yes }
+    {                ;[{0EFD1761-879C-42E7-858A-10172B968190}] ;Deleted=Yes }
+    {                ;[{9DB27C21-181C-4F69-B321-6C04C8834AF7}] ;Deleted=Yes }
     {                ;[{3D093CF6-A39B-4389-BC9A-D01CD5A6201D}] ;Deleted=Yes }
     {                ;[{3FB68689-2B0F-4ED6-9151-16C2B073141B}] ;Deleted=Yes }
     {                ;[{15AA7773-ABBC-4834-B698-B6FDB0BFDB5B}] ;Deleted=Yes }
     {                ;[{91D950F1-08AD-4740-AFE4-9DFB93F6532B}] ;Deleted=Yes }
-    {                ;[{85D1CE66-4F72-4643-9211-9806945EE641}] ;Deleted=Yes }
     {                ;[{60C4DAE5-47E8-4A80-845E-9C149A1E25AE}] ;Deleted=Yes }
     {                ;[{DDB89D23-2603-4CF0-856B-09B4A902C190}] ;Deleted=Yes }
     {                ;[{5906F15B-8A21-42D1-95C6-D4B11617A85D}] ;Deleted=Yes }
-    {                ;[{46631956-4128-4FCA-9421-50099FC2F9AF}] ;Deleted=Yes }
     {                ;[{0A2D6873-ADE2-4481-8F45-1F564E8DDA94}] ;Deleted=Yes }
     {                ;[{949AB0CE-9C58-41B3-83EE-4897237C04CA}] ;Deleted=Yes }
+    {                ;[{46606D75-C43F-44F5-9D0C-7632CE2DD31E}] ;CaptionML=[DEU=Zusammenfassende Meldung (CSV);
+                                                                           ENU=VAT- VIES Declaration (CSV)];
+                                                                RunObjectID=88;
+                                                                NextNodeID=[{4E1CDE36-E433-42DD-90CD-40664276B1F5}] }
+    { MenuItem       ;[{4E1CDE36-E433-42DD-90CD-40664276B1F5}] ;Name=Crossborder Services;
+                                                                CaptionML=[DEU=GrenzÅberschreitende Services;
+                                                                           ENU=Crossborder Services];
+                                                                MemberOfMenu=[{F8D2429D-034B-4C58-9B5E-81BE962DB1BC}];
+                                                                RunObjectType=Report;
+                                                                RunObjectID=11111;
+                                                                ParentNodeID=[{816DEE3F-9922-409E-B3A5-37FDCBBFE1B5}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{6F1C7D34-46A7-43E9-8238-A0C24D2BF276}];
+                                                                DepartmentCategory=Reports and Analysis }
+    {                ;[{9DC48740-37AC-4E23-968F-9B865AF7FFAB}] ;NextNodeID=[{6E639B61-474B-4E61-A48B-9CED33503837}] }
+    { MenuItem       ;[{6E639B61-474B-4E61-A48B-9CED33503837}] ;Name=G/L Setup Information;
+                                                                CaptionML=[DEU=Fibu Einr.-Informationen;
+                                                                           ENU=G/L Setup Information];
+                                                                RunObjectType=Report;
+                                                                RunObjectID=11514;
+                                                                Visible=Yes;
+                                                                DepartmentCategory=Reports and Analysis }
+    {                ;[{46FD5FA5-A74B-4C31-9938-355CC6BF1A90}] ;NextNodeID=[{B940BD97-DD17-41C1-9682-9B2188EB2300}] }
+    { MenuItem       ;[{B940BD97-DD17-41C1-9682-9B2188EB2300}] ;Name=VAT Report Setup;
+                                                                CaptionML=[DEU=MwSt.-Bericht-Einrichtung;
+                                                                           ENU=VAT Report Setup];
+                                                                MemberOfMenu=[{19A352FE-D90D-424E-B85F-CF3B8E98CF0E}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=743;
+                                                                ParentNodeID=[{92C5CFFF-40CA-474B-8FA0-1597202D3433}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{00000000-0000-0000-0000-000000000000}];
+                                                                DepartmentCategory=Tasks }
+    { MenuItem       ;[{1352A094-785C-41AD-A789-E3F5FE31F6AC}] ;Name=VAT Report;
+                                                                CaptionML=[DEU=MwSt.-Berichte;
+                                                                           ENU=VAT Reports];
+                                                                MemberOfMenu=[{F8D2429D-034B-4C58-9B5E-81BE962DB1BC}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=744;
+                                                                ParentNodeID=[{816DEE3F-9922-409E-B3A5-37FDCBBFE1B5}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{46606D75-C43F-44F5-9D0C-7632CE2DD31E}];
+                                                                DepartmentCategory=Reports and Analysis }
+    {                ;[{65798D3F-30DD-4711-8393-BD0F8217CCD4}] ;NextNodeID=[{AD2598D3-DCB7-4FEA-9554-6A684F7F917A}] }
+    { MenuItem       ;[{AD2598D3-DCB7-4FEA-9554-6A684F7F917A}] ;Name=VAT Reports;
+                                                                CaptionML=[DEU=MwSt.-Berichte;
+                                                                           ENU=VAT Reports];
+                                                                MemberOfMenu=[{F8D2429D-034B-4C58-9B5E-81BE962DB1BC}];
+                                                                RunObjectType=Page;
+                                                                RunObjectID=744;
+                                                                ParentNodeID=[{65FA8D2E-BC92-41D1-AEDD-8AAA46384FC5}];
+                                                                Visible=Yes;
+                                                                NextNodeID=[{AD837DA9-676E-4361-9F06-8C564AC3A7D2}];
+                                                                DepartmentCategory=Tasks }
   }
 }

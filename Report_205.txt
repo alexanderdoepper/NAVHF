@@ -2,15 +2,14 @@ OBJECT Report 205 Order Confirmation
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Order Confirmation;
-               ESP=Confirmaci¢n pedido;
-               DEA=Verkauf - Auftragsbest„tigung];
+    CaptionML=[DEU=Verkauf - Auftragsbest„tigung;
+               ENU=Order Confirmation];
     OnInitReport=BEGIN
                    GLSetup.GET;
                    CompanyInfo.GET;
@@ -42,8 +41,8 @@ OBJECT Report 205 Order Confirmation
                DataItemTable=Table36;
                DataItemTableView=SORTING(Document Type,No.)
                                  WHERE(Document Type=CONST(Order));
-               ReqFilterHeadingML=[ENU=Sales Order;
-                                   DEA=Sales Order];
+               ReqFilterHeadingML=[DEU=Sales Order;
+                                   ENU=Sales Order];
                OnPreDataItem=BEGIN
                                Print := Print OR NOT CurrReport.PREVIEW;
                              END;
@@ -1454,28 +1453,25 @@ OBJECT Report 205 Order Confirmation
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=NoOfCopies;
-                  CaptionML=[ENU=No. of Copies;
-                             ESP=N§ copias;
-                             DEA=Anzahl Kopien];
+                  CaptionML=[DEU=Anzahl Kopien;
+                             ENU=No. of Copies];
                   SourceExpr=NoOfCopies }
 
       { 2   ;2   ;Field     ;
                   Name=ShowInternalInfo;
-                  CaptionML=[ENU=Show Internal Information;
-                             ESP=Mostrar informaci¢n interna;
-                             DEA=Interne Informationen anzeigen];
+                  CaptionML=[DEU=Interne Informationen anzeigen;
+                             ENU=Show Internal Information];
                   SourceExpr=ShowInternalInfo }
 
       { 6   ;2   ;Field     ;
                   Name=ArchiveDocument;
-                  CaptionML=[ENU=Archive Document;
-                             ESP=Archivar documento;
-                             DEA=Beleg archivieren];
+                  CaptionML=[DEU=Beleg archivieren;
+                             ENU=Archive Document];
                   SourceExpr=ArchiveDocument;
                   OnValidate=BEGIN
                                IF NOT ArchiveDocument THEN
@@ -1485,9 +1481,8 @@ OBJECT Report 205 Order Confirmation
 
       { 5   ;2   ;Field     ;
                   Name=LogInteraction;
-                  CaptionML=[ENU=Log Interaction;
-                             ESP=Log interacci¢n;
-                             DEA=Aktivit„t protokollieren];
+                  CaptionML=[DEU=Aktivit„t protokollieren;
+                             ENU=Log Interaction];
                   SourceExpr=LogInteraction;
                   Enabled=LogInteractionEnable;
                   OnValidate=BEGIN
@@ -1498,9 +1493,8 @@ OBJECT Report 205 Order Confirmation
 
       { 3   ;2   ;Field     ;
                   Name=ShowAssemblyComponents;
-                  CaptionML=[ENU=Show Assembly Components;
-                             ESP=Mostrar componentes del ensamblado;
-                             DEA=Montagekomponenten anzeigen];
+                  CaptionML=[DEU=Montagekomponenten anzeigen;
+                             ENU=Show Assembly Components];
                   SourceExpr=DisplayAssemblyInfo }
 
     }
@@ -1511,13 +1505,13 @@ OBJECT Report 205 Order Confirmation
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Salesperson;ESP=Vendedor;DEA=Verk„ufer';
-      Text001@1001 : TextConst 'ENU=Total %1;ESP=Total %1;DEA=Total %1';
-      Text002@1002 : TextConst 'ENU=Total %1 Incl. VAT;ESP=Total %1 IVA incl.;DEA=Total %1 inkl. MwSt.';
-      Text003@1003 : TextConst 'ENU=COPY;ESP=COPIA;DEA=KOPIE';
-      Text004@1004 : TextConst 'ENU=Order Confirmation %1;ESP=Confirmar pedido %1;DEA=Verkauf - Auftragsbest„tigung %1';
-      Text005@1005 : TextConst 'ENU=Page %1;ESP=P g. %1;DEA=Seite %1';
-      Text006@1006 : TextConst 'ENU=Total %1 Excl. VAT;ESP=Total %1 IVA excl.;DEA=Total %1 ohne MwSt.';
+      Text000@1000 : TextConst 'DEU=Verk„ufer;ENU=Salesperson';
+      Text001@1001 : TextConst 'DEU=Total %1;ENU=Total %1';
+      Text002@1002 : TextConst 'DEU=Total %1 inkl. MwSt.;ENU=Total %1 Incl. VAT';
+      Text003@1003 : TextConst 'DEU=KOPIE;ENU=COPY';
+      Text004@1004 : TextConst 'DEU=Verkauf - Auftragsbest„tigung %1;ENU=Order Confirmation %1';
+      Text005@1005 : TextConst 'DEU=Seite %1;ENU=Page %1';
+      Text006@1006 : TextConst 'DEU=Total %1 ohne MwSt.;ENU=Total %1 Excl. VAT';
       GLSetup@1007 : Record 98;
       ShipmentMethod@1008 : Record 10;
       PaymentTerms@1009 : Record 3;
@@ -1574,9 +1568,9 @@ OBJECT Report 205 Order Confirmation
       VALVATBaseLCY@1049 : Decimal;
       VALVATAmountLCY@1051 : Decimal;
       VALSpecLCYHeader@1052 : Text[80];
-      Text007@1055 : TextConst 'ENU="VAT Amount Specification in ";ESP="Especificar importe IVA en ";DEA="MwSt.-Betrag Spezifikation in "';
-      Text008@1054 : TextConst 'ENU=Local Currency;ESP=Divisa local;DEA=Landesw„hrung';
-      Text009@1053 : TextConst 'ENU=Exchange rate: %1/%2;ESP=Tipo cambio: %1/%2;DEA=Wechselkurs: %1/%2';
+      Text007@1055 : TextConst 'DEU="MwSt.-Betrag Spezifikation in ";ENU="VAT Amount Specification in "';
+      Text008@1054 : TextConst 'DEU=Landesw„hrung;ENU=Local Currency';
+      Text009@1053 : TextConst 'DEU=Wechselkurs: %1/%2;ENU=Exchange rate: %1/%2';
       VALExchRate@1057 : Text[50];
       PrepmtVATAmount@1066 : Decimal;
       PrepmtVATBaseAmount@1065 : Decimal;
@@ -1599,62 +1593,62 @@ OBJECT Report 205 Order Confirmation
       LogInteractionEnable@19003940 : Boolean INDATASET;
       DisplayAssemblyInfo@1082 : Boolean;
       AsmInfoExistsForLine@1084 : Boolean;
-      CompanyInfo__Phone_No__CaptionLbl@2240 : TextConst 'ENU=Phone No.;DEA=Telefonnr.';
-      CompanyInfo__Fax_No__CaptionLbl@9851 : TextConst 'ENU=Fax No.;DEA=Faxnr.';
-      CompanyInfo__VAT_Registration_No__CaptionLbl@4406 : TextConst 'ENU=VAT Reg. No.;DEA=USt-IdNr.';
-      CompanyInfo__Giro_No__CaptionLbl@6756 : TextConst 'ENU=Giro No.;DEA=Postgirokontonr.';
-      CompanyInfo__Bank_Name_CaptionLbl@4354 : TextConst 'ENU=Bank;DEA=Bank';
-      CompanyInfo__Bank_Account_No__CaptionLbl@6132 : TextConst 'ENU=Account No.;DEA=Kontonr.';
-      Sales_Header___Shipment_Date_CaptionLbl@3962 : TextConst 'ENU=Shipment Date;DEA=Warenausg.-Datum';
-      Order_No_CaptionLbl@9142 : TextConst 'ENU=Order No.;DEA=Auftragsnummer';
-      Header_DimensionsCaptionLbl@4011 : TextConst 'ENU=Header Dimensions;DEA=Kopfdimensionen';
-      Unit_PriceCaptionLbl@9609 : TextConst 'ENU=Unit Price;DEA=VK-Preis';
-      Sales_Line___Line_Discount___CaptionLbl@4820 : TextConst 'ENU=Disc. %;DEA=Rabatt %';
-      AmountCaptionLbl@7794 : TextConst 'ENU=Amount;ESP=Importe;DEA=Betrag';
-      ContinuedCaptionLbl@2842 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      ContinuedCaption_Control83Lbl@2940 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      SalesLine__Inv__Discount_Amount_CaptionLbl@5564 : TextConst 'ENU=Inv. Discount Amount;DEA=Rechnungsrabattbetrag';
-      SubtotalCaptionLbl@1782 : TextConst 'ENU=Subtotal;ESP=Subtotal;DEA=Zw.summe';
-      VATDiscountAmountCaptionLbl@6738 : TextConst 'ENU=Payment Discount on VAT;DEA=Skonto auf MwSt.';
-      Line_DimensionsCaptionLbl@3103 : TextConst 'ENU=Line Dimensions;DEA=Zeilendimensionen';
-      VATAmountLine__VAT___CaptionLbl@6736 : TextConst 'ENU=VAT %;DEA=MwSt. %';
-      VATAmountLine__VAT_Base__Control106CaptionLbl@8607 : TextConst 'ENU=VAT Base;DEA=MwSt.-Bemessungsgrundlage';
-      VATAmountLine__VAT_Amount__Control107CaptionLbl@5283 : TextConst 'ENU=VAT Amount;DEA=MwSt.-Betrag';
-      VAT_Amount_SpecificationCaptionLbl@5688 : TextConst 'ENU=VAT Amount Specification;DEA=MwSt.-Betrag Spezifikation';
-      VATAmountLine__Inv__Disc__Base_Amount__Control73CaptionLbl@6582 : TextConst 'ENU=Inv. Disc. Base Amount;DEA=Rechnungsrab.-Bemessungsgr.';
-      VATAmountLine__Line_Amount__Control72CaptionLbl@9183 : TextConst 'ENU=Line Amount;DEA=Zeilenbetrag';
-      VATAmountLine__Invoice_Discount_Amount__Control74CaptionLbl@9415 : TextConst 'ENU=Invoice Discount Amount;DEA=Rechnungsrab.-Betrag';
-      VATAmountLine__VAT_Identifier_CaptionLbl@6385 : TextConst 'ENU=VAT Identifier;DEA=MwSt.-Kennzeichen';
-      VATAmountLine__VAT_Base_CaptionLbl@8090 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      VATAmountLine__VAT_Base__Control110CaptionLbl@3684 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      VATAmountLine__VAT_Base__Control114CaptionLbl@1974 : TextConst 'ENU=Total;DEA=Gesamt';
-      VALVATAmountLCY_Control149CaptionLbl@9444 : TextConst 'ENU=VAT Amount;DEA=MwSt.-Betrag';
-      VALVATBaseLCY_Control150CaptionLbl@2856 : TextConst 'ENU=VAT Base;DEA=MwSt.-Bemessungsgrundlage';
-      VATAmountLine__VAT____Control151CaptionLbl@5516 : TextConst 'ENU=VAT %;DEA=MwSt. %';
-      VATAmountLine__VAT_Identifier__Control152CaptionLbl@9939 : TextConst 'ENU=VAT Identifier;DEA=MwSt.-Kennzeichen';
-      VALVATBaseLCYCaptionLbl@7003 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      VALVATBaseLCY_Control157CaptionLbl@9984 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      VALVATBaseLCY_Control160CaptionLbl@3686 : TextConst 'ENU=Total;DEA=Gesamt';
-      PaymentTerms_DescriptionCaptionLbl@5890 : TextConst 'ENU=Payment Terms;DEA=Zahlungsbedingungen';
-      ShipmentMethod_DescriptionCaptionLbl@1316 : TextConst 'ENU=Shipment Method;DEA=Lieferbedingung';
-      Ship_to_AddressCaptionLbl@7560 : TextConst 'ENU=Ship-to Address;DEA=Lief. an Adresse';
-      PrepmtLineAmount_Control166CaptionLbl@9064 : TextConst 'ENU=Amount;DEA=Betrag';
-      PrepmtInvBuf_DescriptionCaptionLbl@5479 : TextConst 'ENU=Description;DEA=Beschreibung';
-      PrepmtInvBuf__G_L_Account_No__CaptionLbl@6649 : TextConst 'ENU=G/L Account No.;DEA=Sachkontonr.';
-      Prepayment_SpecificationCaptionLbl@7144 : TextConst 'ENU=Prepayment Specification;DEA=Vorauszahlung - Spezifikation';
-      ContinuedCaption_Control170Lbl@1839 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      ContinuedCaption_Control171Lbl@9779 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      Line_DimensionsCaption_Control174Lbl@5213 : TextConst 'ENU=Line Dimensions;DEA=Zeilendimensionen';
-      PrepmtVATAmountLine__VAT_Amount__Control194CaptionLbl@1370 : TextConst 'ENU=VAT Amount;DEA=MwSt.-Betrag';
-      PrepmtVATAmountLine__VAT_Base__Control195CaptionLbl@9067 : TextConst 'ENU=VAT Base;DEA=MwSt.-Bemessungsgrundlage';
-      PrepmtVATAmountLine__Line_Amount__Control196CaptionLbl@4843 : TextConst 'ENU=Line Amount;DEA=Zeilenbetrag';
-      PrepmtVATAmountLine__VAT____Control197CaptionLbl@7783 : TextConst 'ENU=VAT %;DEA=MwSt. %';
-      Prepayment_VAT_Amount_SpecificationCaptionLbl@3936 : TextConst 'ENU=Prepayment VAT Amount Specification;DEA=Vorauszahlung MwSt.-Betrag - Spezifikation';
-      PrepmtVATAmountLine__VAT_Identifier_CaptionLbl@5618 : TextConst 'ENU=VAT Identifier;DEA=MwSt.-Kennzeichen';
-      ContinuedCaption_Control202Lbl@2941 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      ContinuedCaption_Control207Lbl@2692 : TextConst 'ENU=Continued;DEA=Fortsetzung';
-      PrepmtVATAmountLine__VAT_Base__Control208CaptionLbl@9822 : TextConst 'ENU=Total;DEA=Gesamt';
-      PrepmtPaymentTerms_DescriptionCaptionLbl@8942 : TextConst 'ENU=Prepmt. Payment Terms;DEA=Vorausz. - Zahlungsbedingungen';
+      CompanyInfo__Phone_No__CaptionLbl@2240 : TextConst 'DEU=Telefonnr.;ENU=Phone No.';
+      CompanyInfo__Fax_No__CaptionLbl@9851 : TextConst 'DEU=Faxnr.;ENU=Fax No.';
+      CompanyInfo__VAT_Registration_No__CaptionLbl@4406 : TextConst 'DEU=USt-IdNr.;ENU=VAT Reg. No.';
+      CompanyInfo__Giro_No__CaptionLbl@6756 : TextConst 'DEU=Postgirokontonr.;ENU=Giro No.';
+      CompanyInfo__Bank_Name_CaptionLbl@4354 : TextConst 'DEU=Bankkonto;ENU=Bank';
+      CompanyInfo__Bank_Account_No__CaptionLbl@6132 : TextConst 'DEU=Kontonr.;ENU=Account No.';
+      Sales_Header___Shipment_Date_CaptionLbl@3962 : TextConst 'DEU=Warenausg.-Datum;ENU=Shipment Date';
+      Order_No_CaptionLbl@9142 : TextConst 'DEU=Auftragsnr.;ENU=Order No.';
+      Header_DimensionsCaptionLbl@4011 : TextConst 'DEU=Kopfdimensionen;ENU=Header Dimensions';
+      Unit_PriceCaptionLbl@9609 : TextConst 'DEU=VK-Preis;ENU=Unit Price';
+      Sales_Line___Line_Discount___CaptionLbl@4820 : TextConst 'DEU=Rab. %;ENU=Disc. %';
+      AmountCaptionLbl@7794 : TextConst 'DEU=Betrag;ENU=Amount';
+      ContinuedCaptionLbl@2842 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      ContinuedCaption_Control83Lbl@2940 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      SalesLine__Inv__Discount_Amount_CaptionLbl@5564 : TextConst 'DEU=Rechnungsrabattbetrag;ENU=Inv. Discount Amount';
+      SubtotalCaptionLbl@1782 : TextConst 'DEU=Zw.summe;ENU=Subtotal';
+      VATDiscountAmountCaptionLbl@6738 : TextConst 'DEU=Skonto auf MwSt.;ENU=Payment Discount on VAT';
+      Line_DimensionsCaptionLbl@3103 : TextConst 'DEU=Zeilendimensionen;ENU=Line Dimensions';
+      VATAmountLine__VAT___CaptionLbl@6736 : TextConst 'DEU=MwSt. %;ENU=VAT %';
+      VATAmountLine__VAT_Base__Control106CaptionLbl@8607 : TextConst 'DEU=MwSt.-Bemessungsgrundlage;ENU=VAT Base';
+      VATAmountLine__VAT_Amount__Control107CaptionLbl@5283 : TextConst 'DEU=MwSt.-Betrag;ENU=VAT Amount';
+      VAT_Amount_SpecificationCaptionLbl@5688 : TextConst 'DEU=MwSt.-Betrag - Spezifikation;ENU=VAT Amount Specification';
+      VATAmountLine__Inv__Disc__Base_Amount__Control73CaptionLbl@6582 : TextConst 'DEU=Rechnungsrab.-Bemessungsgr.;ENU=Inv. Disc. Base Amount';
+      VATAmountLine__Line_Amount__Control72CaptionLbl@9183 : TextConst 'DEU=Zeilenbetrag;ENU=Line Amount';
+      VATAmountLine__Invoice_Discount_Amount__Control74CaptionLbl@9415 : TextConst 'DEU=Rechnungsrab.-Betrag;ENU=Invoice Discount Amount';
+      VATAmountLine__VAT_Identifier_CaptionLbl@6385 : TextConst 'DEU=MwSt.-Kennzeichen;ENU=VAT Identifier';
+      VATAmountLine__VAT_Base_CaptionLbl@8090 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      VATAmountLine__VAT_Base__Control110CaptionLbl@3684 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      VATAmountLine__VAT_Base__Control114CaptionLbl@1974 : TextConst 'DEU=Gesamt;ENU=Total';
+      VALVATAmountLCY_Control149CaptionLbl@9444 : TextConst 'DEU=MwSt.-Betrag;ENU=VAT Amount';
+      VALVATBaseLCY_Control150CaptionLbl@2856 : TextConst 'DEU=MwSt.-Bemessungsgrundlage;ENU=VAT Base';
+      VATAmountLine__VAT____Control151CaptionLbl@5516 : TextConst 'DEU=MwSt. %;ENU=VAT %';
+      VATAmountLine__VAT_Identifier__Control152CaptionLbl@9939 : TextConst 'DEU=MwSt.-Kennzeichen;ENU=VAT Identifier';
+      VALVATBaseLCYCaptionLbl@7003 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      VALVATBaseLCY_Control157CaptionLbl@9984 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      VALVATBaseLCY_Control160CaptionLbl@3686 : TextConst 'DEU=Gesamt;ENU=Total';
+      PaymentTerms_DescriptionCaptionLbl@5890 : TextConst 'DEU=Zahlungsbedingungen;ENU=Payment Terms';
+      ShipmentMethod_DescriptionCaptionLbl@1316 : TextConst 'DEU=Lieferbedingung;ENU=Shipment Method';
+      Ship_to_AddressCaptionLbl@7560 : TextConst 'DEU=Lief. an Adresse;ENU=Ship-to Address';
+      PrepmtLineAmount_Control166CaptionLbl@9064 : TextConst 'DEU=Betrag;ENU=Amount';
+      PrepmtInvBuf_DescriptionCaptionLbl@5479 : TextConst 'DEU=Beschreibung;ENU=Description';
+      PrepmtInvBuf__G_L_Account_No__CaptionLbl@6649 : TextConst 'DEU=Sachkontonr.;ENU=G/L Account No.';
+      Prepayment_SpecificationCaptionLbl@7144 : TextConst 'DEU=Vorauszahlung - Spezifikation;ENU=Prepayment Specification';
+      ContinuedCaption_Control170Lbl@1839 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      ContinuedCaption_Control171Lbl@9779 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      Line_DimensionsCaption_Control174Lbl@5213 : TextConst 'DEU=Zeilendimensionen;ENU=Line Dimensions';
+      PrepmtVATAmountLine__VAT_Amount__Control194CaptionLbl@1370 : TextConst 'DEU=MwSt.-Betrag;ENU=VAT Amount';
+      PrepmtVATAmountLine__VAT_Base__Control195CaptionLbl@9067 : TextConst 'DEU=MwSt.-Bemessungsgrundlage;ENU=VAT Base';
+      PrepmtVATAmountLine__Line_Amount__Control196CaptionLbl@4843 : TextConst 'DEU=Zeilenbetrag;ENU=Line Amount';
+      PrepmtVATAmountLine__VAT____Control197CaptionLbl@7783 : TextConst 'DEU=MwSt. %;ENU=VAT %';
+      Prepayment_VAT_Amount_SpecificationCaptionLbl@3936 : TextConst 'DEU=Vorauszahlung MwSt.-Betrag - Spezifikation;ENU=Prepayment VAT Amount Specification';
+      PrepmtVATAmountLine__VAT_Identifier_CaptionLbl@5618 : TextConst 'DEU=MwSt.-Kennzeichen;ENU=VAT Identifier';
+      ContinuedCaption_Control202Lbl@2941 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      ContinuedCaption_Control207Lbl@2692 : TextConst 'DEU=Fortsetzung;ENU=Continued';
+      PrepmtVATAmountLine__VAT_Base__Control208CaptionLbl@9822 : TextConst 'DEU=Gesamt;ENU=Total';
+      PrepmtPaymentTerms_DescriptionCaptionLbl@8942 : TextConst 'DEU=Vorausz. - Zahlungsbedingungen;ENU=Prepmt. Payment Terms';
 
     PROCEDURE InitializeRequest@1(NoOfCopiesFrom@1000 : Integer;ShowInternalInfoFrom@1001 : Boolean;ArchiveDocumentFrom@1002 : Boolean;LogInteractionFrom@1003 : Boolean;PrintFrom@1004 : Boolean;DisplayAsmInfo@1005 : Boolean);
     BEGIN

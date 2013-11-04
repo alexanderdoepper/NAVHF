@@ -2,9 +2,9 @@ OBJECT Table 81 Gen. Journal Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -44,19 +44,16 @@ OBJECT Table 81 Gen. Journal Line
                TESTFIELD("Check Printed",FALSE);
              END;
 
-    CaptionML=[ENU=Gen. Journal Line;
-               ESP=L°n. diario general;
-               DEA=Fibu Buch.-Blattzeile];
+    CaptionML=[DEU=Fibu Buch.-Blattzeile;
+               ENU=Gen. Journal Line];
   }
   FIELDS
   {
     { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Gen. Journal Template";
-                                                   CaptionML=[ENU=Journal Template Name;
-                                                              ESP=Nombre libro diario;
-                                                              DEA=Buch.-Blattvorlagenname] }
-    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.] }
+                                                   CaptionML=[DEU=Buch.-Blattvorlagenname;
+                                                              ENU=Journal Template Name] }
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.] }
     { 3   ;   ;Account Type        ;Option        ;OnValidate=BEGIN
                                                                 IF ("Account Type" IN ["Account Type"::Customer,"Account Type"::Vendor,"Account Type"::"Fixed Asset",
                                                                                        "Account Type"::"IC Partner"]) AND
@@ -104,12 +101,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                   VALIDATE("Credit Card No.",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Account Type;
-                                                              ESP=Tipo mov.;
-                                                              DEA=Kontoart];
-                                                   OptionCaptionML=[ENU=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner;
-                                                                    ESP=Cuenta,Cliente,Proveedor,Banco,Activo,Empresa vinculada asociada;
-                                                                    DEA=Sachkonto,Debitor,Kreditor,Bankkonto,Anlage,IC-Partner];
+                                                   CaptionML=[DEU=Kontoart;
+                                                              ENU=Account Type];
+                                                   OptionCaptionML=[DEU=Sachkonto,Debitor,Kreditor,Bankkonto,Anlage,IC-Partner;
+                                                                    ENU=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner];
                                                    OptionString=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner }
     { 4   ;   ;Account No.         ;Code20        ;TableRelation=IF (Account Type=CONST(G/L Account)) "G/L Account"
                                                                  ELSE IF (Account Type=CONST(Customer)) Customer
@@ -345,9 +340,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 ValidateApplyRequirements(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Account No.;
-                                                              ESP=Nß cuenta;
-                                                              DEA=Kontonr.] }
+                                                   CaptionML=[DEU=Kontonr.;
+                                                              ENU=Account No.] }
     { 5   ;   ;Posting Date        ;Date          ;OnValidate=BEGIN
                                                                 VALIDATE("Document Date","Posting Date");
                                                                 VALIDATE("Currency Code");
@@ -365,9 +359,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END
                                                               END;
 
-                                                   CaptionML=[ENU=Posting Date;
-                                                              ESP=Fecha registro;
-                                                              DEA=Buchungsdatum];
+                                                   CaptionML=[DEU=Buchungsdatum;
+                                                              ENU=Posting Date];
                                                    ClosingDates=Yes }
     { 6   ;   ;Document Type       ;Option        ;OnValidate=BEGIN
                                                                 VALIDATE("Payment Terms Code");
@@ -403,23 +396,19 @@ OBJECT Table 81 Gen. Journal Line
                                                                   VALIDATE("Credit Card No.",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Document Type;
-                                                              ESP=Tipo documento;
-                                                              DEA=Belegart];
-                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
-                                                                    ESP=" ,Pago,Factura,Abono,Docs. interÇs,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
-                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                                                   CaptionML=[DEU=Belegart;
+                                                              ENU=Document Type];
+                                                   OptionCaptionML=[DEU=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung";
+                                                                    ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund"];
                                                    OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
     { 7   ;   ;Document No.        ;Code20        ;OnValidate=BEGIN
                                                                 CheckNoCardTransactEntryExist(xRec);
                                                               END;
 
-                                                   CaptionML=[ENU=Document No.;
-                                                              ESP=Nß documento;
-                                                              DEA=Belegnr.] }
-    { 8   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
+                                                   CaptionML=[DEU=Belegnr.;
+                                                              ENU=Document No.] }
+    { 8   ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
     { 10  ;   ;VAT %               ;Decimal       ;OnValidate=BEGIN
                                                                 GetCurrency;
                                                                 CASE "VAT Calculation Type" OF
@@ -469,9 +458,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 UpdateSalesPurchLCY;
                                                               END;
 
-                                                   CaptionML=[ENU=VAT %;
-                                                              ESP=% IVA;
-                                                              DEA=MwSt. %];
+                                                   CaptionML=[DEU=MwSt. %;
+                                                              ENU=VAT %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100;
@@ -711,9 +699,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 ValidateApplyRequirements(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Account No.;
-                                                              ESP=Cta. contrapartida;
-                                                              DEA=Gegenkontonr.] }
+                                                   CaptionML=[DEU=Gegenkontonr.;
+                                                              ENU=Bal. Account No.] }
     { 12  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
                                                    OnValidate=BEGIN
                                                                 IF "Bal. Account Type" = "Bal. Account Type"::"Bank Account" THEN BEGIN
@@ -750,9 +737,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                     PaymentToleranceMgt.PmtTolGenJnl(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
     { 13  ;   ;Amount              ;Decimal       ;OnValidate=BEGIN
                                                                 GetCurrency;
                                                                 IF "Currency Code" = '' THEN
@@ -791,9 +777,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END
                                                               END;
 
-                                                   CaptionML=[ENU=Amount;
-                                                              ESP=Importe;
-                                                              DEA=Betrag];
+                                                   CaptionML=[DEU=Betrag;
+                                                              ENU=Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 14  ;   ;Debit Amount        ;Decimal       ;OnValidate=BEGIN
@@ -804,9 +789,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Debit Amount;
-                                                              ESP=Importe debe;
-                                                              DEA=Sollbetrag];
+                                                   CaptionML=[DEU=Sollbetrag;
+                                                              ENU=Debit Amount];
                                                    BlankZero=Yes;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -818,9 +802,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Credit Amount;
-                                                              ESP=Importe haber;
-                                                              DEA=Habenbetrag];
+                                                   CaptionML=[DEU=Habenbetrag;
+                                                              ENU=Credit Amount];
                                                    BlankZero=Yes;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -848,13 +831,11 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Amount (LCY);
-                                                              ESP=Importe (DL);
-                                                              DEA=Betrag (MW)];
+                                                   CaptionML=[DEU=Betrag (MW);
+                                                              ENU=Amount (LCY)];
                                                    AutoFormatType=1 }
-    { 17  ;   ;Balance (LCY)       ;Decimal       ;CaptionML=[ENU=Balance (LCY);
-                                                              ESP=Saldo (DL);
-                                                              DEA=Saldo (MW)];
+    { 17  ;   ;Balance (LCY)       ;Decimal       ;CaptionML=[DEU=Saldo (MW);
+                                                              ENU=Balance (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 18  ;   ;Currency Factor     ;Decimal       ;OnValidate=BEGIN
@@ -863,23 +844,19 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Factor;
-                                                              ESP=Factor divisa;
-                                                              DEA=WÑhrungsfaktor];
+                                                   CaptionML=[DEU=WÑhrungsfaktor;
+                                                              ENU=Currency Factor];
                                                    DecimalPlaces=0:15;
                                                    MinValue=0;
                                                    Editable=No }
-    { 19  ;   ;Sales/Purch. (LCY)  ;Decimal       ;CaptionML=[ENU=Sales/Purch. (LCY);
-                                                              ESP=Venta/Compra (DL);
-                                                              DEA=Verkauf/Einkauf (MW)];
+    { 19  ;   ;Sales/Purch. (LCY)  ;Decimal       ;CaptionML=[DEU=Verkauf/Einkauf (MW);
+                                                              ENU=Sales/Purch. (LCY)];
                                                    AutoFormatType=1 }
-    { 20  ;   ;Profit (LCY)        ;Decimal       ;CaptionML=[ENU=Profit (LCY);
-                                                              ESP=Bfß bruto (DL);
-                                                              DEA=DB (MW)];
+    { 20  ;   ;Profit (LCY)        ;Decimal       ;CaptionML=[DEU=DB (MW);
+                                                              ENU=Profit (LCY)];
                                                    AutoFormatType=1 }
-    { 21  ;   ;Inv. Discount (LCY) ;Decimal       ;CaptionML=[ENU=Inv. Discount (LCY);
-                                                              ESP=Dto. factura (DL);
-                                                              DEA=Rechnungsrabatt (MW)];
+    { 21  ;   ;Inv. Discount (LCY) ;Decimal       ;CaptionML=[DEU=Rechnungsrabatt (MW);
+                                                              ENU=Inv. Discount (LCY)];
                                                    AutoFormatType=1 }
     { 22  ;   ;Bill-to/Pay-to No.  ;Code20        ;TableRelation=IF (Account Type=CONST(Customer)) Customer
                                                                  ELSE IF (Bal. Account Type=CONST(Customer)) Customer
@@ -893,33 +870,29 @@ OBJECT Table 81 Gen. Journal Line
                                                                   UpdateCountryCodeAndVATRegNo("Bill-to/Pay-to No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Bill-to/Pay-to No.;
-                                                              ESP=Fact./Pago a Nß.;
-                                                              DEA=Rech. an/Zahlung an Nr.] }
+                                                   CaptionML=[DEU=Rech. an/Zahlung an Nr.;
+                                                              ENU=Bill-to/Pay-to No.] }
     { 23  ;   ;Posting Group       ;Code10        ;TableRelation=IF (Account Type=CONST(Customer)) "Customer Posting Group"
                                                                  ELSE IF (Account Type=CONST(Vendor)) "Vendor Posting Group"
                                                                  ELSE IF (Account Type=CONST(Fixed Asset)) "FA Posting Group";
-                                                   CaptionML=[ENU=Posting Group;
-                                                              ESP=Grupo contable;
-                                                              DEA=Buchungsgruppe];
+                                                   CaptionML=[DEU=Buchungsgruppe;
+                                                              ENU=Posting Group];
                                                    Editable=No }
     { 24  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
-                                                              ESP=C¢d. dim. acceso dir. 1;
-                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 1;
+                                                              ENU=Shortcut Dimension 1 Code];
                                                    CaptionClass='1,2,1' }
     { 25  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
-                                                              ESP=C¢d. dim. acceso dir. 2;
-                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 2;
+                                                              ENU=Shortcut Dimension 2 Code];
                                                    CaptionClass='1,2,2' }
     { 26  ;   ;Salespers./Purch. Code;Code10      ;TableRelation=Salesperson/Purchaser;
                                                    OnValidate=BEGIN
@@ -931,27 +904,21 @@ OBJECT Table 81 Gen. Journal Line
                                                                   DATABASE::Campaign,"Campaign No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Salespers./Purch. Code;
-                                                              ESP=C¢d. vendedor/comprador;
-                                                              DEA=Verk.-/EinkÑufercode] }
+                                                   CaptionML=[DEU=Verk.-/EinkÑufercode;
+                                                              ENU=Salespers./Purch. Code] }
     { 29  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
-                                                   CaptionML=[ENU=Source Code;
-                                                              ESP=C¢d. origen;
-                                                              DEA=Herkunftscode];
+                                                   CaptionML=[DEU=Herkunftscode;
+                                                              ENU=Source Code];
                                                    Editable=No }
-    { 30  ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
-                                                              ESP=Asiento autom†tico;
-                                                              DEA=Systembuchung];
+    { 30  ;   ;System-Created Entry;Boolean       ;CaptionML=[DEU=Systembuchung;
+                                                              ENU=System-Created Entry];
                                                    Editable=No }
-    { 34  ;   ;On Hold             ;Code3         ;CaptionML=[ENU=On Hold;
-                                                              ESP=Esperar;
-                                                              DEA=Abwarten] }
-    { 35  ;   ;Applies-to Doc. Type;Option        ;CaptionML=[ENU=Applies-to Doc. Type;
-                                                              ESP=Liq. por tipo documento;
-                                                              DEA=Ausgleich mit Belegart];
-                                                   OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
-                                                                    ESP=" ,Pago,Factura,Abono,Docs. interÇs,Recordatorio,Reembolso,,,,,,,,,,,,,,,Efecto";
-                                                                    DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+    { 34  ;   ;On Hold             ;Code3         ;CaptionML=[DEU=Abwarten;
+                                                              ENU=On Hold] }
+    { 35  ;   ;Applies-to Doc. Type;Option        ;CaptionML=[DEU=Ausgleich mit Belegart;
+                                                              ENU=Applies-to Doc. Type];
+                                                   OptionCaptionML=[DEU=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung";
+                                                                    ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund"];
                                                    OptionString=[ ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund] }
     { 36  ;   ;Applies-to Doc. No. ;Code20        ;OnValidate=VAR
                                                                 CustLedgEntry@1000 : Record 21;
@@ -1224,18 +1191,14 @@ OBJECT Table 81 Gen. Journal Line
                                                                   EXIT;
                                                             END;
 
-                                                   CaptionML=[ENU=Applies-to Doc. No.;
-                                                              ESP=Liq. por nß documento;
-                                                              DEA=Ausgleich mit Belegnr.] }
-    { 38  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
-                                                              ESP=Fecha vencimiento;
-                                                              DEA=FÑlligkeitsdatum] }
-    { 39  ;   ;Pmt. Discount Date  ;Date          ;CaptionML=[ENU=Pmt. Discount Date;
-                                                              ESP=Fecha dto. P.P.;
-                                                              DEA=Skontodatum] }
-    { 40  ;   ;Payment Discount %  ;Decimal       ;CaptionML=[ENU=Payment Discount %;
-                                                              ESP=% Dto. P.P.;
-                                                              DEA=Skonto %];
+                                                   CaptionML=[DEU=Ausgleich mit Belegnr.;
+                                                              ENU=Applies-to Doc. No.] }
+    { 38  ;   ;Due Date            ;Date          ;CaptionML=[DEU=FÑlligkeitsdatum;
+                                                              ENU=Due Date] }
+    { 39  ;   ;Pmt. Discount Date  ;Date          ;CaptionML=[DEU=Skontodatum;
+                                                              ENU=Pmt. Discount Date] }
+    { 40  ;   ;Payment Discount %  ;Decimal       ;CaptionML=[DEU=Skonto %;
+                                                              ENU=Payment Discount %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100 }
@@ -1274,16 +1237,14 @@ OBJECT Table 81 Gen. Journal Line
                                                                   DATABASE::Campaign,"Campaign No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Job No.;
-                                                              ESP=Nß proyecto;
-                                                              DEA=Projektnr.] }
+                                                   CaptionML=[DEU=Projektnr.;
+                                                              ENU=Job No.] }
     { 43  ;   ;Quantity            ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5 }
     { 44  ;   ;VAT Amount          ;Decimal       ;OnValidate=BEGIN
                                                                 GenJnlBatch.GET("Journal Template Name","Journal Batch Name");
@@ -1331,17 +1292,14 @@ OBJECT Table 81 Gen. Journal Line
                                                                 UpdateSalesPurchLCY;
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Amount;
-                                                              ESP=Importe IVA;
-                                                              DEA=MwSt.-Betrag];
+                                                   CaptionML=[DEU=MwSt.-Betrag;
+                                                              ENU=VAT Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 45  ;   ;VAT Posting         ;Option        ;CaptionML=[ENU=VAT Posting;
-                                                              ESP=Tipo mov. IVA;
-                                                              DEA=MwSt.-Buchung];
-                                                   OptionCaptionML=[ENU=Automatic VAT Entry,Manual VAT Entry;
-                                                                    ESP=Autom†tico,Manual;
-                                                                    DEA=Automatische MwSt.-Buch.,Manuelle MwSt.-Buch.];
+    { 45  ;   ;VAT Posting         ;Option        ;CaptionML=[DEU=MwSt.-Buchung;
+                                                              ENU=VAT Posting];
+                                                   OptionCaptionML=[DEU=Automatische MwSt.-Buch.,Manuelle MwSt.-Buch.;
+                                                                    ENU=Automatic VAT Entry,Manual VAT Entry];
                                                    OptionString=Automatic VAT Entry,Manual VAT Entry;
                                                    Editable=No }
     { 47  ;   ;Payment Terms Code  ;Code10        ;TableRelation="Payment Terms";
@@ -1376,29 +1334,24 @@ OBJECT Table 81 Gen. Journal Line
                                                                   END;
                                                               END;
 
-                                                   CaptionML=[ENU=Payment Terms Code;
-                                                              ESP=C¢d. tÇrminos pago;
-                                                              DEA=Zlg.-Bedingungscode] }
+                                                   CaptionML=[DEU=Zlg.-Bedingungscode;
+                                                              ENU=Payment Terms Code] }
     { 48  ;   ;Applies-to ID       ;Code50        ;OnValidate=BEGIN
                                                                 IF ("Applies-to ID" <> xRec."Applies-to ID") AND (xRec."Applies-to ID" <> '') THEN
                                                                   ClearCustVendApplnEntry;
                                                               END;
 
-                                                   CaptionML=[ENU=Applies-to ID;
-                                                              ESP=Liq. por id.;
-                                                              DEA=Ausgleichs-ID] }
+                                                   CaptionML=[DEU=Ausgleichs-ID;
+                                                              ENU=Applies-to ID] }
     { 50  ;   ;Business Unit Code  ;Code10        ;TableRelation="Business Unit";
-                                                   CaptionML=[ENU=Business Unit Code;
-                                                              ESP=C¢d. empresa;
-                                                              DEA=Konzernmandantencode] }
+                                                   CaptionML=[DEU=Konzernmandantencode;
+                                                              ENU=Business Unit Code] }
     { 51  ;   ;Journal Batch Name  ;Code10        ;TableRelation="Gen. Journal Batch".Name WHERE (Journal Template Name=FIELD(Journal Template Name));
-                                                   CaptionML=[ENU=Journal Batch Name;
-                                                              ESP=Nombre secci¢n diario;
-                                                              DEA=Buch.-Blattname] }
+                                                   CaptionML=[DEU=Buch.-Blattname;
+                                                              ENU=Journal Batch Name] }
     { 52  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
-                                                   CaptionML=[ENU=Reason Code;
-                                                              ESP=C¢d. auditor°a;
-                                                              DEA=Ursachencode] }
+                                                   CaptionML=[DEU=Ursachencode;
+                                                              ENU=Reason Code] }
     { 53  ;   ;Recurring Method    ;Option        ;OnValidate=BEGIN
                                                                 IF "Recurring Method" IN
                                                                    ["Recurring Method"::"B  Balance","Recurring Method"::"RB Reversing Balance"]
@@ -1406,27 +1359,22 @@ OBJECT Table 81 Gen. Journal Line
                                                                   TESTFIELD("Currency Code",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Recurring Method;
-                                                              ESP=Periodicidad;
-                                                              DEA=Wiederholungsart];
-                                                   OptionCaptionML=[ENU=" ,F  Fixed,V  Variable,B  Balance,RF Reversing Fixed,RV Reversing Variable,RB Reversing Balance";
-                                                                    ESP=" ,F  Fijo,V  Variable,S Saldo,CF Contraasiento fijo,CV Contraasiento variable,CS Contraasiento saldo";
-                                                                    DEA=" ,F  Fix,V  Variabel,A  Ausgleich,UF Umgekehrt Fix,UV Umgekehrt Variabel,UA Umgekehrt Ausgleich"];
+                                                   CaptionML=[DEU=Wiederholungsart;
+                                                              ENU=Recurring Method];
+                                                   OptionCaptionML=[DEU=" ,F  Fix,V  Variabel,A  Ausgleich,UF Umgekehrt Fix,UV Umgekehrt Variabel,UA Umgekehrt Ausgleich";
+                                                                    ENU=" ,F  Fixed,V  Variable,B  Balance,RF Reversing Fixed,RV Reversing Variable,RB Reversing Balance"];
                                                    OptionString=[ ,F  Fixed,V  Variable,B  Balance,RF Reversing Fixed,RV Reversing Variable,RB Reversing Balance];
                                                    BlankZero=Yes }
-    { 54  ;   ;Expiration Date     ;Date          ;CaptionML=[ENU=Expiration Date;
-                                                              ESP=Fecha caducidad;
-                                                              DEA=Ablaufdatum] }
-    { 55  ;   ;Recurring Frequency ;DateFormula   ;CaptionML=[ENU=Recurring Frequency;
-                                                              ESP=Frecuencia repetici¢n;
-                                                              DEA=Wiederholungsrate] }
+    { 54  ;   ;Expiration Date     ;Date          ;CaptionML=[DEU=Ablaufdatum;
+                                                              ENU=Expiration Date] }
+    { 55  ;   ;Recurring Frequency ;DateFormula   ;CaptionML=[DEU=Wiederholungsrate;
+                                                              ENU=Recurring Frequency] }
     { 56  ;   ;Allocated Amt. (LCY);Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Gen. Jnl. Allocation".Amount WHERE (Journal Template Name=FIELD(Journal Template Name),
                                                                                                         Journal Batch Name=FIELD(Journal Batch Name),
                                                                                                         Journal Line No.=FIELD(Line No.)));
-                                                   CaptionML=[ENU=Allocated Amt. (LCY);
-                                                              ESP=Distribuir importe (DL);
-                                                              DEA=Zugeordneter Betrag (MW)];
+                                                   CaptionML=[DEU=Zugeordneter Betrag (MW);
+                                                              ENU=Allocated Amt. (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 57  ;   ;Gen. Posting Type   ;Option        ;OnValidate=BEGIN
@@ -1439,12 +1387,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                   VALIDATE("VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Posting Type;
-                                                              ESP=Tipo IVA;
-                                                              DEA=Buchungsart];
-                                                   OptionCaptionML=[ENU=" ,Purchase,Sale,Settlement";
-                                                                    ESP=" ,Compra,Venta,Liquidaci¢n";
-                                                                    DEA=" ,Einkauf,Verkauf,Ausgleich"];
+                                                   CaptionML=[DEU=Buchungsart;
+                                                              ENU=Gen. Posting Type];
+                                                   OptionCaptionML=[DEU=" ,Einkauf,Verkauf,Ausgleich";
+                                                                    ENU=" ,Purchase,Sale,Settlement"];
                                                    OptionString=[ ,Purchase,Sale,Settlement] }
     { 58  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
                                                    OnValidate=BEGIN
@@ -1455,9 +1401,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                     VALIDATE("VAT Bus. Posting Group",GenBusPostingGrp."Def. VAT Bus. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
-                                                              ESP=Grupo contable negocio;
-                                                              DEA=GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=GeschÑftsbuchungsgruppe;
+                                                              ENU=Gen. Bus. Posting Group] }
     { 59  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF "Account Type" IN ["Account Type"::Customer,"Account Type"::Vendor,"Account Type"::"Bank Account"] THEN
@@ -1467,25 +1412,20 @@ OBJECT Table 81 Gen. Journal Line
                                                                     VALIDATE("VAT Prod. Posting Group",GenProdPostingGrp."Def. VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
-    { 60  ;   ;VAT Calculation Type;Option        ;CaptionML=[ENU=VAT Calculation Type;
-                                                              ESP=Tipo c†lculo IVA;
-                                                              DEA=MwSt.-Berechnungsart];
-                                                   OptionCaptionML=[ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
-                                                                    ESP=Normal,Reversi¢n,Total,Impto. venta,No sujeto;
-                                                                    DEA=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer];
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
+    { 60  ;   ;VAT Calculation Type;Option        ;CaptionML=[DEU=MwSt.-Berechnungsart;
+                                                              ENU=VAT Calculation Type];
+                                                   OptionCaptionML=[DEU=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer;
+                                                                    ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax];
                                                    OptionString=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
                                                    Editable=No }
-    { 61  ;   ;EU 3-Party Trade    ;Boolean       ;CaptionML=[ENU=EU 3-Party Trade;
-                                                              ESP=Op. triangular;
-                                                              DEA=EU-DreiecksgeschÑft];
+    { 61  ;   ;EU 3-Party Trade    ;Boolean       ;CaptionML=[DEU=EU-DreiecksgeschÑft;
+                                                              ENU=EU 3-Party Trade];
                                                    Editable=No }
     { 62  ;   ;Allow Application   ;Boolean       ;InitValue=Yes;
-                                                   CaptionML=[ENU=Allow Application;
-                                                              ESP=Permite liq. por;
-                                                              DEA=Ausgleich zulassen] }
+                                                   CaptionML=[DEU=Ausgleich zulassen;
+                                                              ENU=Allow Application] }
     { 63  ;   ;Bal. Account Type   ;Option        ;OnValidate=BEGIN
                                                                 IF ("Account Type" IN ["Account Type"::Customer,"Account Type"::Vendor,"Account Type"::"Fixed Asset",
                                                                                        "Account Type"::"IC Partner"]) AND
@@ -1539,12 +1479,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                   VALIDATE("Credit Card No.",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Account Type;
-                                                              ESP=Tipo contrapartida;
-                                                              DEA=Gegenkontoart];
-                                                   OptionCaptionML=[ENU=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner;
-                                                                    ESP=Cuenta,Cliente,Proveedor,Banco,Activo,Empresa vinculada asociada;
-                                                                    DEA=Sachkonto,Debitor,Kreditor,Bankkonto,Anlage,IC-Partner];
+                                                   CaptionML=[DEU=Gegenkontoart;
+                                                              ENU=Bal. Account Type];
+                                                   OptionCaptionML=[DEU=Sachkonto,Debitor,Kreditor,Bankkonto,Anlage,IC-Partner;
+                                                                    ENU=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner];
                                                    OptionString=G/L Account,Customer,Vendor,Bank Account,Fixed Asset,IC Partner }
     { 64  ;   ;Bal. Gen. Posting Type;Option      ;OnValidate=BEGIN
                                                                 IF "Bal. Account Type" IN ["Bal. Account Type"::Customer,"Bal. Account Type"::Vendor,"Bal. Account Type"::"Bank Account"] THEN
@@ -1562,12 +1500,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Gen. Posting Type;
-                                                              ESP=Tipo regis. contrapartida;
-                                                              DEA=Gegenkonto Buchungsart];
-                                                   OptionCaptionML=[ENU=" ,Purchase,Sale,Settlement";
-                                                                    ESP=" ,Compra,Venta,Liquidaci¢n";
-                                                                    DEA=" ,Einkauf,Verkauf,Ausgleich"];
+                                                   CaptionML=[DEU=Gegenkonto Buchungsart;
+                                                              ENU=Bal. Gen. Posting Type];
+                                                   OptionCaptionML=[DEU=" ,Einkauf,Verkauf,Ausgleich";
+                                                                    ENU=" ,Purchase,Sale,Settlement"];
                                                    OptionString=[ ,Purchase,Sale,Settlement] }
     { 65  ;   ;Bal. Gen. Bus. Posting Group;Code10;TableRelation="Gen. Business Posting Group";
                                                    OnValidate=BEGIN
@@ -1578,9 +1514,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                     VALIDATE("Bal. VAT Bus. Posting Group",GenBusPostingGrp."Def. VAT Bus. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Gen. Bus. Posting Group;
-                                                              ESP=Gr. contable negocio contrap.;
-                                                              DEA=Gegenkonto GeschÑftsbuchungsgr] }
+                                                   CaptionML=[DEU=Gegenkonto GeschÑftsbuchungsgr;
+                                                              ENU=Bal. Gen. Bus. Posting Group] }
     { 66  ;   ;Bal. Gen. Prod. Posting Group;Code10;
                                                    TableRelation="Gen. Product Posting Group";
                                                    OnValidate=BEGIN
@@ -1591,15 +1526,12 @@ OBJECT Table 81 Gen. Journal Line
                                                                     VALIDATE("Bal. VAT Prod. Posting Group",GenProdPostingGrp."Def. VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Gen. Prod. Posting Group;
-                                                              ESP=Gr. contable producto contrap.;
-                                                              DEA=Gegenkonto Produktbuchungsgr.] }
-    { 67  ;   ;Bal. VAT Calculation Type;Option   ;CaptionML=[ENU=Bal. VAT Calculation Type;
-                                                              ESP=Tipo c†lculo IVA contrap.;
-                                                              DEA=Gegenkto. MwSt.-Berechnungsart];
-                                                   OptionCaptionML=[ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
-                                                                    ESP=Normal,Reversi¢n,Total,Impto. venta,No sujeto;
-                                                                    DEA=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer];
+                                                   CaptionML=[DEU=Gegenkonto Produktbuchungsgr.;
+                                                              ENU=Bal. Gen. Prod. Posting Group] }
+    { 67  ;   ;Bal. VAT Calculation Type;Option   ;CaptionML=[DEU=Gegenkto. MwSt.-Berechnungsart;
+                                                              ENU=Bal. VAT Calculation Type];
+                                                   OptionCaptionML=[DEU=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer;
+                                                                    ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax];
                                                    OptionString=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
                                                    Editable=No }
     { 68  ;   ;Bal. VAT %          ;Decimal       ;OnValidate=BEGIN
@@ -1651,9 +1583,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 UpdateSalesPurchLCY;
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. VAT %;
-                                                              ESP=% IVA contrap.;
-                                                              DEA=Gegenkonto MwSt. %];
+                                                   CaptionML=[DEU=Gegenkonto MwSt. %;
+                                                              ENU=Bal. VAT %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100;
@@ -1706,9 +1637,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 UpdateSalesPurchLCY;
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. VAT Amount;
-                                                              ESP=Importe IVA contrap.;
-                                                              DEA=Gegenkonto MwSt.-Betrag];
+                                                   CaptionML=[DEU=Gegenkonto MwSt.-Betrag;
+                                                              ENU=Bal. VAT Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 70  ;   ;Bank Payment Type   ;Option        ;OnValidate=BEGIN
@@ -1725,12 +1655,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                   FIELDERROR("Account Type");
                                                               END;
 
-                                                   CaptionML=[ENU=Bank Payment Type;
-                                                              ESP=Tipo pago por banco;
-                                                              DEA=Bankkontozahlungsart];
-                                                   OptionCaptionML=[ENU=" ,Computer Check,Manual Check";
-                                                                    ESP=" ,Cheque autom†tico,Cheque manual,,,,,Pago electr¢nico";
-                                                                    DEA=" ,Computer Scheck,Manueller Scheck"];
+                                                   CaptionML=[DEU=Bankkontozahlungsart;
+                                                              ENU=Bank Payment Type];
+                                                   OptionCaptionML=[DEU=" ,Computer Scheck,Manueller Scheck";
+                                                                    ENU=" ,Computer Check,Manual Check"];
                                                    OptionString=[ ,Computer Check,Manual Check] }
     { 71  ;   ;VAT Base Amount     ;Decimal       ;OnValidate=BEGIN
                                                                 GetCurrency;
@@ -1773,9 +1701,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Base Amount;
-                                                              ESP=Importe base IVA;
-                                                              DEA=MwSt.-Bemessungsgrundlage];
+                                                   CaptionML=[DEU=MwSt.-Bemessungsgrundlage;
+                                                              ENU=VAT Base Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 72  ;   ;Bal. VAT Base Amount;Decimal       ;OnValidate=BEGIN
@@ -1819,33 +1746,28 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. VAT Base Amount;
-                                                              ESP=Imp. base IVA contrap.;
-                                                              DEA=Gegenkto. MwSt.-Bemessungsgr.];
+                                                   CaptionML=[DEU=Gegenkto. MwSt.-Bemessungsgr.;
+                                                              ENU=Bal. VAT Base Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 73  ;   ;Correction          ;Boolean       ;OnValidate=BEGIN
                                                                 VALIDATE(Amount);
                                                               END;
 
-                                                   CaptionML=[ENU=Correction;
-                                                              ESP=Correcci¢n;
-                                                              DEA=Storno] }
-    { 75  ;   ;Check Printed       ;Boolean       ;CaptionML=[ENU=Check Printed;
-                                                              ESP=Cheque impreso;
-                                                              DEA=Scheck gedruckt];
+                                                   CaptionML=[DEU=Storno;
+                                                              ENU=Correction] }
+    { 75  ;   ;Check Printed       ;Boolean       ;CaptionML=[DEU=Scheck gedruckt;
+                                                              ENU=Check Printed];
                                                    Editable=No }
     { 76  ;   ;Document Date       ;Date          ;OnValidate=BEGIN
                                                                 VALIDATE("Payment Terms Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Document Date;
-                                                              ESP=Fecha emisi¢n documento;
-                                                              DEA=Belegdatum];
+                                                   CaptionML=[DEU=Belegdatum;
+                                                              ENU=Document Date];
                                                    ClosingDates=Yes }
-    { 77  ;   ;External Document No.;Code35       ;CaptionML=[ENU=External Document No.;
-                                                              ESP=Nß documento externo;
-                                                              DEA=Externe Belegnummer] }
+    { 77  ;   ;External Document No.;Code35       ;CaptionML=[DEU=Externe Belegnummer;
+                                                              ENU=External Document No.] }
     { 78  ;   ;Source Type         ;Option        ;OnValidate=BEGIN
                                                                 IF ("Account Type" <> "Account Type"::"G/L Account") AND ("Account No." <> '') OR
                                                                    ("Bal. Account Type" <> "Bal. Account Type"::"G/L Account") AND ("Bal. Account No." <> '')
@@ -1855,12 +1777,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                   "Source No." := '';
                                                               END;
 
-                                                   CaptionML=[ENU=Source Type;
-                                                              ESP=Tipo procedencia mov.;
-                                                              DEA=Herkunftsart];
-                                                   OptionCaptionML=[ENU=" ,Customer,Vendor,Bank Account,Fixed Asset";
-                                                                    ESP=" ,Cliente,Proveedor,Banco,Activo";
-                                                                    DEA=" ,Debitor,Kreditor,Bankkonto,Anlage"];
+                                                   CaptionML=[DEU=Herkunftsart;
+                                                              ENU=Source Type];
+                                                   OptionCaptionML=[DEU=" ,Debitor,Kreditor,Bankkonto,Anlage";
+                                                                    ENU=" ,Customer,Vendor,Bank Account,Fixed Asset"];
                                                    OptionString=[ ,Customer,Vendor,Bank Account,Fixed Asset] }
     { 79  ;   ;Source No.          ;Code20        ;TableRelation=IF (Source Type=CONST(Customer)) Customer
                                                                  ELSE IF (Source Type=CONST(Vendor)) Vendor
@@ -1873,75 +1793,65 @@ OBJECT Table 81 Gen. Journal Line
                                                                   UpdateSource;
                                                               END;
 
-                                                   CaptionML=[ENU=Source No.;
-                                                              ESP=C¢d. procedencia mov.;
-                                                              DEA=Herkunftsnr.] }
+                                                   CaptionML=[DEU=Herkunftsnr.;
+                                                              ENU=Source No.] }
     { 80  ;   ;Posting No. Series  ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=Posting No. Series;
-                                                              ESP=Nß serie registro;
-                                                              DEA=Buchungsnr.-Serie] }
+                                                   CaptionML=[DEU=Buchungsnr.-Serie;
+                                                              ENU=Posting No. Series] }
     { 82  ;   ;Tax Area Code       ;Code20        ;TableRelation="Tax Area";
                                                    OnValidate=BEGIN
                                                                 VALIDATE("VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Area Code;
-                                                              ESP=C¢d. †rea impuesto;
-                                                              DEA=Steuergebietscode] }
+                                                   CaptionML=[DEU=Steuergebietscode;
+                                                              ENU=Tax Area Code] }
     { 83  ;   ;Tax Liable          ;Boolean       ;OnValidate=BEGIN
                                                                 VALIDATE("VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Liable;
-                                                              ESP=Sujeto a impuesto;
-                                                              DEA=Steuerpflichtig] }
+                                                   CaptionML=[DEU=Steuerpflichtig;
+                                                              ENU=Tax Liable] }
     { 84  ;   ;Tax Group Code      ;Code10        ;TableRelation="Tax Group";
                                                    OnValidate=BEGIN
                                                                 VALIDATE("VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Group Code;
-                                                              ESP=C¢d. grupo impuesto;
-                                                              DEA=Steuergruppencode] }
+                                                   CaptionML=[DEU=Steuergruppencode;
+                                                              ENU=Tax Group Code] }
     { 85  ;   ;Use Tax             ;Boolean       ;OnValidate=BEGIN
                                                                 TESTFIELD("Gen. Posting Type","Gen. Posting Type"::Purchase);
                                                                 VALIDATE("VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Use Tax;
-                                                              ESP=Utilizar impuesto;
-                                                              DEA=Verbrauchssteuer] }
+                                                   CaptionML=[DEU=Verbrauchssteuer;
+                                                              ENU=Use Tax] }
     { 86  ;   ;Bal. Tax Area Code  ;Code20        ;TableRelation="Tax Area";
                                                    OnValidate=BEGIN
                                                                 VALIDATE("Bal. VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Tax Area Code;
-                                                              ESP=C¢d. †rea impto. contrap.;
-                                                              DEA=Gegenkonto Steuergebietscode] }
+                                                   CaptionML=[DEU=Gegenkonto Steuergebietscode;
+                                                              ENU=Bal. Tax Area Code] }
     { 87  ;   ;Bal. Tax Liable     ;Boolean       ;OnValidate=BEGIN
                                                                 VALIDATE("Bal. VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Tax Liable;
-                                                              ESP=Sujeto a impto. contrap.;
-                                                              DEA=Gegenkonto Steuerpflichtig] }
+                                                   CaptionML=[DEU=Gegenkonto Steuerpflichtig;
+                                                              ENU=Bal. Tax Liable] }
     { 88  ;   ;Bal. Tax Group Code ;Code10        ;TableRelation="Tax Group";
                                                    OnValidate=BEGIN
                                                                 VALIDATE("Bal. VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Tax Group Code;
-                                                              ESP=C¢d. grupo impto. contrap.;
-                                                              DEA=Gegenkonto Steuergruppencode] }
+                                                   CaptionML=[DEU=Gegenkonto Steuergruppencode;
+                                                              ENU=Bal. Tax Group Code] }
     { 89  ;   ;Bal. Use Tax        ;Boolean       ;OnValidate=BEGIN
                                                                 TESTFIELD("Bal. Gen. Posting Type","Bal. Gen. Posting Type"::Purchase);
                                                                 VALIDATE("Bal. VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. Use Tax;
-                                                              ESP=Util. impto. contrap.;
-                                                              DEA=Gegenkonto Verbrauchssteuer] }
+                                                   CaptionML=[DEU=Gegenkonto Verbrauchssteuer;
+                                                              ENU=Bal. Use Tax] }
     { 90  ;   ;VAT Bus. Posting Group;Code10      ;TableRelation="VAT Business Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF "Account Type" IN ["Account Type"::Customer,"Account Type"::Vendor,"Account Type"::"Bank Account"] THEN
@@ -1955,9 +1865,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Bus. Posting Group;
-                                                              ESP=Grupo registro IVA neg.;
-                                                              DEA=MwSt.-GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-GeschÑftsbuchungsgruppe;
+                                                              ENU=VAT Bus. Posting Group] }
     { 91  ;   ;VAT Prod. Posting Group;Code10     ;TableRelation="VAT Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF "Account Type" IN ["Account Type"::Customer,"Account Type"::Vendor,"Account Type"::"Bank Account"] THEN
@@ -1997,9 +1906,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Prod. Posting Group;
-                                                              ESP=Grupo registro IVA prod.;
-                                                              DEA=MwSt.-Produktbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-Produktbuchungsgruppe;
+                                                              ENU=VAT Prod. Posting Group] }
     { 92  ;   ;Bal. VAT Bus. Posting Group;Code10 ;TableRelation="VAT Business Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF "Bal. Account Type" IN
@@ -2010,9 +1918,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE("Bal. VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. VAT Bus. Posting Group;
-                                                              ESP=Gr. registro IVA neg. contrap.;
-                                                              DEA=Gegenkto. MwSt.-Gesch.-Buch.-G] }
+                                                   CaptionML=[DEU=Gegenkto. MwSt.-Gesch.-Buch.-G;
+                                                              ENU=Bal. VAT Bus. Posting Group] }
     { 93  ;   ;Bal. VAT Prod. Posting Group;Code10;TableRelation="VAT Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 IF "Bal. Account Type" IN
@@ -2047,108 +1954,87 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE("Bal. VAT %");
                                                               END;
 
-                                                   CaptionML=[ENU=Bal. VAT Prod. Posting Group;
-                                                              ESP=Gr. registro IVA prod. contrp.;
-                                                              DEA=Gegenkto. MwSt.-Prod.-Buch.-Gr] }
-    { 95  ;   ;Additional-Currency Posting;Option ;CaptionML=[ENU=Additional-Currency Posting;
-                                                              ESP=Registro div.-adic.;
-                                                              DEA=Buchung (BW)];
-                                                   OptionCaptionML=[ENU=None,Amount Only,Additional-Currency Amount Only;
-                                                                    ESP=Ninguno,S¢lo importe,S¢lo importe div.-adic.;
-                                                                    DEA=Kein,Nur Betrag,Nur Betrag (BW)];
+                                                   CaptionML=[DEU=Gegenkto. MwSt.-Prod.-Buch.-Gr;
+                                                              ENU=Bal. VAT Prod. Posting Group] }
+    { 95  ;   ;Additional-Currency Posting;Option ;CaptionML=[DEU=Buchung (BW);
+                                                              ENU=Additional-Currency Posting];
+                                                   OptionCaptionML=[DEU=Kein,Nur Betrag,Nur Betrag (BW);
+                                                                    ENU=None,Amount Only,Additional-Currency Amount Only];
                                                    OptionString=None,Amount Only,Additional-Currency Amount Only;
                                                    Editable=No }
-    { 98  ;   ;FA Add.-Currency Factor;Decimal    ;CaptionML=[ENU=FA Add.-Currency Factor;
-                                                              ESP=A/F Factor div.-adic.;
-                                                              DEA=AnlagenwÑhrungsfaktor (BW)];
+    { 98  ;   ;FA Add.-Currency Factor;Decimal    ;CaptionML=[DEU=AnlagenwÑhrungsfaktor (BW);
+                                                              ENU=FA Add.-Currency Factor];
                                                    DecimalPlaces=0:15;
                                                    MinValue=0 }
     { 99  ;   ;Source Currency Code;Code10        ;TableRelation=Currency;
-                                                   CaptionML=[ENU=Source Currency Code;
-                                                              ESP=C¢d. divisa origen;
-                                                              DEA=Urspr.-WÑhrungscode];
+                                                   CaptionML=[DEU=Urspr.-WÑhrungscode;
+                                                              ENU=Source Currency Code];
                                                    Editable=No }
-    { 100 ;   ;Source Currency Amount;Decimal     ;CaptionML=[ENU=Source Currency Amount;
-                                                              ESP=Importe divisa origen;
-                                                              DEA=Urspr.-WÑhrung Betrag];
+    { 100 ;   ;Source Currency Amount;Decimal     ;CaptionML=[DEU=Urspr.-WÑhrung Betrag;
+                                                              ENU=Source Currency Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 101 ;   ;Source Curr. VAT Base Amount;Decimal;
-                                                   CaptionML=[ENU=Source Curr. VAT Base Amount;
-                                                              ESP=Importe base IVA divisa origen;
-                                                              DEA=Urspr.-WÑhrung MwSt.-Bemess.];
+                                                   CaptionML=[DEU=Urspr.-WÑhrung MwSt.-Bemess.;
+                                                              ENU=Source Curr. VAT Base Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 102 ;   ;Source Curr. VAT Amount;Decimal    ;CaptionML=[ENU=Source Curr. VAT Amount;
-                                                              ESP=Importe IVA divisa origen;
-                                                              DEA=Urspr.-WÑhrung MwSt.-Betrag];
+    { 102 ;   ;Source Curr. VAT Amount;Decimal    ;CaptionML=[DEU=Urspr.-WÑhrung MwSt.-Betrag;
+                                                              ENU=Source Curr. VAT Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 103 ;   ;VAT Base Discount % ;Decimal       ;CaptionML=[ENU=VAT Base Discount %;
-                                                              ESP=% Dto. base IVA;
-                                                              DEA=MwSt.-Bemessungsgr. Skonto %];
+    { 103 ;   ;VAT Base Discount % ;Decimal       ;CaptionML=[DEU=MwSt.-Bemessungsgr. Skonto %;
+                                                              ENU=VAT Base Discount %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100;
                                                    Editable=No }
-    { 104 ;   ;VAT Amount (LCY)    ;Decimal       ;CaptionML=[ENU=VAT Amount (LCY);
-                                                              ESP=Importe IVA (DL);
-                                                              DEA=MwSt.-Betrag (MW)];
+    { 104 ;   ;VAT Amount (LCY)    ;Decimal       ;CaptionML=[DEU=MwSt.-Betrag (MW);
+                                                              ENU=VAT Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 105 ;   ;VAT Base Amount (LCY);Decimal      ;CaptionML=[ENU=VAT Base Amount (LCY);
-                                                              ESP=Importe base IVA (DL);
-                                                              DEA=MwSt.-Bemessungsgrundlage (MW)];
+    { 105 ;   ;VAT Base Amount (LCY);Decimal      ;CaptionML=[DEU=MwSt.-Bemessungsgrundlage (MW);
+                                                              ENU=VAT Base Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 106 ;   ;Bal. VAT Amount (LCY);Decimal      ;CaptionML=[ENU=Bal. VAT Amount (LCY);
-                                                              ESP=Importe IVA contrap. (DL);
-                                                              DEA=Gegenkonto MwSt.-Betrag (MW)];
+    { 106 ;   ;Bal. VAT Amount (LCY);Decimal      ;CaptionML=[DEU=Gegenkonto MwSt.-Betrag (MW);
+                                                              ENU=Bal. VAT Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 107 ;   ;Bal. VAT Base Amount (LCY);Decimal ;CaptionML=[ENU=Bal. VAT Base Amount (LCY);
-                                                              ESP=Importe base IVA contrap. (DL);
-                                                              DEA=Gegenkto. MwSt.-Bemess. (MW)];
+    { 107 ;   ;Bal. VAT Base Amount (LCY);Decimal ;CaptionML=[DEU=Gegenkto. MwSt.-Bemess. (MW);
+                                                              ENU=Bal. VAT Base Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 108 ;   ;Reversing Entry     ;Boolean       ;CaptionML=[ENU=Reversing Entry;
-                                                              ESP=Mov. reversi¢n;
-                                                              DEA=Umkehrbuchung];
+    { 108 ;   ;Reversing Entry     ;Boolean       ;CaptionML=[DEU=Umkehrbuchung;
+                                                              ENU=Reversing Entry];
                                                    Editable=No }
-    { 109 ;   ;Allow Zero-Amount Posting;Boolean  ;CaptionML=[ENU=Allow Zero-Amount Posting;
-                                                              ESP=Permitir cero-registro importe;
-                                                              DEA=Buchung ohne Betrag zulassen];
+    { 109 ;   ;Allow Zero-Amount Posting;Boolean  ;CaptionML=[DEU=Buchung ohne Betrag zulassen;
+                                                              ENU=Allow Zero-Amount Posting];
                                                    Editable=No }
     { 110 ;   ;Ship-to/Order Address Code;Code10  ;TableRelation=IF (Account Type=CONST(Customer)) "Ship-to Address".Code WHERE (Customer No.=FIELD(Bill-to/Pay-to No.))
                                                                  ELSE IF (Account Type=CONST(Vendor)) "Order Address".Code WHERE (Vendor No.=FIELD(Bill-to/Pay-to No.))
                                                                  ELSE IF (Bal. Account Type=CONST(Customer)) "Ship-to Address".Code WHERE (Customer No.=FIELD(Bill-to/Pay-to No.))
                                                                  ELSE IF (Bal. Account Type=CONST(Vendor)) "Order Address".Code WHERE (Vendor No.=FIELD(Bill-to/Pay-to No.));
-                                                   CaptionML=[ENU=Ship-to/Order Address Code;
-                                                              ESP=Enviar a/C¢d. dir. pedido;
-                                                              DEA=Verk. an/Eink. von Adresscode] }
-    { 111 ;   ;VAT Difference      ;Decimal       ;CaptionML=[ENU=VAT Difference;
-                                                              ESP=Diferencia  IVA;
-                                                              DEA=MwSt.-Differenz];
+                                                   CaptionML=[DEU=Verk. an/Eink. von Adresscode;
+                                                              ENU=Ship-to/Order Address Code] }
+    { 111 ;   ;VAT Difference      ;Decimal       ;CaptionML=[DEU=MwSt.-Differenz;
+                                                              ENU=VAT Difference];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 112 ;   ;Bal. VAT Difference ;Decimal       ;CaptionML=[ENU=Bal. VAT Difference;
-                                                              ESP=Diferencia importe IVA;
-                                                              DEA=Gegenkonto MwSt.-Differenz];
+    { 112 ;   ;Bal. VAT Difference ;Decimal       ;CaptionML=[DEU=Gegenkonto MwSt.-Differenz;
+                                                              ENU=Bal. VAT Difference];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 113 ;   ;IC Partner Code     ;Code20        ;TableRelation="IC Partner";
-                                                   CaptionML=[ENU=IC Partner Code;
-                                                              ESP=C¢digo socio IC;
-                                                              DEA=IC-Partnercode];
+                                                   CaptionML=[DEU=IC-Partnercode;
+                                                              ENU=IC Partner Code];
                                                    Editable=No }
-    { 114 ;   ;IC Direction        ;Option        ;CaptionML=[ENU=IC Direction;
-                                                              ESP=Direcci¢n env°o IC;
-                                                              DEA=IC-Richtung];
-                                                   OptionCaptionML=[ENU=Outgoing,Incoming;
-                                                                    ESP=Saliente,Entrante;
-                                                                    DEA=Ausgehend,Eingehend];
+    { 114 ;   ;IC Direction        ;Option        ;CaptionML=[DEU=IC-Richtung;
+                                                              ENU=IC Direction];
+                                                   OptionCaptionML=[DEU=Ausgehend,Eingehend;
+                                                                    ENU=Outgoing,Incoming];
                                                    OptionString=Outgoing,Incoming }
     { 116 ;   ;IC Partner G/L Acc. No.;Code20     ;TableRelation="IC G/L Account";
                                                    OnValidate=VAR
@@ -2162,12 +2048,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END
                                                               END;
 
-                                                   CaptionML=[ENU=IC Partner G/L Acc. No.;
-                                                              ESP=Nß cuenta IC asociada;
-                                                              DEA=IC-Partner Sachkontonr.] }
-    { 117 ;   ;IC Partner Transaction No.;Integer ;CaptionML=[ENU=IC Partner Transaction No.;
-                                                              ESP=Nß transacci¢n IC asociada;
-                                                              DEA=IC-Partner Transaktionsnr.];
+                                                   CaptionML=[DEU=IC-Partner Sachkontonr.;
+                                                              ENU=IC Partner G/L Acc. No.] }
+    { 117 ;   ;IC Partner Transaction No.;Integer ;CaptionML=[DEU=IC-Partner Transaktionsnr.;
+                                                              ENU=IC Partner Transaction No.];
                                                    Editable=No }
     { 118 ;   ;Sell-to/Buy-from No.;Code20        ;TableRelation=IF (Account Type=CONST(Customer)) Customer
                                                                  ELSE IF (Bal. Account Type=CONST(Customer)) Customer
@@ -2179,41 +2063,35 @@ OBJECT Table 81 Gen. Journal Line
                                                                   UpdateCountryCodeAndVATRegNo("Sell-to/Buy-from No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Sell-to/Buy-from No.;
-                                                              ESP=Venta a/Compra a-Nß;
-                                                              DEA=Verk. an/Eink. von Nr.] }
+                                                   CaptionML=[DEU=Verk. an/Eink. von Nr.;
+                                                              ENU=Sell-to/Buy-from No.] }
     { 119 ;   ;VAT Registration No.;Text20        ;OnValidate=VAR
                                                                 VATRegNoFormat@1000 : Record 381;
                                                               BEGIN
                                                                 VATRegNoFormat.Test("VAT Registration No.","Country/Region Code",'',0);
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Registration No.;
-                                                              ESP=CIF/NIF;
-                                                              DEA=USt-IdNr.] }
+                                                   CaptionML=[DEU=USt-IdNr.;
+                                                              ENU=VAT Registration No.] }
     { 120 ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
                                                    OnValidate=BEGIN
                                                                 VALIDATE("VAT Registration No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
-    { 121 ;   ;Prepayment          ;Boolean       ;CaptionML=[ENU=Prepayment;
-                                                              ESP=Prepago;
-                                                              DEA=Vorauszahlung] }
-    { 122 ;   ;Financial Void      ;Boolean       ;CaptionML=[ENU=Financial Void;
-                                                              ESP=Vac°o financiero;
-                                                              DEA=Finanziell entwertet];
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
+    { 121 ;   ;Prepayment          ;Boolean       ;CaptionML=[DEU=Vorauszahlung;
+                                                              ENU=Prepayment] }
+    { 122 ;   ;Financial Void      ;Boolean       ;CaptionML=[DEU=Finanziell entwertet;
+                                                              ENU=Financial Void];
                                                    Editable=No }
     { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
                                                    OnLookup=BEGIN
                                                               ShowDimensions;
                                                             END;
 
-                                                   CaptionML=[ENU=Dimension Set ID;
-                                                              ESP=Id. grupo dimensiones;
-                                                              DEA=Dimensionssatz-ID];
+                                                   CaptionML=[DEU=Dimensionssatz-ID;
+                                                              ENU=Dimension Set ID];
                                                    Editable=No }
     { 827 ;   ;Credit Card No.     ;Code20        ;TableRelation=IF (Account Type=CONST(Customer),
                                                                      Document Type=FILTER(Payment|Refund),
@@ -2228,9 +2106,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 DOPaymentMgt.CheckCreditCardData("Credit Card No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Credit Card No.;
-                                                              ESP=Nß tarjeta de crÇdito;
-                                                              DEA=Kreditkartennr.] }
+                                                   CaptionML=[DEU=Kreditkartennr.;
+                                                              ENU=Credit Card No.] }
     { 1001;   ;Job Task No.        ;Code20        ;TableRelation="Job Task"."Job Task No." WHERE (Job No.=FIELD(Job No.));
                                                    OnValidate=BEGIN
                                                                 IF "Job Task No." <> xRec."Job Task No." THEN
@@ -2262,17 +2139,14 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Task No.;
-                                                              ESP=Nß tarea proyecto;
-                                                              DEA=Projektaufgabennr.] }
-    { 1002;   ;Job Unit Price (LCY);Decimal       ;CaptionML=[ENU=Job Unit Price (LCY);
-                                                              ESP=Precio venta proyecto (DL);
-                                                              DEA=VK-Preis Projekt (MW)];
+                                                   CaptionML=[DEU=Projektaufgabennr.;
+                                                              ENU=Job Task No.] }
+    { 1002;   ;Job Unit Price (LCY);Decimal       ;CaptionML=[DEU=VK-Preis Projekt (MW);
+                                                              ENU=Job Unit Price (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
-    { 1003;   ;Job Total Price (LCY);Decimal      ;CaptionML=[ENU=Job Total Price (LCY);
-                                                              ESP=Precio total proyecto (DL);
-                                                              DEA=Verkaufsbetrag Projekt (MW)];
+    { 1003;   ;Job Total Price (LCY);Decimal      ;CaptionML=[DEU=Verkaufsbetrag Projekt (MW);
+                                                              ENU=Job Total Price (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1004;   ;Job Quantity        ;Decimal       ;OnValidate=BEGIN
@@ -2284,13 +2158,11 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Quantity;
-                                                              ESP=Cantidad proyecto;
-                                                              DEA=Projektmenge];
+                                                   CaptionML=[DEU=Projektmenge;
+                                                              ENU=Job Quantity];
                                                    DecimalPlaces=0:5 }
-    { 1005;   ;Job Unit Cost (LCY) ;Decimal       ;CaptionML=[ENU=Job Unit Cost (LCY);
-                                                              ESP=Coste unitario proyecto (DL);
-                                                              DEA=Projekteinstandspreis (MW)];
+    { 1005;   ;Job Unit Cost (LCY) ;Decimal       ;CaptionML=[DEU=Projekteinstandspreis (MW);
+                                                              ENU=Job Unit Cost (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=2 }
     { 1006;   ;Job Line Discount % ;Decimal       ;OnValidate=BEGIN
@@ -2301,9 +2173,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Discount %;
-                                                              ESP=% dto. l°nea proyecto;
-                                                              DEA=Zeilenrabatt % Projekt];
+                                                   CaptionML=[DEU=Zeilenrabatt % Projekt;
+                                                              ENU=Job Line Discount %];
                                                    AutoFormatType=1 }
     { 1007;   ;Job Line Disc. Amount (LCY);Decimal;OnValidate=BEGIN
                                                                 IF JobTaskIsSet THEN BEGIN
@@ -2313,26 +2184,22 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Disc. Amount (LCY);
-                                                              ESP=Importe dto. l°nea proyecto (DL);
-                                                              DEA=Zeilenrabattbetrag Projekt (MW)];
+                                                   CaptionML=[DEU=Zeilenrabattbetrag Projekt (MW);
+                                                              ENU=Job Line Disc. Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1008;   ;Job Unit Of Measure Code;Code10    ;TableRelation="Unit of Measure";
-                                                   CaptionML=[ENU=Job Unit Of Measure Code;
-                                                              ESP=C¢d. unidad medida proyecto;
-                                                              DEA=Projekteinheitencode] }
+                                                   CaptionML=[DEU=Projekteinheitencode;
+                                                              ENU=Job Unit Of Measure Code] }
     { 1009;   ;Job Line Type       ;Option        ;OnValidate=BEGIN
                                                                 IF "Job Planning Line No." <> 0 THEN
                                                                   ERROR(Text019,FIELDCAPTION("Job Line Type"),FIELDCAPTION("Job Planning Line No."));
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Type;
-                                                              ESP=Tipo l°nea proyecto;
-                                                              DEA=Projektzeilenart];
-                                                   OptionCaptionML=[ENU=" ,Schedule,Contract,Both Schedule and Contract";
-                                                                    ESP=" ,Previsi¢n,Contrato,Previsi¢n y contrato";
-                                                                    DEA=" ,Plan,Vertrag,Plan und Vertrag"];
+                                                   CaptionML=[DEU=Projektzeilenart;
+                                                              ENU=Job Line Type];
+                                                   OptionCaptionML=[DEU=" ,Plan,Vertrag,Plan und Vertrag";
+                                                                    ENU=" ,Schedule,Contract,Both Schedule and Contract"];
                                                    OptionString=[ ,Schedule,Contract,Both Schedule and Contract] }
     { 1010;   ;Job Unit Price      ;Decimal       ;OnValidate=BEGIN
                                                                 IF JobTaskIsSet THEN BEGIN
@@ -2342,26 +2209,22 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Unit Price;
-                                                              ESP=Precio venta proyecto;
-                                                              DEA=VK-Preis Projekt];
+                                                   CaptionML=[DEU=VK-Preis Projekt;
+                                                              ENU=Job Unit Price];
                                                    AutoFormatType=2;
                                                    AutoFormatExpr="Job Currency Code" }
-    { 1011;   ;Job Total Price     ;Decimal       ;CaptionML=[ENU=Job Total Price;
-                                                              ESP=Precio total proyecto;
-                                                              DEA=Verkaufsbetrag Projekt];
+    { 1011;   ;Job Total Price     ;Decimal       ;CaptionML=[DEU=Verkaufsbetrag Projekt;
+                                                              ENU=Job Total Price];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Job Currency Code" }
-    { 1012;   ;Job Unit Cost       ;Decimal       ;CaptionML=[ENU=Job Unit Cost;
-                                                              ESP=Coste unitario proyecto;
-                                                              DEA=Projekteinstandspreis];
+    { 1012;   ;Job Unit Cost       ;Decimal       ;CaptionML=[DEU=Projekteinstandspreis;
+                                                              ENU=Job Unit Cost];
                                                    Editable=No;
                                                    AutoFormatType=2;
                                                    AutoFormatExpr="Job Currency Code" }
-    { 1013;   ;Job Total Cost      ;Decimal       ;CaptionML=[ENU=Job Total Cost;
-                                                              ESP=Coste total proyecto;
-                                                              DEA=Projekteinstandsbetrag];
+    { 1013;   ;Job Total Cost      ;Decimal       ;CaptionML=[DEU=Projekteinstandsbetrag;
+                                                              ENU=Job Total Cost];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Job Currency Code" }
@@ -2373,9 +2236,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Discount Amount;
-                                                              ESP=Importe dto. l°nea proyecto;
-                                                              DEA=Zeilenrabattbetrag Projekt];
+                                                   CaptionML=[DEU=Zeilenrabattbetrag Projekt;
+                                                              ENU=Job Line Discount Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Job Currency Code" }
     { 1015;   ;Job Line Amount     ;Decimal       ;OnValidate=BEGIN
@@ -2386,14 +2248,12 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Amount;
-                                                              ESP=Importe l°nea proyecto;
-                                                              DEA=Zeilenbetrag Projekt];
+                                                   CaptionML=[DEU=Zeilenbetrag Projekt;
+                                                              ENU=Job Line Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Job Currency Code" }
-    { 1016;   ;Job Total Cost (LCY);Decimal       ;CaptionML=[ENU=Job Total Cost (LCY);
-                                                              ESP=Coste total proyecto (DL);
-                                                              DEA=Projekteinstandsbetrag (MW)];
+    { 1016;   ;Job Total Cost (LCY);Decimal       ;CaptionML=[DEU=Projekteinstandsbetrag (MW);
+                                                              ENU=Job Total Cost (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1017;   ;Job Line Amount (LCY);Decimal      ;OnValidate=BEGIN
@@ -2404,14 +2264,12 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Amount (LCY);
-                                                              ESP=Importe l°nea proyecto (DL);
-                                                              DEA=Zeilenbetrag Projekt (MW)];
+                                                   CaptionML=[DEU=Zeilenbetrag Projekt (MW);
+                                                              ENU=Job Line Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 1018;   ;Job Currency Factor ;Decimal       ;CaptionML=[ENU=Job Currency Factor;
-                                                              ESP=Factor divisa proyecto;
-                                                              DEA=WÑhrungsfaktor Projekt] }
+    { 1018;   ;Job Currency Factor ;Decimal       ;CaptionML=[DEU=WÑhrungsfaktor Projekt;
+                                                              ENU=Job Currency Factor] }
     { 1019;   ;Job Currency Code   ;Code10        ;OnValidate=BEGIN
                                                                 IF ("Job Currency Code" <> xRec."Job Currency Code") OR ("Job Currency Code" <> '') THEN
                                                                   IF JobTaskIsSet THEN BEGIN
@@ -2420,9 +2278,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                   END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Currency Code;
-                                                              ESP=C¢digo divisa proyecto;
-                                                              DEA=WÑhrungscode Projekt] }
+                                                   CaptionML=[DEU=WÑhrungscode Projekt;
+                                                              ENU=Job Currency Code] }
     { 1020;   ;Job Planning Line No.;Integer      ;OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
                                                               BEGIN
@@ -2454,9 +2311,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 VALIDATE("Job Planning Line No.",JobPlanningLine."Line No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Job Planning Line No.;
-                                                              ESP=Nß l°nea planificaci¢n proyecto;
-                                                              DEA=Projektplanzeilennr.];
+                                                   CaptionML=[DEU=Projektplanzeilennr.;
+                                                              ENU=Job Planning Line No.];
                                                    BlankZero=Yes }
     { 1030;   ;Job Remaining Qty.  ;Decimal       ;OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
@@ -2476,9 +2332,8 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Remaining Qty.;
-                                                              ESP=Cdad. pendiente proyecto;
-                                                              DEA=Verbleibend fÅr Projekt - Menge];
+                                                   CaptionML=[DEU=Verbleibend fÅr Projekt - Menge;
+                                                              ENU=Job Remaining Qty.];
                                                    DecimalPlaces=0:5 }
     { 5050;   ;Campaign No.        ;Code20        ;TableRelation=Campaign;
                                                    OnValidate=BEGIN
@@ -2490,16 +2345,13 @@ OBJECT Table 81 Gen. Journal Line
                                                                   DATABASE::"Salesperson/Purchaser","Salespers./Purch. Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Campaign No.;
-                                                              ESP=Nß campa§a;
-                                                              DEA=Kampagnennr.] }
-    { 5400;   ;Prod. Order No.     ;Code20        ;CaptionML=[ENU=Prod. Order No.;
-                                                              ESP=Nß orden producci¢n;
-                                                              DEA=FA-Nr.];
+                                                   CaptionML=[DEU=Kampagnennr.;
+                                                              ENU=Campaign No.] }
+    { 5400;   ;Prod. Order No.     ;Code20        ;CaptionML=[DEU=FA-Nr.;
+                                                              ENU=Prod. Order No.];
                                                    Editable=No }
-    { 5600;   ;FA Posting Date     ;Date          ;CaptionML=[ENU=FA Posting Date;
-                                                              ESP=A/F Fecha registro;
-                                                              DEA=Anlagedatum] }
+    { 5600;   ;FA Posting Date     ;Date          ;CaptionML=[DEU=Anlagedatum;
+                                                              ENU=FA Posting Date] }
     { 5601;   ;FA Posting Type     ;Option        ;OnValidate=BEGIN
                                                                 IF  NOT (("Account Type" = "Account Type"::"Fixed Asset") OR
                                                                          ("Bal. Account Type" = "Bal. Account Type"::"Fixed Asset")) AND
@@ -2527,12 +2379,10 @@ OBJECT Table 81 Gen. Journal Line
                                                                 GetFAAddCurrExchRate;
                                                               END;
 
-                                                   CaptionML=[ENU=FA Posting Type;
-                                                              ESP=A/F Tipo registro;
-                                                              DEA=Anlagenbuchungsart];
-                                                   OptionCaptionML=[ENU=" ,Acquisition Cost,Depreciation,Write-Down,Appreciation,Custom 1,Custom 2,Disposal,Maintenance";
-                                                                    ESP=" ,Coste,Amortizaci¢n,Depreciaci¢n,Apreciaci¢n,Especial,Provisi¢n,Venta/Baja,Mantenimiento";
-                                                                    DEA=" ,Anschaffung,Normal-AfA,Erhîhte AfA,Zuschreibung,Sonder-AfA,Benutzerdef. AfA,Verkauf,Wartung"];
+                                                   CaptionML=[DEU=Anlagenbuchungsart;
+                                                              ENU=FA Posting Type];
+                                                   OptionCaptionML=[DEU=" ,Anschaffung,Normal-AfA,Erhîhte AfA,Zuschreibung,Sonder-AfA,Benutzerdef. AfA,Verkauf,Wartung";
+                                                                    ENU=" ,Acquisition Cost,Depreciation,Write-Down,Appreciation,Custom 1,Custom 2,Disposal,Maintenance"];
                                                    OptionString=[ ,Acquisition Cost,Depreciation,Write-Down,Appreciation,Custom 1,Custom 2,Disposal,Maintenance] }
     { 5602;   ;Depreciation Book Code;Code10      ;TableRelation="Depreciation Book";
                                                    OnValidate=BEGIN
@@ -2556,41 +2406,34 @@ OBJECT Table 81 Gen. Journal Line
                                                                 GetFAAddCurrExchRate;
                                                               END;
 
-                                                   CaptionML=[ENU=Depreciation Book Code;
-                                                              ESP=C¢d. libro amortizaci¢n;
-                                                              DEA=AfA Buchcode] }
-    { 5603;   ;Salvage Value       ;Decimal       ;CaptionML=[ENU=Salvage Value;
-                                                              ESP=Valor residual;
-                                                              DEA=Restwert];
+                                                   CaptionML=[DEU=AfA Buchcode;
+                                                              ENU=Depreciation Book Code] }
+    { 5603;   ;Salvage Value       ;Decimal       ;CaptionML=[DEU=Restwert;
+                                                              ENU=Salvage Value];
                                                    AutoFormatType=1 }
-    { 5604;   ;No. of Depreciation Days;Integer   ;CaptionML=[ENU=No. of Depreciation Days;
-                                                              ESP=Nß d°as amortizaci¢n;
-                                                              DEA=Anzahl AfA-Tage];
+    { 5604;   ;No. of Depreciation Days;Integer   ;CaptionML=[DEU=Anzahl AfA-Tage;
+                                                              ENU=No. of Depreciation Days];
                                                    BlankZero=Yes }
-    { 5605;   ;Depr. until FA Posting Date;Boolean;CaptionML=[ENU=Depr. until FA Posting Date;
-                                                              ESP=A/F Amort. hasta fecha reg.;
-                                                              DEA=AfA bis Anlagedatum] }
-    { 5606;   ;Depr. Acquisition Cost;Boolean     ;CaptionML=[ENU=Depr. Acquisition Cost;
-                                                              ESP=Amort. hasta coste;
-                                                              DEA=RÅckw. AfA-Korr. b. Anschaff.] }
+    { 5605;   ;Depr. until FA Posting Date;Boolean;CaptionML=[DEU=AfA bis Anlagedatum;
+                                                              ENU=Depr. until FA Posting Date] }
+    { 5606;   ;Depr. Acquisition Cost;Boolean     ;CaptionML=[DEU=RÅckw. AfA-Korr. b. Anschaff.;
+                                                              ENU=Depr. Acquisition Cost] }
     { 5609;   ;Maintenance Code    ;Code10        ;TableRelation=Maintenance;
                                                    OnValidate=BEGIN
                                                                 IF "Maintenance Code" <> '' THEN
                                                                   TESTFIELD("FA Posting Type","FA Posting Type"::Maintenance);
                                                               END;
 
-                                                   CaptionML=[ENU=Maintenance Code;
-                                                              ESP=C¢d. mantenimiento;
-                                                              DEA=Wartungscode] }
+                                                   CaptionML=[DEU=Wartungscode;
+                                                              ENU=Maintenance Code] }
     { 5610;   ;Insurance No.       ;Code20        ;TableRelation=Insurance;
                                                    OnValidate=BEGIN
                                                                 IF "Insurance No." <> '' THEN
                                                                   TESTFIELD("FA Posting Type","FA Posting Type"::"Acquisition Cost");
                                                               END;
 
-                                                   CaptionML=[ENU=Insurance No.;
-                                                              ESP=Nß seguro;
-                                                              DEA=Versicherungsnr.] }
+                                                   CaptionML=[DEU=Versicherungsnr.;
+                                                              ENU=Insurance No.] }
     { 5611;   ;Budgeted FA No.     ;Code20        ;TableRelation="Fixed Asset";
                                                    OnValidate=BEGIN
                                                                 IF "Budgeted FA No." <> '' THEN BEGIN
@@ -2599,39 +2442,32 @@ OBJECT Table 81 Gen. Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Budgeted FA No.;
-                                                              ESP=A/F Nß pptdo.;
-                                                              DEA=Plananlagennr.] }
+                                                   CaptionML=[DEU=Plananlagennr.;
+                                                              ENU=Budgeted FA No.] }
     { 5612;   ;Duplicate in Depreciation Book;Code10;
                                                    TableRelation="Depreciation Book";
                                                    OnValidate=BEGIN
                                                                 "Use Duplication List" := FALSE;
                                                               END;
 
-                                                   CaptionML=[ENU=Duplicate in Depreciation Book;
-                                                              ESP=Duplicado en libro amort.;
-                                                              DEA=In AfA-Buch kopieren] }
+                                                   CaptionML=[DEU=In AfA-Buch kopieren;
+                                                              ENU=Duplicate in Depreciation Book] }
     { 5613;   ;Use Duplication List;Boolean       ;OnValidate=BEGIN
                                                                 "Duplicate in Depreciation Book" := '';
                                                               END;
 
-                                                   CaptionML=[ENU=Use Duplication List;
-                                                              ESP=Utilizar lista duplicados;
-                                                              DEA=Kopiervorgang aktivieren] }
-    { 5614;   ;FA Reclassification Entry;Boolean  ;CaptionML=[ENU=FA Reclassification Entry;
-                                                              ESP=A/F Mov. reclasificaci¢n;
-                                                              DEA=Anlagenumbuchungsposten] }
+                                                   CaptionML=[DEU=Kopiervorgang aktivieren;
+                                                              ENU=Use Duplication List] }
+    { 5614;   ;FA Reclassification Entry;Boolean  ;CaptionML=[DEU=Anlagenumbuchungsposten;
+                                                              ENU=FA Reclassification Entry] }
     { 5615;   ;FA Error Entry No.  ;Integer       ;TableRelation="FA Ledger Entry";
-                                                   CaptionML=[ENU=FA Error Entry No.;
-                                                              ESP=A/F Nß mov. anulado;
-                                                              DEA=Anlagenstornoposten Lfd. Nr.];
+                                                   CaptionML=[DEU=Anlagenstornoposten Lfd. Nr.;
+                                                              ENU=FA Error Entry No.];
                                                    BlankZero=Yes }
-    { 5616;   ;Index Entry         ;Boolean       ;CaptionML=[ENU=Index Entry;
-                                                              ESP=Mov. valor ajuste;
-                                                              DEA=Indexierungsbuchung] }
-    { 5617;   ;Source Line No.     ;Integer       ;CaptionML=[ENU=Source Line No.;
-                                                              ESP=Nß l°n. origen;
-                                                              DEA=Herkunftszeilennr.] }
+    { 5616;   ;Index Entry         ;Boolean       ;CaptionML=[DEU=Indexierungsbuchung;
+                                                              ENU=Index Entry] }
+    { 5617;   ;Source Line No.     ;Integer       ;CaptionML=[DEU=Herkunftszeilennr.;
+                                                              ENU=Source Line No.] }
   }
   KEYS
   {
@@ -2652,21 +2488,21 @@ OBJECT Table 81 Gen. Journal Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=%1 or %2 must be G/L Account or Bank Account.;ESP=%1 o %2 deben ser de tipo Cuenta o Banco.;DEA=%1 oder %2 muss Sach- oder Bankkonto sein.';
-      Text001@1001 : TextConst 'ENU=You must not specify %1 when %2 is %3.;ESP=No se debe especificar %1 cuando %2 es %3.;DEA=Sie dÅrfen nicht %1 angeben, wenn %2 %3 ist.';
-      Text002@1002 : TextConst 'ENU=cannot be specified without %1;ESP=no se puede especificar sin %1;DEA=kann nicht ohne %1 spezifiziert werden';
-      Text003@1003 : TextConst 'ENU=The %1 in the %2 will be changed from %3 to %4.\;ESP=El/la %1 en el/la %2 se cambiar† de %3 a %4.\;DEA=Der %1 in der %2 wird von %3 auf %4 geÑndert.\';
-      Text004@1004 : TextConst 'ENU=Do you wish to continue?;ESP=®Confirma que desea continuar?;DEA=Mîchten Sie fortfahren?';
-      Text005@1005 : TextConst 'ENU=The update has been interrupted to respect the warning.;ESP=Se ha interrumpido la actualizaci¢n para respetar la advertencia.;DEA=Die Verarbeitung wurde unterbrochen, um die Warnung zu berÅcksichtigen.';
-      Text006@1006 : TextConst 'ENU=The %1 option can only be used internally in the system.;ESP=La opci¢n %1 es de uso interno del sistema.;DEA=Die Option %1 kann nur vom System intern verwendet werden.';
-      Text007@1007 : TextConst 'ENU=%1 or %2 must be a Bank Account.;ESP=%1 o %2 debe ser de tipo Banco.;DEA=%1 oder %2 muss ein Bankkonto sein.';
-      Text008@1008 : TextConst 'ENU=" must be 0 when %1 is %2.";ESP=" debe ser 0 cuando %1 es %2.";DEA=" muss 0 sein, wenn %1 %2 ist."';
-      Text009@1009 : TextConst 'ENU=LCY;ESP=DL;DEA=MW';
-      Text010@1010 : TextConst 'ENU=%1 must be %2 or %3.;ESP=%1 debe ser %2 o %3.;DEA=%1 muss %2 oder %3 sein.';
-      Text011@1011 : TextConst 'ENU=%1 must be negative.;ESP=El %1 debe ser negativo.;DEA=%1 muss ein negatives Vorzeichen haben.';
-      Text012@1012 : TextConst 'ENU=%1 must be positive.;ESP=El %1 debe ser positivo.;DEA=%1 muss positiv sein.';
-      Text013@1013 : TextConst 'ENU=The %1 must not be more than %2.;ESP=%1 no debe ser m†s que %2.;DEA=Die %1 darf nicht grî·er sein als %2.';
-      Text017@1065 : TextConst 'ENU=Credit card %1 has already been performed for this %2, but posting failed. You must complete posting of the document of type %2 with the number %3.;ESP=La tarjeta de crÇdito %1 ya se us¢ para %2, pero se produjo un error de registro. Complete el registro del documento de tipo %2 con el n£mero %3.;DEA=FÅr die Kreditkarte wurde bereits die Aktion ''%1'' fÅr ''%2'' ausgefÅhrt, es ist jedoch ein Buchungsfehler aufgetreten. Schlie·en Sie die Buchung des Belegs vom Typ ''%2'' mit der Nummer %3 ab.';
+      Text000@1000 : TextConst 'DEU=%1 oder %2 muss Sach- oder Bankkonto sein.;ENU=%1 or %2 must be G/L Account or Bank Account.';
+      Text001@1001 : TextConst 'DEU=Sie dÅrfen nicht %1 angeben, wenn %2 %3 ist.;ENU=You must not specify %1 when %2 is %3.';
+      Text002@1002 : TextConst 'DEU=kann nicht ohne %1 spezifiziert werden;ENU=cannot be specified without %1';
+      Text003@1003 : TextConst 'DEU=Der %1 in der %2 wird von %3 auf %4 geÑndert.\;ENU=The %1 in the %2 will be changed from %3 to %4.\';
+      Text004@1004 : TextConst 'DEU=Mîchten Sie fortfahren?;ENU=Do you wish to continue?';
+      Text005@1005 : TextConst 'DEU=Die Verarbeitung wurde unterbrochen, um die Warnung zu berÅcksichtigen.;ENU=The update has been interrupted to respect the warning.';
+      Text006@1006 : TextConst 'DEU=Die Option %1 kann nur vom System intern verwendet werden.;ENU=The %1 option can only be used internally in the system.';
+      Text007@1007 : TextConst 'DEU=%1 oder %2 muss ein Bankkonto sein.;ENU=%1 or %2 must be a Bank Account.';
+      Text008@1008 : TextConst 'DEU=" muss 0 sein, wenn %1 %2 ist.";ENU=" must be 0 when %1 is %2."';
+      Text009@1009 : TextConst 'DEU=MW;ENU=LCY';
+      Text010@1010 : TextConst 'DEU=%1 muss %2 oder %3 sein.;ENU=%1 must be %2 or %3.';
+      Text011@1011 : TextConst 'DEU=%1 muss ein negatives Vorzeichen haben.;ENU=%1 must be negative.';
+      Text012@1012 : TextConst 'DEU=%1 muss positiv sein.;ENU=%1 must be positive.';
+      Text013@1013 : TextConst 'DEU=Die %1 darf nicht grî·er sein als %2.;ENU=The %1 must not be more than %2.';
+      Text017@1065 : TextConst 'DEU=FÅr die Kreditkarte wurde bereits die Aktion ''%1'' fÅr ''%2'' ausgefÅhrt, es ist jedoch ein Buchungsfehler aufgetreten. Schlie·en Sie die Buchung des Belegs vom Typ ''%2'' mit der Nummer %3 ab.;ENU=Credit card %1 has already been performed for this %2, but posting failed. You must complete posting of the document of type %2 with the number %3.';
       GenJnlTemplate@1014 : Record 80;
       GenJnlBatch@1015 : Record 232;
       GenJnlLine@1016 : Record 81;
@@ -2708,19 +2544,19 @@ OBJECT Table 81 Gen. Journal Line
       AccType@1050 : 'G/L Account,Customer,Vendor,Bank Account,Fixed Asset';
       ReplaceInfo@1051 : Boolean;
       CurrencyCode@1052 : Code[10];
-      Text014@1054 : TextConst 'ENU=The %1 %2 has a %3 %4.\Do you still want to use %1 %2 in this journal line?;ESP=El %1 %2 tiene un %3 %4.\®Todav°a quiere utilizar %1 %2 en esta l°nea del diario?;DEA=%1 %2 hat %3 %4.\Mîchten Sie %1 %2 in dieser Zeile verwenden?';
+      Text014@1054 : TextConst 'DEU=%1 %2 hat %3 %4.\Mîchten Sie %1 %2 in dieser Zeile verwenden?;ENU=The %1 %2 has a %3 %4.\Do you still want to use %1 %2 in this journal line?';
       OK@1055 : Boolean;
       TemplateFound@1056 : Boolean;
-      Text015@1058 : TextConst 'ENU=You are not allowed to apply and post an entry to an entry with an earlier posting date.\\Instead, post %1 %2 and then apply it to %3 %4.;ESP=No tiene permiso para aplicar ni registrar un movimiento con una fecha de registro anterior.\\En su lugar, registre %1 %2 y, a continuaci¢n, apl°quelo a %3 %4.;DEA=Sie dÅrfen keinen Posten auf einen anderen Posten mit frÅherem Buchungsdatum anwenden und buchen.\\Buchen Sie stattdessen %1 %2, und wenden Sie das Ergebnis dann auf %3 %4 an.';
+      Text015@1058 : TextConst 'DEU=Sie dÅrfen keinen Posten auf einen anderen Posten mit frÅherem Buchungsdatum anwenden und buchen.\\Buchen Sie stattdessen %1 %2, und wenden Sie das Ergebnis dann auf %3 %4 an.;ENU=You are not allowed to apply and post an entry to an entry with an earlier posting date.\\Instead, post %1 %2 and then apply it to %3 %4.';
       CurrencyDate@1061 : Date;
       SourceCodeSetup@1063 : Record 242;
-      Text016@1062 : TextConst 'ENU=%1 must be G/L Account or Bank Account.;ESP=%1 deber°a ser una cuenta o banco.;DEA=''%1'' muss ein Sachkonto oder ein Bankkonto sein.';
+      Text016@1062 : TextConst 'DEU=''%1'' muss ein Sachkonto oder ein Bankkonto sein.;ENU=%1 must be G/L Account or Bank Account.';
       HideValidationDialog@1064 : Boolean;
-      Text018@1066 : TextConst 'ENU=%1 can only be set when %2 is set.;ESP=Solo se puede establecer %1 cuando se establece %2.;DEA=%1 kann nur festgelegt werden, wenn %2 festgelegt ist.';
-      Text019@1067 : TextConst 'ENU=%1 cannot be changed when %2 is set.;ESP=%1 no se puede cambiar cuando se establece %2.;DEA=%1 kann nicht geÑndert werden, wenn %2 festgelegt ist.';
+      Text018@1066 : TextConst 'DEU=%1 kann nur festgelegt werden, wenn %2 festgelegt ist.;ENU=%1 can only be set when %2 is set.';
+      Text019@1067 : TextConst 'DEU=%1 kann nicht geÑndert werden, wenn %2 festgelegt ist.;ENU=%1 cannot be changed when %2 is set.';
       GLSetupRead@1019 : Boolean;
-      Text11500@1150000 : TextConst 'ENU=This change may affect payment discounts. Please verify the payment discount amount.;DEA=Diese énderung hat mîglicherweise Einfluss auf Skonti. PrÅfen Sie den Skontobetrag.';
-      Text11501@1000003 : TextConst 'ENU=Invoice %1 doesn''t exist or is already closed.;DEA=Rechnung %1 ist nicht vorhanden oder bereits geschlossen.';
+      Text11500@1150000 : TextConst 'DEU=Diese énderung hat mîglicherweise Einfluss auf Skonti. PrÅfen Sie den Skontobetrag.;ENU=This change may affect payment discounts. Please verify the payment discount amount.';
+      Text11501@1000003 : TextConst 'DEU=Rechnung %1 ist nicht vorhanden oder bereits geschlossen.;ENU=Invoice %1 doesn''t exist or is already closed.';
 
     PROCEDURE EmptyLine@5() : Boolean;
     BEGIN

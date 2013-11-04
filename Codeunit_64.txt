@@ -2,9 +2,9 @@ OBJECT Codeunit 64 Sales-Get Shipment
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -27,14 +27,14 @@ OBJECT Codeunit 64 Sales-Get Shipment
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=The %1 on the %2 %3 and the %4 %5 must be the same.;ESP=El %1 en el %2 %3 y el %4 %5 debe ser el mismo.;DEA=Der %1 auf dem %2 %3 und auf dem %4 %5 muss derselbe sein.';
+      Text001@1000 : TextConst 'DEU=Der %1 auf dem %2 %3 und auf dem %4 %5 muss derselbe sein.;ENU=The %1 on the %2 %3 and the %4 %5 must be the same.';
       SalesHeader@1001 : Record 36;
       SalesLine@1002 : Record 37;
       SalesShptHeader@1003 : Record 110;
       SalesShptLine@1004 : Record 111;
       GetShipments@1005 : Page 5708;
-      Text002@1007 : TextConst 'ENU=Creating Sales Invoice Lines\;ESP=Creando l°neas de fra. venta\;DEA=Verkaufsrechnungszeilen werden erstellt\';
-      Text003@1006 : TextConst 'ENU=Inserted lines             #1######;ESP=L°neas insertadas          #1######;DEA=EingefÅgte Zeilen             #1######';
+      Text002@1007 : TextConst 'DEU=Verkaufsrechnungszeilen werden erstellt\;ENU=Creating Sales Invoice Lines\';
+      Text003@1006 : TextConst 'DEU=EingefÅgte Zeilen             #1######;ENU=Inserted lines             #1######';
 
     PROCEDURE CreateInvLines@1(VAR SalesShptLine2@1000 : Record 111);
     VAR

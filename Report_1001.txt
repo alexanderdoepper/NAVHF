@@ -2,15 +2,14 @@ OBJECT Report 1001 Inventory Valuation
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Inventory Valuation;
-               ESP=Valoraci¢n inventario;
-               DEA=Aktuellen Lagerwert ermitteln];
+    CaptionML=[DEU=Aktuellen Lagerwert ermitteln;
+               ENU=Inventory Valuation];
     EnableHyperlinks=Yes;
     OnPreReport=BEGIN
                   IF (StartDate = 0D) AND (EndDate = 0D) THEN
@@ -267,28 +266,24 @@ OBJECT Report 1001 Inventory Valuation
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=StartDate }
 
       { 2   ;2   ;Field     ;
                   Name=EndingDate;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=EndDate }
 
       { 3   ;2   ;Field     ;
                   Name=IncludeExpectedCost;
-                  CaptionML=[ENU=Include Expected Cost;
-                             ESP=Incluir coste previsto;
-                             DEA=Inklusive Soll-Kosten];
+                  CaptionML=[DEU=Inklusive Soll-Kosten;
+                             ENU=Include Expected Cost];
                   SourceExpr=ShowExpected }
 
     }
@@ -296,17 +291,15 @@ OBJECT Report 1001 Inventory Valuation
   LABELS
   {
     { 92  ;Inventory_Posting_Group_NameCaption;
-                                CaptionML=[ENU=Inventory Posting Group Name;
-                                           ESP=Nombre grupo regis. invent.;
-                                           DEA=Lagerbuchungsgruppenname] }
-    { 91  ;Expected_CostCaption;CaptionML=[ENU=Expected Cost;
-                                           ESP=Coste previsto;
-                                           DEA=Soll-Kosten] }
+                                CaptionML=[DEU=Lagerbuchungsgruppenname;
+                                           ENU=Inventory Posting Group Name] }
+    { 91  ;Expected_CostCaption;CaptionML=[DEU=Soll-Kosten;
+                                           ENU=Expected Cost] }
   }
   CODE
   {
     VAR
-      Text005@1000 : TextConst 'ENU=As of %1;ESP=Hasta el %1;DEA=Per %1';
+      Text005@1000 : TextConst 'DEU=Per %1;ENU=As of %1';
       StartDate@1005 : Date;
       EndDate@1006 : Date;
       ShowExpected@1007 : Boolean;
@@ -327,22 +320,22 @@ OBJECT Report 1001 Inventory Valuation
       InvDecreases@1021 : Decimal;
       ShipDecreases@1022 : Decimal;
       ExpCostPostedToGL@1023 : Decimal;
-      BoM_TextLbl@9656 : TextConst 'ENU=Base UoM;ESP=UM base;DEA=Bemessungsgrundlage - Einheit';
-      Inventory_ValuationCaptionLbl@4241 : TextConst 'ENU=Inventory Valuation;ESP=Valoraci¢n inventario;DEA=Aktuellen Lagerwert ermitteln';
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;ESP=P g.;DEA=Seite';
-      This_report_includes_entries_that_have_been_posted_with_expected_costs_CaptionLbl@4637 : TextConst 'ENU=This report includes entries that have been posted with expected costs.;ESP=Este informe incluye movimientos registrados con costes previstos.;DEA=Dieser Bericht enth„lt Posten, die mit Soll-Kosten gebucht wurden.';
-      InvIncreasesCaptionLbl@8675 : TextConst 'ENU=Increases (LCY);ESP=Aumentos (DL);DEA=Zug„nge (MW)';
-      InvDecreasesCaptionLbl@9978 : TextConst 'ENU=Decreases (LCY);ESP=Disminuciones (DL);DEA=Abg„nge (MW)';
-      QuantityCaptionLbl@7263 : TextConst 'ENU=Quantity;ESP=Cantidad;DEA=Menge';
-      ValueCaptionLbl@9289 : TextConst 'ENU=Value;ESP=Valor;DEA=Wert';
-      QuantityCaption_Control31Lbl@8920 : TextConst 'ENU=Quantity;ESP=Cantidad;DEA=Menge';
-      QuantityCaption_Control40Lbl@4734 : TextConst 'ENU=Quantity;ESP=Cantidad;DEA=Menge';
-      InvCostPostedToGL_Control53CaptionLbl@3253 : TextConst 'ENU=Cost Posted to G/L;ESP=Coste regis. en contab.;DEA=Gebuchte Lagerregulierung';
-      QuantityCaption_Control58Lbl@2152 : TextConst 'ENU=Quantity;ESP=Cantidad;DEA=Menge';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      Expected_Cost_Included_TotalCaptionLbl@9334 : TextConst 'ENU=Expected Cost Included Total;ESP=Total incluido coste previsto;DEA=Gesamt inkl. Soll-Kosten';
-      Expected_Cost_TotalCaptionLbl@7207 : TextConst 'ENU=Expected Cost Total;ESP=Total coste previsto;DEA=Soll-Kosten - Gesamt';
-      Expected_Cost_IncludedCaptionLbl@4462 : TextConst 'ENU=Expected Cost Included;ESP=Incluido coste previsto;DEA=Inkl. Soll-Kosten';
+      BoM_TextLbl@9656 : TextConst 'DEU=Bemessungsgrundlage - Einheit;ENU=Base UoM';
+      Inventory_ValuationCaptionLbl@4241 : TextConst 'DEU=Aktuellen Lagerwert ermitteln;ENU=Inventory Valuation';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      This_report_includes_entries_that_have_been_posted_with_expected_costs_CaptionLbl@4637 : TextConst 'DEU=Dieser Bericht enth„lt Posten, die mit Soll-Kosten gebucht wurden.;ENU=This report includes entries that have been posted with expected costs.';
+      InvIncreasesCaptionLbl@8675 : TextConst 'DEU=Zug„nge (MW);ENU=Increases (LCY)';
+      InvDecreasesCaptionLbl@9978 : TextConst 'DEU=Abg„nge (MW);ENU=Decreases (LCY)';
+      QuantityCaptionLbl@7263 : TextConst 'DEU=Menge;ENU=Quantity';
+      ValueCaptionLbl@9289 : TextConst 'DEU=Wert;ENU=Value';
+      QuantityCaption_Control31Lbl@8920 : TextConst 'DEU=Menge;ENU=Quantity';
+      QuantityCaption_Control40Lbl@4734 : TextConst 'DEU=Menge;ENU=Quantity';
+      InvCostPostedToGL_Control53CaptionLbl@3253 : TextConst 'DEU=Gebuchte Lagerregulierung;ENU=Cost Posted to G/L';
+      QuantityCaption_Control58Lbl@2152 : TextConst 'DEU=Menge;ENU=Quantity';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      Expected_Cost_Included_TotalCaptionLbl@9334 : TextConst 'DEU=Gesamt inkl. Soll-Kosten;ENU=Expected Cost Included Total';
+      Expected_Cost_TotalCaptionLbl@7207 : TextConst 'DEU=Soll-Kosten - Gesamt;ENU=Expected Cost Total';
+      Expected_Cost_IncludedCaptionLbl@4462 : TextConst 'DEU=Inkl. Soll-Kosten;ENU=Expected Cost Included';
 
     LOCAL PROCEDURE AddAmounts@2(ValueEntry@1005 : Record 5802;VAR CostAmtExp@1001 : Decimal;VAR CostAmtActual@1000 : Decimal;VAR InvQty@1002 : Decimal;VAR Qty@1004 : Decimal;Sign@1003 : Integer);
     BEGIN
@@ -501,14 +494,11 @@ OBJECT Report 1001 Inventory Valuation
         SETRANGE("Item Ledger Entry Type","Item Ledger Entry Type"::Transfer);
         IF FIND('-') THEN
           REPEAT
-            IF "Posting Date" < StartDate THEN
-              AddAmounts(ValueEntry,ValueOfQtyOnHand,ValueOfInvoicedQty,InvoicedQty,QtyOnHand,1)
-            ELSE BEGIN
+            IF "Posting Date" > StartDate THEN
               IF TRUE IN ["Valued Quantity" < 0,NOT GetOutboundItemEntry("Item Ledger Entry No.")] THEN
                 AddAmounts(ValueEntry,CostOfShipDecreases,CostOfInvDecreases,InvDecreases,ShipDecreases,-1)
               ELSE
                 AddAmounts(ValueEntry,ValueOfRcdIncreases,ValueOfInvIncreases,InvIncreases,RcdIncreases,1);
-            END;
           UNTIL NEXT = 0;
       END;
     END;

@@ -2,9 +2,9 @@ OBJECT Codeunit 5611 Calculate Normal Depreciation
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -17,11 +17,11 @@ OBJECT Codeunit 5611 Calculate Normal Depreciation
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU="Force No. of Days must only be specified if %1 %2 = %3.";ESP="S¢lo se puede especificar obligar nß de d°as si %1 %2 = %3.";DEA="Anzahl Tage muss gezwungenerma·en angegeben werden, wenn %1 %2 = %3 ist."';
-      Text001@1001 : TextConst 'ENU=%2 must not be 100 for %1.;ESP=%2 no debe ser 100 para %1.;DEA=%2 darf nicht 100 fÅr %1 sein.';
-      Text002@1002 : TextConst 'ENU="%2 must be %3 if %4 %5 = %6 for %1.";ESP="%2 debe ser %3 si %4 %5 = %6 para %1.";DEA="%2 muss %3 sein, wenn %4 %5 = %6 fÅr %1 sind."';
-      Text003@1003 : TextConst 'ENU=%2 must not be later than %3 for %1.;ESP=%2 no debe ser posterior que %3 para %1.;DEA=%2 darf nicht Ñlter als %3 sein fÅr %1.';
-      Text004@1004 : TextConst 'ENU=%1 %2 must not be used together with the Half-Year Convention for %3.;ESP=%1 %2 no se puede utilizar junto con el mÇtodo medio-a§o para %3.;DEA=Die %1 %2 darf fÅr die Anlage %3 nicht in Verbindung mit der US-Halbjahresregel verwendet werden.';
+      Text000@1000 : TextConst 'DEU="Anzahl Tage muss gezwungenerma·en angegeben werden, wenn %1 %2 = %3 ist.";ENU="Force No. of Days must only be specified if %1 %2 = %3."';
+      Text001@1001 : TextConst 'DEU=%2 darf nicht 100 fÅr %1 sein.;ENU=%2 must not be 100 for %1.';
+      Text002@1002 : TextConst 'DEU="%2 muss %3 sein, wenn %4 %5 = %6 fÅr %1 sind.";ENU="%2 must be %3 if %4 %5 = %6 for %1."';
+      Text003@1003 : TextConst 'DEU=%2 darf nicht Ñlter als %3 sein fÅr %1.;ENU=%2 must not be later than %3 for %1.';
+      Text004@1004 : TextConst 'DEU=Die %1 %2 darf fÅr die Anlage %3 nicht in Verbindung mit der US-Halbjahresregel verwendet werden.;ENU=%1 %2 must not be used together with the Half-Year Convention for %3.';
       FA@1005 : Record 5600;
       FALedgEntry@1006 : Record 5601;
       DeprBook@1007 : Record 5611;
@@ -66,10 +66,10 @@ OBJECT Codeunit 5611 Calculate Normal Depreciation
       NewYearDate@1046 : Date;
       DeprInTwoFiscalYears@1047 : Boolean;
       TempDeprAmount@1048 : Decimal;
-      Text005@1049 : TextConst 'ENU=%1 must not be used together with the Half-Year Convention for %2.;ESP=%1 no se puede utilizar junto con el mÇtodo medio-a§o para %2.;DEA=%1 darf nicht zusammen mit der Halbjahreskonvention fÅr %2 verwendet werden.';
-      Text006@1050 : TextConst 'ENU=%1 must be %2 or later for %3.;ESP=%1 debe ser %2 o posterior para %3.;DEA=%1 muss fÅr %3 %2 oder spÑter sein.';
-      Text007@1051 : TextConst 'ENU=%1 must not be used together with %2 for %3.;ESP=%1 no se debe utilizar conjuntamente con %2 para %3.;DEA=%1 darf fÅr %3 nicht zusammen mit %2 verwendet werden.';
-      Text008@1052 : TextConst 'ENU="%1 must not be used together with %2 = %3 for %4.";ESP="%1 no se debe utilizar conjuntamente con %2 =%3 para %4.";DEA="%1 darf nicht zusammen mit %2 = %3 fÅr %4 verwendet werden."';
+      Text005@1049 : TextConst 'DEU=%1 darf nicht zusammen mit der Halbjahreskonvention fÅr %2 verwendet werden.;ENU=%1 must not be used together with the Half-Year Convention for %2.';
+      Text006@1050 : TextConst 'DEU=%1 muss fÅr %3 %2 oder spÑter sein.;ENU=%1 must be %2 or later for %3.';
+      Text007@1051 : TextConst 'DEU=%1 darf fÅr %3 nicht zusammen mit %2 verwendet werden.;ENU=%1 must not be used together with %2 for %3.';
+      Text008@1052 : TextConst 'DEU="%1 darf nicht zusammen mit %2 = %3 fÅr %4 verwendet werden.";ENU="%1 must not be used together with %2 = %3 for %4."';
       Year365Days@1053 : Boolean;
 
     PROCEDURE Calculate@1(VAR DeprAmount@1000 : Decimal;VAR NumberOfDays4@1001 : Integer;FANo@1002 : Code[20];DeprBookCode2@1003 : Code[10];UntilDate2@1004 : Date;EntryAmounts2@1005 : ARRAY [4] OF Decimal;DateFromProjection2@1006 : Date;DaysInPeriod2@1007 : Integer);

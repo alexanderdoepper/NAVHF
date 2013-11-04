@@ -2,16 +2,15 @@ OBJECT Page 343 Check Credit Limit
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Check Credit Limit;
-               ESP=Comprobar l°mite de crÇdito;
-               DEA=Kreditlimit prÅfen];
+    CaptionML=[DEU=Kreditlimit prÅfen;
+               ENU=Check Credit Limit];
     InsertAllowed=No;
     DeleteAllowed=No;
     ModifyAllowed=No;
@@ -19,9 +18,8 @@ OBJECT Page 343 Check Credit Limit
     SourceTable=Table18;
     DataCaptionExpr='';
     PageType=ConfirmationDialog;
-    InstructionalTextML=[ENU=An action is requested regarding the Credit Limit check.;
-                         ESP=Se ha solicitado una acci¢n en relaci¢n con una comprobaci¢n de l°mite de crÇdito.;
-                         DEA=FÅr die PrÅfung des Kreditlimits wird eine Aktion angefordert.];
+    InstructionalTextML=[DEU=FÅr die PrÅfung des Kreditlimits wird eine Aktion angefordert.;
+                         ENU=An action is requested regarding the Credit Limit check.];
     OnOpenPage=BEGIN
                  COPY(Cust2);
                END;
@@ -36,15 +34,13 @@ OBJECT Page 343 Check Credit Limit
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 24      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Customer;
-                                 ESP=&Cliente;
-                                 DEA=D&ebitor];
+                      CaptionML=[DEU=D&ebitor;
+                                 ENU=&Customer];
                       Image=Customer }
       { 25      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -53,9 +49,8 @@ OBJECT Page 343 Check Credit Limit
                       Image=EditLines }
       { 26      ;2   ;Action    ;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       RunObject=Page 151;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -76,9 +71,8 @@ OBJECT Page 343 Check Credit Limit
                 MultiLine=Yes }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=Details;
-                           ESP=Detalles;
-                           DEA=Details] }
+                CaptionML=[DEU=Details;
+                           ENU=Details] }
 
     { 5   ;2   ;Field     ;
                 SourceExpr="No." }
@@ -90,29 +84,25 @@ OBJECT Page 343 Check Credit Limit
                 SourceExpr="Balance (LCY)" }
 
     { 31  ;2   ;Field     ;
-                CaptionML=[ENU=Outstanding Amt. (LCY);
-                           ESP=Importes pendientes (DL);
-                           DEA=Restauftragsbetrag (MW)];
+                CaptionML=[DEU=Restauftragsbetrag (MW);
+                           ENU=Outstanding Amt. (LCY)];
                 SourceExpr=OrderAmountTotalLCY;
                 AutoFormatType=1 }
 
     { 13  ;2   ;Field     ;
-                CaptionML=[ENU=Shipped/Ret. Rcd. Not Invd. (LCY);
-                           ESP=Enviado/Dev. recib. no fact. (DL);
-                           DEA=Lief./RÅcks. nicht fakt. Betr. (MW)];
+                CaptionML=[DEU=Lief./RÅcks. nicht fakt. Betr. (MW);
+                           ENU=Shipped/Ret. Rcd. Not Invd. (LCY)];
                 SourceExpr=ShippedRetRcdNotIndLCY }
 
     { 15  ;2   ;Field     ;
-                CaptionML=[ENU=Current Amount (LCY);
-                           ESP=Imp. doc. actual (DL);
-                           DEA=Aktueller Betrag (MW)];
+                CaptionML=[DEU=Aktueller Betrag (MW);
+                           ENU=Current Amount (LCY)];
                 SourceExpr=OrderAmountThisOrderLCY;
                 AutoFormatType=1 }
 
     { 17  ;2   ;Field     ;
-                CaptionML=[ENU=Total Amount (LCY);
-                           ESP=Importe total (DL);
-                           DEA=Gesamtbetrag (MW)];
+                CaptionML=[DEU=Gesamtbetrag (MW);
+                           ENU=Total Amount (LCY)];
                 SourceExpr=CustCreditAmountLCY;
                 AutoFormatType=1 }
 
@@ -127,10 +117,10 @@ OBJECT Page 343 Check Credit Limit
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=%1 Do you still want to record the amount?;ESP=%1 ®Confirma que desea continuar a pesar de ello?;DEA=%1, mîchten Sie trotzdem Åbernehmen?';
-      Text001@1001 : TextConst 'ENU=Overdue Amounts (LCY) as of %1;ESP=Importes vencidos (DL) a %1;DEA=FÑllige BetrÑge (MW) per %1';
-      Text002@1002 : TextConst 'ENU=The customer''s credit limit has been exceeded.;ESP=El cliente ha superado el crÇdito m†ximo.;DEA=Maximales Kreditlimit des Debitors wurde Åberschritten';
-      Text003@1003 : TextConst 'ENU=This customer has an overdue balance.;ESP=El cliente tiene saldos vencidos.;DEA=Dieser Debitor hat einen ÅberfÑlligen Saldo';
+      Text000@1000 : TextConst 'DEU=%1, mîchten Sie trotzdem Åbernehmen?;ENU=%1 Do you still want to record the amount?';
+      Text001@1001 : TextConst 'DEU=FÑllige BetrÑge (MW) per %1;ENU=Overdue Amounts (LCY) as of %1';
+      Text002@1002 : TextConst 'DEU=Maximales Kreditlimit des Debitors wurde Åberschritten;ENU=The customer''s credit limit has been exceeded.';
+      Text003@1003 : TextConst 'DEU=Dieser Debitor hat einen ÅberfÑlligen Saldo;ENU=This customer has an overdue balance.';
       CurrExchRate@1004 : Record 330;
       SalesHeader@1005 : Record 36;
       SalesLine@1006 : Record 37;
@@ -148,7 +138,7 @@ OBJECT Page 343 Check Credit Limit
       ShippedRetRcdNotIndLCY@1016 : Decimal;
       OutstandingRetOrdersLCY@1017 : Decimal;
       RcdNotInvdRetOrdersLCY@1018 : Decimal;
-      Text004@1019 : TextConst 'ENU=This customer has an overdue balance and the customer''s credit limit has been exceeded.;ESP=El cliente tiene saldos vencidos y se ha superado su l°mite de crÇdito.;DEA=Dieser Debitor hat einen ÅberfÑlligen Saldo und das Kreditlimit wurde ebenfalls Åberschritten';
+      Text004@1019 : TextConst 'DEU=Dieser Debitor hat einen ÅberfÑlligen Saldo und das Kreditlimit wurde ebenfalls Åberschritten;ENU=This customer has an overdue balance and the customer''s credit limit has been exceeded.';
 
     PROCEDURE GenJnlLineShowWarning@2(GenJnlLine@1000 : Record 81) : Boolean;
     BEGIN

@@ -2,16 +2,15 @@ OBJECT Page 5708 Get Shipment Lines
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Get Shipment Lines;
-               ESP=Traer l¡neas albar n;
-               DEA=Lieferzeilen holen];
+    CaptionML=[DEU=Lieferzeilen holen;
+               ENU=Get Shipment Lines];
     SourceTable=Table111;
     PageType=List;
     SourceTableTemporary=Yes;
@@ -30,15 +29,13 @@ OBJECT Page 5708 Get Shipment Lines
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 47      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L¡nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 48      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Show Document;
-                                 ESP=Muestra documento;
-                                 DEA=Beleg anzeigen];
+                      CaptionML=[DEU=Beleg anzeigen;
+                                 ENU=Show Document];
                       Image=View;
                       OnAction=BEGIN
                                  SalesShptHeader.GET("Document No.");
@@ -47,9 +44,8 @@ OBJECT Page 5708 Get Shipment Lines
                                 }
       { 49      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
@@ -57,9 +53,8 @@ OBJECT Page 5708 Get Shipment Lines
                                END;
                                 }
       { 28      ;2   ;Action    ;
-                      CaptionML=[ENU=Item &Tracking Entries;
-                                 ESP=Movs. &seguim. prod.;
-                                 DEA=Artikel&verfolgungsposten];
+                      CaptionML=[DEU=Artikel&verfolgungsposten;
+                                 ENU=Item &Tracking Entries];
                       Image=ItemTrackingLedger;
                       OnAction=BEGIN
                                  ShowItemTrackingLines;

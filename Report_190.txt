@@ -2,15 +2,14 @@ OBJECT Report 190 Issue Reminders
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Issue Reminders;
-               ESP=Emitir recordatorios;
-               DEA=Mahnungen registrieren];
+    CaptionML=[DEU=Mahnungen registrieren;
+               ENU=Issue Reminders];
     ProcessingOnly=Yes;
   }
   DATASET
@@ -18,8 +17,8 @@ OBJECT Report 190 Issue Reminders
     { 4775;    ;DataItem;                    ;
                DataItemTable=Table295;
                DataItemTableView=SORTING(No.);
-               ReqFilterHeadingML=[ENU=Reminder;
-                                   DEA=Reminder];
+               ReqFilterHeadingML=[DEU=Reminder;
+                                   ENU=Reminder];
                OnPreDataItem=BEGIN
                                IF ReplacePostingDate AND (PostingDateReq = 0D) THEN
                                  ERROR(Text000);
@@ -89,26 +88,22 @@ OBJECT Report 190 Issue Reminders
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
-                  CaptionML=[ENU=Print;
-                             ESP=Imprimir;
-                             DEA=Drucken];
+                  CaptionML=[DEU=Drucken;
+                             ENU=Print];
                   SourceExpr=PrintDoc }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Replace Posting Date;
-                             ESP=Reemplazar fecha reg.;
-                             DEA=Buchungsdatum ersetzen];
+                  CaptionML=[DEU=Buchungsdatum ersetzen;
+                             ENU=Replace Posting Date];
                   SourceExpr=ReplacePostingDate }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Posting Date;
-                             ESP=Fecha registro;
-                             DEA=Buchungsdatum];
+                  CaptionML=[DEU=Buchungsdatum;
+                             ENU=Posting Date];
                   SourceExpr=PostingDateReq }
 
     }
@@ -119,10 +114,10 @@ OBJECT Report 190 Issue Reminders
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Please enter the posting date.;ESP=Introduzca la fecha registro.;DEA=Bitte das Buchungsdatum eingeben.';
-      Text001@1001 : TextConst 'ENU=Issuing reminder...;ESP=Emitiendo recordatorio...;DEA=Mahnung registrieren...';
-      Text002@1002 : TextConst 'ENU=Issuing reminders @1@@@@@@@@@@@@@;ESP=Emitiendo recordatorio @1@@@@@@@@@@@@@;DEA=Mahnungen registrieren @1@@@@@@@@@@@@@';
-      Text003@1003 : TextConst 'ENU=It was not possible to issue some of the selected reminders.\Do you want to see these reminders?;ESP=No se han podido emitir algunos de los recordatorios seleccionados.\¨Desea ver estos recordatorios?;DEA=Einige der ausgew„hlten Mahnungen konnten nicht registriert werden.\Sollen diese Mahnungen angezeigt werden?';
+      Text000@1000 : TextConst 'DEU=Bitte das Buchungsdatum eingeben.;ENU=Please enter the posting date.';
+      Text001@1001 : TextConst 'DEU=Mahnung registrieren...;ENU=Issuing reminder...';
+      Text002@1002 : TextConst 'DEU=Mahnungen registrieren @1@@@@@@@@@@@@@;ENU=Issuing reminders @1@@@@@@@@@@@@@';
+      Text003@1003 : TextConst 'DEU=Einige der ausgew„hlten Mahnungen konnten nicht registriert werden.\Sollen diese Mahnungen angezeigt werden?;ENU=It was not possible to issue some of the selected reminders.\Do you want to see these reminders?';
       IssuedReminderHeader@1005 : Record 297;
       ReminderIssue@1006 : Codeunit 393;
       Window@1007 : Dialog;

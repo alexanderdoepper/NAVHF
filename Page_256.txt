@@ -2,15 +2,14 @@ OBJECT Page 256 Payment Journal
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Payment Journal;
-               ESP=Diario pagos;
-               DEA=Zahlungsausgangs Buch.-Blatt];
+    CaptionML=[DEU=Zahlungsausgangs Buch.-Blatt;
+               ENU=Payment Journal];
     SaveValues=Yes;
     SourceTable=Table81;
     DataCaptionExpr=DataCaption;
@@ -59,15 +58,13 @@ OBJECT Page 256 Payment Journal
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 57      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L°nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 58      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Promoted=Yes;
                       Image=Dimensions;
                       PromotedCategory=Process;
@@ -77,37 +74,32 @@ OBJECT Page 256 Payment Journal
                                END;
                                 }
       { 37      ;1   ;ActionGroup;
-                      CaptionML=[ENU=A&ccount;
-                                 ESP=&Cuenta;
-                                 DEA=&Konto];
+                      CaptionML=[DEU=&Konto;
+                                 ENU=A&ccount];
                       Image=ChartOfAccounts }
       { 38      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Codeunit 15;
                       Image=EditLines }
       { 39      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=Ledger E&ntries];
                       RunObject=Codeunit 14;
                       Promoted=No;
                       Image=GLRegisters;
                       PromotedCategory=Process }
       { 41      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Payments;
-                                 ESP=&Pagos;
-                                 DEA=Za&hlungen];
+                      CaptionML=[DEU=Za&hlungen;
+                                 ENU=&Payments];
                       Image=Payment }
       { 42      ;2   ;Action    ;
                       Name=SuggestVendorPayments;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Suggest Vendor Payments;
-                                 ESP=Proponer pagos a proveedores;
-                                 DEA=Zahlungsvorschlag];
+                      CaptionML=[DEU=Zahlungsvorschlag;
+                                 ENU=Suggest Vendor Payments];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=SuggestVendorPayments;
@@ -122,9 +114,8 @@ OBJECT Page 256 Payment Journal
                                 }
       { 63      ;2   ;Action    ;
                       Name=PreviewCheck;
-                      CaptionML=[ENU=P&review Check;
-                                 ESP=Vista pr&eliminar cheque;
-                                 DEA=&Scheckansicht];
+                      CaptionML=[DEU=&Scheckansicht;
+                                 ENU=P&review Check];
                       RunObject=Page 404;
                       RunPageLink=Journal Template Name=FIELD(Journal Template Name),
                                   Journal Batch Name=FIELD(Journal Batch Name),
@@ -133,9 +124,8 @@ OBJECT Page 256 Payment Journal
       { 64      ;2   ;Action    ;
                       Name=PrintCheck;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Print Check;
-                                 ESP=Imprimir cheque;
-                                 DEA=Scheck drucken];
+                      CaptionML=[DEU=Scheck drucken;
+                                 ENU=Print Check];
                       Promoted=Yes;
                       Image=PrintCheck;
                       PromotedCategory=Process;
@@ -149,9 +139,8 @@ OBJECT Page 256 Payment Journal
                                END;
                                 }
       { 65      ;2   ;Action    ;
-                      CaptionML=[ENU=Void Check;
-                                 ESP=Anular cheque;
-                                 DEA=Scheck annullieren];
+                      CaptionML=[DEU=Scheck annullieren;
+                                 ENU=Void Check];
                       Promoted=Yes;
                       Image=VoidCheck;
                       PromotedCategory=Process;
@@ -163,9 +152,8 @@ OBJECT Page 256 Payment Journal
                                END;
                                 }
       { 66      ;2   ;Action    ;
-                      CaptionML=[ENU=Void &All Checks;
-                                 ESP=Anular t&odos los cheques;
-                                 DEA=Alle Sc&hecks annullieren];
+                      CaptionML=[DEU=Alle Sc&hecks annullieren;
+                                 ENU=Void &All Checks];
                       Image=VoidAllChecks;
                       OnAction=BEGIN
                                  IF CONFIRM(Text001,FALSE) THEN BEGIN
@@ -184,35 +172,31 @@ OBJECT Page 256 Payment Journal
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 40      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 93      ;2   ;Action    ;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       RunObject=Codeunit 225;
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process }
       { 94      ;2   ;Action    ;
-                      CaptionML=[ENU=Insert Conv. LCY Rndg. Lines;
-                                 ESP=Insertar l°n. conv. redon. DL;
-                                 DEA=Rundungszeilen f. MW-Konvertierung einfÅgen];
+                      CaptionML=[DEU=Rundungszeilen f. MW-Konvertierung einfÅgen;
+                                 ENU=Insert Conv. LCY Rndg. Lines];
                       RunObject=Codeunit 407;
                       Image=InsertCurrency }
       { 43      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 48      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F11;
-                      CaptionML=[ENU=Reconcile;
-                                 DEA=Abstimmen];
+                      CaptionML=[DEU=Reconcile;
+                                 ENU=Reconcile];
                       Promoted=Yes;
                       Image=Reconcile;
                       PromotedCategory=Process;
@@ -223,9 +207,8 @@ OBJECT Page 256 Payment Journal
                                 }
       { 45      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintGenJnlLine(Rec);
@@ -233,9 +216,8 @@ OBJECT Page 256 Payment Journal
                                 }
       { 46      ;2   ;Action    ;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -248,9 +230,8 @@ OBJECT Page 256 Payment Journal
                                 }
       { 47      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -270,9 +251,8 @@ OBJECT Page 256 Payment Journal
 
     { 33  ;1   ;Field     ;
                 Lookup=Yes;
-                CaptionML=[ENU=Batch Name;
-                           ESP=Nombre secci¢n;
-                           DEA=Buch.-Blattname];
+                CaptionML=[DEU=Buch.-Blattname;
+                           ENU=Batch Name];
                 SourceExpr=CurrentJnlBatchName;
                 OnValidate=BEGIN
                              GenJnlManagement.CheckName(CurrentJnlBatchName,Rec);
@@ -526,13 +506,11 @@ OBJECT Page 256 Payment Journal
 
     { 105 ;2   ;Field     ;
                 Name=GetAppliesToDocDueDate;
-                CaptionML=[ENU=Applies-to Doc. Due Date;
-                           ESP=Liq. por fecha vencimiento documento;
-                           DEA=FÑlligkeitsdatum fÅr Ausgleich mit Beleg];
+                CaptionML=[DEU=FÑlligkeitsdatum fÅr Ausgleich mit Beleg;
+                           ENU=Applies-to Doc. Due Date];
                 SourceExpr=GetAppliesToDocDueDate }
 
     { 67  ;2   ;Field     ;
-                OptionCaptionML=ESP=" ,Cheque autom†tico,Cheque manual,,,,,Pago electr¢nico";
                 SourceExpr="Bank Payment Type" }
 
     { 59  ;2   ;Field     ;
@@ -574,8 +552,8 @@ OBJECT Page 256 Payment Journal
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Void Check %1?;ESP=®Confirma que desea anular el cheque %1?;DEA=Scheck %1 annullieren?';
-      Text001@1001 : TextConst 'ENU=Void all printed checks?;ESP=®Confirma que desea anular todos los cheques impresos?;DEA=Alle gedruckten Schecks annullieren?';
+      Text000@1000 : TextConst 'DEU=Scheck %1 annullieren?;ENU=Void Check %1?';
+      Text001@1001 : TextConst 'DEU=Alle gedruckten Schecks annullieren?;ENU=Void all printed checks?';
       GenJnlLine@1003 : Record 81;
       GenJnlLine2@1004 : Record 81;
       GenJnlManagement@1007 : Codeunit 230;

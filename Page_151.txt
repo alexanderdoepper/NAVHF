@@ -2,16 +2,15 @@ OBJECT Page 151 Customer Statistics
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Customer Statistics;
-               ESP=Estad°sticas cliente;
-               DEA=Debitorenstatistik];
+    CaptionML=[DEU=Debitorenstatistik;
+               ENU=Customer Statistics];
     LinksAllowed=No;
     SourceTable=Table18;
     PageType=Card;
@@ -73,9 +72,8 @@ OBJECT Page 151 Customer Statistics
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 67  ;2   ;Field     ;
                 SourceExpr="Balance (LCY)";
@@ -93,14 +91,13 @@ OBJECT Page 151 Customer Statistics
 
     { 13  ;2   ;Group     ;
                 Name=Sales;
-                CaptionML=[ENU=Sales;
-                           ESP=Ventas;
-                           DEA=Verkauf];
+                CaptionML=[DEU=Verkauf;
+                           ENU=Sales];
                 GroupType=Group }
 
     { 2   ;3   ;Field     ;
-                CaptionML=[ENU=Outstanding Orders (LCY);
-                           DEA=Auftragsbestand (MW)];
+                CaptionML=[DEU=Outstanding Orders (LCY);
+                           ENU=Outstanding Orders (LCY)];
                 SourceExpr="Outstanding Orders (LCY)" - CalcInvoicedPrepmtAmountLCY }
 
     { 4   ;3   ;Field     ;
@@ -111,9 +108,8 @@ OBJECT Page 151 Customer Statistics
 
     { 3   ;2   ;Group     ;
                 Name=Service;
-                CaptionML=[ENU=Service;
-                           ESP=Servicio;
-                           DEA=Service];
+                CaptionML=[DEU=Service;
+                           ENU=Service];
                 GroupType=Group }
 
     { 109 ;3   ;Field     ;
@@ -126,9 +122,8 @@ OBJECT Page 151 Customer Statistics
                 SourceExpr="Outstanding Serv.Invoices(LCY)" }
 
     { 10  ;2   ;Field     ;
-                CaptionML=[ENU=Total (LCY);
-                           ESP=Total (DL);
-                           DEA=Gesamt (MW)];
+                CaptionML=[DEU=Gesamt (MW);
+                           ENU=Total (LCY)];
                 SourceExpr=TotalAmountLCY;
                 AutoFormatType=1;
                 Importance=Promoted;
@@ -155,74 +150,64 @@ OBJECT Page 151 Customer Statistics
                              }
 
     { 1904305601;1;Group  ;
-                CaptionML=[ENU=Sales;
-                           ESP=Ventas;
-                           DEA=Verkauf] }
+                CaptionML=[DEU=Verkauf;
+                           ENU=Sales] }
 
     { 1904230801;2;Group  ;
                 GroupType=FixedLayout }
 
     { 1906874001;3;Group  ;
-                CaptionML=[ENU=This Period;
-                           ESP=Periodo actual;
-                           DEA=Diese Periode] }
+                CaptionML=[DEU=Diese Periode;
+                           ENU=This Period] }
 
     { 20  ;4   ;Field     ;
                 SourceExpr=CustDateName[1] }
 
     { 24  ;4   ;Field     ;
-                CaptionML=[ENU=Sales (LCY);
-                           ESP=Ventas (DL);
-                           DEA=Verkauf (MW)];
+                CaptionML=[DEU=Verkauf (MW);
+                           ENU=Sales (LCY)];
                 SourceExpr=CustSalesLCY[1];
                 AutoFormatType=1 }
 
     { 104 ;4   ;Field     ;
-                CaptionML=[ENU=Original Costs (LCY);
-                           ESP=Costes originales (DL);
-                           DEA=Urspr.-EinstandsbetrÑge (MW)];
+                CaptionML=[DEU=Urspr.-EinstandsbetrÑge (MW);
+                           ENU=Original Costs (LCY)];
                 SourceExpr=CustSalesLCY[1] - CustProfit[1];
                 AutoFormatType=1 }
 
     { 29  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit (LCY);
-                           ESP=Bfß original (DL);
-                           DEA=DB ursprÅnglich (MW)];
+                CaptionML=[DEU=DB ursprÅnglich (MW);
+                           ENU=Original Profit (LCY)];
                 SourceExpr=CustProfit[1];
                 AutoFormatType=1 }
 
     { 34  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit %;
-                           ESP=% Bfß original;
-                           DEA=DB ursprÅnglich %];
+                CaptionML=[DEU=DB ursprÅnglich %;
+                           ENU=Original Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=ProfitPct[1] }
 
     { 89  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Costs (LCY);
-                           ESP=Costes actualizados (DL);
-                           DEA=Lagerwerte reguliert (MW)];
+                CaptionML=[DEU=Lagerwerte reguliert (MW);
+                           ENU=Adjusted Costs (LCY)];
                 SourceExpr=CustSalesLCY[1] - CustProfit[1] - AdjmtCostLCY[1];
                 AutoFormatType=1 }
 
     { 97  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit (LCY);
-                           ESP=Beneficio actualizado (DL);
-                           DEA=DB reguliert (MW)];
+                CaptionML=[DEU=DB reguliert (MW);
+                           ENU=Adjusted Profit (LCY)];
                 SourceExpr=AdjCustProfit[1];
                 AutoFormatType=1 }
 
     { 98  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit %;
-                           ESP=% beneficio actualizado;
-                           DEA=DB reguliert %];
+                CaptionML=[DEU=DB reguliert %;
+                           ENU=Adjusted Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=AdjProfitPct[1] }
 
     { 113 ;4   ;Field     ;
-                CaptionML=[ENU=Cost Adjmt. Amounts (LCY);
-                           ESP=Importes coste ajustado (DL);
-                           DEA=KostenregulierungsbetrÑge (MW)];
+                CaptionML=[DEU=KostenregulierungsbetrÑge (MW);
+                           ENU=Cost Adjmt. Amounts (LCY)];
                 SourceExpr=-AdjmtCostLCY[1];
                 AutoFormatType=1;
                 OnDrillDown=BEGIN
@@ -231,144 +216,124 @@ OBJECT Page 151 Customer Statistics
                              }
 
     { 39  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Discounts (LCY);
-                           ESP=Dtos. factura (DL);
-                           DEA=Rechnungsrabatte (MW)];
+                CaptionML=[DEU=Rechnungsrabatte (MW);
+                           ENU=Inv. Discounts (LCY)];
                 SourceExpr=CustInvDiscAmountLCY[1];
                 AutoFormatType=1 }
 
     { 75  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Amounts (LCY);
-                           ESP=Facturado (DL);
-                           DEA=Fakturierter Betrag (MW)];
+                CaptionML=[DEU=Fakturierter Betrag (MW);
+                           ENU=Inv. Amounts (LCY)];
                 SourceExpr=InvAmountsLCY[1];
                 AutoFormatType=1 }
 
     { 18  ;4   ;Field     ;
-                CaptionML=[ENU=Reminder Amounts (LCY);
-                           ESP=Importe recordatorio (DL);
-                           DEA=Mahnbetrag (MW)];
+                CaptionML=[DEU=Mahnbetrag (MW);
+                           ENU=Reminder Amounts (LCY)];
                 SourceExpr=CustReminderChargeAmtLCY[1];
                 AutoFormatType=1 }
 
     { 49  ;4   ;Field     ;
-                CaptionML=[ENU=Fin. Charges (LCY);
-                           ESP=Intereses (DL);
-                           DEA=Zinsrechnungsbetrag (MW)];
+                CaptionML=[DEU=Zinsrechnungsbetrag (MW);
+                           ENU=Fin. Charges (LCY)];
                 SourceExpr=CustFinChargeAmtLCY[1];
                 AutoFormatType=1 }
 
     { 54  ;4   ;Field     ;
-                CaptionML=[ENU=Cr. Memo Amounts (LCY);
-                           ESP=Abonos (DL);
-                           DEA=Gutgeschriebener Betrag (MW)];
+                CaptionML=[DEU=Gutgeschriebener Betrag (MW);
+                           ENU=Cr. Memo Amounts (LCY)];
                 SourceExpr=CustCrMemoAmountsLCY[1];
                 AutoFormatType=1 }
 
     { 59  ;4   ;Field     ;
-                CaptionML=[ENU=Payments (LCY);
-                           ESP=Pagos (DL);
-                           DEA=Bezahlt (MW)];
+                CaptionML=[DEU=Bezahlt (MW);
+                           ENU=Payments (LCY)];
                 SourceExpr=CustPaymentsLCY[1];
                 AutoFormatType=1 }
 
     { 81  ;4   ;Field     ;
-                CaptionML=[ENU=Refunds (LCY);
-                           ESP=Reembolsos (DL);
-                           DEA=Erstattungen (MW)];
+                CaptionML=[DEU=Erstattungen (MW);
+                           ENU=Refunds (LCY)];
                 SourceExpr=CustRefundsLCY[1];
                 AutoFormatType=1 }
 
     { 82  ;4   ;Field     ;
-                CaptionML=[ENU=Other Amounts (LCY);
-                           ESP=Otros importes (DL);
-                           DEA=Weitere BetrÑge (MW)];
+                CaptionML=[DEU=Weitere BetrÑge (MW);
+                           ENU=Other Amounts (LCY)];
                 SourceExpr=CustOtherAmountsLCY[1];
                 AutoFormatType=1 }
 
     { 44  ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Discounts (LCY);
-                           ESP=Dto. P.P. (DL);
-                           DEA=Skonto (MW)];
+                CaptionML=[DEU=Skonto (MW);
+                           ENU=Pmt. Discounts (LCY)];
                 SourceExpr=CustPaymentDiscLCY[1];
                 AutoFormatType=1 }
 
     { 6   ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Disc. Tol. (LCY);
-                           ESP=Tolerancia dto. P.P (DL);
-                           DEA=Skontotoleranz (MW)];
+                CaptionML=[DEU=Skontotoleranz (MW);
+                           ENU=Pmt. Disc. Tol. (LCY)];
                 SourceExpr=CustPaymentDiscTolLCY[1];
                 AutoFormatType=1 }
 
     { 69  ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Tolerances (LCY);
-                           ESP=Tolerancia pagos (DL);
-                           DEA=Zahlungstoleranz (MW)];
+                CaptionML=[DEU=Zahlungstoleranz (MW);
+                           ENU=Pmt. Tolerances (LCY)];
                 SourceExpr=CustPaymentTolLCY[1];
                 AutoFormatType=1 }
 
     { 1901313401;3;Group  ;
-                CaptionML=[ENU=This Year;
-                           ESP=A§o actual;
-                           DEA=Dieses Jahr] }
+                CaptionML=[DEU=Dieses Jahr;
+                           ENU=This Year] }
 
     { 120 ;4   ;Field     ;
                 SourceExpr=Text001;
                 Visible=FALSE }
 
     { 25  ;4   ;Field     ;
-                CaptionML=[ENU=Sales (LCY);
-                           ESP=Ventas (DL);
-                           DEA=Verkauf (MW)];
+                CaptionML=[DEU=Verkauf (MW);
+                           ENU=Sales (LCY)];
                 SourceExpr=CustSalesLCY[2];
                 AutoFormatType=1 }
 
     { 105 ;4   ;Field     ;
-                CaptionML=[ENU=Original Costs (LCY);
-                           ESP=Costes originales (DL);
-                           DEA=Urspr.-EinstandsbetrÑge (MW)];
+                CaptionML=[DEU=Urspr.-EinstandsbetrÑge (MW);
+                           ENU=Original Costs (LCY)];
                 SourceExpr=CustSalesLCY[2] - CustProfit[2];
                 AutoFormatType=1 }
 
     { 30  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit (LCY);
-                           ESP=Bfß original (DL);
-                           DEA=DB ursprÅnglich (MW)];
+                CaptionML=[DEU=DB ursprÅnglich (MW);
+                           ENU=Original Profit (LCY)];
                 SourceExpr=CustProfit[2];
                 AutoFormatType=1 }
 
     { 35  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit %;
-                           ESP=% Bfß original;
-                           DEA=DB ursprÅnglich %];
+                CaptionML=[DEU=DB ursprÅnglich %;
+                           ENU=Original Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=ProfitPct[2] }
 
     { 91  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Costs (LCY);
-                           ESP=Costes actualizados (DL);
-                           DEA=Lagerwerte reguliert (MW)];
+                CaptionML=[DEU=Lagerwerte reguliert (MW);
+                           ENU=Adjusted Costs (LCY)];
                 SourceExpr=CustSalesLCY[2] - CustProfit[2] - AdjmtCostLCY[2];
                 AutoFormatType=1 }
 
     { 96  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit (LCY);
-                           ESP=Beneficio actualizado (DL);
-                           DEA=DB reguliert (MW)];
+                CaptionML=[DEU=DB reguliert (MW);
+                           ENU=Adjusted Profit (LCY)];
                 SourceExpr=AdjCustProfit[2];
                 AutoFormatType=1 }
 
     { 99  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit %;
-                           ESP=% beneficio actualizado;
-                           DEA=DB reguliert %];
+                CaptionML=[DEU=DB reguliert %;
+                           ENU=Adjusted Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=AdjProfitPct[2] }
 
     { 114 ;4   ;Field     ;
-                CaptionML=[ENU=Adjustment Costs (LCY);
-                           ESP=Costes ajuste (DL);
-                           DEA=Regulierung Kosten (MW)];
+                CaptionML=[DEU=Regulierung Kosten (MW);
+                           ENU=Adjustment Costs (LCY)];
                 SourceExpr=-AdjmtCostLCY[2];
                 AutoFormatType=1;
                 OnDrillDown=BEGIN
@@ -377,144 +342,124 @@ OBJECT Page 151 Customer Statistics
                              }
 
     { 40  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Discounts (LCY);
-                           ESP=Dtos. factura (DL);
-                           DEA=Rechnungsrabatte (MW)];
+                CaptionML=[DEU=Rechnungsrabatte (MW);
+                           ENU=Inv. Discounts (LCY)];
                 SourceExpr=CustInvDiscAmountLCY[2];
                 AutoFormatType=1 }
 
     { 76  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Amounts (LCY);
-                           ESP=Facturado (DL);
-                           DEA=Fakturierter Betrag (MW)];
+                CaptionML=[DEU=Fakturierter Betrag (MW);
+                           ENU=Inv. Amounts (LCY)];
                 SourceExpr=InvAmountsLCY[2];
                 AutoFormatType=1 }
 
     { 19  ;4   ;Field     ;
-                CaptionML=[ENU=Reminder Amounts (LCY);
-                           ESP=Importe recordatorio (DL);
-                           DEA=Mahnbetrag (MW)];
+                CaptionML=[DEU=Mahnbetrag (MW);
+                           ENU=Reminder Amounts (LCY)];
                 SourceExpr=CustReminderChargeAmtLCY[2];
                 AutoFormatType=1 }
 
     { 50  ;4   ;Field     ;
-                CaptionML=[ENU=Fin. Charges (LCY);
-                           ESP=Intereses (DL);
-                           DEA=Zinsrechnungsbetrag (MW)];
+                CaptionML=[DEU=Zinsrechnungsbetrag (MW);
+                           ENU=Fin. Charges (LCY)];
                 SourceExpr=CustFinChargeAmtLCY[2];
                 AutoFormatType=1 }
 
     { 55  ;4   ;Field     ;
-                CaptionML=[ENU=Cr. Memo Amounts (LCY);
-                           ESP=Abonos (DL);
-                           DEA=Gutgeschriebener Betrag (MW)];
+                CaptionML=[DEU=Gutgeschriebener Betrag (MW);
+                           ENU=Cr. Memo Amounts (LCY)];
                 SourceExpr=CustCrMemoAmountsLCY[2];
                 AutoFormatType=1 }
 
     { 60  ;4   ;Field     ;
-                CaptionML=[ENU=Payments (LCY);
-                           ESP=Pagos (DL);
-                           DEA=Bezahlt (MW)];
+                CaptionML=[DEU=Bezahlt (MW);
+                           ENU=Payments (LCY)];
                 SourceExpr=CustPaymentsLCY[2];
                 AutoFormatType=1 }
 
     { 83  ;4   ;Field     ;
-                CaptionML=[ENU=Refunds (LCY);
-                           ESP=Reembolsos (DL);
-                           DEA=Erstattungen (MW)];
+                CaptionML=[DEU=Erstattungen (MW);
+                           ENU=Refunds (LCY)];
                 SourceExpr=CustRefundsLCY[2];
                 AutoFormatType=1 }
 
     { 84  ;4   ;Field     ;
-                CaptionML=[ENU=Other Amounts (LCY);
-                           ESP=Otros importes (DL);
-                           DEA=Weitere BetrÑge (MW)];
+                CaptionML=[DEU=Weitere BetrÑge (MW);
+                           ENU=Other Amounts (LCY)];
                 SourceExpr=CustOtherAmountsLCY[2];
                 AutoFormatType=1 }
 
     { 45  ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Discounts (LCY);
-                           ESP=Dto. P.P. (DL);
-                           DEA=Skonto (MW)];
+                CaptionML=[DEU=Skonto (MW);
+                           ENU=Pmt. Discounts (LCY)];
                 SourceExpr=CustPaymentDiscLCY[2];
                 AutoFormatType=1 }
 
     { 7   ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Disc. Tolerance (LCY);
-                           ESP=Tolerancia dto. P.P (DL);
-                           DEA=Skontotoleranz (MW)];
+                CaptionML=[DEU=Skontotoleranz (MW);
+                           ENU=Pmt. Disc. Tolerance (LCY)];
                 SourceExpr=CustPaymentDiscTolLCY[2];
                 AutoFormatType=1 }
 
     { 70  ;4   ;Field     ;
-                CaptionML=[ENU=Payment Tolerances (LCY);
-                           ESP=Tolerancia pagos (DL);
-                           DEA=Zahlungstoleranzen (MW)];
+                CaptionML=[DEU=Zahlungstoleranzen (MW);
+                           ENU=Payment Tolerances (LCY)];
                 SourceExpr=CustPaymentTolLCY[2];
                 AutoFormatType=1 }
 
     { 1902759801;3;Group  ;
-                CaptionML=[ENU=Last Year;
-                           ESP=A§o anterior;
-                           DEA=Vorjahr] }
+                CaptionML=[DEU=Vorjahr;
+                           ENU=Last Year] }
 
     { 122 ;4   ;Field     ;
                 SourceExpr=Text001;
                 Visible=FALSE }
 
     { 26  ;4   ;Field     ;
-                CaptionML=[ENU=Sales (LCY);
-                           ESP=Ventas (DL);
-                           DEA=Verkauf (MW)];
+                CaptionML=[DEU=Verkauf (MW);
+                           ENU=Sales (LCY)];
                 SourceExpr=CustSalesLCY[3];
                 AutoFormatType=1 }
 
     { 106 ;4   ;Field     ;
-                CaptionML=[ENU=Original Costs (LCY);
-                           ESP=Costes originales (DL);
-                           DEA=Urspr.-EinstandsbetrÑge (MW)];
+                CaptionML=[DEU=Urspr.-EinstandsbetrÑge (MW);
+                           ENU=Original Costs (LCY)];
                 SourceExpr=CustSalesLCY[3] - CustProfit[3];
                 AutoFormatType=1 }
 
     { 31  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit (LCY);
-                           ESP=Bfß original (DL);
-                           DEA=DB ursprÅnglich (MW)];
+                CaptionML=[DEU=DB ursprÅnglich (MW);
+                           ENU=Original Profit (LCY)];
                 SourceExpr=CustProfit[3];
                 AutoFormatType=1 }
 
     { 36  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit %;
-                           ESP=% Bfß original;
-                           DEA=DB ursprÅnglich %];
+                CaptionML=[DEU=DB ursprÅnglich %;
+                           ENU=Original Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=ProfitPct[3] }
 
     { 92  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Costs (LCY);
-                           ESP=Costes actualizados (DL);
-                           DEA=Lagerwerte reguliert (MW)];
+                CaptionML=[DEU=Lagerwerte reguliert (MW);
+                           ENU=Adjusted Costs (LCY)];
                 SourceExpr=CustSalesLCY[3] - CustProfit[3] - AdjmtCostLCY[3];
                 AutoFormatType=1 }
 
     { 95  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit (LCY);
-                           ESP=Beneficio actualizado (DL);
-                           DEA=DB reguliert (MW)];
+                CaptionML=[DEU=DB reguliert (MW);
+                           ENU=Adjusted Profit (LCY)];
                 SourceExpr=AdjCustProfit[3];
                 AutoFormatType=1 }
 
     { 100 ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit %;
-                           ESP=% beneficio actualizado;
-                           DEA=DB reguliert %];
+                CaptionML=[DEU=DB reguliert %;
+                           ENU=Adjusted Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=AdjProfitPct[3] }
 
     { 115 ;4   ;Field     ;
-                CaptionML=[ENU=Adjustment Costs (LCY);
-                           ESP=Costes ajuste (DL);
-                           DEA=Regulierung Kosten (MW)];
+                CaptionML=[DEU=Regulierung Kosten (MW);
+                           ENU=Adjustment Costs (LCY)];
                 SourceExpr=-AdjmtCostLCY[3];
                 AutoFormatType=1;
                 OnDrillDown=BEGIN
@@ -523,144 +468,124 @@ OBJECT Page 151 Customer Statistics
                              }
 
     { 41  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Discounts (LCY);
-                           ESP=Dtos. factura (DL);
-                           DEA=Rechnungsrabatte (MW)];
+                CaptionML=[DEU=Rechnungsrabatte (MW);
+                           ENU=Inv. Discounts (LCY)];
                 SourceExpr=CustInvDiscAmountLCY[3];
                 AutoFormatType=1 }
 
     { 77  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Amounts (LCY);
-                           ESP=Facturado (DL);
-                           DEA=Fakturierter Betrag (MW)];
+                CaptionML=[DEU=Fakturierter Betrag (MW);
+                           ENU=Inv. Amounts (LCY)];
                 SourceExpr=InvAmountsLCY[3];
                 AutoFormatType=1 }
 
     { 65  ;4   ;Field     ;
-                CaptionML=[ENU=Reminder Amounts (LCY);
-                           ESP=Importe recordatorio (DL);
-                           DEA=Mahnbetrag (MW)];
+                CaptionML=[DEU=Mahnbetrag (MW);
+                           ENU=Reminder Amounts (LCY)];
                 SourceExpr=CustReminderChargeAmtLCY[3];
                 AutoFormatType=1 }
 
     { 51  ;4   ;Field     ;
-                CaptionML=[ENU=Fin. Charges (LCY);
-                           ESP=Intereses (DL);
-                           DEA=Zinsrechnungsbetrag (MW)];
+                CaptionML=[DEU=Zinsrechnungsbetrag (MW);
+                           ENU=Fin. Charges (LCY)];
                 SourceExpr=CustFinChargeAmtLCY[3];
                 AutoFormatType=1 }
 
     { 56  ;4   ;Field     ;
-                CaptionML=[ENU=Cr. Memo Amounts (LCY);
-                           ESP=Abonos (DL);
-                           DEA=Gutgeschriebener Betrag (MW)];
+                CaptionML=[DEU=Gutgeschriebener Betrag (MW);
+                           ENU=Cr. Memo Amounts (LCY)];
                 SourceExpr=CustCrMemoAmountsLCY[3];
                 AutoFormatType=1 }
 
     { 61  ;4   ;Field     ;
-                CaptionML=[ENU=Payments (LCY);
-                           ESP=Pagos (DL);
-                           DEA=Bezahlt (MW)];
+                CaptionML=[DEU=Bezahlt (MW);
+                           ENU=Payments (LCY)];
                 SourceExpr=CustPaymentsLCY[3];
                 AutoFormatType=1 }
 
     { 85  ;4   ;Field     ;
-                CaptionML=[ENU=Refunds (LCY);
-                           ESP=Reembolsos (DL);
-                           DEA=Erstattungen (MW)];
+                CaptionML=[DEU=Erstattungen (MW);
+                           ENU=Refunds (LCY)];
                 SourceExpr=CustRefundsLCY[3];
                 AutoFormatType=1 }
 
     { 86  ;4   ;Field     ;
-                CaptionML=[ENU=Other Amounts (LCY);
-                           ESP=Otros importes (DL);
-                           DEA=Weitere BetrÑge (MW)];
+                CaptionML=[DEU=Weitere BetrÑge (MW);
+                           ENU=Other Amounts (LCY)];
                 SourceExpr=CustOtherAmountsLCY[3];
                 AutoFormatType=1 }
 
     { 46  ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Discounts (LCY);
-                           ESP=Dto. P.P. (DL);
-                           DEA=Skonto (MW)];
+                CaptionML=[DEU=Skonto (MW);
+                           ENU=Pmt. Discounts (LCY)];
                 SourceExpr=CustPaymentDiscLCY[3];
                 AutoFormatType=1 }
 
     { 8   ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Disc. Tolerance (LCY);
-                           ESP=Tolerancia dto. P.P (DL);
-                           DEA=Skontotoleranz (MW)];
+                CaptionML=[DEU=Skontotoleranz (MW);
+                           ENU=Pmt. Disc. Tolerance (LCY)];
                 SourceExpr=CustPaymentDiscTolLCY[3];
                 AutoFormatType=1 }
 
     { 72  ;4   ;Field     ;
-                CaptionML=[ENU=Payment Tolerances (LCY);
-                           ESP=Tolerancia pagos (DL);
-                           DEA=Zahlungstoleranzen (MW)];
+                CaptionML=[DEU=Zahlungstoleranzen (MW);
+                           ENU=Payment Tolerances (LCY)];
                 SourceExpr=CustPaymentTolLCY[3];
                 AutoFormatType=1 }
 
     { 1900206201;3;Group  ;
-                CaptionML=[ENU=To Date;
-                           ESP=Hasta fecha;
-                           DEA=Bis heute] }
+                CaptionML=[DEU=Bis heute;
+                           ENU=To Date] }
 
     { 123 ;4   ;Field     ;
                 SourceExpr=Text001;
                 Visible=FALSE }
 
     { 27  ;4   ;Field     ;
-                CaptionML=[ENU=Sales (LCY);
-                           ESP=Ventas (DL);
-                           DEA=Verkauf (MW)];
+                CaptionML=[DEU=Verkauf (MW);
+                           ENU=Sales (LCY)];
                 SourceExpr=CustSalesLCY[4];
                 AutoFormatType=1 }
 
     { 107 ;4   ;Field     ;
-                CaptionML=[ENU=Original Costs (LCY);
-                           ESP=Costes originales (DL);
-                           DEA=Urspr.-EinstandsbetrÑge (MW)];
+                CaptionML=[DEU=Urspr.-EinstandsbetrÑge (MW);
+                           ENU=Original Costs (LCY)];
                 SourceExpr=CustSalesLCY[4] - CustProfit[4];
                 AutoFormatType=1 }
 
     { 32  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit (LCY);
-                           ESP=Bfß original (DL);
-                           DEA=DB ursprÅnglich (MW)];
+                CaptionML=[DEU=DB ursprÅnglich (MW);
+                           ENU=Original Profit (LCY)];
                 SourceExpr=CustProfit[4];
                 AutoFormatType=1 }
 
     { 37  ;4   ;Field     ;
-                CaptionML=[ENU=Original Profit %;
-                           ESP=% Bfß original;
-                           DEA=DB ursprÅnglich %];
+                CaptionML=[DEU=DB ursprÅnglich %;
+                           ENU=Original Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=ProfitPct[4] }
 
     { 93  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Costs (LCY);
-                           ESP=Costes actualizados (DL);
-                           DEA=Lagerwerte reguliert (MW)];
+                CaptionML=[DEU=Lagerwerte reguliert (MW);
+                           ENU=Adjusted Costs (LCY)];
                 SourceExpr=CustSalesLCY[4] - CustProfit[4] - AdjmtCostLCY[4];
                 AutoFormatType=1 }
 
     { 94  ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit (LCY);
-                           ESP=Beneficio actualizado (DL);
-                           DEA=DB reguliert (MW)];
+                CaptionML=[DEU=DB reguliert (MW);
+                           ENU=Adjusted Profit (LCY)];
                 SourceExpr=AdjCustProfit[4];
                 AutoFormatType=1 }
 
     { 101 ;4   ;Field     ;
-                CaptionML=[ENU=Adjusted Profit %;
-                           ESP=% beneficio actualizado;
-                           DEA=DB reguliert %];
+                CaptionML=[DEU=DB reguliert %;
+                           ENU=Adjusted Profit %];
                 DecimalPlaces=1:1;
                 SourceExpr=AdjProfitPct[4] }
 
     { 116 ;4   ;Field     ;
-                CaptionML=[ENU=Adjustment Costs (LCY);
-                           ESP=Costes ajuste (DL);
-                           DEA=Regulierung Kosten (MW)];
+                CaptionML=[DEU=Regulierung Kosten (MW);
+                           ENU=Adjustment Costs (LCY)];
                 SourceExpr=-AdjmtCostLCY[4];
                 AutoFormatType=1;
                 OnDrillDown=BEGIN
@@ -669,79 +594,68 @@ OBJECT Page 151 Customer Statistics
                              }
 
     { 42  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Discounts (LCY);
-                           ESP=Dtos. factura (DL);
-                           DEA=Rechnungsrabatte (MW)];
+                CaptionML=[DEU=Rechnungsrabatte (MW);
+                           ENU=Inv. Discounts (LCY)];
                 SourceExpr=CustInvDiscAmountLCY[4];
                 AutoFormatType=1 }
 
     { 78  ;4   ;Field     ;
-                CaptionML=[ENU=Inv. Amounts (LCY);
-                           ESP=Facturado (DL);
-                           DEA=Fakturierter Betrag (MW)];
+                CaptionML=[DEU=Fakturierter Betrag (MW);
+                           ENU=Inv. Amounts (LCY)];
                 SourceExpr=InvAmountsLCY[4];
                 AutoFormatType=1 }
 
     { 66  ;4   ;Field     ;
-                CaptionML=[ENU=Reminder Amounts (LCY);
-                           ESP=Importe recordatorio (DL);
-                           DEA=Mahnbetrag (MW)];
+                CaptionML=[DEU=Mahnbetrag (MW);
+                           ENU=Reminder Amounts (LCY)];
                 SourceExpr=CustReminderChargeAmtLCY[4];
                 AutoFormatType=1 }
 
     { 52  ;4   ;Field     ;
-                CaptionML=[ENU=Fin. Charges (LCY);
-                           ESP=Intereses (DL);
-                           DEA=Zinsrechnungsbetrag (MW)];
+                CaptionML=[DEU=Zinsrechnungsbetrag (MW);
+                           ENU=Fin. Charges (LCY)];
                 SourceExpr=CustFinChargeAmtLCY[4];
                 AutoFormatType=1 }
 
     { 57  ;4   ;Field     ;
-                CaptionML=[ENU=Cr. Memo Amounts (LCY);
-                           ESP=Abonos (DL);
-                           DEA=Gutgeschriebener Betrag (MW)];
+                CaptionML=[DEU=Gutgeschriebener Betrag (MW);
+                           ENU=Cr. Memo Amounts (LCY)];
                 SourceExpr=CustCrMemoAmountsLCY[4];
                 AutoFormatType=1 }
 
     { 62  ;4   ;Field     ;
-                CaptionML=[ENU=Payments (LCY);
-                           ESP=Pagos (DL);
-                           DEA=Bezahlt (MW)];
+                CaptionML=[DEU=Bezahlt (MW);
+                           ENU=Payments (LCY)];
                 SourceExpr=CustPaymentsLCY[4];
                 AutoFormatType=1 }
 
     { 87  ;4   ;Field     ;
-                CaptionML=[ENU=Refunds (LCY);
-                           ESP=Reembolsos (DL);
-                           DEA=Erstattungen (MW)];
+                CaptionML=[DEU=Erstattungen (MW);
+                           ENU=Refunds (LCY)];
                 SourceExpr=CustRefundsLCY[4];
                 AutoFormatType=1 }
 
     { 88  ;4   ;Field     ;
-                CaptionML=[ENU=Other Amounts (LCY);
-                           ESP=Otros importes (DL);
-                           DEA=Weitere BetrÑge (MW)];
+                CaptionML=[DEU=Weitere BetrÑge (MW);
+                           ENU=Other Amounts (LCY)];
                 SourceExpr=CustOtherAmountsLCY[4];
                 AutoFormatType=1 }
 
     { 47  ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Discounts (LCY);
-                           ESP=Dto. P.P. (DL);
-                           DEA=Skonto (MW)];
+                CaptionML=[DEU=Skonto (MW);
+                           ENU=Pmt. Discounts (LCY)];
                 SourceExpr=CustPaymentDiscLCY[4];
                 AutoFormatType=1 }
 
     { 9   ;4   ;Field     ;
-                CaptionML=[ENU=Pmt. Disc. Tolerance (LCY);
-                           ESP=Tolerancia dto. P.P (DL);
-                           DEA=Skontotoleranz (MW)];
+                CaptionML=[DEU=Skontotoleranz (MW);
+                           ENU=Pmt. Disc. Tolerance (LCY)];
                 SourceExpr=CustPaymentDiscTolLCY[4];
                 AutoFormatType=1 }
 
     { 73  ;4   ;Field     ;
-                CaptionML=[ENU=Payment Tolerances (LCY);
-                           ESP=Tolerancia pagos (DL);
-                           DEA=Zahlungstoleranzen (MW)];
+                CaptionML=[DEU=Zahlungstoleranzen (MW);
+                           ENU=Payment Tolerances (LCY)];
                 SourceExpr=CustPaymentTolLCY[4];
                 AutoFormatType=1 }
 
@@ -749,7 +663,7 @@ OBJECT Page 151 Customer Statistics
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Overdue Amounts (LCY) as of %1;ESP=Importes vencidos (DL) a %1;DEA=FÑllige BetrÑge (MW) per %1';
+      Text000@1000 : TextConst 'DEU=FÑllige BetrÑge (MW) per %1;ENU=Overdue Amounts (LCY) as of %1';
       DateFilterCalc@1001 : Codeunit 358;
       CustDateFilter@1002 : ARRAY [4] OF Text[30];
       CustDateName@1003 : ARRAY [4] OF Text[30];
@@ -773,7 +687,7 @@ OBJECT Page 151 Customer Statistics
       CustOtherAmountsLCY@1021 : ARRAY [4] OF Decimal;
       i@1015 : Integer;
       InvAmountsLCY@1016 : ARRAY [4] OF Decimal;
-      Text001@1025 : TextConst 'ENU=Placeholder;ESP=Marcador de posici¢n;DEA=Platzhalter';
+      Text001@1025 : TextConst 'DEU=Platzhalter;ENU=Placeholder';
 
     BEGIN
     END.

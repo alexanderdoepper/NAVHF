@@ -2,9 +2,9 @@ OBJECT Codeunit 8618 Config. Excel Exchange
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -23,14 +23,14 @@ OBJECT Codeunit 8618 Config. Excel Exchange
       XlApp@1034 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00024500-0000-0000-C000-000000000046}:Unknown Automation Server.Application";
       XlBook@1033 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00020819-0000-0000-C000-000000000046}:Unknown Automation Server.Workbook";
       XlSheet@1032 : Automation "{00020813-0000-0000-C000-000000000046} 1.5:{00020820-0000-0000-C000-000000000046}:Unknown Automation Server.Worksheet";
-      Text017@1017 : TextConst 'ENU=Importing Excel data\;DEA=Excel-Daten werden importiert\';
-      Text018@1016 : TextConst 'ENU=Could not create XML Schema.;DEA=Fehler beim Erstellen des XML-Schemas.';
-      Text019@1015 : TextConst 'ENU=Could not create Excel instance.;DEA=Fehler beim Erstellen einer Excel-Instanz.';
-      Text020@1014 : TextConst 'ENU=Excel does not contain XML mappings.;DEA=Excel enth„lt keine XML-Zuordnungen.';
-      Text024@1011 : TextConst 'ENU=Creating Excel worksheet\;DEA=Excel-Tabelle wird erstellt\';
-      Text028@1008 : TextConst 'ENU=Import File;DEA=Datei importieren';
+      Text017@1017 : TextConst 'DEU=Excel-Daten werden importiert\;ENU=Importing Excel data\';
+      Text018@1016 : TextConst 'DEU=Fehler beim Erstellen des XML-Schemas.;ENU=Could not create XML Schema.';
+      Text019@1015 : TextConst 'DEU=Fehler beim Erstellen einer Excel-Instanz.;ENU=Could not create Excel instance.';
+      Text020@1014 : TextConst 'DEU=Excel enth„lt keine XML-Zuordnungen.;ENU=Excel does not contain XML mappings.';
+      Text024@1011 : TextConst 'DEU=Excel-Tabelle wird erstellt\;ENU=Creating Excel worksheet\';
+      Text028@1008 : TextConst 'DEU=Datei importieren;ENU=Import File';
       HideDialog@1005 : Boolean;
-      Text030@1022 : TextConst 'ENU=Export File;DEA=Datei exportieren';
+      Text030@1022 : TextConst 'DEU=Datei exportieren;ENU=Export File';
 
     PROCEDURE ExportExcelFromConfig@19(VAR ConfigLine@1006 : Record 8622);
     VAR

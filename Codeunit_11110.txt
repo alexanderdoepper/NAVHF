@@ -2,9 +2,9 @@ OBJECT Codeunit 11110 Update VAT-AT
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,16 +15,16 @@ OBJECT Codeunit 11110 Update VAT-AT
   CODE
   {
     VAR
-      Text1160000@1160000 : TextConst 'ENU=Do you want to delete the existing %1 %2 and create a new one?;DEA=M”chten Sie das vorhandene %1 %2-Objekt l”schen und ein neues erstellen?';
-      Text1160001@1160001 : TextConst 'ENU=Do you want to create a new %1 %2?;DEA=M”chten Sie ein neues %1 %2-Objekt erstellen?';
-      Text1160002@1160002 : TextConst 'ENU=The %1 %2 has been successfully updated or created.;DEA=%1 %2 wurde erfolgreich aktualisiert oder erstellt.';
-      Text1160003@1160003 : TextConst 'ENU=No %1 has been created or updated.;DEA=Es wurde kein %1-Objekt erstellt oder aktualisiert.';
+      Text1160000@1160000 : TextConst 'DEU=M”chten Sie das vorhandene %1 %2-Objekt l”schen und ein neues erstellen?;ENU=Do you want to delete the existing %1 %2 and create a new one?';
+      Text1160001@1160001 : TextConst 'DEU=M”chten Sie ein neues %1 %2-Objekt erstellen?;ENU=Do you want to create a new %1 %2?';
+      Text1160002@1160002 : TextConst 'DEU=%1 %2 wurde erfolgreich aktualisiert oder erstellt.;ENU=The %1 %2 has been successfully updated or created.';
+      Text1160003@1160003 : TextConst 'DEU=Es wurde kein %1-Objekt erstellt oder aktualisiert.;ENU=No %1 has been created or updated.';
       VATPostingSetup@1160004 : Record 325;
       VATStatementTemplate@1160005 : Record 255;
       VATStatementName@1160006 : Record 257;
       VATStatementLine@1160007 : Record 256;
       LineNo@1160008 : Integer;
-      XDEFAULT@1170000000 : TextConst 'ENU=DEFAULT;DEA=STANDARD';
+      XDEFAULT@1170000000 : TextConst 'DEU=STANDARD;ENU=DEFAULT';
 
     PROCEDURE UpdateVATStatementTemplate@1160008(TemplateName@1160000 : Code[10];TemplateDescription@1160001 : Text[80]);
     BEGIN

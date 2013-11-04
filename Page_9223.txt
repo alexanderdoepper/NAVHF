@@ -2,16 +2,15 @@ OBJECT Page 9223 Item Statistics Matrix
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Item Statistics Matrix;
-               ESP=Matriz estad¡s. art¡c.;
-               DEA=Artikelstatistikmatrix];
+    CaptionML=[DEU=Artikelstatistikmatrix;
+               ENU=Item Statistics Matrix];
     LinksAllowed=No;
     SourceTable=Table367;
     DataCaptionExpr=ItemName;
@@ -161,9 +160,8 @@ OBJECT Page 9223 Item Statistics Matrix
                 StyleExpr='Strong' }
 
     { 30  ;2   ;Field     ;
-                CaptionML=[ENU=Total Amount;
-                           ESP=Importe total;
-                           DEA=Gesamtbetrag];
+                CaptionML=[DEU=Gesamtbetrag;
+                           ENU=Total Amount];
                 BlankZero=Yes;
                 SourceExpr=VarAmount;
                 StyleExpr='Strong';
@@ -536,7 +534,7 @@ OBJECT Page 9223 Item Statistics Matrix
   CODE
   {
     VAR
-      Text000@1079 : TextConst 'ENU=<Sign><Integer Thousand><Decimals,2>;ESP=<Sign><Integer Thousand><Decimals,2>;DEA=<Sign><Integer Thousand><Decimals,2>';
+      Text000@1079 : TextConst 'DEU=<Sign><Integer Thousand><Decimals,2>;ENU=<Sign><Integer Thousand><Decimals,2>';
       GLSetup@1080 : Record 98;
       Item@1081 : Record 27;
       ItemBuffer@1082 : Record 5821;
@@ -557,7 +555,7 @@ OBJECT Page 9223 Item Statistics Matrix
       IncludeExpected@1099 : Boolean;
       Qty@1101 : Decimal;
       CellAmount@1102 : Decimal;
-      Text002@1103 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
+      Text002@1103 : TextConst 'DEU=Periode;ENU=Period';
       GLSetupRead@1105 : Boolean;
       MatrixRecords@1106 : ARRAY [32] OF Record 367;
       MATRIX_CurrentNoOfMatrixColumn@1107 : Integer;
@@ -1075,14 +1073,37 @@ OBJECT Page 9223 Item Statistics Matrix
     END;
 
     LOCAL PROCEDURE CalcCostAmountNonInvnt@1150(SetColumnFilter@1000 : Boolean) : Decimal;
+    VAR
+      ValueEntry@1001 : Record 5802;
+      TotalCostAmountNonInvnt@1002 : Decimal;
     BEGIN
-      SetCommonFilters(ItemBuffer);
       SetFilters(ItemBuffer,0);
       IF SetColumnFilter THEN
         SetFilters(ItemBuffer,1);
       ItemBuffer.SETRANGE("Item Ledger Entry Type Filter");
-      ItemBuffer.CALCFIELDS("Cost Amount (Non-Invtbl.)");
-      EXIT(ItemBuffer."Cost Amount (Non-Invtbl.)");
+
+      ValueEntry.SETFILTER("Item No.",ItemFilter);
+      ValueEntry.SETFILTER("Posting Date",DateFilter);
+      ValueEntry.SETFILTER("Location Code",LocationFilter);
+      ValueEntry.SETFILTER("Variant Code",VariantFilter);
+
+      ValueEntry.SETFILTER("Item Ledger Entry Type",ItemBuffer.GETFILTER("Item Ledger Entry Type Filter"));
+      ValueEntry.SETFILTER("Variance Type",ItemBuffer.GETFILTER("Variance Type Filter"));
+      ValueEntry.SETFILTER("Entry Type",ItemBuffer.GETFILTER("Entry Type Filter"));
+      ValueEntry.SETFILTER("Global Dimension 1 Code",ItemBuffer.GETFILTER("Global Dimension 1 Filter"));
+      ValueEntry.SETFILTER("Global Dimension 2 Code",ItemBuffer.GETFILTER("Global Dimension 2 Filter"));
+      ValueEntry.SETFILTER("Item Charge No.",ItemBuffer.GETFILTER("Item Charge No. Filter"));
+      ValueEntry.SETFILTER("Source Type",ItemBuffer.GETFILTER("Source Type Filter"));
+      ValueEntry.SETFILTER("Source Code",ItemBuffer.GETFILTER("Source No. Filter"));
+
+      ValueEntry.SETRANGE("Document Type",ValueEntry."Document Type"::"Purchase Credit Memo");
+      ValueEntry.CALCSUMS("Cost Amount (Non-Invtbl.)");
+      TotalCostAmountNonInvnt := -ValueEntry."Cost Amount (Non-Invtbl.)";
+      ValueEntry.SETFILTER("Document Type",'<>%1',ValueEntry."Document Type"::"Purchase Credit Memo");
+      ValueEntry.CALCSUMS("Cost Amount (Non-Invtbl.)");
+      TotalCostAmountNonInvnt := TotalCostAmountNonInvnt + ValueEntry."Cost Amount (Non-Invtbl.)";
+
+      EXIT(TotalCostAmountNonInvnt);
     END;
 
     LOCAL PROCEDURE CalcQty@1151(SetColumnFilter@1000 : Boolean) : Decimal;

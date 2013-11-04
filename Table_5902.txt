@@ -2,9 +2,9 @@ OBJECT Table 5902 Service Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -82,34 +82,28 @@ OBJECT Table 5902 Service Line
                ERROR(Text002,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Service Line;
-               ESP=L°nea servicio;
-               DEA=Servicezeile];
+    CaptionML=[DEU=Servicezeile;
+               ENU=Service Line];
     PasteIsValid=No;
     LookupPageID=Page5904;
     DrillDownPageID=Page5904;
   }
   FIELDS
   {
-    { 1   ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
-                                                              ESP=Tipo documento;
-                                                              DEA=Belegart];
-                                                   OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo;
-                                                                    ESP=Oferta,Pedido,Factura,Abono;
-                                                                    DEA=Angebot,Auftrag,Rechnung,Gutschrift];
+    { 1   ;   ;Document Type       ;Option        ;CaptionML=[DEU=Belegart;
+                                                              ENU=Document Type];
+                                                   OptionCaptionML=[DEU=Angebot,Auftrag,Rechnung,Gutschrift;
+                                                                    ENU=Quote,Order,Invoice,Credit Memo];
                                                    OptionString=Quote,Order,Invoice,Credit Memo }
     { 2   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
-                                                   CaptionML=[ENU=Customer No.;
-                                                              ESP=Nß cliente;
-                                                              DEA=Debitorennr.];
+                                                   CaptionML=[DEU=Debitorennr.;
+                                                              ENU=Customer No.];
                                                    Editable=No }
     { 3   ;   ;Document No.        ;Code20        ;TableRelation="Service Header".No. WHERE (Document Type=FIELD(Document Type));
-                                                   CaptionML=[ENU=Document No.;
-                                                              ESP=Nß documento;
-                                                              DEA=Belegnr.] }
-    { 4   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.] }
+                                                   CaptionML=[DEU=Belegnr.;
+                                                              ENU=Document No.] }
+    { 4   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.] }
     { 5   ;   ;Type                ;Option        ;OnValidate=VAR
                                                                 WhseValidateSourceLine@1000 : Codeunit 5777;
                                                               BEGIN
@@ -148,12 +142,10 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Type;
-                                                              ESP=Tipo;
-                                                              DEA=Art];
-                                                   OptionCaptionML=[ENU=" ,Item,Resource,Cost,G/L Account";
-                                                                    ESP=" ,Producto,Recurso,Coste,Cuenta";
-                                                                    DEA=" ,Artikel,Ressource,Kosten,Sachkonto"];
+                                                   CaptionML=[DEU=Art;
+                                                              ENU=Type];
+                                                   OptionCaptionML=[DEU=" ,Artikel,Ressource,Kosten,Sachkonto";
+                                                                    ENU=" ,Item,Resource,Cost,G/L Account"];
                                                    OptionString=[ ,Item,Resource,Cost,G/L Account] }
     { 6   ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(" ")) "Standard Text"
                                                                  ELSE IF (Type=CONST(G/L Account)) "G/L Account"
@@ -449,9 +441,8 @@ OBJECT Table 5902 Service Line
                                                                   MODIFY;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 7   ;   ;Location Code       ;Code10        ;TableRelation=Location;
                                                    OnValidate=VAR
                                                                 WhseValidateSourceLine@1000 : Codeunit 5777;
@@ -474,23 +465,18 @@ OBJECT Table 5902 Service Line
                                                                 GetDefaultBin;
                                                               END;
 
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
     { 8   ;   ;Posting Group       ;Code10        ;TableRelation=IF (Type=CONST(Item)) "Inventory Posting Group";
-                                                   CaptionML=[ENU=Posting Group;
-                                                              ESP=Grupo contable;
-                                                              DEA=Buchungsgruppe];
+                                                   CaptionML=[DEU=Buchungsgruppe;
+                                                              ENU=Posting Group];
                                                    Editable=No }
-    { 11  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
-    { 12  ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
-                                                              ESP=Descripci¢n 2;
-                                                              DEA=Beschreibung 2] }
-    { 13  ;   ;Unit of Measure     ;Text10        ;CaptionML=[ENU=Unit of Measure;
-                                                              ESP=Unidad medida;
-                                                              DEA=Einheit] }
+    { 11  ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
+    { 12  ;   ;Description 2       ;Text50        ;CaptionML=[DEU=Beschreibung 2;
+                                                              ENU=Description 2] }
+    { 13  ;   ;Unit of Measure     ;Text10        ;CaptionML=[DEU=Einheit;
+                                                              ENU=Unit of Measure] }
     { 15  ;   ;Quantity            ;Decimal       ;OnValidate=VAR
                                                                 ItemLedgEntry@1000 : Record 32;
                                                                 WhseValidateSourceLine@1001 : Codeunit 5777;
@@ -565,13 +551,11 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Job Planning Line No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5 }
-    { 16  ;   ;Outstanding Quantity;Decimal       ;CaptionML=[ENU=Outstanding Quantity;
-                                                              ESP=Cantidad pendiente;
-                                                              DEA=Restmenge];
+    { 16  ;   ;Outstanding Quantity;Decimal       ;CaptionML=[DEU=Restmenge;
+                                                              ENU=Outstanding Quantity];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 17  ;   ;Qty. to Invoice     ;Decimal       ;OnValidate=BEGIN
@@ -604,9 +588,8 @@ OBJECT Table 5902 Service Line
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Invoice;
-                                                              ESP=Cdad. a facturar;
-                                                              DEA=Zu fakturieren];
+                                                   CaptionML=[DEU=Zu fakturieren;
+                                                              ENU=Qty. to Invoice];
                                                    DecimalPlaces=0:5 }
     { 18  ;   ;Qty. to Ship        ;Decimal       ;OnValidate=BEGIN
                                                                 IF "Qty. to Ship" < 0 THEN
@@ -650,9 +633,8 @@ OBJECT Table 5902 Service Line
                                                                     "Outstanding Qty. (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Ship;
-                                                              ESP=Cantidad a enviar;
-                                                              DEA=Zu liefern];
+                                                   CaptionML=[DEU=Zu liefern;
+                                                              ENU=Qty. to Ship];
                                                    DecimalPlaces=0:5 }
     { 22  ;   ;Unit Price          ;Decimal       ;OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -671,9 +653,8 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Line Discount %");
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Price;
-                                                              ESP=Precio venta;
-                                                              DEA=VK-Preis];
+                                                   CaptionML=[DEU=VK-Preis;
+                                                              ENU=Unit Price];
                                                    AutoFormatType=2;
                                                    AutoFormatExpr="Currency Code";
                                                    CaptionClass=GetCaptionClass(FIELDNO("Unit Price")) }
@@ -711,13 +692,11 @@ OBJECT Table 5902 Service Line
                                                                 UpdateRemainingCostsAndAmounts;
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Cost (LCY);
-                                                              ESP=Coste unitario (DL);
-                                                              DEA=Einstandspreis (MW)];
+                                                   CaptionML=[DEU=Einstandspreis (MW);
+                                                              ENU=Unit Cost (LCY)];
                                                    AutoFormatType=2 }
-    { 25  ;   ;VAT %               ;Decimal       ;CaptionML=[ENU=VAT %;
-                                                              ESP=% IVA;
-                                                              DEA=MwSt. %];
+    { 25  ;   ;VAT %               ;Decimal       ;CaptionML=[DEU=MwSt. %;
+                                                              ENU=VAT %];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 27  ;   ;Line Discount %     ;Decimal       ;OnValidate=BEGIN
@@ -742,9 +721,8 @@ OBJECT Table 5902 Service Line
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Line Discount %;
-                                                              ESP=% Descuento l°nea;
-                                                              DEA=Zeilenrabatt %];
+                                                   CaptionML=[DEU=Zeilenrabatt %;
+                                                              ENU=Line Discount %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100 }
@@ -766,9 +744,8 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Line Discount %");
                                                               END;
 
-                                                   CaptionML=[ENU=Line Discount Amount;
-                                                              ESP=Importe dto. l°nea;
-                                                              DEA=Zeilenrabattbetrag];
+                                                   CaptionML=[DEU=Zeilenrabattbetrag;
+                                                              ENU=Line Discount Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 29  ;   ;Amount              ;Decimal       ;OnValidate=BEGIN
@@ -810,9 +787,8 @@ OBJECT Table 5902 Service Line
                                                                 InitOutstandingAmount;
                                                               END;
 
-                                                   CaptionML=[ENU=Amount;
-                                                              ESP=Importe;
-                                                              DEA=Betrag];
+                                                   CaptionML=[DEU=Betrag;
+                                                              ENU=Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -856,9 +832,8 @@ OBJECT Table 5902 Service Line
                                                                 InitOutstandingAmount;
                                                               END;
 
-                                                   CaptionML=[ENU=Amount Including VAT;
-                                                              ESP=Importe IVA incl.;
-                                                              DEA=Betrag inkl. MwSt.];
+                                                   CaptionML=[DEU=Betrag inkl. MwSt.;
+                                                              ENU=Amount Including VAT];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -874,24 +849,19 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Allow Invoice Disc.;
-                                                              ESP=Permitir dto. factura;
-                                                              DEA=Rech.-Rabatt zulassen] }
-    { 34  ;   ;Gross Weight        ;Decimal       ;CaptionML=[ENU=Gross Weight;
-                                                              ESP=Peso bruto;
-                                                              DEA=Bruttogewicht];
+                                                   CaptionML=[DEU=Rech.-Rabatt zulassen;
+                                                              ENU=Allow Invoice Disc.] }
+    { 34  ;   ;Gross Weight        ;Decimal       ;CaptionML=[DEU=Bruttogewicht;
+                                                              ENU=Gross Weight];
                                                    DecimalPlaces=0:5 }
-    { 35  ;   ;Net Weight          ;Decimal       ;CaptionML=[ENU=Net Weight;
-                                                              ESP=Peso neto;
-                                                              DEA=Nettogewicht];
+    { 35  ;   ;Net Weight          ;Decimal       ;CaptionML=[DEU=Nettogewicht;
+                                                              ENU=Net Weight];
                                                    DecimalPlaces=0:5 }
-    { 36  ;   ;Units per Parcel    ;Decimal       ;CaptionML=[ENU=Units per Parcel;
-                                                              ESP=Unidades por lote;
-                                                              DEA=Anzahl pro Paket];
+    { 36  ;   ;Units per Parcel    ;Decimal       ;CaptionML=[DEU=Anzahl pro Paket;
+                                                              ENU=Units per Parcel];
                                                    DecimalPlaces=0:5 }
-    { 37  ;   ;Unit Volume         ;Decimal       ;CaptionML=[ENU=Unit Volume;
-                                                              ESP=Volumen;
-                                                              DEA=Volumen];
+    { 37  ;   ;Unit Volume         ;Decimal       ;CaptionML=[DEU=Volumen;
+                                                              ENU=Unit Volume];
                                                    DecimalPlaces=0:5 }
     { 38  ;   ;Appl.-to Item Entry ;Integer       ;OnValidate=VAR
                                                                 ItemLedgEntry@1000 : Record 32;
@@ -913,26 +883,23 @@ OBJECT Table 5902 Service Line
                                                               SelectItemEntry(FIELDNO("Appl.-to Item Entry"));
                                                             END;
 
-                                                   CaptionML=[ENU=Appl.-to Item Entry;
-                                                              ESP=Liq. por nß orden producto;
-                                                              DEA=Ausgleich mit Artikelposten] }
+                                                   CaptionML=[DEU=Ausgleich mit Artikelposten;
+                                                              ENU=Appl.-to Item Entry] }
     { 40  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
-                                                              ESP=C¢d. dim. acceso dir. 1;
-                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 1;
+                                                              ENU=Shortcut Dimension 1 Code];
                                                    CaptionClass='1,2,1' }
     { 41  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
-                                                              ESP=C¢d. dim. acceso dir. 2;
-                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 2;
+                                                              ENU=Shortcut Dimension 2 Code];
                                                    CaptionClass='1,2,2' }
     { 42  ;   ;Customer Price Group;Code10        ;TableRelation="Customer Price Group";
                                                    OnValidate=BEGIN
@@ -940,9 +907,8 @@ OBJECT Table 5902 Service Line
                                                                   UpdateUnitPrice(FIELDNO("Customer Price Group"));
                                                               END;
 
-                                                   CaptionML=[ENU=Customer Price Group;
-                                                              ESP=Grupo precio cliente;
-                                                              DEA=Debitorenpreisgruppe];
+                                                   CaptionML=[DEU=Debitorenpreisgruppe;
+                                                              ENU=Customer Price Group];
                                                    Editable=No }
     { 45  ;   ;Job No.             ;Code20        ;TableRelation=Job.No. WHERE (Bill-to Customer No.=FIELD(Bill-to Customer No.));
                                                    OnValidate=VAR
@@ -962,9 +928,8 @@ OBJECT Table 5902 Service Line
                                                                   DATABASE::"Responsibility Center","Responsibility Center");
                                                               END;
 
-                                                   CaptionML=[ENU=Job No.;
-                                                              ESP=Nß proyecto;
-                                                              DEA=Projektnr.] }
+                                                   CaptionML=[DEU=Projektnr.;
+                                                              ENU=Job No.] }
     { 46  ;   ;Job Task No.        ;Code20        ;TableRelation="Job Task"."Job Task No." WHERE (Job No.=FIELD(Job No.));
                                                    OnValidate=BEGIN
                                                                 TESTFIELD("Quantity Consumed",0);
@@ -975,9 +940,8 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Job Planning Line No.",0);
                                                               END;
 
-                                                   CaptionML=[ENU=Job Task No.;
-                                                              ESP=Nß tarea proyecto;
-                                                              DEA=Projektaufgabennr.] }
+                                                   CaptionML=[DEU=Projektaufgabennr.;
+                                                              ENU=Job Task No.] }
     { 47  ;   ;Job Line Type       ;Option        ;OnValidate=BEGIN
                                                                 TESTFIELD("Quantity Consumed",0);
                                                                 TESTFIELD("Job No.");
@@ -986,12 +950,10 @@ OBJECT Table 5902 Service Line
                                                                   ERROR(Text048,FIELDCAPTION("Job Line Type"),FIELDCAPTION("Job Planning Line No."));
                                                               END;
 
-                                                   CaptionML=[ENU=Job Line Type;
-                                                              ESP=Tipo l°nea proyecto;
-                                                              DEA=Projektzeilenart];
-                                                   OptionCaptionML=[ENU=" ,Schedule,Contract,Both Schedule and Contract";
-                                                                    ESP=" ,Previsi¢n,Contrato,Previsi¢n y contrato";
-                                                                    DEA=" ,Plan,Vertrag,Plan und Vertrag"];
+                                                   CaptionML=[DEU=Projektzeilenart;
+                                                              ENU=Job Line Type];
+                                                   OptionCaptionML=[DEU=" ,Plan,Vertrag,Plan und Vertrag";
+                                                                    ENU=" ,Schedule,Contract,Both Schedule and Contract"];
                                                    OptionString=[ ,Schedule,Contract,Both Schedule and Contract] }
     { 52  ;   ;Work Type Code      ;Code10        ;TableRelation="Work Type";
                                                    OnValidate=BEGIN
@@ -1005,9 +967,8 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Work Type Code;
-                                                              ESP=C¢d. tipo trabajo;
-                                                              DEA=Arbeitstypencode] }
+                                                   CaptionML=[DEU=Arbeitstypencode;
+                                                              ENU=Work Type Code] }
     { 57  ;   ;Outstanding Amount  ;Decimal       ;OnValidate=VAR
                                                                 Currency2@1000 : Record 4;
                                                               BEGIN
@@ -1025,15 +986,13 @@ OBJECT Table 5902 Service Line
                                                                     ROUND("Outstanding Amount",Currency2."Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Outstanding Amount;
-                                                              ESP=Importe pendiente;
-                                                              DEA=Restauftragsbetrag];
+                                                   CaptionML=[DEU=Restauftragsbetrag;
+                                                              ENU=Outstanding Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 58  ;   ;Qty. Shipped Not Invoiced;Decimal  ;CaptionML=[ENU=Qty. Shipped Not Invoiced;
-                                                              ESP=Cantidad enviada no facturada;
-                                                              DEA=Lief. nicht fakt. Menge];
+    { 58  ;   ;Qty. Shipped Not Invoiced;Decimal  ;CaptionML=[DEU=Lief. nicht fakt. Menge;
+                                                              ENU=Qty. Shipped Not Invoiced];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 59  ;   ;Shipped Not Invoiced;Decimal       ;OnValidate=VAR
@@ -1053,20 +1012,17 @@ OBJECT Table 5902 Service Line
                                                                     ROUND("Shipped Not Invoiced",Currency2."Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Shipped Not Invoiced;
-                                                              ESP=Enviado no facturado;
-                                                              DEA=Nicht fakt. Lieferungen];
+                                                   CaptionML=[DEU=Nicht fakt. Lieferungen;
+                                                              ENU=Shipped Not Invoiced];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 60  ;   ;Quantity Shipped    ;Decimal       ;CaptionML=[ENU=Quantity Shipped;
-                                                              ESP=Cantidad enviada;
-                                                              DEA=Menge geliefert];
+    { 60  ;   ;Quantity Shipped    ;Decimal       ;CaptionML=[DEU=Menge geliefert;
+                                                              ENU=Quantity Shipped];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 61  ;   ;Quantity Invoiced   ;Decimal       ;CaptionML=[ENU=Quantity Invoiced;
-                                                              ESP=Cantidad facturada;
-                                                              DEA=Menge fakturiert];
+    { 61  ;   ;Quantity Invoiced   ;Decimal       ;CaptionML=[DEU=Menge fakturiert;
+                                                              ENU=Quantity Invoiced];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 63  ;   ;Shipment No.        ;Code20        ;OnValidate=BEGIN
@@ -1110,17 +1066,14 @@ OBJECT Table 5902 Service Line
                                                               END
                                                             END;
 
-                                                   CaptionML=[ENU=Shipment No.;
-                                                              ESP=Nß albar†n;
-                                                              DEA=Lieferungsnr.] }
-    { 64  ;   ;Shipment Line No.   ;Integer       ;CaptionML=[ENU=Shipment Line No.;
-                                                              ESP=Nß l°nea albar†n;
-                                                              DEA=Lieferzeilennr.];
+                                                   CaptionML=[DEU=Lieferungsnr.;
+                                                              ENU=Shipment No.] }
+    { 64  ;   ;Shipment Line No.   ;Integer       ;CaptionML=[DEU=Lieferzeilennr.;
+                                                              ENU=Shipment Line No.];
                                                    Editable=No }
     { 68  ;   ;Bill-to Customer No.;Code20        ;TableRelation=Customer;
-                                                   CaptionML=[ENU=Bill-to Customer No.;
-                                                              ESP=Factura-a Nß cliente;
-                                                              DEA=Rech. an Deb.-Nr.];
+                                                   CaptionML=[DEU=Rech. an Deb.-Nr.;
+                                                              ENU=Bill-to Customer No.];
                                                    Editable=No }
     { 69  ;   ;Inv. Discount Amount;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD(Quantity);
@@ -1128,9 +1081,8 @@ OBJECT Table 5902 Service Line
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Inv. Discount Amount;
-                                                              ESP=Importe dto. factura;
-                                                              DEA=Rechnungsrabattbetrag];
+                                                   CaptionML=[DEU=Rechnungsrabattbetrag;
+                                                              ENU=Inv. Discount Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -1141,9 +1093,8 @@ OBJECT Table 5902 Service Line
                                                                     VALIDATE("VAT Bus. Posting Group",GenBusPostingGrp."Def. VAT Bus. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
-                                                              ESP=Grupo contable negocio;
-                                                              DEA=GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=GeschÑftsbuchungsgruppe;
+                                                              ENU=Gen. Bus. Posting Group] }
     { 75  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -1152,75 +1103,62 @@ OBJECT Table 5902 Service Line
                                                                     VALIDATE("VAT Prod. Posting Group",GenProdPostingGrp."Def. VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
-    { 77  ;   ;VAT Calculation Type;Option        ;CaptionML=[ENU=VAT Calculation Type;
-                                                              ESP=Tipo c†lculo IVA;
-                                                              DEA=MwSt.-Berechnungsart];
-                                                   OptionCaptionML=[ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
-                                                                    ESP=Normal,Reversi¢n,Total,Impto. venta,No sujeto;
-                                                                    DEA=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer];
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
+    { 77  ;   ;VAT Calculation Type;Option        ;CaptionML=[DEU=MwSt.-Berechnungsart;
+                                                              ENU=VAT Calculation Type];
+                                                   OptionCaptionML=[DEU=Normale MwSt.,Erwerbsbesteuerung,Nur MwSt.,Verkaufssteuer;
+                                                                    ENU=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax];
                                                    OptionString=Normal VAT,Reverse Charge VAT,Full VAT,Sales Tax;
                                                    Editable=No }
     { 78  ;   ;Transaction Type    ;Code10        ;TableRelation="Transaction Type";
-                                                   CaptionML=[ENU=Transaction Type;
-                                                              ESP=Naturaleza transacci¢n;
-                                                              DEA=Art des GeschÑftes] }
+                                                   CaptionML=[DEU=Art des GeschÑftes;
+                                                              ENU=Transaction Type] }
     { 79  ;   ;Transport Method    ;Code10        ;TableRelation="Transport Method";
-                                                   CaptionML=[ENU=Transport Method;
-                                                              ESP=Modo transporte;
-                                                              DEA=Verkehrszweig] }
+                                                   CaptionML=[DEU=Verkehrszweig;
+                                                              ENU=Transport Method] }
     { 80  ;   ;Attached to Line No.;Integer       ;TableRelation="Service Line"."Line No." WHERE (Document Type=FIELD(Document Type),
                                                                                                   Document No.=FIELD(Document No.));
-                                                   CaptionML=[ENU=Attached to Line No.;
-                                                              ESP=Nß l°nea texto adicional;
-                                                              DEA=Gehîrt zu Zeilennr.];
+                                                   CaptionML=[DEU=Gehîrt zu Zeilennr.;
+                                                              ENU=Attached to Line No.];
                                                    Editable=No }
     { 81  ;   ;Exit Point          ;Code10        ;TableRelation="Entry/Exit Point";
-                                                   CaptionML=[ENU=Exit Point;
-                                                              ESP=Puerto/Aerop. carga;
-                                                              DEA=Einladehafen] }
+                                                   CaptionML=[DEU=Einladehafen;
+                                                              ENU=Exit Point] }
     { 82  ;   ;Area                ;Code10        ;TableRelation=Area;
-                                                   CaptionML=[ENU=Area;
-                                                              ESP=C¢d. provincia;
-                                                              DEA=Bestimmungsregion] }
+                                                   CaptionML=[DEU=Bestimmungsregion;
+                                                              ENU=Area] }
     { 83  ;   ;Transaction Specification;Code10   ;TableRelation="Transaction Specification";
-                                                   CaptionML=[ENU=Transaction Specification;
-                                                              ESP=Especificaci¢n transacci¢n;
-                                                              DEA=Verfahren] }
+                                                   CaptionML=[DEU=Verfahren;
+                                                              ENU=Transaction Specification] }
     { 85  ;   ;Tax Area Code       ;Code20        ;TableRelation="Tax Area";
                                                    OnValidate=BEGIN
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Area Code;
-                                                              ESP=C¢d. †rea impuesto;
-                                                              DEA=Steuergebietscode] }
+                                                   CaptionML=[DEU=Steuergebietscode;
+                                                              ENU=Tax Area Code] }
     { 86  ;   ;Tax Liable          ;Boolean       ;OnValidate=BEGIN
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Liable;
-                                                              ESP=Sujeto a impuesto;
-                                                              DEA=Steuerpflichtig] }
+                                                   CaptionML=[DEU=Steuerpflichtig;
+                                                              ENU=Tax Liable] }
     { 87  ;   ;Tax Group Code      ;Code10        ;TableRelation="Tax Group";
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Tax Group Code;
-                                                              ESP=C¢d. grupo impuesto;
-                                                              DEA=Steuergruppencode] }
+                                                   CaptionML=[DEU=Steuergruppencode;
+                                                              ENU=Tax Group Code] }
     { 89  ;   ;VAT Bus. Posting Group;Code10      ;TableRelation="VAT Business Posting Group";
                                                    OnValidate=BEGIN
                                                                 VALIDATE("VAT Prod. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Bus. Posting Group;
-                                                              ESP=Grupo registro IVA neg.;
-                                                              DEA=MwSt.-GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-GeschÑftsbuchungsgruppe;
+                                                              ENU=VAT Bus. Posting Group] }
     { 90  ;   ;VAT Prod. Posting Group;Code10     ;TableRelation="VAT Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -1250,22 +1188,18 @@ OBJECT Table 5902 Service Line
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Prod. Posting Group;
-                                                              ESP=Grupo registro IVA prod.;
-                                                              DEA=MwSt.-Produktbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-Produktbuchungsgruppe;
+                                                              ENU=VAT Prod. Posting Group] }
     { 91  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode];
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code];
                                                    Editable=No }
-    { 92  ;   ;Outstanding Amount (LCY);Decimal   ;CaptionML=[ENU=Outstanding Amount (LCY);
-                                                              ESP=Importe pendiente (DL);
-                                                              DEA=Restbestellbetrag (MW)];
+    { 92  ;   ;Outstanding Amount (LCY);Decimal   ;CaptionML=[DEU=Restbestellbetrag (MW);
+                                                              ENU=Outstanding Amount (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 93  ;   ;Shipped Not Invoiced (LCY);Decimal ;CaptionML=[ENU=Shipped Not Invoiced (LCY);
-                                                              ESP=Enviado no facturado (DL);
-                                                              DEA=Nicht fakt. Lieferungen (MW)];
+    { 93  ;   ;Shipped Not Invoiced (LCY);Decimal ;CaptionML=[DEU=Nicht fakt. Lieferungen (MW);
+                                                              ENU=Shipped Not Invoiced (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 95  ;   ;Reserved Quantity   ;Decimal       ;FieldClass=FlowField;
@@ -1274,9 +1208,8 @@ OBJECT Table 5902 Service Line
                                                                                                         Source Type=CONST(5902),
                                                                                                         Source Subtype=FIELD(Document Type),
                                                                                                         Reservation Status=CONST(Reservation)));
-                                                   CaptionML=[ENU=Reserved Quantity;
-                                                              ESP=Cantidad reservada;
-                                                              DEA=Reservierte Menge];
+                                                   CaptionML=[DEU=Reservierte Menge;
+                                                              ENU=Reserved Quantity];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 96  ;   ;Reserve             ;Option        ;OnValidate=BEGIN
@@ -1295,28 +1228,23 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Reserve;
-                                                              ESP=Reserva;
-                                                              DEA=Reservieren];
-                                                   OptionCaptionML=[ENU=Never,Optional,Always;
-                                                                    ESP=Nunca,Opcional,Siempre;
-                                                                    DEA=Nie,Optional,Immer];
+                                                   CaptionML=[DEU=Reservieren;
+                                                              ENU=Reserve];
+                                                   OptionCaptionML=[DEU=Nie,Optional,Immer;
+                                                                    ENU=Never,Optional,Always];
                                                    OptionString=Never,Optional,Always }
-    { 99  ;   ;VAT Base Amount     ;Decimal       ;CaptionML=[ENU=VAT Base Amount;
-                                                              ESP=Importe base IVA;
-                                                              DEA=MwSt.-Bemessungsgrundlage];
+    { 99  ;   ;VAT Base Amount     ;Decimal       ;CaptionML=[DEU=MwSt.-Bemessungsgrundlage;
+                                                              ENU=VAT Base Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 100 ;   ;Unit Cost           ;Decimal       ;CaptionML=[ENU=Unit Cost;
-                                                              ESP=Coste unitario;
-                                                              DEA=Einstandspreis];
+    { 100 ;   ;Unit Cost           ;Decimal       ;CaptionML=[DEU=Einstandspreis;
+                                                              ENU=Unit Cost];
                                                    Editable=No;
                                                    AutoFormatType=2;
                                                    AutoFormatExpr="Currency Code" }
-    { 101 ;   ;System-Created Entry;Boolean       ;CaptionML=[ENU=System-Created Entry;
-                                                              ESP=Asiento autom†tico;
-                                                              DEA=Systembuchung];
+    { 101 ;   ;System-Created Entry;Boolean       ;CaptionML=[DEU=Systembuchung;
+                                                              ENU=System-Created Entry];
                                                    Editable=No }
     { 103 ;   ;Line Amount         ;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD(Type);
@@ -1330,51 +1258,43 @@ OBJECT Table 5902 Service Line
                                                                     Currency."Amount Rounding Precision") - "Line Amount");
                                                               END;
 
-                                                   CaptionML=[ENU=Line Amount;
-                                                              ESP=Importe l°nea;
-                                                              DEA=Zeilenbetrag];
+                                                   CaptionML=[DEU=Zeilenbetrag;
+                                                              ENU=Line Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code";
                                                    CaptionClass=GetCaptionClass(FIELDNO("Line Amount")) }
-    { 104 ;   ;VAT Difference      ;Decimal       ;CaptionML=[ENU=VAT Difference;
-                                                              ESP=Diferencia IVA;
-                                                              DEA=MwSt.-Differenz];
+    { 104 ;   ;VAT Difference      ;Decimal       ;CaptionML=[DEU=MwSt.-Differenz;
+                                                              ENU=VAT Difference];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 105 ;   ;Inv. Disc. Amount to Invoice;Decimal;
-                                                   CaptionML=[ENU=Inv. Disc. Amount to Invoice;
-                                                              ESP=Importe dto. fact. para facturar;
-                                                              DEA=Zu fakturierender Rechnungsrabattbetrag];
+                                                   CaptionML=[DEU=Zu fakturierender Rechnungsrabattbetrag;
+                                                              ENU=Inv. Disc. Amount to Invoice];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
-    { 106 ;   ;VAT Identifier      ;Code10        ;CaptionML=[ENU=VAT Identifier;
-                                                              ESP=Identific. IVA;
-                                                              DEA=MwSt.-Kennzeichen];
+    { 106 ;   ;VAT Identifier      ;Code10        ;CaptionML=[DEU=MwSt.-Kennzeichen;
+                                                              ENU=VAT Identifier];
                                                    Editable=No }
     { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
                                                    OnLookup=BEGIN
                                                               ShowDimensions;
                                                             END;
 
-                                                   CaptionML=[ENU=Dimension Set ID;
-                                                              ESP=Id. grupo dimensiones;
-                                                              DEA=Dimensionssatz-ID];
+                                                   CaptionML=[DEU=Dimensionssatz-ID;
+                                                              ENU=Dimension Set ID];
                                                    Editable=No }
     { 950 ;   ;Time Sheet No.      ;Code20        ;TableRelation="Time Sheet Header";
-                                                   CaptionML=[ENU=Time Sheet No.;
-                                                              ESP=Nß hoja horas;
-                                                              DEA=Arbeitszeittabelle - Nr.] }
+                                                   CaptionML=[DEU=Arbeitszeittabelle - Nr.;
+                                                              ENU=Time Sheet No.] }
     { 951 ;   ;Time Sheet Line No. ;Integer       ;TableRelation="Time Sheet Line"."Line No." WHERE (Time Sheet No.=FIELD(Time Sheet No.));
-                                                   CaptionML=[ENU=Time Sheet Line No.;
-                                                              ESP=Nß l°nea hoja horas;
-                                                              DEA=Arbeitszeittabelle - Zeilennr.] }
+                                                   CaptionML=[DEU=Arbeitszeittabelle - Zeilennr.;
+                                                              ENU=Time Sheet Line No.] }
     { 952 ;   ;Time Sheet Date     ;Date          ;TableRelation="Time Sheet Detail".Date WHERE (Time Sheet No.=FIELD(Time Sheet No.),
                                                                                                  Time Sheet Line No.=FIELD(Time Sheet Line No.));
-                                                   CaptionML=[ENU=Time Sheet Date;
-                                                              ESP=Fecha hoja horas;
-                                                              DEA=Arbeitszeittabelle - Datum] }
+                                                   CaptionML=[DEU=Arbeitszeittabelle - Datum;
+                                                              ENU=Time Sheet Date] }
     { 1019;   ;Job Planning Line No.;Integer      ;OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
                                                               BEGIN
@@ -1418,9 +1338,8 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Job Planning Line No.",JobPlanningLine."Line No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Job Planning Line No.;
-                                                              ESP=Nß l°nea planificaci¢n proyecto;
-                                                              DEA=Projektplanzeilennr.];
+                                                   CaptionML=[DEU=Projektplanzeilennr.;
+                                                              ENU=Job Planning Line No.];
                                                    BlankZero=Yes }
     { 1030;   ;Job Remaining Qty.  ;Decimal       ;OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
@@ -1443,28 +1362,23 @@ OBJECT Table 5902 Service Line
                                                                 UpdateRemainingCostsAndAmounts;
                                                               END;
 
-                                                   CaptionML=[ENU=Job Remaining Qty.;
-                                                              ESP=Cdad. pendiente proyecto;
-                                                              DEA=Verbleibend fÅr Projekt - Menge];
+                                                   CaptionML=[DEU=Verbleibend fÅr Projekt - Menge;
+                                                              ENU=Job Remaining Qty.];
                                                    DecimalPlaces=0:5 }
-    { 1031;   ;Job Remaining Qty. (Base);Decimal  ;CaptionML=[ENU=Job Remaining Qty. (Base);
-                                                              ESP=Cdad. pendiente proyecto (base);
-                                                              DEA=Verbleibend fÅr Projekt - Menge (Basis)] }
-    { 1032;   ;Job Remaining Total Cost;Decimal   ;CaptionML=[ENU=Job Remaining Total Cost;
-                                                              ESP=Coste total restante proyecto;
-                                                              DEA=Verbleibend fÅr Projekt - Einstandsbetrag];
+    { 1031;   ;Job Remaining Qty. (Base);Decimal  ;CaptionML=[DEU=Verbleibend fÅr Projekt - Menge (Basis);
+                                                              ENU=Job Remaining Qty. (Base)] }
+    { 1032;   ;Job Remaining Total Cost;Decimal   ;CaptionML=[DEU=Verbleibend fÅr Projekt - Einstandsbetrag;
+                                                              ENU=Job Remaining Total Cost];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 1033;   ;Job Remaining Total Cost (LCY);Decimal;
-                                                   CaptionML=[ENU=Job Remaining Total Cost (LCY);
-                                                              ESP=Coste total restante proyecto (DL);
-                                                              DEA=Verbleibend fÅr Projekt - Einstandsbetrag (BW)];
+                                                   CaptionML=[DEU=Verbleibend fÅr Projekt - Einstandsbetrag (BW);
+                                                              ENU=Job Remaining Total Cost (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 1034;   ;Job Remaining Line Amount;Decimal  ;CaptionML=[ENU=Job Remaining Line Amount;
-                                                              ESP=Importe l°nea pendiente proyecto;
-                                                              DEA=Verbleibend fÅr Projekt - Zeilenbetrag];
+    { 1034;   ;Job Remaining Line Amount;Decimal  ;CaptionML=[DEU=Verbleibend fÅr Projekt - Zeilenbetrag;
+                                                              ENU=Job Remaining Line Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -1512,9 +1426,8 @@ OBJECT Table 5902 Service Line
                                                                   GetItemTranslation;
                                                               END;
 
-                                                   CaptionML=[ENU=Variant Code;
-                                                              ESP=C¢d. variante;
-                                                              DEA=Variantencode] }
+                                                   CaptionML=[DEU=Variantencode;
+                                                              ENU=Variant Code] }
     { 5403;   ;Bin Code            ;Code20        ;TableRelation=IF (Document Type=FILTER(Order|Invoice),
                                                                      Location Code=FILTER(<>''),
                                                                      Type=CONST(Item)) "Bin Content"."Bin Code" WHERE (Location Code=FIELD(Location Code),
@@ -1568,18 +1481,15 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Bin Code",BinCode);
                                                             END;
 
-                                                   CaptionML=[ENU=Bin Code;
-                                                              ESP=C¢d. ubicaci¢n;
-                                                              DEA=Lagerplatzcode] }
+                                                   CaptionML=[DEU=Lagerplatzcode;
+                                                              ENU=Bin Code] }
     { 5404;   ;Qty. per Unit of Measure;Decimal   ;InitValue=1;
-                                                   CaptionML=[ENU=Qty. per Unit of Measure;
-                                                              ESP=Cdad. por unidad medida;
-                                                              DEA=Menge pro Einheit];
+                                                   CaptionML=[DEU=Menge pro Einheit;
+                                                              ENU=Qty. per Unit of Measure];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 5405;   ;Planned             ;Boolean       ;CaptionML=[ENU=Planned;
-                                                              ESP=Planificada;
-                                                              DEA=Geplant];
+    { 5405;   ;Planned             ;Boolean       ;CaptionML=[DEU=Geplant;
+                                                              ENU=Planned];
                                                    Editable=No }
     { 5407;   ;Unit of Measure Code;Code10        ;TableRelation=IF (Type=CONST(Item)) "Item Unit of Measure".Code WHERE (Item No.=FIELD(No.))
                                                                  ELSE IF (Type=CONST(Resource)) "Resource Unit of Measure".Code WHERE (Resource No.=FIELD(No.))
@@ -1645,9 +1555,8 @@ OBJECT Table 5902 Service Line
                                                                 UpdateReservation(FIELDNO("Unit of Measure Code"));
                                                               END;
 
-                                                   CaptionML=[ENU=Unit of Measure Code;
-                                                              ESP=C¢d. unidad medida;
-                                                              DEA=Einheitencode] }
+                                                   CaptionML=[DEU=Einheitencode;
+                                                              ENU=Unit of Measure Code] }
     { 5415;   ;Quantity (Base)     ;Decimal       ;OnValidate=BEGIN
                                                                 IF "Quantity (Base)" < 0 THEN
                                                                   FIELDERROR("Quantity (Base)",Text029);
@@ -1657,13 +1566,11 @@ OBJECT Table 5902 Service Line
                                                                 UpdateUnitPrice(FIELDNO("Quantity (Base)"));
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity (Base);
-                                                              ESP=Cantidad (base);
-                                                              DEA=Menge (Basis)];
+                                                   CaptionML=[DEU=Menge (Basis);
+                                                              ENU=Quantity (Base)];
                                                    DecimalPlaces=0:5 }
-    { 5416;   ;Outstanding Qty. (Base);Decimal    ;CaptionML=[ENU=Outstanding Qty. (Base);
-                                                              ESP=Cdad. pendiente (base);
-                                                              DEA=Restauftragsmenge (Basis)];
+    { 5416;   ;Outstanding Qty. (Base);Decimal    ;CaptionML=[DEU=Restauftragsmenge (Basis);
+                                                              ENU=Outstanding Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5417;   ;Qty. to Invoice (Base);Decimal     ;OnValidate=BEGIN
@@ -1674,9 +1581,8 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Qty. to Invoice","Qty. to Invoice (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Invoice (Base);
-                                                              ESP=Cdad. a facturar (base);
-                                                              DEA=Zu fakturieren (Basis)];
+                                                   CaptionML=[DEU=Zu fakturieren (Basis);
+                                                              ENU=Qty. to Invoice (Base)];
                                                    DecimalPlaces=0:5 }
     { 5418;   ;Qty. to Ship (Base) ;Decimal       ;OnValidate=BEGIN
                                                                 IF "Qty. to Ship (Base)" < 0 THEN
@@ -1686,24 +1592,20 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Qty. to Ship","Qty. to Ship (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Ship (Base);
-                                                              ESP=Cdad. a enviar (base);
-                                                              DEA=Zu liefern (Basis)];
+                                                   CaptionML=[DEU=Zu liefern (Basis);
+                                                              ENU=Qty. to Ship (Base)];
                                                    DecimalPlaces=0:5 }
     { 5458;   ;Qty. Shipped Not Invd. (Base);Decimal;
-                                                   CaptionML=[ENU=Qty. Shipped Not Invd. (Base);
-                                                              ESP=Cdad. enviada no fact. (base);
-                                                              DEA=Lief. nicht fakt. Menge(Basis)];
+                                                   CaptionML=[DEU=Lief. nicht fakt. Menge(Basis);
+                                                              ENU=Qty. Shipped Not Invd. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 5460;   ;Qty. Shipped (Base) ;Decimal       ;CaptionML=[ENU=Qty. Shipped (Base);
-                                                              ESP=Cdad. enviada (base);
-                                                              DEA=Menge geliefert (Basis)];
+    { 5460;   ;Qty. Shipped (Base) ;Decimal       ;CaptionML=[DEU=Menge geliefert (Basis);
+                                                              ENU=Qty. Shipped (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 5461;   ;Qty. Invoiced (Base);Decimal       ;CaptionML=[ENU=Qty. Invoiced (Base);
-                                                              ESP=Cdad. facturada (base);
-                                                              DEA=Menge fakturiert (Basis)];
+    { 5461;   ;Qty. Invoiced (Base);Decimal       ;CaptionML=[DEU=Menge fakturiert (Basis);
+                                                              ENU=Qty. Invoiced (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5495;   ;Reserved Qty. (Base);Decimal       ;FieldClass=FlowField;
@@ -1718,9 +1620,8 @@ OBJECT Table 5902 Service Line
                                                                 Planned := "Reserved Quantity" = "Outstanding Quantity";
                                                               END;
 
-                                                   CaptionML=[ENU=Reserved Qty. (Base);
-                                                              ESP=Cdad. reservada (base);
-                                                              DEA=Reservierte Menge (Basis)];
+                                                   CaptionML=[DEU=Reservierte Menge (Basis);
+                                                              ENU=Reserved Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5700;   ;Responsibility Center;Code10       ;TableRelation="Responsibility Center";
@@ -1731,44 +1632,37 @@ OBJECT Table 5902 Service Line
                                                                   DATABASE::Job,"Job No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Responsibility Center;
-                                                              ESP=Centro responsabilidad;
-                                                              DEA=ZustÑndigkeitseinheitencode];
+                                                   CaptionML=[DEU=ZustÑndigkeitseinheitencode;
+                                                              ENU=Responsibility Center];
                                                    Editable=No }
     { 5702;   ;Substitution Available;Boolean     ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Item Substitution" WHERE (Type=CONST(Item),
                                                                                                 No.=FIELD(No.),
                                                                                                 Substitute Type=CONST(Item)));
-                                                   CaptionML=[ENU=Substitution Available;
-                                                              ESP=Disponible sustituci¢n;
-                                                              DEA=Ersatzartikel verfÅgbar];
+                                                   CaptionML=[DEU=Ersatzartikel verfÅgbar;
+                                                              ENU=Substitution Available];
                                                    Editable=No }
     { 5709;   ;Item Category Code  ;Code10        ;TableRelation="Item Category";
-                                                   CaptionML=[ENU=Item Category Code;
-                                                              ESP=C¢d. categor°a producto;
-                                                              DEA=Artikelkategoriencode] }
-    { 5710;   ;Nonstock            ;Boolean       ;CaptionML=[ENU=Nonstock;
-                                                              ESP=Prod. sin stock;
-                                                              DEA=Katalogartikel];
+                                                   CaptionML=[DEU=Artikelkategoriencode;
+                                                              ENU=Item Category Code] }
+    { 5710;   ;Nonstock            ;Boolean       ;CaptionML=[DEU=Katalogartikel;
+                                                              ENU=Nonstock];
                                                    Editable=No }
     { 5712;   ;Product Group Code  ;Code10        ;TableRelation="Product Group".Code WHERE (Item Category Code=FIELD(Item Category Code));
-                                                   CaptionML=[ENU=Product Group Code;
-                                                              ESP=C¢d. grupo producto;
-                                                              DEA=Produktgruppencode] }
+                                                   CaptionML=[DEU=Produktgruppencode;
+                                                              ENU=Product Group Code] }
     { 5750;   ;Whse. Outstanding Qty. (Base);Decimal;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Sum("Warehouse Shipment Line"."Qty. Outstanding (Base)" WHERE (Source Type=CONST(5902),
                                                                                                                               Source Subtype=FIELD(Document Type),
                                                                                                                               Source No.=FIELD(Document No.),
                                                                                                                               Source Line No.=FIELD(Line No.)));
-                                                   CaptionML=[ENU=Whse. Outstanding Qty. (Base);
-                                                              ESP=Cdad. pdte. almacÇn (base);
-                                                              DEA=Lagerrestbestellmenge (Basis)];
+                                                   CaptionML=[DEU=Lagerrestbestellmenge (Basis);
+                                                              ENU=Whse. Outstanding Qty. (Base)];
                                                    BlankZero=Yes;
                                                    Editable=No }
-    { 5752;   ;Completely Shipped  ;Boolean       ;CaptionML=[ENU=Completely Shipped;
-                                                              ESP=Enviado completamente;
-                                                              DEA=Komplettlieferung (Ausgang)];
+    { 5752;   ;Completely Shipped  ;Boolean       ;CaptionML=[DEU=Komplettlieferung (Ausgang);
+                                                              ENU=Completely Shipped];
                                                    Editable=No }
     { 5790;   ;Requested Delivery Date;Date       ;OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -1784,9 +1678,8 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Planned Delivery Date","Requested Delivery Date")
                                                               END;
 
-                                                   CaptionML=[ENU=Requested Delivery Date;
-                                                              ESP=Fecha entrega requerida;
-                                                              DEA=GewÅnschtes Lieferdatum] }
+                                                   CaptionML=[DEU=GewÅnschtes Lieferdatum;
+                                                              ENU=Requested Delivery Date] }
     { 5791;   ;Promised Delivery Date;Date        ;OnValidate=BEGIN
                                                                 TestStatusOpen;
                                                                 IF "Promised Delivery Date" <> 0D THEN
@@ -1795,23 +1688,20 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Requested Delivery Date");
                                                               END;
 
-                                                   CaptionML=[ENU=Promised Delivery Date;
-                                                              ESP=Fecha entrega prometida;
-                                                              DEA=Zugesagtes Lieferdatum] }
+                                                   CaptionML=[DEU=Zugesagtes Lieferdatum;
+                                                              ENU=Promised Delivery Date] }
     { 5792;   ;Shipping Time       ;DateFormula   ;OnValidate=BEGIN
                                                                 TestStatusOpen;
                                                               END;
 
-                                                   CaptionML=[ENU=Shipping Time;
-                                                              ESP=Tiempo env°o;
-                                                              DEA=Transportzeit] }
+                                                   CaptionML=[DEU=Transportzeit;
+                                                              ENU=Shipping Time] }
     { 5794;   ;Planned Delivery Date;Date         ;OnValidate=BEGIN
                                                                 VALIDATE("Needed by Date","Planned Delivery Date");
                                                               END;
 
-                                                   CaptionML=[ENU=Planned Delivery Date;
-                                                              ESP=Fecha entrega planificada;
-                                                              DEA=Geplantes Lieferdatum] }
+                                                   CaptionML=[DEU=Geplantes Lieferdatum;
+                                                              ENU=Planned Delivery Date] }
     { 5796;   ;Shipping Agent Code ;Code10        ;TableRelation="Shipping Agent";
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -1819,9 +1709,8 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Shipping Agent Service Code",'');
                                                               END;
 
-                                                   CaptionML=[ENU=Shipping Agent Code;
-                                                              ESP=C¢d. transportista;
-                                                              DEA=Zustellercode] }
+                                                   CaptionML=[DEU=Zustellercode;
+                                                              ENU=Shipping Agent Code] }
     { 5797;   ;Shipping Agent Service Code;Code10 ;TableRelation="Shipping Agent Services".Code WHERE (Shipping Agent Code=FIELD(Shipping Agent Code));
                                                    OnValidate=VAR
                                                                 ShippingAgentServices@1000 : Record 5790;
@@ -1841,9 +1730,8 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Shipping Time","Shipping Time");
                                                               END;
 
-                                                   CaptionML=[ENU=Shipping Agent Service Code;
-                                                              ESP=C¢d. servicio transportista;
-                                                              DEA=Zustellertransportartencode] }
+                                                   CaptionML=[DEU=Zustellertransportartencode;
+                                                              ENU=Shipping Agent Service Code] }
     { 5811;   ;Appl.-from Item Entry;Integer      ;OnValidate=VAR
                                                                 ItemLedgEntry@1000 : Record 32;
                                                               BEGIN
@@ -1857,9 +1745,8 @@ OBJECT Table 5902 Service Line
                                                               SelectItemEntry(FIELDNO("Appl.-from Item Entry"));
                                                             END;
 
-                                                   CaptionML=[ENU=Appl.-from Item Entry;
-                                                              ESP=Liquid.-de mov. pdto;
-                                                              DEA=Ausgegl. von Artikelposten];
+                                                   CaptionML=[DEU=Ausgegl. von Artikelposten;
+                                                              ENU=Appl.-from Item Entry];
                                                    MinValue=0 }
     { 5902;   ;Service Item No.    ;Code20        ;TableRelation="Service Item".No.;
                                                    OnValidate=BEGIN
@@ -1909,12 +1796,10 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Service Item No.;
-                                                              ESP=Nß prod. servicio;
-                                                              DEA=Serviceartikelnr.] }
-    { 5903;   ;Appl.-to Service Entry;Integer     ;CaptionML=[ENU=Appl.-to Service Entry;
-                                                              ESP=Liquidar a-mov. servicio;
-                                                              DEA=Ausgleich mit Serviceposten];
+                                                   CaptionML=[DEU=Serviceartikelnr.;
+                                                              ENU=Service Item No.] }
+    { 5903;   ;Appl.-to Service Entry;Integer     ;CaptionML=[DEU=Ausgleich mit Serviceposten;
+                                                              ENU=Appl.-to Service Entry];
                                                    Editable=No }
     { 5904;   ;Service Item Line No.;Integer      ;TableRelation="Service Item Line"."Line No." WHERE (Document Type=FIELD(Document Type),
                                                                                                        Document No.=FIELD(Document No.));
@@ -1939,9 +1824,8 @@ OBJECT Table 5902 Service Line
                                                                 CALCFIELDS("Service Item Line Description");
                                                               END;
 
-                                                   CaptionML=[ENU=Service Item Line No.;
-                                                              ESP=Nß l°n. prod. servicio;
-                                                              DEA=Serviceartikelzeilennr.] }
+                                                   CaptionML=[DEU=Serviceartikelzeilennr.;
+                                                              ENU=Service Item Line No.] }
     { 5905;   ;Service Item Serial No.;Code20     ;OnValidate=BEGIN
                                                                 IF "Service Item Serial No." <> '' THEN BEGIN
                                                                   ServItemLine.RESET;
@@ -1962,29 +1846,24 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Service Item Line No.",ServItemLine."Line No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Service Item Serial No.;
-                                                              ESP=Nß serie prod. servicio;
-                                                              DEA=Serviceartikelseriennr.] }
+                                                   CaptionML=[DEU=Serviceartikelseriennr.;
+                                                              ENU=Service Item Serial No.] }
     { 5906;   ;Service Item Line Description;Text50;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Lookup("Service Item Line".Description WHERE (Document Type=FIELD(Document Type),
                                                                                                              Document No.=FIELD(Document No.),
                                                                                                              Line No.=FIELD(Service Item Line No.)));
-                                                   CaptionML=[ENU=Service Item Line Description;
-                                                              ESP=Descripci¢n l°nea prod. servicio;
-                                                              DEA=Beschreibung Serviceartikelzeile];
+                                                   CaptionML=[DEU=Beschreibung Serviceartikelzeile;
+                                                              ENU=Service Item Line Description];
                                                    Editable=No }
     { 5907;   ;Serv. Price Adjmt. Gr. Code;Code10 ;TableRelation="Service Price Adjustment Group";
-                                                   CaptionML=[ENU=Serv. Price Adjmt. Gr. Code;
-                                                              ESP=C¢d. grupo ajuste precio serv.;
-                                                              DEA=Serv.-Preiskorr.-Gruppencode];
+                                                   CaptionML=[DEU=Serv.-Preiskorr.-Gruppencode;
+                                                              ENU=Serv. Price Adjmt. Gr. Code];
                                                    Editable=No }
-    { 5908;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
-                                                              ESP=Fecha registro;
-                                                              DEA=Buchungsdatum] }
-    { 5909;   ;Order Date          ;Date          ;CaptionML=[ENU=Order Date;
-                                                              ESP=Fecha pedido;
-                                                              DEA=Auftragsdatum];
+    { 5908;   ;Posting Date        ;Date          ;CaptionML=[DEU=Buchungsdatum;
+                                                              ENU=Posting Date] }
+    { 5909;   ;Order Date          ;Date          ;CaptionML=[DEU=Auftragsdatum;
+                                                              ENU=Order Date];
                                                    Editable=No }
     { 5910;   ;Needed by Date      ;Date          ;OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -1997,13 +1876,11 @@ OBJECT Table 5902 Service Line
                                                                 "Planned Delivery Date" := "Needed by Date";
                                                               END;
 
-                                                   CaptionML=[ENU=Needed by Date;
-                                                              ESP=Fecha en que se necesita;
-                                                              DEA=Benîtigt am] }
+                                                   CaptionML=[DEU=Benîtigt am;
+                                                              ENU=Needed by Date] }
     { 5916;   ;Ship-to Code        ;Code10        ;TableRelation="Ship-to Address".Code WHERE (Customer No.=FIELD(Customer No.));
-                                                   CaptionML=[ENU=Ship-to Code;
-                                                              ESP=C¢d. direcci¢n env°o cliente;
-                                                              DEA=Lief. an Code];
+                                                   CaptionML=[DEU=Lief. an Code;
+                                                              ENU=Ship-to Code];
                                                    Editable=No }
     { 5917;   ;Qty. to Consume     ;Decimal       ;OnValidate=BEGIN
                                                                 IF CurrFieldNo = FIELDNO("Qty. to Consume") THEN
@@ -2045,14 +1922,12 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE("Line Discount %");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Consume;
-                                                              ESP=Cantidad a consumir;
-                                                              DEA=Mge. zu verbrauchen];
+                                                   CaptionML=[DEU=Mge. zu verbrauchen;
+                                                              ENU=Qty. to Consume];
                                                    DecimalPlaces=0:5;
                                                    BlankZero=Yes }
-    { 5918;   ;Quantity Consumed   ;Decimal       ;CaptionML=[ENU=Quantity Consumed;
-                                                              ESP=Cantidad consumida;
-                                                              DEA=Verbrauchte Menge];
+    { 5918;   ;Quantity Consumed   ;Decimal       ;CaptionML=[DEU=Verbrauchte Menge;
+                                                              ENU=Quantity Consumed];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5919;   ;Qty. to Consume (Base);Decimal     ;OnValidate=BEGIN
@@ -2065,47 +1940,40 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Qty. to Invoice","Qty. to Invoice (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. to Consume (Base);
-                                                              ESP=Cantidad a consumir (base);
-                                                              DEA=Mge. zu verbrauchen (Basis)];
+                                                   CaptionML=[DEU=Mge. zu verbrauchen (Basis);
+                                                              ENU=Qty. to Consume (Base)];
                                                    DecimalPlaces=0:5;
                                                    BlankZero=Yes }
-    { 5920;   ;Qty. Consumed (Base);Decimal       ;CaptionML=[ENU=Qty. Consumed (Base);
-                                                              ESP=Cantidad consumida (base);
-                                                              DEA=Mge. verbraucht (Basis)];
+    { 5920;   ;Qty. Consumed (Base);Decimal       ;CaptionML=[DEU=Mge. verbraucht (Basis);
+                                                              ENU=Qty. Consumed (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5928;   ;Service Price Group Code;Code10    ;TableRelation="Service Price Group";
-                                                   CaptionML=[ENU=Service Price Group Code;
-                                                              ESP=C¢d. grupo precio serv.;
-                                                              DEA=Servicepreisgruppencode] }
+                                                   CaptionML=[DEU=Servicepreisgruppencode;
+                                                              ENU=Service Price Group Code] }
     { 5929;   ;Fault Area Code     ;Code10        ;TableRelation="Fault Area";
                                                    OnValidate=BEGIN
                                                                 IF "Fault Area Code" <> xRec."Fault Area Code" THEN
                                                                   "Fault Code" := '';
                                                               END;
 
-                                                   CaptionML=[ENU=Fault Area Code;
-                                                              ESP=C¢d. †rea defecto;
-                                                              DEA=Problembereichscode] }
+                                                   CaptionML=[DEU=Problembereichscode;
+                                                              ENU=Fault Area Code] }
     { 5930;   ;Symptom Code        ;Code10        ;TableRelation="Symptom Code";
                                                    OnValidate=BEGIN
                                                                 IF "Symptom Code" <> xRec."Symptom Code" THEN
                                                                   "Fault Code" := '';
                                                               END;
 
-                                                   CaptionML=[ENU=Symptom Code;
-                                                              ESP=C¢d. s°ntoma;
-                                                              DEA=Symptomcode] }
+                                                   CaptionML=[DEU=Symptomcode;
+                                                              ENU=Symptom Code] }
     { 5931;   ;Fault Code          ;Code10        ;TableRelation="Fault Code".Code WHERE (Fault Area Code=FIELD(Fault Area Code),
                                                                                           Symptom Code=FIELD(Symptom Code));
-                                                   CaptionML=[ENU=Fault Code;
-                                                              ESP=C¢d. defecto;
-                                                              DEA=Problemcode] }
+                                                   CaptionML=[DEU=Problemcode;
+                                                              ENU=Fault Code] }
     { 5932;   ;Resolution Code     ;Code10        ;TableRelation="Resolution Code";
-                                                   CaptionML=[ENU=Resolution Code;
-                                                              ESP=C¢d. resoluci¢n;
-                                                              DEA=Lîsungscode] }
+                                                   CaptionML=[DEU=Lîsungscode;
+                                                              ENU=Resolution Code] }
     { 5933;   ;Exclude Warranty    ;Boolean       ;OnValidate=BEGIN
                                                                 IF NOT (Type IN [Type::Item,Type::Resource]) THEN
                                                                   IF CurrFieldNo = FIELDNO("Exclude Warranty") THEN
@@ -2150,17 +2018,15 @@ OBJECT Table 5902 Service Line
                                                                   VALIDATE(Warranty,TRUE);
                                                               END;
 
-                                                   CaptionML=[ENU=Exclude Warranty;
-                                                              ESP=Excluye garant°a;
-                                                              DEA=Garantieausschluss];
+                                                   CaptionML=[DEU=Garantieausschluss;
+                                                              ENU=Exclude Warranty];
                                                    Editable=Yes }
     { 5934;   ;Warranty            ;Boolean       ;OnValidate=BEGIN
                                                                 UpdateDiscountsAmounts;
                                                               END;
 
-                                                   CaptionML=[ENU=Warranty;
-                                                              ESP=Garant°a;
-                                                              DEA=Garantie];
+                                                   CaptionML=[DEU=Garantie;
+                                                              ENU=Warranty];
                                                    Editable=No }
     { 5936;   ;Contract No.        ;Code20        ;TableRelation="Service Contract Header"."Contract No." WHERE (Contract Type=CONST(Contract));
                                                    OnValidate=BEGIN
@@ -2261,16 +2127,14 @@ OBJECT Table 5902 Service Line
                                                                 VALIDATE("Contract No.",ServContractHeader."Contract No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Contract No.;
-                                                              ESP=Nß contrato;
-                                                              DEA=Vertragsnr.] }
+                                                   CaptionML=[DEU=Vertragsnr.;
+                                                              ENU=Contract No.] }
     { 5938;   ;Contract Disc. %    ;Decimal       ;OnValidate=BEGIN
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Contract Disc. %;
-                                                              ESP=% Dto. contrato;
-                                                              DEA=Vertragsrabatt %];
+                                                   CaptionML=[DEU=Vertragsrabatt %;
+                                                              ENU=Contract Disc. %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100;
@@ -2280,22 +2144,18 @@ OBJECT Table 5902 Service Line
                                                                 UpdateAmounts(Rec);
                                                               END;
 
-                                                   CaptionML=[ENU=Warranty Disc. %;
-                                                              ESP=% Desc. garant°a;
-                                                              DEA=Garantierabatt %];
+                                                   CaptionML=[DEU=Garantierabatt %;
+                                                              ENU=Warranty Disc. %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    MaxValue=100;
                                                    Editable=No }
-    { 5965;   ;Component Line No.  ;Integer       ;CaptionML=[ENU=Component Line No.;
-                                                              ESP=Nß l°nea componente;
-                                                              DEA=Komponentenzeilennr.] }
-    { 5966;   ;Spare Part Action   ;Option        ;CaptionML=[ENU=Spare Part Action;
-                                                              ESP=Acci¢n componente;
-                                                              DEA=Ersatzteilaktion];
-                                                   OptionCaptionML=[ENU=" ,Permanent,Temporary,Component Replaced,Component Installed";
-                                                                    ESP=" ,Permanente,Temporal,Componente repuesto,Componente instalado";
-                                                                    DEA=" ,Permanent,TemporÑr,Komponente ersetzt,Komponente installiert"];
+    { 5965;   ;Component Line No.  ;Integer       ;CaptionML=[DEU=Komponentenzeilennr.;
+                                                              ENU=Component Line No.] }
+    { 5966;   ;Spare Part Action   ;Option        ;CaptionML=[DEU=Ersatzteilaktion;
+                                                              ENU=Spare Part Action];
+                                                   OptionCaptionML=[DEU=" ,Permanent,TemporÑr,Komponente ersetzt,Komponente installiert";
+                                                                    ENU=" ,Permanent,Temporary,Component Replaced,Component Installed"];
                                                    OptionString=[ ,Permanent,Temporary,Component Replaced,Component Installed] }
     { 5967;   ;Fault Reason Code   ;Code10        ;TableRelation="Fault Reason Code";
                                                    OnValidate=VAR
@@ -2336,14 +2196,12 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Fault Reason Code;
-                                                              ESP=C¢d. auditor°a defecto;
-                                                              DEA=Problemursachencode] }
+                                                   CaptionML=[DEU=Problemursachencode;
+                                                              ENU=Fault Reason Code] }
     { 5968;   ;Replaced Item No.   ;Code20        ;TableRelation=IF (Replaced Item Type=CONST(Item)) Item
                                                                  ELSE IF (Replaced Item Type=CONST(Service Item)) "Service Item";
-                                                   CaptionML=[ENU=Replaced Item No.;
-                                                              ESP=Nß prod. repuesto;
-                                                              DEA=Ersetzte Artikelnr.] }
+                                                   CaptionML=[DEU=Ersetzte Artikelnr.;
+                                                              ENU=Replaced Item No.] }
     { 5969;   ;Exclude Contract Discount;Boolean  ;OnValidate=BEGIN
                                                                 IF Type = Type::"G/L Account" THEN
                                                                   FIELDERROR(Type);
@@ -2375,39 +2233,30 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Exclude Contract Discount;
-                                                              ESP=Excluye descuento contrato;
-                                                              DEA=Vertragsrabatt ausschlie·en];
+                                                   CaptionML=[DEU=Vertragsrabatt ausschlie·en;
+                                                              ENU=Exclude Contract Discount];
                                                    Editable=Yes }
-    { 5970;   ;Replaced Item Type  ;Option        ;CaptionML=[ENU=Replaced Item Type;
-                                                              ESP=Tipo producto reemplazado;
-                                                              DEA=Ersetzte Artikelart];
-                                                   OptionCaptionML=[ENU=" ,Service Item,Item";
-                                                                    ESP=" ,Producto servicio,Producto";
-                                                                    DEA=" ,Serviceartikel,Artikel"];
+    { 5970;   ;Replaced Item Type  ;Option        ;CaptionML=[DEU=Ersetzte Artikelart;
+                                                              ENU=Replaced Item Type];
+                                                   OptionCaptionML=[DEU=" ,Serviceartikel,Artikel";
+                                                                    ENU=" ,Service Item,Item"];
                                                    OptionString=[ ,Service Item,Item] }
-    { 5994;   ;Price Adjmt. Status ;Option        ;CaptionML=[ENU=Price Adjmt. Status;
-                                                              ESP=Estado ajuste precio;
-                                                              DEA=Preiskorrekturstatus];
-                                                   OptionCaptionML=[ENU=" ,Adjusted,Modified";
-                                                                    ESP=" ,Ajustado,Modificado";
-                                                                    DEA=" ,Korrigiert,GeÑndert"];
+    { 5994;   ;Price Adjmt. Status ;Option        ;CaptionML=[DEU=Preiskorrekturstatus;
+                                                              ENU=Price Adjmt. Status];
+                                                   OptionCaptionML=[DEU=" ,Korrigiert,GeÑndert";
+                                                                    ENU=" ,Adjusted,Modified"];
                                                    OptionString=[ ,Adjusted,Modified];
                                                    Editable=No }
-    { 5997;   ;Line Discount Type  ;Option        ;CaptionML=[ENU=Line Discount Type;
-                                                              ESP=Tipo dto. l°nea;
-                                                              DEA=Zeilenrabattart];
-                                                   OptionCaptionML=[ENU=" ,Warranty Disc.,Contract Disc.,Line Disc.,Manual";
-                                                                    ESP=" ,Dto. garant°a,Dto. contrato,Dto. l°nea,Manual";
-                                                                    DEA=" ,Garantierabatt,Vertragsrabatt,Zeilenrabatt,Manuell"];
+    { 5997;   ;Line Discount Type  ;Option        ;CaptionML=[DEU=Zeilenrabattart;
+                                                              ENU=Line Discount Type];
+                                                   OptionCaptionML=[DEU=" ,Garantierabatt,Vertragsrabatt,Zeilenrabatt,Manuell";
+                                                                    ENU=" ,Warranty Disc.,Contract Disc.,Line Disc.,Manual"];
                                                    OptionString=[ ,Warranty Disc.,Contract Disc.,Line Disc.,Manual];
                                                    Editable=No }
-    { 5999;   ;Copy Components From;Option        ;CaptionML=[ENU=Copy Components From;
-                                                              ESP=Copiar componentes de;
-                                                              DEA=Komponenten kopieren aus];
-                                                   OptionCaptionML=[ENU=None,Item BOM,Old Service Item,Old Serv.Item w/o Serial No.;
-                                                                    ESP=Ninguno,LM productos,Prod. servicio antiguo,Prod. servicio antiguo sin nß serie;
-                                                                    DEA=Kein,ArtikelstÅckliste,Alter Serviceartikel,Alter Serv.artikel ohne Seriennr.];
+    { 5999;   ;Copy Components From;Option        ;CaptionML=[DEU=Komponenten kopieren aus;
+                                                              ENU=Copy Components From];
+                                                   OptionCaptionML=[DEU=Kein,ArtikelstÅckliste,Alter Serviceartikel,Alter Serv.artikel ohne Seriennr.;
+                                                                    ENU=None,Item BOM,Old Service Item,Old Serv.Item w/o Serial No.];
                                                    OptionString=None,Item BOM,Old Service Item,Old Serv.Item w/o Serial No. }
     { 6608;   ;Return Reason Code  ;Code10        ;TableRelation="Return Reason";
                                                    OnValidate=VAR
@@ -2428,44 +2277,37 @@ OBJECT Table 5902 Service Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Return Reason Code;
-                                                              ESP=C¢d. auditor°a dev.;
-                                                              DEA=Reklamationsgrundcode] }
+                                                   CaptionML=[DEU=Reklamationsgrundcode;
+                                                              ENU=Return Reason Code] }
     { 7001;   ;Allow Line Disc.    ;Boolean       ;InitValue=Yes;
-                                                   CaptionML=[ENU=Allow Line Disc.;
-                                                              ESP=Permite dto. l°nea;
-                                                              DEA=Zeilenrabatt zulassen] }
+                                                   CaptionML=[DEU=Zeilenrabatt zulassen;
+                                                              ENU=Allow Line Disc.] }
     { 7002;   ;Customer Disc. Group;Code20        ;TableRelation="Customer Discount Group";
                                                    OnValidate=BEGIN
                                                                 IF Type = Type::Item THEN
                                                                   UpdateUnitPrice(FIELDNO("Customer Disc. Group"));
                                                               END;
 
-                                                   CaptionML=[ENU=Customer Disc. Group;
-                                                              ESP=Grupo dto. cliente;
-                                                              DEA=Debitorenrabattgruppe] }
+                                                   CaptionML=[DEU=Debitorenrabattgruppe;
+                                                              ENU=Customer Disc. Group] }
     { 7300;   ;Qty. Picked         ;Decimal       ;OnValidate=BEGIN
                                                                 "Qty. Picked (Base)" := CalcBaseQty("Qty. Picked");
                                                                 "Completely Picked" := "Qty. Picked" >= 0;
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. Picked;
-                                                              ESP=Cdad. preparada pedido;
-                                                              DEA=Menge kommissioniert];
+                                                   CaptionML=[DEU=Menge kommissioniert;
+                                                              ENU=Qty. Picked];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 7301;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[ENU=Qty. Picked (Base);
-                                                              ESP=Cdad. preparada pedido (base);
-                                                              DEA=Menge kommissioniert (Basis)];
+    { 7301;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[DEU=Menge kommissioniert (Basis);
+                                                              ENU=Qty. Picked (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 7302;   ;Completely Picked   ;Boolean       ;CaptionML=[ENU=Completely Picked;
-                                                              ESP=Picking completo;
-                                                              DEA=Komplett kommissioniert];
+    { 7302;   ;Completely Picked   ;Boolean       ;CaptionML=[DEU=Komplett kommissioniert;
+                                                              ENU=Completely Picked];
                                                    Editable=No }
-    { 7303;   ;Pick Qty. (Base)    ;Decimal       ;CaptionML=[ENU=Pick Qty. (Base);
-                                                              ESP=Cdad. picking (Base);
-                                                              DEA=Menge fÅr Kommiss. (Basis)];
+    { 7303;   ;Pick Qty. (Base)    ;Decimal       ;CaptionML=[DEU=Menge fÅr Kommiss. (Basis);
+                                                              ENU=Pick Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
   }
@@ -2496,25 +2338,25 @@ OBJECT Table 5902 Service Line
   CODE
   {
     VAR
-      Text000@1085 : TextConst 'ENU=You cannot invoice more than %1 units.;ESP=No se pueden facturar m†s de %1 unidades.;DEA=Sie kînnen nicht mehr als %1 Einheiten fakturieren.';
-      Text001@1084 : TextConst 'ENU=You cannot invoice more than %1 base units.;ESP=No se pueden facturar m†s de %1 unidades base.;DEA=Sie kînnen nicht mehr als %1 Basiseinheiten fakturieren.';
-      Text002@1002 : TextConst 'ENU=You cannot rename a %1.;ESP=No se puede cambiar el nombre a %1.;DEA=Sie kînnen eine %1 nicht umbenennen.';
-      Text003@1086 : TextConst 'ENU=must not be less than %1;ESP=No puede ser inferior a %1.;DEA=darf nicht weniger als %1 sein';
-      Text004@1004 : TextConst 'ENU=You must confirm %1 %2, because %3 is not equal to %4 in %5 %6.;ESP=Debe confirmar %1 %2, porque %3 no es igual a %4 en %5 %6.;DEA=Sie mÅssen %1 %2 bestÑtigen, da %3 nicht gleich %4 in %5 %6 ist.';
-      Text005@1005 : TextConst 'ENU=The update has been interrupted to respect the warning.;ESP=Se ha interrumpido la actualizaci¢n para respetar la advertencia.;DEA=Die Verarbeitung wurde unterbrochen, um die Warnung zu berÅcksichtigen.';
-      Text006@1006 : TextConst 'ENU=Replace Component,New Component,Ignore;ESP=Reponer componente,Nuevo componente,Ignorar;DEA=Komponente ersetzen,Neue Komponente,Ignorieren';
-      Text007@1007 : TextConst 'ENU=You must select a %1.;ESP=Debe seleccionar un %1.;DEA=Sie mÅssen eine %1 auswÑhlen.';
-      Text008@1008 : TextConst 'ENU=You cannot change the value of the %1 field because the %2 field in the Fault Reason Codes window contains a check mark for the %3 %4.;ESP=No puede modificar el campo %1 porque %3 %4 tiene el campo %2 activo en la ventana C¢digos auditor°a defecto.;DEA=Sie kînnen den Wert des Feldes %1 nicht Ñndern, da das Feld %2 im Fenster "Problemursachen" fÅr %3 %4 ein HÑkchen enthÑlt.';
-      Text009@1009 : TextConst 'ENU=You have changed the value of the field %1.\Do you want to continue ?;ESP=Ha modificado el valor del campo %1.\®Desea continuar?;DEA=Sie haben das Feld %1 geÑndert.\Mîchten Sie fortfahren?';
-      Text010@1010 : TextConst 'ENU=%1 cannot be less than %2.;ESP=%1 no puede ser inferior que %2.;DEA=%1 kann nicht weniger als %2 sein.';
-      Text011@1011 : TextConst 'ENU=When replacing a %1 the quantity must be 1.;ESP=Cuando repone un %1 la cantidad debe ser 1.;DEA=Wenn Sie einen %1 ersetzen, muss die Menge 1 sein.';
-      Text012@1087 : TextConst 'ENU=Automatic reservation is not possible.\Do you want to reserve items manually?;ESP=No se puede reservar autom†ticamente.\®Desea reservar los productos manualmente?;DEA=Automatische Reservierung nicht mîglich.\Mîchten Sie die Artikel manuell reservieren?';
-      Text013@1013 : TextConst 'ENU=" must be 0 when %1 is %2.";ESP=" debe ser 0 cuando %1 es %2.";DEA=" muss 0 sein, wenn %1 %2 ist."';
-      Text015@1015 : TextConst 'ENU=You have already selected %1 %2 for replacement.;ESP=Ya ha seleccionado %1 %2 para reposici¢n.;DEA=Sie haben bereits %1 %2 als Ersatz gewÑhlt.';
-      Text016@1083 : TextConst 'ENU=You cannot ship more than %1 units.;ESP=No se pueden enviar m†s de %1 unidades.;DEA=Sie kînnen nicht mehr als %1 Einheiten liefern.';
-      Text017@1082 : TextConst 'ENU=You cannot ship more than %1 base units.;ESP=No se pueden enviar m†s de %1 unidades base.;DEA=Sie kînnen nicht mehr als %1 Basiseinheiten liefern.';
-      Text018@1018 : TextConst 'ENU=%1 %2 is greater than %3 and was adjusted to %4.;ESP=%1 %2 es mayor que %3 y fue ajustado a %4.;DEA=%1 %2 ist grî·er als %3 und wurde auf %4 geÑndert.';
-      Text021@1021 : TextConst 'ENU=The %1 that you selected has already been replaced in %2 %3.;ESP=El %1 que ha seleccionado ya ha sido repuesto en %2 %3.;DEA=Die %1, die Sie ausgewÑhlt haben, wurde bereits in %2 %3 ersetzt.';
+      Text000@1085 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Einheiten fakturieren.;ENU=You cannot invoice more than %1 units.';
+      Text001@1084 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Basiseinheiten fakturieren.;ENU=You cannot invoice more than %1 base units.';
+      Text002@1002 : TextConst 'DEU=Sie kînnen eine %1 nicht umbenennen.;ENU=You cannot rename a %1.';
+      Text003@1086 : TextConst 'DEU=darf nicht weniger als %1 sein;ENU=must not be less than %1';
+      Text004@1004 : TextConst 'DEU=Sie mÅssen %1 %2 bestÑtigen, da %3 nicht gleich %4 in %5 %6 ist.;ENU=You must confirm %1 %2, because %3 is not equal to %4 in %5 %6.';
+      Text005@1005 : TextConst 'DEU=Die Verarbeitung wurde unterbrochen, um die Warnung zu berÅcksichtigen.;ENU=The update has been interrupted to respect the warning.';
+      Text006@1006 : TextConst 'DEU=Komponente ersetzen,Neue Komponente,Ignorieren;ENU=Replace Component,New Component,Ignore';
+      Text007@1007 : TextConst 'DEU=Sie mÅssen eine %1 auswÑhlen.;ENU=You must select a %1.';
+      Text008@1008 : TextConst 'DEU=Sie kînnen den Wert des Feldes %1 nicht Ñndern, da das Feld %2 im Fenster "Problemursachen" fÅr %3 %4 ein HÑkchen enthÑlt.;ENU=You cannot change the value of the %1 field because the %2 field in the Fault Reason Codes window contains a check mark for the %3 %4.';
+      Text009@1009 : TextConst 'DEU=Sie haben das Feld %1 geÑndert.\Mîchten Sie fortfahren?;ENU=You have changed the value of the field %1.\Do you want to continue ?';
+      Text010@1010 : TextConst 'DEU=%1 kann nicht weniger als %2 sein.;ENU=%1 cannot be less than %2.';
+      Text011@1011 : TextConst 'DEU=Wenn Sie einen %1 ersetzen, muss die Menge 1 sein.;ENU=When replacing a %1 the quantity must be 1.';
+      Text012@1087 : TextConst 'DEU=Automatische Reservierung nicht mîglich.\Mîchten Sie die Artikel manuell reservieren?;ENU=Automatic reservation is not possible.\Do you want to reserve items manually?';
+      Text013@1013 : TextConst 'DEU=" muss 0 sein, wenn %1 %2 ist.";ENU=" must be 0 when %1 is %2."';
+      Text015@1015 : TextConst 'DEU=Sie haben bereits %1 %2 als Ersatz gewÑhlt.;ENU=You have already selected %1 %2 for replacement.';
+      Text016@1083 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Einheiten liefern.;ENU=You cannot ship more than %1 units.';
+      Text017@1082 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Basiseinheiten liefern.;ENU=You cannot ship more than %1 base units.';
+      Text018@1018 : TextConst 'DEU=%1 %2 ist grî·er als %3 und wurde auf %4 geÑndert.;ENU=%1 %2 is greater than %3 and was adjusted to %4.';
+      Text021@1021 : TextConst 'DEU=Die %1, die Sie ausgewÑhlt haben, wurde bereits in %2 %3 ersetzt.;ENU=The %1 that you selected has already been replaced in %2 %3.';
       GLAcc@1022 : Record 15;
       ServMgtSetup@1023 : Record 5911;
       ServiceLine@1024 : Record 5902;
@@ -2567,40 +2409,40 @@ OBJECT Table 5902 Service Line
       Select@1069 : Integer;
       FullAutoReservation@1078 : Boolean;
       HideReplacementDialog@1074 : Boolean;
-      Text022@1019 : TextConst 'ENU=The %1 cannot be greater than the %2 set on the %3.;ESP=El %1 no puede ser mayor que el %2 establecido en la %3.;DEA=''%1'' kann nicht grî·er als der fÅr den %3 festgelegte %2 sein.';
-      Text023@1077 : TextConst 'ENU=You must enter a serial number.;ESP=Debe introducir n£mero de serie.;DEA=Sie mÅssen eine Seriennr. eingeben.';
+      Text022@1019 : TextConst 'DEU=''%1'' kann nicht grî·er als der fÅr den %3 festgelegte %2 sein.;ENU=The %1 cannot be greater than the %2 set on the %3.';
+      Text023@1077 : TextConst 'DEU=Sie mÅssen eine Seriennr. eingeben.;ENU=You must enter a serial number.';
       ReplaceServItemAction@1080 : Boolean;
-      Text026@1068 : TextConst 'ENU=When replacing or creating a service item component you may only enter a whole number into the %1 field.;ESP=Si crea o sustituye un componente de producto de servicio, en el campo %1 s¢lo puede introducir un n£mero completo.;DEA=Beim Ersetzen oder Erstellen einer Serviceartikelkomponente kînnen Sie im Feld %1 nur eine ganze Zahl eingeben.';
-      Text027@1070 : TextConst 'ENU=The %1 %2 with a check mark in the %3 field cannot be entered if the service line type is other than Item or Resource.;ESP=No se puede utilizar el %1 %2 con una marca en la casilla de verificaci¢n del campo %3 si el tipo de l°nea de servicio es diferente del Producto o del Recurso.;DEA=%1 %2 mit einem HÑkchen im Feld %3 kann nicht eingegeben werden, wenn die Servicezeilenart nicht ''Artikel'' oder ''Ressource'' ist.';
-      Text028@1014 : TextConst 'ENU=You cannot consume more than %1 units.;ESP=No puede consumir m†s de %1 unidades.;DEA=Sie kînnen nicht mehr als %1 Einheiten verbrauchen.';
-      Text029@1098 : TextConst 'ENU=must be positive;ESP=debe ser positivo;DEA=muss positiv sein';
-      Text030@1094 : TextConst 'ENU=must be negative;ESP=debe ser negativo;DEA=muss negativ sein';
-      Text031@1093 : TextConst 'ENU=You must specify %1.;ESP=Se debe indicar %1.;DEA=Sie mÅssen %1 angeben.';
-      Text032@1095 : TextConst 'ENU=You cannot consume more than %1 base units.;ESP=No puede consumir m†s de %1 unidades base.;DEA=Es kînnen nicht mehr als %1 Basiseinheiten verbraucht werden.';
-      Text033@1001 : TextConst 'ENU=The line you are trying to change has the adjusted price.\;ESP=La l°nea que intenta modificar ha ajustado el precio.\;DEA=Die Zeile, die Sie zu Ñndern versuchen, weist den regulierten Preis auf.\';
-      Text034@1000 : TextConst 'ENU=Do you want to continue?;ESP=®Confirma que desea continuar?;DEA=Mîchten Sie fortfahren?';
-      Text035@1076 : TextConst 'ENU=Warehouse;ESP=AlmacÇn;DEA=Lager';
-      Text036@1102 : TextConst 'ENU=Inventory;ESP=Inventario;DEA=Lagerbestand';
-      Text037@1092 : TextConst 'ENU=You cannot change %1 when %2 is %3 and %4 is positive.;ESP=No puede cambiar el %1 cuando la %2 es %3 y la %4 es positiva.;DEA=%1 kann nicht geÑndert werden, wenn %2 gleich %3 und %4 positiv ist.';
-      Text038@1088 : TextConst 'ENU=You cannot change %1 when %2 is %3 and %4 is negative.;ESP=No puede cambiar el %1 cuando la %2 es %3 y la %4 es negativa.;DEA=%1 kann nicht geÑndert werden, wenn %2 gleich %3 und %4 negativ ist.';
-      Text039@1081 : TextConst 'ENU=You cannot return more than %1 units for %2 %3.;ESP=No puede devolver m†s de %1 unidades para %2 %3.;DEA=Sie kînnen nicht mehr als %1 Einheiten fÅr %2 %3 zurÅcksenden.';
-      Text040@1073 : TextConst 'ENU=You must use form %1 to enter %2, if item tracking is used.;ESP=Utilice el formulario %1 para insertar %2, si se utiliza el seguimiento de productos.;DEA=Zum Eingeben von %2 muss Formular %1 verwendet werden, wenn die Artikelverfolgung verwendet wird.';
-      Text041@1105 : TextConst 'ENU=There were no Resource Lines to split.;ESP=No hay l°neas de recurso que dividir.;DEA=Es waren keine zu teilenden Ressourcenzeilen vorhanden.';
-      Text042@1072 : TextConst 'ENU=When posting the Applied to Ledger Entry %1 will be opened first;ESP=Al registrar Liq. por mov. contable, %1 se abrir† primero;DEA=Beim Buchen wird der ausgeglichene Posten %1 zuerst geîffnet.';
+      Text026@1068 : TextConst 'DEU=Beim Ersetzen oder Erstellen einer Serviceartikelkomponente kînnen Sie im Feld %1 nur eine ganze Zahl eingeben.;ENU=When replacing or creating a service item component you may only enter a whole number into the %1 field.';
+      Text027@1070 : TextConst 'DEU=%1 %2 mit einem HÑkchen im Feld %3 kann nicht eingegeben werden, wenn die Servicezeilenart nicht ''Artikel'' oder ''Ressource'' ist.;ENU=The %1 %2 with a check mark in the %3 field cannot be entered if the service line type is other than Item or Resource.';
+      Text028@1014 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Einheiten verbrauchen.;ENU=You cannot consume more than %1 units.';
+      Text029@1098 : TextConst 'DEU=muss positiv sein;ENU=must be positive';
+      Text030@1094 : TextConst 'DEU=muss negativ sein;ENU=must be negative';
+      Text031@1093 : TextConst 'DEU=Sie mÅssen %1 angeben.;ENU=You must specify %1.';
+      Text032@1095 : TextConst 'DEU=Es kînnen nicht mehr als %1 Basiseinheiten verbraucht werden.;ENU=You cannot consume more than %1 base units.';
+      Text033@1001 : TextConst 'DEU=Die Zeile, die Sie zu Ñndern versuchen, weist den regulierten Preis auf.\;ENU=The line you are trying to change has the adjusted price.\';
+      Text034@1000 : TextConst 'DEU=Mîchten Sie fortfahren?;ENU=Do you want to continue?';
+      Text035@1076 : TextConst 'DEU=Lager;ENU=Warehouse';
+      Text036@1102 : TextConst 'DEU=Lagerbestand;ENU=Inventory';
+      Text037@1092 : TextConst 'DEU=%1 kann nicht geÑndert werden, wenn %2 gleich %3 und %4 positiv ist.;ENU=You cannot change %1 when %2 is %3 and %4 is positive.';
+      Text038@1088 : TextConst 'DEU=%1 kann nicht geÑndert werden, wenn %2 gleich %3 und %4 negativ ist.;ENU=You cannot change %1 when %2 is %3 and %4 is negative.';
+      Text039@1081 : TextConst 'DEU=Sie kînnen nicht mehr als %1 Einheiten fÅr %2 %3 zurÅcksenden.;ENU=You cannot return more than %1 units for %2 %3.';
+      Text040@1073 : TextConst 'DEU=Zum Eingeben von %2 muss Formular %1 verwendet werden, wenn die Artikelverfolgung verwendet wird.;ENU=You must use form %1 to enter %2, if item tracking is used.';
+      Text041@1105 : TextConst 'DEU=Es waren keine zu teilenden Ressourcenzeilen vorhanden.;ENU=There were no Resource Lines to split.';
+      Text042@1072 : TextConst 'DEU=Beim Buchen wird der ausgeglichene Posten %1 zuerst geîffnet.;ENU=When posting the Applied to Ledger Entry %1 will be opened first';
       HideCostWarning@1003 : Boolean;
       HideWarrantyWarning@1096 : Boolean;
-      Text043@1097 : TextConst 'ENU=You cannot change the value of the %1 field manually if %2 for this line is %3.;ESP=No puede cambiar el valor del campo %1 manualmente si %2 es %3 para esta l°nea.;DEA=Der Wert des Felds ''%1'' kann nicht manuell geÑndert werden, wenn ''%2'' fÅr diese Zeile auf ''%3'' festgelegt ist.';
-      Text044@1012 : TextConst 'ENU=Do you want to split the resource line and use it to create resource lines\for the other service items with divided amounts?;ESP=®Confirma que desea dividir la l°nea recurso y utilizarla para crear l°neas\ recurso para los otros productos servicio con los importes divididos?;DEA=Mîchten Sie die Ressourcenzeile aufteilen und dazu verwenden, um Ressourcenzeilen\mit aufgeteilten BetrÑgen fÅr alle Serviceartikel zu erstellen?';
-      Text045@1099 : TextConst 'ENU=You cannot delete this service line because one or more service entries exist for this line.;ESP=No se puede eliminar esta l°nea de servicio porque tiene asociado uno o varios movimientos de servicio.;DEA=Die Servicezeile kann nicht gelîscht werden, da fÅr die Zeile mindestens ein Serviceposten vorhanden ist.';
-      Text046@1067 : TextConst 'ENU=You cannot change the %1 when the %2 has been filled in.;ESP=No puede cambiar %1 despuÇs de introducir datos en %2.;DEA=Sie kînnen das %1 nicht Ñndern, wenn das %2 ausgefÅllt wurde.';
-      Text047@1100 : TextConst 'ENU=%1 can only be set when %2 is set.;ESP=Solo se puede establecer %1 cuando se establece %2.;DEA=%1 kann nur festgelegt werden, wenn %2 festgelegt ist.';
-      Text048@1101 : TextConst 'ENU=%1 cannot be changed when %2 is set.;ESP=%1 no se puede cambiar cuando se establece %2.;DEA=%1 kann nicht geÑndert werden, wenn %2 festgelegt ist.';
-      Text049@1103 : TextConst '@@@=Example: Inventory put-away is required for Line 50000.;ENU="%1 is required for %2 = %3.";ESP="Se requiere %1 para %2 = %3.";DEA="%1 ist notwendig fÅr %2 = %3."';
-      Text050@1104 : TextConst 'ENU=\The entered information may be disregarded by warehouse operations.;ESP=\La informaci¢n introducida puede ser ignorada por operaciones almacÇn.;DEA=\Die eingegebenen Informationen werden in LogistikaktivitÑten mîglicherweise nicht berÅcksichtigt.';
+      Text043@1097 : TextConst 'DEU=Der Wert des Felds ''%1'' kann nicht manuell geÑndert werden, wenn ''%2'' fÅr diese Zeile auf ''%3'' festgelegt ist.;ENU=You cannot change the value of the %1 field manually if %2 for this line is %3.';
+      Text044@1012 : TextConst 'DEU=Mîchten Sie die Ressourcenzeile aufteilen und dazu verwenden, um Ressourcenzeilen\mit aufgeteilten BetrÑgen fÅr alle Serviceartikel zu erstellen?;ENU=Do you want to split the resource line and use it to create resource lines\for the other service items with divided amounts?';
+      Text045@1099 : TextConst 'DEU=Die Servicezeile kann nicht gelîscht werden, da fÅr die Zeile mindestens ein Serviceposten vorhanden ist.;ENU=You cannot delete this service line because one or more service entries exist for this line.';
+      Text046@1067 : TextConst 'DEU=Sie kînnen das %1 nicht Ñndern, wenn das %2 ausgefÅllt wurde.;ENU=You cannot change the %1 when the %2 has been filled in.';
+      Text047@1100 : TextConst 'DEU=%1 kann nur festgelegt werden, wenn %2 festgelegt ist.;ENU=%1 can only be set when %2 is set.';
+      Text048@1101 : TextConst 'DEU=%1 kann nicht geÑndert werden, wenn %2 festgelegt ist.;ENU=%1 cannot be changed when %2 is set.';
+      Text049@1103 : TextConst '@@@=Example: Inventory put-away is required for Line 50000.;DEU="%1 ist notwendig fÅr %2 = %3.";ENU="%1 is required for %2 = %3."';
+      Text050@1104 : TextConst 'DEU=\Die eingegebenen Informationen werden in LogistikaktivitÑten mîglicherweise nicht berÅcksichtigt.;ENU=\The entered information may be disregarded by warehouse operations.';
       StatusCheckSuspended@1106 : Boolean;
-      Text051@1107 : TextConst 'ENU=You cannot add an item line.;ESP=No puede agregar una l°nea de producto.;DEA=Sie kînnen keine Artikelzeile hinzufÅgen.';
-      Text052@1108 : TextConst 'ENU=You cannot change the %1 field because one or more service entries exist for this line.;ESP=No se puede cambiar el campo %1 porque existen uno o m†s movimientos de servicio para esta l°nea.;DEA=Sie kînnen das Feld %1 nicht Ñndern, weil fÅr diese Zeile mindestens ein Serviceposten vorhanden ist.';
-      Text053@1020 : TextConst 'ENU=You cannot modify the service line because one or more service entries exist for this line.;ESP=No puede modificar la l°nea de servicio porque existen uno o m†s movimientos de servicio para esta l°nea.;DEA=Sie kînnen die Serviceposition nicht Ñndern, da mindestens ein Serviceposten fÅr diese Position vorhanden ist.';
+      Text051@1107 : TextConst 'DEU=Sie kînnen keine Artikelzeile hinzufÅgen.;ENU=You cannot add an item line.';
+      Text052@1108 : TextConst 'DEU=Sie kînnen das Feld %1 nicht Ñndern, weil fÅr diese Zeile mindestens ein Serviceposten vorhanden ist.;ENU=You cannot change the %1 field because one or more service entries exist for this line.';
+      Text053@1020 : TextConst 'DEU=Sie kînnen die Serviceposition nicht Ñndern, da mindestens ein Serviceposten fÅr diese Position vorhanden ist.;ENU=You cannot modify the service line because one or more service entries exist for this line.';
 
     LOCAL PROCEDURE CheckItemAvailable@3(CalledByFieldNo@1000 : Integer);
     BEGIN

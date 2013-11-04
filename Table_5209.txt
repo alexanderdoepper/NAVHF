@@ -2,30 +2,26 @@ OBJECT Table 5209 Union
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Union;
-               ESP=Sindicato;
-               DEA=Gewerkschaft];
+    CaptionML=[DEU=Gewerkschaft;
+               ENU=Union];
     LookupPageID=Page5213;
     DrillDownPageID=Page5213;
   }
   FIELDS
   {
-    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 3   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 3   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
     { 4   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -34,9 +30,8 @@ OBJECT Table 5209 Union
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
     { 5   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -45,44 +40,34 @@ OBJECT Table 5209 Union
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 6   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=N§ tel‚fono;
-                                                              DEA=Telefonnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
     { 7   ;   ;No. of Members Employed;Integer    ;FieldClass=FlowField;
                                                    CalcFormula=Count(Employee WHERE (Status=FILTER(<>Terminated),
                                                                                      Union Code=FIELD(Code)));
-                                                   CaptionML=[ENU=No. of Members Employed;
-                                                              ESP=N§ afiliados empleados;
-                                                              DEA=Anzahl Mitglieder angestellt];
+                                                   CaptionML=[DEU=Anzahl Mitglieder angestellt;
+                                                              ENU=No. of Members Employed];
                                                    Editable=No }
-    { 8   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 9   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
-    { 10  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
-    { 11  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=N§ fax;
-                                                              DEA=Faxnr.] }
+    { 8   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 9   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
+    { 10  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
+    { 11  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
     { 12  ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 13  ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 14  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa¡s/regi¢n;
-                                                              DEA=L„nder-/Regionscode] }
+                                                   CaptionML=[DEU=L„nder-/Regionscode;
+                                                              ENU=Country/Region Code] }
   }
   KEYS
   {

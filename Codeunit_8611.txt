@@ -2,9 +2,9 @@ OBJECT Codeunit 8611 Config. Package Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -17,22 +17,22 @@ OBJECT Codeunit 8611 Config. Package Management
   CODE
   {
     VAR
-      Text000@1033 : TextConst '@@@=Parameter 1 - field name, 2 - table name, 3 - code value. Example: The value of the key field Customer Posting Group has not been filled in for record Customer : XXXXX.;ENU=The value of the key field %1 has not been filled in for record %2 : %3.;ESP=El valor del campo de clave %1 no se ha cumplimentado para el registro %2 : %3.;DEA=Der Wert des SchlÅsselfelds %1 wurde fÅr den Datensatz %2 nicht ausgefÅllt: %3.';
-      Text017@1000 : TextConst 'ENU=Validating table relations\;ESP=Validando relaciones de tabla\;DEA=Tabellenrelationen werden geprÅft\';
-      Text018@1001 : TextConst 'ENU=Applying package %1\;ESP=Aplicando paquete %1\;DEA=Paket %1 wird angewendet\';
-      Text019@1002 : TextConst 'ENU=%1 tables are processed. %2 errors found.;ESP=Se han procesado %1 tablas. %2 errores encontrados.;DEA=%1 Tabellen werden verarbeitet. %2Fehler gefunden.';
-      Text020@1003 : TextConst 'ENU=%1 tables are processed.;ESP=Se han procesado %1 tablas.;DEA=%1 Tabellen werden verarbeitet.';
-      Text024@1006 : TextConst 'ENU=Updating dimension sets\;ESP=Actualizando grupos de dimensiones\;DEA=DimensionssÑtze werden aktualisiert\';
+      Text000@1033 : TextConst '@@@=Parameter 1 - field name, 2 - table name, 3 - code value. Example: The value of the key field Customer Posting Group has not been filled in for record Customer : XXXXX.;DEU=Der Wert des SchlÅsselfelds %1 wurde fÅr den Datensatz %2 nicht ausgefÅllt: %3.;ENU=The value of the key field %1 has not been filled in for record %2 : %3.';
+      Text017@1000 : TextConst 'DEU=Tabellenrelationen werden geprÅft\;ENU=Validating table relations\';
+      Text018@1001 : TextConst 'DEU=Paket %1 wird angewendet\;ENU=Applying package %1\';
+      Text019@1002 : TextConst 'DEU=%1 Tabellen werden verarbeitet. %2Fehler gefunden.;ENU=%1 tables are processed. %2 errors found.';
+      Text020@1003 : TextConst 'DEU=%1 Tabellen werden verarbeitet.;ENU=%1 tables are processed.';
+      Text024@1006 : TextConst 'DEU=DimensionssÑtze werden aktualisiert\;ENU=Updating dimension sets\';
       ConfigProgressBar@1005 : Codeunit 8615;
       ConfigValidateMgt@1014 : Codeunit 8617;
       ConfigMgt@1007 : Codeunit 8616;
       ValidationFieldID@1037 : Integer;
       ApplyMode@1013 : ',PrimaryKey,NonKeyFields';
-      Text040@1122 : TextConst 'ENU=Cannot set up processing order numbers. A cycle reference exists in the primary keys for table %1.;ESP=No se pueden configurar los n£meros de pedido de procesamiento. Existe una referencia de ciclo en las claves primarias para la tabla %1.;DEA=Die Verarbeitungsauftragsnummern konnten nicht eingerichtet werden: Die PrimÑrschlÅssel enthalten eine Zyklusreferenz fÅr Tabelle %1.';
+      Text040@1122 : TextConst 'DEU=Die Verarbeitungsauftragsnummern konnten nicht eingerichtet werden: Die PrimÑrschlÅssel enthalten eine Zyklusreferenz fÅr Tabelle %1.;ENU=Cannot set up processing order numbers. A cycle reference exists in the primary keys for table %1.';
       ErrorTypeEnum@1123 : 'General,TableRelation';
       HideDialog@1012 : Boolean;
-      Text041@1004 : TextConst 'ENU=Some lines refer to the same table. You cannot assign a table to a package more than one time.;ESP=Algunas de las l°neas hacen referencia a la misma tabla. No puede asignar una tabla a un paquete m†s de una vez.;DEA=Einige Zeilen beziehen sich auf dieselbe Tabelle. Sie kînnen keinem Paket mehr als eine Uhrzeit zuordnen.';
-      Text050@1008 : TextConst 'ENU=[Blank];ESP=[En blanco];DEA=[Leer]';
+      Text041@1004 : TextConst 'DEU=Einige Zeilen beziehen sich auf dieselbe Tabelle. Sie kînnen keinem Paket mehr als eine Uhrzeit zuordnen.;ENU=Some lines refer to the same table. You cannot assign a table to a package more than one time.';
+      Text050@1008 : TextConst 'DEU=[Leer];ENU=[Blank]';
 
     PROCEDURE InsertPackage@2(VAR ConfigPackage@1001 : Record 8623;PackageCode@1003 : Code[20];PackageName@1002 : Text[50];ExcludeConfigTables@1000 : Boolean);
     BEGIN

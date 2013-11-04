@@ -1,0 +1,86 @@
+OBJECT Page 742 VAT Report Lines
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.04.13;
+    Time=12:00:00;
+    Version List=NAVDE7.00.00.34587;
+  }
+  PROPERTIES
+  {
+    CaptionML=[DEU=MwSt.-Bericht Linien;
+               ENU=VAT Report Lines];
+    SourceTable=Table741;
+    PageType=List;
+  }
+  CONTROLS
+  {
+    { 1140000;0;Container ;
+                ContainerType=ContentArea }
+
+    { 1140001;1;Group     ;
+                Name=Group;
+                GroupType=Repeater }
+
+    { 1140002;2;Field     ;
+                SourceExpr="VAT Report No." }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Line Type" }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Country/Region Code" }
+
+    { 1140004;2;Field     ;
+                SourceExpr="VAT Registration No." }
+
+    { 1140006;2;Field     ;
+                SourceExpr="EU 3-Party Trade" }
+
+    { 1140009;2;Field     ;
+                SourceExpr="EU Service" }
+
+    { 1140005;2;Field     ;
+                SourceExpr=Base }
+
+  }
+  CODE
+  {
+    VAR
+      VATReportHeader@1140003 : Record 740;
+      VATReportLine@1140002 : Record 741;
+
+    PROCEDURE SetToDeclaration@1470000(NewVATReportHeader@1470000 : Record 740);
+    BEGIN
+      VATReportHeader := NewVATReportHeader;
+      VATReportLine.SETRANGE("VAT Report No.",VATReportHeader."No.");
+
+      SETRANGE("VAT Report to Correct",VATReportHeader."Original Report No.");
+      SETRANGE("Able to Correct Line",TRUE);
+    END;
+
+    PROCEDURE CopyLineToDeclaration@1470003();
+    VAR
+      VATReportLineRelation@1140000 : Record 744;
+      TempVATReportLineRelation@1140001 : TEMPORARY Record 744;
+    BEGIN
+      CurrPage.SETSELECTIONFILTER(VATReportLine);
+      IF VATReportLine.FINDSET THEN
+        REPEAT
+          TempVATReportLineRelation.DELETEALL;
+          VATReportLineRelation.SETRANGE("VAT Report No.",VATReportLine."VAT Report No.");
+          VATReportLineRelation.SETRANGE("VAT Report Line No.",VATReportLine."Line No.");
+          IF VATReportLineRelation.FINDSET THEN
+            REPEAT
+              TempVATReportLineRelation := VATReportLineRelation;
+              TempVATReportLineRelation.INSERT;
+            UNTIL VATReportLineRelation.NEXT = 0;
+          VATReportLine.InsertCorrLine(VATReportHeader,VATReportLine,VATReportLine,TempVATReportLineRelation);
+        UNTIL VATReportLine.NEXT = 0;
+    END;
+
+    BEGIN
+    END.
+  }
+}
+

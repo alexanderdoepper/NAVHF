@@ -2,15 +2,14 @@ OBJECT Page 41 Sales Quote
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Quote;
-               ESP=Oferta venta;
-               DEA=Verkaufsangebot];
+    CaptionML=[DEU=Verkaufsangebot;
+               ENU=Sales Quote];
     SourceTable=Table36;
     SourceTableView=WHERE(Document Type=FILTER(Quote));
     PageType=Document;
@@ -58,16 +57,14 @@ OBJECT Page 41 Sales Quote
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 59      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Quote;
-                                 ESP=O&ferta;
-                                 DEA=A&ngebot];
+                      CaptionML=[DEU=A&ngebot;
+                                 ENU=&Quote];
                       Image=Quote }
       { 61      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -79,23 +76,20 @@ OBJECT Page 41 Sales Quote
                                 }
       { 62      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Customer Card;
-                                 ESP=Ficha cliente;
-                                 DEA=Debitorenkarte];
+                      CaptionML=[DEU=Debitorenkarte;
+                                 ENU=Customer Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Sell-to Customer No.);
                       Image=Customer }
       { 146     ;2   ;Action    ;
-                      CaptionML=[ENU=C&ontact Card;
-                                 ESP=Ficha con&tacto;
-                                 DEA=Ko&ntaktkarte];
+                      CaptionML=[DEU=Ko&ntaktkarte;
+                                 ENU=C&ontact Card];
                       RunObject=Page 5050;
                       RunPageLink=No.=FIELD(Sell-to Contact No.);
                       Image=Card }
       { 63      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 67;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
@@ -103,9 +97,8 @@ OBJECT Page 41 Sales Quote
                       Image=ViewComments }
       { 104     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -113,9 +106,8 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 189     ;2   ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  ApprovalEntries@1001 : Page 658;
@@ -128,9 +120,8 @@ OBJECT Page 41 Sales Quote
                       ActionContainerType=ActionItems }
       { 69      ;1   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -139,16 +130,14 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 115     ;2   ;Action    ;
                       Name=Release;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Image=ReleaseDoc;
                       OnAction=VAR
                                  ReleaseSalesDoc@1000 : Codeunit 414;
@@ -157,9 +146,8 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 116     ;2   ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleaseSalesDoc@1001 : Codeunit 414;
@@ -169,13 +157,12 @@ OBJECT Page 41 Sales Quote
                                 }
       { 137     ;2   ;Separator  }
       { 64      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 65      ;2   ;Action    ;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrab. berechnen];
+                      CaptionML=[DEU=&Rechnungsrab. berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -184,9 +171,8 @@ OBJECT Page 41 Sales Quote
       { 168     ;2   ;Separator  }
       { 124     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get St&d. Cust. Sales Codes;
-                                 ESP=Traer c¢d. est†nd. &vtas. clie.;
-                                 DEA=Std.-&Deb.-Verkaufscodes holen];
+                      CaptionML=[DEU=Std.-&Deb.-Verkaufscodes holen;
+                                 ENU=Get St&d. Cust. Sales Codes];
                       Image=CustomerCode;
                       OnAction=VAR
                                  StdCustSalesCode@1000 : Record 172;
@@ -198,9 +184,8 @@ OBJECT Page 41 Sales Quote
       { 66      ;2   ;Action    ;
                       Name=CopyDocument;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Document;
-                                 ESP=Copiar l°neas;
-                                 DEA=Beleg kopieren];
+                      CaptionML=[DEU=Beleg kopieren;
+                                 ENU=Copy Document];
                       Promoted=Yes;
                       Image=CopyDocument;
                       PromotedCategory=Process;
@@ -212,9 +197,8 @@ OBJECT Page 41 Sales Quote
                                 }
       { 165     ;2   ;Action    ;
                       Name=Archive Document;
-                      CaptionML=[ENU=Archi&ve Document;
-                                 ESP=&Archivar documento;
-                                 DEA=Beleg ar&chivieren];
+                      CaptionML=[DEU=Beleg ar&chivieren;
+                                 ENU=Archi&ve Document];
                       Image=Archive;
                       OnAction=BEGIN
                                  ArchiveManagement.ArchiveSalesDocument(Rec);
@@ -223,15 +207,13 @@ OBJECT Page 41 Sales Quote
                                 }
       { 141     ;2   ;Separator  }
       { 5       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Create;
-                                 ESP=Crear;
-                                 DEA=Erstellen];
+                      CaptionML=[DEU=Erstellen;
+                                 ENU=Create];
                       Image=NewCustomer }
       { 68      ;2   ;Action    ;
                       Name=Make Order;
-                      CaptionML=[ENU=Make &Order;
-                                 ESP=&Convertir en pedido;
-                                 DEA=Auftrag &erst.];
+                      CaptionML=[DEU=Auftrag &erst.;
+                                 ENU=Make &Order];
                       Promoted=Yes;
                       Image=MakeOrder;
                       PromotedCategory=Process;
@@ -244,9 +226,8 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 126     ;2   ;Action    ;
-                      CaptionML=[ENU=C&reate Customer;
-                                 ESP=C&rear cliente;
-                                 DEA=Debi&tor erstellen];
+                      CaptionML=[DEU=Debi&tor erstellen;
+                                 ENU=C&reate Customer];
                       Image=NewCustomer;
                       OnAction=BEGIN
                                  IF CheckCustomerCreated(FALSE) THEN
@@ -254,9 +235,8 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 169     ;2   ;Action    ;
-                      CaptionML=[ENU=Create &To-do;
-                                 ESP=Crear &tarea;
-                                 DEA=&Aufgabe erstellen];
+                      CaptionML=[DEU=&Aufgabe erstellen;
+                                 ENU=Create &To-do];
                       Image=NewToDo;
                       OnAction=BEGIN
                                  CreateTodo;
@@ -264,14 +244,12 @@ OBJECT Page 41 Sales Quote
                                 }
       { 143     ;2   ;Separator  }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 190     ;2   ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -280,9 +258,8 @@ OBJECT Page 41 Sales Quote
                                END;
                                 }
       { 191     ;2   ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -299,9 +276,8 @@ OBJECT Page 41 Sales Quote
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -424,9 +400,8 @@ OBJECT Page 41 Sales Quote
                 PagePartID=Page95 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 16  ;2   ;Field     ;
                 SourceExpr="Bill-to Customer No.";
@@ -514,9 +489,8 @@ OBJECT Page 41 Sales Quote
                 SourceExpr="VAT Bus. Posting Group" }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env°o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 36  ;2   ;Field     ;
                 SourceExpr="Ship-to Code";
@@ -556,9 +530,8 @@ OBJECT Page 41 Sales Quote
                 Importance=Promoted }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Au·enhandel] }
+                CaptionML=[DEU=Au·enhandel;
+                           ENU=Foreign Trade] }
 
     { 97  ;2   ;Field     ;
                 SourceExpr="Currency Code";
@@ -668,7 +641,7 @@ OBJECT Page 41 Sales Quote
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Unable to execute this function while in view only mode.;ESP=No es posible ejecutar esta funci¢n en el modo de solo lectura.;DEA=Diese Funktion kann im Ansichtmodus nicht ausgefÅhrt werden.';
+      Text000@1000 : TextConst 'DEU=Diese Funktion kann im Ansichtmodus nicht ausgefÅhrt werden.;ENU=Unable to execute this function while in view only mode.';
       ChangeExchangeRate@1002 : Page 511;
       CopySalesDoc@1003 : Report 292;
       DocPrint@1004 : Codeunit 229;

@@ -2,43 +2,50 @@ OBJECT Page 740 VAT Report
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Report;
-               ESP=Informe IVA;
-               DEA=MwSt.-Bericht];
+    CaptionML=[DEU=MwSt.-Bericht;
+               ENU=VAT Report];
     SourceTable=Table740;
+    SourceTableView=WHERE(VAT Report Config. Code=CONST(VIES));
     PageType=Document;
     ActionList=ACTIONS
     {
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 16      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Funci&ones;
-                                 DEA=F&unktionen];
+                      CaptionML=[DEU=F&unktionen;
+                                 ENU=F&unctions];
                       Image=Action }
       { 22      ;2   ;Action    ;
-                      CaptionML=[ENU=&Suggest Lines;
-                                 ESP=Proponer l°nea&s;
-                                 DEA=&Vorschlagszeilen];
+                      CaptionML=[DEU=&Vorschlagszeilen;
+                                 ENU=&Suggest Lines];
                       Promoted=Yes;
-                      Image=SuggestLines;
+                      Image=SuggestGrid;
                       PromotedCategory=Process;
                       OnAction=BEGIN
                                  VATReportMediator.GetLines(Rec);
                                END;
                                 }
+      { 28      ;2   ;Action    ;
+                      CaptionML=[DEU=Zeilen &korrigieren;
+                                 ENU=Co&rrect Lines];
+                      Promoted=Yes;
+                      Image=SuggestLines;
+                      PromotedCategory=Process;
+                      OnAction=BEGIN
+                                 VATReportMediator.CorrectLines(Rec);
+                               END;
+                                }
       { 23      ;2   ;Separator  }
       { 24      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=&Release;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=&Release];
                       Promoted=Yes;
                       Image=ReleaseDoc;
                       PromotedCategory=Process;
@@ -47,9 +54,8 @@ OBJECT Page 740 VAT Report
                                END;
                                 }
       { 19      ;2   ;Action    ;
-                      CaptionML=[ENU=Mark as Su&bmitted;
-                                 ESP=Marcar como en&viado;
-                                 DEA=Als "ö&bermittelt" markieren];
+                      CaptionML=[DEU=Als "ö&bermittelt" markieren;
+                                 ENU=Mark as Su&bmitted];
                       Promoted=Yes;
                       Image=Approve;
                       PromotedCategory=Process;
@@ -58,9 +64,8 @@ OBJECT Page 740 VAT Report
                                END;
                                 }
       { 25      ;2   ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Promoted=Yes;
                       Image=ReOpen;
                       PromotedCategory=Process;
@@ -70,25 +75,13 @@ OBJECT Page 740 VAT Report
                                 }
       { 26      ;2   ;Separator  }
       { 27      ;2   ;Action    ;
-                      CaptionML=[ENU=&Export;
-                                 ESP=&Exportar;
-                                 DEA=&Exportieren];
+                      CaptionML=[DEU=&Exportieren;
+                                 ENU=&Export];
                       Promoted=Yes;
                       Image=Export;
                       PromotedCategory=Process;
                       OnAction=BEGIN
                                  VATReportMediator.Export(Rec);
-                               END;
-                                }
-      { 33      ;1   ;Action    ;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
-                      Promoted=Yes;
-                      Image=Print;
-                      PromotedCategory=Process;
-                      OnAction=BEGIN
-                                 VATReportMediator.Print(Rec);
                                END;
                                 }
     }
@@ -99,9 +92,8 @@ OBJECT Page 740 VAT Report
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -111,14 +103,26 @@ OBJECT Page 740 VAT Report
                              END;
                               }
 
-    { 4   ;2   ;Field     ;
-                SourceExpr="VAT Report Config. Code" }
-
     { 6   ;2   ;Field     ;
                 SourceExpr="VAT Report Type" }
 
-    { 18  ;2   ;Field     ;
-                SourceExpr="Original Report No." }
+    { 1140027;2;Field     ;
+                SourceExpr="Trade Type" }
+
+    { 1140000;2;Field     ;
+                SourceExpr="EU Goods/Services" }
+
+    { 1140006;2;Field     ;
+                SourceExpr="Report Period Type" }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Report Period No." }
+
+    { 1140008;2;Field     ;
+                SourceExpr="Report Year" }
+
+    { 1140009;2;Field     ;
+                SourceExpr="Processing Date" }
 
     { 8   ;2   ;Field     ;
                 SourceExpr="Start Date" }
@@ -128,6 +132,65 @@ OBJECT Page 740 VAT Report
 
     { 14  ;2   ;Field     ;
                 SourceExpr=Status }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Original Report No." }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Test Export" }
+
+    { 1140010;2;Field     ;
+                SourceExpr=Notice }
+
+    { 1140014;2;Field     ;
+                SourceExpr=Revocation }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Total Base" }
+
+    { 1140004;2;Field     ;
+                SourceExpr="Total Amount" }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Total Number of Supplies" }
+
+    { 1140011;1;Group     ;
+                CaptionML=[DEU=Mandant;
+                           ENU=Company];
+                Visible=FALSE;
+                GroupType=Group }
+
+    { 1140012;2;Field     ;
+                SourceExpr="Company Name" }
+
+    { 1140013;2;Field     ;
+                SourceExpr="Company Address" }
+
+    { 1140019;2;Field     ;
+                SourceExpr=City }
+
+    { 1140020;2;Field     ;
+                SourceExpr="Post Code" }
+
+    { 1140021;2;Field     ;
+                SourceExpr="Tax Office ID" }
+
+    { 1140022;1;Group     ;
+                CaptionML=[DEU=Abzeichnung;
+                           ENU=Sign-off];
+                GroupType=Group }
+
+    { 1140023;2;Field     ;
+                SourceExpr="Sign-off Place" }
+
+    { 1140024;2;Field     ;
+                SourceExpr="Sign-off Date" }
+
+    { 1140025;2;Field     ;
+                SourceExpr="Signed by Employee No." }
+
+    { 1140026;2;Field     ;
+                SourceExpr="Created by Employee No." }
 
     { 13  ;1   ;Part      ;
                 Name=VATReportLines;

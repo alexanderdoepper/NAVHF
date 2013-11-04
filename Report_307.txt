@@ -2,15 +2,14 @@ OBJECT Report 307 Vendor - Order Summary
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Vendor - Order Summary;
-               ESP=Proveedor - Total pedidos;
-               DEA=Kreditor - BestellungsÅbers.];
+    CaptionML=[DEU=Kreditor - BestellungsÅbers.;
+               ENU=Vendor - Order Summary];
     OnPreReport=BEGIN
                   VendFilter := Vendor.GETFILTERS;
                   FOR i := 1 TO 3 DO
@@ -218,32 +217,28 @@ OBJECT Report 307 Vendor - Order Summary
                   ContainerType=ContentArea }
 
       { 3   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   NotBlank=Yes;
                   SourceExpr=PeriodStartDate[1] }
 
       { 2   ;2   ;Field     ;
                   Name=AmountsinLCY;
-                  CaptionML=[ENU=Show Amounts in LCY;
-                             ESP=Muestra importes en DL;
-                             DEA=BetrÑge in MW anzeigen];
+                  CaptionML=[DEU=BetrÑge in MW anzeigen;
+                             ENU=Show Amounts in LCY];
                   SourceExpr=PrintAmountsInLCY }
 
     }
   }
   LABELS
   {
-    { 2   ;NameCaption         ;CaptionML=[ENU=Name;
-                                           ESP=Nombre;
-                                           DEA=Name] }
+    { 2   ;NameCaption         ;CaptionML=[DEU=Name;
+                                           ENU=Name] }
   }
   CODE
   {
@@ -260,15 +255,15 @@ OBJECT Report 307 Vendor - Order Summary
       PurchAmtOnOrder@1008 : ARRAY [5] OF Decimal;
       PurchAmtOnOrderLCY@1009 : ARRAY [5] OF Decimal;
       i@1010 : Integer;
-      VendorOrderSummaryCaptionLbl@2361 : TextConst 'ENU=Vendor - Order Summary;ESP=Proveedor - Total pedidos;DEA=Kreditor - BestellungsÅbers.';
-      PageCaptionLbl@6215 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      AllamountsareinLCYCaptionLbl@3692 : TextConst 'ENU=All amounts are in LCY;ESP=Importes en divisa local;DEA=Alle BetrÑge in MW';
-      OutstandingOrdersCaptionLbl@5291 : TextConst 'ENU=Outstanding Orders;ESP=Importe pedidos pendientes;DEA=Auftragsbestand';
-      CustomerNoCap@1011 : TextConst 'ENU=No.;DEA=No.';
-      BeforeCaptionLbl@6488 : TextConst 'ENU=...Before;ESP=...Antes;DEA=...alter Inhalt';
-      AfterCaptionLbl@7202 : TextConst 'ENU=After...;ESP=DespuÇs...;DEA=Neuer Inhalt...';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      TotalLCYCaptionLbl@5808 : TextConst 'ENU=Total (LCY);ESP=Total (DL);DEA=Gesamt (MW)';
+      VendorOrderSummaryCaptionLbl@2361 : TextConst 'DEU=Kreditor - BestellungsÅbers.;ENU=Vendor - Order Summary';
+      PageCaptionLbl@6215 : TextConst 'DEU=Seite;ENU=Page';
+      AllamountsareinLCYCaptionLbl@3692 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All amounts are in LCY';
+      OutstandingOrdersCaptionLbl@5291 : TextConst 'DEU=Auftragsbestand;ENU=Outstanding Orders';
+      CustomerNoCap@1011 : TextConst 'DEU=No.;ENU=No.';
+      BeforeCaptionLbl@6488 : TextConst 'DEU=...alter Inhalt;ENU=...Before';
+      AfterCaptionLbl@7202 : TextConst 'DEU=Neuer Inhalt...;ENU=After...';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      TotalLCYCaptionLbl@5808 : TextConst 'DEU=Gesamt (MW);ENU=Total (LCY)';
 
     PROCEDURE InitializeRequest@1(NewPeriodStartDate@1000 : Date;NewPrintAmountsInLCY@1001 : Boolean);
     BEGIN
@@ -1165,7 +1160,8 @@ End Function
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox39">
+                    <Textbox Name="Textbox109">
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
@@ -1178,8 +1174,7 @@ End Function
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox39</rd:DefaultName>
-                      <ZIndex>32</ZIndex>
+                      <rd:DefaultName>Textbox109</rd:DefaultName>
                       <Style>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1406,13 +1401,14 @@ End Function
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox4">
+                    <Textbox Name="Textbox108">
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!CurrencyCode_PurchaseLine.Value</Value>
+                              <Value />
                               <Style>
                                 <FontSize>7pt</FontSize>
                               </Style>
@@ -1421,8 +1417,7 @@ End Function
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox4</rd:DefaultName>
-                      <ZIndex>6</ZIndex>
+                      <rd:DefaultName>Textbox108</rd:DefaultName>
                       <Style>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -1618,6 +1613,277 @@ End Function
               <TablixCells>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="textbox11">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!PurchaseLinePaytoNo_Vendor.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox19">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Name_Vendor.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox22">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CurrencyCode_PurchaseLine.Value</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox23">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY1.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder1Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox24">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY2.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder2Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY3.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder3Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox27">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY4.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder4Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox28">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY5.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder5Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox29">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrderLCY1.Value)+SUM(Fields!PurchAmtOnOrderLCY2.Value)+SUM(Fields!PurchAmtOnOrderLCY3.Value)+SUM(Fields!PurchAmtOnOrderLCY4.Value)+SUM(Fields!PurchAmtOnOrderLCY5.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <Format>=Fields!PurchAmtOnOrder5Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="textbox1">
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1707,7 +1973,7 @@ End Function
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox13">
+                    <Textbox Name="Textbox118">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1718,15 +1984,13 @@ End Function
                               <Style>
                                 <FontSize>7pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>=First(Fields!PurchAmtOnOrderLCY1Format.Value)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox13</rd:DefaultName>
-                      <ZIndex>14</ZIndex>
+                      <rd:DefaultName>Textbox118</rd:DefaultName>
                       <Style>
                         <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1867,7 +2131,7 @@ End Function
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="textbox18">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -1878,17 +2142,294 @@ End Function
                               <Style>
                                 <FontSize>7pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>=First(Fields!PurchOrderAmountLCYFormat.Value)</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>textbox18</rd:DefaultName>
-                      <ZIndex>9</ZIndex>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.16654in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=First(Fields!TotalLCYCaption.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>0.075cm</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox30">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox30</rd:DefaultName>
+                      <Style>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox31">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox31</rd:DefaultName>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox50">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrder1.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder1Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox5</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox51">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrder2.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder2Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox52">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrder3.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder3Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox7</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox53">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrder4.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder4Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox54">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchAmtOnOrder5.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder5Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox55">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=SUM(Fields!PurchOrderAmount.Value)</Value>
+                              <Style>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>=Fields!PurchAmtOnOrder5Format.Value</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <Style>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -1911,7 +2452,7 @@ End Function
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=First(Fields!TotalLCYCaption.Value)</Value>
+                              <Value>=Fields!TotalCaption.Value</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -2225,8 +2766,17 @@ End Function
                   </Group>
                   <TablixMembers>
                     <TablixMember>
+                      <Visibility>
+                        <Hidden>=(Fields!PrintAmountsInLCY.Value)</Hidden>
+                      </Visibility>
                       <KeepWithGroup>Before</KeepWithGroup>
                       <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                    <TablixMember>
+                      <Visibility>
+                        <Hidden>=First(Fields!PrintAmountsInLCY.Value)</Hidden>
+                      </Visibility>
+                      <KeepWithGroup>Before</KeepWithGroup>
                     </TablixMember>
                   </TablixMembers>
                 </TablixMember>
@@ -2237,6 +2787,15 @@ End Function
               <KeepTogether>true</KeepTogether>
             </TablixMember>
             <TablixMember>
+              <Visibility>
+                <Hidden>=NOT First(Fields!PrintAmountsInLCY.Value)</Hidden>
+              </Visibility>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Visibility>
+                <Hidden>=First(Fields!PrintAmountsInLCY.Value)</Hidden>
+              </Visibility>
               <KeepWithGroup>Before</KeepWithGroup>
               <KeepTogether>true</KeepTogether>
             </TablixMember>
@@ -2244,7 +2803,7 @@ End Function
         </TablixRowHierarchy>
         <DataSetName>DataSet_Result</DataSetName>
         <Top>1.90476cm</Top>
-        <Height>2.96106cm</Height>
+        <Height>3.80708cm</Height>
         <Width>18.14121cm</Width>
         <Style />
       </Tablix>
@@ -2405,7 +2964,7 @@ End Function
         <Style />
       </Tablix>
     </ReportItems>
-    <Height>4.86582cm</Height>
+    <Height>5.88883cm</Height>
     <Style />
   </Body>
   <Width>18.15001cm</Width>

@@ -2,15 +2,14 @@ OBJECT Page 743 VAT Report Setup
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Report Setup;
-               ESP=Configuraci¢n informe IVA;
-               DEA=MwSt.-Bericht - Einrichtung];
+    CaptionML=[DEU=MwSt.-Bericht - Einrichtung;
+               ENU=VAT Report Setup];
     InsertAllowed=No;
     DeleteAllowed=No;
     SourceTable=Table743;
@@ -30,24 +29,69 @@ OBJECT Page 743 VAT Report Setup
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 4   ;2   ;Field     ;
                 SourceExpr="Modify Submitted Reports" }
 
+    { 1140006;2;Field     ;
+                SourceExpr="Default Export Folder";
+                OnValidate=VAR
+                             FileMgt@1140000 : Codeunit 419;
+                           BEGIN
+                             IF "Default Export Folder" <> '' THEN
+                               IF NOT FileMgt.ClientDirectoryExists("Default Export Folder") THEN
+                                 ERROR(Text002,"Default Export Folder");
+                           END;
+
+                OnAssistEdit=VAR
+                               FileMgt@1140000 : Codeunit 419;
+                             BEGIN
+                               "Default Export Folder" :=
+                                 COPYSTR(
+                                   FileMgt.BrowseForFolderDialog(
+                                     STRSUBSTNO(Text001,FIELDCAPTION("Default Export Folder")),"Default Export Folder",TRUE),
+                                   1,MAXSTRLEN("Default Export Folder"));
+                             END;
+                              }
+
+    { 1140007;2;Field     ;
+                SourceExpr="Export Cancellation Lines" }
+
     { 1904569201;1;Group  ;
-                CaptionML=[ENU=Numbering;
-                           ESP=Numeraci¢n;
-                           DEA=Nummerierung] }
+                CaptionML=[DEU=Nummerierung;
+                           ENU=Numbering] }
 
     { 7   ;2   ;Field     ;
                 SourceExpr="No. Series" }
 
+    { 1140000;1;Group     ;
+                CaptionML=[DEU=ZIVIT;
+                           ENU=ZIVIT];
+                GroupType=Group }
+
+    { 1140001;2;Field     ;
+                SourceExpr="Source Identifier" }
+
+    { 1140002;2;Field     ;
+                SourceExpr="Transmission Process ID" }
+
+    { 1140003;2;Field     ;
+                SourceExpr="Supplier ID" }
+
+    { 1140004;2;Field     ;
+                SourceExpr=Codepage }
+
+    { 1140005;2;Field     ;
+                SourceExpr="Registration ID" }
+
   }
   CODE
   {
+    VAR
+      Text001@1140000 : TextConst 'DEU=W„hlen Sie %1;ENU=Select %1';
+      Text002@1140001 : TextConst 'DEU=Ordner %1 ist nicht vorhanden.;ENU=Folder %1 does not exist.';
 
     BEGIN
     END.

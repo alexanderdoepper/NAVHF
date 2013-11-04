@@ -2,9 +2,9 @@ OBJECT Codeunit 419 File Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,30 +15,30 @@ OBJECT Codeunit 419 File Management
   CODE
   {
     VAR
-      Text001@1004 : TextConst 'ENU=Default;ESP=GenＳico;DEA=Standard';
-      Text002@1001 : TextConst 'ENU=You must enter a file path.;ESP=Debe insertar una ruta de archivo.;DEA=Geben Sie einen Dateipfad ein.';
-      Text003@1005 : TextConst 'ENU=You must enter a file name.;ESP=Debe introd. nombre fichero.;DEA=Geben Sie einen Dateinamen ein.';
-      Text004@1007 : TextConst 'ENU=The file %1 does not exist.;ESP=El fichero %1 no existe.;DEA=Die Datei %1 ist nicht vorhanden.';
-      Text006@1003 : TextConst 'ENU=Export;ESP=Exportar;DEA=Exportieren';
-      Text007@1002 : TextConst 'ENU=Import;ESP=Importar;DEA=Importieren';
-      Text009@1000 : TextConst 'ENU=All Files (*.*)|*.*;ESP=Todos los archivos (*.*)|*.*;DEA=Alle Dateien (*.*)|*.*';
+      Text001@1004 : TextConst 'DEU=Standard;ENU=Default';
+      Text002@1001 : TextConst 'DEU=Geben Sie einen Dateipfad ein.;ENU=You must enter a file path.';
+      Text003@1005 : TextConst 'DEU=Geben Sie einen Dateinamen ein.;ENU=You must enter a file name.';
+      Text004@1007 : TextConst 'DEU=Die Datei %1 ist nicht vorhanden.;ENU=The file %1 does not exist.';
+      Text006@1003 : TextConst 'DEU=Exportieren;ENU=Export';
+      Text007@1002 : TextConst 'DEU=Importieren;ENU=Import';
+      Text009@1000 : TextConst 'DEU=Alle Dateien (*.*)|*.*;ENU=All Files (*.*)|*.*';
       PathHelper@1011 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Path";
       ClientFileHelper@1012 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.File" RUNONCLIENT;
       ServerFileHelper@1015 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.File";
       DirectoryHelper@1013 : DotNet "'mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.IO.Directory" RUNONCLIENT;
-      Text010@1008 : TextConst 'ENU=The file %1 has not been uploaded.;ESP=No se ha cargado el archivo %1.;DEA=Die Datei ''%1'' wurde nicht hochgeladen.';
-      Text011@1009 : TextConst 'ENU=You must specify a source file name.;ESP=Debe especificar un nombre de archivo de origen.;DEA=Sie m《sen einen Quelldateinamen angeben.';
-      Text012@1010 : TextConst 'ENU=You must specify a target file name.;ESP=Debe especificar un nombre de archivo de destino.;DEA=Sie m《sen einen Zieldateinamen angeben.';
-      Text013@1014 : TextConst 'ENU=The file name %1 already exists.;ESP=El nombre de archivo %1 ya existe.;DEA=Der Dateiname %1 ist bereits vorhanden.';
-      XMLFileType@1006 : TextConst 'ENU=XML Files (*.xml)|*.xml;ESP=Archivos XML (*.xml)|*.xml;DEA=XML-Dateien (*.xml)|*.xml';
-      WordFileType@1016 : TextConst 'ENU=Word Files (*.doc)|*.doc;ESP=Archivos de Word (*.doc)|*.doc;DEA=Word-Dateien (*.doc)|*.doc';
-      Word2007FileType@1017 : TextConst 'ENU=Word Files (*.doc*)|*.doc*;ESP=Archivos de Word (*.doc*)|*.doc*;DEA=Word-Dateien (*.doc*)|*.doc*';
-      ExcelFileType@1018 : TextConst 'ENU=Excel Files (*.xls)|*.xls;ESP=Archivos de Excel (*.xls)|*.xls;DEA=Excel-Dateien (*.xls)|*.xls';
-      Excel2007FileType@1019 : TextConst 'ENU=Excel Files (*.xls*)|*.xls*;ESP=Archivos de Excel (*.xls*)|*.xls*;DEA=Excel-Dateien (*.xls*)|*.xls*';
-      XSDFileType@1020 : TextConst 'ENU=XSD Files (*.xsd)|*.xsd;ESP=Archivos XSD (*.xsd)|*.xsd;DEA=XSD-Dateien (*.xsd)|*.xsd';
-      HTMFileType@1021 : TextConst 'ENU=HTM Files (*.htm)|*.htm;ESP=Archivos HTM (*.htm)|*.htm;DEA=HTM-Dateien (*.htm)|*.htm';
-      XSLTFileType@1022 : TextConst 'ENU=XSLT Files (*.xslt)|*.xslt;ESP=Archivos XSLT (*.xslt)|*.xslt;DEA=XSLT-Dateien (*.xslt)|*.xslt';
-      TXTFileType@1023 : TextConst 'ENU=Text Files (*.txt)|*.txt;ESP=Archivos de texto (*.txt)|*.txt;DEA=Textdateien (*.txt)|*.txt';
+      Text010@1008 : TextConst 'DEU=Die Datei ''%1'' wurde nicht hochgeladen.;ENU=The file %1 has not been uploaded.';
+      Text011@1009 : TextConst 'DEU=Sie m《sen einen Quelldateinamen angeben.;ENU=You must specify a source file name.';
+      Text012@1010 : TextConst 'DEU=Sie m《sen einen Zieldateinamen angeben.;ENU=You must specify a target file name.';
+      Text013@1014 : TextConst 'DEU=Der Dateiname %1 ist bereits vorhanden.;ENU=The file name %1 already exists.';
+      XMLFileType@1006 : TextConst 'DEU=XML-Dateien (*.xml)|*.xml;ENU=XML Files (*.xml)|*.xml';
+      WordFileType@1016 : TextConst 'DEU=Word-Dateien (*.doc)|*.doc;ENU=Word Files (*.doc)|*.doc';
+      Word2007FileType@1017 : TextConst 'DEU=Word-Dateien (*.doc*)|*.doc*;ENU=Word Files (*.doc*)|*.doc*';
+      ExcelFileType@1018 : TextConst 'DEU=Excel-Dateien (*.xls)|*.xls;ENU=Excel Files (*.xls)|*.xls';
+      Excel2007FileType@1019 : TextConst 'DEU=Excel-Dateien (*.xls*)|*.xls*;ENU=Excel Files (*.xls*)|*.xls*';
+      XSDFileType@1020 : TextConst 'DEU=XSD-Dateien (*.xsd)|*.xsd;ENU=XSD Files (*.xsd)|*.xsd';
+      HTMFileType@1021 : TextConst 'DEU=HTM-Dateien (*.htm)|*.htm;ENU=HTM Files (*.htm)|*.htm';
+      XSLTFileType@1022 : TextConst 'DEU=XSLT-Dateien (*.xslt)|*.xslt;ENU=XSLT Files (*.xslt)|*.xslt';
+      TXTFileType@1023 : TextConst 'DEU=Textdateien (*.txt)|*.txt;ENU=Text Files (*.txt)|*.txt';
 
     PROCEDURE BLOBImport@3(VAR BLOBRef@1000 : TEMPORARY Record 99008535;Name@1002 : Text) : Text;
     VAR
@@ -430,6 +430,22 @@ OBJECT Codeunit 419 File Management
 
       IF NOT IsValidFileName(ClientFileName) THEN
         ERROR(Text012);
+    END;
+
+    PROCEDURE BrowseForFolderDialog@25(WindowTitle@1000 : Text[50];DefaultFolderName@1001 : Text;ShowNewFolderButton@1002 : Boolean) : Text;
+    VAR
+      FolderBrowserDialog@1006 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.FolderBrowserDialog" RUNONCLIENT;
+      DialagResult@1003 : DotNet "'System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Windows.Forms.DialogResult" RUNONCLIENT;
+    BEGIN
+      FolderBrowserDialog := FolderBrowserDialog.FolderBrowserDialog;
+      FolderBrowserDialog.Description := WindowTitle;
+      FolderBrowserDialog.SelectedPath := DefaultFolderName;
+      FolderBrowserDialog.ShowNewFolderButton := ShowNewFolderButton;
+
+      DialagResult := FolderBrowserDialog.ShowDialog;
+      IF DialagResult.CompareTo(DialagResult.OK) = 0 THEN
+        EXIT(FolderBrowserDialog.SelectedPath);
+      EXIT(DefaultFolderName);
     END;
 
     BEGIN

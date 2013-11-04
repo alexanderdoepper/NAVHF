@@ -2,9 +2,9 @@ OBJECT Codeunit 9500 Debugger Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -33,7 +33,7 @@ OBJECT Codeunit 9500 Debugger Management
       DebuggedSession@1006 : Record 2000000110;
       DebuggerTaskPage@1000 : Page 9500;
       Config@1009 : DotNet "'Microsoft.Dynamics.Nav.Types, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.Nav.Types.ConfigSettings" RUNONCLIENT;
-      Text000Err@1003 : TextConst 'ENU=Cannot process debugger break. The debugger is not active.;ESP=No se puede procesar el salto de depurador. El depurador no est  activo.;DEA=Die Debugger-Unterbrechung konnte nicht verarbeitet werden. Der Debugger ist nicht aktiv.';
+      Text000Err@1003 : TextConst 'DEU=Die Debugger-Unterbrechung konnte nicht verarbeitet werden. Der Debugger ist nicht aktiv.;ENU=Cannot process debugger break. The debugger is not active.';
       LastErrorMesssageIsNew@1007 : Boolean;
       LastErrorMessage@1005 : Text[1024];
       CodeViewerControlRegistered@1001 : Boolean;

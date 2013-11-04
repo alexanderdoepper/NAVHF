@@ -2,22 +2,20 @@ OBJECT Table 175 Standard Vendor Purchase Code
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Standard Vendor Purchase Code;
-               ESP=C¢digo compras proveedor est ndar;
-               DEA=Standardkreditoreneinkaufscode];
+    CaptionML=[DEU=Standardkreditoreneinkaufscode;
+               ENU=Standard Vendor Purchase Code];
   }
   FIELDS
   {
     { 1   ;   ;Vendor No.          ;Code20        ;TableRelation=Vendor;
-                                                   CaptionML=[ENU=Vendor No.;
-                                                              ESP=N§ proveedor;
-                                                              DEA=Kreditorennr.];
+                                                   CaptionML=[DEU=Kreditorennr.;
+                                                              ENU=Vendor No.];
                                                    NotBlank=Yes }
     { 2   ;   ;Code                ;Code10        ;TableRelation="Standard Purchase Code";
                                                    OnValidate=VAR
@@ -29,13 +27,11 @@ OBJECT Table 175 Standard Vendor Purchase Code
                                                                 Description := StdPurchCode.Description;
                                                               END;
 
-                                                   CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+                                                   CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
   }
   KEYS
   {

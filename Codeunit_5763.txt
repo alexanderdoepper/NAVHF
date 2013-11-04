@@ -2,9 +2,9 @@ OBJECT Codeunit 5763 Whse.-Post Shipment
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -22,11 +22,11 @@ OBJECT Codeunit 5763 Whse.-Post Shipment
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=The source document %1 %2 is not released.;ESP=No se ha lanzado el documento origen %1 %2.;DEA=Der Herkunftsbeleg %1 %2 wurde nicht freigegeben.';
-      Text001@1001 : TextConst 'ENU=There is nothing to post.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu buchen.';
-      Text003@1003 : TextConst 'ENU=Number of source documents posted: %1 out of a total of %2.;ESP=N£mero documentos origen registrados: %1 de un total de %2.;DEA=Anzahl gebuchter Herkunftsbelege: %1 von insgesamt %2.';
-      Text004@1004 : TextConst 'ENU=Ship lines have been posted.;ESP=Se han reg. las l°neas envio.;DEA=Lieferzeilen wurden gebucht.';
-      Text005@1005 : TextConst 'ENU=Some ship lines remain.;ESP=Quedan algunas l°n. env°o.;DEA=Einige Lieferzeilen sind Åbrig.';
+      Text000@1000 : TextConst 'DEU=Der Herkunftsbeleg %1 %2 wurde nicht freigegeben.;ENU=The source document %1 %2 is not released.';
+      Text001@1001 : TextConst 'DEU=Es gibt nichts zu buchen.;ENU=There is nothing to post.';
+      Text003@1003 : TextConst 'DEU=Anzahl gebuchter Herkunftsbelege: %1 von insgesamt %2.;ENU=Number of source documents posted: %1 out of a total of %2.';
+      Text004@1004 : TextConst 'DEU=Lieferzeilen wurden gebucht.;ENU=Ship lines have been posted.';
+      Text005@1005 : TextConst 'DEU=Einige Lieferzeilen sind Åbrig.;ENU=Some ship lines remain.';
       WhseRqst@1006 : Record 5765;
       WhseShptHeader@1047 : Record 7320;
       WhseShptLine@1007 : Record 7321;
@@ -55,10 +55,10 @@ OBJECT Codeunit 5763 Whse.-Post Shipment
       CounterSourceDocTotal@1040 : Integer;
       Print@1043 : Boolean;
       Invoice@1035 : Boolean;
-      Text006@1015 : TextConst 'ENU=%1, %2 %3: you cannot ship more than have been picked for the item tracking lines.;ESP=%1, %2 %3: no puede enviar m†s de lo que se ha preparado pedido para las l°ns. seguim. pdto.;DEA=%1, %2 %3: Sie kînnen keine grî·ere Menge ausliefern, als fÅr die Artikelverfolgungszeilen kommissioniert wurde.';
-      Text007@1102601000 : TextConst 'ENU=is not within your range of allowed posting dates;ESP=no est† dentro del periodo de fechas de registro permitidas;DEA=liegt nicht innerhalb des zugelassenen Buchungszeitraums.';
+      Text006@1015 : TextConst 'DEU=%1, %2 %3: Sie kînnen keine grî·ere Menge ausliefern, als fÅr die Artikelverfolgungszeilen kommissioniert wurde.;ENU=%1, %2 %3: you cannot ship more than have been picked for the item tracking lines.';
+      Text007@1102601000 : TextConst 'DEU=liegt nicht innerhalb des zugelassenen Buchungszeitraums.;ENU=is not within your range of allowed posting dates';
       InvoiceService@1012 : Boolean;
-      FullATONotPostedErr@1011 : TextConst 'ENU=Warehouse shipment %1, Line No. %2 cannot be posted, because the full assemble-to-order quantity on the source document line must be shipped first.;ESP=El Env°o almacÇn %1, Nß l°nea %2 no se puede registrar porque la cantidad completa de ensamblar para pedido de la l°nea del documento de origen debe enviarse primero.;DEA=Warenausgang %1, Positionsnummer %2 kann nicht gebucht werden, da die vollstÑndige Auftragsmontagemenge im Quellbeleg erst geliefert werden muss.';
+      FullATONotPostedErr@1011 : TextConst 'DEU=Warenausgang %1, Positionsnummer %2 kann nicht gebucht werden, da die vollstÑndige Auftragsmontagemenge im Quellbeleg erst geliefert werden muss.;ENU=Warehouse shipment %1, Line No. %2 cannot be posted, because the full assemble-to-order quantity on the source document line must be shipped first.';
 
     PROCEDURE Code@9();
     BEGIN

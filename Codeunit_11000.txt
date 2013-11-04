@@ -2,9 +2,9 @@ OBJECT Codeunit 11000 Data Export Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,10 +15,10 @@ OBJECT Codeunit 11000 Data Export Management
   CODE
   {
     VAR
-      Text1140000@1140000 : TextConst 'ENU=There are table relations defined for the table %1. If you %2 the table the relation will be deleted. Do you still want do continue?;DEA=Es bestehen Tabellenrelationen zu der Tabelle %1. Wenn Sie die Tabelle %2, werden diese gelîscht. Mîchten Sie trotzdem fortsetzen?';
-      Text1140001@1140001 : TextConst 'ENU=indent;DEA=einrÅcken';
-      Text1140002@1140002 : TextConst 'ENU=unindent;DEA=ausrÅcken';
-      Text1140003@1140003 : TextConst 'ENU=Table relations only exist for indented tables.;DEA=Tabellenrelationen gibt es nur zu eingerÅckten Tabellen.';
+      Text1140000@1140000 : TextConst 'DEU=Es bestehen Tabellenrelationen zu der Tabelle %1. Wenn Sie die Tabelle %2, werden diese gelîscht. Mîchten Sie trotzdem fortsetzen?;ENU=There are table relations defined for the table %1. If you %2 the table the relation will be deleted. Do you still want do continue?';
+      Text1140001@1140001 : TextConst 'DEU=einrÅcken;ENU=indent';
+      Text1140002@1140002 : TextConst 'DEU=ausrÅcken;ENU=unindent';
+      Text1140003@1140003 : TextConst 'DEU=Tabellenrelationen gibt es nur zu eingerÅckten Tabellen.;ENU=Table relations only exist for indented tables.';
       GLSetup@1140005 : Record 98;
       FileMgmt@1140004 : Codeunit 419;
 
@@ -195,7 +195,7 @@ OBJECT Codeunit 11000 Data Export Management
 
     PROCEDURE CreateIndexXML@1140008(VAR TempDataExportRecordSource@1140018 : TEMPORARY Record 11004;ExportPath@1140001 : Text[250];Description@1140002 : Text[50];StartDate@1140005 : Date;EndDate@1140006 : Date;DTDFileName@1140007 : Text[250]);
     VAR
-      Text1140011@1140011 : TextConst 'ENU=index.xml was not created!;DEA=index.xml wurde nicht geschrieben!';
+      Text1140011@1140011 : TextConst 'DEU=index.xml wurde nicht geschrieben!;ENU=index.xml was not created!';
       DataExportRecField@1140012 : Record 11005;
       CompanyInfo@1140015 : Record 79;
       BloBRef@1101100000 : Record 99008535;

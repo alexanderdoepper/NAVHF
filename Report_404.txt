@@ -2,15 +2,14 @@ OBJECT Report 404 Purchase - Quote
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Purchase - Quote;
-               ESP=Compras - Oferta;
-               DEA=Einkauf - Anfrage];
+    CaptionML=[DEU=Einkauf - Anfrage;
+               ENU=Purchase - Quote];
     OnInitReport=BEGIN
                    PurchSetup.GET;
                  END;
@@ -22,8 +21,8 @@ OBJECT Report 404 Purchase - Quote
                DataItemTable=Table38;
                DataItemTableView=SORTING(Document Type,No.)
                                  WHERE(Document Type=CONST(Quote));
-               ReqFilterHeadingML=[ENU=Purchase Quote;
-                                   DEA=Purchase Quote];
+               ReqFilterHeadingML=[DEU=Purchase Quote;
+                                   ENU=Purchase Quote];
                OnAfterGetRecord=BEGIN
                                   CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
 
@@ -564,26 +563,23 @@ OBJECT Report 404 Purchase - Quote
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=No. of Copies;
-                             ESP=N§ copias;
-                             DEA=Anzahl Kopien];
+                  CaptionML=[DEU=Anzahl Kopien;
+                             ENU=No. of Copies];
                   SourceExpr=NoOfCopies }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Show Internal Information;
-                             ESP=Mostrar informaci¢n interna;
-                             DEA=Interne Informationen anzeigen];
+                  CaptionML=[DEU=Interne Informationen anzeigen;
+                             ENU=Show Internal Information];
                   SourceExpr=ShowInternalInfo }
 
       { 7   ;2   ;Field     ;
                   Name=ArchiveDocument;
-                  CaptionML=[ENU=Archive Document;
-                             ESP=Archivar documento;
-                             DEA=Beleg archivieren];
+                  CaptionML=[DEU=Beleg archivieren;
+                             ENU=Archive Document];
                   SourceExpr=ArchiveDocument;
                   OnValidate=BEGIN
                                IF NOT ArchiveDocument THEN
@@ -593,9 +589,8 @@ OBJECT Report 404 Purchase - Quote
 
       { 6   ;2   ;Field     ;
                   Name=LogInteraction;
-                  CaptionML=[ENU=Log Interaction;
-                             ESP=Log interacci¢n;
-                             DEA=Aktivit„t protokollieren];
+                  CaptionML=[DEU=Aktivit„t protokollieren;
+                             ENU=Log Interaction];
                   SourceExpr=LogInteraction;
                   Enabled=LogInteractionEnable;
                   OnValidate=BEGIN
@@ -612,10 +607,10 @@ OBJECT Report 404 Purchase - Quote
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Purchaser;ESP=Comprador;DEA=Eink„ufer';
-      Text001@1001 : TextConst 'ENU=COPY;ESP=COPIA;DEA=KOPIE';
-      Text002@1002 : TextConst 'ENU=Purchase - Quote %1;ESP=Compra - Oferta %1;DEA=Einkauf - Anfrage %1';
-      Text003@1003 : TextConst 'ENU=Page %1;DEA=Seite %1';
+      Text000@1000 : TextConst 'DEU=Eink„ufer;ENU=Purchaser';
+      Text001@1001 : TextConst 'DEU=KOPIE;ENU=COPY';
+      Text002@1002 : TextConst 'DEU=Einkauf - Anfrage %1;ENU=Purchase - Quote %1';
+      Text003@1003 : TextConst 'DEU=Seite %1;ENU=Page %1';
       Item@1004 : Record 27;
       FA@1005 : Record 5600;
       ShipmentMethod@1006 : Record 10;
@@ -651,21 +646,21 @@ OBJECT Report 404 Purchase - Quote
       OutputNo@1035 : Integer;
       ArchiveDocumentEnable@19005281 : Boolean INDATASET;
       LogInteractionEnable@19003940 : Boolean INDATASET;
-      CompanyInfo__Phone_No__CaptionLbl@2240 : TextConst 'ENU=Phone No.;DEA=Telefonnr.';
-      CompanyInfo__Fax_No__CaptionLbl@9851 : TextConst 'ENU=Fax No.;DEA=Faxnr.';
-      CompanyInfo__VAT_Registration_No__CaptionLbl@4406 : TextConst 'ENU=VAT Reg. No.;DEA=USt-IdNr.';
-      CompanyInfo__Giro_No__CaptionLbl@6756 : TextConst 'ENU=Giro No.;DEA=Postgirokontonr.';
-      CompanyInfo__Bank_Name_CaptionLbl@4354 : TextConst 'ENU=Bank;DEA=Bank';
-      CompanyInfo__Bank_Account_No__CaptionLbl@6132 : TextConst 'ENU=Account No.;DEA=Kontonr.';
-      Expected_DateCaptionLbl@6752 : TextConst 'ENU=Expected Date;DEA=Erwartetes Datum';
-      Quote_No_CaptionLbl@2957 : TextConst 'ENU=Quote No.;DEA=Angebotsnr.';
-      Header_DimensionsCaptionLbl@4011 : TextConst 'ENU=Header Dimensions;DEA=Kopfdimensionen';
-      Purchase_Line___Expected_Receipt_Date__Control55CaptionLbl@7935 : TextConst 'ENU=Expected Date;DEA=Erwartetes Datum';
-      Purchase_Line___No__CaptionLbl@5802 : TextConst 'ENU=Our No.;DEA=Unsere Nr.';
-      Purchase_Line___Vendor_Item_No__CaptionLbl@1211 : TextConst 'ENU=No.;DEA=Nr.';
-      Line_DimensionsCaptionLbl@3103 : TextConst 'ENU=Line Dimensions;DEA=Zeilendimensionen';
-      ShipmentMethod_DescriptionCaptionLbl@1316 : TextConst 'ENU=Shipment Method;DEA=Lieferbedingung';
-      Ship_to_AddressCaptionLbl@7560 : TextConst 'ENU=Ship-to Address;DEA=Lief. an Adresse';
+      CompanyInfo__Phone_No__CaptionLbl@2240 : TextConst 'DEU=Telefonnr.;ENU=Phone No.';
+      CompanyInfo__Fax_No__CaptionLbl@9851 : TextConst 'DEU=Faxnr.;ENU=Fax No.';
+      CompanyInfo__VAT_Registration_No__CaptionLbl@4406 : TextConst 'DEU=USt-IdNr.;ENU=VAT Reg. No.';
+      CompanyInfo__Giro_No__CaptionLbl@6756 : TextConst 'DEU=Postgirokontonr.;ENU=Giro No.';
+      CompanyInfo__Bank_Name_CaptionLbl@4354 : TextConst 'DEU=Bankkonto;ENU=Bank';
+      CompanyInfo__Bank_Account_No__CaptionLbl@6132 : TextConst 'DEU=Kontonr.;ENU=Account No.';
+      Expected_DateCaptionLbl@6752 : TextConst 'DEU=Erwartetes Datum;ENU=Expected Date';
+      Quote_No_CaptionLbl@2957 : TextConst 'DEU=Angebotsnr.;ENU=Quote No.';
+      Header_DimensionsCaptionLbl@4011 : TextConst 'DEU=Kopfdimensionen;ENU=Header Dimensions';
+      Purchase_Line___Expected_Receipt_Date__Control55CaptionLbl@7935 : TextConst 'DEU=Erwartetes Datum;ENU=Expected Date';
+      Purchase_Line___No__CaptionLbl@5802 : TextConst 'DEU=Unsere Nr.;ENU=Our No.';
+      Purchase_Line___Vendor_Item_No__CaptionLbl@1211 : TextConst 'DEU=Nr.;ENU=No.';
+      Line_DimensionsCaptionLbl@3103 : TextConst 'DEU=Zeilendimensionen;ENU=Line Dimensions';
+      ShipmentMethod_DescriptionCaptionLbl@1316 : TextConst 'DEU=Lieferbedingung;ENU=Shipment Method';
+      Ship_to_AddressCaptionLbl@7560 : TextConst 'DEU=Lief. an Adresse;ENU=Ship-to Address';
 
     PROCEDURE IntializeRequest@1(NewNoOfCopies@1000 : Integer;NewShowInternalInfo@1001 : Boolean;NewArchiveDocument@1002 : Boolean;NewLogInteraction@1003 : Boolean);
     BEGIN

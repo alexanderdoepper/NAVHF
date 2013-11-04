@@ -2,15 +2,14 @@ OBJECT Report 99000753 Quantity Explosion of BOM
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Quantity Explosion of BOM;
-               ESP=Despliegue cantidad en L.M.;
-               DEA=Strukturst…kliste];
+    CaptionML=[DEU=Strukturst…kliste;
+               ENU=Quantity Explosion of BOM];
   }
   DATASET
   {
@@ -209,14 +208,12 @@ OBJECT Report 99000753 Quantity Explosion of BOM
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 6   ;2   ;Field     ;
-                  CaptionML=[ENU=Calculation Date;
-                             ESP=Fecha clculo;
-                             DEA=Berechnungsdatum];
+                  CaptionML=[DEU=Berechnungsdatum;
+                             ENU=Calculation Date];
                   SourceExpr=CalculateDate }
 
     }
@@ -227,7 +224,7 @@ OBJECT Report 99000753 Quantity Explosion of BOM
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU="As of ";ESP="A fecha ";DEA="Per "';
+      Text000@1000 : TextConst 'DEU="Per ";ENU="As of "';
       ProdBOM@1001 : Record 99000771;
       BomComponent@1002 : ARRAY [99] OF Record 99000772;
       CompItem@1004 : Record 27;
@@ -242,14 +239,14 @@ OBJECT Report 99000753 Quantity Explosion of BOM
       Level@1015 : Integer;
       NextLevel@1016 : Integer;
       BOMQty@1017 : Decimal;
-      QtyExplosionofBOMCaptLbl@1489 : TextConst 'ENU=Quantity Explosion of BOM;ESP=Despliegue cantidad en L.M.;DEA=Strukturst…kliste';
-      CurrReportPageNoCaptLbl@6079 : TextConst 'ENU=Page;ESP=Pg.;DEA=Seite';
-      BOMQtyCaptionLbl@2328 : TextConst 'ENU=Total Quantity;ESP=Cantidad total;DEA=Gesamtmenge';
-      BomCompLevelQtyCaptLbl@7637 : TextConst 'ENU=BOM Quantity;ESP=Cantidad L.M.;DEA=St…klistenmenge';
-      BomCompLevelDescCaptLbl@7474 : TextConst 'ENU=Description;ESP=Descripci｢n;DEA=Beschreibung';
-      BomCompLevelNoCaptLbl@1517 : TextConst 'ENU=No.;ESP=Nｧ;DEA=Nr.';
-      LevelCaptLbl@1856 : TextConst 'ENU=Level;ESP=Nivel;DEA=Ebene';
-      BomCompLevelUOMCodeCaptLbl@6893 : TextConst 'ENU=Unit of Measure Code;ESP=C｢d. unidad medida;DEA=Einheitencode';
+      QtyExplosionofBOMCaptLbl@1489 : TextConst 'DEU=Strukturst…kliste;ENU=Quantity Explosion of BOM';
+      CurrReportPageNoCaptLbl@6079 : TextConst 'DEU=Seite;ENU=Page';
+      BOMQtyCaptionLbl@2328 : TextConst 'DEU=Gesamtmenge;ENU=Total Quantity';
+      BomCompLevelQtyCaptLbl@7637 : TextConst 'DEU=St…klistenmenge;ENU=BOM Quantity';
+      BomCompLevelDescCaptLbl@7474 : TextConst 'DEU=Beschreibung;ENU=Description';
+      BomCompLevelNoCaptLbl@1517 : TextConst 'DEU=Nr.;ENU=No.';
+      LevelCaptLbl@1856 : TextConst 'DEU=Ebene;ENU=Level';
+      BomCompLevelUOMCodeCaptLbl@6893 : TextConst 'DEU=Einheitencode;ENU=Unit of Measure Code';
       NoListType@1018 : ARRAY [99] OF ' ,Item,Production BOM';
 
     BEGIN

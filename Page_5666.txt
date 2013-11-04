@@ -2,15 +2,14 @@ OBJECT Page 5666 FA Depreciation Books Subform
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Lines;
-               ESP=L¡neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     LinksAllowed=No;
     SourceTable=Table5612;
     DelayedInsert=Yes;
@@ -28,32 +27,28 @@ OBJECT Page 5666 FA Depreciation Books Subform
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1907746904;1 ;ActionGroup;
-                      CaptionML=[ENU=&Depr. Book;
-                                 ESP=&Libro amort.;
-                                 DEA=AfA-Bu&ch];
+                      CaptionML=[DEU=AfA-Bu&ch;
+                                 ENU=&Depr. Book];
                       Image=DepreciationsBooks }
       { 1900295504;2 ;Action    ;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=Movimie&ntos;
-                                 DEA=Poste&n];
+                      CaptionML=[DEU=Poste&n;
+                                 ENU=Ledger E&ntries];
                       Image=CustomerLedger;
                       OnAction=BEGIN
                                  ShowFALedgEntries;
                                END;
                                 }
       { 1901741904;2 ;Action    ;
-                      CaptionML=[ENU=Error Ledger Entries;
-                                 ESP=Movs. anulados;
-                                 DEA=Stornoposten];
+                      CaptionML=[DEU=Stornoposten;
+                                 ENU=Error Ledger Entries];
                       Image=ErrorFALedgerEntries;
                       OnAction=BEGIN
                                  ShowFAErrorLedgEntries;
                                END;
                                 }
       { 1903866604;2 ;Action    ;
-                      CaptionML=[ENU=Maintenance Ledger Entries;
-                                 ESP=Movs. mantenimiento;
-                                 DEA=Wartungsposten];
+                      CaptionML=[DEU=Wartungsposten;
+                                 ENU=Maintenance Ledger Entries];
                       Image=MaintenanceLedgerEntries;
                       OnAction=BEGIN
                                  ShowMaintenanceLedgEntries;
@@ -61,9 +56,8 @@ OBJECT Page 5666 FA Depreciation Books Subform
                                 }
       { 1902759404;2 ;Action    ;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -72,9 +66,8 @@ OBJECT Page 5666 FA Depreciation Books Subform
                                END;
                                 }
       { 1901991404;2 ;Action    ;
-                      CaptionML=[ENU=Main &Asset Statistics;
-                                 ESP=Estad¡sticas activos &ppales.;
-                                 DEA=Hauptanlagenstat&istik];
+                      CaptionML=[DEU=Hauptanlagenstat&istik;
+                                 ENU=Main &Asset Statistics];
                       Image=StatisticsDocument;
                       OnAction=BEGIN
                                  ShowMainAssetStatistics;
@@ -95,9 +88,8 @@ OBJECT Page 5666 FA Depreciation Books Subform
                 Editable=TRUE }
 
     { 67  ;2   ;Field     ;
-                CaptionML=[ENU=FA Add.-Currency Code;
-                           ESP=A/F C¢d. div.-adic.;
-                           DEA=Anlagenw„hrungscode (BW)];
+                CaptionML=[DEU=Anlagenw„hrungscode (BW);
+                           ENU=FA Add.-Currency Code];
                 SourceExpr=GetAddCurrCode;
                 Visible=FALSE;
                 OnAssistEdit=BEGIN
@@ -146,9 +138,8 @@ OBJECT Page 5666 FA Depreciation Books Subform
                 Visible=FALSE }
 
     { 28  ;2   ;Field     ;
-                CaptionML=[ENU=Disposed Of;
-                           ESP=Vendido/Baja;
-                           DEA=Verkauft];
+                CaptionML=[DEU=Verkauft;
+                           ENU=Disposed Of];
                 SourceExpr=Disposed;
                 Editable=FALSE }
 

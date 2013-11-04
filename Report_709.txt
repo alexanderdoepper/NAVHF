@@ -2,15 +2,14 @@ OBJECT Report 709 Inventory Purchase Orders
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Inventory Purchase Orders;
-               ESP=Producto - Pedidos compra;
-               DEA=Lager - Bestellungen];
+    CaptionML=[DEU=Lager - Bestellungen;
+               ENU=Inventory Purchase Orders];
     OnPreReport=BEGIN
                   ItemFilter := Item.GETFILTERS;
                   PurchLineFilter := "Purchase Line".GETFILTERS;
@@ -104,8 +103,8 @@ OBJECT Report 709 Inventory Purchase Orders
                                  WHERE(Type=CONST(Item),
                                        Document Type=CONST(Order),
                                        Outstanding Quantity=FILTER(<>0));
-               ReqFilterHeadingML=[ENU=Purchase Order Line;
-                                   DEA=Purchase Order Line];
+               ReqFilterHeadingML=[DEU=Purchase Order Line;
+                                   ENU=Purchase Order Line];
                OnPreDataItem=BEGIN
                                CurrReport.CREATETOTALS("Outstanding Amount",BackOrderQty,"Outstanding Quantity");
                              END;
@@ -186,22 +185,22 @@ OBJECT Report 709 Inventory Purchase Orders
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Purchase Order Line: %1;ESP=L°nea pedido compra: %1;DEA=Bestellzeile: %1';
+      Text000@1000 : TextConst 'DEU=Bestellzeile: %1;ENU=Purchase Order Line: %1';
       CurrExchRate@1001 : Record 330;
       PurchHeader@1002 : Record 38;
       ItemFilter@1003 : Text[250];
       PurchLineFilter@1004 : Text[250];
       BackOrderQty@1005 : Decimal;
       ItemDescription@1006 : Text[50];
-      InventoryPurchaseOrdersCaptionLbl@7497 : TextConst 'ENU=Inventory Purchase Orders;ESP=Producto - Pedidos compra;DEA=Lager - Bestellungen';
-      CurrReportPageNoCaptionLbl@2595 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      PurchHeaderPaytoNameCaptionLbl@8572 : TextConst 'ENU=Vendor;ESP=Proveedor;DEA=Kreditor';
-      PurchaseLineExpectedReceiptDateCaptionLbl@6688 : TextConst 'ENU=Expected Receipt Date;ESP=Fecha recepci¢n esperada;DEA=Erwartetes Wareneingangsdatum';
-      BackOrderQtyCaptionLbl@6263 : TextConst 'ENU=Quantity on Backorder;ESP=Cdad. pedidos pendientes;DEA=Best.rÅckstandsmenge';
-      PurchaseLineLineDiscountCaptionLbl@6660 : TextConst 'ENU=Line Disc. %;ESP=% descuento l°nea;DEA=Zeilenrabatt %';
-      PurchaseLineInvDiscountAmountCaptionLbl@8248 : TextConst 'ENU=Inv. Discount Amount;ESP=Importe dto. factura;DEA=Rechnungsrabattbetrag';
-      PurchaseLineOutstandingAmountCaptionLbl@7302 : TextConst 'ENU=Amount on Order Incl. VAT;ESP=Cantidad pedida IVA incl.;DEA=Bestellbetrag inkl. MwSt.';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      InventoryPurchaseOrdersCaptionLbl@7497 : TextConst 'DEU=Lager - Bestellungen;ENU=Inventory Purchase Orders';
+      CurrReportPageNoCaptionLbl@2595 : TextConst 'DEU=Seite;ENU=Page';
+      PurchHeaderPaytoNameCaptionLbl@8572 : TextConst 'DEU=Kreditor;ENU=Vendor';
+      PurchaseLineExpectedReceiptDateCaptionLbl@6688 : TextConst 'DEU=Erwartetes Wareneingangsdatum;ENU=Expected Receipt Date';
+      BackOrderQtyCaptionLbl@6263 : TextConst 'DEU=Best.rÅckstandsmenge;ENU=Quantity on Backorder';
+      PurchaseLineLineDiscountCaptionLbl@6660 : TextConst 'DEU=Zeilenrabatt %;ENU=Line Disc. %';
+      PurchaseLineInvDiscountAmountCaptionLbl@8248 : TextConst 'DEU=Rechnungsrabattbetrag;ENU=Inv. Discount Amount';
+      PurchaseLineOutstandingAmountCaptionLbl@7302 : TextConst 'DEU=Bestellbetrag inkl. MwSt.;ENU=Amount on Order Incl. VAT';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     BEGIN
     END.

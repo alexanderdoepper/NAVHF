@@ -2,15 +2,14 @@ OBJECT Report 25 Account Schedule
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Account Schedule;
-               ESP=Esquema cuentas;
-               DEA=Kontenschema];
+    CaptionML=[DEU=Kontenschema;
+               ENU=Account Schedule];
     OnPreReport=BEGIN
                   TransferValues;
                   UpdateFilters;
@@ -287,8 +286,8 @@ OBJECT Report 25 Account Schedule
                DataItemLink=Schedule Name=FIELD(Name) }
 
     { 18  ;3   ;Column  ;NextPageGroupNo     ;
-               OptionCaptionML=[ENU=None,Division by Zero,Period Error,Both;
-                                DEA=None,Division by Zero,Period Error,Both];
+               OptionCaptionML=[DEU=None,Division by Zero,Period Error,Both;
+                                ENU=None,Division by Zero,Period Error,Both];
                SourceExpr=NextPageGroupNo }
 
     { 30  ;3   ;Column  ;Acc__Schedule_Line_Description;
@@ -419,20 +418,18 @@ OBJECT Report 25 Account Schedule
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 28  ;2   ;Group     ;
-                  CaptionML=[ENU=Layout;
-                             ESP=Disposici¢n;
-                             DEA=Layout] }
+                  CaptionML=[DEU=Layout;
+                             ENU=Layout] }
 
       { 3   ;3   ;Field     ;
                   Name=AccSchedNam;
                   Lookup=Yes;
-                  CaptionML=[ENU=Acc. Schedule Name;
-                             ESP=Nombre esq. cuentas;
-                             DEA=Kontenschemaname];
+                  CaptionML=[DEU=Kontenschemaname;
+                             ENU=Acc. Schedule Name];
                   SourceExpr=AccSchedName;
                   TableRelation="Acc. Schedule Name";
                   OnValidate=BEGIN
@@ -447,9 +444,8 @@ OBJECT Report 25 Account Schedule
       { 2   ;3   ;Field     ;
                   Name=ColumnLayoutNames;
                   Lookup=Yes;
-                  CaptionML=[ENU=Column Layout Name;
-                             ESP=Nombre plantilla columna;
-                             DEA=Spaltenlayoutname];
+                  CaptionML=[DEU=Spaltenlayoutname;
+                             ENU=Column Layout Name];
                   SourceExpr=ColumnLayoutName;
                   TableRelation="Column Layout Name".Name;
                   OnValidate=BEGIN
@@ -464,15 +460,13 @@ OBJECT Report 25 Account Schedule
                             }
 
       { 27  ;2   ;Group     ;
-                  CaptionML=[ENU=Filters;
-                             ESP=Filtros;
-                             DEA=Filter] }
+                  CaptionML=[DEU=Filter;
+                             ENU=Filters] }
 
       { 11  ;3   ;Field     ;
                   Name=DateFilters;
-                  CaptionML=[ENU=Date Filter;
-                             ESP=Filtro fecha;
-                             DEA=Datumsfilter];
+                  CaptionML=[DEU=Datumsfilter;
+                             ENU=Date Filter];
                   SourceExpr=DateFilter;
                   OnValidate=VAR
                                ApplicationManagement@1001 : Codeunit 1;
@@ -484,9 +478,8 @@ OBJECT Report 25 Account Schedule
                               }
 
       { 13  ;3   ;Field     ;
-                  CaptionML=[ENU=G/L Budget Filter;
-                             ESP=Filtro presupuesto CG;
-                             DEA=Finanzbudgetfilter];
+                  CaptionML=[DEU=Finanzbudgetfilter;
+                             ENU=G/L Budget Filter];
                   SourceExpr=GLBudgetFilter;
                   TableRelation="G/L Budget Name".Name;
                   OnValidate=BEGIN
@@ -496,9 +489,8 @@ OBJECT Report 25 Account Schedule
                               }
 
       { 9   ;3   ;Field     ;
-                  CaptionML=[ENU=Cost Budget Filter;
-                             ESP=Filtro presupuesto costes;
-                             DEA=Kostenbudgetfilter];
+                  CaptionML=[DEU=Kostenbudgetfilter;
+                             ENU=Cost Budget Filter];
                   SourceExpr=CostBudgetFilter;
                   TableRelation="Cost Budget Name".Name;
                   OnValidate=BEGIN
@@ -508,9 +500,8 @@ OBJECT Report 25 Account Schedule
                               }
 
       { 23  ;3   ;Field     ;
-                  CaptionML=[ENU=Business Unit Filter;
-                             ESP=Filtro empresa;
-                             DEA=Konzernmandantenfilter];
+                  CaptionML=[DEU=Konzernmandantenfilter;
+                             ENU=Business Unit Filter];
                   SourceExpr=BusinessUnitFilter;
                   TableRelation="Business Unit";
                   LookupPageID=Business Unit List;
@@ -521,15 +512,13 @@ OBJECT Report 25 Account Schedule
                               }
 
       { 26  ;2   ;Group     ;
-                  CaptionML=[ENU=Dimension Filters;
-                             ESP=Filtros dimensi¢n;
-                             DEA=Dimensionsfilter] }
+                  CaptionML=[DEU=Dimensionsfilter;
+                             ENU=Dimension Filters] }
 
       { 15  ;3   ;Field     ;
                   Name=Dim1Filter;
-                  CaptionML=[ENU=Dimension 1 Filter;
-                             ESP=Filtro dimensi¢n 1;
-                             DEA=Dimensionsfilter 1];
+                  CaptionML=[DEU=Dimensionsfilter 1;
+                             ENU=Dimension 1 Filter];
                   SourceExpr=Dim1Filter;
                   CaptionClass=FormGetCaptionClass(1);
                   Enabled=Dim1FilterEnable;
@@ -540,9 +529,8 @@ OBJECT Report 25 Account Schedule
 
       { 17  ;3   ;Field     ;
                   Name=Dim2Filter;
-                  CaptionML=[ENU=Dimension 2 Filter;
-                             ESP=Filtro dimensi¢n 2;
-                             DEA=Dimensionsfilter 2];
+                  CaptionML=[DEU=Dimensionsfilter 2;
+                             ENU=Dimension 2 Filter];
                   SourceExpr=Dim2Filter;
                   CaptionClass=FormGetCaptionClass(2);
                   Enabled=Dim2FilterEnable;
@@ -553,9 +541,8 @@ OBJECT Report 25 Account Schedule
 
       { 21  ;3   ;Field     ;
                   Name=Dim3Filter;
-                  CaptionML=[ENU=Dimension 3 Filter;
-                             ESP=Filtro dimensi¢n 3;
-                             DEA=Dimensionsfilter 3];
+                  CaptionML=[DEU=Dimensionsfilter 3;
+                             ENU=Dimension 3 Filter];
                   SourceExpr=Dim3Filter;
                   CaptionClass=FormGetCaptionClass(3);
                   Enabled=Dim3FilterEnable;
@@ -566,9 +553,8 @@ OBJECT Report 25 Account Schedule
 
       { 19  ;3   ;Field     ;
                   Name=Dim4Filter;
-                  CaptionML=[ENU=Dimension 4 Filter;
-                             ESP=Filtro dimensi¢n 4;
-                             DEA=Dimensionsfilter 4];
+                  CaptionML=[DEU=Dimensionsfilter 4;
+                             ENU=Dimension 4 Filter];
                   SourceExpr=Dim4Filter;
                   CaptionClass=FormGetCaptionClass(4);
                   Enabled=Dim4FilterEnable;
@@ -578,9 +564,8 @@ OBJECT Report 25 Account Schedule
                             }
 
       { 1   ;3   ;Field     ;
-                  CaptionML=[ENU=Cost Center Filter;
-                             ESP=Filtro centro coste;
-                             DEA=Kostenstellenfilter];
+                  CaptionML=[DEU=Kostenstellenfilter;
+                             ENU=Cost Center Filter];
                   SourceExpr=CostCenterFilter;
                   OnLookup=VAR
                              CostCenter@1002 : Record 1112;
@@ -590,9 +575,8 @@ OBJECT Report 25 Account Schedule
                             }
 
       { 6   ;3   ;Field     ;
-                  CaptionML=[ENU=Cost Object Filter;
-                             ESP=Filtro objeto coste;
-                             DEA=KostentrÑgerfilter];
+                  CaptionML=[DEU=KostentrÑgerfilter;
+                             ENU=Cost Object Filter];
                   SourceExpr=CostObjectFilter;
                   OnLookup=VAR
                              CostObject@1002 : Record 1113;
@@ -602,9 +586,8 @@ OBJECT Report 25 Account Schedule
                             }
 
       { 8   ;3   ;Field     ;
-                  CaptionML=[ENU=Cash Flow Filter;
-                             ESP=Filtro flujos efectivo;
-                             DEA=Cashflowfilter];
+                  CaptionML=[DEU=Cashflowfilter;
+                             ENU=Cash Flow Filter];
                   SourceExpr=CashFlowFilter;
                   OnLookup=VAR
                              CashFlowForecast@1000 : Record 840;
@@ -614,30 +597,25 @@ OBJECT Report 25 Account Schedule
                             }
 
       { 25  ;2   ;Group     ;
-                  CaptionML=[ENU=Show;
-                             ESP=Mostrar;
-                             DEA=Anzeigen] }
+                  CaptionML=[DEU=Anzeigen;
+                             ENU=Show] }
 
       { 4   ;3   ;Field     ;
-                  CaptionML=[ENU=Show Error;
-                             ESP=Mostrar error;
-                             DEA=Fehler anzeigen];
-                  OptionCaptionML=[ENU=None,Division by Zero,Period Error,Both;
-                                   ESP=Ninguno,Divisi¢n entre cero,Error Periodo,Ambos;
-                                   DEA=Keine,Nulldivision,Periodenfehler,Beide];
+                  CaptionML=[DEU=Fehler anzeigen;
+                             ENU=Show Error];
+                  OptionCaptionML=[DEU=Keine,Nulldivision,Periodenfehler,Beide;
+                                   ENU=None,Division by Zero,Period Error,Both];
                   SourceExpr=ShowError }
 
       { 5   ;3   ;Field     ;
-                  CaptionML=[ENU=Show Amounts in Add. Reporting Currency;
-                             ESP=Muestra importes en div.-adic.;
-                             DEA=BetrÑge in BerichtswÑhrung ausgeben];
+                  CaptionML=[DEU=BetrÑge in BerichtswÑhrung ausgeben;
+                             ENU=Show Amounts in Add. Reporting Currency];
                   SourceExpr=UseAmtsInAddCurr;
                   MultiLine=Yes }
 
       { 7   ;3   ;Field     ;
-                  CaptionML=[ENU=Show Account Schedule Setup;
-                             ESP=Mostrar config. esquema de ctas.;
-                             DEA=Kontenschema Einrichtung anzeigen];
+                  CaptionML=[DEU=Kontenschema Einrichtung anzeigen;
+                             ENU=Show Account Schedule Setup];
                   SourceExpr=ShowAccSchedSetup;
                   MultiLine=Yes }
 
@@ -646,19 +624,19 @@ OBJECT Report 25 Account Schedule
   LABELS
   {
     { 8   ;AccSchedLineSpec_DescriptionCaptionLbl;
-                                CaptionML=[ENU=Description;
-                                           DEA=Beschreibung] }
+                                CaptionML=[DEU=Beschreibung;
+                                           ENU=Description] }
     { 16  ;AccSchedLineSpec__Row_No__CaptionLbl;
-                                CaptionML=[ENU=Row No.;
-                                           DEA=Zeilennr.] }
+                                CaptionML=[DEU=Zeilennr.;
+                                           ENU=Row No.] }
   }
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=(Thousands);ESP=(Miles);DEA=(Tausender)';
-      Text001@1001 : TextConst 'ENU=(Millions);ESP=(Millones);DEA=(Millionen)';
-      Text002@1002 : TextConst 'ENU=* ERROR *;ESP=* ERROR *;DEA=* FEHLER *';
-      Text003@1003 : TextConst 'ENU=All amounts are in %1.;ESP=Todos imp. est†n en %1.;DEA=Alle BetrÑge sind in %1.';
+      Text000@1000 : TextConst 'DEU=(Tausender);ENU=(Thousands)';
+      Text001@1001 : TextConst 'DEU=(Millionen);ENU=(Millions)';
+      Text002@1002 : TextConst 'DEU=* FEHLER *;ENU=* ERROR *';
+      Text003@1003 : TextConst 'DEU=Alle BetrÑge sind in %1.;ENU=All amounts are in %1.';
       AnalysisView@1005 : Record 363;
       GLSetup@1006 : Record 98;
       AccSchedManagement@1007 : Codeunit 8;
@@ -698,38 +676,38 @@ OBJECT Report 25 Account Schedule
       UseAmtsInAddCurr@1024 : Boolean;
       ShowAccSchedSetup@1025 : Boolean;
       HeaderText@1026 : Text[100];
-      Text004@1012 : TextConst 'ENU=Not Available;ESP=No disponible;DEA=Nicht verfÅgbar';
-      Text005@1032 : TextConst 'ENU=1,6,,Dimension %1 Filter;ESP=1,6,,Filtro dimensi¢n %1;DEA=1,6,,Dimensionsfilter %1';
+      Text004@1012 : TextConst 'DEU=Nicht verfÅgbar;ENU=Not Available';
+      Text005@1032 : TextConst 'DEU=1,6,,Dimensionsfilter %1;ENU=1,6,,Dimension %1 Filter';
       Bold_control@1046 : Boolean;
       Italic_control@1047 : Boolean;
       Underline_control@1049 : Boolean;
       PageGroupNo@1054 : Integer;
       NextPageGroupNo@1055 : Integer;
-      Text006@1057 : TextConst 'ENU=Enter the Column Layout Name.;ESP=Escriba el nombre plantilla columna.;DEA=Geben Sie den Spaltenlayoutnamen ein.';
+      Text006@1057 : TextConst 'DEU=Geben Sie den Spaltenlayoutnamen ein.;ENU=Enter the Column Layout Name.';
       Dim1FilterEnable@19054192 : Boolean INDATASET;
       Dim2FilterEnable@19062512 : Boolean INDATASET;
       Dim3FilterEnable@19011605 : Boolean INDATASET;
       Dim4FilterEnable@19064250 : Boolean INDATASET;
       LineShadowed@1010 : Boolean;
       LineSkipped@1004 : Boolean;
-      ColumnLayoutNameCaptionLbl@8461 : TextConst 'ENU=Column Layout;ESP=Plantilla columna;DEA=Spaltenlayout';
-      AccScheduleName_Name_CaptionLbl@3916 : TextConst 'ENU=Account Schedule;ESP=Esquema cuentas;DEA=Kontenschema';
-      FiscalStartDateCaptionLbl@9008 : TextConst 'ENU=Fiscal Start Date;ESP=Fecha inicial ejercicio;DEA=GeschÑftsjahr - Startdatum';
-      PeriodTextCaptionLbl@1984 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      Account_ScheduleCaptionLbl@2350 : TextConst 'ENU=Account Schedule;ESP=Esquema cuentas;DEA=Kontenschema';
-      AnalysisView_CodeCaptionLbl@1996 : TextConst 'ENU=Analysis View;ESP=Vista de an†lisis;DEA=Analyseansicht';
-      AccSchedLineSpec__Show_Opposite_Sign_CaptionLbl@8664 : TextConst 'ENU=Show Opposite Sign;ESP=Muestra signo opuesto;DEA=Umgekehrtes Vorzeichen anz.';
-      AccSchedLineSpec_UnderlineCaptionLbl@7801 : TextConst 'ENU=Underline;ESP=Subrayar;DEA=Unterstrichen';
-      AccSchedLineSpec_ItalicCaptionLbl@9259 : TextConst 'ENU=Italic;ESP=It†lica;DEA=Kursiv';
-      AccSchedLineSpec_BoldCaptionLbl@6895 : TextConst 'ENU=Bold;ESP=Negrita;DEA=Fett';
-      AccSchedLineSpec_ShowCaptionLbl@6495 : TextConst 'ENU=Show;ESP=Mostrar;DEA=Anzeigen';
-      AccSchedLineSpec__New_Page_CaptionLbl@2957 : TextConst 'ENU=New Page;ESP=Cambiar p†gina;DEA=Neue Seite';
-      AccSchedLineSpec__Totaling_Type_CaptionLbl@3901 : TextConst 'ENU=Totaling Type;ESP=Tipo sumatorio;DEA=ZusammenzÑhlungsart';
-      AccSchedLineSpec_TotalingCaptionLbl@1318 : TextConst 'ENU=Totaling;ESP=Sumatorio;DEA=ZusammenzÑhlung';
-      AnalysisView__Dimension_1_Code_CaptionLbl@5440 : TextConst 'ENU=Dimension Code;ESP=C¢d. dimensi¢n;DEA=Dimensionscode';
-      AccSchedLineSpec__Row_Type_CaptionLbl@1801 : TextConst 'ENU=Row Type;ESP=Tipo fila;DEA=Zeilenart';
-      AccSchedLineSpec__Amount_Type_CaptionLbl@1388 : TextConst 'ENU=Amount Type;ESP=Tipo importe;DEA=Betragsart';
+      ColumnLayoutNameCaptionLbl@8461 : TextConst 'DEU=Spaltenlayout;ENU=Column Layout';
+      AccScheduleName_Name_CaptionLbl@3916 : TextConst 'DEU=Kontenschema;ENU=Account Schedule';
+      FiscalStartDateCaptionLbl@9008 : TextConst 'DEU=GeschÑftsjahr - Startdatum;ENU=Fiscal Start Date';
+      PeriodTextCaptionLbl@1984 : TextConst 'DEU=Periode;ENU=Period';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      Account_ScheduleCaptionLbl@2350 : TextConst 'DEU=Kontenschema;ENU=Account Schedule';
+      AnalysisView_CodeCaptionLbl@1996 : TextConst 'DEU=Analyseansicht;ENU=Analysis View';
+      AccSchedLineSpec__Show_Opposite_Sign_CaptionLbl@8664 : TextConst 'DEU=Umgekehrtes Vorzeichen anz.;ENU=Show Opposite Sign';
+      AccSchedLineSpec_UnderlineCaptionLbl@7801 : TextConst 'DEU=Unterstrichen;ENU=Underline';
+      AccSchedLineSpec_ItalicCaptionLbl@9259 : TextConst 'DEU=Kursiv;ENU=Italic';
+      AccSchedLineSpec_BoldCaptionLbl@6895 : TextConst 'DEU=Fett;ENU=Bold';
+      AccSchedLineSpec_ShowCaptionLbl@6495 : TextConst 'DEU=Anzeigen;ENU=Show';
+      AccSchedLineSpec__New_Page_CaptionLbl@2957 : TextConst 'DEU=Neue Seite;ENU=New Page';
+      AccSchedLineSpec__Totaling_Type_CaptionLbl@3901 : TextConst 'DEU=ZusammenzÑhlungsart;ENU=Totaling Type';
+      AccSchedLineSpec_TotalingCaptionLbl@1318 : TextConst 'DEU=ZusammenzÑhlung;ENU=Totaling';
+      AnalysisView__Dimension_1_Code_CaptionLbl@5440 : TextConst 'DEU=Dimensionscode;ENU=Dimension Code';
+      AccSchedLineSpec__Row_Type_CaptionLbl@1801 : TextConst 'DEU=Zeilenart;ENU=Row Type';
+      AccSchedLineSpec__Amount_Type_CaptionLbl@1388 : TextConst 'DEU=Betragsart;ENU=Amount Type';
 
     PROCEDURE InitAccSched@10();
     BEGIN

@@ -2,9 +2,9 @@ OBJECT Codeunit 5812 Calculate Standard Cost
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,7 +15,7 @@ OBJECT Codeunit 5812 Calculate Standard Cost
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Too many levels. Must be below %1.;ESP=Demasiados niveles .Debe ser %1 menos.;DEA=Zu viele Ebenen. Es mÅssen weniger als %1 sein.';
+      Text000@1000 : TextConst 'DEU=Zu viele Ebenen. Es mÅssen weniger als %1 sein.;ENU=Too many levels. Must be below %1.';
       MfgSetup@1001 : Record 99000765;
       GLSetup@1002 : Record 98;
       TempItem@1003 : TEMPORARY Record 27;
@@ -33,16 +33,16 @@ OBJECT Codeunit 5812 Calculate Standard Cost
       CalcMultiLevel@1009 : Boolean;
       UseAssemblyList@1010 : Boolean;
       LogErrors@1011 : Boolean;
-      Text001@1013 : TextConst 'ENU=&Top level,&All levels;ESP=&Nivel superior,&Todos los niveles;DEA=&Oberste Ebene,&Alle Ebenen';
+      Text001@1013 : TextConst 'DEU=&Oberste Ebene,&Alle Ebenen;ENU=&Top level,&All levels';
       ShowDialog@1020 : Boolean;
       StdCostWkshName@1015 : Text[50];
-      Text002@1018 : TextConst 'ENU=@1@@@@@@@@@@@@@;ESP=@1@@@@@@@@@@@@@;DEA=@1@@@@@@@@@@@@@';
-      CalcMfgPrompt@1021 : TextConst 'ENU=One or more subassemblies on the assembly list for item %1 use replenishment system Prod. Order. Do you want to calculate standard cost for those subassemblies?;ESP=Uno o m†s semiterminados de la lista de ensamblado para el producto %1 utilizan una orden prod. del Sistema reposici¢n. ®Desea calcular el coste est†ndar para esos semiterminados?;DEA=FÅr mindestens ein Halbfabrikat aus der Montageliste fÅr den Artikel ''%1'' wird die Beschaffungsmethode ''Fertigungsauftrag'' verwendet. Mîchten Sie fÅr diese Halbfabrikate einen festen Einstandspreis berechnen?';
-      TargetText@1026 : TextConst 'ENU=Standard Cost,Unit Price;ESP=Coste est†ndar,Precio de venta;DEA=Einstandspreis (fest),VK-Preis';
-      RecursionInstruction@1025 : TextConst '@@@="%1 = Item No., %2 = Description";ENU=Calculate the %3 of item %1 %2 by rolling up the assembly list components. Select All levels to include and update the %3 of any subassemblies.;ESP=Calcule el %3 del producto %1 %2 distribuyendo los componentes de la lista de ensamblado. Seleccione Todos los niveles para incluir y actualizar el %3 de todos los semiterminados.;DEA=Berechnen Sie den Wert fÅr ''%3'' fÅr den Artikel %1 %2, indem Sie die Montagelistenkomponenten berechnen. WÑhlen Sie alle einzubeziehenden Ebenen aus, und aktualisieren Sie den Wert fÅr ''%3'' aller mîglicherweise vorhandenen Halbfabrikate.';
-      NonAssemblyItemError@1024 : TextConst '@@@="%1 = Item No., %2 = Description";ENU=Item %1 %2 does not use replenishment system Assembly. The %3 will not be calculated.;ESP=El producto %1 %2 no utiliza un ensamblado de Sistema reposici¢n. No se calcular† el %3.;DEA=FÅr den Artikel ''%1 %2'' wird nicht die Beschaffungsmethode ''Montage'' verwendet. %3 wird nicht berechnet.';
-      NoAssemblyListError@1023 : TextConst '@@@="%1 = Item No., %2 = Description";ENU=Item %1 %2 has no assembly list. The %3 will not be calculated.;ESP=El producto %1 %2 no tiene lista de ensamblado. No se calcular† el %3.;DEA=Der Artikel %1 %2 besitzt keine Montageliste. %3 wird nicht berechnet.';
-      NonAssemblyComponentWithList@1022 : TextConst 'ENU=One or more subassemblies on the assembly list for this item does not use replenishment system Assembly. The %1 for these subassemblies will not be calculated. Are you sure that you want to continue?;ESP=Uno o m†s semiterminados de la lista de ensamblado para este producto no utilizan un ensamblado de Sistema reposici¢n. No se calcular† el %1 para estos semiterminados. ®Est† seguro de que desea continuar?;DEA=FÅr mindestens ein Halbfabrikat aus der Montageliste fÅr diesen Artikel wird die Beschaffungsmethode ''Montage'' verwendet. FÅr diese Halbfabrikate wird kein Wert vom Typ ''%1'' berechnet. Mîchten Sie den Vorgang wirklich fortsetzen?';
+      Text002@1018 : TextConst 'DEU=@1@@@@@@@@@@@@@;ENU=@1@@@@@@@@@@@@@';
+      CalcMfgPrompt@1021 : TextConst 'DEU=FÅr mindestens ein Halbfabrikat aus der Montageliste fÅr den Artikel ''%1'' wird die Beschaffungsmethode ''Fertigungsauftrag'' verwendet. Mîchten Sie fÅr diese Halbfabrikate einen festen Einstandspreis berechnen?;ENU=One or more subassemblies on the assembly list for item %1 use replenishment system Prod. Order. Do you want to calculate standard cost for those subassemblies?';
+      TargetText@1026 : TextConst 'DEU=Einstandspreis (fest),VK-Preis;ENU=Standard Cost,Unit Price';
+      RecursionInstruction@1025 : TextConst '@@@="%1 = Item No., %2 = Description";DEU=Berechnen Sie den Wert fÅr ''%3'' fÅr den Artikel %1 %2, indem Sie die Montagelistenkomponenten berechnen. WÑhlen Sie alle einzubeziehenden Ebenen aus, und aktualisieren Sie den Wert fÅr ''%3'' aller mîglicherweise vorhandenen Halbfabrikate.;ENU=Calculate the %3 of item %1 %2 by rolling up the assembly list components. Select All levels to include and update the %3 of any subassemblies.';
+      NonAssemblyItemError@1024 : TextConst '@@@="%1 = Item No., %2 = Description";DEU=FÅr den Artikel ''%1 %2'' wird nicht die Beschaffungsmethode ''Montage'' verwendet. %3 wird nicht berechnet.;ENU=Item %1 %2 does not use replenishment system Assembly. The %3 will not be calculated.';
+      NoAssemblyListError@1023 : TextConst '@@@="%1 = Item No., %2 = Description";DEU=Der Artikel %1 %2 besitzt keine Montageliste. %3 wird nicht berechnet.;ENU=Item %1 %2 has no assembly list. The %3 will not be calculated.';
+      NonAssemblyComponentWithList@1022 : TextConst 'DEU=FÅr mindestens ein Halbfabrikat aus der Montageliste fÅr diesen Artikel wird die Beschaffungsmethode ''Montage'' verwendet. FÅr diese Halbfabrikate wird kein Wert vom Typ ''%1'' berechnet. Mîchten Sie den Vorgang wirklich fortsetzen?;ENU=One or more subassemblies on the assembly list for this item does not use replenishment system Assembly. The %1 for these subassemblies will not be calculated. Are you sure that you want to continue?';
       ColIdx@1028 : ',StdCost,ExpCost,ActCost,Dev,Var';
       RowIdx@1029 : ',MatCost,ResCost,ResOvhd,AsmOvhd,Total';
 

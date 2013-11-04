@@ -2,9 +2,9 @@ OBJECT Codeunit 740 VAT Report Mediator
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
@@ -16,20 +16,33 @@ OBJECT Codeunit 740 VAT Report Mediator
   {
     VAR
       VATReportReleaseReopen@1000 : Codeunit 741;
-      Text001@1002 : TextConst 'ENU=This action will also mark the report as released. Are you sure you want to continue?;ESP=Esta acci¢n tambi‚n marcar  el informe como liberado. ¨Est  seguro de que desea continuar?;DEA=Mit dieser Aktion wird der Bericht auch als freigegeben gekennzeichnet. Sind Sie sicher, dass Sie fortfahren m”chten?';
+      Text001@1002 : TextConst 'DEU=Mit dieser Aktion wird der Bericht auch als freigegeben gekennzeichnet. Sind Sie sicher, dass Sie fortfahren m”chten?;ENU=This action will also mark the report as released. Are you sure you want to continue?';
 
     PROCEDURE GetLines@5(VATReportHeader@1001 : Record 740);
     BEGIN
       VATReportHeader.TESTFIELD(Status,VATReportHeader.Status::Open);
-      IF (VATReportHeader."VAT Report Type" = VATReportHeader."VAT Report Type"::Corrective) OR
-         (VATReportHeader."VAT Report Type" = VATReportHeader."VAT Report Type"::Supplementary)
-      THEN
+      IF VATReportHeader."VAT Report Type" = VATReportHeader."VAT Report Type"::Corrective THEN
         VATReportHeader.TESTFIELD("Original Report No.");
 
-      VATReportHeader.TESTFIELD("VAT Report Config. Code",VATReportHeader."VAT Report Config. Code"::Option1);
-
+      VATReportHeader.TESTFIELD("VAT Report Config. Code",VATReportHeader."VAT Report Config. Code"::VIES);
       VATReportHeader.SETRANGE("No.",VATReportHeader."No.");
-      REPORT.RUNMODAL(REPORT::"VAT Report Suggest Lines",FALSE,FALSE,VATReportHeader);
+      REPORT.RUNMODAL(REPORT::"VAT Report Suggest Lines",TRUE,FALSE,VATReportHeader);
+    END;
+
+    PROCEDURE CorrectLines@1140000(VATReportHeader@1140000 : Record 740);
+    VAR
+      VATReportLines@1140001 : Page 742;
+    BEGIN
+      VATReportHeader.TESTFIELD(Status,VATReportHeader.Status::Open);
+      VATReportHeader.TESTFIELD("VAT Report Type",VATReportHeader."VAT Report Type"::Corrective);
+      VATReportHeader.TESTFIELD("Original Report No.");
+      VATReportHeader.TESTFIELD("VAT Report Config. Code",VATReportHeader."VAT Report Config. Code"::VIES);
+
+      VATReportLines.SetToDeclaration(VATReportHeader);
+      VATReportLines.LOOKUPMODE := TRUE;
+      IF VATReportLines.RUNMODAL = ACTION::LookupOK THEN
+        VATReportLines.CopyLineToDeclaration;
+      CLEAR(VATReportLines);
     END;
 
     PROCEDURE Export@6(VATReportHeader@1001 : Record 740);
@@ -54,8 +67,8 @@ OBJECT Codeunit 740 VAT Report Mediator
       CASE VATReportHeader.Status OF
         VATReportHeader.Status::Open:
           PrintOpen(VATReportHeader);
-        VATReportHeader.Status::Released:
-          PrintReleased(VATReportHeader);
+        VATReportHeader.Status::Released,
+        VATReportHeader.Status::Exported,
         VATReportHeader.Status::Submitted:
           PrintReleased(VATReportHeader);
       END;

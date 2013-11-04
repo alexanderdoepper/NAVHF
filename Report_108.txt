@@ -2,15 +2,14 @@ OBJECT Report 108 Customer - Order Detail
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Customer - Order Detail;
-               ESP=Cliente - L°neas pedidos;
-               DEA=Debitor - AuftrÑge];
+    CaptionML=[DEU=Debitor - AuftrÑge;
+               ENU=Customer - Order Detail];
     OnPreReport=BEGIN
                   CustFilter := Customer.GETFILTERS;
                   SalesLineFilter := "Sales Line".GETFILTERS;
@@ -98,8 +97,8 @@ OBJECT Report 108 Customer - Order Detail
                DataItemTableView=SORTING(Document Type,Bill-to Customer No.,Currency Code)
                                  WHERE(Document Type=CONST(Order),
                                        Outstanding Quantity=FILTER(<>0));
-               ReqFilterHeadingML=[ENU=Sales Order Line;
-                                   DEA=Sales Order Line];
+               ReqFilterHeadingML=[DEU=Sales Order Line;
+                                   ENU=Sales Order Line];
                OnPreDataItem=BEGIN
                                CurrReport.CREATETOTALS(SalesOrderAmountLCY,SalesOrderAmount);
                              END;
@@ -298,44 +297,39 @@ OBJECT Report 108 Customer - Order Detail
                   ContainerType=ContentArea }
 
       { 5   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=ShowAmountsInLCY;
-                  CaptionML=[ENU=Show Amounts in LCY;
-                             ESP=Muestra importes en DL;
-                             DEA=BetrÑge in MW anzeigen];
+                  CaptionML=[DEU=BetrÑge in MW anzeigen;
+                             ENU=Show Amounts in LCY];
                   SourceExpr=PrintAmountsInLCY }
 
       { 2   ;2   ;Field     ;
                   Name=NewPagePerCustomer;
-                  CaptionML=[ENU=New Page per Customer;
-                             ESP=P†gina nueva por cliente;
-                             DEA=Neue Seite pro Debitor];
+                  CaptionML=[DEU=Neue Seite pro Debitor;
+                             ENU=New Page per Customer];
                   SourceExpr=PrintOnlyOnePerPage }
 
       { 4   ;2   ;Field     ;
                   Name=PrintToExcel;
-                  CaptionML=[ENU=Print to Excel;
-                             ESP=Imprimir en Excel;
-                             DEA=Ausgabe in Excel];
+                  CaptionML=[DEU=Ausgabe in Excel;
+                             ENU=Print to Excel];
                   SourceExpr=PrintToExcel }
 
     }
   }
   LABELS
   {
-    { 71  ;OrderNoCaption      ;CaptionML=[ENU=Order No.;
-                                           ESP=Nß pedido;
-                                           DEA=Auftragsnr.] }
+    { 71  ;OrderNoCaption      ;CaptionML=[DEU=Auftragsnr.;
+                                           ENU=Order No.] }
   }
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Shipment Date: %1;ESP=Fecha env°o: %1;DEA=Lieferdatum: %1';
-      Text001@1001 : TextConst 'ENU=Sales Order Line: %1;ESP=L°nea pedido venta: %1;DEA=Auftragszeile: %1';
+      Text000@1000 : TextConst 'DEU=Lieferdatum: %1;ENU=Shipment Date: %1';
+      Text001@1001 : TextConst 'DEU=Auftragszeile: %1;ENU=Sales Order Line: %1';
       CurrExchRate@1002 : Record 330;
       CurrencyTotalBuffer@1003 : TEMPORARY Record 332;
       CurrencyTotalBuffer2@1004 : TEMPORARY Record 332;
@@ -355,29 +349,29 @@ OBJECT Report 108 Customer - Order Detail
       Counter1@1016 : Integer;
       CurrencyCode2@1017 : Code[10];
       PrintToExcel@1019 : Boolean;
-      Text002@1030 : TextConst 'ENU=Data;ESP=Datos;DEA=Daten';
-      Text003@1029 : TextConst 'ENU=Customer - Order Detail;ESP=Cliente - L°neas pedidos;DEA=Debitor - AuftrÑge';
-      Text004@1028 : TextConst 'ENU=Company Name;ESP=Nombre empresa;DEA=Mandant';
-      Text005@1027 : TextConst 'ENU=Report No.;ESP=Nß informe;DEA=Berichtsnr.';
-      Text006@1026 : TextConst 'ENU=Report Name;ESP=Nombre informe;DEA=Berichtsname';
-      Text007@1025 : TextConst 'ENU=User ID;ESP=Id. usuario;DEA=Benutzer-ID';
-      Text008@1024 : TextConst 'ENU=Date;ESP=Fecha;DEA=Datum';
-      Text009@1023 : TextConst 'ENU=Customer Filters;ESP=Filtros cliente;DEA=Debitorenfilter';
-      Text010@1022 : TextConst 'ENU=Sales Order Lines Filters;ESP=Filtros l°neas pedido venta;DEA=Verkaufsauftragszeilen-Filter';
-      Text011@1020 : TextConst 'ENU=Quantity on Back Order;ESP=Cdad. pedidos pendientes;DEA=BestellrÅckstandsmenge';
-      Text012@1021 : TextConst 'ENU=Outstanding Orders;ESP=Importe pedidos pendientes;DEA=Auftragsbestand';
-      Text013@1031 : TextConst 'ENU=All amounts are in LCY;ESP=Importes en divisa local.;DEA=Alle BetrÑge in MW';
-      Text014@1032 : TextConst 'ENU=" ,G/L Account,Item,Resource,Fixed Asset,Charge (Item)";ESP=" ,Cuenta,Producto,Recurso,Activo fijo,Cargo (prod.)";DEA=" ,Sachkonto,Artikel,Ressource,WG/Anlage,Zu-/Abschlag (Artikel)"';
-      Text015@1033 : TextConst 'ENU=Item;ESP=Producto;DEA=Artikel';
-      Text016@1034 : TextConst 'ENU=Order;ESP=Pedido;DEA=Auftrag';
+      Text002@1030 : TextConst 'DEU=Daten;ENU=Data';
+      Text003@1029 : TextConst 'DEU=Debitor - AuftrÑge;ENU=Customer - Order Detail';
+      Text004@1028 : TextConst 'DEU=Mandant;ENU=Company Name';
+      Text005@1027 : TextConst 'DEU=Berichtsnr.;ENU=Report No.';
+      Text006@1026 : TextConst 'DEU=Berichtsname;ENU=Report Name';
+      Text007@1025 : TextConst 'DEU=Benutzer-ID;ENU=User ID';
+      Text008@1024 : TextConst 'DEU=Datum;ENU=Date';
+      Text009@1023 : TextConst 'DEU=Debitorenfilter;ENU=Customer Filters';
+      Text010@1022 : TextConst 'DEU=Verkaufsauftragszeilen-Filter;ENU=Sales Order Lines Filters';
+      Text011@1020 : TextConst 'DEU=BestellrÅckstandsmenge;ENU=Quantity on Back Order';
+      Text012@1021 : TextConst 'DEU=Auftragsbestand;ENU=Outstanding Orders';
+      Text013@1031 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All amounts are in LCY';
+      Text014@1032 : TextConst 'DEU=" ,Sachkonto,Artikel,Ressource,WG/Anlage,Zu-/Abschlag (Artikel)";ENU=" ,G/L Account,Item,Resource,Fixed Asset,Charge (Item)"';
+      Text015@1033 : TextConst 'DEU=Artikel;ENU=Item';
+      Text016@1034 : TextConst 'DEU=Auftrag;ENU=Order';
       PageGroupNo@1036 : Integer;
-      CustOrderDetailCaptionLbl@7488 : TextConst 'ENU=Customer - Order Detail;ESP=Cliente - L°neas pedidos;DEA=Debitor - AuftrÑge';
-      PageCaptionLbl@6215 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      AllAmtAreInLCYCaptionLbl@6285 : TextConst 'ENU=All amounts are in LCY;ESP=Importes en divisa local;DEA=Alle BetrÑge in MW';
-      ShipmentDateCaptionLbl@3615 : TextConst 'ENU=Shipment Date;ESP=Fecha env°o;DEA=Warenausg.-Datum';
-      QtyOnBackOrderCaptionLbl@7765 : TextConst 'ENU=Quantity on Back Order;ESP=Cdad. pedidos pendientes;DEA=BestellrÅckstandsmenge';
-      OutstandingOrdersCaptionLbl@5291 : TextConst 'ENU=Outstanding Orders;ESP=Importe pedidos pendientes;DEA=Auftragsbestand';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      CustOrderDetailCaptionLbl@7488 : TextConst 'DEU=Debitor - AuftrÑge;ENU=Customer - Order Detail';
+      PageCaptionLbl@6215 : TextConst 'DEU=Seite;ENU=Page';
+      AllAmtAreInLCYCaptionLbl@6285 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All amounts are in LCY';
+      ShipmentDateCaptionLbl@3615 : TextConst 'DEU=Warenausg.-Datum;ENU=Shipment Date';
+      QtyOnBackOrderCaptionLbl@7765 : TextConst 'DEU=BestellrÅckstandsmenge;ENU=Quantity on Back Order';
+      OutstandingOrdersCaptionLbl@5291 : TextConst 'DEU=Auftragsbestand;ENU=Outstanding Orders';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     PROCEDURE MakeExcelInfo@5();
     BEGIN

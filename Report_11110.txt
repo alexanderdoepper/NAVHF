@@ -2,14 +2,14 @@ OBJECT Report 11110 VAT Statement AT
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00,NAVAT7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Statement AT;
-               DEA=MwSt.-Abrechnung AT];
+    CaptionML=[DEU=MwSt.-Abrechnung AT;
+               ENU=VAT Statement AT];
     ProcessingOnly=Yes;
     OnPreReport=VAR
                   RBMgt@1160000 : Codeunit 419;
@@ -177,13 +177,13 @@ OBJECT Report 11110 VAT Statement AT
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1160010;2;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=Startingdate;
                   OnValidate=VAR
                                RefDate@1160000 : Date;
@@ -213,8 +213,8 @@ OBJECT Report 11110 VAT Statement AT
                               }
 
       { 1160012;2;Field     ;
-                  CaptionML=[ENU=Ending Date;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=Endingdate;
                   OnValidate=VAR
                                RefDate@1160000 : Date;
@@ -244,25 +244,25 @@ OBJECT Report 11110 VAT Statement AT
                               }
 
       { 8   ;2   ;Field     ;
-                  CaptionML=[ENU=Include VAT Entries;
-                             DEA=MwSt.-Posten einschlie·en];
-                  OptionCaptionML=[ENU=Open,Closed,Open and Closed;
-                                   DEA=Offen,Geschlossen,Offen und geschlossen];
+                  CaptionML=[DEU=MwSt.-Posten einschlie·en;
+                             ENU=Include VAT Entries];
+                  OptionCaptionML=[DEU=Offen,Geschlossen,Offen und geschlossen;
+                                   ENU=Open,Closed,Open and Closed];
                   SourceExpr=Selection }
 
       { 4   ;2   ;Field     ;
-                  CaptionML=[ENU=Include VAT Entries;
-                             DEA=MwSt.-Posten einschlie·en];
-                  OptionCaptionML=[ENU=Before and Within Period,Within Period;
-                                   DEA=Vor und innerhalb Periode,Innerhalb Periode];
+                  CaptionML=[DEU=MwSt.-Posten einschlie·en;
+                             ENU=Include VAT Entries];
+                  OptionCaptionML=[DEU=Vor und innerhalb Periode,Innerhalb Periode;
+                                   ENU=Before and Within Period,Within Period];
                   SourceExpr=PeriodSelection }
 
       { 11  ;2   ;Field     ;
                   Name=ReportingType;
-                  CaptionML=[ENU=Reporting Type;
-                             DEA=Berichtstyp];
-                  OptionCaptionML=[ENU=Quarter,Month,Defined period;
-                                   DEA=Quartal,Monat,Definierte Periode];
+                  CaptionML=[DEU=Berichtstyp;
+                             ENU=Reporting Type];
+                  OptionCaptionML=[DEU=Quartal,Monat,Definierte Periode;
+                                   ENU=Quarter,Month,Defined period];
                   SourceExpr=PeriodType;
                   OnValidate=BEGIN
                                IF PeriodType = PeriodType::month THEN
@@ -274,19 +274,19 @@ OBJECT Report 11110 VAT Statement AT
 
       { 1160007;2;Field     ;
                   Name=CheckPositions;
-                  CaptionML=[ENU=Check Positions;
-                             DEA=Positionen prÅfen];
+                  CaptionML=[DEU=Positionen prÅfen;
+                             ENU=Check Positions];
                   SourceExpr=CheckPositions }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Round to Whole Numbers;
-                             DEA=Auf ganze Zahlen runden];
+                  CaptionML=[DEU=Auf ganze Zahlen runden;
+                             ENU=Round to Whole Numbers];
                   SourceExpr=PrintInWholeNumbers }
 
       { 1160015;2;Field     ;
                   Name=PDFFilenameControl;
-                  CaptionML=[ENU=PDF File Name;
-                             DEA=PDF-Dateiname];
+                  CaptionML=[DEU=PDF-Dateiname;
+                             ENU=PDF File Name];
                   SourceExpr=PDFFileName;
                   OnAssistEdit=VAR
                                  FileMgt@1140000 : Codeunit 419;
@@ -296,18 +296,18 @@ OBJECT Report 11110 VAT Statement AT
                                 }
 
       { 1160003;2;Field     ;
-                  CaptionML=[ENU=Surplus Used to Pay Dues;
-                             DEA=FÅr Zahlung von Verbindlichkeiten genutzter öberschuss];
+                  CaptionML=[DEU=FÅr Zahlung von Verbindlichkeiten genutzter öberschuss;
+                             ENU=Surplus Used to Pay Dues];
                   SourceExpr=UseARE }
 
       { 1160005;2;Field     ;
-                  CaptionML=[ENU=Additional Invoices sent via Mail;
-                             DEA=Weitere per Post geschickte Rechnungen];
+                  CaptionML=[DEU=Weitere per Post geschickte Rechnungen;
+                             ENU=Additional Invoices sent via Mail];
                   SourceExpr=UseREPO }
 
       { 1160000;2;Field     ;
-                  CaptionML=[ENU=Number ı6 Abs. 1;
-                             DEA=Nummer ı 6 Abs. 1];
+                  CaptionML=[DEU=Nummer ı 6 Abs. 1;
+                             ENU=Number ı6 Abs. 1];
                   Numeric=Yes;
                   BlankZero=Yes;
                   SourceExpr=NumberPar6Abs1;
@@ -347,31 +347,31 @@ OBJECT Report 11110 VAT Statement AT
       XMLFileName@1160031 : Text[260];
       PDFFileName@1160024 : Text[260];
       FDFFileName@1160025 : Text[260];
-      Text1160005@1160032 : TextConst 'ENU=No XML File was created, since you didn''t define a XML Filename.;DEA=Es wurde keine XML-Datei erstellt, weil Sie keinen XML-Dateinamen definiert haben.';
+      Text1160005@1160032 : TextConst 'DEU=Es wurde keine XML-Datei erstellt, weil Sie keinen XML-Dateinamen definiert haben.;ENU=No XML File was created, since you didn''t define a XML Filename.';
       UseARE@1160033 : Boolean;
       UseREPO@1160034 : Boolean;
-      Text1160006@1160042 : TextConst 'ENU=A taxable revenue (KZ 000) must be entered. The value Zero is not allowed.\KZ 000 must exist.;DEA=Es muss ein steuerpflichtiger Umsatz (KZ 000) eingegeben werden. Der Wert null ist nicht zulÑssig.\KZ 000 muss vorhanden sein.';
-      Text1160007@1160041 : TextConst 'ENU=The total of taxfree revenues is bigger than the total of taxable revenues.\KZ 011+012+015+016+017+018+019+020 > KZ 000+001-021;DEA=Die Summe der steuerfreien UmsÑtze ist grî·er als die Summe der steuerpflichtigen UmsÑtze.\KZ 011+012+015+016+017+018+019+020 > KZ 000+001-021';
-      Text1160008@1160040 : TextConst 'ENU=The total of taxable revenues reduced by the total of taxfree revenues differs from the total of to be taxed revenues.\KZ 022+025+029+037+038+052 <> (KZ 000+001-021) - (KZ 011+012+015+016+017+018+019+020);DEA=Die Summe der steuerpflichtigen UmsÑtze abzÅglich der Summe der steuerfreien UmsÑtze weicht von der Summe der zu besteuernden UmsÑtze ab.\KZ 022+025+029+037+038+052 <> (KZ 000+001-021) - (KZ 011+012+015+016+017+018+019+020)';
+      Text1160006@1160042 : TextConst 'DEU=Es muss ein steuerpflichtiger Umsatz (KZ 000) eingegeben werden. Der Wert null ist nicht zulÑssig.\KZ 000 muss vorhanden sein.;ENU=A taxable revenue (KZ 000) must be entered. The value Zero is not allowed.\KZ 000 must exist.';
+      Text1160007@1160041 : TextConst 'DEU=Die Summe der steuerfreien UmsÑtze ist grî·er als die Summe der steuerpflichtigen UmsÑtze.\KZ 011+012+015+016+017+018+019+020 > KZ 000+001-021;ENU=The total of taxfree revenues is bigger than the total of taxable revenues.\KZ 011+012+015+016+017+018+019+020 > KZ 000+001-021';
+      Text1160008@1160040 : TextConst 'DEU=Die Summe der steuerpflichtigen UmsÑtze abzÅglich der Summe der steuerfreien UmsÑtze weicht von der Summe der zu besteuernden UmsÑtze ab.\KZ 022+025+029+037+038+052 <> (KZ 000+001-021) - (KZ 011+012+015+016+017+018+019+020);ENU=The total of taxable revenues reduced by the total of taxfree revenues differs from the total of to be taxed revenues.\KZ 022+025+029+037+038+052 <> (KZ 000+001-021) - (KZ 011+012+015+016+017+018+019+020)';
       CheckPositions@1160043 : Boolean;
-      Text1160009@1160044 : TextConst 'ENU=Input tax from EC revenues and/or taxfree EC revenues reg. Art. 6 Abs. 2 only can be taken, if taxable EC revenues exist.\KZ 065 and KZ 065 only together with KZ 070.;DEA=Die Vorsteuer aus EU-UmsÑtzen und/oder steuerbefreiten EU-UmsÑtzen nach Art. 6 Abs. 2 kann nur geltend gemacht werden, wenn steuerpflichtige EU-UmsÑtze vorliegen.\KZ 065 und KZ 065 nur zusammen mit KZ 070.';
-      Text1160010@1160045 : TextConst 'ENU=The taxfree EC revenues reg. Art. 6 Abs. 2 are bigger than the taxable EC revenues.\KZ 071 > KZ 070.;DEA=Die steuerfreien EU-UmsÑtze nach Art. 6 Abs. 2 sind grî·er als die steuerpflichtigen EU-UmsÑtze.\KZ 071 > KZ 070.';
-      Text1160011@1160046 : TextConst 'ENU=The taxable EC revenues reduced with the taxfree EC revenues reg. Art. 6 Abs. 2 differ from the total of declarable EC revenues.\KZ 072 + 073 + 088 <> KZ 070 - 071.;DEA=Die steuerpflichtigen EU-UmsÑtze abzÅglich der steuerfreien EU-UmsÑtze nach Art. 6 Abs. 2 weichen von der Summe der zu deklarierenden EU-UmsÑtze ab.\KZ 072 + 073 + 088 <> KZ 070 - 071.';
-      Text1160012@1160047 : TextConst 'ENU=Input taxes reg. tax due reg. ı 19 Abs. 1, Art. 19 Abs. 1 and Art. 25 Abs. 5 only can be claimed if tax due reg. ı 19 Abs. 1,  Art. 19 Abs. 1 and Art. 25 Abs. 5 exist.\KZ 066 only together with KZ 057.;DEA=Vorsteuern nach ı 19 Abs. 1, Art. 19 Abs. 1 und Art. 25 Abs. 5 kînnen nur geltend gemacht werden, wenn die fÑllige Steuer nach ı 19 Abs. 1,  Art. 19 Abs. 1 und Art. 25 Abs. 5 vorliegt.\KZ 066 nur zusammen mit KZ 057.';
+      Text1160009@1160044 : TextConst 'DEU=Die Vorsteuer aus EU-UmsÑtzen und/oder steuerbefreiten EU-UmsÑtzen nach Art. 6 Abs. 2 kann nur geltend gemacht werden, wenn steuerpflichtige EU-UmsÑtze vorliegen.\KZ 065 und KZ 065 nur zusammen mit KZ 070.;ENU=Input tax from EC revenues and/or taxfree EC revenues reg. Art. 6 Abs. 2 only can be taken, if taxable EC revenues exist.\KZ 065 and KZ 065 only together with KZ 070.';
+      Text1160010@1160045 : TextConst 'DEU=Die steuerfreien EU-UmsÑtze nach Art. 6 Abs. 2 sind grî·er als die steuerpflichtigen EU-UmsÑtze.\KZ 071 > KZ 070.;ENU=The taxfree EC revenues reg. Art. 6 Abs. 2 are bigger than the taxable EC revenues.\KZ 071 > KZ 070.';
+      Text1160011@1160046 : TextConst 'DEU=Die steuerpflichtigen EU-UmsÑtze abzÅglich der steuerfreien EU-UmsÑtze nach Art. 6 Abs. 2 weichen von der Summe der zu deklarierenden EU-UmsÑtze ab.\KZ 072 + 073 + 088 <> KZ 070 - 071.;ENU=The taxable EC revenues reduced with the taxfree EC revenues reg. Art. 6 Abs. 2 differ from the total of declarable EC revenues.\KZ 072 + 073 + 088 <> KZ 070 - 071.';
+      Text1160012@1160047 : TextConst 'DEU=Vorsteuern nach ı 19 Abs. 1, Art. 19 Abs. 1 und Art. 25 Abs. 5 kînnen nur geltend gemacht werden, wenn die fÑllige Steuer nach ı 19 Abs. 1,  Art. 19 Abs. 1 und Art. 25 Abs. 5 vorliegt.\KZ 066 nur zusammen mit KZ 057.;ENU=Input taxes reg. tax due reg. ı 19 Abs. 1, Art. 19 Abs. 1 and Art. 25 Abs. 5 only can be claimed if tax due reg. ı 19 Abs. 1,  Art. 19 Abs. 1 and Art. 25 Abs. 5 exist.\KZ 066 only together with KZ 057.';
       NumberPar6Abs1@1160048 : Integer;
-      Text1160013@1160049 : TextConst 'ENU=In order to claim taxfree revenues without input tax reduction (position 020) the necessary number of ı6 Abs. 1 has to be specified.\KZ 020 only together with "Number of ı6 Abs. 1".;DEA=Um steuerfreie UmsÑtze ohne Vorsteuerabzug (Position 020) geltend machen zu kînnen, muss die relevante Nummer von ı 6 Abs. 1 angegeben werden.\KZ 020 nur zusammen mit "Nummer von ı 6 Abs. 1".';
-      Text1160052@1160052 : TextConst 'ENU=Selection of the PDF-File;DEA=Auswahl der PDF-Datei';
-      Text1160053@1160053 : TextConst 'ENU=Portable Document Format File|*.pdf|All Files|*.*;DEA=Portable Document Format-Datei|*.pdf|Alle Dateien|*.*';
-      Text1160054@1160054 : TextConst 'ENU=Selection of the FDF-File;DEA=Auswahl der FDF-Datei';
-      Text1160055@1160055 : TextConst 'ENU=Forms Data Format File|*.fdf|All Files|*.*;DEA=Forms Data Format-Datei|*.fdf|Alle Dateien|*.*';
-      Text1160056@1160056 : TextConst 'ENU=Selection of the XML-File;DEA=Auswahl der XML-Datei';
-      Text1160057@1160057 : TextConst 'ENU=Extensible Markup Language File|*.xml|All Files|*.*;DEA=Extensible Markup Language-Datei|*.xml|Alle Dateien|*.*';
-      Text1160058@1160058 : TextConst 'ENU=Please specify a PDF File Name.;DEA=Geben Sie einen PDF-Dateinamen an.';
-      Text1160059@1160059 : TextConst 'ENU=Please specify a FDF File Name.;DEA=Geben Sie einen FDF-Dateinamen an.';
-      Text1160060@1160060 : TextConst 'ENU=FDF File %1 successfully created.\Do you want to preview the file?;DEA=Die FDF-Datei %1 wurde erfolgreich erstellt.\Mîchten Sie eine Vorschau der Datei ausfÅhren?';
-      Text1160061@1160061 : TextConst 'ENU=Would you like to set the Starting and Ending Date according to the selected Reporting Type?;DEA=Mîchten Sie das Start- und Enddatum entsprechend dem ausgewÑhlten Berichtstyp festlegen?';
-      Text1160062@1160062 : TextConst 'ENU=Due to improper filter settings on the fields %1 and/or %2, your VAT Statement might contain incorrect values. Please check.;DEA=Aufgrund von nicht ordnungsgemÑ·en Filtereinstellungen fÅr die Felder %1 und/oder %2 enthÑlt Ihre MwSt-ErklÑrung mîglicherweise fehlerhafte Werte. Bitte ÅberprÅfen Sie diese.';
-      Text1160063@1160063 : TextConst 'ENU=Default;DEA=Standard';
+      Text1160013@1160049 : TextConst 'DEU=Um steuerfreie UmsÑtze ohne Vorsteuerabzug (Position 020) geltend machen zu kînnen, muss die relevante Nummer von ı 6 Abs. 1 angegeben werden.\KZ 020 nur zusammen mit "Nummer von ı 6 Abs. 1".;ENU=In order to claim taxfree revenues without input tax reduction (position 020) the necessary number of ı6 Abs. 1 has to be specified.\KZ 020 only together with "Number of ı6 Abs. 1".';
+      Text1160052@1160052 : TextConst 'DEU=Auswahl der PDF-Datei;ENU=Selection of the PDF-File';
+      Text1160053@1160053 : TextConst 'DEU=Portable Document Format-Datei|*.pdf|Alle Dateien|*.*;ENU=Portable Document Format File|*.pdf|All Files|*.*';
+      Text1160054@1160054 : TextConst 'DEU=Auswahl der FDF-Datei;ENU=Selection of the FDF-File';
+      Text1160055@1160055 : TextConst 'DEU=Forms Data Format-Datei|*.fdf|Alle Dateien|*.*;ENU=Forms Data Format File|*.fdf|All Files|*.*';
+      Text1160056@1160056 : TextConst 'DEU=Auswahl der XML-Datei;ENU=Selection of the XML-File';
+      Text1160057@1160057 : TextConst 'DEU=Extensible Markup Language-Datei|*.xml|Alle Dateien|*.*;ENU=Extensible Markup Language File|*.xml|All Files|*.*';
+      Text1160058@1160058 : TextConst 'DEU=Geben Sie einen PDF-Dateinamen an.;ENU=Please specify a PDF File Name.';
+      Text1160059@1160059 : TextConst 'DEU=Geben Sie einen FDF-Dateinamen an.;ENU=Please specify a FDF File Name.';
+      Text1160060@1160060 : TextConst 'DEU=FDF-Datei %1 wurde erfolgreich erstellt.\Mîchten Sie eine Vorschau der Datei durchfÅhren?;ENU=FDF File %1 successfully created.\Do you want to preview the file?';
+      Text1160061@1160061 : TextConst 'DEU=Mîchten Sie das Start- und Enddatum entsprechend dem ausgewÑhlten Berichtstyp festlegen?;ENU=Would you like to set the Starting and Ending Date according to the selected Reporting Type?';
+      Text1160062@1160062 : TextConst 'DEU=Aufgrund nicht ordnungsgemÑ·er Filtereinstellungen fÅr die Felder %1 und/oder %2 enthÑlt Ihre UmsatzsteuererklÑrung mîglicherweise fehlerhafte Werte. öberprÅfen Sie den Sachverhalt.;ENU=Due to improper filter settings on the fields %1 and/or %2, your VAT Statement might contain incorrect values. Please check.';
+      Text1160063@1160063 : TextConst 'DEU=Standard;ENU=Default';
 
     LOCAL PROCEDURE CalcLineTotal@3(VATStmtLine2@1160000 : Record 256;VAR TotalAmount@1160001 : Decimal;Level@1160002 : Integer) : Boolean;
     BEGIN
@@ -561,53 +561,55 @@ OBJECT Report 11110 VAT Statement AT
 
     LOCAL PROCEDURE AddFDFDataHeader@1160002();
     VAR
-      CompanyAddressText@1160000 : Text[150];
-      CompanyNameText@1160001 : Text[150];
+      CompanyAddressText@1160000 : Text[300];
     BEGIN
       FDFFile.WRITE('<< /V (' +
-          GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Name",'<>',' ')) + '\n' +
-          GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Address",'<>',' ')) + '\n' +
-          GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Post Code",'<>',' ')) + ' ' +
-          GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office City",'<>',' ')) +
-          ')/T (Text01)>>');
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Name",'<>',' ')) + '\n' +
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Address",'<>',' ')) + '\n' +
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Post Code",'<>',' ')) + ' ' +
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office City",'<>',' ')) +
+        ')/T (Text01)>>');
       FDFFile.WRITE('<< /V (' +
-          GeneralMgt.Ascii2Ansi(COPYSTR(DELCHR(Companyinfo."Registration No.",'<>',' '),1,3)) +
-          ')/T (Zahl02_1)>>');
+        GeneralMgt.Ascii2Ansi(COPYSTR(DELCHR(Companyinfo."Registration No.",'<>',' '),1,3)) +
+        ')/T (Zahl02_1)>>');
       FDFFile.WRITE('<< /V (' +
-          GeneralMgt.Ascii2Ansi(COPYSTR(DELCHR(Companyinfo."Registration No.",'<>',' '),5,4)) +
-          ')/T (Zahl02_2)>>');
-      FDFFile.WRITE(
-        '<< /V (' +
-        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Tax Office Number",'<>',' ')) +
-        ')/T (Zahl03)>>');
-      CASE PeriodType OF
-        PeriodType::quarter:
-          BEGIN
-            FDFFile.WRITE('<< /V (' + FORMAT(Startingdate,0,'<Month,2>') + ')/T (Text01_f)>>');
-            FDFFile.WRITE('<< /V (' + FORMAT(Endingdate,0,'<Month,2>') + ')/T (Text01_t)>>');
-          END;
-        PeriodType::month:
-          FDFFile.WRITE('<< /V (' + FORMAT(Startingdate,0,'<Month,2>') + ')/T (Text01_m)>>');
+        GeneralMgt.Ascii2Ansi(COPYSTR(DELCHR(Companyinfo."Registration No.",'<>',' '),5,4)) +
+        ')/T (Zahl02_2)>>');
+      IF DATE2DMY(Startingdate,3) = DATE2DMY(Endingdate,3) THEN BEGIN
+        IF (Startingdate = CALCDATE('<-CM>',Startingdate)) AND (Endingdate = CALCDATE('<+CM>',Startingdate)) THEN
+          FDFFile.WRITE('<< /V (' +
+            GeneralMgt.Ascii2Ansi(FORMAT(Startingdate,0,'<Month Text>')) +
+            ')/T (DropDown04)>>')
+        ELSE
+          IF (Startingdate = CALCDATE('<-CQ>',Startingdate)) AND (Endingdate = CALCDATE('<+CQ>',Startingdate)) THEN
+            FDFFile.WRITE('<< /V (' +
+              GeneralMgt.Ascii2Ansi(FORMAT(Startingdate,0,'<Month Text>')) +
+              '-' +
+              GeneralMgt.Ascii2Ansi(FORMAT(Endingdate,0,'<Month Text>')) +
+              ')/T (DropDown05)>>');
+        FDFFile.WRITE('<< /V (' + FORMAT(DATE2DMY(Startingdate,3)) + ')/T (TextJahr21c)>>');
       END;
+
+      CompanyAddressText := '<< /V (';
       IF Companyinfo.Name <> '' THEN
-        CompanyNameText := CompanyNameText + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.Name,'<>',' '));
+        CompanyAddressText := CompanyAddressText + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.Name,'<>',' '));
       IF Companyinfo."Name 2" <> '' THEN
-        CompanyNameText := CompanyNameText + ', ' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Name 2",'<>',' '));
-      FDFFile.WRITE('<< /V (' + CompanyNameText + ')/T (Text03)>>');
+        CompanyAddressText := CompanyAddressText + ', ' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Name 2",'<>',' ')) + '\n'
+      ELSE
+        CompanyAddressText := CompanyAddressText + '\n';
       IF Companyinfo.Address <> '' THEN
-        CompanyAddressText :=
-          CompanyAddressText + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.Address,'<>',' '));
+        CompanyAddressText := CompanyAddressText + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.Address,'<>',' '));
       IF Companyinfo."Address 2" <> '' THEN
-        CompanyAddressText :=
-          CompanyAddressText + ', ' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Address 2",'<>',' '));
-      FDFFile.WRITE('<< /V (' + CompanyAddressText + ')/T (Text05)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."House Number",'<>',' ')) + ')/T (Text06)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Floor Number",'<>',' ')) + ')/T (Text07)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Room Number",'<>',' ')) + ')/T (Text07a)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Country/Region Code",'<>',' ')) + ')/T (Text07b)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Phone No.",'<>',' ')) + ')/T (Text07c)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Post Code",'<>',' ')) + ')/T (Text07d)>>');
-      FDFFile.WRITE('<< /V (' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.City,'<>',' ')) + ')/T (Text07e)>>');
+        CompanyAddressText := CompanyAddressText + ', ' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Address 2",'<>',' ')) + ', '
+      ELSE
+        CompanyAddressText := CompanyAddressText + ',';
+      CompanyAddressText := CompanyAddressText +
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Post Code",'<>',' ')) + ' ' +
+        GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo.City,'<>',' '));
+      IF Companyinfo."Phone No." <> '' THEN
+        CompanyAddressText := CompanyAddressText + '\n' + GeneralMgt.Ascii2Ansi(DELCHR(Companyinfo."Phone No.",'<>',' '));
+      CompanyAddressText := CompanyAddressText + ')/T (Text09)>>';
+      FDFFile.WRITE(CompanyAddressText);
     END;
 
     LOCAL PROCEDURE AddFDFData@1160003();
@@ -693,26 +695,14 @@ OBJECT Report 11110 VAT Statement AT
         FDFFile.WRITE('<< /V (' + FORMAT(Position[1064],0,1) + ')/T (Zahl138)>>');
       IF Position[1062] > 0 THEN
         FDFFile.WRITE('<< /V (' + FORMAT(Position[1062],0,1) + ')/T (Zahl139)>>');
-      IF Position[1063] <> 0 THEN BEGIN
-        IF Position[1063] < 0 THEN
-          FDFFile.WRITE('<< /V (-)/T (DD140)>>');
-        FDFFile.WRITE('<< /V (' + FORMAT(ABS(Position[1063]),0,1) + ')/T (Zahl140)>>');
-      END;
-      IF Position[1067] <> 0 THEN BEGIN
-        IF Position[1067] < 0 THEN
-          FDFFile.WRITE('<< /V (-)/T (DD141)>>');
-        FDFFile.WRITE('<< /V (' + FORMAT(ABS(Position[1067]),0,1) + ')/T (Zahl141)>>');
-      END;
-      IF Position[1027] <> 0 THEN BEGIN
-        IF Position[1027] < 0 THEN
-          FDFFile.WRITE('<< /V (-)/T (DD143_27)>>');
-        FDFFile.WRITE('<< /V (' + FORMAT(ABS(Position[1027]),0,1) + ')/T (Zahl143_27)>>');
-      END;
-      IF Position[1028] <> 0 THEN BEGIN
-        IF Position[1028] < 0 THEN
-          FDFFile.WRITE('<< /V (-)/T (DD143_28)>>');
-        FDFFile.WRITE('<< /V (' + FORMAT(ABS(Position[1028]),0,1) + ')/T (Zahl143_28)>>');
-      END;
+      IF Position[1063] <> 0 THEN
+        FDFFile.WRITE('<< /V (' + FORMAT(Position[1063],0,1) + ')/T (Zahl140)>>');
+      IF Position[1067] <> 0 THEN
+        FDFFile.WRITE('<< /V (' + FORMAT(Position[1067],0,1) + ')/T (Zahl141)>>');
+      IF Position[1027] <> 0 THEN
+        FDFFile.WRITE('<< /V (' + FORMAT(Position[1027],0,1) + ')/T (Zahl143_27)>>');
+      IF Position[1028] <> 0 THEN
+        FDFFile.WRITE('<< /V (' + FORMAT(Position[1028],0,1) + ')/T (Zahl143_28)>>');
       IF Position[1090] <> 0 THEN
         FDFFile.WRITE('<< /V (' + FORMAT(Position[1090],0,1) + ')/T (Zahl143)>>');
     END;

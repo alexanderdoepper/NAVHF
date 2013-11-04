@@ -2,16 +2,15 @@ OBJECT Page 9249 Analysis by Dimensions Matrix
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Analysis by Dimensions Matrix;
-               ESP=Matriz an†lisis por dim.;
-               DEA=Analyse nach Dimensionen - Matrix];
+    CaptionML=[DEU=Analyse nach Dimensionen - Matrix;
+               ENU=Analysis by Dimensions Matrix];
     LinksAllowed=No;
     SourceTable=Table367;
     DataCaptionExpr=AnalysisViewCode;
@@ -119,14 +118,12 @@ OBJECT Page 9249 Analysis by Dimensions Matrix
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Actions;
-                                 ESP=&Acciones;
-                                 DEA=&Aktionen];
+                      CaptionML=[DEU=&Aktionen;
+                                 ENU=&Actions];
                       Image=Action }
       { 5       ;2   ;Action    ;
-                      CaptionML=[ENU=Export to Excel;
-                                 ESP=Exportar a Excel;
-                                 DEA=Nach Excel exportieren];
+                      CaptionML=[DEU=Nach Excel exportieren;
+                                 ENU=Export to Excel];
                       Promoted=Yes;
                       Image=ExportToExcel;
                       PromotedCategory=Process;
@@ -170,9 +167,8 @@ OBJECT Page 9249 Analysis by Dimensions Matrix
 
     { 24  ;2   ;Field     ;
                 Name=TotalAmount;
-                CaptionML=[ENU=Total Amount;
-                           ESP=Importe total;
-                           DEA=Gesamtbetrag];
+                CaptionML=[DEU=Gesamtbetrag;
+                           ENU=Total Amount];
                 BlankZero=Yes;
                 SourceExpr=+Amount;
                 Style=Strong;
@@ -634,8 +630,8 @@ OBJECT Page 9249 Analysis by Dimensions Matrix
   CODE
   {
     VAR
-      Text000@1080 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
-      Text002@1082 : TextConst 'ENU=You have not yet defined an analysis view.;ESP=No tiene a£n definida una vista an†lisis.;DEA=Sie haben noch keine Analyseansicht definiert.';
+      Text000@1080 : TextConst 'DEU=Periode;ENU=Period';
+      Text002@1082 : TextConst 'DEU=Sie haben noch keine Analyseansicht definiert.;ENU=You have not yet defined an analysis view.';
       MatrixRecord@1003 : Record 367;
       GLSetup@1089 : Record 98;
       GLAcc@1090 : Record 15;
@@ -712,7 +708,7 @@ OBJECT Page 9249 Analysis by Dimensions Matrix
       Field30Visible@19010597 : Boolean INDATASET;
       Field31Visible@19056564 : Boolean INDATASET;
       Field32Visible@19017135 : Boolean INDATASET;
-      Text003@1001 : TextConst 'ENU=Unsupported Account Source %1.;ESP=Origen de la cuenta no admitido %1.;DEA=Nicht unterstÅtzte Kontoquelle ''%1''.';
+      Text003@1001 : TextConst 'DEU=Nicht unterstÅtzte Kontoquelle ''%1''.;ENU=Unsupported Account Source %1.';
       Emphasize@1002 : Boolean;
 
     LOCAL PROCEDURE FindRec@4(DimOption@1000 : 'G/L Account,Period,Business Unit,Dimension 1,Dimension 2,Dimension 3,Dimension 4,Cash Flow Account,Cash Flow Forecast';VAR DimCodeBuf@1001 : Record 367;Which@1002 : Text[250]) : Boolean;

@@ -2,21 +2,107 @@ OBJECT Report 741 VAT Report Suggest Lines
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Report Suggest Lines;
-               ESP=L¡neas sugerencia informe IVA;
-               DEA=MwSt.-Bericht - Zeilen vorschlagen];
+    Permissions=TableData 741=rimd;
+    CaptionML=[DEU=MwSt.-Bericht - Zeilen vorschlagen;
+               ENU=VAT Report Suggest Lines];
     ProcessingOnly=Yes;
   }
   DATASET
   {
-    { 5644;    ;DataItem;                    ;
-               DataItemTable=Table740 }
+    { 5644;    ;DataItem;VATReportHeader     ;
+               DataItemTable=Table740;
+               OnPreDataItem=BEGIN
+                               IF GETRANGEMIN("No.") <> GETRANGEMAX("No.") THEN
+                                 ERROR(Text006);
+
+                               NextLineNo := 0;
+
+                               TempVATReportLine.DELETEALL;
+                               TempVATReportLine.RESET;
+                               TempVATReportLineRelation.DELETEALL;
+                               TempVATReportLineRelation.RESET;
+                               TransBuffer.DELETEALL;
+
+                               Window.OPEN(Text001 + Text002);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  VATReportHeader.CheckEditingAllowed;
+
+                                  VATReportLine.SETRANGE("VAT Report No.","No.");
+                                  VATReportLine.SETRANGE("Line Type",VATReportLine."Line Type"::New);
+                                  IF VATReportLine.COUNT > 0 THEN BEGIN
+                                    IF NOT CONFIRM(Text003,TRUE) THEN
+                                      CurrReport.BREAK;
+
+                                    VATReportLine.DELETEALL(TRUE);
+                                  END;
+                                END;
+
+               OnPostDataItem=BEGIN
+                                CASE "VAT Report Type" OF
+                                  "VAT Report Type"::Standard:
+                                    SaveBuffer;
+                                  "VAT Report Type"::Corrective:
+                                    SaveCorrBuffer;
+                                END;
+
+                                Window.CLOSE;
+                              END;
+                               }
+
+    { 1140000;1;DataItem;VATEntrySales       ;
+               DataItemTable=Table254;
+               DataItemTableView=SORTING(Type,Country/Region Code,VAT Registration No.,VAT Bus. Posting Group,VAT Prod. Posting Group,Posting Date)
+                                 WHERE(Type=CONST(Sale));
+               OnPreDataItem=BEGIN
+                               IF VATReportHeader."Trade Type" = VATReportHeader."Trade Type"::Purchases THEN
+                                 CurrReport.BREAK;
+
+                               SetFilters(VATEntrySales);
+
+                               RecordNo := 0;
+                               NoOfRecords := COUNT;
+                               OldTime := TIME;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  IF "EU Service" THEN
+                                    IF "Posting Date" < 010110D THEN
+                                      ERROR(Text11000,FIELDCAPTION("Posting Date"),010110D);
+
+                                  UpdateProgressBar;
+                                  AddVATReportLine(VATEntrySales);
+                                END;
+
+               ReqFilterFields=VAT Bus. Posting Group,VAT Prod. Posting Group }
+
+    { 1140001;1;DataItem;VATEntryPurchases   ;
+               DataItemTable=Table254;
+               DataItemTableView=SORTING(Type,Country/Region Code,VAT Registration No.,VAT Bus. Posting Group,VAT Prod. Posting Group,Posting Date);
+               OnPreDataItem=BEGIN
+                               IF VATReportHeader."Trade Type" = VATReportHeader."Trade Type"::Sales THEN
+                                 CurrReport.BREAK;
+
+                               SetFilters(VATEntryPurchases);
+
+                               RecordNo := 0;
+                               NoOfRecords := COUNT;
+                               OldTime := TIME;
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  UpdateProgressBar;
+                                  AddVATReportLine(VATEntryPurchases);
+                                END;
+
+               ReqFilterFields=VAT Bus. Posting Group,VAT Prod. Posting Group }
 
   }
   REQUESTPAGE
@@ -33,6 +119,206 @@ OBJECT Report 741 VAT Report Suggest Lines
   }
   CODE
   {
+    VAR
+      Text11000@1140001 : TextConst 'DEU=%1 darf nicht kleiner sein als %2 fr Services.;ENU=%1 must not be less than %2 for Services.';
+      Text001@1140012 : TextConst 'DEU=Buchungsdatum #1########;ENU=Posting Date #1########';
+      Text002@1140011 : TextConst 'DEU=Zeilen vorschlagen @2@@@@@@@@@@@@@;ENU=Suggesting lines @2@@@@@@@@@@@@@';
+      Text003@1140000 : TextConst 'DEU=Vorhandene Zeilen werden gel”scht und neue Zeilen erstellt. Fortfahren?;ENU=Existing lines will be deleted and new lines will be created. Continue?';
+      Text006@1140009 : TextConst 'DEU=Sie k”nnen nur eine Meldung verarbeiten.;ENU=You can process one declaration only.';
+      VATReportLine@1140017 : Record 741;
+      TempVATReportLine@1140016 : TEMPORARY Record 741;
+      TempVATReportLineRelation@1140008 : TEMPORARY Record 744;
+      TransBuffer@1140015 : TEMPORARY Record 2000000026;
+      Window@1140014 : Dialog;
+      NoOfRecords@1140013 : Integer;
+      RecordNo@1140007 : Integer;
+      NewProgress@1140006 : Integer;
+      OldProgress@1140005 : Integer;
+      NewTime@1140004 : Time;
+      OldTime@1140003 : Time;
+      NextLineNo@1140002 : Integer;
+
+    PROCEDURE AddBuffer@1470000(VATEntry@1470000 : Record 254);
+    BEGIN
+      TempVATReportLine.SETCURRENTKEY("Trade Type");
+      TempVATReportLine.SETRANGE("Trade Type",VATReportLine."Trade Type");
+      TempVATReportLine.SETRANGE("Country/Region Code",VATReportLine."Country/Region Code");
+      TempVATReportLine.SETRANGE("VAT Registration No.",VATReportLine."VAT Registration No.");
+      TempVATReportLine.SETRANGE("Registration No.",VATReportLine."Registration No.");
+      TempVATReportLine.SETRANGE("Trade Role Type",VATReportLine."Trade Role Type");
+      TempVATReportLine.SETRANGE("EU 3-Party Trade",VATReportLine."EU 3-Party Trade");
+      TempVATReportLine.SETRANGE("EU Service",VATReportLine."EU Service");
+      IF TempVATReportLine.FINDFIRST THEN BEGIN
+        TempVATReportLine.Base += VATReportLine.Base;
+        TempVATReportLine.Amount += VATReportLine.Amount;
+        UpdateNumberOfSupplies(TempVATReportLine,VATEntry."Transaction No.");
+        TempVATReportLine.MODIFY;
+      END ELSE BEGIN
+        NextLineNo += 10000;
+        TempVATReportLine := VATReportLine;
+        TempVATReportLine."Line No." := NextLineNo;
+        UpdateNumberOfSupplies(TempVATReportLine,VATEntry."Transaction No.");
+        TempVATReportLine.INSERT;
+      END;
+      WITH TempVATReportLineRelation DO BEGIN
+        INIT;
+        "VAT Report No." := TempVATReportLine."VAT Report No.";
+        "VAT Report Line No." := TempVATReportLine."Line No.";
+        "Table No." := DATABASE::"VAT Entry";
+        "Entry No." := VATEntry."Entry No.";
+        INSERT;
+      END;
+    END;
+
+    PROCEDURE SaveBuffer@1470001();
+    VAR
+      VATReportLineRelation@1140000 : Record 744;
+    BEGIN
+      TempVATReportLine.RESET;
+      IF TempVATReportLine.FINDSET THEN
+        REPEAT
+          VATReportLine := TempVATReportLine;
+          VATReportLine.Amount := ROUND(TempVATReportLine.Amount,1);
+          VATReportLine.Base := ROUND(TempVATReportLine.Base,1);
+          VATReportLine."Line No." := VATReportLine.GetNextLineNo(VATReportHeader."No.");
+          VATReportLine.INSERT(TRUE);
+          TempVATReportLineRelation.SETRANGE("VAT Report No.",TempVATReportLine."VAT Report No.");
+          TempVATReportLineRelation.SETRANGE("VAT Report Line No.",TempVATReportLine."Line No.");
+          IF TempVATReportLineRelation.FINDSET THEN
+            REPEAT
+              VATReportLineRelation := TempVATReportLineRelation;
+              VATReportLineRelation."VAT Report Line No." := VATReportLine."Line No.";
+              VATReportLineRelation.INSERT;
+            UNTIL TempVATReportLineRelation.NEXT = 0;
+        UNTIL TempVATReportLine.NEXT = 0;
+    END;
+
+    PROCEDURE SaveCorrBuffer@1140000();
+    VAR
+      VATReportLine2@1140000 : Record 741;
+      VATReportLineRelation@1140001 : Record 744;
+    BEGIN
+      TempVATReportLine.RESET;
+      IF TempVATReportLine.FINDSET THEN
+        REPEAT
+          VATReportLine2.SETRANGE("VAT Report to Correct",VATReportHeader."Original Report No.");
+          VATReportLine2.SETRANGE("Able to Correct Line",TRUE);
+          VATReportLine2.SETRANGE("VAT Registration No.",TempVATReportLine."VAT Registration No.");
+          VATReportLine2.SETRANGE("Country/Region Code",TempVATReportLine."Country/Region Code");
+          VATReportLine2.SETRANGE("Registration No.",TempVATReportLine."Registration No.");
+          VATReportLine2.SETRANGE("Trade Role Type",TempVATReportLine."Trade Role Type");
+          VATReportLine2.SETRANGE("EU 3-Party Trade",TempVATReportLine."EU 3-Party Trade");
+          VATReportLine2.SETRANGE("EU Service",TempVATReportLine."EU Service");
+          IF NOT VATReportLine2.FINDLAST THEN BEGIN
+            VATReportLine := TempVATReportLine;
+            VATReportLine.Amount := ROUND(TempVATReportLine.Amount,1);
+            VATReportLine.Base := ROUND(TempVATReportLine.Base,1);
+            VATReportLine."Line No." := VATReportLine.GetNextLineNo(VATReportHeader."No.");
+            VATReportLine.INSERT(TRUE);
+            TempVATReportLineRelation.SETRANGE("VAT Report No.",TempVATReportLine."VAT Report No.");
+            TempVATReportLineRelation.SETRANGE("VAT Report Line No.",TempVATReportLine."Line No.");
+            IF TempVATReportLineRelation.FINDSET THEN
+              REPEAT
+                VATReportLineRelation := TempVATReportLineRelation;
+                VATReportLineRelation."VAT Report Line No." := VATReportLine."Line No.";
+                VATReportLineRelation.INSERT;
+              UNTIL TempVATReportLineRelation.NEXT = 0;
+          END ELSE
+            IF VATReportLine2.Base <> ROUND(TempVATReportLine.Base,1) THEN
+              TempVATReportLine.InsertCorrLine(
+                VATReportHeader,VATReportLine2,TempVATReportLine,TempVATReportLineRelation);
+        UNTIL TempVATReportLine.NEXT = 0;
+    END;
+
+    PROCEDURE GetCountryCode@1470002(VATEntry@1470000 : Record 254) : Code[10];
+    BEGIN
+      EXIT(VATEntry."Country/Region Code");
+    END;
+
+    PROCEDURE GetTradeRoleType@1470003(EU3PartyTrade@1470000 : Boolean) : Integer;
+    BEGIN
+      IF EU3PartyTrade THEN
+        EXIT(VATReportLine."Trade Role Type"::"Intermediate Trade");
+
+      EXIT(VATReportLine."Trade Role Type"::"Direct Trade");
+    END;
+
+    PROCEDURE UpdateNumberOfSupplies@1470004(VAR VATReportLine@1470001 : Record 741;TransactionNo@1470000 : Integer);
+    BEGIN
+      IF NOT TransBuffer.GET(TransactionNo) THEN BEGIN
+        IF VATReportLine."Line Type" = VATReportLine."Line Type"::Cancellation THEN
+          VATReportLine."Number of Supplies" -= 1
+        ELSE
+          VATReportLine."Number of Supplies" += 1;
+        TransBuffer.Number := TransactionNo;
+        TransBuffer.INSERT;
+      END;
+    END;
+
+    PROCEDURE IsEUCountry@1470005(VATEntry@1470000 : Record 254) : Boolean;
+    VAR
+      Country@1470001 : Record 9;
+    BEGIN
+      IF VATEntry."Country/Region Code" <> '' THEN BEGIN
+        Country.GET(VATEntry."Country/Region Code");
+        EXIT(Country."EU Country/Region Code" <> '');
+      END;
+      EXIT(FALSE);
+    END;
+
+    PROCEDURE AddVATReportLine@1470006(VATEntry@1470000 : Record 254);
+    BEGIN
+      IF NOT IsEUCountry(VATEntry) THEN
+        EXIT;
+
+      WITH VATReportLine DO BEGIN
+        INIT;
+        "VAT Report No." := VATReportHeader."No.";
+        CASE VATEntry.Type OF
+          VATEntry.Type::Sale:
+            "Trade Type" := "Trade Type"::Sale;
+          VATEntry.Type::Purchase:
+            "Trade Type" := "Trade Type"::Purchase;
+        END;
+        "Country/Region Code" := GetCountryCode(VATEntry);
+        "VAT Registration No." := VATEntry."VAT Registration No.";
+        Base := -VATEntry.Base;
+        Amount := -VATEntry.Amount;
+        "EU 3-Party Trade" := VATEntry."EU 3-Party Trade";
+        "Trade Role Type" := GetTradeRoleType(VATEntry."EU 3-Party Trade");
+        "EU Service" := VATEntry."EU Service";
+        "System-Created" := TRUE;
+        AddBuffer(VATEntry);
+      END;
+    END;
+
+    PROCEDURE UpdateProgressBar@1470012();
+    BEGIN
+      RecordNo := RecordNo + 1;
+      NewTime := TIME;
+      IF (NewTime - OldTime > 100) OR (NewTime < OldTime) THEN BEGIN
+        NewProgress := ROUND(RecordNo / NoOfRecords * 100,1);
+        IF NewProgress <> OldProgress THEN BEGIN
+          OldProgress := NewProgress;
+          Window.UPDATE(2,NewProgress)
+        END;
+        OldTime := TIME;
+      END;
+    END;
+
+    PROCEDURE SetFilters@1470007(VAR VATEntry@1470000 : Record 254);
+    BEGIN
+      WITH VATReportHeader DO BEGIN
+        VATEntry.SETRANGE("EU Service");
+        CASE "EU Goods/Services" OF
+          "EU Goods/Services"::Goods:
+            VATEntry.SETRANGE("EU Service",FALSE);
+          "EU Goods/Services"::Services:
+            VATEntry.SETRANGE("EU Service",TRUE);
+        END;
+        VATEntry.SETRANGE("Posting Date","Start Date","End Date");
+      END;
+    END;
 
     BEGIN
     END.

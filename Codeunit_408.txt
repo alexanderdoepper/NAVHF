@@ -2,9 +2,9 @@ OBJECT Codeunit 408 DimensionManagement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,26 +18,26 @@ OBJECT Codeunit 408 DimensionManagement
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Dimensions %1 and %2 can''t be used concurrently.;ESP=Dimensiones %1 y %2 no pueden usarse simult†neam.;DEA=Die Dimensionen %1 und %2 kînnen nicht gleichzeitig verwendet werden.';
-      Text001@1001 : TextConst 'ENU=Dimension combinations %1 - %2 and %3 - %4 can''t be used concurrently.;ESP=Combin. dimensi¢n %1 - %2 y %3 - %4 no pueden usarse al mismo tiempo.;DEA=Die Dimensionskombinationen %1 - %2 und %3 - %4 kînnen nicht gleichzeitig verwendet werden.';
-      Text002@1002 : TextConst 'ENU=This Shortcut Dimension is not defined in the %1.;ESP=Este Shortcut de dimensi¢n no est† def. en el %1.;DEA=Dieser Shortcutdimensionscode ist in der %1 nicht definiert.';
-      Text003@1003 : TextConst 'ENU=%1 is not an available %2 for that dimension.;ESP=%1 no est† disponible %2 para esa dimensi¢n.;DEA=Der %1 ist kein gÅltiger %2 fÅr diese Dimension.';
-      Text004@1004 : TextConst 'ENU=Select a %1 for the %2 %3.;ESP=Selecc. %1 para el %2 %3.;DEA=WÑhlen Sie einen %1 fÅr den %2 %3 aus.';
-      Text005@1005 : TextConst 'ENU=Select a %1 for the %2 %3 for %4 %5.;ESP=Selecc. %1 para el %2 %3 para %4 %5.;DEA=WÑhlen Sie einen %1 fÅr den %2 %3 fÅr %4 %5 aus.';
-      Text006@1006 : TextConst 'ENU=Select %1 %2 for the %3 %4.;ESP=Selecc. %1 %2 para el %3 %4.;DEA=WÑhlen Sie einen %1 %2 fÅr den %3 %4 aus.';
-      Text007@1007 : TextConst 'ENU=Select %1 %2 for the %3 %4 for %5 %6.;ESP=Selecc. %1 %2 para el %3 %4 para %5 %6.;DEA=WÑhlen Sie einen %1 %2 fÅr den %3 %4 fÅr %5 %6 aus.';
-      Text008@1008 : TextConst 'ENU=%1 %2 must be blank.;ESP=%1 %2 debe ser blanco.;DEA=Der %1 %2 muss leer sein.';
-      Text009@1009 : TextConst 'ENU=%1 %2 must be blank for %3 %4.;ESP=%1 %2 debe ser blanco para %3 %4.;DEA=Der %1 %2 muss fÅr %3 %4 leer sein.';
-      Text010@1010 : TextConst 'ENU=%1 %2 must not be mentioned.;ESP=%1 %2 no debe ser mencionado.;DEA=Der %1 %2 darf nicht angegeben werden.';
-      Text011@1011 : TextConst 'ENU=%1 %2 must not be mentioned for %3 %4.;ESP=%1 %2 no debe ser mencionado para %3 %4.;DEA=Der %1 %2 darf fÅr %3 %4 nicht angegeben werden.';
-      Text012@1012 : TextConst 'ENU=A %1 used in %2 has not been used in %3.;ESP=Un %1 usado en %2 no ha sido usado en %3.;DEA=Ein in %2 eingesetzter %1 wurde nicht in %3 verwendet.';
-      Text013@1013 : TextConst 'ENU=%1 for %2 %3 is not the same in %4 and %5.;ESP=%1 para %2 %3 no es lo mismo en %4 y %5.;DEA=Der %1 fÅr den %2 %3 ist fÅr %4 und %5 nicht identisch.';
-      Text014@1014 : TextConst 'ENU=%1 %2 is blocked.;ESP=%1 %2 est† bloqueado.;DEA=%1 %2 ist gesperrt.';
-      Text015@1015 : TextConst 'ENU=%1 %2 can''t be found.;ESP=%1 %2 no puede encontrarse.;DEA=%1 %2 kann nicht gefunden werden.';
-      Text016@1016 : TextConst 'ENU=%1 %2 - %3 is blocked.;ESP=%1 %2 - %3 est† bloq.;DEA=%1 %2 - %3 ist gesperrt.';
-      Text017@1017 : TextConst 'ENU=%1 for %2 %3 - %4 must not be %5.;ESP=%1 para %2 %3 - %4 no debe ser %5.;DEA=Die %1 fÅr %2 %3 - %4 darf nicht %5 sein.';
-      Text018@1018 : TextConst 'ENU=%1 for %2 is missing.;ESP=%1 para %2 se pierde.;DEA=Der %1 fÅr %2 fehlt.';
-      Text019@1028 : TextConst 'ENU=You have changed a dimension.\\Do you want to update the lines?;ESP=Ha cambiado una dimensi¢n.\\®Desea actualizar las l°neas?;DEA=Sie haben eine Dimension geÑndert.\\Mîchten Sie die Zeilen aktualisieren?';
+      Text000@1000 : TextConst 'DEU=Die Dimensionen %1 und %2 kînnen nicht gleichzeitig verwendet werden.;ENU=Dimensions %1 and %2 can''t be used concurrently.';
+      Text001@1001 : TextConst 'DEU=Die Dimensionskombinationen %1 - %2 und %3 - %4 kînnen nicht gleichzeitig verwendet werden.;ENU=Dimension combinations %1 - %2 and %3 - %4 can''t be used concurrently.';
+      Text002@1002 : TextConst 'DEU=Dieser Shortcutdimensionscode ist in der %1 nicht definiert.;ENU=This Shortcut Dimension is not defined in the %1.';
+      Text003@1003 : TextConst 'DEU=Der %1 ist kein gÅltiger %2 fÅr diese Dimension.;ENU=%1 is not an available %2 for that dimension.';
+      Text004@1004 : TextConst 'DEU=WÑhlen Sie einen %1 fÅr den %2 %3 aus.;ENU=Select a %1 for the %2 %3.';
+      Text005@1005 : TextConst 'DEU=WÑhlen Sie einen %1 fÅr den %2 %3 fÅr %4 %5 aus.;ENU=Select a %1 for the %2 %3 for %4 %5.';
+      Text006@1006 : TextConst 'DEU=WÑhlen Sie einen %1 %2 fÅr den %3 %4 aus.;ENU=Select %1 %2 for the %3 %4.';
+      Text007@1007 : TextConst 'DEU=WÑhlen Sie einen %1 %2 fÅr den %3 %4 fÅr %5 %6 aus.;ENU=Select %1 %2 for the %3 %4 for %5 %6.';
+      Text008@1008 : TextConst 'DEU=Der %1 %2 muss leer sein.;ENU=%1 %2 must be blank.';
+      Text009@1009 : TextConst 'DEU=Der %1 %2 muss fÅr %3 %4 leer sein.;ENU=%1 %2 must be blank for %3 %4.';
+      Text010@1010 : TextConst 'DEU=Der %1 %2 darf nicht angegeben werden.;ENU=%1 %2 must not be mentioned.';
+      Text011@1011 : TextConst 'DEU=Der %1 %2 darf fÅr %3 %4 nicht angegeben werden.;ENU=%1 %2 must not be mentioned for %3 %4.';
+      Text012@1012 : TextConst 'DEU=Ein in %2 eingesetzter %1 wurde nicht in %3 verwendet.;ENU=A %1 used in %2 has not been used in %3.';
+      Text013@1013 : TextConst 'DEU=Der %1 fÅr den %2 %3 ist fÅr %4 und %5 nicht identisch.;ENU=%1 for %2 %3 is not the same in %4 and %5.';
+      Text014@1014 : TextConst 'DEU=%1 %2 ist gesperrt.;ENU=%1 %2 is blocked.';
+      Text015@1015 : TextConst 'DEU=%1 %2 kann nicht gefunden werden.;ENU=%1 %2 can''t be found.';
+      Text016@1016 : TextConst 'DEU=%1 %2 - %3 ist gesperrt.;ENU=%1 %2 - %3 is blocked.';
+      Text017@1017 : TextConst 'DEU=Die %1 fÅr %2 %3 - %4 darf nicht %5 sein.;ENU=%1 for %2 %3 - %4 must not be %5.';
+      Text018@1018 : TextConst 'DEU=Der %1 fÅr %2 fehlt.;ENU=%1 for %2 is missing.';
+      Text019@1028 : TextConst 'DEU=Sie haben eine Dimension geÑndert.\\Mîchten Sie die Zeilen aktualisieren?;ENU=You have changed a dimension.\\Do you want to update the lines?';
       TempDimBuf1@1019 : TEMPORARY Record 360;
       TempDimBuf2@1020 : TEMPORARY Record 360;
       ObjTransl@1027 : Record 377;

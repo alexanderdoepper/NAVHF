@@ -2,9 +2,9 @@ OBJECT Table 950 Time Sheet Header
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -19,21 +19,17 @@ OBJECT Table 950 Time Sheet Header
                TimeSheetCommentLine.DELETEALL;
              END;
 
-    CaptionML=[ENU=Time Sheet Header;
-               ESP=Encabezado hoja horas;
-               DEA=Arbeitszeittabellenkopf];
+    CaptionML=[DEU=Arbeitszeittabellenkopf;
+               ENU=Time Sheet Header];
   }
   FIELDS
   {
-    { 1   ;   ;No.                 ;Code20        ;CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
-    { 3   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
-                                                              ESP=Fecha inicial;
-                                                              DEA=Startdatum] }
-    { 4   ;   ;Ending Date         ;Date          ;CaptionML=[ENU=Ending Date;
-                                                              ESP=Fecha final;
-                                                              DEA=Enddatum] }
+    { 1   ;   ;No.                 ;Code20        ;CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
+    { 3   ;   ;Starting Date       ;Date          ;CaptionML=[DEU=Startdatum;
+                                                              ENU=Starting Date] }
+    { 4   ;   ;Ending Date         ;Date          ;CaptionML=[DEU=Enddatum;
+                                                              ENU=Ending Date] }
     { 5   ;   ;Resource No.        ;Code20        ;TableRelation=Resource;
                                                    OnValidate=BEGIN
                                                                 ResourcesSetup.GET;
@@ -46,50 +42,42 @@ OBJECT Table 950 Time Sheet Header
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Resource No.;
-                                                              ESP=Nß recurso;
-                                                              DEA=Ressourcennr.] }
+                                                   CaptionML=[DEU=Ressourcennr.;
+                                                              ENU=Resource No.] }
     { 7   ;   ;Owner User ID       ;Code50        ;TableRelation="User Setup";
-                                                   CaptionML=[ENU=Owner User ID;
-                                                              ESP=Id. usuario del propietario;
-                                                              DEA=Benutzer-ID des Besitzers] }
+                                                   CaptionML=[DEU=Benutzer-ID des Besitzers;
+                                                              ENU=Owner User ID] }
     { 8   ;   ;Approver User ID    ;Code50        ;TableRelation="User Setup";
-                                                   CaptionML=[ENU=Approver User ID;
-                                                              ESP=Id. usuario del aprobador;
-                                                              DEA=Benutzer-ID des Genehmigers] }
+                                                   CaptionML=[DEU=Benutzer-ID des Genehmigers;
+                                                              ENU=Approver User ID] }
     { 12  ;   ;Open Exists         ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Line" WHERE (Time Sheet No.=FIELD(No.),
                                                                                               Status=CONST(Open)));
-                                                   CaptionML=[ENU=Open Exists;
-                                                              ESP=Existen abiertos;
-                                                              DEA=Offenes Element vorhanden];
+                                                   CaptionML=[DEU=Offenes Element vorhanden;
+                                                              ENU=Open Exists];
                                                    Editable=No }
     { 13  ;   ;Submitted Exists    ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Line" WHERE (Time Sheet No.=FIELD(No.),
                                                                                               Status=CONST(Submitted)));
-                                                   CaptionML=[ENU=Submitted Exists;
-                                                              ESP=Existen enviados;
-                                                              DEA=öbermitteltes Element vorhanden];
+                                                   CaptionML=[DEU=öbermitteltes Element vorhanden;
+                                                              ENU=Submitted Exists];
                                                    Editable=No }
     { 14  ;   ;Rejected Exists     ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Line" WHERE (Time Sheet No.=FIELD(No.),
                                                                                               Status=CONST(Rejected)));
-                                                   CaptionML=[ENU=Rejected Exists;
-                                                              ESP=Existen rechazados;
-                                                              DEA=Abgelehntes Element vorhanden];
+                                                   CaptionML=[DEU=Abgelehntes Element vorhanden;
+                                                              ENU=Rejected Exists];
                                                    Editable=No }
     { 15  ;   ;Approved Exists     ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Line" WHERE (Time Sheet No.=FIELD(No.),
                                                                                               Status=CONST(Approved)));
-                                                   CaptionML=[ENU=Approved Exists;
-                                                              ESP=Existen aprobados;
-                                                              DEA=Genehmigtes Element vorhanden];
+                                                   CaptionML=[DEU=Genehmigtes Element vorhanden;
+                                                              ENU=Approved Exists];
                                                    Editable=No }
     { 16  ;   ;Posted Exists       ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Posting Entry" WHERE (Time Sheet No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Posted Exists;
-                                                              ESP=Existen registrados;
-                                                              DEA=Gebuchtes Element vorhanden];
+                                                   CaptionML=[DEU=Gebuchtes Element vorhanden;
+                                                              ENU=Posted Exists];
                                                    Editable=No }
     { 20  ;   ;Quantity            ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Time Sheet Detail".Quantity WHERE (Time Sheet No.=FIELD(No.),
@@ -99,52 +87,41 @@ OBJECT Table 950 Time Sheet Header
                                                                                                        Date=FIELD(Date Filter),
                                                                                                        Posted=FIELD(Posted Filter),
                                                                                                        Type=FIELD(Type Filter)));
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge] }
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity] }
     { 21  ;   ;Posted Quantity     ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Time Sheet Posting Entry".Quantity WHERE (Time Sheet No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Posted Quantity;
-                                                              ESP=Cantidad registrada;
-                                                              DEA=Gebuchte Menge] }
+                                                   CaptionML=[DEU=Gebuchte Menge;
+                                                              ENU=Posted Quantity] }
     { 26  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Time Sheet Comment Line" WHERE (No.=FIELD(No.),
                                                                                                       Time Sheet Line No.=CONST(0)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
     { 30  ;   ;Status Filter       ;Option        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Status Filter;
-                                                              ESP=Filtro estado;
-                                                              DEA=Statusfilter];
-                                                   OptionCaptionML=[ENU=Open,Submitted,Rejected,Approved;
-                                                                    ESP=Abiertos,Enviados,Rechazados,Aprobados;
-                                                                    DEA=Offen,öbermittelt,Abgelehnt,Genehmigt];
+                                                   CaptionML=[DEU=Statusfilter;
+                                                              ENU=Status Filter];
+                                                   OptionCaptionML=[DEU=Offen,öbermittelt,Abgelehnt,Genehmigt;
+                                                                    ENU=Open,Submitted,Rejected,Approved];
                                                    OptionString=Open,Submitted,Rejected,Approved }
     { 31  ;   ;Job No. Filter      ;Code20        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Job No. Filter;
-                                                              ESP=Filtro nß proyecto;
-                                                              DEA=Projektnr.-Filter] }
+                                                   CaptionML=[DEU=Projektnr.-Filter;
+                                                              ENU=Job No. Filter] }
     { 32  ;   ;Job Task No. Filter ;Code20        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Job Task No. Filter;
-                                                              ESP=Filtro nß tarea proyecto;
-                                                              DEA=Projektaufgabennr.-Filter] }
+                                                   CaptionML=[DEU=Projektaufgabennr.-Filter;
+                                                              ENU=Job Task No. Filter] }
     { 33  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 34  ;   ;Posted Filter       ;Boolean       ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Posted Filter;
-                                                              ESP=Filtro registrado;
-                                                              DEA=Gebuchter Filter] }
+                                                   CaptionML=[DEU=Gebuchter Filter;
+                                                              ENU=Posted Filter] }
     { 35  ;   ;Type Filter         ;Option        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Type Filter;
-                                                              ESP=Filtro tipo;
-                                                              DEA=Artenfilter];
-                                                   OptionCaptionML=[ENU=" ,Resource,Job,Service,Absence,Assembly Order";
-                                                                    ESP="OptionString=[ ,Recurso,Tarea,Servicio,Ausencia,Pedido de ensamblado]]";
-                                                                    DEA=" ,Ressource,Projekt,Service,Abwesenheit,Montageauftrag"];
+                                                   CaptionML=[DEU=Artenfilter;
+                                                              ENU=Type Filter];
+                                                   OptionCaptionML=[DEU=" ,Resource,Job,Service,Absence,Assembly Order";
+                                                                    ENU=" ,Resource,Job,Service,Absence,Assembly Order"];
                                                    OptionString=[ ,Resource,Job,Service,Absence,Assembly Order] }
   }
   KEYS
@@ -162,9 +139,9 @@ OBJECT Table 950 Time Sheet Header
       Resource@1001 : Record 156;
       ResourcesSetup@1003 : Record 314;
       TimeSheetLine@1000 : Record 951;
-      Text001@1004 : TextConst 'ENU=%1 does not contain lines.;ESP=%1 no contiene l°neas.;DEA=''%1'' enthÑlt keine Zeilen.';
+      Text001@1004 : TextConst 'DEU=''%1'' enthÑlt keine Zeilen.;ENU=%1 does not contain lines.';
       TimeSheetMgt@1005 : Codeunit 950;
-      Text002@1006 : TextConst 'ENU=No time sheets are available. The time sheet administrator must create time sheets before you can access them in this window.;ESP=No hay hojas de horas disponibles. El administrador de hojas de horas debe crear hojas de horas antes de que pueda acceder a ellas en esta ventana.;DEA=Keine Arbeitszeittabellen verfÅgbar. Der Arbeitszeittabellen-Administrator muss Arbeitszeittabellen erstellen, bevor Sie sie in diesem Fenster aufrufen kînnen.';
+      Text002@1006 : TextConst 'DEU=Keine Arbeitszeittabellen verfÅgbar. Der Arbeitszeittabellen-Administrator muss Arbeitszeittabellen erstellen, bevor Sie sie in diesem Fenster aufrufen kînnen.;ENU=No time sheets are available. The time sheet administrator must create time sheets before you can access them in this window.';
 
     PROCEDURE CalcQtyWithStatus@1(Status@1000 : 'Open,Submitted,Rejected,Approved') : Decimal;
     BEGIN

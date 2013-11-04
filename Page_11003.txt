@@ -2,19 +2,19 @@ OBJECT Page 11003 Data Export Record Definitions
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Data Export Record Definitions;
-               DEA=Datensatzdefinitionen fÅr Datenexport];
+    CaptionML=[DEU=Datenexport - Datensatzdefinitionen;
+               ENU=Data Export Record Definitions];
     SourceTable=Table11003;
     DataCaptionFields=Data Export Code;
     PageType=List;
-    PromotedActionCategoriesML=[ENU=New,Process,Report,Record Definition,DTD File;
-                                DEA=Neu,Prozess,Bericht,Datensatzdefinition,DTD-Datei];
+    PromotedActionCategoriesML=[DEU=Neu,Prozess,Bericht,Datensatz Definition,DTD-Datei;
+                                ENU=New,Process,Report,Record Definition,DTD File];
     OnOpenPage=BEGIN
                  MoveFiltersToFilterGroup(2);
                END;
@@ -24,13 +24,13 @@ OBJECT Page 11003 Data Export Record Definitions
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1140012 ;1   ;ActionGroup;
-                      CaptionML=[ENU=Record Definition;
-                                 DEA=Datensatzdefinition];
+                      CaptionML=[DEU=Datensatzdefinition;
+                                 ENU=Record Definition];
                       Image=XMLFile }
       { 1140013 ;2   ;Action    ;
                       Name=Data Export Record Source;
-                      CaptionML=[ENU=Record Source;
-                                 DEA=Datensatzquelle];
+                      CaptionML=[DEU=Datensatzherkunft;
+                                 ENU=Record Source];
                       RunObject=Page 11004;
                       RunPageView=SORTING(Data Export Code,Data Exp. Rec. Type Code,Line No.);
                       RunPageLink=Data Export Code=FIELD(Data Export Code),
@@ -39,8 +39,8 @@ OBJECT Page 11003 Data Export Record Definitions
                       Image=EditLines;
                       PromotedCategory=Category4 }
       { 1140002 ;2   ;Action    ;
-                      CaptionML=[ENU=Validate;
-                                 DEA=öberprÅfen];
+                      CaptionML=[DEU=öberprÅfen;
+                                 ENU=Validate];
                       Promoted=Yes;
                       Image=Approve;
                       PromotedCategory=Process;
@@ -52,8 +52,8 @@ OBJECT Page 11003 Data Export Record Definitions
                                END;
                                 }
       { 1140010 ;2   ;Action    ;
-                      CaptionML=[ENU=Export;
-                                 DEA=Exportieren];
+                      CaptionML=[DEU=Exportieren;
+                                 ENU=Export];
                       Promoted=Yes;
                       Image=ExportFile;
                       PromotedCategory=Process;
@@ -70,13 +70,13 @@ OBJECT Page 11003 Data Export Record Definitions
                                 }
       { 1140009 ;1   ;ActionGroup;
                       Name=DTD File;
-                      CaptionML=[ENU=DTD File;
-                                 DEA=DTD-Datei];
+                      CaptionML=[DEU=DTD-Datei;
+                                 ENU=DTD File];
                       Image=XMLFile }
       { 1140006 ;2   ;Action    ;
                       Name=Import;
-                      CaptionML=[ENU=Import;
-                                 DEA=Importieren];
+                      CaptionML=[DEU=Importieren;
+                                 ENU=Import];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=Import;
@@ -88,8 +88,8 @@ OBJECT Page 11003 Data Export Record Definitions
                                 }
       { 1140004 ;2   ;Action    ;
                       Name=Export;
-                      CaptionML=[ENU=Export;
-                                 DEA=Exportieren];
+                      CaptionML=[DEU=Exportieren;
+                                 ENU=Export];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=Export;

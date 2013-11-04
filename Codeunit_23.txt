@@ -2,9 +2,9 @@ OBJECT Codeunit 23 Item Jnl.-Post Batch
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -21,17 +21,17 @@ OBJECT Codeunit 23 Item Jnl.-Post Batch
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=cannot exceed %1 characters;ESP=no puede superar %1 caracteres;DEA=kann nicht %1 Zeichen Åberschreiten';
-      Text001@1001 : TextConst 'ENU=Journal Batch Name    #1##########\\;ESP=Nombre secci¢n diario #1##########\\;DEA=Buch.-Blattname       #1##########\\';
-      Text002@1002 : TextConst 'ENU=Checking lines        #2######\;ESP=Comprobando l°neas    #2######\;DEA=Zeilen prÅfen         #2######\';
-      Text003@1003 : TextConst 'ENU=Posting lines         #3###### @4@@@@@@@@@@@@@\;ESP=Registrando l°neas    #3###### @4@@@@@@@@@@@@@\;DEA=Zeilen buchen         #3###### @4@@@@@@@@@@@@@\';
-      Text004@1004 : TextConst 'ENU=Updating lines        #5###### @6@@@@@@@@@@@@@;ESP=Actualizando l°ns.    #5###### @6@@@@@@@@@@@@@;DEA=Zeilen aktualisieren  #5###### @6@@@@@@@@@@@@@';
-      Text005@1005 : TextConst 'ENU=Posting lines         #3###### @4@@@@@@@@@@@@@;ESP=Registrando l°neas    #3###### @4@@@@@@@@@@@@@;DEA=Zeilen buchen         #3###### @4@@@@@@@@@@@@@';
-      Text006@1006 : TextConst 'ENU=A maximum of %1 posting number series can be used in each journal.;ESP=Se puede utilizar un m†ximo de %1 n£meros de serie de registro en cada diario.;DEA=Ein Maximum von %1 Buchungsnr.-Serien';
-      Text007@1007 : TextConst 'ENU=<Month Text>;ESP=<Month Text>;DEA=<Month Text>';
-      Text008@1008 : TextConst 'ENU=There are new postings made in the period you want to revalue item no. %1.\;ESP=Hay nuevos registros en el periodo en que quiere revalorizar el nß prod. %1.\;DEA=Es existieren neue Buchungen in der Periode, fÅr die Sie den Artikel Nr. %1 neu bewerten mîchten.\';
-      Text009@1009 : TextConst 'ENU=You must calculate the inventory value again.;ESP=Debe calcular el valor de inventario otra vez.;DEA=Sie mÅssen den Lagerwert neu berechnen.';
-      Text010@1061 : TextConst '@@@="One or more reservation entries exist for the item with Item No. = 1000, Location Code = BLUE, Variant Code = NEW which may be disrupted if you post this negative adjustment. Do you want to continue?";ENU="One or more reservation entries exist for the item with %1 = %2, %3 = %4, %5 = %6 which may be disrupted if you post this negative adjustment. Do you want to continue?";ESP="Existen uno o m†s movimientos de reserva para el producto con %1 = %2, %3 = %4, %5 = %6 que pueden alterarse si registra este ajuste negativo. ®Desea continuar?";DEA="Mindestens ein Reservierungsposten ist fÅr das Element mit %1 = %2, %3 = %4, %5 = %6 vorhanden, das mîglicherweise unterbrochen wird, wenn Sie diese negative Anpassung buchen. Mîchten Sie fortfahren?"';
+      Text000@1000 : TextConst 'DEU=kann nicht %1 Zeichen Åberschreiten;ENU=cannot exceed %1 characters';
+      Text001@1001 : TextConst 'DEU=Buch.-Blattname       #1##########\\;ENU=Journal Batch Name    #1##########\\';
+      Text002@1002 : TextConst 'DEU=Zeilen prÅfen         #2######\;ENU=Checking lines        #2######\';
+      Text003@1003 : TextConst 'DEU=Zeilen buchen         #3###### @4@@@@@@@@@@@@@\;ENU=Posting lines         #3###### @4@@@@@@@@@@@@@\';
+      Text004@1004 : TextConst 'DEU=Zeilen aktualisieren  #5###### @6@@@@@@@@@@@@@;ENU=Updating lines        #5###### @6@@@@@@@@@@@@@';
+      Text005@1005 : TextConst 'DEU=Zeilen buchen         #3###### @4@@@@@@@@@@@@@;ENU=Posting lines         #3###### @4@@@@@@@@@@@@@';
+      Text006@1006 : TextConst 'DEU=Ein Maximum von %1 Buchungsnr.-Serien;ENU=A maximum of %1 posting number series can be used in each journal.';
+      Text007@1007 : TextConst 'DEU=<Month Text>;ENU=<Month Text>';
+      Text008@1008 : TextConst 'DEU=Es existieren neue Buchungen in der Periode, fÅr die Sie den Artikel Nr. %1 neu bewerten mîchten.\;ENU=There are new postings made in the period you want to revalue item no. %1.\';
+      Text009@1009 : TextConst 'DEU=Sie mÅssen den Lagerwert neu berechnen.;ENU=You must calculate the inventory value again.';
+      Text010@1061 : TextConst '@@@="One or more reservation entries exist for the item with Item No. = 1000, Location Code = BLUE, Variant Code = NEW which may be disrupted if you post this negative adjustment. Do you want to continue?";DEU="Mindestens ein Reservierungsposten ist fÅr das Element mit %1 = %2, %3 = %4, %5 = %6 vorhanden, das mîglicherweise unterbrochen wird, wenn Sie diese negative Anpassung buchen. Mîchten Sie fortfahren?";ENU="One or more reservation entries exist for the item with %1 = %2, %3 = %4, %5 = %6 which may be disrupted if you post this negative adjustment. Do you want to continue?"';
       ItemJnlTemplate@1010 : Record 82;
       ItemJnlBatch@1011 : Record 233;
       ItemJnlLine@1012 : Record 83;

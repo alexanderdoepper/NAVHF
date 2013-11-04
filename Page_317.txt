@@ -2,15 +2,14 @@ OBJECT Page 317 VAT Statement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT Statement;
-               ESP=Declaraci¢n IVA;
-               DEA=MwSt.-Abrechnung];
+    CaptionML=[DEU=MwSt.-Abrechnung;
+               ENU=VAT Statement];
     SaveValues=Yes;
     MultipleNewLines=Yes;
     SourceTable=Table256;
@@ -36,14 +35,12 @@ OBJECT Page 317 VAT Statement
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 28      ;1   ;ActionGroup;
-                      CaptionML=[ENU=VAT &Statement;
-                                 ESP=&Declaraci¢n IVA;
-                                 DEA=&MwSt.-Abrechnung];
+                      CaptionML=[DEU=&MwSt.-Abrechnung;
+                                 ENU=VAT &Statement];
                       Image=Suggest }
       { 37      ;2   ;Action    ;
-                      CaptionML=[ENU=P&review;
-                                 ESP=Vista p&relim.;
-                                 DEA=&Vorschau];
+                      CaptionML=[DEU=&Vorschau;
+                                 ENU=P&review];
                       RunObject=Page 474;
                       RunPageLink=Statement Template Name=FIELD(Statement Template Name),
                                   Name=FIELD(Statement Name);
@@ -53,9 +50,8 @@ OBJECT Page 317 VAT Statement
       { 1900000006;0 ;ActionContainer;
                       ActionContainerType=Reports }
       { 1902106506;1 ;Action    ;
-                      CaptionML=[ENU=VAT Statement;
-                                 ESP=Declaraci¢n IVA;
-                                 DEA=MwSt.-Abrechnung];
+                      CaptionML=[DEU=MwSt.-Abrechnung;
+                                 ENU=VAT Statement];
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report;
@@ -66,16 +62,14 @@ OBJECT Page 317 VAT Statement
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 31      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 32      ;2   ;Action    ;
                       Name=Print;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Print;
-                                 ESP=Imprimir;
-                                 DEA=Drucken];
+                      CaptionML=[DEU=Drucken;
+                                 ENU=Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -86,9 +80,8 @@ OBJECT Page 317 VAT Statement
                                 }
       { 33      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Calc. and Post VAT Settlement;
-                                 ESP=Calc. y registrar liq. IVA;
-                                 DEA=MwSt. abrechnen und buchen];
+                      CaptionML=[DEU=MwSt. abrechnen und buchen;
+                                 ENU=Calc. and Post VAT Settlement];
                       RunObject=Report 20;
                       Promoted=Yes;
                       Image=SettleOpenTransactions;
@@ -96,8 +89,8 @@ OBJECT Page 317 VAT Statement
       { 1140000 ;2   ;Action    ;
                       Name=SalesVATAdvNotAccProof;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Sales VAT Adv. Not. Acc. Proof;
-                                 DEA=UVA Kontennachweis];
+                      CaptionML=[DEU=UVA Kontennachweis;
+                                 ENU=Sales VAT Adv. Not. Acc. Proof];
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report;
@@ -113,8 +106,8 @@ OBJECT Page 317 VAT Statement
       { 1140002 ;2   ;Action    ;
                       Name=VATStatementSchedule;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=VAT Statement Schedule;
-                                 DEA=MwSt.-Abrechnung Schema];
+                      CaptionML=[DEU=MwSt.-Abrechnung Schema;
+                                 ENU=VAT Statement Schedule];
                       Image=Planning;
                       PromotedCategory=Report;
                       OnAction=BEGIN
@@ -133,9 +126,8 @@ OBJECT Page 317 VAT Statement
 
     { 35  ;1   ;Field     ;
                 Lookup=Yes;
-                CaptionML=[ENU=Name;
-                           ESP=Nombre;
-                           DEA=Name];
+                CaptionML=[DEU=Name;
+                           ENU=Name];
                 SourceExpr=CurrentStmtName;
                 OnValidate=BEGIN
                              VATStmtManagement.CheckName(CurrentStmtName,Rec);

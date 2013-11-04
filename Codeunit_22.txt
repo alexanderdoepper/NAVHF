@@ -2,9 +2,9 @@ OBJECT Codeunit 22 Item Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -31,22 +31,22 @@ OBJECT Codeunit 22 Item Jnl.-Post Line
   CODE
   {
     VAR
-      Text000@1063 : TextConst 'ENU=cannot be less than zero;ESP=no puede ser menor a cero;DEA=darf nicht kleiner als null sein';
-      Text001@1071 : TextConst 'ENU=Item Tracking is signed wrongly.;ESP=Seguim. pdto. no est† bien definido.;DEA=Falsche Angabe fÅr die Artikelverfolgung.';
-      Text003@1000 : TextConst 'ENU=Reserved item %1 is not on inventory.;ESP=Producto reservado %1 no est† en inventario.;DEA=Reservierter Artikel %1 ist nicht am Lager.';
-      Text004@1001 : TextConst 'ENU=is too low;ESP=es muy peque§o/a;DEA=ist zu klein';
-      Text005@1002 : TextConst 'ENU=Item %1 is not on inventory.;ESP=El producto %1 no est† en el stock.;DEA=Artikel %1 ist nicht auf Lager.';
-      Text011@1003 : TextConst 'ENU=Tracking Specification is missing.;ESP=Introduzca la especif. seguimiento.;DEA=Verfolgungsspezifikation fehlt.';
-      Text012@1007 : TextConst 'ENU=Item %1 must be reserved.;ESP=Prod. %1 debe ser reservado.;DEA=Artikel %1 muss reserviert werden.';
-      Text014@1009 : TextConst 'ENU=Serial No. %1 is already on inventory.;ESP=Nß serie %1 est† ya en stock.;DEA=Die Seriennr. %1 befindet sich bereits am Lager.';
-      Text015@1010 : TextConst 'ENU=Serial Number is required for Item %1.;ESP=Nß serie es requerido para prod. %1.;DEA=FÅr Artikel %1 ist eine Seriennr. erforderlich.';
-      Text016@1011 : TextConst 'ENU=Lot Number is required for Item %1.;ESP=Nß Lote es requerido para prod. %1.;DEA=FÅr Artikel %1 ist eine Chargennr. erforderlich.';
-      Text017@1012 : TextConst 'ENU=" is before the posting date.";ESP=" es antes la fecha registro.";DEA=" liegt vor dem Buchungsdatum."';
-      Text018@1013 : TextConst 'ENU=Item Tracking Serial No. %1 Lot No. %2 for Item No. %3 Variant %4 cannot be fully applied.;ESP=Nß serie seguim. prod. %1 nß lote. %2 para nß prod. %3 variante %4 no puede ser liq. totalm.;DEA=Artikelverfolgung fÅr Seriennr. %1, Chargennr. %2 fÅr Artikelnr. %3, Variantencode %4 kann nicht vollstÑndig ausgeglichen werden.';
-      Text021@1044 : TextConst 'ENU=You must not define item tracking on %1 %2.;ESP=No debe definir seguim. pdto. en %1 %2.;DEA=Sie dÅrfen fÅr die %1 %2 keine Artikelverfolgung angeben.';
-      Text022@1064 : TextConst 'ENU=You cannot apply %1 to %2 on the same item %3 on Production Order %4.;ESP=No puede aplicar %1 a %2 en el mismo producto %3 en la orden de producci¢n %4.;DEA=Sie kînnen im Fertigungsauftrag %4 %1 nicht mit %2 fÅr denselben Artikel (%3) ausgleichen.';
-      Text100@1006 : TextConst 'ENU=Fatal error when retrieving Tracking Specification.;ESP=Error grave al recuperar la especificaci¢n de seguimiento.;DEA=Schwerwiegender Fehler beim Abrufen der Verfolgungsspezifikation.';
-      Text99000000@1014 : TextConst 'ENU=must not be filled out when reservations exist;ESP=no debe rellenarse cuando hay reservas;DEA=darf nicht eingetragen sein, wenn Reservierungen vorhanden sind';
+      Text000@1063 : TextConst 'DEU=darf nicht kleiner als null sein;ENU=cannot be less than zero';
+      Text001@1071 : TextConst 'DEU=Falsche Angabe fÅr die Artikelverfolgung.;ENU=Item Tracking is signed wrongly.';
+      Text003@1000 : TextConst 'DEU=Reservierter Artikel %1 ist nicht am Lager.;ENU=Reserved item %1 is not on inventory.';
+      Text004@1001 : TextConst 'DEU=ist zu klein;ENU=is too low';
+      Text005@1002 : TextConst 'DEU=Artikel %1 ist nicht auf Lager.;ENU=Item %1 is not on inventory.';
+      Text011@1003 : TextConst 'DEU=Verfolgungsspezifikation fehlt.;ENU=Tracking Specification is missing.';
+      Text012@1007 : TextConst 'DEU=Artikel %1 muss reserviert werden.;ENU=Item %1 must be reserved.';
+      Text014@1009 : TextConst 'DEU=Die Seriennr. %1 befindet sich bereits am Lager.;ENU=Serial No. %1 is already on inventory.';
+      Text015@1010 : TextConst 'DEU=FÅr Artikel %1 ist eine Seriennr. erforderlich.;ENU=Serial Number is required for Item %1.';
+      Text016@1011 : TextConst 'DEU=FÅr Artikel %1 ist eine Chargennr. erforderlich.;ENU=Lot Number is required for Item %1.';
+      Text017@1012 : TextConst 'DEU=" liegt vor dem Buchungsdatum.";ENU=" is before the posting date."';
+      Text018@1013 : TextConst 'DEU=Artikelverfolgung fÅr Seriennr. %1, Chargennr. %2 fÅr Artikelnr. %3, Variantencode %4 kann nicht vollstÑndig ausgeglichen werden.;ENU=Item Tracking Serial No. %1 Lot No. %2 for Item No. %3 Variant %4 cannot be fully applied.';
+      Text021@1044 : TextConst 'DEU=Sie dÅrfen fÅr die %1 %2 keine Artikelverfolgung angeben.;ENU=You must not define item tracking on %1 %2.';
+      Text022@1064 : TextConst 'DEU=Sie kînnen im Fertigungsauftrag %4 %1 nicht mit %2 fÅr denselben Artikel (%3) ausgleichen.;ENU=You cannot apply %1 to %2 on the same item %3 on Production Order %4.';
+      Text100@1006 : TextConst 'DEU=Schwerwiegender Fehler beim Abrufen der Verfolgungsspezifikation.;ENU=Fatal error when retrieving Tracking Specification.';
+      Text99000000@1014 : TextConst 'DEU=darf nicht eingetragen sein, wenn Reservierungen vorhanden sind;ENU=must not be filled out when reservations exist';
       GLSetup@1028 : Record 98;
       Currency@1027 : Record 4;
       InvtSetup@1017 : Record 313;
@@ -112,18 +112,18 @@ OBJECT Codeunit 22 Item Jnl.-Post Line
       PostToGL@1008 : Boolean;
       PostItemJnlLine@1081 : Boolean;
       ProdOrderCompModified@1083 : Boolean;
-      Text023@1061 : TextConst 'ENU=Entries applied to an Outbound Transfer cannot be unapplied.;ESP=No se pueden desliquidar los movimientos liquidados en una transferencia salida.;DEA=Der Ausgleich ausgeglichener Posten fÅr eine ausgehende Umlagerung kann nicht rÅckgÑngig gemacht werden.';
-      Text024@1047 : TextConst 'ENU=Entries applied to a Drop Shipment Order cannot be unapplied.;ESP=No se pueden desliquidar los movimientos liquidados en un pedido env°o directo.;DEA=Der Ausgleich ausgeglichener Posten fÅr einen Direktlieferungsauftrag kann nicht rÅckgÑngig gemacht werden.';
-      Text025@1085 : TextConst 'ENU=Entries applied to a Correction entry cannot be unapplied.;ESP=No se pueden desliquidar los movimientos aplicados a un movimiento de correcci¢n.;DEA=Der Ausgleich ausgeglichener Posten fÅr einen Korrekturposten kann nicht rÅckgÑngig gemacht werden.';
+      Text023@1061 : TextConst 'DEU=Der Ausgleich ausgeglichener Posten fÅr eine ausgehende Umlagerung kann nicht rÅckgÑngig gemacht werden.;ENU=Entries applied to an Outbound Transfer cannot be unapplied.';
+      Text024@1047 : TextConst 'DEU=Der Ausgleich ausgeglichener Posten fÅr einen Direktlieferungsauftrag kann nicht rÅckgÑngig gemacht werden.;ENU=Entries applied to a Drop Shipment Order cannot be unapplied.';
+      Text025@1085 : TextConst 'DEU=Der Ausgleich ausgeglichener Posten fÅr einen Korrekturposten kann nicht rÅckgÑngig gemacht werden.;ENU=Entries applied to a Correction entry cannot be unapplied.';
       IsServUndoConsumption@1088 : Boolean;
-      Text027@1086 : TextConst 'ENU=A fixed application was not unapplied and this prevented the reapplication. Use the Application Worksheet to remove the applications.;ESP=No se desliquid¢ una liquidaci¢n establecida y esto impidi¢ la nueva liquidaci¢n. Utilice la Hoja liquidaci¢n para eliminar las liquidaciones.;DEA=Ein fester Ausgleich wurde nicht rÅckgÑngig gemacht, und dadurch wurde der erneute Ausgleich verhindert. Verwenden Sie den Ausgleichsvorschlag, um die Ausgleiche zu entfernen.';
-      Text01@1087 : TextConst 'ENU=Checking for open entries.;ESP=Comprobando movimientos abiertos.;DEA=Es wird auf offene Posten geprÅft.';
+      Text027@1086 : TextConst 'DEU=Ein fester Ausgleich wurde nicht rÅckgÑngig gemacht, und dadurch wurde der erneute Ausgleich verhindert. Verwenden Sie den Ausgleichsvorschlag, um die Ausgleiche zu entfernen.;ENU=A fixed application was not unapplied and this prevented the reapplication. Use the Application Worksheet to remove the applications.';
+      Text01@1087 : TextConst 'DEU=Es wird auf offene Posten geprÅft.;ENU=Checking for open entries.';
       BlockRetrieveIT@1067 : Boolean;
-      Text029@1091 : TextConst 'ENU=%1 %2 for %3 %4 is reserved for %5.;ESP=%1 %2 para %3 %4 est† reservado para %5.;DEA=%1 ''%2'' fÅr %3 ''%4'' ist fÅr ''%5'' reserviert.';
-      Text030@1092 : TextConst 'ENU=The quantity that you are trying to invoice is larger than the quantity in the item ledger with the entry number %1.;ESP=La cantidad que est† intentando facturar es m†s grande que la de los movs. productos con el n£mero de movimiento %1.;DEA=Die Menge, die Sie fakturieren mîchten, ist grî·er als die Menge im Artikelposten mit der Postennummer %1.';
-      Text031@1093 : TextConst '@@@="%2 = Lot No. %3 = Serial No. Both are tracking numbers.";ENU=You cannot invoice the item %1 with item tracking number %2 %3 in this purchase order before the associated sales order %4 has been invoiced.;ESP=No puede facturar el producto %1 con el n£m. seguimiento de producto %2 %3 en este pedido de compra antes de facturar el pedido de venta %4 asociado.;DEA=Sie kînnen den Artikel %1 mit der Artikelverfolgungsnummer %2 %3 in dieser Bestellung nicht fakturieren, solange der zugeordnete Auftrag %4 nicht fakturiert wurde.';
-      Text032@1094 : TextConst 'ENU=You cannot invoice item %1 in this purchase order before the associated sales order %2 has been invoiced.;ESP=No puede facturar el producto %1 en este pedido de compra antes de facturar el pedido de venta %2 asociado.;DEA=Sie kînnen den Artikel %1 in dieser Bestellung nicht fakturieren, solange der zugeordnete Auftrag %2 nicht fakturiert wurde.';
-      Text033@1040 : TextConst 'ENU=Quantity must be -1, 0 or 1 when Serial No. is stated.;ESP=La cantidad debe ser -1, 0 o 1 si se indica el Nß serie.;DEA=Menge muss -1, 0 oder 1 sein, wenn die Seriennummer angegeben ist.';
+      Text029@1091 : TextConst 'DEU=%1 ''%2'' fÅr %3 ''%4'' ist fÅr ''%5'' reserviert.;ENU=%1 %2 for %3 %4 is reserved for %5.';
+      Text030@1092 : TextConst 'DEU=Die Menge, die Sie fakturieren mîchten, ist grî·er als die Menge im Artikelposten mit der Postennummer %1.;ENU=The quantity that you are trying to invoice is larger than the quantity in the item ledger with the entry number %1.';
+      Text031@1093 : TextConst '@@@="%2 = Lot No. %3 = Serial No. Both are tracking numbers.";DEU=Sie kînnen den Artikel %1 mit der Artikelverfolgungsnummer %2 %3 in dieser Bestellung nicht fakturieren, solange der zugeordnete Auftrag %4 nicht fakturiert wurde.;ENU=You cannot invoice the item %1 with item tracking number %2 %3 in this purchase order before the associated sales order %4 has been invoiced.';
+      Text032@1094 : TextConst 'DEU=Sie kînnen den Artikel %1 in dieser Bestellung nicht fakturieren, solange der zugeordnete Auftrag %2 nicht fakturiert wurde.;ENU=You cannot invoice item %1 in this purchase order before the associated sales order %2 has been invoiced.';
+      Text033@1040 : TextConst 'DEU=Menge muss -1, 0 oder 1 sein, wenn die Seriennummer angegeben ist.;ENU=Quantity must be -1, 0 or 1 when Serial No. is stated.';
 
     PROCEDURE RunWithCheck@13(VAR ItemJnlLine2@1000 : Record 83);
     BEGIN

@@ -2,9 +2,9 @@ OBJECT Codeunit 74 Purch.-Get Receipt
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -27,7 +27,7 @@ OBJECT Codeunit 74 Purch.-Get Receipt
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=The %1 on the %2 %3 and the %4 %5 must be the same.;ESP=El %1 en el %2 %3 y el %4 %5 debe ser el mismo.;DEA=Der %1 auf dem %2 %3 und auf dem %4 %5 muss derselbe sein.';
+      Text000@1000 : TextConst 'DEU=Der %1 auf dem %2 %3 und auf dem %4 %5 muss derselbe sein.;ENU=The %1 on the %2 %3 and the %4 %5 must be the same.';
       PurchHeader@1001 : Record 38;
       PurchLine@1002 : Record 39;
       PurchRcptHeader@1003 : Record 120;

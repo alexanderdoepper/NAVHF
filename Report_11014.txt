@@ -2,14 +2,14 @@ OBJECT Report 11014 Intrastat - Disk Tax Auth DE
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Intrastat - Disk Tax Auth DE;
-               DEA=Intrastat - Diskette DE];
+    CaptionML=[DEU=Intrastat - Diskette DE;
+               ENU=Intrastat - Disk Tax Auth DE];
     ProcessingOnly=Yes;
     OnPreReport=BEGIN
                   IntrastatJnlLine4.COPYFILTERS("Intrastat Jnl. Line");
@@ -256,12 +256,12 @@ OBJECT Report 11014 Intrastat - Disk Tax Auth DE
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Path;
-                             DEA=Pfad];
+                  CaptionML=[DEU=Pfad;
+                             ENU=Path];
                   SourceExpr=Path }
 
     }
@@ -272,11 +272,11 @@ OBJECT Report 11014 Intrastat - Disk Tax Auth DE
   CODE
   {
     VAR
-      Text001@1001 : TextConst 'ENU=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+;DEA=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+';
-      Text003@1003 : TextConst 'ENU=It is not possible to display %1 in a field with a length of %2.;DEA=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.';
-      Text1140002@1140002 : TextConst 'ENU=A:\;DEA=A:\';
-      Text1140003@1140003 : TextConst 'ENU=.ASC;DEA=.ASC';
-      Text1140006@1140006 : TextConst 'ENU=It is not possible to display %1 in a field with a length of %2.;DEA=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.';
+      Text001@1001 : TextConst 'DEU=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+;ENU=ABCDEFGHIJKLMNOPQRSTUVWXYZ/-.+';
+      Text003@1003 : TextConst 'DEU=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.;ENU=It is not possible to display %1 in a field with a length of %2.';
+      Text1140002@1140002 : TextConst 'DEU=A:\;ENU=A:\';
+      Text1140003@1140003 : TextConst 'DEU=.ASC;ENU=.ASC';
+      Text1140006@1140006 : TextConst 'DEU=%1 kann nicht in einem Feld der L„nge %2 angezeigt werden.;ENU=It is not possible to display %1 in a field with a length of %2.';
       IntrastatJnlLine4@1005 : Record 263;
       CompanyInfo@1006 : Record 79;
       Country@1007 : Record 9;

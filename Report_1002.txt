@@ -2,9 +2,9 @@ OBJECT Report 1002 Post Inventory Cost to G/L
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -14,9 +14,8 @@ OBJECT Report 1002 Post Inventory Cost to G/L
                 TableData 5802=rm,
                 TableData 5811=rd,
                 TableData 5832=rm;
-    CaptionML=[ENU=Post Inventory Cost to G/L;
-               ESP=Regis. variaci¢n inventario;
-               DEA=Lagerregulierung buchen];
+    CaptionML=[DEU=Lagerregulierung buchen;
+               ENU=Post Inventory Cost to G/L];
     OnPreReport=BEGIN
                   ValueEntryFilter := ItemValueEntry.GETFILTERS;
                   InvtSetup.GET;
@@ -574,32 +573,27 @@ OBJECT Report 1002 Post Inventory Cost to G/L
                   ContainerType=ContentArea }
 
       { 2   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=PostMethod;
-                  CaptionML=[ENU=Posting Method;
-                             ESP=M‚todo registro;
-                             DEA=Buchungsmethode];
-                  OptionCaptionML=[ENU=Per Posting Group,Per Entry;
-                                   ESP=por Grupo contable,por Movimiento;
-                                   DEA=Pro Buchungsgruppe,Pro Posten];
+                  CaptionML=[DEU=Buchungsmethode;
+                             ENU=Posting Method];
+                  OptionCaptionML=[DEU=Pro Buchungsgruppe,Pro Posten;
+                                   ENU=Per Posting Group,Per Entry];
                   SourceExpr=PostMethod }
 
       { 4   ;2   ;Field     ;
                   Name=DocumentNo;
-                  CaptionML=[ENU=Document No.;
-                             ESP=N§ documento;
-                             DEA=Belegnr.];
+                  CaptionML=[DEU=Belegnr.;
+                             ENU=Document No.];
                   SourceExpr=DocNo }
 
       { 6   ;2   ;Field     ;
                   Name=Post;
-                  CaptionML=[ENU=Post;
-                             ESP=Registrar;
-                             DEA=Buchen];
+                  CaptionML=[DEU=Buchen;
+                             ENU=Post];
                   SourceExpr=Post }
 
     }
@@ -610,12 +604,12 @@ OBJECT Report 1002 Post Inventory Cost to G/L
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Please enter a %1 when posting %2.;ESP=Introduzca %1 cuando registre %2.;DEA=Bitte geben Sie %1 an, wenn Sie %2 buchen.';
-      Text001@1001 : TextConst 'ENU=Do not enter a %1 when posting %2.;ESP=No introduzca %1 cuando registre %2.;DEA=Geben Sie nicht %1 ein, wenn Sie %2 buchen.';
-      Text002@1002 : TextConst 'ENU=Posted %1;ESP=Registrado %1;DEA=Gebuchte %1';
-      Text003@1003 : TextConst 'ENU=Processing items  #1##########;ESP=Procesando prods.            #1##########;DEA=Artikel werden durchgelesen             #1##########';
-      Text005@1005 : TextConst 'ENU=The item no. no longer exists.;ESP=El n§ producto ya no existe.;DEA=Art.-Nr. nicht mehr vorhanden.';
-      Text99000000@1008 : TextConst 'ENU=Processing production order  #1##########;ESP=Procesando orden producci¢n  #1##########;DEA=Fertigungsauftr„ge werden durchgelesen  #1##########';
+      Text000@1000 : TextConst 'DEU=Bitte geben Sie %1 an, wenn Sie %2 buchen.;ENU=Please enter a %1 when posting %2.';
+      Text001@1001 : TextConst 'DEU=Geben Sie nicht %1 ein, wenn Sie %2 buchen.;ENU=Do not enter a %1 when posting %2.';
+      Text002@1002 : TextConst 'DEU=Gebuchte %1;ENU=Posted %1';
+      Text003@1003 : TextConst 'DEU=Artikel werden durchgelesen             #1##########;ENU=Processing items  #1##########';
+      Text005@1005 : TextConst 'DEU=Art.-Nr. nicht mehr vorhanden.;ENU=The item no. no longer exists.';
+      Text99000000@1008 : TextConst 'DEU=Fertigungsauftr„ge werden durchgelesen  #1##########;ENU=Processing production order  #1##########';
       Item@1010 : Record 27;
       GLSetup@1017 : Record 98;
       InvtSetup@1011 : Record 313;
@@ -651,37 +645,37 @@ OBJECT Report 1002 Post Inventory Cost to G/L
       TotalInvtAmt@1039 : Decimal;
       CostAmt@1023 : Decimal;
       Post@1012 : Boolean;
-      Text012@1048 : TextConst 'ENU=per Posting Group,per Entry;ESP=por Grupo contable,por Movimiento;DEA=pro Buchungsgruppe,pro Posten';
+      Text012@1048 : TextConst 'DEU=pro Buchungsgruppe,pro Posten;ENU=per Posting Group,per Entry';
       PostMethodInt@1007 : Integer;
-      PageNoCaptionLbl@2773 : TextConst 'ENU=Page;ESP=P g.;DEA=Seite';
-      PostInvCosttoGLCaptionLbl@2679 : TextConst 'ENU=Post Inventory Cost to G/L;ESP=Regis. variaci¢n inventario;DEA=Lagerregulierung buchen';
-      TestReportnotpostedCaptionLbl@4405 : TextConst 'ENU=Test Report (Not Posted);ESP=Informe prueba (sin registrar);DEA=Testbericht (nicht gebucht)';
-      DocNoCaptionLbl@2117 : TextConst 'ENU=Document No.;ESP=N§ documento;DEA=Belegnr.';
-      EntryNoCaptionLbl@8629 : TextConst 'ENU=Entry No.;ESP=N§ mov.;DEA=Lfd. Nr.';
-      ItemLedgerEntryTypeCaptionLbl@7449 : TextConst 'ENU=Item Ledger Entry Type;ESP=Tipo mov. producto;DEA=Artikelpostenart';
-      SourceNoCaptionLbl@3338 : TextConst 'ENU=Source No.;ESP=C¢d. procedencia mov.;DEA=Herkunftsnr.';
-      InvPostingGroupCaptionLbl@5166 : TextConst 'ENU=Inventory Posting Group;ESP=Grupo contable inventario;DEA=Lagerbuchungsgruppe';
-      PostingDateCaptionLbl@4591 : TextConst 'ENU=Posting Date;ESP=Fecha registro;DEA=Buchungsdatum';
-      COGSCaptionLbl@7851 : TextConst '@@@=Cost of goods sold;ENU=COGS;ESP=CV;DEA=LAGERVERBR';
-      InventoryAdjustmentCaptionLbl@4662 : TextConst 'ENU=Inventory Adjustment;ESP=Ajuste inventario;DEA=Lagerregulierung';
-      DirectCostAppliedCaptionLbl@6629 : TextConst 'ENU=Direct Cost Applied;ESP=Coste directo aplic.;DEA=Direkte Kosten verrechnet';
-      OverheadAppliedCaptionLbl@5286 : TextConst 'ENU=Overhead Applied;ESP=Cost. gen. liqd.;DEA=Gemeinkosten verrechnet';
-      PurchaseVarianceCaptionLbl@9382 : TextConst 'ENU=Purchase Variance;ESP=Desviaci¢n compras;DEA=Einkaufsabweichung';
-      VarMfgDirectCostAppliedCaptionLbl@9877 : TextConst 'ENU=Mfg. Direct Cost Variance;ESP=Desviaci¢n coste directo fab.;DEA=Prod.-Abweichung - Direkte Kosten';
-      MfgOvhdVarianceCaptionLbl@5334 : TextConst 'ENU=Manufacturing Ovhd Variance;ESP=Desviaci¢n coste gen. fab.;DEA=Prod.-Gemeinkostenabw.';
-      WIPInventoryCaptionLbl@7865 : TextConst 'ENU=WIP Inventory;ESP=Inventario WIP;DEA=Aktiviert Lager';
-      InventoryCaptionLbl@2160 : TextConst 'ENU=Inventory;ESP=Inventario;DEA=Lagerbestand';
-      ExpectedCostCaptionLbl@4125 : TextConst 'ENU=Expected Cost;ESP=Coste previsto;DEA=Soll-Kosten';
-      InventoryCostPostedtoGLCaptionLbl@1942 : TextConst 'ENU=Inventory Cost Posted to G/L;ESP=Variaci¢n inventario reg. en cuenta;DEA=Gebuchte Lagerregulierung';
-      ItemCaptionLbl@6066 : TextConst 'ENU=Item;ESP=Producto;DEA=Artikel';
-      EntryTypeCaptionLbl@7145 : TextConst 'ENU=Entry Type;ESP=Tipo movimiento;DEA=Postenart';
-      DimTextCaptionLbl@4965 : TextConst 'ENU=Line Dimensions;ESP=Dimensiones l¡nea;DEA=Zeilendimensionen';
-      GenPostingSetupTxtCaptionLbl@5032 : TextConst 'ENU=General Posting Setup;ESP=Configuraci¢n grupos contables;DEA=Buchungsmatrix Einrichtung';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      InvtPostBufAmountCaptionLbl@8640 : TextConst 'ENU=Amount;ESP=Importe;DEA=Betrag';
-      CostAmtCaptionLbl@7927 : TextConst 'ENU=Cost Amount;ESP=Importe coste;DEA=Einstandsbetrag';
-      ExpectedCost_SkippedValueEntryCaptionLbl@8905 : TextConst 'ENU=Skipped Value Entries;ESP=Entradas de valor omitidas;DEA=šbersprungene Wertposten';
-      SkippedItemsCaptionLbl@4302 : TextConst 'ENU=Skipped Items;ESP=Productos omitidos;DEA=šbersprungene Elemente';
+      PageNoCaptionLbl@2773 : TextConst 'DEU=Seite;ENU=Page';
+      PostInvCosttoGLCaptionLbl@2679 : TextConst 'DEU=Lagerregulierung buchen;ENU=Post Inventory Cost to G/L';
+      TestReportnotpostedCaptionLbl@4405 : TextConst 'DEU=Testbericht (nicht gebucht);ENU=Test Report (Not Posted)';
+      DocNoCaptionLbl@2117 : TextConst 'DEU=Belegnr.;ENU=Document No.';
+      EntryNoCaptionLbl@8629 : TextConst 'DEU=Lfd. Nr.;ENU=Entry No.';
+      ItemLedgerEntryTypeCaptionLbl@7449 : TextConst 'DEU=Artikelpostenart;ENU=Item Ledger Entry Type';
+      SourceNoCaptionLbl@3338 : TextConst 'DEU=Herkunftsnr.;ENU=Source No.';
+      InvPostingGroupCaptionLbl@5166 : TextConst 'DEU=Lagerbuchungsgruppe;ENU=Inventory Posting Group';
+      PostingDateCaptionLbl@4591 : TextConst 'DEU=Buchungsdatum;ENU=Posting Date';
+      COGSCaptionLbl@7851 : TextConst '@@@=Cost of goods sold;DEU=LAGERVERBR;ENU=COGS';
+      InventoryAdjustmentCaptionLbl@4662 : TextConst 'DEU=Lagerregulierung;ENU=Inventory Adjustment';
+      DirectCostAppliedCaptionLbl@6629 : TextConst 'DEU=Direkte Kosten verrechnet;ENU=Direct Cost Applied';
+      OverheadAppliedCaptionLbl@5286 : TextConst 'DEU=Gemeinkosten verrechnet;ENU=Overhead Applied';
+      PurchaseVarianceCaptionLbl@9382 : TextConst 'DEU=Einkaufsabweichung;ENU=Purchase Variance';
+      VarMfgDirectCostAppliedCaptionLbl@9877 : TextConst 'DEU=Prod.-Abweichung - Direkte Kosten;ENU=Mfg. Direct Cost Variance';
+      MfgOvhdVarianceCaptionLbl@5334 : TextConst 'DEU=Prod.-Gemeinkostenabw.;ENU=Manufacturing Ovhd Variance';
+      WIPInventoryCaptionLbl@7865 : TextConst 'DEU=Aktiviert Lager;ENU=WIP Inventory';
+      InventoryCaptionLbl@2160 : TextConst 'DEU=Lagerbestand;ENU=Inventory';
+      ExpectedCostCaptionLbl@4125 : TextConst 'DEU=Soll-Kosten;ENU=Expected Cost';
+      InventoryCostPostedtoGLCaptionLbl@1942 : TextConst 'DEU=Gebuchte Lagerregulierung;ENU=Inventory Cost Posted to G/L';
+      ItemCaptionLbl@6066 : TextConst 'DEU=Artikel;ENU=Item';
+      EntryTypeCaptionLbl@7145 : TextConst 'DEU=Postenart;ENU=Entry Type';
+      DimTextCaptionLbl@4965 : TextConst 'DEU=Zeilendimensionen;ENU=Line Dimensions';
+      GenPostingSetupTxtCaptionLbl@5032 : TextConst 'DEU=Buchungsmatrix Einrichtung;ENU=General Posting Setup';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      InvtPostBufAmountCaptionLbl@8640 : TextConst 'DEU=Betrag;ENU=Amount';
+      CostAmtCaptionLbl@7927 : TextConst 'DEU=Einstandsbetrag;ENU=Cost Amount';
+      ExpectedCost_SkippedValueEntryCaptionLbl@8905 : TextConst 'DEU=šbersprungene Wertposten;ENU=Skipped Value Entries';
+      SkippedItemsCaptionLbl@4302 : TextConst 'DEU=šbersprungene Elemente;ENU=Skipped Items';
 
     PROCEDURE InitializeRequest@3(NewPostMethod@1000 : Option;NewDocNo@1002 : Code[20];NewPost@1003 : Boolean);
     BEGIN

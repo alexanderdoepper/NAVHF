@@ -2,9 +2,9 @@ OBJECT Table 740 VAT Report Header
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
@@ -16,6 +16,7 @@ OBJECT Table 740 VAT Report Header
              END;
 
     OnModify=BEGIN
+               CheckEditingAllowed;
                CheckDates;
              END;
 
@@ -34,9 +35,8 @@ OBJECT Table 740 VAT Report Header
                ERROR(Text004);
              END;
 
-    CaptionML=[ENU=VAT Report Header;
-               ESP=Cabecera informe IVA;
-               DEA=MwSt.-Berichtskopf];
+    CaptionML=[DEU=MwSt.-Berichtskopf;
+               ENU=VAT Report Header];
     LookupPageID=Page744;
   }
   FIELDS
@@ -48,76 +48,66 @@ OBJECT Table 740 VAT Report Header
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 2   ;   ;VAT Report Config. Code;Option     ;OnValidate=BEGIN
                                                                 CheckEditingAllowed;
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Report Config. Code;
-                                                              ESP=C¢digo configuraci¢n informe IVA;
-                                                              DEA=MwSt.-Bericht - Konfigurationscode];
-                                                   OptionCaptionML=[ENU=" ,Option1";
-                                                                    ESP=" ,Opci¢n1";
-                                                                    DEA=" ,Option1"];
-                                                   OptionString=[ ,Option1];
+                                                   CaptionML=[DEU=MwSt.-Bericht - Konfigurationscode;
+                                                              ENU=VAT Report Config. Code];
+                                                   OptionCaptionML=[DEU=" ,VIES";
+                                                                    ENU=" ,VIES"];
+                                                   OptionString=[ ,VIES];
                                                    Editable=Yes }
     { 3   ;   ;VAT Report Type     ;Option        ;OnValidate=BEGIN
                                                                 CheckEditingAllowed;
 
-                                                                CASE "VAT Report Type" OF
-                                                                  "VAT Report Type"::Standard:
-                                                                    "Original Report No." := '';
-                                                                  "VAT Report Type"::Corrective,"VAT Report Type"::Supplementary:
-                                                                    BEGIN
-                                                                      VATReportSetup.GET;
-                                                                      IF VATReportSetup."Modify Submitted Reports" THEN
-                                                                        ERROR(Text001,VATReportSetup.FIELDCAPTION("Modify Submitted Reports"),VATReportSetup.TABLECAPTION);
-                                                                    END;
-                                                                END;
+                                                                IF "VAT Report Type" = "VAT Report Type"::Standard THEN
+                                                                  "Original Report No." := '';
                                                               END;
 
-                                                   CaptionML=[ENU=VAT Report Type;
-                                                              ESP=Tipo informe IVA;
-                                                              DEA=MwSt.-Berichtstyp];
-                                                   OptionCaptionML=[ENU="Standard,Corrective,Supplementary ";
-                                                                    ESP="Est†ndar,Correctivo,Suplementario ";
-                                                                    DEA="Standard,Korrektur,Nachzahlung "];
-                                                   OptionString=Standard,Corrective,Supplementary }
+                                                   CaptionML=[DEU=MwSt.-Berichtstyp;
+                                                              ENU=VAT Report Type];
+                                                   OptionCaptionML=[DEU=Standard,Korrektur;
+                                                                    ENU=Standard,Corrective];
+                                                   OptionString=Standard,Corrective }
     { 4   ;   ;Start Date          ;Date          ;OnValidate=BEGIN
+                                                                TESTFIELD("Original Report No.",'');
                                                                 CheckEditingAllowed;
-                                                                TESTFIELD("Start Date");
                                                               END;
 
-                                                   CaptionML=[ENU=Start Date;
-                                                              ESP=Fecha inicial;
-                                                              DEA=Startdatum] }
-    { 5   ;   ;End Date            ;Date          ;OnValidate=BEGIN
-                                                                CheckEditingAllowed;
-                                                                TESTFIELD("End Date");
-                                                                CheckEndDate;
-                                                              END;
-
-                                                   CaptionML=[ENU=End Date;
-                                                              ESP=Fecha final;
-                                                              DEA=Enddatum] }
-    { 6   ;   ;Status              ;Option        ;CaptionML=[ENU=Status;
-                                                              ESP=Estado;
-                                                              DEA=Status];
-                                                   OptionCaptionML=[ENU=Open,Released,Submitted;
-                                                                    ESP=Abiertos,Lanzados,Enviados;
-                                                                    DEA=Offen,Freigegeben,öbermittelt];
-                                                   OptionString=Open,Released,Submitted;
+                                                   CaptionML=[DEU=Startdatum;
+                                                              ENU=Start Date];
                                                    Editable=No }
+    { 5   ;   ;End Date            ;Date          ;OnValidate=BEGIN
+                                                                TESTFIELD("Original Report No.",'');
+                                                                CheckEditingAllowed;
+                                                                CheckEndDate;
+                                                                IF "End Date" <> xRec."End Date" THEN
+                                                                  VALIDATE("Processing Date","End Date");
+                                                              END;
+
+                                                   CaptionML=[DEU=Enddatum;
+                                                              ENU=End Date];
+                                                   Editable=No }
+    { 6   ;   ;Status              ;Option        ;CaptionML=[DEU=Status;
+                                                              ENU=Status];
+                                                   OptionCaptionML=[DEU=Offen,Freigegeben,Exportiert,öbermittelt;
+                                                                    ENU=Open,Released,Exported,Submitted];
+                                                   OptionString=Open,Released,Exported,Submitted;
+                                                   Editable=No }
+    { 7   ;   ;VAT Registration No.;Code20        ;CaptionML=[DEU=USt-IdNr.;
+                                                              ENU=VAT Registration No.] }
     { 8   ;   ;No. Series          ;Code10        ;OnValidate=BEGIN
                                                                 CheckEditingAllowed;
                                                               END;
 
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie] }
-    { 9   ;   ;Original Report No. ;Code20        ;OnValidate=VAR
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series] }
+    { 9   ;   ;Original Report No. ;Code20        ;TableRelation="VAT Report Header".No. WHERE (VAT Report Type=CONST(Standard),
+                                                                                                Status=CONST(Submitted));
+                                                   OnValidate=VAR
                                                                 VATReportHeader@1000 : Record 740;
                                                               BEGIN
                                                                 CheckEditingAllowed;
@@ -128,14 +118,21 @@ OBJECT Table 740 VAT Report Header
                                                                       IF "Original Report No." <> '' THEN
                                                                         ERROR(Text006,"VAT Report Type");
                                                                     END;
-                                                                  "VAT Report Type"::Corrective,"VAT Report Type"::Supplementary:
+                                                                  "VAT Report Type"::Corrective:
                                                                     BEGIN
                                                                       TESTFIELD("Original Report No.");
+                                                                      CheckOriginalReport("Original Report No.");
                                                                       IF "Original Report No." = "No." THEN
                                                                         ERROR(Text005);
                                                                       VATReportHeader.GET("Original Report No.");
+                                                                      VATReportHeader.TESTFIELD(Status,Status::Submitted);
                                                                       "Start Date" := VATReportHeader."Start Date";
                                                                       "End Date" := VATReportHeader."End Date";
+                                                                      "Report Period Type" := VATReportHeader."Report Period Type";
+                                                                      "Report Period No." := VATReportHeader."Report Period No.";
+                                                                      "Report Year" := VATReportHeader."Report Year";
+                                                                      "Trade Type" := VATReportHeader."Trade Type";
+                                                                      "EU Goods/Services" := VATReportHeader."EU Goods/Services";
                                                                     END;
                                                                 END;
                                                               END;
@@ -143,37 +140,205 @@ OBJECT Table 740 VAT Report Header
                                                    OnLookup=VAR
                                                               LookupVATReportHeader@1001 : Record 740;
                                                               VATReportList@1000 : Page 744;
-                                                              ShowLookup@1002 : Boolean;
-                                                              TypeFilterText@1004 : Text[1024];
                                                             BEGIN
-                                                              TypeFilterText := '';
-                                                              ShowLookup := FALSE;
-
-                                                              CASE "VAT Report Type" OF
-                                                                "VAT Report Type"::Corrective,"VAT Report Type"::Supplementary:
-                                                                  ShowLookup := TRUE;
-                                                              END;
-
-                                                              IF ShowLookup THEN BEGIN
-                                                                LookupVATReportHeader.SETFILTER("No.",'<>' + "No.");
-                                                                LookupVATReportHeader.SETRANGE(Status,Status::Submitted);
-                                                                LookupVATReportHeader.SETFILTER("VAT Report Type",TypeFilterText);
-                                                                VATReportList.SETTABLEVIEW(LookupVATReportHeader);
-                                                                VATReportList.LOOKUPMODE(TRUE);
-                                                                IF VATReportList.RUNMODAL = ACTION::LookupOK THEN BEGIN
-                                                                  VATReportList.GETRECORD(LookupVATReportHeader);
-                                                                  VALIDATE("Original Report No.",LookupVATReportHeader."No.");
-                                                                END;
+                                                              LookupVATReportHeader.SETFILTER("No.",'<>' + "No.");
+                                                              LookupVATReportHeader.SETRANGE(Status,Status::Submitted);
+                                                              LookupVATReportHeader.SETRANGE("VAT Report Type","VAT Report Type"::Standard);
+                                                              VATReportList.SETTABLEVIEW(LookupVATReportHeader);
+                                                              VATReportList.LOOKUPMODE(TRUE);
+                                                              IF VATReportList.RUNMODAL = ACTION::LookupOK THEN BEGIN
+                                                                VATReportList.GETRECORD(LookupVATReportHeader);
+                                                                VALIDATE("Original Report No.",LookupVATReportHeader."No.");
                                                               END;
                                                             END;
 
-                                                   CaptionML=[ENU=Original Report No.;
-                                                              ESP=Nß del informe original;
-                                                              DEA=Originalberichtsnr.] }
+                                                   CaptionML=[DEU=Originalberichtsnr.;
+                                                              ENU=Original Report No.] }
+    { 10  ;   ;Report Period Type  ;Option        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                                TESTFIELD("Original Report No.",'');
+                                                                IF "Report Period Type" <> xRec."Report Period Type" THEN BEGIN
+                                                                  IF LineExists THEN
+                                                                    ERROR(Text010,FIELDCAPTION("Report Period No."));
+                                                                  SetPeriod;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[DEU=Berichtszeitraumtyp;
+                                                              ENU=Report Period Type];
+                                                   OptionCaptionML=[DEU=" ,Monat,Quartal,Jahr,Zweimonatig";
+                                                                    ENU=" ,Month,Quarter,Year,Bi-Monthly"];
+                                                   OptionString=[ ,Month,Quarter,Year,Bi-Monthly] }
+    { 11  ;   ;Report Period No.   ;Integer       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                                TESTFIELD("Original Report No.",'');
+                                                                TESTFIELD("Report Period Type");
+                                                                IF "Report Period No." <> xRec."Report Period No." THEN BEGIN
+                                                                  IF LineExists THEN
+                                                                    ERROR(Text010,FIELDCAPTION("Report Period No."));
+                                                                  SetPeriod;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[DEU=Berichtszeitraumnummer;
+                                                              ENU=Report Period No.] }
+    { 12  ;   ;Report Year         ;Integer       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                                TESTFIELD("Original Report No.",'');
+                                                                IF "Report Year" <> xRec."Report Year" THEN BEGIN
+                                                                  IF LineExists THEN
+                                                                    ERROR(Text010,FIELDCAPTION("Report Year"));
+                                                                  SetPeriod;
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[DEU=Berichtsjahr;
+                                                              ENU=Report Year];
+                                                   MinValue=2000 }
+    { 16  ;   ;Processing Date     ;Date          ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                                IF "Processing Date" < "End Date" THEN
+                                                                  ERROR(Text003,FIELDCAPTION("Processing Date"),FIELDCAPTION("End Date"));
+
+                                                                CASE TRUE OF
+                                                                  DATE2DWY("Processing Date",1) = 6:
+                                                                    "Processing Date" := CALCDATE('<+2D>',"Processing Date");
+                                                                  DATE2DWY("Processing Date",1) = 7:
+                                                                    "Processing Date" := CALCDATE('<+1D>',"Processing Date");
+                                                                END;
+                                                              END;
+
+                                                   CaptionML=[DEU=Verarbeitungsdatum;
+                                                              ENU=Processing Date] }
+    { 19  ;   ;Test Export         ;Boolean       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Testexport;
+                                                              ENU=Test Export] }
+    { 20  ;   ;Notice              ;Boolean       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Anzeige nach ı18 a Abs. 1 UStG;
+                                                              ENU=Notice] }
+    { 21  ;   ;Revocation          ;Boolean       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Widerruf der Anzeige nach ı18 a Abs. 1 UStG;
+                                                              ENU=Revocation] }
+    { 28  ;   ;Trade Type          ;Option        ;InitValue=Sales;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Handelstyp;
+                                                              ENU=Trade Type];
+                                                   OptionCaptionML=[DEU=EinkÑufe,VerkÑufe,Beides;
+                                                                    ENU=Purchases,Sales,Both];
+                                                   OptionString=Purchases,Sales,Both }
+    { 29  ;   ;EU Goods/Services   ;Option        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=EU-Waren/-Dienstleistungen;
+                                                              ENU=EU Goods/Services];
+                                                   OptionCaptionML=[DEU=Beides,Waren,Dienstleistungen;
+                                                                    ENU=Both,Goods,Services];
+                                                   OptionString=Both,Goods,Services }
+    { 31  ;   ;Total Base          ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("VAT Report Line".Base WHERE (VAT Report No.=FIELD(No.),
+                                                                                                 Line Type=FILTER(New|Correction)));
+                                                   CaptionML=[DEU=Bemgrd. Gesamt;
+                                                              ENU=Total Base];
+                                                   Editable=No }
+    { 32  ;   ;Total Amount        ;Decimal       ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("VAT Report Line".Amount WHERE (VAT Report No.=FIELD(No.),
+                                                                                                   Line Type=FILTER(New|Correction)));
+                                                   CaptionML=[DEU=Betrag Gesamt;
+                                                              ENU=Total Amount];
+                                                   Editable=No }
+    { 33  ;   ;Total Number of Supplies;Decimal   ;FieldClass=FlowField;
+                                                   CalcFormula=Sum("VAT Report Line"."Number of Supplies" WHERE (VAT Report No.=FIELD(No.),
+                                                                                                                 Line Type=FILTER(New|Correction)));
+                                                   CaptionML=[DEU=Anzahl Lieferungen insgesamt;
+                                                              ENU=Total Number of Supplies];
+                                                   Editable=No }
+    { 34  ;   ;Total Number of Lines;Integer      ;FieldClass=FlowField;
+                                                   CalcFormula=Count("VAT Report Line" WHERE (VAT Report No.=FIELD(No.),
+                                                                                              Line Type=FILTER(New|Correction)));
+                                                   CaptionML=[DEU=Anzahl Positionen insgesamt;
+                                                              ENU=Total Number of Lines];
+                                                   Editable=No }
+    { 40  ;   ;Company Name        ;Text100       ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Mandant;
+                                                              ENU=Company Name] }
+    { 41  ;   ;Company Address     ;Text30        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Mandantenadresse;
+                                                              ENU=Company Address] }
+    { 42  ;   ;Country/Region Name ;Text30        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=LÑnder-/Regionsname;
+                                                              ENU=Country/Region Name] }
+    { 48  ;   ;City                ;Text30        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
+    { 49  ;   ;Post Code           ;Code20        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 50  ;   ;Tax Office ID       ;Code20        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Steuerbehîrden-ID;
+                                                              ENU=Tax Office ID] }
+    { 51  ;   ;Sign-off Place      ;Text30        ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Abzeichnungsort;
+                                                              ENU=Sign-off Place] }
+    { 52  ;   ;Sign-off Date       ;Date          ;OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Abzeichnungsdatum;
+                                                              ENU=Sign-off Date] }
+    { 53  ;   ;Signed by Employee No.;Code20      ;TableRelation=Employee;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Abgezeichnet von Mitarbeiter Nr.;
+                                                              ENU=Signed by Employee No.] }
+    { 54  ;   ;Created by Employee No.;Code20     ;TableRelation=Employee;
+                                                   OnValidate=BEGIN
+                                                                TESTFIELD(Status,Status::Open);
+                                                              END;
+
+                                                   CaptionML=[DEU=Erstellt von Mitarbeiter Nr.;
+                                                              ENU=Created by Employee No.] }
   }
   KEYS
   {
     {    ;No.                                     ;Clustered=Yes }
+    {    ;VAT Report Config. Code                  }
+    {    ;VAT Report Type,Status                   }
   }
   FIELDGROUPS
   {
@@ -182,15 +347,18 @@ OBJECT Table 740 VAT Report Header
   {
     VAR
       VATReportSetup@1000 : Record 743;
-      Text001@1002 : TextConst 'ENU=The value of %1 field in the %2 window does not allow this option.;ESP=El valor del campo %1 en la ventana %2 no permite esta opci¢n.;DEA=Der Wert des Felds %1 im Fenster %2 lÑsst diese Option nicht zu.';
-      Text002@1001 : TextConst 'ENU=Editing is not allowed because the report is marked as %1.;ESP=No se permite editar porque el informe est† marcado como %1.;DEA=Die Bearbeitung ist nicht mîglich, weil der Bericht als %1 gekennzeichnet ist.';
-      Text003@1003 : TextConst 'ENU=The end date cannot be earlier than the start date.;ESP=La fecha final no puede ser anterior a la fecha inicial.;DEA=Das Enddatum kann nicht vor dem Startdatum liegen.';
+      Text001@1002 : TextConst 'DEU=Der Wert des Felds %1 im Fenster %2 lÑsst diese Option nicht zu.;ENU=The value of %1 field in the %2 window does not allow this option.';
+      Text002@1001 : TextConst 'DEU=Die Bearbeitung ist nicht mîglich, weil der Bericht als %1 gekennzeichnet ist.;ENU=Editing is not allowed because the report is marked as %1.';
+      Text003@1003 : TextConst 'DEU=Das %1 kann nicht vor dem %2 liegen.;ENU=The %1 cannot be earlier than the %2.';
       NoSeriesMgt@1004 : Codeunit 396;
-      Text004@1005 : TextConst 'ENU=You cannot rename the report because it has been assigned a report number.;ESP=El nombre del informe no se puede cambiar porque el informe tiene asignado un n£mero de informe.;DEA=Sie kînnen den Bericht nicht umbenennen, weil ihm eine Berichtnummer zugewiesen wurde.';
-      Text005@1006 : TextConst 'ENU=You cannot specify the same report as the reference report.;ESP=No se puede especificar el mismo informe como informe de referencia.;DEA=Sie kînnen nicht denselben Bericht als Referenzbericht angeben.';
-      Text006@1007 : TextConst 'ENU=You cannot specify an original report for a report of type %1.;ESP=No se puede especificar un informe original para un informe de tipo %1.;DEA=Sie kînnen einen Originalbericht nicht fÅr einen Bericht vom Typ %1 angeben.';
-      Text007@1008 : TextConst 'ENU=This is not allowed because of the setup in the %1 window.;ESP=Esto no se permite debido a la configuraci¢n establecida en la ventana %1.;DEA=Dies ist aufgrund der Einrichtung im Fenster %1 unzulÑssig.';
-      Text008@1010 : TextConst 'ENU=You must specify an original report for a report of type %1.;ESP=Debe especificar un informe original para un informe de tipo %1.;DEA=Sie mÅssen einen Originalbericht fÅr einen Bericht vom Typ %1 angeben.';
+      Text004@1005 : TextConst 'DEU=Sie kînnen den Bericht nicht umbenennen, weil ihm eine Berichtnummer zugewiesen wurde.;ENU=You cannot rename the report because it has been assigned a report number.';
+      Text005@1006 : TextConst 'DEU=Sie kînnen nicht denselben Bericht als Referenzbericht angeben.;ENU=You cannot specify the same report as the reference report.';
+      Text006@1007 : TextConst 'DEU=Sie kînnen einen Originalbericht nicht fÅr einen Bericht vom Typ %1 angeben.;ENU=You cannot specify an original report for a report of type %1.';
+      Text007@1008 : TextConst 'DEU=Dies ist aufgrund der Einrichtung im Fenster %1 unzulÑssig.;ENU=This is not allowed because of the setup in the %1 window.';
+      Text008@1010 : TextConst 'DEU=Sie mÅssen einen Originalbericht fÅr einen Bericht vom Typ %1 angeben.;ENU=You must specify an original report for a report of type %1.';
+      Text010@1140001 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, da Sie bereits Åber Meldungspositionen verfÅgen.;ENU=You cannot change %1 because you already have declaration lines.';
+      Text011@1140003 : TextConst 'DEU=Das Feld %1 kann Werte von 1 bis %2 annehmen.;ENU=The field %1 can take values from 1 to %2.';
+      Text012@1140000 : TextConst 'DEU=Lîschen ist nicht mîglich, weil der Bericht als %1 gekennzeichnet ist.;ENU=Deletion is not allowed because the report is marked as %1.';
 
     PROCEDURE GetNoSeriesCode@1() : Code[10];
     BEGIN
@@ -209,15 +377,25 @@ OBJECT Table 740 VAT Report Header
 
     PROCEDURE InitRecord@3();
     BEGIN
-      "VAT Report Config. Code" := "VAT Report Config. Code"::Option1;
-      "Start Date" := WORKDATE;
-      "End Date" := WORKDATE;
+      "VAT Report Config. Code" := "VAT Report Config. Code"::VIES;
+      "Report Period Type" := "Report Period Type"::Month;
+      "Report Period No." := DATE2DMY(WORKDATE,2);
+      VALIDATE("Report Year",DATE2DMY(WORKDATE,3));
+
+      FillCompanyInfo;
     END;
 
     PROCEDURE CheckEditingAllowed@4();
     BEGIN
-      IF Status IN [Status::Released,Status::Submitted] THEN
+      VATReportSetup.GET;
+      IF (NOT VATReportSetup."Modify Submitted Reports") AND (Status <> Status::Open) THEN
         ERROR(Text002,FORMAT(Status));
+    END;
+
+    PROCEDURE CheckDeleteAllowed@1140003();
+    BEGIN
+      IF Status <> Status::Open THEN
+        ERROR(Text012,FORMAT(Status));
     END;
 
     PROCEDURE CheckDates@5();
@@ -230,12 +408,12 @@ OBJECT Table 740 VAT Report Header
     PROCEDURE CheckEndDate@6();
     BEGIN
       IF "End Date" < "Start Date" THEN
-        ERROR(Text003);
+        ERROR(Text003,"End Date","Start Date");
     END;
 
     PROCEDURE CheckIfCanBeSubmitted@7();
     BEGIN
-      TESTFIELD(Status,Status::Released);
+      TESTFIELD(Status,Status::Exported);
     END;
 
     PROCEDURE CheckIfCanBeReopened@8(VATReportHeader@1000 : Record 740);
@@ -254,9 +432,111 @@ OBJECT Table 740 VAT Report Header
     BEGIN
       VATReportHeader.TESTFIELD(Status,VATReportHeader.Status::Open);
 
-      IF VATReportHeader."VAT Report Type" IN ["VAT Report Type"::Corrective,"VAT Report Type"::Supplementary] THEN
+      IF VATReportHeader."VAT Report Type" IN ["VAT Report Type"::Corrective] THEN
         IF VATReportHeader."Original Report No." = '' THEN
           ERROR(Text008,FORMAT(VATReportHeader."VAT Report Type"));
+    END;
+
+    LOCAL PROCEDURE CheckPeriodNo@1470004();
+    VAR
+      MaxPeriodNo@1470001 : Integer;
+    BEGIN
+      CASE "Report Period Type" OF
+        "Report Period Type"::Month:
+          MaxPeriodNo := 12;
+        "Report Period Type"::Quarter,
+        "Report Period Type"::"Bi-Monthly":
+          MaxPeriodNo := 4;
+        "Report Period Type"::Year:
+          MaxPeriodNo := 1;
+      END;
+      IF NOT ("Report Period No." IN [1..MaxPeriodNo]) THEN
+        ERROR(Text011,FIELDCAPTION("Report Period No."),MaxPeriodNo);
+    END;
+
+    LOCAL PROCEDURE SetPeriod@1470000();
+    BEGIN
+      IF "Report Period No." <> 0 THEN
+        CheckPeriodNo;
+      IF "Report Period Type" = "Report Period Type"::Year THEN
+        "Report Period No." := 1;
+
+      IF ("Report Period No." = 0) OR ("Report Year" = 0) THEN BEGIN
+        VALIDATE("Start Date",0D);
+        VALIDATE("End Date",0D);
+      END ELSE
+        CASE "Report Period Type" OF
+          "Report Period Type"::Month:
+            BEGIN
+              VALIDATE("Start Date",DMY2DATE(1,"Report Period No.","Report Year"));
+              VALIDATE("End Date",CALCDATE('<CM>',"Start Date"));
+            END;
+          "Report Period Type"::Quarter:
+            BEGIN
+              VALIDATE("Start Date",DMY2DATE(1,"Report Period No." * 3 - 2,"Report Year"));
+              VALIDATE("End Date",CALCDATE('<CQ>',"Start Date"));
+            END;
+          "Report Period Type"::Year:
+            BEGIN
+              VALIDATE("Start Date",DMY2DATE(1,1,"Report Year"));
+              VALIDATE("End Date",DMY2DATE(31,12,"Report Year"));
+            END;
+          "Report Period Type"::"Bi-Monthly":
+            BEGIN
+              VALIDATE("Start Date",DMY2DATE(1,"Report Period No." * 3 - 2,"Report Year"));
+              VALIDATE("End Date",CALCDATE('<CM + 1M>',"Start Date"));
+            END;
+        END;
+      CheckPeriod;
+    END;
+
+    LOCAL PROCEDURE CheckPeriod@1470002();
+    VAR
+      VATReportHeader@1470002 : Record 740;
+    BEGIN
+      IF ("Start Date" = 0D) OR ("End Date" = 0D) THEN
+        EXIT;
+
+      CheckEndDate;
+    END;
+
+    PROCEDURE LineExists@1140000() : Boolean;
+    VAR
+      VATReportLine@1140000 : Record 741;
+    BEGIN
+      VATReportLine.RESET;
+      VATReportLine.SETRANGE("VAT Report No.","No.");
+      EXIT(NOT VATReportLine.ISEMPTY);
+    END;
+
+    PROCEDURE FillCompanyInfo@1140002();
+    VAR
+      CompanyInfo@1140000 : Record 79;
+      CountryRegion@1140001 : Record 9;
+    BEGIN
+      CompanyInfo.GET;
+      CompanyInfo.TESTFIELD("Country/Region Code");
+
+      CountryRegion.GET(CompanyInfo."Country/Region Code");
+
+      VALIDATE("VAT Registration No.",CompanyInfo."VAT Registration No.");
+      VALIDATE("Company Name",CompanyInfo.Name);
+      VALIDATE("Company Address",CompanyInfo.Address);
+      VALIDATE("Country/Region Name",CountryRegion.Name);
+      VALIDATE(City,CompanyInfo.City);
+      VALIDATE("Post Code",CompanyInfo."Post Code");
+      VALIDATE("Tax Office ID",CompanyInfo."Tax Office Number");
+    END;
+
+    PROCEDURE CheckOriginalReport@1140001(VATReportNo@1140000 : Code[20]);
+    VAR
+      VATReportHeader@1140001 : Record 740;
+    BEGIN
+      WITH VATReportHeader DO BEGIN
+        GET(VATReportNo);
+        TESTFIELD("VAT Report Type","VAT Report Type"::Standard);
+        TESTFIELD(Status,Status::Submitted);
+      END;
     END;
 
     BEGIN

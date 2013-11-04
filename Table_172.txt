@@ -2,22 +2,20 @@ OBJECT Table 172 Standard Customer Sales Code
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Standard Customer Sales Code;
-               ESP=C¢digo ventas cliente est ndar;
-               DEA=Standarddebitorenverkaufscode];
+    CaptionML=[DEU=Standarddebitorenverkaufscode;
+               ENU=Standard Customer Sales Code];
   }
   FIELDS
   {
     { 1   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
-                                                   CaptionML=[ENU=Customer No.;
-                                                              ESP=N§ cliente;
-                                                              DEA=Debitorennr.];
+                                                   CaptionML=[DEU=Debitorennr.;
+                                                              ENU=Customer No.];
                                                    NotBlank=Yes }
     { 2   ;   ;Code                ;Code10        ;TableRelation="Standard Sales Code";
                                                    OnValidate=VAR
@@ -29,13 +27,11 @@ OBJECT Table 172 Standard Customer Sales Code
                                                                 Description := StdSalesCode.Description;
                                                               END;
 
-                                                   CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+                                                   CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
   }
   KEYS
   {

@@ -2,9 +2,9 @@ OBJECT Codeunit 12 Gen. Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -31,14 +31,14 @@ OBJECT Codeunit 12 Gen. Jnl.-Post Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=%1 needs to be rounded;ESP=%1 necesita redondearse;DEA=%1 sollte gerundet werden';
-      Text001@1001 : TextConst 'ENU=Sales %1 %2 already exists.;ESP=El documento de venta  %1 %2 ya existe.;DEA=Verkauf %1 %2 existiert bereits.';
-      Text002@1002 : TextConst 'ENU=Purchase %1 %2 already exists.;ESP=Ya existe la compra %1 %2.;DEA=Einkauf %1 %2 ist schon vorhanden.';
-      Text003@1003 : TextConst 'ENU=Purchase %1 %2 already exists for this vendor.;ESP=El documento de compra %1 %2 ya existe para este proveedor.;DEA=Einkauf %1 %2 existiert bereits fÅr diesen Kreditor.';
-      Text004@1004 : TextConst 'ENU=must not be filled when %1 is different in %2 and %3.;ESP=no se puede completar cuando %1 es diferente para %2 y %3.;DEA=darf nicht angegeben werden, wenn sich %1 in %2 und %3 unterscheidet.';
-      Text005@1005 : TextConst 'ENU=" must be entered when %1 is %2";ESP=" se debe introducir cuando %1 es %2";DEA=" muss eingegeben werden, wenn %1 %2 ist"';
-      Text006@1006 : TextConst 'ENU=Check %1 already exists for this Bank Account.;ESP=Ya existe el cheque %1 en este banco.;DEA=Scheck %1 ist fÅr dieses Bankkonto bereits vorhanden.';
-      Text012@1024 : TextConst 'ENU=%1 is incorrect document type for Dynamics Online payment.;ESP=%1 es de un tipo de documento incorrecto para el pago de Dynamics Online.;DEA=''%1'' ist nicht die korrekte Belegart fÅr Dynamics Online-Zahlungen.';
+      Text000@1000 : TextConst 'DEU=%1 sollte gerundet werden;ENU=%1 needs to be rounded';
+      Text001@1001 : TextConst 'DEU=Verkauf %1 %2 existiert bereits.;ENU=Sales %1 %2 already exists.';
+      Text002@1002 : TextConst 'DEU=Einkauf %1 %2 ist schon vorhanden.;ENU=Purchase %1 %2 already exists.';
+      Text003@1003 : TextConst 'DEU=Einkauf %1 %2 existiert bereits fÅr diesen Kreditor.;ENU=Purchase %1 %2 already exists for this vendor.';
+      Text004@1004 : TextConst 'DEU=darf nicht angegeben werden, wenn sich %1 in %2 und %3 unterscheidet.;ENU=must not be filled when %1 is different in %2 and %3.';
+      Text005@1005 : TextConst 'DEU=" muss eingegeben werden, wenn %1 %2 ist";ENU=" must be entered when %1 is %2"';
+      Text006@1006 : TextConst 'DEU=Scheck %1 ist fÅr dieses Bankkonto bereits vorhanden.;ENU=Check %1 already exists for this Bank Account.';
+      Text012@1024 : TextConst 'DEU=''%1'' ist nicht die korrekte Belegart fÅr Dynamics Online-Zahlungen.;ENU=%1 is incorrect document type for Dynamics Online payment.';
       GLSetup@1009 : Record 98;
       SalesSetup@1010 : Record 311;
       PurchSetup@1011 : Record 312;
@@ -111,11 +111,11 @@ OBJECT Codeunit 12 Gen. Jnl.-Post Line
       UseCurrFactorOnly@1078 : Boolean;
       NonAddCurrCodeOccured@1079 : Boolean;
       FADimAlreadyChecked@1080 : Boolean;
-      Text010@1008 : TextConst 'ENU=Residual caused by rounding of %1;ESP=Ajuste residual generado por el redondeo de %1;DEA=Rundungsdifferenz von %1';
-      Text013@1007 : TextConst 'ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5;ESP=La dimensi¢n util. en %1 %2, %3, %4 ha causado error. %5;DEA=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5';
-      Text014@1026 : TextConst 'ENU=Reversal found a %1 without a matching %2.;ESP=La retrocesi¢n detect¢ un %1 para el que no existe un %2 correspondiente.;DEA=Bei der Stornierung wurde ein %1 ohne Åbereinstimmenden %2 gefunden.';
-      Text015@1023 : TextConst 'ENU=You cannot reverse the transaction, because it has already been reversed.;ESP=No puede invertir la transacci¢n porque ya fue invertida.;DEA=Sie kînnen die Transaktion nicht stornieren, weil sie bereits storniert ist.';
-      Text011@1027 : TextConst 'ENU=The combination of dimensions used in %1 %2 is blocked. %3;ESP=La combinaci¢n de dimensiones utilizada en %1 %2 est† bloqueada. %3;DEA=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3';
+      Text010@1008 : TextConst 'DEU=Rundungsdifferenz von %1;ENU=Residual caused by rounding of %1';
+      Text013@1007 : TextConst 'DEU=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5;ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5';
+      Text014@1026 : TextConst 'DEU=Bei der Stornierung wurde ein %1 ohne Åbereinstimmenden %2 gefunden.;ENU=Reversal found a %1 without a matching %2.';
+      Text015@1023 : TextConst 'DEU=Sie kînnen die Transaktion nicht stornieren, weil sie bereits storniert ist.;ENU=You cannot reverse the transaction, because it has already been reversed.';
+      Text011@1027 : TextConst 'DEU=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3;ENU=The combination of dimensions used in %1 %2 is blocked. %3';
       AllApplied@1081 : Boolean;
       OverrideDimErr@1018 : Boolean;
       JobLine@1036 : Boolean;

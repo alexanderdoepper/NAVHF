@@ -2,15 +2,14 @@ OBJECT Page 6631 Sales Return Order Subform
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Lines;
-               ESP=L°neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     MultipleNewLines=Yes;
     LinksAllowed=No;
     SourceTable=Table37;
@@ -43,96 +42,84 @@ OBJECT Page 6631 Sales Return Order Subform
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1906587504;1 ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktionen];
+                      CaptionML=[DEU=F&unktionen;
+                                 ENU=F&unctions];
                       Image=Action }
       { 1901991504;2 ;Action    ;
-                      CaptionML=[ENU=E&xplode BOM;
-                                 ESP=D&esplegar L.M.;
-                                 DEA=St&Åckliste entfalten];
+                      CaptionML=[DEU=St&Åckliste entfalten;
+                                 ENU=E&xplode BOM];
                       Image=ExplodeBOM;
                       OnAction=BEGIN
                                  ExplodeBOM;
                                END;
                                 }
       { 1901991804;2 ;Action    ;
-                      CaptionML=[ENU=Insert &Ext. Texts;
-                                 ESP=Insertar t&extos adicionales;
-                                 DEA=Textbausteine &einfÅgen];
+                      CaptionML=[DEU=Textbausteine &einfÅgen;
+                                 ENU=Insert &Ext. Texts];
                       Image=Text;
                       OnAction=BEGIN
                                  InsertExtendedText(TRUE);
                                END;
                                 }
       { 1902085804;2 ;Action    ;
-                      CaptionML=[ENU=&Reserve;
-                                 ESP=&Reservar;
-                                 DEA=Re&servieren];
+                      CaptionML=[DEU=Re&servieren;
+                                 ENU=&Reserve];
                       Image=Reserve;
                       OnAction=BEGIN
                                  ShowReservation;
                                END;
                                 }
       { 1906421304;2 ;Action    ;
-                      CaptionML=[ENU=Order &Tracking;
-                                 ESP=Seguimien&to pedido;
-                                 DEA=&Bedarfsverursacher];
+                      CaptionML=[DEU=&Bedarfsverursacher;
+                                 ENU=Order &Tracking];
                       Image=OrderTracking;
                       OnAction=BEGIN
                                  ShowTracking;
                                END;
                                 }
       { 1907935204;1 ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L°nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 1907981204;2 ;ActionGroup;
-                      CaptionML=[ENU=Item Availability by;
-                                 ESP=Disponibilidad prod. por;
-                                 DEA=ArtikelverfÅgbarkeit nach];
+                      CaptionML=[DEU=ArtikelverfÅgbarkeit nach;
+                                 ENU=Item Availability by];
                       Image=ItemAvailability }
       { 5       ;3   ;Action    ;
-                      CaptionML=[ENU=Event;
-                                 ESP=Evento;
-                                 DEA=Ereignis];
+                      CaptionML=[DEU=Ereignis;
+                                 ENU=Event];
                       Image=Event;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromSalesLine(Rec,ItemAvailFormsMgt.ByEvent)
                                END;
                                 }
       { 1903587104;3 ;Action    ;
-                      CaptionML=[ENU=Period;
-                                 ESP=Periodo;
-                                 DEA=Periode];
+                      CaptionML=[DEU=Periode;
+                                 ENU=Period];
                       Image=Period;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromSalesLine(Rec,ItemAvailFormsMgt.ByPeriod)
                                END;
                                 }
       { 1903193004;3 ;Action    ;
-                      CaptionML=[ENU=Variant;
-                                 ESP=Variante;
-                                 DEA=Variante];
+                      CaptionML=[DEU=Variante;
+                                 ENU=Variant];
                       Image=ItemVariant;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromSalesLine(Rec,ItemAvailFormsMgt.ByVariant)
                                END;
                                 }
       { 1901743104;3 ;Action    ;
-                      CaptionML=[ENU=Location;
-                                 ESP=AlmacÇn;
-                                 DEA=Lagerort];
+                      CaptionML=[DEU=Lagerort;
+                                 ENU=Location];
                       Image=Warehouse;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromSalesLine(Rec,ItemAvailFormsMgt.ByLocation)
                                END;
                                 }
       { 3       ;3   ;Action    ;
-                      CaptionML=[ENU=BOM Level;
-                                 ESP=Nivel L.M.;
-                                 DEA=StÅcklistenebene];
+                      CaptionML=[DEU=StÅcklistenebene;
+                                 ENU=BOM Level];
                       Image=BOMLevel;
                       OnAction=BEGIN
                                  ItemAvailFormsMgt.ShowItemAvailFromSalesLine(Rec,ItemAvailFormsMgt.ByBOM)
@@ -140,36 +127,32 @@ OBJECT Page 6631 Sales Return Order Subform
                                 }
       { 1902740304;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
                                END;
                                 }
       { 1900525904;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       Image=ViewComments;
                       OnAction=BEGIN
                                  ShowLineComments;
                                END;
                                 }
       { 1907184504;2 ;Action    ;
-                      CaptionML=[ENU=Item Charge &Assignment;
-                                 ESP=&Asignaci¢n cargos prod.;
-                                 DEA=Artikel &Zu-/Abschlagszuweisung];
+                      CaptionML=[DEU=Artikel &Zu-/Abschlagszuweisung;
+                                 ENU=Item Charge &Assignment];
                       OnAction=BEGIN
                                  ItemChargeAssgnt;
                                END;
                                 }
       { 1905987604;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+I;
-                      CaptionML=[ENU=Item &Tracking Lines;
-                                 ESP=L°ns. se&guim. prod.;
-                                 DEA=Artikel&verfolgungszeilen];
+                      CaptionML=[DEU=Artikel&verfolgungszeilen;
+                                 ENU=Item &Tracking Lines];
                       Image=ItemTrackingLines;
                       OnAction=BEGIN
                                  OpenItemTrackingLines;
@@ -177,8 +160,8 @@ OBJECT Page 6631 Sales Return Order Subform
                                 }
       { 1905483604;2 ;Action    ;
                       Name=DocumentLineTracking;
-                      CaptionML=[ENU=Document &Line Tracking;
-                                 DEA=&Belegzeilenverfolgung];
+                      CaptionML=[DEU=&Belegzeilenverfolgung;
+                                 ENU=Document &Line Tracking];
                       Image=Navigate;
                       OnAction=BEGIN
                                  // This functionality was copied from page #6630. Unsupported part was commented. Please check it.

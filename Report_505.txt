@@ -2,15 +2,14 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=XBRL Export Instance - Spec. 2;
-               ESP=Exportar instancia (Especif. 2)  XBRL;
-               DEA=XBRL-Instance exp. - Spez. 2];
+    CaptionML=[DEU=XBRL-Instance exp. - Spez. 2;
+               ENU=XBRL Export Instance - Spec. 2];
     OnInitReport=BEGIN
                    GLSetup.GET;
                    CompanyInfo.GET;
@@ -561,14 +560,12 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
                   ContainerType=ContentArea }
 
       { 1   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 5   ;2   ;Field     ;
-                  CaptionML=[ENU=XBRL Taxonomy Name;
-                             ESP=Nombre taxonom°a XBRL;
-                             DEA=XBRL-Taxonomiename];
+                  CaptionML=[DEU=XBRL-Taxonomiename;
+                             ENU=XBRL Taxonomy Name];
                   SourceExpr=XBRLTaxonomyName;
                   TableRelation="XBRL Taxonomy";
                   OnValidate=BEGIN
@@ -578,9 +575,8 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
                               }
 
       { 6   ;2   ;Field     ;
-                  CaptionML=[ENU=Label Language;
-                             ESP=Etiqueta idioma;
-                             DEA=Beschriftungssprache];
+                  CaptionML=[DEU=Beschriftungssprache;
+                             ENU=Label Language];
                   SourceExpr=LabelLanguage;
                   OnValidate=VAR
                                XBRLTaxonomyLabel@1000 : Record 401;
@@ -614,66 +610,55 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
                             }
 
       { 22  ;2   ;Field     ;
-                  CaptionML=[ENU=Create File;
-                             ESP=Crear archivo;
-                             DEA=Datei erstellen];
+                  CaptionML=[DEU=Datei erstellen;
+                             ENU=Create File];
                   SourceExpr=CreateFile }
 
       { 11  ;2   ;Field     ;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=StartDate }
 
       { 4   ;2   ;Field     ;
-                  CaptionML=[ENU=No. of Periods;
-                             ESP=Nß de periodos;
-                             DEA=Anzahl Perioden];
+                  CaptionML=[DEU=Anzahl Perioden;
+                             ENU=No. of Periods];
                   SourceExpr=NoOfPeriods }
 
       { 3   ;2   ;Field     ;
-                  CaptionML=[ENU=Period Length;
-                             ESP=Longitud periodo;
-                             DEA=PeriodenlÑnge];
+                  CaptionML=[DEU=PeriodenlÑnge;
+                             ENU=Period Length];
                   SourceExpr=PeriodLength }
 
       { 15  ;2   ;Field     ;
-                  CaptionML=[ENU=Closing Entries;
-                             ESP=Movs. regularizaci¢n;
-                             DEA=Ultimoposten];
-                  OptionCaptionML=[ENU=Include,Exclude;
-                                   ESP=Incluir,Excluir;
-                                   DEA=Einschlie·lich,Ausschlie·lich];
+                  CaptionML=[DEU=Ultimoposten;
+                             ENU=Closing Entries];
+                  OptionCaptionML=[DEU=Einschlie·lich,Ausschlie·lich;
+                                   ENU=Include,Exclude];
                   SourceExpr=ClosingEntryFilter }
 
       { 20  ;2   ;Field     ;
-                  CaptionML=[ENU=Document Complete;
-                             ESP=Documento completo;
-                             DEA=Dokument vollstÑndig];
+                  CaptionML=[DEU=Dokument vollstÑndig;
+                             ENU=Document Complete];
                   SourceExpr=cwa }
 
       { 7   ;2   ;Field     ;
-                  CaptionML=[ENU=ISO Currency Code;
-                             ESP=C¢d. divisa ISO;
-                             DEA=ISO-WÑhrungscode];
+                  CaptionML=[DEU=ISO-WÑhrungscode;
+                             ENU=ISO Currency Code];
                   SourceExpr=CurrencyCode }
 
       { 13  ;2   ;Field     ;
-                  CaptionML=[ENU=Scheme;
-                             ESP=Nombre esquema;
-                             DEA=Schema];
+                  CaptionML=[DEU=Schema;
+                             ENU=Scheme];
                   SourceExpr=SchemeName }
 
       { 25  ;2   ;Field     ;
-                  CaptionML=[ENU=Scheme Identifier;
-                             ESP=Identificador empresa;
-                             DEA=Schema-ID];
+                  CaptionML=[DEU=Schema-ID;
+                             ENU=Scheme Identifier];
                   SourceExpr=SchemeIdentifier }
 
       { 17  ;2   ;Field     ;
-                  CaptionML=[ENU=Show Zero Lines;
-                             ESP=Mostrar l°neas cero;
-                             DEA=Zeilen mit Null anzeigen];
+                  CaptionML=[DEU=Zeilen mit Null anzeigen;
+                             ENU=Show Zero Lines];
                   SourceExpr=ShowZeroLines }
 
     }
@@ -717,20 +702,20 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
       NoOfRecords@1011 : Integer;
       Progress@1014 : Integer;
       CurrencyCode@1018 : Code[10];
-      Text001@1020 : TextConst 'ENU=XBRL Instance Document Files|*.xml|All Files|*.*;ESP=Archivos documento instancia XBRL|*.xml|Todos los archivos|*.*;DEA=XBRL-Instance-Document-Dateien|*.xml|Alle Dateien|*.*';
-      Text003@1024 : TextConst 'ENU=You must select an XBRL Taxonomy.;ESP=Debe seleccionar una taxonom°a XBRL.;DEA=Sie mÅssen eine XBRL-Taxonomie auswÑhlen.';
-      Text004@1025 : TextConst 'ENU=You must enter a period ending date.;ESP=Debe introducir una fecha de fin de periodo.;DEA=Sie mÅssen ein Periode Enddatum angeben.';
-      Text007@1028 : TextConst 'ENU=You must enter a positive number of periods.;ESP=Debe introducir un n£mero positivo de periodos.;DEA=Sie mÅssen eine positive Periodenanzahl eingeben.';
-      Text009@1038 : TextConst 'ENU=Exporting XBRL Lines       @5@@@@@@@@@@;ESP=Exportando l°neas XBRL    @5@@@@@@@@@@;DEA=XBRL-Zeilen werden exportiert @5@@@@@@@@@@';
-      Text010@1050 : TextConst 'ENU=You must define a scheme identifier.;ESP=Debe rellenar el identidicador empresa;DEA=Sie mÅssen eine Schema-ID definieren.';
-      Text017@1040 : TextConst 'ENU=The XBRL File: %1, has been successfully created.;ESP=El archivo XBRL : %1,  ha sido creado correctamente.;DEA=Die XBRL-Datei %1 wurde erfolgreich erstellt.';
-      Text018@1041 : TextConst 'ENU=There are no XBRL lines to export.;ESP=No hay ninguna l°nea XBRL que exportar.;DEA=Es sind keine XBRL-Zeilen vorhanden, die exportiert werden kînnen.';
+      Text001@1020 : TextConst 'DEU=XBRL-Instance-Document-Dateien|*.xml|Alle Dateien|*.*;ENU=XBRL Instance Document Files|*.xml|All Files|*.*';
+      Text003@1024 : TextConst 'DEU=Sie mÅssen eine XBRL-Taxonomie auswÑhlen.;ENU=You must select an XBRL Taxonomy.';
+      Text004@1025 : TextConst 'DEU=Sie mÅssen ein Periode Enddatum angeben.;ENU=You must enter a period ending date.';
+      Text007@1028 : TextConst 'DEU=Sie mÅssen eine positive Periodenanzahl eingeben.;ENU=You must enter a positive number of periods.';
+      Text009@1038 : TextConst 'DEU=XBRL-Zeilen werden exportiert @5@@@@@@@@@@;ENU=Exporting XBRL Lines       @5@@@@@@@@@@';
+      Text010@1050 : TextConst 'DEU=Sie mÅssen eine Schema-ID definieren.;ENU=You must define a scheme identifier.';
+      Text017@1040 : TextConst 'DEU=Die XBRL-Datei %1 wurde erfolgreich erstellt.;ENU=The XBRL File: %1, has been successfully created.';
+      Text018@1041 : TextConst 'DEU=Es sind keine XBRL-Zeilen vorhanden, die exportiert werden kînnen.;ENU=There are no XBRL lines to export.';
       CreateFile@1043 : Boolean;
       LineAmount@1045 : Decimal;
       LineDescription@1044 : Text[250];
       FilterString@1046 : Text[250];
       NamespaceName@1048 : Text[250];
-      Text022@1049 : TextConst 'ENU=There are no labels defined for %1.;ESP=No existen etiquetas definidas para %1.;DEA=FÅr %1 wurden keine Beschriftungen angegeben.';
+      Text022@1049 : TextConst 'DEU=FÅr %1 wurden keine Beschriftungen angegeben.;ENU=There are no labels defined for %1.';
       NodeName@1065 : Text[250];
       TupleLevel@1055 : Integer;
       TupleParentLine@1056 : ARRAY [50] OF Integer;
@@ -740,25 +725,25 @@ OBJECT Report 505 XBRL Export Instance - Spec. 2
       T0@1005 : Time;
       T1@1007 : Time;
       XBRLVersion@1058 : Text[250];
-      Text023@1059 : TextConst 'ENU=Unknown XBRL version: %1.;ESP=Versi¢n XBRL desconocida: %1.;DEA=Unbekannte XBRL-Version: %1.';
+      Text023@1059 : TextConst 'DEU=Unbekannte XBRL-Version: %1.;ENU=Unknown XBRL version: %1.';
       xbrliPrefix@1060 : Text[6];
       xbrliNamespace@1066 : Text[250];
       NumericContextAttrName@1061 : Text[30];
       NonNumericContextAttrName@1062 : Text[30];
-      Text024@1026 : TextConst 'ENU=Export;ESP=Exportar;DEA=Exportieren';
-      Text025@1027 : TextConst 'ENU=Default.xml;ESP=Default.xml;DEA=Default.xml';
+      Text024@1026 : TextConst 'DEU=Exportieren;ENU=Export';
+      Text025@1027 : TextConst 'DEU=Default.xml;ENU=Default.xml';
       NumericContextElemName@1039 : Text[30];
       NonNumericContextElemName@1029 : Text[30];
-      LevelLabelCaptionLbl@1565 : TextConst 'ENU=Label;ESP=Etiqueta;DEA=Beschriftung';
-      LineDescriptionCaptionLbl@4252 : TextConst 'ENU=Description;ESP=Descripci¢n;DEA=Beschreibung';
-      LineAmountCaptionLbl@5261 : TextConst 'ENU=Amount;ESP=Importe;DEA=Betrag';
-      CurrReportPAGENOCaptionLbl@5397 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      XBRLDocumentCaptionLbl@9889 : TextConst 'ENU=XBRL Document;ESP=Documento XBRL;DEA=XBRL-Beleg';
-      XBRLTaxonomyNameCaptionLbl@7544 : TextConst 'ENU=XBRL Taxonomy Name;ESP=Nombre taxonom°a XBRL;DEA=XBRL-Taxonomiename';
-      FilterStringCaptionLbl@4752 : TextConst 'ENU=Filters;ESP=Filtros;DEA=Filter';
-      StartDateCaptionLbl@9565 : TextConst 'ENU=Starting Date;ESP=Fecha inicial;DEA=Startdatum';
-      PeriodLengthCaptionLbl@6561 : TextConst 'ENU=Period Length;ESP=Longitud periodo;DEA=PeriodenlÑnge';
-      NoOfPeriodsCaptionLbl@2934 : TextConst 'ENU=Number of Periods;ESP=N£mero de periodos;DEA=Anzahl Perioden';
+      LevelLabelCaptionLbl@1565 : TextConst 'DEU=Beschriftung;ENU=Label';
+      LineDescriptionCaptionLbl@4252 : TextConst 'DEU=Beschreibung;ENU=Description';
+      LineAmountCaptionLbl@5261 : TextConst 'DEU=Betrag;ENU=Amount';
+      CurrReportPAGENOCaptionLbl@5397 : TextConst 'DEU=Seite;ENU=Page';
+      XBRLDocumentCaptionLbl@9889 : TextConst 'DEU=XBRL-Beleg;ENU=XBRL Document';
+      XBRLTaxonomyNameCaptionLbl@7544 : TextConst 'DEU=XBRL-Taxonomiename;ENU=XBRL Taxonomy Name';
+      FilterStringCaptionLbl@4752 : TextConst 'DEU=Filter;ENU=Filters';
+      StartDateCaptionLbl@9565 : TextConst 'DEU=Startdatum;ENU=Starting Date';
+      PeriodLengthCaptionLbl@6561 : TextConst 'DEU=PeriodenlÑnge;ENU=Period Length';
+      NoOfPeriodsCaptionLbl@2934 : TextConst 'DEU=Anzahl Perioden;ENU=Number of Periods';
 
     LOCAL PROCEDURE ProcessNotes@5(XBRLTaxonomyLine@1000 : Record 395);
     VAR

@@ -2,9 +2,9 @@ OBJECT Codeunit 8614 Config. XML Exchange
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -25,20 +25,20 @@ OBJECT Codeunit 8614 Config. XML Exchange
       ErrorTypeEnum@1027 : 'General,TableRelation';
       Advanced@1001 : Boolean;
       CalledFromCode@1002 : Boolean;
-      PackageAllreadyContainsDataQst@1006 : TextConst 'ENU=Package %1 already contains data that will be overwritten by the import. Do you want to continue?;ESP=El paquete %1 ya contiene datos que se sobrescribir†n con la importaci¢n. ®Desea continuar?;DEA=Paket %1 enthÑlt bereits Daten, die vom Import Åberschrieben werden. Mîchten Sie fortfahren?';
-      TableContainsRecordsQst@1013 : TextConst 'ENU=Table %1 in package %2 contains %3 records that will be overwritten by the import. Do you want to continue?;ESP=La tabla %1 del paquete %2 contiene %3 registros que se sobrescribir†n con la importaci¢n. ®Desea continuar?;DEA=Tabelle %1 in Paket %2 enthÑlt %3 DatensÑtze, die vom Import Åberschrieben werden. Mîchten Sie fortfahren?';
-      MissingInExcelFileErr@1011 : TextConst 'ENU=%1 is missing in the Excel file.;ESP=Falta %1 en el archivo de Excel.;DEA=%1 fehlt in der Excel-Tabelle.';
-      Text014@1020 : TextConst 'ENU=Exporting package\;ESP=Exportando paquete\;DEA=Paket wird exportiert\';
-      Text017@1017 : TextConst 'ENU=Importing package\;ESP=Importando paquete\;DEA=Paket wird importiert\';
-      Text026@1010 : TextConst 'ENU=Package%1.rapidstart;ESP=Paquete%1.rapidstart;DEA=Package%1.rapidstart';
-      Text027@1009 : TextConst 'ENU=Download;ESP=Descargar;DEA=Herunterladen';
-      Text028@1008 : TextConst 'ENU=Import File;ESP=Importar archivo;DEA=Datei importieren';
-      FileDialogFilterTxt@1007 : TextConst '@@@="Only translate ''Rapidstart Files'' {Split=r""[\|\(]\*\.[^ |)]*[|) ]?""}";ENU=Rapidstart file (*.rapidstart)|*.rapidstart|All Files (*.*)|*.*;ESP=Rapidstart file (*.rapidstart)|*.rapidstart|All Files (*.*)|*.*;DEA=Rapidstart-Datei (*.rapidstart)|*.rapidstart|Alle Dateien (*.*)|*.*';
+      PackageAllreadyContainsDataQst@1006 : TextConst 'DEU=Paket %1 enthÑlt bereits Daten, die vom Import Åberschrieben werden. Mîchten Sie fortfahren?;ENU=Package %1 already contains data that will be overwritten by the import. Do you want to continue?';
+      TableContainsRecordsQst@1013 : TextConst 'DEU=Tabelle %1 in Paket %2 enthÑlt %3 DatensÑtze, die vom Import Åberschrieben werden. Mîchten Sie fortfahren?;ENU=Table %1 in package %2 contains %3 records that will be overwritten by the import. Do you want to continue?';
+      MissingInExcelFileErr@1011 : TextConst 'DEU=%1 fehlt in der Excel-Tabelle.;ENU=%1 is missing in the Excel file.';
+      Text014@1020 : TextConst 'DEU=Paket wird exportiert\;ENU=Exporting package\';
+      Text017@1017 : TextConst 'DEU=Paket wird importiert\;ENU=Importing package\';
+      Text026@1010 : TextConst 'DEU=Package%1.xml;ENU=Package%1.rapidstart';
+      Text027@1009 : TextConst 'DEU=Herunterladen;ENU=Download';
+      Text028@1008 : TextConst 'DEU=Datei importieren;ENU=Import File';
+      FileDialogFilterTxt@1007 : TextConst '@@@="Only translate ''Rapidstart Files'' {Split=r""[\|\(]\*\.[^ |)]*[|) ]?""}";DEU=Rapidstart file (*.rapidstart)|*.rapidstart|All Files (*.*)|*.*;ENU=Rapidstart file (*.rapidstart)|*.rapidstart|All Files (*.*)|*.*';
       ExcelMode@1028 : Boolean;
       HideDialog@1005 : Boolean;
-      Text031@1025 : TextConst '@@@={Locked};ENU=DataList;ESP=DataList;DEA=DataList';
-      TableDoesNotExistErr@1015 : TextConst 'ENU=An error occurred while importing the %1 table. The table does not exist in the database.;ESP=Error al importar la tabla %1. La tabla no existe en la base de datos.;DEA=Fehler beim Importieren der Tabelle %1: Tabelle ist nicht in der Datenbank vorhanden.';
-      WrongFileTypeErr@1018 : TextConst 'ENU=The specified file could not be imported because it is not a valid RapidStart package file.;ESP=No se pudo importar el archivo especificado porque no es un archivo de paquete de RapidStart v†lido.;DEA=Die angegebene Datei konnte nicht importiert werden, da es sich um keine gÅltige RapidStart-Paketdatei handelt.';
+      Text031@1025 : TextConst '@@@={Locked};DEU=DataList;ENU=DataList';
+      TableDoesNotExistErr@1015 : TextConst 'DEU=Fehler beim Importieren der Tabelle %1: Tabelle ist nicht in der Datenbank vorhanden.;ENU=An error occurred while importing the %1 table. The table does not exist in the database.';
+      WrongFileTypeErr@1018 : TextConst 'DEU=Die angegebene Datei konnte nicht importiert werden, da es sich um keine gÅltige RapidStart-Paketdatei handelt.;ENU=The specified file could not be imported because it is not a valid RapidStart package file.';
       ExportFromWksht@1019 : Boolean;
 
     LOCAL PROCEDURE AddXMLComment@35(VAR PackageXML@1102 : DotNet "'System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlDocument";VAR Node@1100 : DotNet "'System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089'.System.Xml.XmlNode";Comment@1001 : Text[250]);
@@ -684,7 +684,7 @@ OBJECT Codeunit 8614 Config. XML Exchange
         IF (FORMAT(FieldRef.TYPE) = 'Boolean') OR (FORMAT(FieldRef.TYPE) = 'Option') THEN
           InnerText := FORMAT(FieldRef.VALUE,0,2);
         IF (FORMAT(FieldRef.TYPE) = 'DateFormula') AND (FORMAT(FieldRef.VALUE) <> '') THEN
-          InnerText := '<' + FORMAT(FieldRef.VALUE) + '>';
+          InnerText := '<' + FORMAT(FieldRef.VALUE,0,ConfigValidateMgt.XMLFormat) + '>';
       END ELSE
         IF FORMAT(FieldRef.TYPE) = 'Option' THEN
           InnerText := FORMAT(FieldRef.VALUE);

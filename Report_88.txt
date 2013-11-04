@@ -2,16 +2,15 @@ OBJECT Report 88 VAT- VIES Declaration Disk
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
     Permissions=TableData 254=imd;
-    CaptionML=[ENU=VAT- VIES Declaration Disk;
-               ESP=IVA- Declar. intracom. disco;
-               DEA=Zusammenfassende Meldung Disk];
+    CaptionML=[DEU=Zusammenfassende Meldung Disk;
+               ENU=VAT- VIES Declaration Disk];
     ProcessingOnly=Yes;
     OnPreReport=VAR
                   FileMgt@1000 : Codeunit 419;
@@ -47,9 +46,9 @@ OBJECT Report 88 VAT- VIES Declaration Disk
 
                                CompanyInfo.GET;
                                VATRegNo := CONVERTSTR(CompanyInfo."VAT Registration No.",Text001,'    ');
-                               VATFile.WRITE(FORMAT('00' + FORMAT(VATRegNo,8) + Text002,80));
-                               VATFile.WRITE(FORMAT('0100001',80));
-
+                               VATFile.WRITE('#v'+FileVersion);
+                               VATFile.WRITE('#ve'+FileVersion2);
+                               VATFile.WRITE('Laenderkennzeichen,USt-IdNr.,Betrag(Euro),Art der Leistung,Importmeldung');
                                NoOfGrTotal := 0;
                                Period := GETRANGEMAX("Posting Date");
                                InternalReferenceNo := FORMAT(Period,4,2) + '000000';
@@ -62,22 +61,27 @@ OBJECT Report 88 VAT- VIES Declaration Disk
                                   GroupTotal@1000 : Boolean;
                                 BEGIN
                                   IF "EU Service" THEN BEGIN
+                                    HasServiceSupplies := TRUE;
                                     IF UseAmtsInAddCurr THEN
                                       TotalValueOfServiceSupplies := "Additional-Currency Base"
                                     ELSE
-                                      TotalValueOfServiceSupplies := Base
-                                  END ELSE
+                                      TotalValueOfServiceSupplies := Base;
+                                  END ELSE BEGIN
+                                    HasItemSupplies := TRUE;
                                     IF UseAmtsInAddCurr THEN
                                       TotalValueOfItemSupplies := "Additional-Currency Base"
                                     ELSE
                                       TotalValueOfItemSupplies := Base;
+                                  END;
 
                                   IF "EU 3-Party Trade" THEN BEGIN
+                                    HasEU3PartyTrade := TRUE;
                                     EU3PartyItemTradeAmt := EU3PartyItemTradeAmt + TotalValueOfItemSupplies;
                                     EU3PartyServiceTradeAmt := EU3PartyServiceTradeAmt + TotalValueOfServiceSupplies;
+                                  END ELSE BEGIN
+                                    TotalValueofItemSuppliesTotal += TotalValueOfItemSupplies;
+                                    TotalValueofServiceSuppliesTot += TotalValueOfServiceSupplies;
                                   END;
-                                  TotalValueofItemSuppliesTotal += TotalValueOfItemSupplies;
-                                  TotalValueofServiceSuppliesTot += TotalValueOfServiceSupplies;
 
                                   VATEntry.COPY("VAT Entry");
                                   IF VATEntry.NEXT = 1 THEN BEGIN
@@ -90,7 +94,8 @@ OBJECT Report 88 VAT- VIES Declaration Disk
 
                                   IF GroupTotal THEN BEGIN
                                     WriteGrTotalsToFile(TotalValueofServiceSuppliesTot,TotalValueofItemSuppliesTotal,
-                                      EU3PartyServiceTradeAmt,EU3PartyItemTradeAmt);
+                                      EU3PartyServiceTradeAmt,EU3PartyItemTradeAmt,
+                                      HasEU3PartyTrade,HasItemSupplies,HasServiceSupplies);
                                     EU3PartyItemTradeTotalAmt += EU3PartyItemTradeAmt;
                                     EU3PartyServiceTradeTotalAmt += EU3PartyServiceTradeAmt;
 
@@ -99,18 +104,14 @@ OBJECT Report 88 VAT- VIES Declaration Disk
 
                                     EU3PartyItemTradeAmt := 0;
                                     EU3PartyServiceTradeAmt := 0;
+
+                                    HasEU3PartyTrade := FALSE;
+                                    HasItemSupplies := FALSE;
+                                    HasServiceSupplies := FALSE;
                                   END;
                                 END;
 
                OnPostDataItem=BEGIN
-                                VATFile.WRITE(
-                                  FORMAT(
-                                    '10' + DecimalNumeralZeroFormat(NoOfGrTotal,9) +
-                                    DecimalNumeralZeroFormat(EU3PartyItemTradeTotalAmt,15) +
-                                    DecimalNumeralSign(-EU3PartyItemTradeTotalAmt) +
-                                    DecimalNumeralZeroFormat(EU3PartyServiceTradeTotalAmt,15) +
-                                    DecimalNumeralSign(-EU3PartyServiceTradeTotalAmt),
-                                    80));
                                 VATFile.CLOSE;
                               END;
 
@@ -122,6 +123,14 @@ OBJECT Report 88 VAT- VIES Declaration Disk
     PROPERTIES
     {
       SaveValues=Yes;
+      OnInit=BEGIN
+               IF FileVersion = '' THEN
+                 FileVersion := '1.1';
+
+               IF FileVersion2 = '' THEN
+                 FileVersion2 := '1.1.2';
+             END;
+
     }
     CONTROLS
     {
@@ -129,16 +138,26 @@ OBJECT Report 88 VAT- VIES Declaration Disk
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Show Amounts in Add. Reporting Currency;
-                             ESP=Muestra importes en div.-adic.;
-                             DEA=BetrÑge in BerichtswÑhrung ausgeben];
+                  CaptionML=[DEU=BetrÑge in BerichtswÑhrung ausgeben;
+                             ENU=Show Amounts in Add. Reporting Currency];
                   SourceExpr=UseAmtsInAddCurr;
                   MultiLine=Yes }
+
+      { 3   ;2   ;Field     ;
+                  Name=FileVersion;
+                  OptionCaptionML=[DEU=Dateiversion (Elster online);
+                                   ENU=File version (Elster online)];
+                  SourceExpr=FileVersion }
+
+      { 4   ;2   ;Field     ;
+                  Name=FileVersion 2;
+                  CaptionML=[DEU=Datei 2.Version (Elster online);
+                             ENU=File version 2 (Elster online)];
+                  SourceExpr=FileVersion2 }
 
     }
   }
@@ -148,11 +167,11 @@ OBJECT Report 88 VAT- VIES Declaration Disk
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Please enter the file name.;ESP=Introduzca el nombre del archivo.;DEA=Bitte Dateinamen eingeben.';
-      Text001@1001 : TextConst 'ENU=WwWw;ESP=WwWw;DEA=WwWw';
-      Text002@1002 : TextConst 'ENU=LIST;ESP=LISTA;DEA=öBERSICHT';
-      Text003@1003 : TextConst 'ENU="%1 was not filled in for all VAT entries in which %2 = %3.";ESP="No exist°a un valor para %1 para todos los movimientos de IVA donde %2 = %3.";DEA="%1 wurde nicht in allen MwSt.-Posten ausgefÅllt, wo %2 = %3 ist"';
-      Text004@1004 : TextConst 'ENU=It is not possible to display %1 in a field with a length of %2.;ESP=No es posible mostrar %1 en un campo con una longitud de %2.;DEA=Es ist nicht mîglich, %1 in einem Feld mit der LÑnge %2 anzuzeigen';
+      Text000@1000 : TextConst 'DEU=Bitte Dateinamen eingeben.;ENU=Please enter the file name.';
+      Text001@1001 : TextConst 'DEU=WwWw;ENU=WwWw';
+      Text002@1002 : TextConst 'DEU=öBERSICHT;ENU=LIST';
+      Text003@1003 : TextConst 'DEU="%1 wurde nicht in allen MwSt.-Posten ausgefÅllt, wo %2 = %3 ist";ENU="%1 was not filled in for all VAT entries in which %2 = %3."';
+      Text004@1004 : TextConst 'DEU=Es ist nicht mîglich, %1 in einem Feld mit der LÑnge %2 anzuzeigen;ENU=It is not possible to display %1 in a field with a length of %2.';
       CompanyInfo@1005 : Record 79;
       Country@1006 : Record 9;
       Cust@1007 : Record 18;
@@ -169,10 +188,15 @@ OBJECT Report 88 VAT- VIES Declaration Disk
       InternalReferenceNo@1011 : Text[10];
       Period@1012 : Date;
       UseAmtsInAddCurr@1015 : Boolean;
-      Text005@1017 : TextConst 'ENU=Export;ESP=Exportar;DEA=Exportieren';
-      Text006@1019 : TextConst 'ENU=All Files (*.*)|*.*;ESP=Todos los archivos (*.*)|*.*;DEA=Alle Dateien (*.*)|*.*';
-      Text007@1018 : TextConst 'ENU=Default.txt;ESP=Default.txt;DEA=Standard.txt';
+      Text005@1017 : TextConst 'DEU=Exportieren;ENU=Export';
+      Text006@1019 : TextConst 'DEU=Alle Dateien (*.*)|*.*;ENU=All Files (*.*)|*.*';
+      Text007@1018 : TextConst 'DEU=Standard.txt;ENU=Default.txt';
       HideFileDialog@1024 : Boolean;
+      FileVersion@1026 : Text[30];
+      FileVersion2@1025 : Text[30];
+      HasEU3PartyTrade@1010000 : Boolean;
+      HasItemSupplies@1010001 : Boolean;
+      HasServiceSupplies@1010002 : Boolean;
 
     LOCAL PROCEDURE DecimalNumeralSign@1(DecimalNumeral@1000 : Decimal) : Text[1];
     BEGIN
@@ -195,47 +219,38 @@ OBJECT Report 88 VAT- VIES Declaration Disk
       EXIT(PADSTR('',Length - STRLEN(Text),'0') + Text);
     END;
 
-    LOCAL PROCEDURE WriteGrTotalsToFile@4(TotalValueofServiceSupplies@1003 : Decimal;TotalValueofItemSupplies@1002 : Decimal;EU3PartyServiceTradeAmt@1001 : Decimal;EU3PartyItemTradeAmt@1000 : Decimal);
+    LOCAL PROCEDURE WriteGrTotalsToFile@4(TotalValueofServiceSupplies@1003 : Decimal;TotalValueofItemSupplies@1002 : Decimal;EU3PartyServiceTradeAmt@1001 : Decimal;EU3PartyItemTradeAmt@1000 : Decimal;HasEU3Party@1010004 : Boolean;HasItem@1010005 : Boolean;HasService@1010006 : Boolean);
     BEGIN
-      IF (ROUND(ABS(TotalValueofItemSupplies),1,'<') <> 0) OR (ROUND(ABS(TotalValueofServiceSupplies),1,'<') <> 0) OR
-         (ROUND(ABS(EU3PartyItemTradeAmt),1,'<') <> 0) OR (ROUND(ABS(EU3PartyServiceTradeAmt),1,'<') <> 0)
-      THEN
-        WITH "VAT Entry" DO BEGIN
-          IF "VAT Registration No." = '' THEN BEGIN
-            Type := Type::Sale;
-            ERROR(
-              Text003,
-              FIELDCAPTION("VAT Registration No."),FIELDCAPTION(Type),Type);
-          END;
-
-          Cust.GET("Bill-to/Pay-to No.");
-          Cust.TESTFIELD("Country/Region Code");
-          Country.GET(Cust."Country/Region Code");
-          Cust.TESTFIELD("VAT Registration No.");
-          Country.GET("Country/Region Code");
-          Country.TESTFIELD("EU Country/Region Code");
-          NoOfGrTotal := NoOfGrTotal + 1;
-
-          InternalReferenceNo := INCSTR(InternalReferenceNo);
-          SETRANGE("Country/Region Code","Country/Region Code");
-          SETRANGE("Bill-to/Pay-to No.","Bill-to/Pay-to No.");
-          MODIFYALL("Internal Ref. No.",InternalReferenceNo);
-          SETRANGE("Country/Region Code");
-          SETRANGE("Bill-to/Pay-to No.");
-
-          VATFile.WRITE(
-            FORMAT(
-              '02' + FORMAT(InternalReferenceNo,10) +
-              DecimalNumeralZeroFormat(DATE2DMY(Period,3) MOD 100,2) +
-              DecimalNumeralZeroFormat(DATE2DMY(Period,2),2) +
-              DecimalNumeralZeroFormat(DATE2DMY(Period,1),2) +
-              FORMAT(VATRegNo,8) + FORMAT(Country."EU Country/Region Code",2) + FORMAT("VAT Registration No.",12) +
-              DecimalNumeralZeroFormat(TotalValueofItemSupplies,15) + DecimalNumeralSign(-TotalValueofItemSupplies) + '0' +
-              DecimalNumeralZeroFormat(TotalValueofServiceSupplies,15) + DecimalNumeralSign(-TotalValueofServiceSupplies) + '0' +
-              DecimalNumeralZeroFormat(EU3PartyItemTradeAmt,15) + DecimalNumeralSign(-EU3PartyItemTradeAmt) + '0' +
-              DecimalNumeralZeroFormat(EU3PartyServiceTradeAmt,15) + DecimalNumeralSign(-EU3PartyServiceTradeAmt),
-              120));
+      WITH "VAT Entry" DO BEGIN
+        IF "VAT Registration No." = '' THEN BEGIN
+          Type := Type::Sale;
+          ERROR(
+            Text003,
+            FIELDCAPTION("VAT Registration No."),FIELDCAPTION(Type),Type);
         END;
+
+        Cust.GET("Bill-to/Pay-to No.");
+        Cust.TESTFIELD("Country/Region Code");
+        Country.GET(Cust."Country/Region Code");
+        Cust.TESTFIELD("VAT Registration No.");
+        Country.GET("Country/Region Code");
+        Country.TESTFIELD("EU Country/Region Code");
+        NoOfGrTotal := NoOfGrTotal + 1;
+
+        InternalReferenceNo := INCSTR(InternalReferenceNo);
+        SETRANGE("Country/Region Code","Country/Region Code");
+        SETRANGE("Bill-to/Pay-to No.","Bill-to/Pay-to No.");
+        MODIFYALL("Internal Ref. No.",InternalReferenceNo);
+        SETRANGE("Country/Region Code");
+        SETRANGE("Bill-to/Pay-to No.");
+
+        IF HasItem THEN
+          WriteLineToFile(-TotalValueofItemSupplies, 'L');
+        IF HasService THEN
+          WriteLineToFile(-TotalValueofServiceSupplies, 'S');
+        IF HasEU3Party THEN
+          WriteLineToFile(-(EU3PartyItemTradeAmt + EU3PartyServiceTradeAmt), 'D');
+      END;
     END;
 
     PROCEDURE GetFileName@6() : Text[1024];
@@ -246,6 +261,22 @@ OBJECT Report 88 VAT- VIES Declaration Disk
     PROCEDURE InitializeRequest@5(NewHideFileDialog@1000 : Boolean);
     BEGIN
       HideFileDialog := NewHideFileDialog;
+    END;
+
+    PROCEDURE WriteLineToFile@1010000(ExportAmount@1010000 : Decimal;DLS@1010001 : Text[1]);
+    VAR
+      VATRegNo@1010002 : Text[20];
+    BEGIN
+      WITH "VAT Entry" DO BEGIN
+        VATRegNo := "VAT Registration No.";
+        IF COPYSTR(VATRegNo,1,STRLEN(Country."EU Country/Region Code")) = Country."EU Country/Region Code" THEN
+          VATRegNo := COPYSTR(VATRegNo,STRLEN(Country."EU Country/Region Code") + 1);
+        VATFile.WRITE(
+              FORMAT(Country."EU Country/Region Code",2) + ',' +
+              FORMAT(VATRegNo) + ',' +
+              DELCHR(FORMAT(ROUND(ExportAmount,1)),'=', '.,') +',' +
+              DLS);
+      END;
     END;
 
     BEGIN

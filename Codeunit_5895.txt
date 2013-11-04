@@ -2,9 +2,9 @@ OBJECT Codeunit 5895 Inventory Adjustment
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -20,15 +20,15 @@ OBJECT Codeunit 5895 Inventory Adjustment
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Adjusting value entries...\\;ESP=Ajustando movs. valor...\\;DEA=Wertposten werden reguliert ...\\';
-      Text001@1001 : TextConst 'ENU=Adjmt. Level      #2######\;ESP=Nivel ajuste                    #2######\;DEA=Regulierungsebene              #2######\';
-      Text002@1002 : TextConst 'ENU=%1 %2;ESP=%1 %2;DEA=%1 %2';
-      Text003@1003 : TextConst 'ENU=Adjust            #3######\;ESP=Ajustar                         #3######\;DEA=Regulierung                    #3######\';
-      Text004@1004 : TextConst 'ENU=Cost FW. Level    #4######\;ESP=Cst. adel. niv.                 #4######\;DEA=Einst.-Preis šbertr.-Ebene     #4######\';
-      Text005@1005 : TextConst 'ENU=Entry No.         #5######\;ESP=N§ mov.                         #5######\;DEA=Lfd. Nr.                       #5######\';
-      Text006@1044 : TextConst 'ENU=Remaining Entries #6######;ESP=Movimientos pendientes          #6######;DEA=Restliche Posten               #6######';
-      Text007@1007 : TextConst 'ENU=Applied cost;ESP=Coste liquidado;DEA=Einst-Pr. (ausgegl.)';
-      Text008@1008 : TextConst 'ENU=Average cost;ESP=Coste medio;DEA=E-Pr. (durchschn.)';
+      Text000@1000 : TextConst 'DEU=Wertposten werden reguliert ...\\;ENU=Adjusting value entries...\\';
+      Text001@1001 : TextConst 'DEU=Regulierungsebene              #2######\;ENU=Adjmt. Level      #2######\';
+      Text002@1002 : TextConst 'DEU=%1 %2;ENU=%1 %2';
+      Text003@1003 : TextConst 'DEU=Regulierung                    #3######\;ENU=Adjust            #3######\';
+      Text004@1004 : TextConst 'DEU=Einst.-Preis šbertr.-Ebene     #4######\;ENU=Cost FW. Level    #4######\';
+      Text005@1005 : TextConst 'DEU=Lfd. Nr.                       #5######\;ENU=Entry No.         #5######\';
+      Text006@1044 : TextConst 'DEU=Restliche Posten               #6######;ENU=Remaining Entries #6######';
+      Text007@1007 : TextConst 'DEU=Einst-Pr. (ausgegl.);ENU=Applied cost';
+      Text008@1008 : TextConst 'DEU=E-Pr. (durchschn.);ENU=Average cost';
       Item@1026 : Record 27;
       FilterItem@1040 : Record 27;
       GLSetup@1009 : Record 98;
@@ -63,8 +63,8 @@ OBJECT Codeunit 5895 Inventory Adjustment
       WindowAdjust@1036 : Text[20];
       WindowFWLevel@1035 : Integer;
       WindowEntry@1034 : Integer;
-      Text009@1039 : TextConst 'ENU=WIP;ESP=WIP;DEA=RIF';
-      Text010@1014 : TextConst 'ENU=Assembly;ESP=Ensamblado;DEA=Montage';
+      Text009@1039 : TextConst 'DEU=RIF;ENU=WIP';
+      Text010@1014 : TextConst 'DEU=Montage;ENU=Assembly';
       IsAvgCostCalcTypeItem@1038 : Boolean;
       WindowOutbndEntry@1045 : Integer;
 
@@ -1069,11 +1069,8 @@ OBJECT Codeunit 5895 Inventory Adjustment
               END;
             END;
 
-            IF ShouldExcludeValueEntryFromAvg(ValueEntry,IsAvgCostCalcTypeItem)
-            THEN BEGIN
-              ExcludedValueEntry := ValueEntry;
-              ExcludedValueEntry.INSERT;
-            END;
+            ExcludedValueEntry := ValueEntry;
+            ExcludedValueEntry.INSERT;
           UNTIL NEXT = 0;
         END;
 
@@ -1256,6 +1253,7 @@ OBJECT Codeunit 5895 Inventory Adjustment
     LOCAL PROCEDURE IsExcludeILEFromAvgCostCalc@36(ValueEntry@1000 : Record 5802;OutbndValueEntry@1001 : Record 5802;VAR ItemLedgEntryInChain@1003 : Record 32;VAR FixedApplication@1004 : Boolean) : Boolean;
     VAR
       ItemLedgEntry@1002 : Record 32;
+      AvgCostAdjmtEntryPoint@1005 : Record 5804;
     BEGIN
       WITH ValueEntry DO BEGIN
         IF TempOpenItemLedgEntry.GET("Item Ledger Entry No.") THEN
@@ -1274,7 +1272,8 @@ OBJECT Codeunit 5895 Inventory Adjustment
 
         IF "Item Ledger Entry Type" = "Item Ledger Entry Type"::Transfer THEN
           IF ("Item Ledger Entry No." < OutbndValueEntry."Item Ledger Entry No.") AND ItemLedgEntry.Positive THEN
-            EXIT(FALSE);
+            IF NOT AvgCostAdjmtEntryPoint.IsAvgCostCalcTypeItem("Valuation Date") THEN
+              EXIT(FALSE);
 
         IF ItemLedgEntryInChain.GET("Item Ledger Entry No.") THEN
           EXIT(TRUE);
@@ -1321,10 +1320,6 @@ OBJECT Codeunit 5895 Inventory Adjustment
     VAR
       AvgCostAdjmtEntryPoint@1001 : Record 5804;
     BEGIN
-      IF (ValueEntry."Item Ledger Entry Type" = ValueEntry."Item Ledger Entry Type"::Transfer) AND
-         AvgCostAdjmtEntryPoint.IsAvgCostCalcTypeItem(ValueEntry."Valuation Date")
-      THEN
-        EXIT;
       AvgCostAdjmtEntryPoint.UpdateValuationDate(ValueEntry);
     END;
 
@@ -2058,18 +2053,6 @@ OBJECT Codeunit 5895 Inventory Adjustment
           EXIT(Integer.Number);
         END;
         EXIT(Number);
-      END;
-    END;
-
-    LOCAL PROCEDURE ShouldExcludeValueEntryFromAvg@24(ValueEntry@1000 : Record 5802;IsAvgCostCalcTypeItem@1001 : Boolean) : Boolean;
-    BEGIN
-      WITH ValueEntry DO BEGIN
-        IF "Entry Type" = "Entry Type"::Revaluation THEN
-          EXIT(TRUE);
-        IF "Item Ledger Entry Type" <> "Item Ledger Entry Type"::Transfer THEN
-          EXIT(TRUE);
-
-        EXIT(NOT IsAvgCostCalcTypeItem);
       END;
     END;
 

@@ -2,9 +2,9 @@ OBJECT Table 901 Assembly Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -34,9 +34,8 @@ OBJECT Table 901 Assembly Line
                ERROR(Text002,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Assembly Line;
-               ESP=L°nea de ensamblado;
-               DEA=Montagezeile];
+    CaptionML=[DEU=Montagezeile;
+               ENU=Assembly Line];
     LookupPageID=Page903;
     DrillDownPageID=Page903;
   }
@@ -46,24 +45,20 @@ OBJECT Table 901 Assembly Line
                                                                 TestStatusOpen;
                                                               END;
 
-                                                   CaptionML=[ENU=Document Type;
-                                                              ESP=Tipo documento;
-                                                              DEA=Belegart];
-                                                   OptionCaptionML=[ENU=Quote,Order,,,Blanket Order;
-                                                                    ESP=Presupuesto,Pedido,,,Pedido abierto;
-                                                                    DEA=Angebot,Auftrag,,,Rahmenauftrag];
+                                                   CaptionML=[DEU=Belegart;
+                                                              ENU=Document Type];
+                                                   OptionCaptionML=[DEU=Angebot,Auftrag,,,Rahmenauftrag;
+                                                                    ENU=Quote,Order,,,Blanket Order];
                                                    OptionString=Quote,Order,,,Blanket Order }
     { 2   ;   ;Document No.        ;Code20        ;TableRelation="Assembly Header".No. WHERE (Document Type=FIELD(Document Type));
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
                                                               END;
 
-                                                   CaptionML=[ENU=Document No.;
-                                                              ESP=Nß documento;
-                                                              DEA=Belegnr.] }
-    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.];
+                                                   CaptionML=[DEU=Belegnr.;
+                                                              ENU=Document No.] }
+    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.];
                                                    Editable=No }
     { 10  ;   ;Type                ;Option        ;OnValidate=BEGIN
                                                                 TESTFIELD("Consumed Quantity",0);
@@ -80,12 +75,10 @@ OBJECT Table 901 Assembly Line
                                                                 CLEAR("Lead-Time Offset");
                                                               END;
 
-                                                   CaptionML=[ENU=Type;
-                                                              ESP=Tipo;
-                                                              DEA=Art];
-                                                   OptionCaptionML=[ENU=" ,Item,Resource";
-                                                                    ESP=" ,Producto,Recurso";
-                                                                    DEA=" ,Artikel,Ressource"];
+                                                   CaptionML=[DEU=Art;
+                                                              ENU=Type];
+                                                   OptionCaptionML=[DEU=" ,Artikel,Ressource";
+                                                                    ENU=" ,Item,Resource"];
                                                    OptionString=[ ,Item,Resource] }
     { 11  ;   ;No.                 ;Code20        ;TableRelation=IF (Type=CONST(Item)) Item
                                                                  ELSE IF (Type=CONST(Resource)) Resource;
@@ -146,9 +139,8 @@ OBJECT Table 901 Assembly Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 12  ;   ;Variant Code        ;Code10        ;TableRelation=IF (Type=CONST(Item)) "Item Variant".Code WHERE (Item No.=FIELD(No.),
                                                                                                                   Code=FIELD(Variant Code));
                                                    OnValidate=VAR
@@ -178,23 +170,19 @@ OBJECT Table 901 Assembly Line
                                                                 "Cost Amount" := CalcCostAmount(Quantity,"Unit Cost");
                                                               END;
 
-                                                   CaptionML=[ENU=Variant Code;
-                                                              ESP=C¢d. variante;
-                                                              DEA=Variantencode] }
-    { 13  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
-    { 14  ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
-                                                              ESP=Descripci¢n 2;
-                                                              DEA=Beschreibung 2] }
+                                                   CaptionML=[DEU=Variantencode;
+                                                              ENU=Variant Code] }
+    { 13  ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
+    { 14  ;   ;Description 2       ;Text50        ;CaptionML=[DEU=Beschreibung 2;
+                                                              ENU=Description 2] }
     { 18  ;   ;Lead-Time Offset    ;DateFormula   ;OnValidate=BEGIN
                                                                 GetHeader;
                                                                 ValidateLeadTimeOffset(AssemblyHeader,"Lead-Time Offset",TRUE);
                                                               END;
 
-                                                   CaptionML=[ENU=Lead-Time Offset;
-                                                              ESP=Desfase plazo entrega;
-                                                              DEA=Vorlaufzeitverschiebung] }
+                                                   CaptionML=[DEU=Vorlaufzeitverschiebung;
+                                                              ENU=Lead-Time Offset] }
     { 19  ;   ;Resource Usage Type ;Option        ;OnValidate=BEGIN
                                                                 IF "Resource Usage Type" = xRec."Resource Usage Type" THEN
                                                                   EXIT;
@@ -208,12 +196,10 @@ OBJECT Table 901 Assembly Line
                                                                 VALIDATE(Quantity,CalcQuantity("Quantity per",AssemblyHeader.Quantity));
                                                               END;
 
-                                                   CaptionML=[ENU=Resource Usage Type;
-                                                              ESP=Tipo utiliz. recursos;
-                                                              DEA=Ressourcenverbrauchsart];
-                                                   OptionCaptionML=[ENU=" ,Direct,Fixed";
-                                                                    ESP=" ,Directo,Fijo";
-                                                                    DEA=" ,Direkt,Fix"];
+                                                   CaptionML=[DEU=Ressourcenverbrauchsart;
+                                                              ENU=Resource Usage Type];
+                                                   OptionCaptionML=[DEU=" ,Direkt,Fix";
+                                                                    ENU=" ,Direct,Fixed"];
                                                    OptionString=[ ,Direct,Fixed] }
     { 20  ;   ;Location Code       ;Code10        ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
                                                    OnValidate=BEGIN
@@ -229,26 +215,23 @@ OBJECT Table 901 Assembly Line
                                                                 "Cost Amount" := CalcCostAmount(Quantity,"Unit Cost");
                                                               END;
 
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
     { 21  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
-                                                              ESP=C¢d. dim. acceso dir. 1;
-                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 1;
+                                                              ENU=Shortcut Dimension 1 Code];
                                                    CaptionClass='1,2,1' }
     { 22  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
-                                                              ESP=C¢d. dim. acceso dir. 2;
-                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 2;
+                                                              ENU=Shortcut Dimension 2 Code];
                                                    CaptionClass='1,2,2' }
     { 23  ;   ;Bin Code            ;Code20        ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
                                                    OnValidate=VAR
@@ -282,18 +265,14 @@ OBJECT Table 901 Assembly Line
                                                                 VALIDATE("Bin Code",BinCode);
                                                             END;
 
-                                                   CaptionML=[ENU=Bin Code;
-                                                              ESP=C¢d. ubicaci¢n;
-                                                              DEA=Lagerplatzcode] }
-    { 25  ;   ;Position            ;Code10        ;CaptionML=[ENU=Position;
-                                                              ESP=Posici¢n;
-                                                              DEA=Position] }
-    { 26  ;   ;Position 2          ;Code10        ;CaptionML=[ENU=Position 2;
-                                                              ESP=Posici¢n 2;
-                                                              DEA=Position 2] }
-    { 27  ;   ;Position 3          ;Code10        ;CaptionML=[ENU=Position 3;
-                                                              ESP=Posici¢n 3;
-                                                              DEA=Position 3] }
+                                                   CaptionML=[DEU=Lagerplatzcode;
+                                                              ENU=Bin Code] }
+    { 25  ;   ;Position            ;Code10        ;CaptionML=[DEU=Position;
+                                                              ENU=Position] }
+    { 26  ;   ;Position 2          ;Code10        ;CaptionML=[DEU=Position 2;
+                                                              ENU=Position 2] }
+    { 27  ;   ;Position 3          ;Code10        ;CaptionML=[DEU=Position 3;
+                                                              ENU=Position 3] }
     { 38  ;   ;Appl.-to Item Entry ;Integer       ;OnValidate=VAR
                                                                 ItemLedgEntry@1000 : Record 32;
                                                               BEGIN
@@ -314,16 +293,14 @@ OBJECT Table 901 Assembly Line
                                                               SelectItemEntry(FIELDNO("Appl.-to Item Entry"));
                                                             END;
 
-                                                   CaptionML=[ENU=Appl.-to Item Entry;
-                                                              ESP=Liq. por nß orden producto;
-                                                              DEA=Ausgleich mit Artikelposten] }
+                                                   CaptionML=[DEU=Ausgleich mit Artikelposten;
+                                                              ENU=Appl.-to Item Entry] }
     { 39  ;   ;Appl.-from Item Entry;Integer      ;OnLookup=BEGIN
                                                               SelectItemEntry(FIELDNO("Appl.-from Item Entry"));
                                                             END;
 
-                                                   CaptionML=[ENU=Appl.-from Item Entry;
-                                                              ESP=Liquid.-de mov. pdto;
-                                                              DEA=Ausgegl. von Artikelposten];
+                                                   CaptionML=[DEU=Ausgegl. von Artikelposten;
+                                                              ENU=Appl.-from Item Entry];
                                                    MinValue=0 }
     { 40  ;   ;Quantity            ;Decimal       ;OnValidate=BEGIN
                                                                 WhseValidateSourceLine.AssemblyLineVerifyChange(Rec,xRec);
@@ -339,9 +316,8 @@ OBJECT Table 901 Assembly Line
                                                                 "Cost Amount" := CalcCostAmount(Quantity,"Unit Cost");
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    Editable=No }
@@ -350,30 +326,25 @@ OBJECT Table 901 Assembly Line
                                                                 VALIDATE(Quantity,"Quantity (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity (Base);
-                                                              ESP=Cantidad (base);
-                                                              DEA=Menge (Basis)];
+                                                   CaptionML=[DEU=Menge (Basis);
+                                                              ENU=Quantity (Base)];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0;
                                                    Editable=No }
-    { 42  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[ENU=Remaining Quantity;
-                                                              ESP=Cantidad pendiente;
-                                                              DEA=Restmenge];
+    { 42  ;   ;Remaining Quantity  ;Decimal       ;CaptionML=[DEU=Restmenge;
+                                                              ENU=Remaining Quantity];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 43  ;   ;Remaining Quantity (Base);Decimal  ;CaptionML=[ENU=Remaining Quantity (Base);
-                                                              ESP=Cantidad pendiente (base);
-                                                              DEA=Restmenge (Basis)];
+    { 43  ;   ;Remaining Quantity (Base);Decimal  ;CaptionML=[DEU=Restmenge (Basis);
+                                                              ENU=Remaining Quantity (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 44  ;   ;Consumed Quantity   ;Decimal       ;CaptionML=[ENU=Consumed Quantity;
-                                                              ESP=Cantidad consumida;
-                                                              DEA=Verbrauchte Menge];
+    { 44  ;   ;Consumed Quantity   ;Decimal       ;CaptionML=[DEU=Verbrauchte Menge;
+                                                              ENU=Consumed Quantity];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 45  ;   ;Consumed Quantity (Base);Decimal   ;CaptionML=[ENU=Consumed Quantity (Base);
-                                                              ESP=Cantidad consumida (base);
-                                                              DEA=Verbrauchte Menge (Basis)];
+    { 45  ;   ;Consumed Quantity (Base);Decimal   ;CaptionML=[DEU=Verbrauchte Menge (Basis);
+                                                              ENU=Consumed Quantity (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 46  ;   ;Quantity to Consume ;Decimal       ;OnValidate=BEGIN
@@ -387,14 +358,12 @@ OBJECT Table 901 Assembly Line
                                                                 VALIDATE("Quantity to Consume (Base)",CalcBaseQty("Quantity to Consume"));
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity to Consume;
-                                                              ESP=Cantidad a consumir;
-                                                              DEA=Verbrauchsmenge];
+                                                   CaptionML=[DEU=Verbrauchsmenge;
+                                                              ENU=Quantity to Consume];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 47  ;   ;Quantity to Consume (Base);Decimal ;CaptionML=[ENU=Quantity to Consume (Base);
-                                                              ESP=Cantidad a consumir (base);
-                                                              DEA=Verbrauchsmenge (Basis)];
+    { 47  ;   ;Quantity to Consume (Base);Decimal ;CaptionML=[DEU=Verbrauchsmenge (Basis);
+                                                              ENU=Quantity to Consume (Base)];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 48  ;   ;Reserved Quantity   ;Decimal       ;FieldClass=FlowField;
@@ -403,9 +372,8 @@ OBJECT Table 901 Assembly Line
                                                                                                         Source Type=CONST(901),
                                                                                                         Source Subtype=FIELD(Document Type),
                                                                                                         Reservation Status=CONST(Reservation)));
-                                                   CaptionML=[ENU=Reserved Quantity;
-                                                              ESP=Cantidad reservada;
-                                                              DEA=Reservierte Menge];
+                                                   CaptionML=[DEU=Reservierte Menge;
+                                                              ENU=Reserved Quantity];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 49  ;   ;Reserved Qty. (Base);Decimal       ;FieldClass=FlowField;
@@ -414,32 +382,28 @@ OBJECT Table 901 Assembly Line
                                                                                                                  Source Type=CONST(901),
                                                                                                                  Source Subtype=FIELD(Document Type),
                                                                                                                  Reservation Status=CONST(Reservation)));
-                                                   CaptionML=[ENU=Reserved Qty. (Base);
-                                                              ESP=Cdad. reservada (base);
-                                                              DEA=Reservierte Menge (Basis)];
+                                                   CaptionML=[DEU=Reservierte Menge (Basis);
+                                                              ENU=Reserved Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 50  ;   ;Avail. Warning      ;Boolean       ;CaptionML=[ENU=Avail. Warning;
-                                                              ESP=Aviso disponibilidad;
-                                                              DEA=VerfÅgbarkeitswarnung];
+    { 50  ;   ;Avail. Warning      ;Boolean       ;CaptionML=[DEU=VerfÅgbarkeitswarnung;
+                                                              ENU=Avail. Warning];
                                                    Editable=No }
     { 51  ;   ;Substitution Available;Boolean     ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Item Substitution" WHERE (Type=CONST(Item),
                                                                                                 Substitute Type=CONST(Item),
                                                                                                 No.=FIELD(No.),
                                                                                                 Variant Code=FIELD(Variant Code)));
-                                                   CaptionML=[ENU=Substitution Available;
-                                                              ESP=Disponible sustituci¢n;
-                                                              DEA=Ersatzartikel verfÅgbar];
+                                                   CaptionML=[DEU=Ersatzartikel verfÅgbar;
+                                                              ENU=Substitution Available];
                                                    Editable=No }
     { 52  ;   ;Due Date            ;Date          ;OnValidate=BEGIN
                                                                 GetHeader;
                                                                 ValidateDueDate(AssemblyHeader,"Due Date",TRUE);
                                                               END;
 
-                                                   CaptionML=[ENU=Due Date;
-                                                              ESP=Fecha vencimiento;
-                                                              DEA=FÑlligkeitsdatum] }
+                                                   CaptionML=[DEU=FÑlligkeitsdatum;
+                                                              ENU=Due Date] }
     { 53  ;   ;Reserve             ;Option        ;OnValidate=BEGIN
                                                                 IF Reserve <> Reserve::Never THEN BEGIN
                                                                   TESTFIELD(Type,Type::Item);
@@ -457,12 +421,10 @@ OBJECT Table 901 Assembly Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Reserve;
-                                                              ESP=Reserva;
-                                                              DEA=Reservieren];
-                                                   OptionCaptionML=[ENU=Never,Optional,Always;
-                                                                    ESP=Nunca,Opcional,Siempre;
-                                                                    DEA=Nie,Optional,Immer];
+                                                   CaptionML=[DEU=Reservieren;
+                                                              ENU=Reserve];
+                                                   OptionCaptionML=[DEU=Nie,Optional,Immer;
+                                                                    ENU=Never,Optional,Always];
                                                    OptionString=Never,Optional,Always }
     { 60  ;   ;Quantity per        ;Decimal       ;OnValidate=BEGIN
                                                                 TestStatusOpen;
@@ -478,29 +440,25 @@ OBJECT Table 901 Assembly Line
                                                                   MinValue(MaxQtyToConsume,CalcQuantity("Quantity per",AssemblyHeader."Quantity to Assemble")));
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity per;
-                                                              ESP=Cantidad por;
-                                                              DEA=Komponentenmenge];
+                                                   CaptionML=[DEU=Komponentenmenge;
+                                                              ENU=Quantity per];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 61  ;   ;Qty. per Unit of Measure;Decimal   ;InitValue=1;
-                                                   CaptionML=[ENU=Qty. per Unit of Measure;
-                                                              ESP=Cdad. por unidad medida;
-                                                              DEA=Menge pro Einheit];
+                                                   CaptionML=[DEU=Menge pro Einheit;
+                                                              ENU=Qty. per Unit of Measure];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 62  ;   ;Inventory Posting Group;Code10     ;TableRelation="Inventory Posting Group";
-                                                   CaptionML=[ENU=Inventory Posting Group;
-                                                              ESP=Grupo contable inventario;
-                                                              DEA=Lagerbuchungsgruppe] }
+                                                   CaptionML=[DEU=Lagerbuchungsgruppe;
+                                                              ENU=Inventory Posting Group] }
     { 63  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
                                                    OnValidate=BEGIN
                                                                 TestStatusOpen;
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
     { 65  ;   ;Unit Cost           ;Decimal       ;OnValidate=VAR
                                                                 SkuItemUnitCost@1000 : Decimal;
                                                               BEGIN
@@ -518,20 +476,17 @@ OBJECT Table 901 Assembly Line
                                                                 "Cost Amount" := CalcCostAmount(Quantity,"Unit Cost");
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Cost;
-                                                              ESP=Coste unitario;
-                                                              DEA=Einstandspreis];
+                                                   CaptionML=[DEU=Einstandspreis;
+                                                              ENU=Unit Cost];
                                                    MinValue=0;
                                                    AutoFormatType=2 }
-    { 67  ;   ;Cost Amount         ;Decimal       ;CaptionML=[ENU=Cost Amount;
-                                                              ESP=Importe coste;
-                                                              DEA=Einstandsbetrag];
+    { 67  ;   ;Cost Amount         ;Decimal       ;CaptionML=[DEU=Einstandsbetrag;
+                                                              ENU=Cost Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 72  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 80  ;   ;Unit of Measure Code;Code10        ;TableRelation=IF (Type=CONST(Item)) "Item Unit of Measure".Code WHERE (Item No.=FIELD(No.))
                                                                  ELSE IF (Type=CONST(Resource)) "Resource Unit of Measure".Code WHERE (Resource No.=FIELD(No.));
                                                    OnValidate=VAR
@@ -555,17 +510,15 @@ OBJECT Table 901 Assembly Line
                                                                 VALIDATE(Quantity);
                                                               END;
 
-                                                   CaptionML=[ENU=Unit of Measure Code;
-                                                              ESP=C¢d. unidad medida;
-                                                              DEA=Einheitencode] }
+                                                   CaptionML=[DEU=Einheitencode;
+                                                              ENU=Unit of Measure Code] }
     { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
                                                    OnLookup=BEGIN
                                                               ShowDimensions;
                                                             END;
 
-                                                   CaptionML=[ENU=Dimension Set ID;
-                                                              ESP=Id. grupo dimensiones;
-                                                              DEA=Dimensionssatz-ID];
+                                                   CaptionML=[DEU=Dimensionssatz-ID;
+                                                              ENU=Dimension Set ID];
                                                    Editable=No }
     { 7301;   ;Pick Qty.           ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Warehouse Activity Line"."Qty. Outstanding" WHERE (Activity Type=FILTER(<>Put-away),
@@ -578,9 +531,8 @@ OBJECT Table 901 Assembly Line
                                                                                                                        Action Type=FILTER(' '|Place),
                                                                                                                        Original Breakbulk=CONST(No),
                                                                                                                        Breakbulk No.=CONST(0)));
-                                                   CaptionML=[ENU=Pick Qty.;
-                                                              ESP=Cdad. picking;
-                                                              DEA=Menge fÅr Kommissionierung];
+                                                   CaptionML=[DEU=Menge fÅr Kommissionierung;
+                                                              ENU=Pick Qty.];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 7302;   ;Pick Qty. (Base)    ;Decimal       ;FieldClass=FlowField;
@@ -594,23 +546,20 @@ OBJECT Table 901 Assembly Line
                                                                                                                               Action Type=FILTER(' '|Place),
                                                                                                                               Original Breakbulk=CONST(No),
                                                                                                                               Breakbulk No.=CONST(0)));
-                                                   CaptionML=[ENU=Pick Qty. (Base);
-                                                              ESP=Cdad. picking (Base);
-                                                              DEA=Menge fÅr Kommiss. (Basis)];
+                                                   CaptionML=[DEU=Menge fÅr Kommiss. (Basis);
+                                                              ENU=Pick Qty. (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 7303;   ;Qty. Picked         ;Decimal       ;OnValidate=BEGIN
                                                                 "Qty. Picked (Base)" := CalcBaseQty("Qty. Picked");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. Picked;
-                                                              ESP=Cdad. preparada pedido;
-                                                              DEA=Menge kommissioniert];
+                                                   CaptionML=[DEU=Menge kommissioniert;
+                                                              ENU=Qty. Picked];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 7304;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[ENU=Qty. Picked (Base);
-                                                              ESP=Cdad. preparada pedido (base);
-                                                              DEA=Menge kommissioniert (Basis)];
+    { 7304;   ;Qty. Picked (Base)  ;Decimal       ;CaptionML=[DEU=Menge kommissioniert (Basis);
+                                                              ENU=Qty. Picked (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
   }
@@ -630,12 +579,12 @@ OBJECT Table 901 Assembly Line
     VAR
       Item@1003 : Record 27;
       Resource@1004 : Record 156;
-      Text001@1055 : TextConst 'ENU=Automatic reservation is not possible.\Do you want to reserve items manually?;ESP=No se puede reservar autom†ticamente.\®Desea reservar los productos manualmente?;DEA=Automatische Reservierung nicht mîglich.\Mîchten Sie die Artikel manuell reservieren?';
-      Text002@1017 : TextConst 'ENU=You cannot rename an %1.;ESP=No puede cambiar el nombre de la %1.;DEA=Sie kînnen einen %1 nicht umbenennen.';
-      Text003@1012 : TextConst 'ENU=%1 cannot be higher than the %2, which is %3.;ESP=El %1 no puede ser superior al %2, que es %3.;DEA=''%1'' kann nicht grî·er sein als ''%2'' (%3).';
-      Text029@1010 : TextConst '@@@=starts with "Quantity";ENU=must be positive;ESP=debe ser positivo;DEA=muss positiv sein';
-      Text042@1011 : TextConst 'ENU=When posting the Applied to Ledger Entry, %1 will be opened first.;ESP=Al registrar Liq. por mov. contable, %1 se abrir† primero.;DEA=Beim Buchen wird der ausgeglichene Posten %1 zuerst geîffnet.';
-      Text99000002@1006 : TextConst 'ENU=You cannot change %1 when %2 is ''%3''.;ESP=No se puede cambiar %1 cuando %2 es ''%3''.;DEA=Sie kînnen %1 nicht Ñndern, wenn %2 ''%3'' ist.';
+      Text001@1055 : TextConst 'DEU=Automatische Reservierung nicht mîglich.\Mîchten Sie die Artikel manuell reservieren?;ENU=Automatic reservation is not possible.\Do you want to reserve items manually?';
+      Text002@1017 : TextConst 'DEU=Sie kînnen einen %1 nicht umbenennen.;ENU=You cannot rename an %1.';
+      Text003@1012 : TextConst 'DEU=''%1'' kann nicht grî·er sein als ''%2'' (%3).;ENU=%1 cannot be higher than the %2, which is %3.';
+      Text029@1010 : TextConst '@@@=starts with "Quantity";DEU=muss positiv sein;ENU=must be positive';
+      Text042@1011 : TextConst 'DEU=Beim Buchen wird der ausgeglichene Posten %1 zuerst geîffnet.;ENU=When posting the Applied to Ledger Entry, %1 will be opened first.';
+      Text99000002@1006 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, wenn %2 ''%3'' ist.;ENU=You cannot change %1 when %2 is ''%3''.';
       AssemblyHeader@1002 : Record 900;
       StockkeepingUnit@1005 : Record 5700;
       GLSetup@1000 : Record 98;
@@ -646,8 +595,8 @@ OBJECT Table 901 Assembly Line
       StatusCheckSuspended@1016 : Boolean;
       TestReservationDateConflict@1057 : Boolean;
       SkipVerificationsThatChangeDatabase@1018 : Boolean;
-      Text049@1019 : TextConst 'ENU=%1 cannot be later than %2 because the %3 is set to %4.;ESP=%1 no puede ser posterior a %2 porque el %3 se establece en %4.;DEA=''%1'' darf hîchstens auf ''%2'' festgelegt werden, da ''%3'' auf ''%4'' festgelegt ist.';
-      Text050@1020 : TextConst 'ENU=Due Date %1 is before work date %2.;ESP=La fecha de vencimiento %1 es anterior a la fecha de trabajo %2.;DEA=Das FÑlligkeitsdatum %1 liegt vor dem Arbeitsdatum %2.';
+      Text049@1019 : TextConst 'DEU=''%1'' darf hîchstens auf ''%2'' festgelegt werden, da ''%3'' auf ''%4'' festgelegt ist.;ENU=%1 cannot be later than %2 because the %3 is set to %4.';
+      Text050@1020 : TextConst 'DEU=Das FÑlligkeitsdatum %1 liegt vor dem Arbeitsdatum %2.;ENU=Due Date %1 is before work date %2.';
 
     PROCEDURE Refresh@17(NewQuantity@1000 : Decimal);
     BEGIN

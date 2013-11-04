@@ -2,9 +2,9 @@ OBJECT Codeunit 5870 Calculate BOM Tree
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -27,7 +27,7 @@ OBJECT Codeunit 5870 Calculate BOM Tree
       ZeroDF@1001 : DateFormula;
       AvailToUse@1005 : 'UpdatedQtyOnItemAvail,QtyOnItemAvail,QtyAvail';
       MarkBottleneck@1006 : Boolean;
-      Text000@1011 : TextConst 'ENU=Generating Tree @1@@@@@@@;ESP=Generando  rbol @1@@@@@@@;DEA=Struktur wird generiert @1@@@@@@@';
+      Text000@1011 : TextConst 'DEU=Struktur wird generiert @1@@@@@@@;ENU=Generating Tree @1@@@@@@@';
       ShowTotalAvailability@1014 : Boolean;
       TreeType@1010 : ' ,Availability,Cost';
 
@@ -243,11 +243,13 @@ OBJECT Codeunit 5870 Calculate BOM Tree
       RoutingLine@1002 : Record 99000764;
       ParentBOMBuffer@1007 : Record 5870;
       UOMMgt@1003 : Codeunit 5402;
+      VersionMgt@1008 : Codeunit 99000756;
       LotSize@1001 : Decimal;
     BEGIN
       ParentBOMBuffer := BOMBuffer;
       WITH ProdBOMLine DO BEGIN
         SETRANGE("Production BOM No.",ParentItem."Production BOM No.");
+        SETRANGE("Version Code",VersionMgt.GetBOMVersion(ParentItem."Production BOM No.",WORKDATE,TRUE));
         IF FINDSET THEN BEGIN
           REPEAT
             IF "No." <> '' THEN

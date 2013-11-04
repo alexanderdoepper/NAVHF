@@ -2,9 +2,9 @@ OBJECT Table 5612 FA Depreciation Book
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -51,22 +51,19 @@ OBJECT Table 5612 FA Depreciation Book
                ERROR(Text000,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=FA Depreciation Book;
-               ESP=A/F Libro amortizaci¢n;
-               DEA=Anlagen-AfA-Buch];
+    CaptionML=[DEU=Anlagen-AfA-Buch;
+               ENU=FA Depreciation Book];
     LookupPageID=Page5619;
   }
   FIELDS
   {
     { 1   ;   ;FA No.              ;Code20        ;TableRelation="Fixed Asset";
-                                                   CaptionML=[ENU=FA No.;
-                                                              ESP=A/F Nß;
-                                                              DEA=Anlagennr.];
+                                                   CaptionML=[DEU=Anlagennr.;
+                                                              ENU=FA No.];
                                                    NotBlank=Yes }
     { 2   ;   ;Depreciation Book Code;Code10      ;TableRelation="Depreciation Book";
-                                                   CaptionML=[ENU=Depreciation Book Code;
-                                                              ESP=C¢d. libro amortizaci¢n;
-                                                              DEA=AfA Buchcode];
+                                                   CaptionML=[DEU=AfA Buchcode;
+                                                              ENU=Depreciation Book Code];
                                                    NotBlank=Yes }
     { 3   ;   ;Depreciation Method ;Option        ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
@@ -122,21 +119,18 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 TestHalfYearConventionMethod;
                                                               END;
 
-                                                   CaptionML=[ENU=Depreciation Method;
-                                                              ESP=MÇtodo amortizaci¢n;
-                                                              DEA=AfA-Methode];
-                                                   OptionCaptionML=[ENU=Straight-Line,Declining-Balance 1,Declining-Balance 2,DB1/SL,DB2/SL,User-Defined,Manual;
-                                                                    ESP=Lineal,Regresivo saldo 1,Regresivo saldo 2,Rs1/L,Rs2/L,Definido por usuario,Manual;
-                                                                    DEA=Linear,Degressiv 1,Degressiv 2,Degr1/Linear,Degr2/Linear,Tabelle,Manuell];
+                                                   CaptionML=[DEU=AfA-Methode;
+                                                              ENU=Depreciation Method];
+                                                   OptionCaptionML=[DEU=Linear,Degressiv 1,Degressiv 2,Degr1/Linear,Degr2/Linear,Tabelle,Manuell;
+                                                                    ENU=Straight-Line,Declining-Balance 1,Declining-Balance 2,DB1/SL,DB2/SL,User-Defined,Manual];
                                                    OptionString=Straight-Line,Declining-Balance 1,Declining-Balance 2,DB1/SL,DB2/SL,User-Defined,Manual }
     { 4   ;   ;Depreciation Starting Date;Date    ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                                 CalcDeprPeriod;
                                                               END;
 
-                                                   CaptionML=[ENU=Depreciation Starting Date;
-                                                              ESP=Fecha inicio amortizaci¢n;
-                                                              DEA=Startdatum Normal-AfA];
+                                                   CaptionML=[DEU=Startdatum Normal-AfA;
+                                                              ENU=Depreciation Starting Date];
                                                    Editable=Yes }
     { 5   ;   ;Straight-Line %     ;Decimal       ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
@@ -145,9 +139,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 AdjustLinearMethod("No. of Depreciation Years","Fixed Depr. Amount");
                                                               END;
 
-                                                   CaptionML=[ENU=Straight-Line %;
-                                                              ESP=% Lineal;
-                                                              DEA=Lineare AfA %];
+                                                   CaptionML=[DEU=Lineare AfA %;
+                                                              ENU=Straight-Line %];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0 }
     { 6   ;   ;No. of Depreciation Years;Decimal  ;OnValidate=VAR
@@ -166,9 +159,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 "Depreciation Ending Date" := CalcEndingDate;
                                                               END;
 
-                                                   CaptionML=[ENU=No. of Depreciation Years;
-                                                              ESP=Nß a§os amortizaci¢n;
-                                                              DEA=Nutzungsdauer i. Jahren];
+                                                   CaptionML=[DEU=Nutzungsdauer i. Jahren;
+                                                              ENU=No. of Depreciation Years];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    BlankZero=Yes }
@@ -188,9 +180,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 "Depreciation Ending Date" := CalcEndingDate;
                                                               END;
 
-                                                   CaptionML=[ENU=No. of Depreciation Months;
-                                                              ESP=Nß meses amortizaci¢n;
-                                                              DEA=Nutzungsdauer i. Monaten];
+                                                   CaptionML=[DEU=Nutzungsdauer i. Monaten;
+                                                              ENU=No. of Depreciation Months];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    BlankZero=Yes }
@@ -201,9 +192,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 AdjustLinearMethod("Straight-Line %","No. of Depreciation Years");
                                                               END;
 
-                                                   CaptionML=[ENU=Fixed Depr. Amount;
-                                                              ESP=Importe amort. fijo;
-                                                              DEA=Fester AfA-Betrag];
+                                                   CaptionML=[DEU=Fester AfA-Betrag;
+                                                              ENU=Fixed Depr. Amount];
                                                    MinValue=0;
                                                    AutoFormatType=1 }
     { 9   ;   ;Declining-Balance % ;Decimal       ;OnValidate=BEGIN
@@ -214,9 +204,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                   DeprMethodError;
                                                               END;
 
-                                                   CaptionML=[ENU=Declining-Balance %;
-                                                              ESP=% disminuci¢n de saldo;
-                                                              DEA=Degressive AfA %];
+                                                   CaptionML=[DEU=Degressive AfA %;
+                                                              ENU=Declining-Balance %];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    MaxValue=100 }
@@ -227,25 +216,22 @@ OBJECT Table 5612 FA Depreciation Book
                                                                   DeprMethodError;
                                                               END;
 
-                                                   CaptionML=[ENU=Depreciation Table Code;
-                                                              ESP=C¢d. tabla amortizaci¢n;
-                                                              DEA=AfA-Tabellencode] }
+                                                   CaptionML=[DEU=AfA-Tabellencode;
+                                                              ENU=Depreciation Table Code] }
     { 11  ;   ;Final Rounding Amount;Decimal      ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Final Rounding Amount;
-                                                              ESP=Importe redondeo final;
-                                                              DEA=Nullgrenze];
+                                                   CaptionML=[DEU=Nullgrenze;
+                                                              ENU=Final Rounding Amount];
                                                    MinValue=0;
                                                    AutoFormatType=1 }
     { 12  ;   ;Ending Book Value   ;Decimal       ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Ending Book Value;
-                                                              ESP=Valor neto final;
-                                                              DEA=Erinnerungswert];
+                                                   CaptionML=[DEU=Erinnerungswert;
+                                                              ENU=Ending Book Value];
                                                    MinValue=0;
                                                    AutoFormatType=1 }
     { 13  ;   ;FA Posting Group    ;Code10        ;TableRelation="FA Posting Group";
@@ -253,9 +239,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=FA Posting Group;
-                                                              ESP=A/F Grupo contable;
-                                                              DEA=Anlagenbuchungsgruppe] }
+                                                   CaptionML=[DEU=Anlagenbuchungsgruppe;
+                                                              ENU=FA Posting Group] }
     { 14  ;   ;Depreciation Ending Date;Date      ;OnValidate=BEGIN
                                                                 TESTFIELD("Depreciation Starting Date");
                                                                 IF ("Depreciation Ending Date" <> 0D) AND NOT LinearMethod THEN
@@ -264,18 +249,16 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 CalcDeprPeriod;
                                                               END;
 
-                                                   CaptionML=[ENU=Depreciation Ending Date;
-                                                              ESP=Fecha final amortizaci¢n;
-                                                              DEA=Enddatum d. Nutzungsdauer] }
+                                                   CaptionML=[DEU=Enddatum d. Nutzungsdauer;
+                                                              ENU=Depreciation Ending Date] }
     { 15  ;   ;Acquisition Cost    ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("FA Ledger Entry".Amount WHERE (FA No.=FIELD(FA No.),
                                                                                                    Depreciation Book Code=FIELD(Depreciation Book Code),
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Acquisition Cost),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Acquisition Cost;
-                                                              ESP=Coste;
-                                                              DEA=Anschaffungskosten];
+                                                   CaptionML=[DEU=Anschaffungskosten;
+                                                              ENU=Acquisition Cost];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 16  ;   ;Depreciation        ;Decimal       ;FieldClass=FlowField;
@@ -284,9 +267,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Depreciation),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Depreciation;
-                                                              ESP=Amortizaci¢n;
-                                                              DEA=Normal-AfA];
+                                                   CaptionML=[DEU=Normal-AfA;
+                                                              ENU=Depreciation];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 17  ;   ;Book Value          ;Decimal       ;FieldClass=FlowField;
@@ -294,9 +276,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    Depreciation Book Code=FIELD(Depreciation Book Code),
                                                                                                    Part of Book Value=CONST(Yes),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Book Value;
-                                                              ESP=Valor neto;
-                                                              DEA=Buchwert];
+                                                   CaptionML=[DEU=Buchwert;
+                                                              ENU=Book Value];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 18  ;   ;Proceeds on Disposal;Decimal       ;FieldClass=FlowField;
@@ -305,9 +286,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Proceeds on Disposal),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Proceeds on Disposal;
-                                                              ESP=Ingresos de la venta/baja;
-                                                              DEA=Verkaufspreis];
+                                                   CaptionML=[DEU=Verkaufspreis;
+                                                              ENU=Proceeds on Disposal];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 19  ;   ;Gain/Loss           ;Decimal       ;FieldClass=FlowField;
@@ -316,9 +296,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Gain/Loss),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Gain/Loss;
-                                                              ESP=Beneficio/pÇrdida;
-                                                              DEA=Gewinn/Verlust];
+                                                   CaptionML=[DEU=Gewinn/Verlust;
+                                                              ENU=Gain/Loss];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 20  ;   ;Write-Down          ;Decimal       ;FieldClass=FlowField;
@@ -327,9 +306,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Write-Down),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Write-Down;
-                                                              ESP=Depreciaci¢n;
-                                                              DEA=Erhîhte AfA];
+                                                   CaptionML=[DEU=Erhîhte AfA;
+                                                              ENU=Write-Down];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 21  ;   ;Appreciation        ;Decimal       ;FieldClass=FlowField;
@@ -338,9 +316,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Appreciation),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Appreciation;
-                                                              ESP=Apreciaci¢n;
-                                                              DEA=Zuschreibung];
+                                                   CaptionML=[DEU=Zuschreibung;
+                                                              ENU=Appreciation];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 22  ;   ;Custom 1            ;Decimal       ;FieldClass=FlowField;
@@ -349,9 +326,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Custom 1),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Custom 1;
-                                                              ESP=Especial;
-                                                              DEA=Sonder-AfA];
+                                                   CaptionML=[DEU=Sonder-AfA;
+                                                              ENU=Custom 1];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 23  ;   ;Custom 2            ;Decimal       ;FieldClass=FlowField;
@@ -360,9 +336,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Custom 2),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Custom 2;
-                                                              ESP=Provisi¢n;
-                                                              DEA=Benutzerdef. AfA];
+                                                   CaptionML=[DEU=Benutzerdef. AfA;
+                                                              ENU=Custom 2];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 24  ;   ;Depreciable Basis   ;Decimal       ;FieldClass=FlowField;
@@ -370,9 +345,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    Depreciation Book Code=FIELD(Depreciation Book Code),
                                                                                                    Part of Depreciable Basis=CONST(Yes),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Depreciable Basis;
-                                                              ESP=Base amortizable;
-                                                              DEA=Grundlage fÅr AfA];
+                                                   CaptionML=[DEU=Grundlage fÅr AfA;
+                                                              ENU=Depreciable Basis];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 25  ;   ;Salvage Value       ;Decimal       ;FieldClass=FlowField;
@@ -381,9 +355,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(" "),
                                                                                                    FA Posting Type=CONST(Salvage Value),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Salvage Value;
-                                                              ESP=Valor residual;
-                                                              DEA=Restwert];
+                                                   CaptionML=[DEU=Restwert;
+                                                              ENU=Salvage Value];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 26  ;   ;Book Value on Disposal;Decimal     ;FieldClass=FlowField;
@@ -392,9 +365,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                    FA Posting Category=CONST(Disposal),
                                                                                                    FA Posting Type=CONST(Book Value on Disposal),
                                                                                                    FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Book Value on Disposal;
-                                                              ESP=Valor neto en venta/baja;
-                                                              DEA=Buchwert bei Verkauf];
+                                                   CaptionML=[DEU=Buchwert bei Verkauf;
+                                                              ENU=Book Value on Disposal];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 27  ;   ;Maintenance         ;Decimal       ;FieldClass=FlowField;
@@ -402,67 +374,53 @@ OBJECT Table 5612 FA Depreciation Book
                                                                                                             Depreciation Book Code=FIELD(Depreciation Book Code),
                                                                                                             Maintenance Code=FIELD(Maintenance Code Filter),
                                                                                                             FA Posting Date=FIELD(FA Posting Date Filter)));
-                                                   CaptionML=[ENU=Maintenance;
-                                                              ESP=Mantenimiento;
-                                                              DEA=Wartung];
+                                                   CaptionML=[DEU=Wartung;
+                                                              ENU=Maintenance];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 28  ;   ;Maintenance Code Filter;Code10     ;FieldClass=FlowFilter;
                                                    TableRelation=Maintenance;
-                                                   CaptionML=[ENU=Maintenance Code Filter;
-                                                              ESP=Filtro c¢d. mantenimiento;
-                                                              DEA=Wartungscodefilter] }
+                                                   CaptionML=[DEU=Wartungscodefilter;
+                                                              ENU=Maintenance Code Filter] }
     { 29  ;   ;FA Posting Date Filter;Date        ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=FA Posting Date Filter;
-                                                              ESP=A/F Filtro fecha registro;
-                                                              DEA=Anlagendatumsfilter] }
-    { 30  ;   ;Acquisition Date    ;Date          ;CaptionML=[ENU=Acquisition Date;
-                                                              ESP=Fecha adquisici¢n;
-                                                              DEA=Anschaffungsdatum];
+                                                   CaptionML=[DEU=Anlagendatumsfilter;
+                                                              ENU=FA Posting Date Filter] }
+    { 30  ;   ;Acquisition Date    ;Date          ;CaptionML=[DEU=Anschaffungsdatum;
+                                                              ENU=Acquisition Date];
                                                    Editable=No }
-    { 31  ;   ;G/L Acquisition Date;Date          ;CaptionML=[ENU=G/L Acquisition Date;
-                                                              ESP=Fecha adquis. contable;
-                                                              DEA=Fibu-Anschaffungsdatum];
+    { 31  ;   ;G/L Acquisition Date;Date          ;CaptionML=[DEU=Fibu-Anschaffungsdatum;
+                                                              ENU=G/L Acquisition Date];
                                                    Editable=No }
-    { 32  ;   ;Disposal Date       ;Date          ;CaptionML=[ENU=Disposal Date;
-                                                              ESP=Fecha venta/baja;
-                                                              DEA=Verkaufsdatum];
+    { 32  ;   ;Disposal Date       ;Date          ;CaptionML=[DEU=Verkaufsdatum;
+                                                              ENU=Disposal Date];
                                                    Editable=No }
-    { 33  ;   ;Last Acquisition Cost Date;Date    ;CaptionML=[ENU=Last Acquisition Cost Date;
-                                                              ESP=Fecha £lt. coste adquisici¢n;
-                                                              DEA=Letztes Anschaffungsdatum];
+    { 33  ;   ;Last Acquisition Cost Date;Date    ;CaptionML=[DEU=Letztes Anschaffungsdatum;
+                                                              ENU=Last Acquisition Cost Date];
                                                    Editable=No }
-    { 34  ;   ;Last Depreciation Date;Date        ;CaptionML=[ENU=Last Depreciation Date;
-                                                              ESP=Fecha £lt. amortizaci¢n;
-                                                              DEA=Letztes Datum Normal-AfA];
+    { 34  ;   ;Last Depreciation Date;Date        ;CaptionML=[DEU=Letztes Datum Normal-AfA;
+                                                              ENU=Last Depreciation Date];
                                                    Editable=No }
-    { 35  ;   ;Last Write-Down Date;Date          ;CaptionML=[ENU=Last Write-Down Date;
-                                                              ESP=Fecha £lt. depreciaci¢n;
-                                                              DEA=Letztes Datum Erhîhte AfA];
+    { 35  ;   ;Last Write-Down Date;Date          ;CaptionML=[DEU=Letztes Datum Erhîhte AfA;
+                                                              ENU=Last Write-Down Date];
                                                    Editable=No }
-    { 36  ;   ;Last Appreciation Date;Date        ;CaptionML=[ENU=Last Appreciation Date;
-                                                              ESP=Fecha £lt. apreciaci¢n;
-                                                              DEA=Letztes Zuschreibungsdatum];
+    { 36  ;   ;Last Appreciation Date;Date        ;CaptionML=[DEU=Letztes Zuschreibungsdatum;
+                                                              ENU=Last Appreciation Date];
                                                    Editable=No }
-    { 37  ;   ;Last Custom 1 Date  ;Date          ;CaptionML=[ENU=Last Custom 1 Date;
-                                                              ESP=Fecha £lt. especial;
-                                                              DEA=Letztes Datum Sonder-AfA];
+    { 37  ;   ;Last Custom 1 Date  ;Date          ;CaptionML=[DEU=Letztes Datum Sonder-AfA;
+                                                              ENU=Last Custom 1 Date];
                                                    Editable=No }
-    { 38  ;   ;Last Custom 2 Date  ;Date          ;CaptionML=[ENU=Last Custom 2 Date;
-                                                              ESP=Fecha £lt. provisi¢n;
-                                                              DEA=Letztes Datum Benutzerdef. AfA];
+    { 38  ;   ;Last Custom 2 Date  ;Date          ;CaptionML=[DEU=Letztes Datum Benutzerdef. AfA;
+                                                              ENU=Last Custom 2 Date];
                                                    Editable=No }
-    { 39  ;   ;Last Salvage Value Date;Date       ;CaptionML=[ENU=Last Salvage Value Date;
-                                                              ESP=Fecha £lt. valor residual;
-                                                              DEA=Letztes Restwertdatum];
+    { 39  ;   ;Last Salvage Value Date;Date       ;CaptionML=[DEU=Letztes Restwertdatum;
+                                                              ENU=Last Salvage Value Date];
                                                    Editable=No }
     { 40  ;   ;FA Exchange Rate    ;Decimal       ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=FA Exchange Rate;
-                                                              ESP=A/F Tipo cambio;
-                                                              DEA=Anlagenwechselkurs];
+                                                   CaptionML=[DEU=Anlagenwechselkurs;
+                                                              ENU=FA Exchange Rate];
                                                    DecimalPlaces=4:4;
                                                    MinValue=0 }
     { 41  ;   ;Fixed Depr. Amount below Zero;Decimal;
@@ -476,15 +434,13 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Fixed Depr. Amount below Zero;
-                                                              ESP=Imp. amort. fija menor cero;
-                                                              DEA=Fest. AfA-Betrag unter null];
+                                                   CaptionML=[DEU=Fest. AfA-Betrag unter null;
+                                                              ENU=Fixed Depr. Amount below Zero];
                                                    MinValue=0;
                                                    BlankZero=Yes;
                                                    AutoFormatType=1 }
-    { 42  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+    { 42  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 43  ;   ;First User-Defined Depr. Date;Date ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
@@ -492,9 +448,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                   DeprMethodError;
                                                               END;
 
-                                                   CaptionML=[ENU=First User-Defined Depr. Date;
-                                                              ESP=1¶ fecha amort. def.-usuario;
-                                                              DEA=Startdatum Benutzerdef. AfA] }
+                                                   CaptionML=[DEU=Startdatum Benutzerdef. AfA;
+                                                              ENU=First User-Defined Depr. Date] }
     { 44  ;   ;Use FA Ledger Check ;Boolean       ;InitValue=Yes;
                                                    OnValidate=BEGIN
                                                                 IF NOT "Use FA Ledger Check" THEN BEGIN
@@ -506,12 +461,10 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Use FA Ledger Check;
-                                                              ESP=A/F Utiliza test mov.;
-                                                              DEA=Vor Buchung prÅfen] }
-    { 45  ;   ;Last Maintenance Date;Date         ;CaptionML=[ENU=Last Maintenance Date;
-                                                              ESP=Fecha £lt. mantenimiento;
-                                                              DEA=Letztes Wartungsdatum];
+                                                   CaptionML=[DEU=Vor Buchung prÅfen;
+                                                              ENU=Use FA Ledger Check] }
+    { 45  ;   ;Last Maintenance Date;Date         ;CaptionML=[DEU=Letztes Wartungsdatum;
+                                                              ENU=Last Maintenance Date];
                                                    Editable=No }
     { 46  ;   ;Depr. below Zero %  ;Decimal       ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
@@ -523,19 +476,16 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Depr. below Zero %;
-                                                              ESP=% Amort. menor que cero;
-                                                              DEA=AfA unter null in %];
+                                                   CaptionML=[DEU=AfA unter null in %;
+                                                              ENU=Depr. below Zero %];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    BlankZero=Yes }
-    { 47  ;   ;Projected Disposal Date;Date       ;CaptionML=[ENU=Projected Disposal Date;
-                                                              ESP=Fecha prevista venta/baja;
-                                                              DEA=Erwartetes Abgangsdatum] }
+    { 47  ;   ;Projected Disposal Date;Date       ;CaptionML=[DEU=Erwartetes Abgangsdatum;
+                                                              ENU=Projected Disposal Date] }
     { 48  ;   ;Projected Proceeds on Disposal;Decimal;
-                                                   CaptionML=[ENU=Projected Proceeds on Disposal;
-                                                              ESP=Ingresos previstos venta/baja;
-                                                              DEA=Erwarteter Verkaufspreis];
+                                                   CaptionML=[DEU=Erwarteter Verkaufspreis;
+                                                              ENU=Projected Proceeds on Disposal];
                                                    MinValue=0;
                                                    BlankZero=Yes;
                                                    AutoFormatType=1 }
@@ -543,31 +493,27 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Depr. Starting Date (Custom 1);
-                                                              ESP=Fecha inicial amort. especial;
-                                                              DEA=Startdatum Sonder-AfA] }
+                                                   CaptionML=[DEU=Startdatum Sonder-AfA;
+                                                              ENU=Depr. Starting Date (Custom 1)] }
     { 51  ;   ;Depr. Ending Date (Custom 1);Date  ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Depr. Ending Date (Custom 1);
-                                                              ESP=Fecha final amort. especial;
-                                                              DEA=Enddatum Sonder-AfA] }
+                                                   CaptionML=[DEU=Enddatum Sonder-AfA;
+                                                              ENU=Depr. Ending Date (Custom 1)] }
     { 52  ;   ;Accum. Depr. % (Custom 1);Decimal  ;OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Accum. Depr. % (Custom 1);
-                                                              ESP=% Amort. acum. especial;
-                                                              DEA=Kumul. AfA % (Sonder-AfA)];
+                                                   CaptionML=[DEU=Kumul. AfA % (Sonder-AfA);
+                                                              ENU=Accum. Depr. % (Custom 1)];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    MaxValue=100;
                                                    BlankZero=Yes }
     { 53  ;   ;Depr. This Year % (Custom 1);Decimal;
-                                                   CaptionML=[ENU=Depr. This Year % (Custom 1);
-                                                              ESP=% Amort. a§o actual especial;
-                                                              DEA=Sonder-AfA %  dieses Jahr];
+                                                   CaptionML=[DEU=Sonder-AfA %  dieses Jahr;
+                                                              ENU=Depr. This Year % (Custom 1)];
                                                    DecimalPlaces=2:8;
                                                    MinValue=0;
                                                    MaxValue=100;
@@ -576,33 +522,26 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Property Class (Custom 1);
-                                                              ESP=Tipo de bien (especial);
-                                                              DEA=Eigensch.-Klasse (Sonder-AfA)];
-                                                   OptionCaptionML=[ENU=" ,Personal Property,Real Property";
-                                                                    ESP=" ,Bienes muebles,Bienes ra°ces";
-                                                                    DEA=" ,Unbeweglich,Beweglich"];
+                                                   CaptionML=[DEU=Eigensch.-Klasse (Sonder-AfA);
+                                                              ENU=Property Class (Custom 1)];
+                                                   OptionCaptionML=[DEU=" ,Unbeweglich,Beweglich";
+                                                                    ENU=" ,Personal Property,Real Property"];
                                                    OptionString=[ ,Personal Property,Real Property] }
-    { 55  ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung];
+    { 55  ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description];
                                                    Editable=No }
-    { 56  ;   ;Main Asset/Component;Option        ;CaptionML=[ENU=Main Asset/Component;
-                                                              ESP=Principal/Componente;
-                                                              DEA=Hauptanlage/Unteranlage];
-                                                   OptionCaptionML=[ENU=" ,Main Asset,Component";
-                                                                    ESP=" ,Principal,Componente";
-                                                                    DEA=" ,Hauptanlage,Unteranlage"];
+    { 56  ;   ;Main Asset/Component;Option        ;CaptionML=[DEU=Hauptanlage/Unteranlage;
+                                                              ENU=Main Asset/Component];
+                                                   OptionCaptionML=[DEU=" ,Hauptanlage,Unteranlage";
+                                                                    ENU=" ,Main Asset,Component"];
                                                    OptionString=[ ,Main Asset,Component];
                                                    Editable=No }
     { 57  ;   ;Component of Main Asset;Code20     ;TableRelation="Fixed Asset";
-                                                   CaptionML=[ENU=Component of Main Asset;
-                                                              ESP=Componente de activo ppal.;
-                                                              DEA=Hauptanl.-Nr.];
+                                                   CaptionML=[DEU=Hauptanl.-Nr.;
+                                                              ENU=Component of Main Asset];
                                                    Editable=No }
-    { 58  ;   ;FA Add.-Currency Factor;Decimal    ;CaptionML=[ENU=FA Add.-Currency Factor;
-                                                              ESP=A/F Factor div.-adic.;
-                                                              DEA=AnlagenwÑhrungsfaktor (BW)];
+    { 58  ;   ;FA Add.-Currency Factor;Decimal    ;CaptionML=[DEU=AnlagenwÑhrungsfaktor (BW);
+                                                              ENU=FA Add.-Currency Factor];
                                                    DecimalPlaces=0:15;
                                                    MinValue=0 }
     { 59  ;   ;Use Half-Year Convention;Boolean   ;OnValidate=BEGIN
@@ -610,9 +549,8 @@ OBJECT Table 5612 FA Depreciation Book
                                                                 TestHalfYearConventionMethod;
                                                               END;
 
-                                                   CaptionML=[ENU=Use Half-Year Convention;
-                                                              ESP=Usar convenio medio a§o;
-                                                              DEA=US-Halbjahresregel verwenden] }
+                                                   CaptionML=[DEU=US-Halbjahresregel verwenden;
+                                                              ENU=Use Half-Year Convention] }
     { 60  ;   ;Use DB% First Fiscal Year;Boolean  ;OnValidate=BEGIN
                                                                 IF "Use DB% First Fiscal Year" THEN
                                                                   IF NOT (("Depreciation Method" = "Depreciation Method"::"DB1/SL") OR
@@ -621,24 +559,20 @@ OBJECT Table 5612 FA Depreciation Book
                                                                     DeprMethodError;
                                                               END;
 
-                                                   CaptionML=[ENU=Use DB% First Fiscal Year;
-                                                              ESP=Utiliz. BD % primer ejercicio;
-                                                              DEA=Degr. AfA % im ersten GJ verw.] }
-    { 61  ;   ;Temp. Ending Date   ;Date          ;CaptionML=[ENU=Temp. Ending Date;
-                                                              ESP=Fecha final temp.;
-                                                              DEA=TemporÑres Enddatum] }
-    { 62  ;   ;Temp. Fixed Depr. Amount;Decimal   ;CaptionML=[ENU=Temp. Fixed Depr. Amount;
-                                                              ESP=Importe amort. fijo temp.;
-                                                              DEA=TemporÑrer fester AfA-Betrag];
+                                                   CaptionML=[DEU=Degr. AfA % im ersten GJ verw.;
+                                                              ENU=Use DB% First Fiscal Year] }
+    { 61  ;   ;Temp. Ending Date   ;Date          ;CaptionML=[DEU=TemporÑres Enddatum;
+                                                              ENU=Temp. Ending Date] }
+    { 62  ;   ;Temp. Fixed Depr. Amount;Decimal   ;CaptionML=[DEU=TemporÑrer fester AfA-Betrag;
+                                                              ENU=Temp. Fixed Depr. Amount];
                                                    AutoFormatType=1 }
     { 63  ;   ;Ignore Def. Ending Book Value;Boolean;
                                                    OnValidate=BEGIN
                                                                 ModifyDeprFields;
                                                               END;
 
-                                                   CaptionML=[ENU=Ignore Def. Ending Book Value;
-                                                              ESP=Ignorar valor neto final genÇrico;
-                                                              DEA=Erinnerungsstandardwert ignorieren] }
+                                                   CaptionML=[DEU=Erinnerungsstandardwert ignorieren;
+                                                              ENU=Ignore Def. Ending Book Value] }
   }
   KEYS
   {
@@ -653,11 +587,11 @@ OBJECT Table 5612 FA Depreciation Book
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot rename a %1.;ESP=No se puede cambiar el nombre a %1.;DEA=Sie kînnen ein %1 nicht umbenennen.';
-      Text001@1001 : TextConst 'ENU=must not be 100;ESP=no debe ser 100;DEA=darf nicht 100 sein';
-      Text002@1002 : TextConst 'ENU=%1 is later than %2.;ESP=%1 es posterior a %2.;DEA=%1 liegt spÑter als %2.';
-      Text003@1003 : TextConst 'ENU=must not be %1;ESP=No puede ser %1.;DEA=darf nicht %1 sein';
-      Text004@1004 : TextConst 'ENU=untitled;ESP=SinT°tulo;DEA=unbenannt';
+      Text000@1000 : TextConst 'DEU=Sie kînnen ein %1 nicht umbenennen.;ENU=You cannot rename a %1.';
+      Text001@1001 : TextConst 'DEU=darf nicht 100 sein;ENU=must not be 100';
+      Text002@1002 : TextConst 'DEU=%1 liegt spÑter als %2.;ENU=%1 is later than %2.';
+      Text003@1003 : TextConst 'DEU=darf nicht %1 sein;ENU=must not be %1';
+      Text004@1004 : TextConst 'DEU=unbenannt;ENU=untitled';
       FA@1005 : Record 5600;
       DeprBook@1006 : Record 5611;
       FAMoveEntries@1007 : Codeunit 5623;

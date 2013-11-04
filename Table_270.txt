@@ -2,9 +2,9 @@ OBJECT Table 270 Bank Account
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -69,9 +69,8 @@ OBJECT Table 270 Bank Account
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Bank Account;
-               ESP=Banco;
-               DEA=Bankkonto];
+    CaptionML=[DEU=Bankkonto;
+               ENU=Bank Account];
     LookupPageID=Page371;
     DrillDownPageID=Page371;
   }
@@ -86,29 +85,23 @@ OBJECT Table 270 Bank Account
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 2   ;   ;Name                ;Text50        ;OnValidate=BEGIN
                                                                 IF ("Search Name" = UPPERCASE(xRec.Name)) OR ("Search Name" = '') THEN
                                                                   "Search Name" := Name;
                                                               END;
 
-                                                   CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 3   ;   ;Search Name         ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -117,59 +110,47 @@ OBJECT Table 270 Bank Account
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
-    { 8   ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
+    { 8   ;   ;Contact             ;Text50        ;CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
     { 9   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
-    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[ENU=Telex No.;
-                                                              ESP=Nß tÇlex;
-                                                              DEA=Telexnr.] }
-    { 13  ;   ;Bank Account No.    ;Text30        ;CaptionML=[ENU=Bank Account No.;
-                                                              ESP=C¢d. cuenta banco;
-                                                              DEA=Bankkontonummer] }
-    { 14  ;   ;Transit No.         ;Text20        ;CaptionML=[ENU=Transit No.;
-                                                              ESP=Nß tr†nsito;
-                                                              DEA=Transitnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 10  ;   ;Telex No.           ;Text20        ;CaptionML=[DEU=Telexnr.;
+                                                              ENU=Telex No.] }
+    { 13  ;   ;Bank Account No.    ;Text30        ;CaptionML=[DEU=Bankkontonummer;
+                                                              ENU=Bank Account No.] }
+    { 14  ;   ;Transit No.         ;Text20        ;CaptionML=[DEU=Transitnr.;
+                                                              ENU=Transit No.] }
     { 15  ;   ;Territory Code      ;Code10        ;TableRelation=Territory;
-                                                   CaptionML=[ENU=Territory Code;
-                                                              ESP=C¢d. territorio;
-                                                              DEA=Gebietscode] }
+                                                   CaptionML=[DEU=Gebietscode;
+                                                              ENU=Territory Code] }
     { 16  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 17  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Global Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
-    { 18  ;   ;Chain Name          ;Code10        ;CaptionML=[ENU=Chain Name;
-                                                              ESP=C¢d. cadena;
-                                                              DEA=Unternehmenskette] }
-    { 20  ;   ;Min. Balance        ;Decimal       ;CaptionML=[ENU=Min. Balance;
-                                                              ESP=Saldo m°nimo;
-                                                              DEA=Mindestsaldo];
+    { 18  ;   ;Chain Name          ;Code10        ;CaptionML=[DEU=Unternehmenskette;
+                                                              ENU=Chain Name] }
+    { 20  ;   ;Min. Balance        ;Decimal       ;CaptionML=[DEU=Mindestsaldo;
+                                                              ENU=Min. Balance];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 21  ;   ;Bank Acc. Posting Group;Code10     ;TableRelation="Bank Account Posting Group";
-                                                   CaptionML=[ENU=Bank Acc. Posting Group;
-                                                              ESP=Grupo contable banco;
-                                                              DEA=Bankkontobuchungsgruppe] }
+                                                   CaptionML=[DEU=Bankkontobuchungsgruppe;
+                                                              ENU=Bank Acc. Posting Group] }
     { 22  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
                                                    OnValidate=BEGIN
                                                                 IF "Currency Code" = xRec."Currency Code" THEN
@@ -191,69 +172,55 @@ OBJECT Table 270 Bank Account
                                                                     FIELDCAPTION("Currency Code"));
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
     { 24  ;   ;Language Code       ;Code10        ;TableRelation=Language;
-                                                   CaptionML=[ENU=Language Code;
-                                                              ESP=C¢d. idioma;
-                                                              DEA=Sprachcode] }
-    { 26  ;   ;Statistics Group    ;Integer       ;CaptionML=[ENU=Statistics Group;
-                                                              ESP=Nß grupo estad°stico;
-                                                              DEA=Statistikgruppe] }
+                                                   CaptionML=[DEU=Sprachcode;
+                                                              ENU=Language Code] }
+    { 26  ;   ;Statistics Group    ;Integer       ;CaptionML=[DEU=Statistikgruppe;
+                                                              ENU=Statistics Group] }
     { 29  ;   ;Our Contact Code    ;Code10        ;TableRelation=Salesperson/Purchaser;
-                                                   CaptionML=[ENU=Our Contact Code;
-                                                              ESP=Ntro. c¢d. contacto;
-                                                              DEA=Unser Kontaktcode] }
+                                                   CaptionML=[DEU=Unser Kontaktcode;
+                                                              ENU=Our Contact Code] }
     { 35  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
-    { 37  ;   ;Amount              ;Decimal       ;CaptionML=[ENU=Amount;
-                                                              ESP=Importe;
-                                                              DEA=Betrag];
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
+    { 37  ;   ;Amount              ;Decimal       ;CaptionML=[DEU=Betrag;
+                                                              ENU=Amount];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 38  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Comment Line" WHERE (Table Name=CONST(Bank Account),
                                                                                            No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 39  ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
-                                                              ESP=Bloqueado;
-                                                              DEA=Gesperrt] }
-    { 41  ;   ;Last Statement No.  ;Code20        ;CaptionML=[ENU=Last Statement No.;
-                                                              ESP=Èlt. nß extracto;
-                                                              DEA=Letzte Kontoauszugsnr.] }
-    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+    { 39  ;   ;Blocked             ;Boolean       ;CaptionML=[DEU=Gesperrt;
+                                                              ENU=Blocked] }
+    { 41  ;   ;Last Statement No.  ;Code20        ;CaptionML=[DEU=Letzte Kontoauszugsnr.;
+                                                              ENU=Last Statement No.] }
+    { 54  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 55  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 56  ;   ;Global Dimension 1 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
-                                                   CaptionML=[ENU=Global Dimension 1 Filter;
-                                                              ESP=Filtro dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionsfilter 1];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 1;
+                                                              ENU=Global Dimension 1 Filter];
                                                    CaptionClass='1,3,1' }
     { 57  ;   ;Global Dimension 2 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
-                                                   CaptionML=[ENU=Global Dimension 2 Filter;
-                                                              ESP=Filtro dimensi¢n global  2;
-                                                              DEA=Globaler Dimensionsfilter 2];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 2;
+                                                              ENU=Global Dimension 2 Filter];
                                                    CaptionClass='1,3,2' }
     { 58  ;   ;Balance             ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Bank Account Ledger Entry".Amount WHERE (Bank Account No.=FIELD(No.),
                                                                                                              Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                              Global Dimension 2 Code=FIELD(Global Dimension 2 Filter)));
-                                                   CaptionML=[ENU=Balance;
-                                                              ESP=Saldo;
-                                                              DEA=Saldo];
+                                                   CaptionML=[DEU=Saldo;
+                                                              ENU=Balance];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -261,9 +228,8 @@ OBJECT Table 270 Bank Account
                                                    CalcFormula=Sum("Bank Account Ledger Entry"."Amount (LCY)" WHERE (Bank Account No.=FIELD(No.),
                                                                                                                      Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Global Dimension 2 Code=FIELD(Global Dimension 2 Filter)));
-                                                   CaptionML=[ENU=Balance (LCY);
-                                                              ESP=Saldo (DL);
-                                                              DEA=Saldo (MW)];
+                                                   CaptionML=[DEU=Saldo (MW);
+                                                              ENU=Balance (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 60  ;   ;Net Change          ;Decimal       ;FieldClass=FlowField;
@@ -271,9 +237,8 @@ OBJECT Table 270 Bank Account
                                                                                                              Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                              Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                              Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Net Change;
-                                                              ESP=Saldo periodo;
-                                                              DEA=Bewegung];
+                                                   CaptionML=[DEU=Bewegung;
+                                                              ENU=Net Change];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -282,20 +247,16 @@ OBJECT Table 270 Bank Account
                                                                                                                      Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                      Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Net Change (LCY);
-                                                              ESP=Saldo periodo (DL);
-                                                              DEA=Bewegung (MW)];
+                                                   CaptionML=[DEU=Bewegung (MW);
+                                                              ENU=Net Change (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[ENU=Telex Answer Back;
-                                                              ESP=Nß tÇlex respuesta;
-                                                              DEA=Telex Namengeber] }
-    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+    { 84  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 85  ;   ;Telex Answer Back   ;Text20        ;CaptionML=[DEU=Telex Namengeber;
+                                                              ENU=Telex Answer Back] }
+    { 89  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
     { 91  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
@@ -305,18 +266,14 @@ OBJECT Table 270 Bank Account
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 92  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
-    { 93  ;   ;Last Check No.      ;Code20        ;CaptionML=[ENU=Last Check No.;
-                                                              ESP=Èlt. nß cheque;
-                                                              DEA=Letzte Schecknummer] }
-    { 94  ;   ;Balance Last Statement;Decimal     ;CaptionML=[ENU=Balance Last Statement;
-                                                              ESP=Saldo £lt. extracto;
-                                                              DEA=Saldo letzter Auszug];
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 92  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
+    { 93  ;   ;Last Check No.      ;Code20        ;CaptionML=[DEU=Letzte Schecknummer;
+                                                              ENU=Last Check No.] }
+    { 94  ;   ;Balance Last Statement;Decimal     ;CaptionML=[DEU=Saldo letzter Auszug;
+                                                              ENU=Balance Last Statement];
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 95  ;   ;Balance at Date     ;Decimal       ;FieldClass=FlowField;
@@ -324,9 +281,8 @@ OBJECT Table 270 Bank Account
                                                                                                              Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                              Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                              Posting Date=FIELD(UPPERLIMIT(Date Filter))));
-                                                   CaptionML=[ENU=Balance at Date;
-                                                              ESP=Saldo a la fecha;
-                                                              DEA=Saldo bis Datum];
+                                                   CaptionML=[DEU=Saldo bis Datum;
+                                                              ENU=Balance at Date];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
@@ -335,9 +291,8 @@ OBJECT Table 270 Bank Account
                                                                                                                      Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                      Posting Date=FIELD(UPPERLIMIT(Date Filter))));
-                                                   CaptionML=[ENU=Balance at Date (LCY);
-                                                              ESP=Saldo a la fecha (DL);
-                                                              DEA=Saldo bis Datum (MW)];
+                                                   CaptionML=[DEU=Saldo bis Datum (MW);
+                                                              ENU=Balance at Date (LCY)];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 97  ;   ;Debit Amount        ;Decimal       ;FieldClass=FlowField;
@@ -345,9 +300,8 @@ OBJECT Table 270 Bank Account
                                                                                                                      Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                      Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                      Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Debit Amount;
-                                                              ESP=Importe debe;
-                                                              DEA=Sollbetrag];
+                                                   CaptionML=[DEU=Sollbetrag;
+                                                              ENU=Debit Amount];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1;
@@ -357,9 +311,8 @@ OBJECT Table 270 Bank Account
                                                                                                                       Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                       Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                       Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Credit Amount;
-                                                              ESP=Importe haber;
-                                                              DEA=Habenbetrag];
+                                                   CaptionML=[DEU=Habenbetrag;
+                                                              ENU=Credit Amount];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1;
@@ -369,9 +322,8 @@ OBJECT Table 270 Bank Account
                                                                                                                            Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                            Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                            Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Debit Amount (LCY);
-                                                              ESP=Importe debe (DL);
-                                                              DEA=Sollbetrag (MW)];
+                                                   CaptionML=[DEU=Sollbetrag (MW);
+                                                              ENU=Debit Amount (LCY)];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1 }
@@ -380,38 +332,31 @@ OBJECT Table 270 Bank Account
                                                                                                                             Global Dimension 1 Code=FIELD(Global Dimension 1 Filter),
                                                                                                                             Global Dimension 2 Code=FIELD(Global Dimension 2 Filter),
                                                                                                                             Posting Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Credit Amount (LCY);
-                                                              ESP=Importe haber (DL);
-                                                              DEA=Habenbetrag (MW)];
+                                                   CaptionML=[DEU=Habenbetrag (MW);
+                                                              ENU=Credit Amount (LCY)];
                                                    BlankZero=Yes;
                                                    Editable=No;
                                                    AutoFormatType=1 }
-    { 101 ;   ;Bank Branch No.     ;Text20        ;CaptionML=[ENU=Bank Branch No.;
-                                                              ESP=C¢d. sucursal banco;
-                                                              DEA=BLZ] }
+    { 101 ;   ;Bank Branch No.     ;Text20        ;CaptionML=[DEU=BLZ;
+                                                              ENU=Bank Branch No.] }
     { 102 ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 103 ;   ;Home Page           ;Text80        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P†gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 107 ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 108 ;   ;Check Report ID     ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Report));
-                                                   CaptionML=[ENU=Check Report ID;
-                                                              ESP=Nß informe cheque;
-                                                              DEA=Berichts-ID prÅfen] }
+                                                   CaptionML=[DEU=Berichts-ID prÅfen;
+                                                              ENU=Check Report ID] }
     { 109 ;   ;Check Report Name   ;Text250       ;FieldClass=FlowField;
                                                    CalcFormula=Lookup(AllObjWithCaption."Object Name" WHERE (Object Type=CONST(Report),
                                                                                                              Object ID=FIELD(Check Report ID)));
-                                                   CaptionML=[ENU=Check Report Name;
-                                                              ESP=Nombre informe cheque;
-                                                              DEA=Berichtsnamen prÅfen];
+                                                   CaptionML=[DEU=Berichtsnamen prÅfen;
+                                                              ENU=Check Report Name];
                                                    Editable=No }
     { 110 ;   ;IBAN                ;Code50        ;OnValidate=VAR
                                                                 CompanyInfo@1000 : Record 79;
@@ -419,12 +364,10 @@ OBJECT Table 270 Bank Account
                                                                 CompanyInfo.CheckIBAN(IBAN);
                                                               END;
 
-                                                   CaptionML=[ENU=IBAN;
-                                                              ESP=IBAN;
-                                                              DEA=IBAN] }
-    { 111 ;   ;SWIFT Code          ;Code20        ;CaptionML=[ENU=SWIFT Code;
-                                                              ESP=C¢digo SWIFT;
-                                                              DEA=SWIFT-Code] }
+                                                   CaptionML=[DEU=IBAN;
+                                                              ENU=IBAN] }
+    { 111 ;   ;SWIFT Code          ;Code20        ;CaptionML=[DEU=SWIFT-Code;
+                                                              ENU=SWIFT Code] }
   }
   KEYS
   {
@@ -441,8 +384,8 @@ OBJECT Table 270 Bank Account
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot change %1 because there are one or more open ledger entries for this bank account.;ESP=No se puede cambiar el banco %1 porque tiene movimientos pendientes.;DEA=Sie kînnen %1 nicht Ñndern, da offene Posten auf diesem Bankkonto vorhanden sind.';
-      Text003@1003 : TextConst 'ENU=Do you wish to create a contact for %1 %2?;ESP=®Confirma que desea crear un contacto para %1 %2?;DEA=Mîchten Sie einen Kontakt fÅr %1 %2 erstellen?';
+      Text000@1000 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, da offene Posten auf diesem Bankkonto vorhanden sind.;ENU=You cannot change %1 because there are one or more open ledger entries for this bank account.';
+      Text003@1003 : TextConst 'DEU=Mîchten Sie einen Kontakt fÅr %1 %2 erstellen?;ENU=Do you wish to create a contact for %1 %2?';
       GLSetup@1004 : Record 98;
       BankAcc@1005 : Record 270;
       BankAccLedgEntry@1006 : Record 271;
@@ -453,7 +396,7 @@ OBJECT Table 270 Bank Account
       UpdateContFromBank@1011 : Codeunit 5058;
       DimMgt@1012 : Codeunit 408;
       InsertFromContact@1013 : Boolean;
-      Text004@1014 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text004@1014 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
 
     PROCEDURE AssistEdit@2(OldBankAcc@1000 : Record 270) : Boolean;
     BEGIN

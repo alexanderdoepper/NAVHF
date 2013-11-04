@@ -2,16 +2,15 @@ OBJECT Page 139 Posted Purch. Invoice Subform
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Lines;
-               ESP=L¡neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     LinksAllowed=No;
     SourceTable=Table123;
     PageType=ListPart;
@@ -21,24 +20,21 @@ OBJECT Page 139 Posted Purch. Invoice Subform
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1907935204;1 ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L¡nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 1901314304;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDimensions;
                                END;
                                 }
       { 1904945204;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       Image=ViewComments;
                       OnAction=BEGIN
                                  ShowLineComments;
@@ -46,18 +42,16 @@ OBJECT Page 139 Posted Purch. Invoice Subform
                                 }
       { 1905987604;2 ;Action    ;
                       Name=ItemTrackingEntries;
-                      CaptionML=[ENU=Item &Tracking Entries;
-                                 ESP=Movs. &seguim. prod.;
-                                 DEA=Artikel&verfolgungsposten];
+                      CaptionML=[DEU=Artikel&verfolgungsposten;
+                                 ENU=Item &Tracking Entries];
                       Image=ItemTrackingLedger;
                       OnAction=BEGIN
                                  ShowItemTrackingLines;
                                END;
                                 }
       { 1907075804;2 ;Action    ;
-                      CaptionML=[ENU=Item Receipt &Lines;
-                                 ESP=&L¡n. recep. productos;
-                                 DEA=Artike&leingangszeilen];
+                      CaptionML=[DEU=Artike&leingangszeilen;
+                                 ENU=Item Receipt &Lines];
                       OnAction=BEGIN
                                  IF NOT (Type IN [Type::Item,Type::"Charge (Item)"]) THEN
                                    TESTFIELD(Type);
@@ -66,8 +60,8 @@ OBJECT Page 139 Posted Purch. Invoice Subform
                                 }
       { 1905483604;2 ;Action    ;
                       Name=DocumentLineTracking;
-                      CaptionML=[ENU=Document &Line Tracking;
-                                 DEA=&Belegzeilenverfolgung];
+                      CaptionML=[DEU=&Belegzeilenverfolgung;
+                                 ENU=Document &Line Tracking];
                       Image=Navigate;
                       OnAction=BEGIN
                                  // This functionality was copied from page #138. Unsupported part was commented. Please check it.

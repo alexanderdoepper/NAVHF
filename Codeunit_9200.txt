@@ -2,9 +2,9 @@ OBJECT Codeunit 9200 Matrix Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,9 +15,9 @@ OBJECT Codeunit 9200 Matrix Management
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=The previous column set could not be found.;ESP=No se pudo encontrar el conjunto de columnas anterior.;DEA=Der vorhergehende Spaltensatz wurde nicht gefunden.';
-      Text002@1001 : TextConst 'ENU=The period could not be found.;ESP=No se pudo encontrar el periodo.;DEA=Die Periode wurde nicht gefunden.';
-      Text003@1002 : TextConst 'ENU=There are no Calendar entries within the filter.;ESP=No hay entradas de calendario dentro del filtro.;DEA=Der Filter enth„lt keine Kalendereintr„ge.';
+      Text001@1000 : TextConst 'DEU=Der vorhergehende Spaltensatz wurde nicht gefunden.;ENU=The previous column set could not be found.';
+      Text002@1001 : TextConst 'DEU=Die Periode wurde nicht gefunden.;ENU=The period could not be found.';
+      Text003@1002 : TextConst 'DEU=Der Filter enth„lt keine Kalendereintr„ge.;ENU=There are no Calendar entries within the filter.';
 
     PROCEDURE SetPeriodColumnSet@3(DateFilter@1012 : Text[1024];PeriodType@1013 : 'Day,Week,Month,Quarter,Year,Accounting Period';Direction@1010 : 'Backward,Forward';VAR FirstColumn@1009 : Date;VAR LastColumn@1007 : Date;NoOfColumns@1006 : Integer);
     VAR

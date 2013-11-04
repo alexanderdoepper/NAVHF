@@ -2,15 +2,14 @@ OBJECT Report 5607 Fixed Asset - Projected Value
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Fixed Asset - Projected Value;
-               ESP=A/F - Proyecci¢n amort.;
-               DEA=Anlage - Vorschau];
+    CaptionML=[DEU=Anlage - Vorschau;
+               ENU=Fixed Asset - Projected Value];
     OnPreReport=BEGIN
                   DeprBook.GET(DeprBookCode);
                   Year365Days := DeprBook."Fiscal Year 365 Days";
@@ -501,15 +500,13 @@ OBJECT Report 5607 Fixed Asset - Projected Value
                   ContainerType=ContentArea }
 
       { 1   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
                   Name=DepreciationBook;
-                  CaptionML=[ENU=Depreciation Book;
-                             ESP=Libro amortizaci¢n;
-                             DEA=AfA-Buch];
+                  CaptionML=[DEU=AfA-Buch;
+                             ENU=Depreciation Book];
                   SourceExpr=DeprBookCode;
                   TableRelation="Depreciation Book";
                   OnValidate=BEGIN
@@ -519,23 +516,20 @@ OBJECT Report 5607 Fixed Asset - Projected Value
 
       { 14  ;2   ;Field     ;
                   Name=FirstDeprDate;
-                  CaptionML=[ENU=First Depreciation Date;
-                             ESP=Fecha primera amortizaci¢n;
-                             DEA=Erstes AfA-Datum];
+                  CaptionML=[DEU=Erstes AfA-Datum;
+                             ENU=First Depreciation Date];
                   SourceExpr=StartingDate }
 
       { 15  ;2   ;Field     ;
                   Name=LastDeprDate;
-                  CaptionML=[ENU=Last Depreciation Date;
-                             ESP=Fecha £lt. amortizaci¢n;
-                             DEA=Letztes Datum Normal-AfA];
+                  CaptionML=[DEU=Letztes Datum Normal-AfA;
+                             ENU=Last Depreciation Date];
                   SourceExpr=EndingDate }
 
       { 5   ;2   ;Field     ;
                   Name=NumberOfDays;
-                  CaptionML=[ENU=Number of Days;
-                             ESP=Nß de d°as;
-                             DEA=Anzahl Tage];
+                  CaptionML=[DEU=Anzahl Tage;
+                             ENU=Number of Days];
                   BlankZero=Yes;
                   SourceExpr=PeriodLength;
                   MinValue=0;
@@ -547,33 +541,28 @@ OBJECT Report 5607 Fixed Asset - Projected Value
                               }
 
       { 17  ;2   ;Field     ;
-                  CaptionML=[ENU=No. of Days in First Period;
-                             ESP=Nß d°as en primer periodo;
-                             DEA=Anzahl Tage in der ersten Periode];
+                  CaptionML=[DEU=Anzahl Tage in der ersten Periode;
+                             ENU=No. of Days in First Period];
                   BlankZero=Yes;
                   SourceExpr=DaysInFirstPeriod;
                   MinValue=0 }
 
       { 11  ;2   ;Field     ;
-                  CaptionML=[ENU=Posted Entries From;
-                             ESP=Movs. registrados desde;
-                             DEA=Gebuchte Posten ab];
+                  CaptionML=[DEU=Gebuchte Posten ab;
+                             ENU=Posted Entries From];
                   SourceExpr=IncludePostedFrom }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Group Totals;
-                             ESP=Totales grupo;
-                             DEA=Gruppensummen];
-                  OptionCaptionML=[ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group";
-                                   ESP=" ,A/F Clase,A/F Subclase,A/F AlmacÇn,Activo principal,Dimensi¢n Global 1,Dimensi¢n Global 2,Grupos contables A/F";
-                                   DEA=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe"];
+                  CaptionML=[DEU=Gruppensummen;
+                             ENU=Group Totals];
+                  OptionCaptionML=[DEU=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe";
+                                   ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group"];
                   SourceExpr=GroupTotals }
 
       { 23  ;2   ;Field     ;
                   Name=CopyToGLBudgetName;
-                  CaptionML=[ENU=Copy to G/L Budget Name;
-                             ESP=Copiar a nomb. ppto. cont.;
-                             DEA=In Finanzbudgetnamen kopieren];
+                  CaptionML=[DEU=In Finanzbudgetnamen kopieren;
+                             ENU=Copy to G/L Budget Name];
                   SourceExpr=BudgetNameCode;
                   TableRelation="G/L Budget Name";
                   OnValidate=BEGIN
@@ -584,9 +573,8 @@ OBJECT Report 5607 Fixed Asset - Projected Value
 
       { 25  ;2   ;Field     ;
                   Name=InsertBalAccount;
-                  CaptionML=[ENU=Insert Bal. Account;
-                             ESP=Insertar contrapartida;
-                             DEA=Gegenkonto einfÅgen];
+                  CaptionML=[DEU=Gegenkonto einfÅgen;
+                             ENU=Insert Bal. Account];
                   SourceExpr=BalAccount;
                   OnValidate=BEGIN
                                IF BalAccount THEN
@@ -597,28 +585,24 @@ OBJECT Report 5607 Fixed Asset - Projected Value
 
       { 21  ;2   ;Field     ;
                   Name=PrintPerFixedAsset;
-                  CaptionML=[ENU=Print per Fixed Asset;
-                             ESP=Imprimir por activo;
-                             DEA=Druck pro Anlage];
+                  CaptionML=[DEU=Druck pro Anlage;
+                             ENU=Print per Fixed Asset];
                   SourceExpr=PrintDetails }
 
       { 9   ;2   ;Field     ;
-                  CaptionML=[ENU=Projected Disposal;
-                             ESP=Venta/Baja prevista;
-                             DEA=Voraussichtlicher Verkauf];
+                  CaptionML=[DEU=Voraussichtlicher Verkauf;
+                             ENU=Projected Disposal];
                   SourceExpr=ProjectedDisposal }
 
       { 7   ;2   ;Field     ;
-                  CaptionML=[ENU=Print Amounts per Date;
-                             ESP=Imprimir importes por fecha;
-                             DEA=BetrÑge pro Datum drucken];
+                  CaptionML=[DEU=BetrÑge pro Datum drucken;
+                             ENU=Print Amounts per Date];
                   SourceExpr=PrintAmountsPerDate }
 
       { 20  ;2   ;Field     ;
                   Name=UseAccountingPeriod;
-                  CaptionML=[ENU=Use Accounting Period;
-                             ESP=Utilizar periodo contable;
-                             DEA=Buchungsperiode verwenden];
+                  CaptionML=[DEU=Buchungsperiode verwenden;
+                             ENU=Use Accounting Period];
                   SourceExpr=UseAccountingPeriod;
                   OnValidate=BEGIN
                                IF UseAccountingPeriod THEN
@@ -636,11 +620,11 @@ OBJECT Report 5607 Fixed Asset - Projected Value
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Number of Days must not be greater than %1 or less than 5.;ESP=El n£mero de d°as no puede ser mayor de %1 ni menor de 5.;DEA=Die Anzahl der Tage darf nicht grî·er als %1 oder kleiner als 5 sein.';
-      Text001@1001 : TextConst 'ENU=Projected Gain/Loss;ESP=Bfß/PÇr. previsto;DEA=Voraussichtlicher Gewinn/Verlust';
-      Text002@1002 : TextConst 'ENU=Group Total;ESP=Total grupo;DEA=Gruppensumme';
-      Text003@1003 : TextConst 'ENU=Group Totals;ESP=Totales grupo;DEA=Gruppensummen';
-      Text004@1004 : TextConst 'ENU=%1 has been modified in fixed asset %2;ESP=%1 ha sido modif. en activos fijos %2;DEA=Die %1 wurde in Anlage %2 geÑndert.';
+      Text000@1000 : TextConst 'DEU=Die Anzahl der Tage darf nicht grî·er als %1 oder kleiner als 5 sein.;ENU=Number of Days must not be greater than %1 or less than 5.';
+      Text001@1001 : TextConst 'DEU=Voraussichtlicher Gewinn/Verlust;ENU=Projected Gain/Loss';
+      Text002@1002 : TextConst 'DEU=Gruppensumme;ENU=Group Total';
+      Text003@1003 : TextConst 'DEU=Gruppensummen;ENU=Group Totals';
+      Text004@1004 : TextConst 'DEU=Die %1 wurde in Anlage %2 geÑndert.;ENU=%1 has been modified in fixed asset %2';
       GLBudgetName@1064 : Record 95;
       FASetup@1005 : Record 5603;
       DeprBook@1006 : Record 5611;
@@ -698,27 +682,27 @@ OBJECT Report 5607 Fixed Asset - Projected Value
       ProjectedDisposal@1058 : Boolean;
       DoProjectedDisposal@1059 : Boolean;
       EntryPrinted@1060 : Boolean;
-      Text005@1061 : TextConst 'ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group";ESP=" ,A/F Clase,A/F Subclase,A/F AlmacÇn,Activo principal,Dimensi¢n Global 1,Dimensi¢n Global 2,Grupos contables A/F";DEA=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe"';
+      Text005@1061 : TextConst 'DEU=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe";ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group"';
       BudgetNameCode@1062 : Code[10];
       OldValue@1068 : Code[20];
       NewValue@1069 : Code[20];
       BalAccount@1063 : Boolean;
-      Text006@1065 : TextConst 'ENU=You must specify %1.;ESP=Se debe indicar %1.;DEA=Sie mÅssen den %1 angeben.';
+      Text006@1065 : TextConst 'DEU=Sie mÅssen den %1 angeben.;ENU=You must specify %1.';
       TempDeprDate@1066 : Date;
       GroupTotalsInt@1067 : Integer;
       Year365Days@1070 : Boolean;
-      Text007@1071 : TextConst 'ENU=You must create accounting periods until %1 to use 365 days depreciation and ''Use Accounting Periods''.;ESP=Debe crear periodos contables hasta %1 para usar la amortizaci¢n de 365 d°as y "Usar periodos contables".;DEA=Sie mÅssen Buchhaltungsperioden bis %1 erstellen, um 365-Tage-AfA und ''Buchungsperioden verwenden'' verwenden zu kînnen.';
+      Text007@1071 : TextConst 'DEU=Sie mÅssen Buchhaltungsperioden bis %1 erstellen, um 365-Tage-AfA und ''Buchungsperioden verwenden'' verwenden zu kînnen.;ENU=You must create accounting periods until %1 to use 365 days depreciation and ''Use Accounting Periods''.';
       NumberOfDaysCtrlEditable@19009798 : Boolean INDATASET;
-      CurrReportPAGENOCaptionLbl@5397 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      FixedAssetProjectedValueCaptionLbl@9862 : TextConst 'ENU=Fixed Asset - Projected Value;ESP=A/F - Proyecci¢n amort.;DEA=Anlage - Vorschau';
-      FALedgerEntryFAPostingDateCaptionLbl@8803 : TextConst 'ENU=FA Posting Date;ESP=A/F Fecha registro;DEA=Anlagedatum';
-      BookValueCaptionLbl@9771 : TextConst 'ENU=Book Value;ESP=Valor neto;DEA=Buchwert';
-      PostedEntryCaptionLbl@7565 : TextConst 'ENU=Posted Entry;ESP=Movimiento registrado;DEA=Gebuchter Posten';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      ProjectedAmountsperDateCaptionLbl@1851 : TextConst 'ENU=Projected Amounts per Date;ESP=Importes proyectados por fecha;DEA=Erwartete BetrÑge pro Datum';
-      FABufferProjectionFAPostingDateCaptionLbl@5525 : TextConst 'ENU=FA Posting Date;ESP=A/F Fecha registro;DEA=Anlagedatum';
-      FABufferProjectionDepreciationCaptionLbl@2481 : TextConst 'ENU=Depreciation;ESP=Amortizaci¢n;DEA=AfA';
-      FixedAssetProjectedValueCaption_BufferLbl@4098 : TextConst 'ENU=Fixed Asset - Projected Value;ESP=A/F - Proyecci¢n amort.;DEA=Anlage - Vorschau';
+      CurrReportPAGENOCaptionLbl@5397 : TextConst 'DEU=Seite;ENU=Page';
+      FixedAssetProjectedValueCaptionLbl@9862 : TextConst 'DEU=Anlage - Vorschau;ENU=Fixed Asset - Projected Value';
+      FALedgerEntryFAPostingDateCaptionLbl@8803 : TextConst 'DEU=Anlagedatum;ENU=FA Posting Date';
+      BookValueCaptionLbl@9771 : TextConst 'DEU=Buchwert;ENU=Book Value';
+      PostedEntryCaptionLbl@7565 : TextConst 'DEU=Gebuchter Posten;ENU=Posted Entry';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      ProjectedAmountsperDateCaptionLbl@1851 : TextConst 'DEU=Erwartete BetrÑge pro Datum;ENU=Projected Amounts per Date';
+      FABufferProjectionFAPostingDateCaptionLbl@5525 : TextConst 'DEU=Anlagedatum;ENU=FA Posting Date';
+      FABufferProjectionDepreciationCaptionLbl@2481 : TextConst 'DEU=AfA;ENU=Depreciation';
+      FixedAssetProjectedValueCaption_BufferLbl@4098 : TextConst 'DEU=Anlage - Vorschau;ENU=Fixed Asset - Projected Value';
 
     LOCAL PROCEDURE SkipRecord@5() : Boolean;
     BEGIN

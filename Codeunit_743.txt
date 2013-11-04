@@ -2,9 +2,9 @@ OBJECT Codeunit 743 VAT Report Export
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
@@ -16,7 +16,8 @@ OBJECT Codeunit 743 VAT Report Export
   {
     VAR
       VATReportReleaseReopen@1000 : Codeunit 741;
-      Text001@1001 : TextConst 'ENU=This action will also mark the report as released. Are you sure you want to continue?;ESP=Esta acci¢n tambiÇn marcar† el informe como liberado. ®Est† seguro de que desea continuar?;DEA=Mit dieser Aktion wird der Bericht auch als freigegeben gekennzeichnet. Sind Sie sicher, dass Sie fortfahren mîchten?';
+      Text001@1001 : TextConst 'DEU=Mit dieser Aktion wird der Bericht auch als freigegeben gekennzeichnet. Sind Sie sicher, dass Sie fortfahren mîchten?;ENU=This action will also mark the report as released. Are you sure you want to continue?';
+      Text002@1140000 : TextConst 'DEU=Sie kînnen einen bereits vorgelegten Bericht nicht erneut exportieren. Setzen Sie zuvor den Status zurÅck.;ENU=You cannot export already submitted report. Reopen report first.';
 
     PROCEDURE Export@2(VATReportHeader@1000 : Record 740);
     BEGIN
@@ -24,9 +25,11 @@ OBJECT Codeunit 743 VAT Report Export
         VATReportHeader.Status::Open:
           ExportOpen(VATReportHeader);
         VATReportHeader.Status::Released:
-          ExportReleased;
+          ExportReleased(VATReportHeader);
+        VATReportHeader.Status::Exported:
+          ExportReleased(VATReportHeader);
         VATReportHeader.Status::Submitted:
-          ExportReleased;
+          ERROR(Text002);
       END;
     END;
 
@@ -36,17 +39,23 @@ OBJECT Codeunit 743 VAT Report Export
 
       IF CONFIRM(Text001,TRUE) THEN BEGIN
         VATReportReleaseReopen.Release(VATReportHeader);
-        ExportReleased;
+        ExportReleased(VATReportHeader);
       END;
     END;
 
-    LOCAL PROCEDURE ExportReleased@3();
+    LOCAL PROCEDURE ExportReleased@3(VATReportHeader@1140000 : Record 740);
     BEGIN
-      ExportReport;
+      ExportReport(VATReportHeader);
     END;
 
-    LOCAL PROCEDURE ExportReport@5();
+    LOCAL PROCEDURE ExportReport@5(VATReportHeader@1140000 : Record 740);
+    VAR
+      VATReportHeader2@1140001 : Record 740;
     BEGIN
+      VATReportHeader2.COPY(VATReportHeader);
+      VATReportHeader2.SETRANGE("No.",VATReportHeader."No.");
+      COMMIT;
+      REPORT.RUN(REPORT::"Export VIES Report",TRUE,FALSE,VATReportHeader2);
     END;
 
     BEGIN

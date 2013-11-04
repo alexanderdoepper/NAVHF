@@ -2,15 +2,14 @@ OBJECT Table 225 Post Code
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Post Code;
-               ESP=C¢digo postal;
-               DEA=PLZ-Code];
+    CaptionML=[DEU=PLZ-Code;
+               ENU=Post Code];
     LookupPageID=Page367;
   }
   FIELDS
@@ -25,9 +24,8 @@ OBJECT Table 225 Post Code
                                                                   ERROR(Text000,FIELDCAPTION(Code),Code);
                                                               END;
 
-                                                   CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+                                                   CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
     { 2   ;   ;City                ;Text30        ;OnValidate=VAR
                                                                 PostCode@1000 : Record 225;
@@ -43,20 +41,16 @@ OBJECT Table 225 Post Code
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort];
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City];
                                                    NotBlank=Yes }
-    { 3   ;   ;Search City         ;Code30        ;CaptionML=[ENU=Search City;
-                                                              ESP=Buscar poblaci¢n;
-                                                              DEA=Suchbegriff (Ort)] }
+    { 3   ;   ;Search City         ;Code30        ;CaptionML=[DEU=Suchbegriff (Ort);
+                                                              ENU=Search City] }
     { 4   ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa¡s/regi¢n;
-                                                              DEA=L„nder-/Regionscode] }
-    { 5   ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=L„nder-/Regionscode;
+                                                              ENU=Country/Region Code] }
+    { 5   ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
   }
   KEYS
   {
@@ -72,7 +66,7 @@ OBJECT Table 225 Post Code
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=%1 %2 already exists.;ESP=Ya existe %1 %2.;DEA=%1 %2 ist bereits vorhanden.';
+      Text000@1000 : TextConst 'DEU=%1 %2 ist bereits vorhanden.;ENU=%1 %2 already exists.';
 
     PROCEDURE ValidateCity@5(VAR City@1000 : Text[30];VAR PostCode@1001 : Code[20];VAR County@1006 : Text[30];VAR CountryCode@1005 : Code[10];UseDialog@1007 : Boolean);
     VAR

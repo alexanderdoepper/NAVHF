@@ -2,10 +2,9 @@ OBJECT Table 79 Company Information
 {
   OBJECT-PROPERTIES
   {
-    Date=27.05.13;
-    Time=10:30:57;
-    Modified=Yes;
-    Version List=NAVW17.00,NAVDACH7.00,NAVAT7.00;
+    Date=05.04.13;
+    Time=12:00:00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {

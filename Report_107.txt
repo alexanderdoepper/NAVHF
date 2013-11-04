@@ -2,25 +2,22 @@ OBJECT Report 107 Customer - Order Summary
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Customer - Order Summary;
-               ESP=Cliente - Total pedidos;
-               DEA=Debitor - AuftragsÅbersicht];
+    CaptionML=[DEU=Debitor - AuftragsÅbersicht;
+               ENU=Customer - Order Summary];
     OnPreReport=VAR
                   Currency@1000 : Record 4;
                 BEGIN
                   CustFilter := Customer.GETFILTERS;
                   IF NOT PrintAmountsInLCY THEN BEGIN
                     Currency.SETFILTER(Code,Customer.GETFILTER("Currency Filter"));
-                    IF Currency.COUNT = 1 THEN BEGIN
+                    IF Currency.COUNT = 1 THEN
                       Currency.FINDFIRST;
-                      CurrencyFilter := Currency.Code;
-                    END;
                   END;
                   FOR i := 1 TO 3 DO
                     PeriodStartDate[i + 1] := CALCDATE('<1M>',PeriodStartDate[i]);
@@ -158,8 +155,8 @@ OBJECT Report 107 Customer - Order Summary
     { 50  ;1   ;Column  ;No_Cust             ;
                SourceExpr="No." }
 
-    { 2   ;1   ;Column  ;CurrencyFilter      ;
-               SourceExpr=CurrencyFilter }
+    { 2   ;1   ;Column  ;SalesLineCurrencyCode;
+               SourceExpr=SalesLine."Currency Code" }
 
     { 39  ;1   ;Column  ;SalesOrderAmount    ;
                SourceExpr=SalesOrderAmount;
@@ -249,22 +246,19 @@ OBJECT Report 107 Customer - Order Summary
                   ContainerType=ContentArea }
 
       { 3   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=ShwAmtinLCY;
-                  CaptionML=[ENU=Show Amounts in LCY;
-                             ESP=Muestra importes en DL;
-                             DEA=BetrÑge in MW anzeigen];
+                  CaptionML=[DEU=BetrÑge in MW anzeigen;
+                             ENU=Show Amounts in LCY];
                   SourceExpr=PrintAmountsInLCY }
 
       { 2   ;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   NotBlank=Yes;
                   SourceExpr=PeriodStartDate[1] }
 
@@ -289,17 +283,16 @@ OBJECT Report 107 Customer - Order Summary
       PeriodNo@1008 : Integer;
       SalesAmtOnOrder@1009 : ARRAY [5] OF Decimal;
       i@1010 : Integer;
-      CustomerOrderSummaryCaptionLbl@8118 : TextConst 'ENU=Customer - Order Summary;ESP=Cliente - Total pedidos;DEA=Debitor - AuftragsÅbersicht';
-      PageNoCaptionLbl@2773 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      AllamountsareinLCYCaptionLbl@3692 : TextConst 'ENU=All amounts are in LCY;ESP=Importes en divisa local;DEA=Alle BetrÑge in MW';
-      OutstandingOrdersCaptionLbl@5291 : TextConst 'ENU=Outstanding Orders;ESP=Importe pedidos pendientes;DEA=Auftragsbestand';
-      CustomerNoCaptionLbl@6910 : TextConst 'ENU=Customer No.;ESP=Nß cliente;DEA=Debitorennr.';
-      CustomerNameCap@1013 : TextConst 'ENU=Name;DEA=Name';
-      BeforeCaptionLbl@6488 : TextConst 'ENU=...before;ESP=...antes;DEA=...alter Inhalt';
-      AfterCaptionLbl@7202 : TextConst 'ENU=after...;ESP=despuÇs...;DEA=Neuer Inhalt...';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      TotalLCYCaptionLbl@5808 : TextConst 'ENU=Total (LCY);ESP=Total (DL);DEA=Gesamt (MW)';
-      CurrencyFilter@1012 : Code[10];
+      CustomerOrderSummaryCaptionLbl@8118 : TextConst 'DEU=Debitor - AuftragsÅbersicht;ENU=Customer - Order Summary';
+      PageNoCaptionLbl@2773 : TextConst 'DEU=Seite;ENU=Page';
+      AllamountsareinLCYCaptionLbl@3692 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All amounts are in LCY';
+      OutstandingOrdersCaptionLbl@5291 : TextConst 'DEU=Auftragsbestand;ENU=Outstanding Orders';
+      CustomerNoCaptionLbl@6910 : TextConst 'DEU=Debitorennr.;ENU=Customer No.';
+      CustomerNameCap@1013 : TextConst 'DEU=Name;ENU=Name';
+      BeforeCaptionLbl@6488 : TextConst 'DEU=...alter Inhalt;ENU=...before';
+      AfterCaptionLbl@7202 : TextConst 'DEU=Neuer Inhalt...;ENU=after...';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
+      TotalLCYCaptionLbl@5808 : TextConst 'DEU=Gesamt (MW);ENU=Total (LCY)';
       TotalSalesAmtOnOrder@1014 : Decimal;
       TotalSalesAmtOnOrderLCY@1015 : Decimal;
 
@@ -400,8 +393,8 @@ OBJECT Report 107 Customer - Order Summary
         <Field Name="No_Cust">
           <DataField>No_Cust</DataField>
         </Field>
-        <Field Name="CurrencyFilter">
-          <DataField>CurrencyFilter</DataField>
+        <Field Name="SalesLineCurrencyCode">
+          <DataField>SalesLineCurrencyCode</DataField>
         </Field>
         <Field Name="SalesOrderAmount">
           <DataField>SalesOrderAmount</DataField>
@@ -1412,7 +1405,7 @@ OBJECT Report 107 Customer - Order Summary
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!CurrencyFilter.Value</Value>
+                              <Value>=Fields!SalesLineCurrencyCode.Value</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
                               </Style>
@@ -1903,7 +1896,7 @@ OBJECT Report 107 Customer - Order Summary
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.23622in</Height>
+              <Height>0.16654in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -1966,13 +1959,14 @@ OBJECT Report 107 Customer - Order Summary
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="SalesLineCurrencyCode2">
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!CurrencyFilter.Value</Value>
+                              <Value />
                               <Style>
                                 <FontSize>7pt</FontSize>
                               </Style>
@@ -1981,8 +1975,7 @@ OBJECT Report 107 Customer - Order Summary
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>SalesLineCurrencyCode</rd:DefaultName>
-                      <ZIndex>6</ZIndex>
+                      <rd:DefaultName>Textbox15</rd:DefaultName>
                       <Style>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
@@ -2004,6 +1997,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrder1.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrder1Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2036,6 +2030,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrder2.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrder2Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2054,6 +2049,7 @@ OBJECT Report 107 Customer - Order Summary
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2068,6 +2064,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrder3.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrder3Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2100,6 +2097,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrder4.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrder4Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2132,6 +2130,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrder5.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrder5Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2164,6 +2163,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!TotalSalesAmtOnOrder.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesOrderAmountFormat.Value</Format>
                               </Style>
                             </TextRun>
@@ -2350,6 +2350,7 @@ OBJECT Report 107 Customer - Order Summary
                               <Value>=Sum(Fields!SalesAmtOnOrderLCY3.Value)</Value>
                               <Style>
                                 <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
                                 <Format>=Fields!SalesAmtOnOrderLCY3Format.Value</Format>
                               </Style>
                             </TextRun>
@@ -2527,11 +2528,14 @@ OBJECT Report 107 Customer - Order Summary
             </TablixMember>
             <TablixMember>
               <Visibility>
-                <Hidden>=IIF(Fields!CurrencyFilter.Value="",TRUE,FALSE)</Hidden>
+                <Hidden>=First(Fields!PrintAmountsInLCY.Value)</Hidden>
               </Visibility>
               <KeepWithGroup>Before</KeepWithGroup>
             </TablixMember>
             <TablixMember>
+              <Visibility>
+                <Hidden>=NOT First(Fields!PrintAmountsInLCY.Value)</Hidden>
+              </Visibility>
               <KeepWithGroup>Before</KeepWithGroup>
               <KeepTogether>true</KeepTogether>
             </TablixMember>
@@ -2539,7 +2543,7 @@ OBJECT Report 107 Customer - Order Summary
         </TablixRowHierarchy>
         <DataSetName>DataSet_Result</DataSetName>
         <Top>2.22222cm</Top>
-        <Height>3.56105cm</Height>
+        <Height>3.38407cm</Height>
         <Width>18.04419cm</Width>
         <ZIndex>2</ZIndex>
         <Style />
@@ -2601,7 +2605,7 @@ OBJECT Report 107 Customer - Order Summary
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>5.78328cm</Height>
+    <Height>5.60629cm</Height>
     <Style />
   </Body>
   <ReportParameters>

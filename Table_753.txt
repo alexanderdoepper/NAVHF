@@ -2,9 +2,9 @@ OBJECT Table 753 Standard Item Journal Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -12,20 +12,17 @@ OBJECT Table 753 Standard Item Journal Line
                ERROR(Text001,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Standard Item Journal Line;
-               ESP=L°nea diario productos est†ndar;
-               DEA=Standard-Artikel Buchzeile];
+    CaptionML=[DEU=Standard-Artikel Buchzeile;
+               ENU=Standard Item Journal Line];
   }
   FIELDS
   {
     { 1   ;   ;Journal Template Name;Code10       ;TableRelation="Item Journal Template";
-                                                   CaptionML=[ENU=Journal Template Name;
-                                                              ESP=Nombre libro diario;
-                                                              DEA=Buch.-Blattvorlagenname];
+                                                   CaptionML=[DEU=Buch.-Blattvorlagenname;
+                                                              ENU=Journal Template Name];
                                                    NotBlank=Yes }
-    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=Nß l°nea;
-                                                              DEA=Zeilennr.];
+    { 2   ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.];
                                                    NotBlank=Yes;
                                                    Editable=No }
     { 3   ;   ;Item No.            ;Code20        ;TableRelation=Item;
@@ -122,9 +119,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 VALIDATE("Item No.",Item."No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Item No.;
-                                                              ESP=Nß producto;
-                                                              DEA=Artikelnr.] }
+                                                   CaptionML=[DEU=Artikelnr.;
+                                                              ENU=Item No.] }
     { 5   ;   ;Entry Type          ;Option        ;OnValidate=BEGIN
                                                                 IF NOT ("Entry Type" IN ["Entry Type"::"Positive Adjmt.","Entry Type"::"Negative Adjmt."]) THEN
                                                                   TESTFIELD("Phys. Inventory",FALSE);
@@ -142,16 +138,13 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 VALIDATE("Item No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Entry Type;
-                                                              ESP=Tipo movimiento;
-                                                              DEA=Postenart];
-                                                   OptionCaptionML=[ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output;
-                                                                    ESP=Compra,Venta,Ajuste positivo,Ajuste negativo,Transferencia,Consumo,Salida desde fab., ,Consumo ensamblado,Salida ensamblado;
-                                                                    DEA=Einkauf,Verkauf,Zugang,Abgang,Umlagerung,Verbrauch,Istmeldung, ,Verbrauch fÅr Montage,Montage-Istmeldung];
+                                                   CaptionML=[DEU=Postenart;
+                                                              ENU=Entry Type];
+                                                   OptionCaptionML=[DEU=Einkauf,Verkauf,Zugang,Abgang,Umlagerung,Verbrauch,Istmeldung, ,Verbrauch fÅr Montage,Montage-Istmeldung;
+                                                                    ENU=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output];
                                                    OptionString=Purchase,Sale,Positive Adjmt.,Negative Adjmt.,Transfer,Consumption,Output, ,Assembly Consumption,Assembly Output }
-    { 8   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
+    { 8   ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
     { 9   ;   ;Location Code       ;Code10        ;TableRelation=Location;
                                                    OnValidate=BEGIN
                                                                 IF "Location Code" <> xRec."Location Code" THEN BEGIN
@@ -166,13 +159,11 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 VALIDATE("Unit of Measure Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
     { 10  ;   ;Inventory Posting Group;Code10     ;TableRelation="Inventory Posting Group";
-                                                   CaptionML=[ENU=Inventory Posting Group;
-                                                              ESP=Grupo contable inventario;
-                                                              DEA=Lagerbuchungsgruppe];
+                                                   CaptionML=[DEU=Lagerbuchungsgruppe;
+                                                              ENU=Inventory Posting Group];
                                                    Editable=No }
     { 13  ;   ;Quantity            ;Decimal       ;OnValidate=BEGIN
                                                                 IF NOT PhysInvtEntered THEN
@@ -184,9 +175,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 UpdateAmount;
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity;
-                                                              ESP=Cantidad;
-                                                              DEA=Menge];
+                                                   CaptionML=[DEU=Menge;
+                                                              ENU=Quantity];
                                                    DecimalPlaces=0:5 }
     { 16  ;   ;Unit Amount         ;Decimal       ;OnValidate=BEGIN
                                                                 UpdateAmount;
@@ -239,9 +229,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                     END;
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Amount;
-                                                              ESP=Precio unitario;
-                                                              DEA=StÅckpreis];
+                                                   CaptionML=[DEU=StÅckpreis;
+                                                              ENU=Unit Amount];
                                                    AutoFormatType=2 }
     { 17  ;   ;Unit Cost           ;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD("Item No.");
@@ -285,9 +274,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Cost;
-                                                              ESP=Coste unitario;
-                                                              DEA=Einstandspreis];
+                                                   CaptionML=[DEU=Einstandspreis;
+                                                              ENU=Unit Cost];
                                                    AutoFormatType=2 }
     { 18  ;   ;Amount              ;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD(Quantity);
@@ -297,9 +285,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 "Unit Amount" := ROUND("Unit Amount",GLSetup."Unit-Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Amount;
-                                                              ESP=Importe;
-                                                              DEA=Betrag];
+                                                   CaptionML=[DEU=Betrag;
+                                                              ENU=Amount];
                                                    AutoFormatType=1 }
     { 23  ;   ;Salespers./Purch. Code;Code10      ;TableRelation=Salesperson/Purchaser;
                                                    OnValidate=BEGIN
@@ -309,31 +296,27 @@ OBJECT Table 753 Standard Item Journal Line
                                                                   DATABASE::"Work Center","Work Center No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Salespers./Purch. Code;
-                                                              ESP=C¢d. vendedor/comprador;
-                                                              DEA=Verk.-/EinkÑufercode] }
+                                                   CaptionML=[DEU=Verk.-/EinkÑufercode;
+                                                              ENU=Salespers./Purch. Code] }
     { 26  ;   ;Source Code         ;Code10        ;TableRelation="Source Code";
-                                                   CaptionML=[ENU=Source Code;
-                                                              ESP=C¢d. origen;
-                                                              DEA=Herkunftscode];
+                                                   CaptionML=[DEU=Herkunftscode;
+                                                              ENU=Source Code];
                                                    Editable=No }
     { 34  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
-                                                              ESP=C¢d. dim. acceso dir. 1;
-                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 1;
+                                                              ENU=Shortcut Dimension 1 Code];
                                                    CaptionClass='1,2,1' }
     { 35  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
-                                                              ESP=C¢d. dim. acceso dir. 2;
-                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 2;
+                                                              ENU=Shortcut Dimension 2 Code];
                                                    CaptionClass='1,2,2' }
     { 37  ;   ;Indirect Cost %     ;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD("Item No.");
@@ -356,38 +339,31 @@ OBJECT Table 753 Standard Item Journal Line
                                                                     "Overhead Rate" * "Qty. per Unit of Measure",GLSetup."Unit-Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Indirect Cost %;
-                                                              ESP=% Coste indirecto;
-                                                              DEA=Indirekte Kosten %];
+                                                   CaptionML=[DEU=Indirekte Kosten %;
+                                                              ENU=Indirect Cost %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 41  ;   ;Standard Journal Code;Code10       ;TableRelation="Standard Item Journal".Code;
-                                                   CaptionML=[ENU=Standard Journal Code;
-                                                              ESP=C¢digo diario est†ndar;
-                                                              DEA=Standard Buch.-Blattcode] }
+                                                   CaptionML=[DEU=Standard Buch.-Blattcode;
+                                                              ENU=Standard Journal Code] }
     { 42  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
-                                                   CaptionML=[ENU=Reason Code;
-                                                              ESP=C¢d. auditor°a;
-                                                              DEA=Ursachencode] }
+                                                   CaptionML=[DEU=Ursachencode;
+                                                              ENU=Reason Code] }
     { 47  ;   ;Transaction Type    ;Code10        ;TableRelation="Transaction Type";
-                                                   CaptionML=[ENU=Transaction Type;
-                                                              ESP=Naturaleza transacci¢n;
-                                                              DEA=Art des GeschÑftes] }
+                                                   CaptionML=[DEU=Art des GeschÑftes;
+                                                              ENU=Transaction Type] }
     { 48  ;   ;Transport Method    ;Code10        ;TableRelation="Transport Method";
-                                                   CaptionML=[ENU=Transport Method;
-                                                              ESP=Modo transporte;
-                                                              DEA=Verkehrszweig] }
+                                                   CaptionML=[DEU=Verkehrszweig;
+                                                              ENU=Transport Method] }
     { 49  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 53  ;   ;Qty. (Calculated)   ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Qty. (Phys. Inventory)");
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. (Calculated);
-                                                              ESP=Stock calculado;
-                                                              DEA=Menge (berechnet)];
+                                                   CaptionML=[DEU=Menge (berechnet);
+                                                              ENU=Qty. (Calculated)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 54  ;   ;Qty. (Phys. Inventory);Decimal     ;OnValidate=BEGIN
@@ -405,46 +381,37 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 PhysInvtEntered := FALSE;
                                                               END;
 
-                                                   CaptionML=[ENU=Qty. (Phys. Inventory);
-                                                              ESP=Cdad. (stock f°sico);
-                                                              DEA=Inventurmenge];
+                                                   CaptionML=[DEU=Inventurmenge;
+                                                              ENU=Qty. (Phys. Inventory)];
                                                    DecimalPlaces=0:5 }
-    { 56  ;   ;Phys. Inventory     ;Boolean       ;CaptionML=[ENU=Phys. Inventory;
-                                                              ESP=Inventario f°sico;
-                                                              DEA=Inventur];
+    { 56  ;   ;Phys. Inventory     ;Boolean       ;CaptionML=[DEU=Inventur;
+                                                              ENU=Phys. Inventory];
                                                    Editable=No }
     { 57  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
-                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
-                                                              ESP=Grupo contable negocio;
-                                                              DEA=GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=GeschÑftsbuchungsgruppe;
+                                                              ENU=Gen. Bus. Posting Group] }
     { 58  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
     { 59  ;   ;Entry/Exit Point    ;Code10        ;TableRelation="Entry/Exit Point";
-                                                   CaptionML=[ENU=Entry/Exit Point;
-                                                              ESP=Puerto/Aeropuerto;
-                                                              DEA=Hafen] }
+                                                   CaptionML=[DEU=Hafen;
+                                                              ENU=Entry/Exit Point] }
     { 63  ;   ;Area                ;Code10        ;TableRelation=Area;
-                                                   CaptionML=[ENU=Area;
-                                                              ESP=C¢d. provincia;
-                                                              DEA=Ursprungsregion] }
+                                                   CaptionML=[DEU=Ursprungsregion;
+                                                              ENU=Area] }
     { 64  ;   ;Transaction Specification;Code10   ;TableRelation="Transaction Specification";
-                                                   CaptionML=[ENU=Transaction Specification;
-                                                              ESP=Especificaci¢n transacci¢n;
-                                                              DEA=Verfahren] }
+                                                   CaptionML=[DEU=Verfahren;
+                                                              ENU=Transaction Specification] }
     { 65  ;   ;Posting No. Series  ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=Posting No. Series;
-                                                              ESP=Nß serie registro;
-                                                              DEA=Buchungsnr.-Serie] }
+                                                   CaptionML=[DEU=Buchungsnr.-Serie;
+                                                              ENU=Posting No. Series] }
     { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
                                                    OnLookup=BEGIN
                                                               ShowDimensions;
                                                             END;
 
-                                                   CaptionML=[ENU=Dimension Set ID;
-                                                              ESP=Id. grupo dimensiones;
-                                                              DEA=Dimensionssatz-ID];
+                                                   CaptionML=[DEU=Dimensionssatz-ID;
+                                                              ENU=Dimension Set ID];
                                                    Editable=No }
     { 5402;   ;Variant Code        ;Code10        ;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Item No.));
                                                    OnValidate=BEGIN
@@ -473,9 +440,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 Description := ItemVariant.Description;
                                                               END;
 
-                                                   CaptionML=[ENU=Variant Code;
-                                                              ESP=C¢d. variante;
-                                                              DEA=Variantencode] }
+                                                   CaptionML=[DEU=Variantencode;
+                                                              ENU=Variant Code] }
     { 5403;   ;Bin Code            ;Code20        ;TableRelation=IF (Entry Type=FILTER(Purchase|Positive Adjmt.|Output),
                                                                      Quantity=FILTER(>=0)) Bin.Code WHERE (Location Code=FIELD(Location Code),
                                                                                                            Item Filter=FIELD(Item No.),
@@ -505,13 +471,11 @@ OBJECT Table 753 Standard Item Journal Line
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Bin Code;
-                                                              ESP=C¢d. ubicaci¢n;
-                                                              DEA=Lagerplatzcode] }
+                                                   CaptionML=[DEU=Lagerplatzcode;
+                                                              ENU=Bin Code] }
     { 5404;   ;Qty. per Unit of Measure;Decimal   ;InitValue=1;
-                                                   CaptionML=[ENU=Qty. per Unit of Measure;
-                                                              ESP=Cdad. por unidad medida;
-                                                              DEA=Menge pro Einheit];
+                                                   CaptionML=[DEU=Menge pro Einheit;
+                                                              ENU=Qty. per Unit of Measure];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 5407;   ;Unit of Measure Code;Code10        ;TableRelation="Item Unit of Measure".Code WHERE (Item No.=FIELD(Item No.));
@@ -527,64 +491,50 @@ OBJECT Table 753 Standard Item Journal Line
                                                                   VALIDATE(Quantity);
                                                               END;
 
-                                                   CaptionML=[ENU=Unit of Measure Code;
-                                                              ESP=C¢d. unidad medida;
-                                                              DEA=Einheitencode] }
+                                                   CaptionML=[DEU=Einheitencode;
+                                                              ENU=Unit of Measure Code] }
     { 5413;   ;Quantity (Base)     ;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD("Qty. per Unit of Measure",1);
                                                                 VALIDATE(Quantity,"Quantity (Base)");
                                                               END;
 
-                                                   CaptionML=[ENU=Quantity (Base);
-                                                              ESP=Cantidad (base);
-                                                              DEA=Menge (Basis)];
+                                                   CaptionML=[DEU=Menge (Basis);
+                                                              ENU=Quantity (Base)];
                                                    DecimalPlaces=0:5 }
     { 5701;   ;Originally Ordered No.;Code20      ;TableRelation=Item;
-                                                   CaptionML=[ENU=Originally Ordered No.;
-                                                              ESP=Nß pedido originalmente;
-                                                              DEA=Urspr. Nr. (Auftrag)] }
+                                                   CaptionML=[DEU=Urspr. Nr. (Auftrag);
+                                                              ENU=Originally Ordered No.] }
     { 5702;   ;Originally Ordered Var. Code;Code10;TableRelation="Item Variant".Code WHERE (Item No.=FIELD(Originally Ordered No.));
-                                                   CaptionML=[ENU=Originally Ordered Var. Code;
-                                                              ESP=C¢d. var. ped. originalmente;
-                                                              DEA=Urspr. Variantencode (Auftrag)] }
+                                                   CaptionML=[DEU=Urspr. Variantencode (Auftrag);
+                                                              ENU=Originally Ordered Var. Code] }
     { 5704;   ;Item Category Code  ;Code10        ;TableRelation="Item Category";
-                                                   CaptionML=[ENU=Item Category Code;
-                                                              ESP=C¢d. categor°a producto;
-                                                              DEA=Artikelkategoriencode] }
-    { 5705;   ;Nonstock            ;Boolean       ;CaptionML=[ENU=Nonstock;
-                                                              ESP=Prod. sin stock;
-                                                              DEA=Katalogartikel] }
+                                                   CaptionML=[DEU=Artikelkategoriencode;
+                                                              ENU=Item Category Code] }
+    { 5705;   ;Nonstock            ;Boolean       ;CaptionML=[DEU=Katalogartikel;
+                                                              ENU=Nonstock] }
     { 5706;   ;Purchasing Code     ;Code10        ;TableRelation=Purchasing;
-                                                   CaptionML=[ENU=Purchasing Code;
-                                                              ESP=C¢d. compra;
-                                                              DEA=Einkaufscode] }
+                                                   CaptionML=[DEU=Einkaufscode;
+                                                              ENU=Purchasing Code] }
     { 5707;   ;Product Group Code  ;Code10        ;TableRelation="Product Group".Code WHERE (Item Category Code=FIELD(Item Category Code));
-                                                   CaptionML=[ENU=Product Group Code;
-                                                              ESP=C¢d. grupo producto;
-                                                              DEA=Produktgruppencode] }
-    { 5800;   ;Value Entry Type    ;Option        ;CaptionML=[ENU=Value Entry Type;
-                                                              ESP=Tipo mov. valor;
-                                                              DEA=Wertpostenart];
-                                                   OptionCaptionML=[ENU=Direct Cost,Revaluation,Rounding,Indirect Cost,Variance;
-                                                                    ESP=Coste directo,Revalorizaci¢n,Redondeo,Coste indirecto,Desviaci¢n;
-                                                                    DEA=Direkte Kosten,Neubewertung,Rundung,Indirekte Kosten,Abweichung];
+                                                   CaptionML=[DEU=Produktgruppencode;
+                                                              ENU=Product Group Code] }
+    { 5800;   ;Value Entry Type    ;Option        ;CaptionML=[DEU=Wertpostenart;
+                                                              ENU=Value Entry Type];
+                                                   OptionCaptionML=[DEU=Direkte Kosten,Neubewertung,Rundung,Indirekte Kosten,Abweichung;
+                                                                    ENU=Direct Cost,Revaluation,Rounding,Indirect Cost,Variance];
                                                    OptionString=Direct Cost,Revaluation,Rounding,Indirect Cost,Variance }
     { 5801;   ;Item Charge No.     ;Code20        ;TableRelation="Item Charge";
-                                                   CaptionML=[ENU=Item Charge No.;
-                                                              ESP=Nß cargo prod.;
-                                                              DEA=Artikel Zu-/Abschlagsnr.] }
-    { 5817;   ;Correction          ;Boolean       ;CaptionML=[ENU=Correction;
-                                                              ESP=Correcci¢n;
-                                                              DEA=Storno] }
+                                                   CaptionML=[DEU=Artikel Zu-/Abschlagsnr.;
+                                                              ENU=Item Charge No.] }
+    { 5817;   ;Correction          ;Boolean       ;CaptionML=[DEU=Storno;
+                                                              ENU=Correction] }
     { 5839;   ;Work Center No.     ;Code20        ;TableRelation="Work Center";
-                                                   CaptionML=[ENU=Work Center No.;
-                                                              ESP=Nß centro trabajo;
-                                                              DEA=Arbeitsplatzgruppennr.];
+                                                   CaptionML=[DEU=Arbeitsplatzgruppennr.;
+                                                              ENU=Work Center No.];
                                                    Editable=No }
     { 6600;   ;Return Reason Code  ;Code10        ;TableRelation="Return Reason";
-                                                   CaptionML=[ENU=Return Reason Code;
-                                                              ESP=C¢d. auditor°a dev.;
-                                                              DEA=Reklamationsgrundcode] }
+                                                   CaptionML=[DEU=Reklamationsgrundcode;
+                                                              ENU=Return Reason Code] }
     { 99000755;;Overhead Rate      ;Decimal       ;OnValidate=BEGIN
                                                                 IF ("Value Entry Type" <> "Value Entry Type"::"Direct Cost") OR
                                                                    ("Item Charge No." <> '')
@@ -595,9 +545,8 @@ OBJECT Table 753 Standard Item Journal Line
                                                                   VALIDATE("Indirect Cost %");
                                                               END;
 
-                                                   CaptionML=[ENU=Overhead Rate;
-                                                              ESP=Tasa costes generales;
-                                                              DEA=Gemeinkostensatz];
+                                                   CaptionML=[DEU=Gemeinkostensatz;
+                                                              ENU=Overhead Rate];
                                                    DecimalPlaces=0:5 }
   }
   KEYS
@@ -611,7 +560,7 @@ OBJECT Table 753 Standard Item Journal Line
   CODE
   {
     VAR
-      Text001@1002 : TextConst 'ENU=You cannot rename a %1.;ESP=No se puede cambiar el nombre a %1.;DEA=%1: Umbenennen nicht mîglich.';
+      Text001@1002 : TextConst 'DEU=%1: Umbenennen nicht mîglich.;ENU=You cannot rename a %1.';
       Item@1000 : Record 27;
       ItemVariant@1015 : Record 5401;
       Location@1004 : Record 14;
@@ -626,8 +575,8 @@ OBJECT Table 753 Standard Item Journal Line
       UOMMgt@1016 : Codeunit 5402;
       UnitCost@1008 : Decimal;
       GLSetupRead@1010 : Boolean;
-      Text002@1012 : TextConst 'ENU=You cannot change %1 when %2 is %3.;ESP=No se puede cambiar %1 cuando %2 es %3.;DEA=Sie kînnen %1 nicht Ñndern, wenn %2 %3 ist.';
-      Text003@1014 : TextConst 'ENU=You cannot change %3 when %2 is %1.;ESP=No se puede cambiar %3 cuando %2 es %1.;DEA=Sie kînnen %3 nicht Ñndern, wenn %2 %1 ist.';
+      Text002@1012 : TextConst 'DEU=Sie kînnen %1 nicht Ñndern, wenn %2 %3 ist.;ENU=You cannot change %1 when %2 is %3.';
+      Text003@1014 : TextConst 'DEU=Sie kînnen %3 nicht Ñndern, wenn %2 %1 ist.;ENU=You cannot change %3 when %2 is %1.';
       PhysInvtEntered@1018 : Boolean;
 
     PROCEDURE ValidateShortcutDimCode@3(FieldNumber@1000 : Integer;VAR ShortcutDimCode@1001 : Code[20]);

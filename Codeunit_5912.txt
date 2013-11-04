@@ -2,9 +2,9 @@ OBJECT Codeunit 5912 ServLedgEntries-Post
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -28,7 +28,7 @@ OBJECT Codeunit 5912 ServLedgEntries-Post
       NextServLedgerEntryNo@1001 : Integer;
       NextWarrantyLedgerEntryNo@1003 : Integer;
       SrcCode@1004 : Code[10];
-      Text001@1009 : TextConst '@@@=Service Ledger Entry No. Line No. for Service Invoice SO000001 cannot be posted. Please define the Service Item No. 7 in Service Contract No. SC0001.;ENU=%1 No. %2 for Service %3 %4 cannot be posted. Please define the Service Item No. %5 in Service Contract No. %6.;ESP=%1 nß %2 para el servicio %3 %4 no se puede registrar. Defina el Nß producto servicio %5 en Nß contrato servicio %6.;DEA=%1 (Nr.: %2) fÅr den Service %3 %4 kann nicht gebucht werden. Geben Sie in der Servicevertragsnr. %6 die Serviceartikelnr. %5 an.';
+      Text001@1009 : TextConst '@@@=Service Ledger Entry No. Line No. for Service Invoice SO000001 cannot be posted. Please define the Service Item No. 7 in Service Contract No. SC0001.;DEU=%1 (Nr.: %2) fÅr den Service %3 %4 kann nicht gebucht werden. Geben Sie in der Servicevertragsnr. %6 die Serviceartikelnr. %5 an.;ENU=%1 No. %2 for Service %3 %4 cannot be posted. Please define the Service Item No. %5 in Service Contract No. %6.';
 
     PROCEDURE InitServiceRegister@19(VAR PassedServEntryNo@1000 : Integer;VAR PassedWarrantyEntryNo@1001 : Integer);
     VAR

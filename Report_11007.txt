@@ -2,14 +2,14 @@ OBJECT Report 11007 VAT-Vies Declaration Tax - DE
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=VAT-Vies Declaration Tax - DE;
-               DEA=Zusammenf. Meldung - Formular];
+    CaptionML=[DEU=Zusammenf. Meldung - Formular;
+               ENU=VAT-Vies Declaration Tax - DE];
     OnInitReport=BEGIN
                    MaxRecCount := 1000;
                  END;
@@ -455,35 +455,35 @@ OBJECT Report 11007 VAT-Vies Declaration Tax - DE
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1140000;2;Field     ;
-                  CaptionML=[ENU=Reporting Period;
-                             DEA=Meldezeitraum];
-                  OptionCaptionML=[ENU=January,February,March,April,May,June,July,August,September,October,November,December,1. Quarter,2. Quarter,3. Quarter,4. Quarter,Jan/Feb,April/May,July/Aug,Oct/Nov,Calendar Year;
-                                   DEA=Januar,Februar,MÑrz,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember,1. Quartal,2. Quartal,3. Quartal,4. Quartal,Jan/Feb,April/Mai,Juli/Aug,Okt/Nov,Kalenderjahr];
+                  CaptionML=[DEU=Meldezeitraum;
+                             ENU=Reporting Period];
+                  OptionCaptionML=[DEU=Januar,Februar,MÑrz,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember,1. Quartal,2. Quartal,3. Quartal,4. Quartal,Jan/Feb,Apr/Mai,Jul/Aug,Okt/Nov,Kalenderjahr;
+                                   ENU=January,February,March,April,May,June,July,August,September,October,November,December,1. Quarter,2. Quarter,3. Quarter,4. Quarter,Jan/Feb,April/May,July/Aug,Oct/Nov,Calendar Year];
                   SourceExpr=RepPeriod }
 
       { 1140002;2;Field     ;
-                  CaptionML=[ENU=Date of Signature;
-                             DEA=Datum der Unterschrift];
+                  CaptionML=[DEU=Datum der Unterschrift;
+                             ENU=Date of Signature];
                   SourceExpr=DateSignature }
 
       { 1140004;2;Field     ;
-                  CaptionML=[ENU=Corrected Notification;
-                             DEA=Berichtigte Anmeldung];
+                  CaptionML=[DEU=Berichtigte Anmeldung;
+                             ENU=Corrected Notification];
                   SourceExpr=CorrectedNotification }
 
       { 1140006;2;Field     ;
-                  CaptionML=[ENU=Show Amounts in Add. Reporting Currency;
-                             DEA=BetrÑge in BerichtswÑhrung ausgeben];
+                  CaptionML=[DEU=BetrÑge in BerichtswÑhrung ausgeben;
+                             ENU=Show Amounts in Add. Reporting Currency];
                   SourceExpr=UseAmtsInAddCurr;
                   MultiLine=Yes }
 
       { 1140009;2;Field     ;
-                  CaptionML=[ENU=Change to monthly reporting;
-                             DEA=Zu monatlicher Berichterstellung Ñndern];
+                  CaptionML=[DEU=Auf monatliche Meldung umstellen;
+                             ENU=Change to monthly reporting];
                   SourceExpr=ChangeToMonthlyReporting;
                   OnValidate=BEGIN
                                IF ChangeToMonthlyReporting THEN BEGIN
@@ -495,8 +495,8 @@ OBJECT Report 11007 VAT-Vies Declaration Tax - DE
                               }
 
       { 1140011;2;Field     ;
-                  CaptionML=[ENU=Revoke monthly reporting;
-                             DEA=Monatliche Berichterstellung widerrufen];
+                  CaptionML=[DEU=Monatliche Meldung widerrufen;
+                             ENU=Revoke monthly reporting];
                   SourceExpr=RevokeMonthlyReporting;
                   OnValidate=BEGIN
                                IF RevokeMonthlyReporting THEN BEGIN
@@ -512,21 +512,21 @@ OBJECT Report 11007 VAT-Vies Declaration Tax - DE
   LABELS
   {
     { 1170000004;The_one_who_disregards_his_obligation_according_to___18_a_Sales_VAT_Laws__UStG__purposely_or_carelessly_and_so_does_not_does_not_correctly_or_does_not_completely_provide_a_summary_notification_or_does_not_provide_resp__correct_it_in_time_actsCaption;
-                                CaptionML=[ENU=The one who disregards his obligation according to ?18 a Sales VAT Laws (UStG) purposely or carelessly and so does not, does not correctly or does not completely provide a summary notification or does not provide resp. correct it in time, improperly.;
-                                           DEA=Wer vorsÑtzlich oder leichtfertig entgegen seinen Verpflichtungen gem. ı 18 a Umsatzsteuergesetz (UStG) eine Zusammenfassende Meldung nicht, nicht richtig, nicht vollstÑndig oder nicht rechtzeitig abgibt oder nicht bzw. nicht rechtzeitig berichtigt, handelt ordnungswidrig.] }
+                                CaptionML=[DEU=Partei, die eine vorsÑtzliche oder grob fahrlÑssige Pflichtverletzung gemÑ· ?18 a (UStG) begeht und keine, keine ordnungsgemÑ·e oder keine vollstÑndige Zusammenfassung bereitstellt oder diese falsch bereitstellt bzw. nicht rechtzeitig korrigiert.;
+                                           ENU=The one who disregards his obligation according to ?18 a Sales VAT Laws (UStG) purposely or carelessly and so does not, does not correctly or does not completely provide a summary notification or does not provide resp. correct it in time, improperly.] }
     { 1170000005;The_administrative_offence_can_be_avenged_with_a_fine_up_to_five_thousand_Euro____26_a_UStGCaption;
-                                CaptionML=[ENU=The administrative offence can be avenged with a fine up to five thousand Euro (?26 a UStG).;
-                                           DEA=Die Ordnungswidrigkeit kann mit einer Geldbu·e bis zu fÅnftausend Euro geahndet werden (ı 26 a UStG).] }
+                                CaptionML=[DEU=Diese Rechtsverletzung kann mit einem Bu·geld in Hîhe von bis zu fÅnftausend Euro (?26 a UStG) geahndet werden.;
+                                           ENU=The administrative offence can be avenged with a fine up to five thousand Euro (?26 a UStG).] }
   }
   CODE
   {
     VAR
-      Text1140000@1140000 : TextConst 'ENU="%1 was not filled in for all VAT entries in which %2 = %3";DEA="%1 wurde nicht i. a. MwSt.-Posten gefÅllt, wo %2 = %3"';
-      Text1140033@1140033 : TextConst 'ENU=XML Files (*.xml)|*.xml|All Files (*.*)|*.*;DEA=XML-Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*';
-      Text1140034@1140034 : TextConst 'ENU=Export to XML File;DEA=In XML-Datei exportieren';
-      Text1140035@1140035 : TextConst 'ENU=%1 XML file has successfully been created.;DEA=Die %1-XML-Datei wurde erfolgreich erstellt.';
+      Text1140000@1140000 : TextConst 'DEU="%1 wurde nicht i. a. MwSt.-Posten gefÅllt, wo %2 = %3";ENU="%1 was not filled in for all VAT entries in which %2 = %3"';
+      Text1140033@1140033 : TextConst 'DEU=XML-Dateien (*.xml)|*.xml|Alle Dateien (*.*)|*.*;ENU=XML Files (*.xml)|*.xml|All Files (*.*)|*.*';
+      Text1140034@1140034 : TextConst 'DEU=In XML-Datei exportieren;ENU=Export to XML File';
+      Text1140035@1140035 : TextConst 'DEU=Die %1-XML-Datei wurde erfolgreich erstellt.;ENU=%1 XML file has successfully been created.';
       FirstFileName@1140036 : Text[1024];
-      Text1140037@1140037 : TextConst 'ENU=%1 XML files have successfully been created.;DEA=Die %1-XML-Dateien wurden erfolgreich erstellt.';
+      Text1140037@1140037 : TextConst 'DEU=Die %1-XML-Dateien wurden erfolgreich erstellt.;ENU=%1 XML files have successfully been created.';
       CompanyInfo@1140001 : Record 79;
       Country@1140002 : Record 9;
       Cust@11140003 : Record 18;
@@ -551,78 +551,78 @@ OBJECT Report 11007 VAT-Vies Declaration Tax - DE
       RecCount@1140030 : Integer;
       MaxRecCount@1140031 : Integer;
       NoOfFiles@1140032 : Integer;
-      Text1140038@1140003 : TextConst 'ENU=Default;DEA=Standard';
+      Text1140038@1140003 : TextConst 'DEU=Standard;ENU=Default';
       ToXMLFile@1140007 : Text[1024];
       SheetNumber@1140038 : Integer;
       QuarterValue@1140041 : Text[30];
-      Text11000@1140042 : TextConst 'ENU=%1 must not be less than %2 for Services.;DEA=%1 darf nicht weniger als %2 fÅr Services sein.';
+      Text11000@1140042 : TextConst 'DEU=''%1'' darf nicht kleiner sein als ''%2'' fÅr Services.;ENU=%1 must not be less than %2 for Services.';
       ChangeToMonthlyReporting@1140019 : Boolean;
       RevokeMonthlyReporting@1140018 : Boolean;
       ChangeToMonthlyReportingMark@1140016 : Text[1];
       RevokeMonthlyReportingMark@1140017 : Text[1];
       FileCreated@1170000000 : Boolean;
-      Bitte_beachten_CaptionLbl@1140927 : TextConst 'ENU=Bitte beachten!;DEA=Bitte beachten!';
-      Enclosure_Sheet_No_CaptionLbl@1140118 : TextConst 'ENU=Enclosure Sheet No.;DEA=Einlagebogen Nr.';
-      Meldungder_CaptionLbl@1145973 : TextConst 'ENU=Meldung der Warenlieferungen (? 18a Abs. 4 Nr. 1 u. 2 UStG) vom Inland in das Åbrige Gemeinschaftsgebiet, der sonstigen Leistungen (? 18a Abs. 4 Satz 1 Nr. 3 UStG) und der Lieferungen i.S.d. ? 25b Abs. 2 UStG im Rahmen innergemeinschaftlicher DreiecksgeschÑfte (? 18a Abs. 4 Satz 1 Nr. 4 UStG);DEA=Meldung der Warenlieferungen ($ 18a Abs. 4 Nr. 1 u. 2 UStG) vom Inland in das Åbrige Gemeinschaftsgebiet, der sonstigen Leistungen (ı 18a Abs. 4 Satz 1 Nr. 3 UStG) und der Lieferungen i.S.d. ı 25b Abs. 2 UStG im Rahmen innergemeinschaftlicher DreiecksgeschÑfte (ı 18a Abs. 4 Satz 1 Nr. 4 UStG)';
-      VAT_RegistrationCaptionLbl@1144450 : TextConst 'ENU=VAT Registration;DEA=Umsatzsteuer-Identifikation';
-      Number__VAT_Reg__No__CaptionLbl@1147827 : TextConst 'ENU=Number (VAT Reg. No.);DEA=Nummer (USt-IdNr.)';
-      V01CaptionLbl@1141270 : TextConst 'ENU=01;DEA=01';
-      V02CaptionLbl@1145953 : TextConst 'ENU=02;DEA=02';
-      of_the_Summary_Notification_for_the_Reporting_PeriodCaptionLbl@1145178 : TextConst '@@@=Enclosure Sheet No. of the Summary Notification for the Reporting Period.;ENU=of the Summary Notification for the Reporting Period;DEA=zur zusammenfassenden Meldung fÅr den Meldezeitraum';
-      LineCaptionLbl@1144808 : TextConst 'ENU=Line;DEA=Zeile';
-      V1Caption_Control1140037Lbl@1149489 : TextConst 'ENU=1;DEA=1';
-      V2Caption_Control1140038Lbl@1147479 : TextConst 'ENU=2;DEA=2';
-      V3Caption_Control1140039Lbl@1146562 : TextConst 'ENU=3;DEA=3';
-      Country_CodeCaptionLbl@1141034 : TextConst 'ENU=Country Code;DEA=LÑndercode';
-      Base_TotalCaptionLbl@1147732 : TextConst 'ENU=Base Total;DEA=Summe der Bemessungsgrundlagen';
-      full_EURCaptionLbl@1147700 : TextConst '@@@=Full value in EUR.;ENU=Full EUR.;DEA=volle EUR.';
-      CtCaptionLbl@1142407 : TextConst 'ENU=Ct;DEA=Ct';
-      Sonstige_Leistungen__falls_JA__bitte_1_auswÑhlen_CaptionLbl@1144955 : TextConst 'ENU=Sonstige Leistungen (falls JA, bitte 1 auswÑhlen);DEA=Sonstige Leistungen (falls JA, bitte 1 auswÑhlen)';
-      CorrectionCaptionLbl@1149660 : TextConst 'ENU=Correction;DEA=Storno';
-      if_yes__please_enter__1__CaptionLbl@1144109 : TextConst 'ENU=(if yes, please enter "1");DEA=(Falls ja, geben Sie "1" ein.)';
-      V03CaptionLbl@1145777 : TextConst 'ENU=03;DEA=03';
-      VAT_Reg__No_CaptionLbl@1141559 : TextConst 'ENU=VAT Reg. No.;DEA=USt-IdNr.';
-      of_the_customer_entrepreneur_in_another_member_stateCaptionLbl@1148965 : TextConst '@@@=VAT Reg. No. of the customer/entrepreneur\in another member state.;ENU=of the customer/entrepreneur\in another member state;DEA=des Erwerbers/Unternehmers in einem anderen Mitgliedstaat';
-      Sonstige1_CaptionLbl@1147110 : TextConst 'ENU=Sonstige Leistungen bzw. Dreiecks- geschÑfte sind in Spalte 3 extra zu kennzeichnen. Bei unterschiedlichen Leistungen andenselben Unternehmer ist jeweilseine gesonderte Zeile zu benutzen.;DEA=Sonstige Leistungen bzw. DreiecksgeschÑfte sind in Spalte 3 extra zu kennzeichnen. Bei unterschiedlichen Leistungen an denselben Unternehmer ist jeweils eine gesonderte Zeile zu benutzen.';
-      DreiecksgeschÑfte__falls_JA__bitte_2_auswÑhlen_CaptionLbl@1141441 : TextConst 'ENU=DreiecksgeschÑfte (falls JA, bitte 2 auswÑhlen);DEA=DreiecksgeschÑfte (falls JA, bitte 2 auswÑhlen)';
-      EmptyStringCaption_Control1140205Lbl@1142126 : TextConst 'ENU=----------------------------------------------;DEA=----------------------------------------------';
-      V1Caption_0_CaptionLbl@1142459 : TextConst 'ENU=0;DEA=0';
-      V1Caption_2_CaptionLbl@1144255 : TextConst 'ENU=2;DEA=2';
-      V1Caption_1_CaptionLbl@1143357 : TextConst 'ENU=1;DEA=1';
-      ErrorTextCaptionLbl@1147276 : TextConst 'ENU=Warning!;DEA=Warnung!';
-      Microsoft_Deutschland_GmbH___BfF___8__April_1998___S7427_a__ZU_23___SW_191CaptionLbl@1146468 : TextConst 'ENU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191;DEA=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191';
-      VAT_RegistrationCaption_Control1140092Lbl@1143840 : TextConst 'ENU=VAT Registration;DEA=Umsatzsteuer-Identifikation';
-      Number__VAT_Reg__No__Caption_Control1140093Lbl@1147228 : TextConst 'ENU=Number (VAT Reg. No.);DEA=Nummer (USt-IdNr.)';
-      V01Caption_Control1140096Lbl@1148865 : TextConst 'ENU=01;DEA=01';
-      Summary_NotificationCaptionLbl@1148483 : TextConst 'ENU=Summary Notification;DEA=Zusammenfassende Meldung';
-      Federal_Office_for_FinancesCaptionLbl@1149815 : TextConst 'ENU=Federal Office for Finances;DEA=Bundesamt fÅr Finanzen';
-      regarding_EU_shipments__and_EU_3_Party_TradeCaptionLbl@1141335 : TextConst 'ENU=Regarding EU shipments \ and EU 3-Party Trade;DEA=Åber innergemeinschaftliche Warenlieferungen und innergemeinschaftliche DreiecksgeschÑfte';
-      Dienstsitz_Saarlouis__CaptionLbl@1146777 : TextConst 'ENU=- Dienstsitz Saarlouis -;DEA=- Dienstsitz Saarlouis -';
-      V66738_SaarlouisCaptionLbl@1148469 : TextConst 'ENU=66738 Saarlouis;DEA=66738 Saarlouis';
-      Reporting_PeriodCaptionLbl@1146981 : TextConst 'ENU=Reporting Period;DEA=Meldezeitraum';
-      cp__figure_III_1__and_III_2__of_the_instructionsCaptionLbl@1147525 : TextConst 'ENU=CP. figure III.1. and III.2. of the instructions;DEA=CP. Abbildung III.1. und III.2. der Anweisungen';
-      Entrepreneur___Type_and_Address___Phone_No_CaptionLbl@1144110 : TextConst 'ENU=Entrepreneur - Type and Address - Phone No.;DEA=Unternehmer - Art und Anschrift - Telefon';
-      Do_not_fill_in__X___but_add_the_year_CaptionLbl@1144855 : TextConst 'ENU=Do not fill in "X", but add the year);DEA=Nicht mit " X" fÅllen, sondern Jahreszahl ergÑnzen)';
-      V02Caption_Control1140113Lbl@1148689 : TextConst 'ENU=02;DEA=02';
-      Phone_No_CaptionLbl@1140420 : TextConst 'ENU=Phone No.;DEA=Telefonnr.';
-      CorrectionCaption_Control1140134Lbl@1147716 : TextConst 'ENU=Correction;DEA=Storno';
-      if_yes__please_enter__1__Caption_Control1140135Lbl@1141887 : TextConst 'ENU=(if yes, please enter "1");DEA=(Falls ja, geben Sie "1" ein.)';
-      V03Caption_Control1140137Lbl@1149797 : TextConst 'ENU=03;DEA=03';
-      No__of_SheetsCaptionLbl@1141867 : TextConst 'ENU=No. of Sheets;DEA=Anzahl Bîgen';
-      Enclosure_SheetCaptionLbl@1144563 : TextConst 'ENU=Enclosure Sheet;DEA=Einlagebogen';
-      V04CaptionLbl@1140568 : TextConst 'ENU=04;DEA=04';
-      I_confirm_that_I_have_stated_the_information_in_this_summary_notification_truthfully_and_in_all_conscience_CaptionLbl@1141537 : TextConst 'ENU=I confirm that I have stated the information in this summary notification truthfully and in all conscience.;DEA=Ich versichere, die Angaben in dieser zusammenfassenden Meldung wahrheitsgemÑ· nach bestem Wissen und Gewissen gemacht zu haben.';
-      Note_CaptionLbl@1147839 : TextConst 'ENU=Note:;DEA=Hinweis:';
-      The_following_persons_were_involved_in_the_creation_of_this_summary_notification_CaptionLbl@1140588 : TextConst 'ENU=The following persons were involved in the creation of this summary notification:;DEA=Bei der Anfertigung dieser zusammenfassenden Meldung haben mitgewirkt:';
-      Name__Address__Phone_No_CaptionLbl@1146045 : TextConst 'ENU=Name, Address, Phone No.;DEA=Name, Adresse, Telefonnummer.';
-      Date__personal_Signature_of_EntrepreneurCaptionLbl@1143732 : TextConst 'ENU=Date, personal Signature of Entrepreneur;DEA=Datum, eigenhÑndige Unterschrift des Unternehmers';
-      Note_according_to_the_regulations_of_data_protection_laws_CaptionLbl@1143122 : TextConst 'ENU=Note according to the regulations of data protection laws:;DEA=Hinweis nach den Vorschriften der Datenschutzgesetze:';
-      The_data_that_is_required_in_this_summary_notification_are_required_according_to_the____149_etc__German_Fiscal_Code__AO__and_Lbl@1143030 : TextConst 'ENU=The data that is required in this summary notification\are required according to the ?? 149 etc. German Fiscal Code (AO) and\? 18a UStG.\The statement of phone numbers is optional.;DEA=Die mit der zusammenfassenden Meldung angeforderten Daten werden aufgrund der ıı 149 ff. Abgabenordnung (AO) und ı 18a UStG erhoben. Die Angaben der Telefonnummern sind freiwillig.';
-      Microsoft_Deutschland_GmbH___BfF___8__April_1998___S7427_a__ZU_23___SW_191Caption_Control1140178Lbl@1147250 : TextConst 'ENU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191;DEA=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191';
-      Please__specify_only_one_reporting_period_CaptionLbl@1144502 : TextConst 'ENU=(Please, specify only one reporting period.;DEA=(Bitte nur einen Meldezeitraum angeben.';
-      cp____18_a_Par___1__S__5_UStG_CaptionLbl@1149847 : TextConst 'ENU=(cp. ? 18 a Par. (1) S. 5 UStG);DEA=(Cp. ı 18 a Par. (1) S. 5 UStG)';
-      I_don_t__make_use_of_the_regularization_included_in___18a_Abs__1_Satz_2__In_future_I_will_submit_the_EU_Sales_List_on_a_monthLbl@1148688 : TextConst 'ENU=I don''t  make use of the regularization included in ? 18a Abs. 1 Rate 2. In future I will submit the EU Sales List on a monthly base. This announcement is binding for me until the time of revokement, but for the duration of 12 months in minimum.;DEA=Ich nutze die Regulierungen gemÑ· $ 18 a Abs. 1 Satz 2 nicht. KÅnftig werde ich die zusammenfassende Meldung auf monatlicher Basis einreichen. Diese AnkÅndigung ist bis zum Widerruf bindend fÅr mich, aber mindestens fÅr die Dauer von 12 Monaten.';
-      Revokement_of_my_announcement_according_to___18a_Abs__1_UStGCaptionLbl@1143338 : TextConst 'ENU=Revokement of my announcement according to ? 18a Abs. 1 UStG;DEA=Widerruf meiner AnkÅndigung gemÑ· $ 18 a Abs. 1 UStG';
+      Bitte_beachten_CaptionLbl@1140927 : TextConst 'DEU=Bitte beachten!;ENU=Bitte beachten!';
+      Enclosure_Sheet_No_CaptionLbl@1140118 : TextConst 'DEU=Nr. der Anlage;ENU=Enclosure Sheet No.';
+      Meldungder_CaptionLbl@1145973 : TextConst 'DEU=Meldung der Warenlieferungen (? 18a Abs. 4 Nr. 1 u. 2 UStG) vom Inland in das Åbrige Gemeinschaftsgebiet, der sonstigen Leistungen (? 18a Abs. 4 Satz 1 Nr. 3 UStG) und der Lieferungen i.S.d. ? 25b Abs. 2 UStG im Rahmen innergemeinschaftlicher DreiecksgeschÑfte (? 18a Abs. 4 Satz 1 Nr. 4 UStG);ENU=Meldung der Warenlieferungen (? 18a Abs. 4 Nr. 1 u. 2 UStG) vom Inland in das Åbrige Gemeinschaftsgebiet, der sonstigen Leistungen (? 18a Abs. 4 Satz 1 Nr. 3 UStG) und der Lieferungen i.S.d. ? 25b Abs. 2 UStG im Rahmen innergemeinschaftlicher DreiecksgeschÑfte (? 18a Abs. 4 Satz 1 Nr. 4 UStG)';
+      VAT_RegistrationCaptionLbl@1144450 : TextConst 'DEU=USt-Registrierung;ENU=VAT Registration';
+      Number__VAT_Reg__No__CaptionLbl@1147827 : TextConst 'DEU=Nummer (USt-IdNr.);ENU=Number (VAT Reg. No.)';
+      V01CaptionLbl@1141270 : TextConst 'DEU=01;ENU=01';
+      V02CaptionLbl@1145953 : TextConst 'DEU=02;ENU=02';
+      of_the_Summary_Notification_for_the_Reporting_PeriodCaptionLbl@1145178 : TextConst '@@@=Enclosure Sheet No. of the Summary Notification for the Reporting Period.;DEU=der Zusammenfassung fÅr die Berichtsperiode;ENU=of the Summary Notification for the Reporting Period';
+      LineCaptionLbl@1144808 : TextConst 'DEU=Zeile;ENU=Line';
+      V1Caption_Control1140037Lbl@1149489 : TextConst 'DEU=1;ENU=1';
+      V2Caption_Control1140038Lbl@1147479 : TextConst 'DEU=2;ENU=2';
+      V3Caption_Control1140039Lbl@1146562 : TextConst 'DEU=3;ENU=3';
+      Country_CodeCaptionLbl@1141034 : TextConst 'DEU=LÑndercode;ENU=Country Code';
+      Base_TotalCaptionLbl@1147732 : TextConst 'DEU=Bemessungsgrundlage - Summe;ENU=Base Total';
+      full_EURCaptionLbl@1147700 : TextConst '@@@=Full value in EUR.;DEU=Volle EUR.;ENU=Full EUR.';
+      CtCaptionLbl@1142407 : TextConst 'DEU=Ct;ENU=Ct';
+      Sonstige_Leistungen__falls_JA__bitte_1_auswÑhlen_CaptionLbl@1144955 : TextConst 'DEU=Sonstige Leistungen (falls JA, bitte 1 auswÑhlen);ENU=Sonstige Leistungen (falls JA, bitte 1 auswÑhlen)';
+      CorrectionCaptionLbl@1149660 : TextConst 'DEU=Storno;ENU=Correction';
+      if_yes__please_enter__1__CaptionLbl@1144109 : TextConst 'DEU=(bei "Ja" Wert "1" eingeben);ENU=(if yes, please enter "1")';
+      V03CaptionLbl@1145777 : TextConst 'DEU=03;ENU=03';
+      VAT_Reg__No_CaptionLbl@1141559 : TextConst 'DEU=USt-IdNr.;ENU=VAT Reg. No.';
+      of_the_customer_entrepreneur_in_another_member_stateCaptionLbl@1148965 : TextConst '@@@=VAT Reg. No. of the customer/entrepreneur\in another member state.;DEU=des Kunden/Unternehmers\in einem anderen Mitgliedsstaat;ENU=of the customer/entrepreneur\in another member state';
+      Sonstige1_CaptionLbl@1147110 : TextConst 'DEU=Sonstige Leistungen bzw. Dreiecks- geschÑfte sind in Spalte 3 extra zu kennzeichnen. Bei unterschiedlichen Leistungen an denselben Unternehmer ist jeweils eine gesonderte Zeile zu benutzen.;ENU=Sonstige Leistungen bzw. Dreiecks- geschÑfte sind in Spalte 3 extra zu kennzeichnen. Bei unterschiedlichen Leistungen andenselben Unternehmer ist jeweilseine gesonderte Zeile zu benutzen.';
+      DreiecksgeschÑfte__falls_JA__bitte_2_auswÑhlen_CaptionLbl@1141441 : TextConst 'DEU=DreiecksgeschÑfte (falls JA, bitte 2 auswÑhlen);ENU=DreiecksgeschÑfte (falls JA, bitte 2 auswÑhlen)';
+      EmptyStringCaption_Control1140205Lbl@1142126 : TextConst 'DEU=----------------------------------------------;ENU=----------------------------------------------';
+      V1Caption_0_CaptionLbl@1142459 : TextConst 'DEU=0;ENU=0';
+      V1Caption_2_CaptionLbl@1144255 : TextConst 'DEU=2;ENU=2';
+      V1Caption_1_CaptionLbl@1143357 : TextConst 'DEU=1;ENU=1';
+      ErrorTextCaptionLbl@1147276 : TextConst 'DEU=Warnung!;ENU=Warning!';
+      Microsoft_Deutschland_GmbH___BfF___8__April_1998___S7427_a__ZU_23___SW_191CaptionLbl@1146468 : TextConst 'DEU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191;ENU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191';
+      VAT_RegistrationCaption_Control1140092Lbl@1143840 : TextConst 'DEU=USt-Registrierung;ENU=VAT Registration';
+      Number__VAT_Reg__No__Caption_Control1140093Lbl@1147228 : TextConst 'DEU=Nummer (USt-IdNr.);ENU=Number (VAT Reg. No.)';
+      V01Caption_Control1140096Lbl@1148865 : TextConst 'DEU=01;ENU=01';
+      Summary_NotificationCaptionLbl@1148483 : TextConst 'DEU=Zusammenfassungsbenachrichtigung;ENU=Summary Notification';
+      Federal_Office_for_FinancesCaptionLbl@1149815 : TextConst 'DEU=Bundesamt fÅr Finanzen;ENU=Federal Office for Finances';
+      regarding_EU_shipments__and_EU_3_Party_TradeCaptionLbl@1141335 : TextConst 'DEU=in Bezug auf EU-Lieferungen \ und EU-DreiecksgeschÑfte;ENU=Regarding EU shipments \ and EU 3-Party Trade';
+      Dienstsitz_Saarlouis__CaptionLbl@1146777 : TextConst 'DEU=- Dienstsitz Saarlouis -;ENU=- Dienstsitz Saarlouis -';
+      V66738_SaarlouisCaptionLbl@1148469 : TextConst 'DEU=66738 Saarlouis;ENU=66738 Saarlouis';
+      Reporting_PeriodCaptionLbl@1146981 : TextConst 'DEU=Meldezeitraum;ENU=Reporting Period';
+      cp__figure_III_1__and_III_2__of_the_instructionsCaptionLbl@1147525 : TextConst 'DEU=Vgl. Abbildung III.1. und III.2. der Anweisungen;ENU=CP. figure III.1. and III.2. of the instructions';
+      Entrepreneur___Type_and_Address___Phone_No_CaptionLbl@1144110 : TextConst 'DEU=Unternehmer - Typ und Adresse - Telefonnr.;ENU=Entrepreneur - Type and Address - Phone No.';
+      Do_not_fill_in__X___but_add_the_year_CaptionLbl@1144855 : TextConst 'DEU=FÅgen Sie nicht "X" ein, sondern das Jahr);ENU=Do not fill in "X", but add the year)';
+      V02Caption_Control1140113Lbl@1148689 : TextConst 'DEU=02;ENU=02';
+      Phone_No_CaptionLbl@1140420 : TextConst 'DEU=Telefonnr.;ENU=Phone No.';
+      CorrectionCaption_Control1140134Lbl@1147716 : TextConst 'DEU=Storno;ENU=Correction';
+      if_yes__please_enter__1__Caption_Control1140135Lbl@1141887 : TextConst 'DEU=(bei "Ja" Wert "1" eingeben);ENU=(if yes, please enter "1")';
+      V03Caption_Control1140137Lbl@1149797 : TextConst 'DEU=03;ENU=03';
+      No__of_SheetsCaptionLbl@1141867 : TextConst 'DEU=Anzahl BlÑtter;ENU=No. of Sheets';
+      Enclosure_SheetCaptionLbl@1144563 : TextConst 'DEU=Anlage Blatt;ENU=Enclosure Sheet';
+      V04CaptionLbl@1140568 : TextConst 'DEU=04;ENU=04';
+      I_confirm_that_I_have_stated_the_information_in_this_summary_notification_truthfully_and_in_all_conscience_CaptionLbl@1141537 : TextConst 'DEU=Hiermit bestÑtige ich, dass ich die Informationen in dieser Zusammenfassung wahrheitsgemÑ· und nach bestem Gewissen angegeben habe.;ENU=I confirm that I have stated the information in this summary notification truthfully and in all conscience.';
+      Note_CaptionLbl@1147839 : TextConst 'DEU=Hinweis:;ENU=Note:';
+      The_following_persons_were_involved_in_the_creation_of_this_summary_notification_CaptionLbl@1140588 : TextConst 'DEU=An der Erstellung dieser Zusammenfassung waren die folgenden Personen beteiligt:;ENU=The following persons were involved in the creation of this summary notification:';
+      Name__Address__Phone_No_CaptionLbl@1146045 : TextConst 'DEU=Name, Adresse, Telefonnr.;ENU=Name, Address, Phone No.';
+      Date__personal_Signature_of_EntrepreneurCaptionLbl@1143732 : TextConst 'DEU=Datum, persînliche Unterschrift des Unternehmers/der Unternehmerin;ENU=Date, personal Signature of Entrepreneur';
+      Note_according_to_the_regulations_of_data_protection_laws_CaptionLbl@1143122 : TextConst 'DEU=Hinweis zu Datenschutzbestimmungen:;ENU=Note according to the regulations of data protection laws:';
+      The_data_that_is_required_in_this_summary_notification_are_required_according_to_the____149_etc__German_Fiscal_Code__AO__and_Lbl@1143030 : TextConst 'DEU=Die Pflicht zur Angabe der in dieser Zusammenfassung geforderten Daten \ergibt sich aus ?? 149 ff. der deutschen Abgabenordnung (AO) und\? 18a UStG.\Die Angabe von Telefonnummern ist optional.;ENU=The data that is required in this summary notification\are required according to the ?? 149 etc. German Fiscal Code (AO) and\? 18a UStG.\The statement of phone numbers is optional.';
+      Microsoft_Deutschland_GmbH___BfF___8__April_1998___S7427_a__ZU_23___SW_191Caption_Control1140178Lbl@1147250 : TextConst 'DEU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191;ENU=Microsoft Deutschland GmbH - BfF - 8. April 1998 - S7427 a- ZU 23 - SW/191';
+      Please__specify_only_one_reporting_period_CaptionLbl@1144502 : TextConst 'DEU=(Bitte geben Sie nur einen Meldezeitraum an.;ENU=(Please, specify only one reporting period.';
+      cp____18_a_Par___1__S__5_UStG_CaptionLbl@1149847 : TextConst 'DEU=(vgl. ? 18 a Par. (1) S. 5 UStG);ENU=(cp. ? 18 a Par. (1) S. 5 UStG)';
+      I_don_t__make_use_of_the_regularization_included_in___18a_Abs__1_Satz_2__In_future_I_will_submit_the_EU_Sales_List_on_a_monthLbl@1148688 : TextConst 'DEU=Ich verwende die Bestimmungen unter ? 18a Abs. 1 Satz 2 nicht. ZukÅnftig werde ich die EU-Verkaufsliste monatlich einreichen. Diese AnkÅndigung ist fÅr mich bindend bis auf Widerruf, jedoch mindestens fÅr einen Zeitraum von 12 Monaten.;ENU=I don''t  make use of the regularization included in ? 18a Abs. 1 Rate 2. In future I will submit the EU Sales List on a monthly base. This announcement is binding for me until the time of revokement, but for the duration of 12 months in minimum.';
+      Revokement_of_my_announcement_according_to___18a_Abs__1_UStGCaptionLbl@1143338 : TextConst 'DEU=Widerruf meiner AnkÅndigung gemÑ· ? 18a Abs. 1 UStG;ENU=Revokement of my announcement according to ? 18a Abs. 1 UStG';
 
     PROCEDURE CreateXMLDocument@1140000();
     BEGIN

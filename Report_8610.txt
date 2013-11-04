@@ -2,15 +2,14 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Create G/L Acc. Journal Lines;
-               ESP=Crear l¡neas diario cuentas;
-               DEA=Sachkonto Buch.-Blattzeilen erstellen];
+    CaptionML=[DEU=Sachkonto Buch.-Blattzeilen erstellen;
+               ENU=Create G/L Acc. Journal Lines];
     ProcessingOnly=Yes;
     OnPostReport=BEGIN
                    MESSAGE(Text004);
@@ -98,23 +97,19 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=Document Type;
-                             ESP=Tipo documento;
-                             DEA=Belegart];
-                  OptionCaptionML=[ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund";
-                                   ESP=" ,Pago,Factura,Abono,Docs. inter‚s,Recordatorio,Reembolso";
-                                   DEA=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung"];
+                  CaptionML=[DEU=Belegart;
+                             ENU=Document Type];
+                  OptionCaptionML=[DEU=" ,Zahlung,Rechnung,Gutschrift,Zinsrechnung,Mahnung,Erstattung";
+                                   ENU=" ,Payment,Invoice,Credit Memo,Finance Charge Memo,Reminder,Refund"];
                   SourceExpr=DocumentTypes }
 
       { 4   ;2   ;Field     ;
-                  CaptionML=[ENU=Posting Date;
-                             ESP=Fecha registro;
-                             DEA=Buchungsdatum];
+                  CaptionML=[DEU=Buchungsdatum;
+                             ENU=Posting Date];
                   SourceExpr=PostingDate;
                   OnValidate=BEGIN
                                CheckPostingDate;
@@ -122,9 +117,8 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
                               }
 
       { 6   ;2   ;Field     ;
-                  CaptionML=[ENU=Journal Template;
-                             ESP=Libro diario;
-                             DEA=Buch.-Blattvorlage];
+                  CaptionML=[DEU=Buch.-Blattvorlage;
+                             ENU=Journal Template];
                   SourceExpr=JournalTemplate;
                   TableRelation="Gen. Journal Batch".Name;
                   OnValidate=BEGIN
@@ -149,9 +143,8 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
                             }
 
       { 8   ;2   ;Field     ;
-                  CaptionML=[ENU=Batch Name;
-                             ESP=Nombre secci¢n;
-                             DEA=Buch.-Blattname];
+                  CaptionML=[DEU=Buch.-Blattname;
+                             ENU=Batch Name];
                   SourceExpr=BatchName;
                   TableRelation="Gen. Journal Batch".Name;
                   OnValidate=BEGIN
@@ -176,9 +169,8 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
                             }
 
       { 10  ;2   ;Field     ;
-                  CaptionML=[ENU=Standard General Journal;
-                             ESP=Diario general est ndar;
-                             DEA=Standard Fibu Buch.-Blatt];
+                  CaptionML=[DEU=Standard Fibu Buch.-Blatt;
+                             ENU=Standard General Journal];
                   SourceExpr=TemplateCode;
                   TableRelation="Standard General Journal".Code;
                   OnLookup=VAR
@@ -216,11 +208,11 @@ OBJECT Report 8610 Create G/L Acc. Journal Lines
       BatchName@1003 : Code[10];
       TemplateCode@1004 : Code[20];
       LineNo@1008 : Integer;
-      Text001@1014 : TextConst 'ENU=Gen. Journal Template name is blank.;ESP=El nombre del libro diario general est  vac¡o.;DEA=Der Fibu Buch.-Blattvorlagenname ist leer.';
-      Text002@1009 : TextConst 'ENU=Gen. Journal Batch name is blank.;ESP=El nombre de la secci¢n diario general est  vac¡o.;DEA=Der Fibu Buch.-Blattname ist leer.';
+      Text001@1014 : TextConst 'DEU=Der Fibu Buch.-Blattvorlagenname ist leer.;ENU=Gen. Journal Template name is blank.';
+      Text002@1009 : TextConst 'DEU=Der Fibu Buch.-Blattname ist leer.;ENU=Gen. Journal Batch name is blank.';
       JournalTemplate@1012 : Text[10];
-      Text004@1016 : TextConst 'ENU=General journal lines are successfully created.;ESP=Las l¡neas del diario general se han creado correctamente.;DEA=Die Fibu Buch.-Blattzeilen wurden erfolgreich erstellt.';
-      PostingDateIsEmptyErr@1010 : TextConst 'ENU=The posting date is empty.;ESP=La fecha de registro est  vac¡a.;DEA=Das Buchungsdatum ist leer.';
+      Text004@1016 : TextConst 'DEU=Die Fibu Buch.-Blattzeilen wurden erfolgreich erstellt.;ENU=General journal lines are successfully created.';
+      PostingDateIsEmptyErr@1010 : TextConst 'DEU=Das Buchungsdatum ist leer.;ENU=The posting date is empty.';
 
     PROCEDURE GetStandardJournalLine@3() : Boolean;
     VAR

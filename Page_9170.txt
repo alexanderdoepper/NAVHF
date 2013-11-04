@@ -2,15 +2,14 @@ OBJECT Page 9170 Profile Card
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Profile Card;
-               ESP=Ficha de perfil;
-               DEA=Profilkarte];
+    CaptionML=[DEU=Profilkarte;
+               ENU=Profile Card];
     SourceTable=Table2000000072;
     DataCaptionExpr="Profile ID" + ' ' + Description;
     PageType=Card;
@@ -27,15 +26,13 @@ OBJECT Page 9170 Profile Card
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Profile;
-                                 ESP=&Perfil;
-                                 DEA=&Profil];
+                      CaptionML=[DEU=&Profil;
+                                 ENU=&Profile];
                       Image=User }
       { 17      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+L;
-                      CaptionML=[ENU=List;
-                                 ESP=Lista;
-                                 DEA=šbersicht];
+                      CaptionML=[DEU=šbersicht;
+                                 ENU=List];
                       Image=OpportunitiesList;
                       OnAction=VAR
                                  ProfileList@1102601000 : Page 9171;
@@ -49,15 +46,13 @@ OBJECT Page 9170 Profile Card
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 20      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 33      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Profile;
-                                 ESP=Copiar perfil;
-                                 DEA=Profil kopieren];
+                      CaptionML=[DEU=Profil kopieren;
+                                 ENU=Copy Profile];
                       Image=Copy;
                       OnAction=VAR
                                  Profile@1035 : Record 2000000072;
@@ -71,9 +66,8 @@ OBJECT Page 9170 Profile Card
                                END;
                                 }
       { 23      ;2   ;Action    ;
-                      CaptionML=[ENU=C&lear Configured Pages;
-                                 ESP=&Borrar p ginas configuradas;
-                                 DEA=Konfigurierte Seiten &l”schen];
+                      CaptionML=[DEU=Konfigurierte Seiten &l”schen;
+                                 ENU=C&lear Configured Pages];
                       Image=Cancel;
                       OnAction=BEGIN
                                  ConfPersMgt.ClearProfileConfiguration(Rec);
@@ -82,9 +76,8 @@ OBJECT Page 9170 Profile Card
       { 50      ;2   ;Separator  }
       { 22      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=E&xport Profiles;
-                                 ESP=E&xportar perfiles;
-                                 DEA=Profile e&xportieren];
+                      CaptionML=[DEU=Profile e&xportieren;
+                                 ENU=E&xport Profiles];
                       Image=Export;
                       OnAction=VAR
                                  Profile@1001 : Record 2000000072;
@@ -103,21 +96,18 @@ OBJECT Page 9170 Profile Card
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
-                CaptionML=[ENU=Profile ID;
-                           ESP=Id. perfil;
-                           DEA=Profil-ID];
+                CaptionML=[DEU=Profil-ID;
+                           ENU=Profile ID];
                 SourceExpr="Profile ID" }
 
     { 6   ;2   ;Field     ;
                 DrillDown=No;
-                CaptionML=[ENU=Owner ID;
-                           ESP=Id. de propietario;
-                           DEA=Besitzer-ID];
+                CaptionML=[DEU=Besitzer-ID;
+                           ENU=Owner ID];
                 SourceExpr="Owner ID";
                 Editable=FALSE;
                 OnAssistEdit=VAR
@@ -140,9 +130,8 @@ OBJECT Page 9170 Profile Card
                 SourceExpr=Description }
 
     { 11  ;2   ;Field     ;
-                CaptionML=[ENU=Role Center ID;
-                           ESP=Id.  rea de trabajo;
-                           DEA=Rollencenter-ID];
+                CaptionML=[DEU=Rollencenter-ID;
+                           ENU=Role Center ID];
                 BlankZero=Yes;
                 SourceExpr="Role Center ID";
                 OnValidate=VAR
@@ -175,9 +164,8 @@ OBJECT Page 9170 Profile Card
                           }
 
     { 4   ;2   ;Field     ;
-                CaptionML=[ENU=Default Role Center;
-                           ESP=µrea trabajo predet.;
-                           DEA=Standardrollencenter];
+                CaptionML=[DEU=Standardrollencenter;
+                           ENU=Default Role Center];
                 SourceExpr="Default Role Center";
                 OnValidate=BEGIN
                              TESTFIELD("Profile ID");
@@ -191,9 +179,8 @@ OBJECT Page 9170 Profile Card
                 SourceExpr="Disable Personalization" }
 
     { 3   ;2   ;Group     ;
-                CaptionML=[ENU=OneNote;
-                           ESP=OneNote;
-                           DEA=OneNote];
+                CaptionML=[DEU=OneNote;
+                           ENU=OneNote];
                 GroupType=Group }
 
     { 9   ;3   ;Field     ;
@@ -227,7 +214,7 @@ OBJECT Page 9170 Profile Card
     VAR
       ConfPersMgt@1000 : Codeunit 9170;
       RoleCenterSubtype@1102601000 : Text[30];
-      Text000@1001 : TextConst '@@@={Locked};ENU=RoleCenter;ESP=RoleCenter;DEA=RoleCenter';
+      Text000@1001 : TextConst '@@@={Locked};DEU=Rollencenter;ENU=RoleCenter';
 
     BEGIN
     END.

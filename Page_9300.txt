@@ -2,16 +2,15 @@ OBJECT Page 9300 Sales Quotes
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Sales Quotes;
-               ESP=Ofertas venta;
-               DEA=Verkaufsangebote];
+    CaptionML=[DEU=Verkaufsangebote;
+               ENU=Sales Quotes];
     SourceTable=Table36;
     SourceTableView=WHERE(Document Type=CONST(Quote));
     PageType=List;
@@ -25,16 +24,14 @@ OBJECT Page 9300 Sales Quotes
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1102601026;1 ;ActionGroup;
-                      CaptionML=[ENU=&Quote;
-                                 ESP=&Oferta;
-                                 DEA=&Angebot];
+                      CaptionML=[DEU=&Angebot;
+                                 ENU=&Quote];
                       Image=Quote }
       { 1102601028;2 ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -46,23 +43,20 @@ OBJECT Page 9300 Sales Quotes
                                 }
       { 1102601029;2 ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Customer Card;
-                                 ESP=Ficha cliente;
-                                 DEA=Debitorenkarte];
+                      CaptionML=[DEU=Debitorenkarte;
+                                 ENU=Customer Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Sell-to Customer No.);
                       Image=Customer }
       { 1102601030;2 ;Action    ;
-                      CaptionML=[ENU=C&ontact Card;
-                                 ESP=Ficha con&tacto;
-                                 DEA=Ko&ntaktkarte];
+                      CaptionML=[DEU=Ko&ntaktkarte;
+                                 ENU=C&ontact Card];
                       RunObject=Page 5050;
                       RunPageLink=No.=FIELD(Sell-to Contact No.);
                       Image=Card }
       { 1102601031;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 67;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
@@ -70,18 +64,16 @@ OBJECT Page 9300 Sales Quotes
                       Image=ViewComments }
       { 1102601032;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
                                END;
                                 }
       { 1102601033;2 ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  ApprovalEntries@1001 : Page 658;
@@ -94,9 +86,8 @@ OBJECT Page 9300 Sales Quotes
                       ActionContainerType=ActionItems }
       { 69      ;1   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -105,15 +96,13 @@ OBJECT Page 9300 Sales Quotes
                                END;
                                 }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 1102601020;2 ;Action    ;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Image=ReleaseDoc;
                       OnAction=VAR
                                  ReleaseSalesDoc@1000 : Codeunit 414;
@@ -122,9 +111,8 @@ OBJECT Page 9300 Sales Quotes
                                END;
                                 }
       { 1102601021;2 ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleaseSalesDoc@1001 : Codeunit 414;
@@ -134,13 +122,11 @@ OBJECT Page 9300 Sales Quotes
                                 }
       { 1102601024;2 ;Separator  }
       { 5       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Create;
-                                 ESP=Crear;
-                                 DEA=Erstellen] }
+                      CaptionML=[DEU=Erstellen;
+                                 ENU=Create] }
       { 68      ;2   ;Action    ;
-                      CaptionML=[ENU=Make &Order;
-                                 ESP=Convertir en &pedido;
-                                 DEA=Auftrag &erst.];
+                      CaptionML=[DEU=Auftrag &erst.;
+                                 ENU=Make &Order];
                       Promoted=Yes;
                       Image=MakeOrder;
                       PromotedCategory=Process;
@@ -153,9 +139,8 @@ OBJECT Page 9300 Sales Quotes
                                END;
                                 }
       { 1102601015;2 ;Action    ;
-                      CaptionML=[ENU=C&reate Customer;
-                                 ESP=C&rear cliente;
-                                 DEA=Debi&tor erstellen];
+                      CaptionML=[DEU=Debi&tor erstellen;
+                                 ENU=C&reate Customer];
                       Image=NewCustomer;
                       OnAction=BEGIN
                                  IF CheckCustomerCreated(FALSE) THEN
@@ -163,9 +148,8 @@ OBJECT Page 9300 Sales Quotes
                                END;
                                 }
       { 1102601025;2 ;Action    ;
-                      CaptionML=[ENU=Create &To-do;
-                                 ESP=Crear &tarea;
-                                 DEA=&Aufgabe erstellen];
+                      CaptionML=[DEU=&Aufgabe erstellen;
+                                 ENU=Create &To-do];
                       Image=NewToDo;
                       OnAction=BEGIN
                                  CreateTodo;
@@ -173,14 +157,12 @@ OBJECT Page 9300 Sales Quotes
                                 }
       { 1102601016;2 ;Separator  }
       { 1102601000;1 ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 1102601017;2 ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -189,9 +171,8 @@ OBJECT Page 9300 Sales Quotes
                                END;
                                 }
       { 1102601018;2 ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;

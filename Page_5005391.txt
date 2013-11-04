@@ -2,14 +2,14 @@ OBJECT Page 5005391 Report Selection - Comf. Purch
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Report Selection - Comf. Purch;
-               DEA=Berichtsauswahl - Komfort EK];
+    CaptionML=[DEU=Berichtsauswahl - Komfort EK;
+               ENU=Report Selection - Comf. Purch];
     SaveValues=Yes;
     SourceTable=Table26100;
     PageType=Worksheet;
@@ -28,14 +28,14 @@ OBJECT Page 5005391 Report Selection - Comf. Purch
                 ContainerType=ContentArea }
 
     { 1140012;1;Group     ;
-                CaptionML=[ENU=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 1140000;2;Field     ;
-                CaptionML=[ENU=Usage;
-                           DEA=Verwendung];
-                OptionCaptionML=[ENU=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order;
-                                 DEA=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order];
+                CaptionML=[DEU=Verwendung;
+                           ENU=Usage];
+                OptionCaptionML=[DEU=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order;
+                                 ENU=Del. Rem. Test,Iss. Del. Rem.,P.Arch. Blanket Order];
                 SourceExpr=ReportUsage2;
                 OnValidate=BEGIN
                              SetUsageFilter;

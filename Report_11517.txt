@@ -2,14 +2,14 @@ OBJECT Report 11517 Inventory Value
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Inventory Value;
-               DEA=Lagerwert];
+    CaptionML=[DEU=Lagerwert;
+               ENU=Inventory Value];
     OnPreReport=BEGIN
                   ItemFilter := Item.GETFILTERS;
                 END;
@@ -194,12 +194,12 @@ OBJECT Report 11517 Inventory Value
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Status Date;
-                             DEA=Stichtag];
+                  CaptionML=[DEU=Stichtag;
+                             ENU=Status Date];
                   SourceExpr=StatusDate;
                   OnValidate=BEGIN
                                IF StatusDate = 0D THEN
@@ -215,8 +215,8 @@ OBJECT Report 11517 Inventory Value
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=As of %1;DEA=Per %1';
-      Text001@1001 : TextConst 'ENU=Enter the Status Date;DEA=Geben Sie den Stichtag ein.';
+      Text000@1000 : TextConst 'DEU=Per %1;ENU=As of %1';
+      Text001@1001 : TextConst 'DEU=Geben Sie den Stichtag ein.;ENU=Enter the Status Date';
       ValueEntry@1002 : Record 5802;
       StatusDate@1003 : Date;
       ItemFilter@1004 : Text[250];
@@ -226,17 +226,17 @@ OBJECT Report 11517 Inventory Value
       CostPostedToGL@1150003 : Decimal;
       InvQuantity@1150004 : Decimal;
       FirstLoop@1150005 : Boolean;
-      StatusCaptionLbl@7033 : TextConst 'ENU=Status;DEA=Status';
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;DEA=Seite';
-      CostExpected_Control1150005CaptionLbl@1156864 : TextConst 'ENU=Cost Amount (Expected);DEA=Einstandsbetrag (erwartet)';
-      CostActual_Control1150004CaptionLbl@1152728 : TextConst 'ENU=Cost Amount (Actual);DEA=Einstandsbetrag (tats„chl.)';
-      InvQuantityCaptionLbl@1157153 : TextConst 'ENU=Invoiced Quantity;DEA=Fakturierte Menge';
-      Item_DescriptionCaptionLbl@1157630 : TextConst 'ENU=Description;DEA=Beschreibung';
-      Item__No__CaptionLbl@1152750 : TextConst 'ENU=No.;DEA=Nr.';
-      Item__Net_Change_CaptionLbl@1150566 : TextConst 'ENU=Inventory;DEA=Lagerbestand';
-      CostPostedToGL_Control1150021CaptionLbl@1150449 : TextConst 'ENU=Cost Posted to G/L;DEA=Gebuchte Lagerregulierung';
-      TotalCaptionLbl@1152937 : TextConst 'ENU=Total;DEA=Gesamt';
-      Recapitulation_per_Inventory_Posting_GroupCaptionLbl@1155682 : TextConst 'ENU=Recapitulation per Inventory Posting Group;DEA=Zusammenfassung nach Lagerbuchungsgruppen';
+      StatusCaptionLbl@7033 : TextConst 'DEU=Status;ENU=Status';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      CostExpected_Control1150005CaptionLbl@1156864 : TextConst 'DEU=Einstandsbetrag (erwartet);ENU=Cost Amount (Expected)';
+      CostActual_Control1150004CaptionLbl@1152728 : TextConst 'DEU=Einstandsbetrag (tats„chl.);ENU=Cost Amount (Actual)';
+      InvQuantityCaptionLbl@1157153 : TextConst 'DEU=Fakturierte Menge;ENU=Invoiced Quantity';
+      Item_DescriptionCaptionLbl@1157630 : TextConst 'DEU=Beschreibung;ENU=Description';
+      Item__No__CaptionLbl@1152750 : TextConst 'DEU=Nr.;ENU=No.';
+      Item__Net_Change_CaptionLbl@1150566 : TextConst 'DEU=Lagerbestand;ENU=Inventory';
+      CostPostedToGL_Control1150021CaptionLbl@1150449 : TextConst 'DEU=Gebuchte Lagerregulierung;ENU=Cost Posted to G/L';
+      TotalCaptionLbl@1152937 : TextConst 'DEU=Gesamt;ENU=Total';
+      Recapitulation_per_Inventory_Posting_GroupCaptionLbl@1155682 : TextConst 'DEU=Zusammenfassung pro Lagerbuchungsgruppe;ENU=Recapitulation per Inventory Posting Group';
 
     PROCEDURE CalcInventoryValue@1150001();
     VAR

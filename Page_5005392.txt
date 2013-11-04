@@ -2,14 +2,14 @@ OBJECT Page 5005392 Report Selection - Comf. Invt.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Report Selection - Comf. Invt.;
-               DEA=Berichtsauswahlen - Komf. Inv.];
+    CaptionML=[DEU=Berichtsauswahlen - Komf. Inv.;
+               ENU=Report Selection - Comf. Invt.];
     SaveValues=Yes;
     SourceTable=Table26100;
     PageType=Worksheet;
@@ -28,14 +28,14 @@ OBJECT Page 5005392 Report Selection - Comf. Invt.
                 ContainerType=ContentArea }
 
     { 1140012;1;Group     ;
-                CaptionML=[ENU=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 1140000;2;Field     ;
-                CaptionML=[ENU=Usage;
-                           DEA=Verwendung];
-                OptionCaptionML=[ENU=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order;
-                                 DEA=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order];
+                CaptionML=[DEU=Verwendung;
+                           ENU=Usage];
+                OptionCaptionML=[DEU=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order;
+                                 ENU=Phys. Invt. Order Test,Phys. Invt. Order,Posted Phys. Invt. Order,Phys. Invt. Recording,Posted Phys. Invt. Recording,S.Arch. Blanket Order];
                 SourceExpr=ReportUsage2;
                 OnValidate=BEGIN
                              SetUsageFilter;

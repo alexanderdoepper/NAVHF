@@ -2,15 +2,14 @@ OBJECT Page 255 Cash Receipt Journal
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Cash Receipt Journal;
-               ESP=Diario cobros;
-               DEA=Zahlungseingangs Buch.-Blatt];
+    CaptionML=[DEU=Zahlungseingangs Buch.-Blatt;
+               ENU=Cash Receipt Journal];
     SaveValues=Yes;
     SourceTable=Table81;
     DataCaptionExpr=DataCaption;
@@ -60,15 +59,13 @@ OBJECT Page 255 Cash Receipt Journal
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 59      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L°nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 60      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Promoted=Yes;
                       Image=Dimensions;
                       PromotedCategory=Process;
@@ -78,22 +75,19 @@ OBJECT Page 255 Cash Receipt Journal
                                END;
                                 }
       { 37      ;1   ;ActionGroup;
-                      CaptionML=[ENU=A&ccount;
-                                 ESP=&Cuenta;
-                                 DEA=&Konto];
+                      CaptionML=[DEU=&Konto;
+                                 ENU=A&ccount];
                       Image=ChartOfAccounts }
       { 38      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Codeunit 15;
                       Image=EditLines }
       { 39      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=Ledger E&ntries];
                       RunObject=Codeunit 14;
                       Promoted=No;
                       Image=GLRegisters;
@@ -101,36 +95,31 @@ OBJECT Page 255 Cash Receipt Journal
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 40      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 83      ;2   ;Action    ;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       RunObject=Codeunit 225;
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process }
       { 84      ;2   ;Action    ;
-                      CaptionML=[ENU=Insert Conv. LCY Rndg. Lines;
-                                 ESP=Insertar l°n. conv. redon. DL;
-                                 DEA=Rundungszeilen f. MW-Konvertierung einfÅgen];
+                      CaptionML=[DEU=Rundungszeilen f. MW-Konvertierung einfÅgen;
+                                 ENU=Insert Conv. LCY Rndg. Lines];
                       RunObject=Codeunit 407;
                       Image=InsertCurrency }
       { 41      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 42      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F11;
-                      CaptionML=[ENU=Reconcile;
-                                 ESP=Control;
-                                 DEA=Abstimmen];
+                      CaptionML=[DEU=Abstimmen;
+                                 ENU=Reconcile];
                       Promoted=Yes;
                       Image=Reconcile;
                       PromotedCategory=Process;
@@ -141,9 +130,8 @@ OBJECT Page 255 Cash Receipt Journal
                                 }
       { 43      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintGenJnlLine(Rec);
@@ -151,9 +139,8 @@ OBJECT Page 255 Cash Receipt Journal
                                 }
       { 44      ;2   ;Action    ;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -166,9 +153,8 @@ OBJECT Page 255 Cash Receipt Journal
                                 }
       { 45      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -188,9 +174,8 @@ OBJECT Page 255 Cash Receipt Journal
 
     { 33  ;1   ;Field     ;
                 Lookup=Yes;
-                CaptionML=[ENU=Batch Name;
-                           ESP=Nombre secci¢n;
-                           DEA=Buch.-Blattname];
+                CaptionML=[DEU=Buch.-Blattname;
+                           ENU=Batch Name];
                 SourceExpr=CurrentJnlBatchName;
                 OnValidate=BEGIN
                              GenJnlManagement.CheckName(CurrentJnlBatchName,Rec);

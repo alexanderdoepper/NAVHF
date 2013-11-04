@@ -2,15 +2,14 @@ OBJECT Page 382 Apply Check Ledger Entries
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Apply Check Ledger Entries;
-               ESP=Movs. cheque pdtes. conciliar;
-               DEA=Scheckpostenausgleich];
+    CaptionML=[DEU=Scheckpostenausgleich;
+               ENU=Apply Check Ledger Entries];
     SourceTable=Table272;
     PageType=Worksheet;
     OnAfterGetRecord=BEGIN
@@ -37,9 +36,8 @@ OBJECT Page 382 Apply Check Ledger Entries
                 GroupType=Repeater }
 
     { 30  ;2   ;Field     ;
-                CaptionML=[ENU=Applied;
-                           ESP=Conciliado;
-                           DEA=Ausgeglichen];
+                CaptionML=[DEU=Ausgeglichen;
+                           ENU=Applied];
                 SourceExpr=LineApplied;
                 OnValidate=BEGIN
                              LineAppliedOnPush;
@@ -96,25 +94,22 @@ OBJECT Page 382 Apply Check Ledger Entries
     { 25  ;1   ;Group      }
 
     { 35  ;2   ;Field     ;
-                CaptionML=[ENU=Statement Amount;
-                           ESP=Importe extracto;
-                           DEA=Auszugsbetrag];
+                CaptionML=[DEU=Auszugsbetrag;
+                           ENU=Statement Amount];
                 SourceExpr=BankAccReconLine."Statement Amount";
                 AutoFormatType=1;
                 Editable=FALSE }
 
     { 33  ;2   ;Field     ;
-                CaptionML=[ENU=Applied Amount;
-                           ESP=Importe liquidado;
-                           DEA=Ausgleichsbetrag];
+                CaptionML=[DEU=Ausgleichsbetrag;
+                           ENU=Applied Amount];
                 SourceExpr=BankAccReconLine."Applied Amount";
                 AutoFormatType=1;
                 Editable=FALSE }
 
     { 29  ;2   ;Field     ;
-                CaptionML=[ENU=Difference;
-                           ESP=Diferencia;
-                           DEA=Differenz];
+                CaptionML=[DEU=Differenz;
+                           ENU=Difference];
                 SourceExpr=BankAccReconLine.Difference;
                 AutoFormatType=1;
                 Editable=FALSE }

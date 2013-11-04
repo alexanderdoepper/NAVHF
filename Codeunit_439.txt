@@ -2,9 +2,9 @@ OBJECT Codeunit 439 Approvals Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -20,58 +20,58 @@ OBJECT Codeunit 439 Approvals Management
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=%1 %2 requires further approval.\\Approval request entries have been created.;ESP=El documento de %1 %2 requiere una aprobaci¢n superior.\\Se han creado movs. solic. aprobaci¢n.;DEA=FÅr %1 %2 sind weitere Genehmigungen erforderlich.\\Es wurden Genehmigungsanforderungsposten erstellt.';
-      Text002@1001 : TextConst 'ENU=%1 %2 approval request cancelled.;ESP=Se cancel¢ la solicitud de aprobaci¢n del documento de %1 %2.;DEA=Die Genehmigungsanforderung fÅr %1 %2 wurde abgebrochen.';
-      Text003@1002 : TextConst 'ENU=%1 %2 has been automatically approved and released.;ESP=El documento de %1 %2 se ha aprobado y publicado autom†ticamente.;DEA=%1 %2 wurde automatisch genehmigt und freigegeben.';
-      Text004@1003 : TextConst 'ENU=Approval Setup not found.;ESP=No se encontr¢ la configuraci¢n de la aprobaci¢n;DEA=Die Genehmigungseinrichtung wurde nicht gefunden.';
-      Text005@1005 : TextConst 'ENU=User ID %1 does not exist in the User Setup table.;ESP=El id. usuario %1 no existe en la tabla Configuraci¢n usuarios.;DEA=Die Benutzer-ID %1 ist nicht in der Benutzereinrichtungstabelle vorhanden.';
-      Text006@1006 : TextConst 'ENU=Approver ID %1 does not exist in the User Setup table.;ESP=El id. aprobador %1 no existe en la tabla Configuraci¢n usuarios.;DEA=Die Genehmiger-ID %1 ist nicht in der Benutzereinrichtungstabelle vorhanden.';
-      Text007@1007 : TextConst 'ENU=%1 for %2  does not exist in the User Setup table.;ESP=La %1 para %2 no existe en la tabla Configuraci¢n usuarios.;DEA=%1 fÅr %2 ist nicht in der Benutzereinrichtungstabelle vorhanden.';
-      Text008@1008 : TextConst 'ENU=User ID %1 does not exist in the User Setup table for %2 %3.;ESP=El id. usuario %1 no existe en la tabla Configuraci¢n usuarios para el documento de %2 %3.;DEA=Die Benutzer-ID %1 ist nicht in der Benutzereinrichtungstabelle fÅr %2 %3 vorhanden.';
-      Text013@1009 : TextConst '@@@="%1=document type, %2=document no., e.g. Order 321 must be approved...";ENU=%1 %2 must be approved and released before you can perform this action.;ESP=El documento %1 %2 debe estar aprobado y publicado antes de poder realizar esta acci¢n.;DEA=%1 %2 muss genehmigt und freigegeben sein, bevor diese Aktion ausgefÅhrt werden kann.';
-      Text010@1011 : TextConst 'ENU=Approver not found.;ESP=No se encontr¢ el aprobador.;DEA=Der Genehmiger wurde nicht gefunden.';
-      Text014@1013 : TextConst 'ENU=The %1 approval entries have now been cancelled.;ESP=Los movimientos de aprobaci¢n del documento de %1 ya se han cancelado.;DEA=Die %1-Genehmigungsposten wurden jetzt storniert.';
-      Text015@1014 : TextConst 'ENU=The %1 %2 does not have any Lines.;ESP=%1 %2 no tiene ninguna l°nea.;DEA=%1 %2 weist keine Zeilen auf.';
-      Text022@1016 : TextConst 'ENU=There has to be a %1 on %2 %3.;ESP=Debe haber un %1 en el documento de %2 %3.;DEA=FÅr %2 %3 muss ein(e) %1 vorhanden sein.';
+      Text001@1000 : TextConst 'DEU=FÅr %1 %2 sind weitere Genehmigungen erforderlich.\\Es wurden Genehmigungsanforderungsposten erstellt.;ENU=%1 %2 requires further approval.\\Approval request entries have been created.';
+      Text002@1001 : TextConst 'DEU=Die Genehmigungsanforderung fÅr %1 %2 wurde abgebrochen.;ENU=%1 %2 approval request cancelled.';
+      Text003@1002 : TextConst 'DEU=%1 %2 wurde automatisch genehmigt und freigegeben.;ENU=%1 %2 has been automatically approved and released.';
+      Text004@1003 : TextConst 'DEU=Die Genehmigungseinrichtung wurde nicht gefunden.;ENU=Approval Setup not found.';
+      Text005@1005 : TextConst 'DEU=Die Benutzer-ID %1 ist nicht in der Benutzereinrichtungstabelle vorhanden.;ENU=User ID %1 does not exist in the User Setup table.';
+      Text006@1006 : TextConst 'DEU=Die Genehmiger-ID %1 ist nicht in der Benutzereinrichtungstabelle vorhanden.;ENU=Approver ID %1 does not exist in the User Setup table.';
+      Text007@1007 : TextConst 'DEU=%1 fÅr %2 ist nicht in der Benutzereinrichtungstabelle vorhanden.;ENU=%1 for %2  does not exist in the User Setup table.';
+      Text008@1008 : TextConst 'DEU=Die Benutzer-ID %1 ist nicht in der Benutzereinrichtungstabelle fÅr %2 %3 vorhanden.;ENU=User ID %1 does not exist in the User Setup table for %2 %3.';
+      Text013@1009 : TextConst '@@@="%1=document type, %2=document no., e.g. Order 321 must be approved...";DEU=%1 %2 muss genehmigt und freigegeben sein, bevor diese Aktion ausgefÅhrt werden kann.;ENU=%1 %2 must be approved and released before you can perform this action.';
+      Text010@1011 : TextConst 'DEU=Der Genehmiger wurde nicht gefunden.;ENU=Approver not found.';
+      Text014@1013 : TextConst 'DEU=Die %1-Genehmigungsposten wurden jetzt storniert.;ENU=The %1 approval entries have now been cancelled.';
+      Text015@1014 : TextConst 'DEU=%1 %2 weist keine Zeilen auf.;ENU=The %1 %2 does not have any Lines.';
+      Text022@1016 : TextConst 'DEU=FÅr %2 %3 muss ein(e) %1 vorhanden sein.;ENU=There has to be a %1 on %2 %3.';
       AddApproversTemp@1020 : TEMPORARY Record 465;
-      Text023@1019 : TextConst 'ENU="A template with a blank Approval Type or with Limit Type ""Credit Limit"", must have additional approvers. ";ESP="Una plantilla con un tipo aprobaci¢n vac°o o con un tipo l°mite ""L°mite crÇdito"" debe tener aprobadores adicionales. ";DEA="Eine Vorlage mit leerer Genehmigungsart oder mit der EinschrÑnkungsart ""Kreditlimit"" muss zusÑtzliche Genehmiger aufweisen. "';
-      Text024@1021 : TextConst 'ENU=%1 are only for purchase request orders.;ESP=Los %1 s¢lo se utilizan para pedidos de solicitud de compra.;DEA=%1 sind nur fÅr Bestellungsanforderungen.';
-      Text025@1022 : TextConst 'ENU=%1 is not a valid limit type for %2 %3.;ESP=%1 no es un tipo l°mite v†lido para el documento de %2 %3.;DEA=%1 ist keine gÅltige Grenzwertart fÅr %2 %3.';
-      Text026@1023 : TextConst 'ENU=%1 is only a valid limit type for %2.;ESP=%1 s¢lo es un tipo l°mite v†lido para %2.;DEA=%1 ist nur eine gÅltige Grenzwertart fÅr %2.';
-      Text027@1024 : TextConst 'ENU=When Approval Type is blank, additional approvers must be added to the template.;ESP=Cuando Tipo aprobaci¢n est† vac°o, deben agregarse aprobadores adicionales a la plantilla.;DEA=Wenn die Genehmigungsart leer ist, mÅssen der Vorlage weitere Genehmiger hinzugefÅgt werden.';
-      Text028@1012 : TextConst 'ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;ESP=Oferta,Pedido,Factura,Abono,Pedido abierto,Devoluci¢n;DEA=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation';
-      Text100@1048 : TextConst 'ENU=S-QUOTE;ESP=OFERTA-V;DEA=V-ANGEBOT';
-      Text101@1047 : TextConst 'ENU=Sales Quote Approval;ESP=Aprobaci¢n oferta venta;DEA=Verkaufsangebotsgenehmigung';
-      Text102@1046 : TextConst 'ENU=S-ORDER;ESP=PEDIDO-V;DEA=V-AUFTRAG';
-      Text103@1045 : TextConst 'ENU=Sales Order Approval;ESP=Aprobaci¢n pedido venta;DEA=Verkaufsauftragsgenehmigung';
-      Text104@1044 : TextConst 'ENU=S-INVOICE;ESP=FACTURA-V;DEA=V-RECHNUNG';
-      Text105@1043 : TextConst 'ENU=Sales Invoice Approval;ESP=Aprobaci¢n factura venta;DEA=Verkaufsrechnungsgenehmigung';
-      Text106@1042 : TextConst 'ENU=S-CREDIT MEMO;ESP=ABONO-V;DEA=V-GUTSCHRIFT';
-      Text107@1041 : TextConst 'ENU=Sales Credit Memo Approval;ESP=Aprobaci¢n abono venta;DEA=Verkaufsgutschriftgenehmigung';
-      Text108@1040 : TextConst 'ENU=S-RETURN ORDER;ESP=PEDIDO DEVOLUCI‡N-V;DEA=V-REKLAMATION';
-      Text109@1039 : TextConst 'ENU=Sales Return Order Approval;ESP=Aprobaci¢n pedido dev. venta;DEA=Verkaufsreklamationsgenehmigung';
-      Text110@1038 : TextConst 'ENU=S-BLANKET ORDER;ESP=PEDIDO ABIERTO-V;DEA=V-RAHMENAUFTRAG';
-      Text111@1037 : TextConst 'ENU=Sales Blanket Order Approval;ESP=Aprobaci¢n pedido abierto venta;DEA=Verkaufs-Rahmenauftragsgenehmigung';
-      Text112@1036 : TextConst 'ENU=P-QUOTE;ESP=OFERTA-C;DEA=E-ANFRAGE';
-      Text113@1035 : TextConst 'ENU=Purchase Quote Approval;ESP=Aprobaci¢n oferta compra;DEA=Einkaufsanfragengenehmigung';
-      Text114@1034 : TextConst 'ENU=P-ORDER;ESP=PEDIDO-C;DEA=BESTELLUNG';
-      Text115@1033 : TextConst 'ENU=Purchase Order Approval;ESP=Aprobaci¢n pedido compra;DEA=Bestellungsgenehmigung';
-      Text116@1032 : TextConst 'ENU=P-INVOICE;ESP=FACTURA-C;DEA=E-RECHNUNG';
-      Text117@1031 : TextConst 'ENU=Purchase Invoice Approval;ESP=Aprobaci¢n factura compra;DEA=Einkaufsrechnungsgenehmigung';
-      Text118@1030 : TextConst 'ENU=P-CREDIT MEMO;ESP=ABONO-C;DEA=E-GUTSCHRIFT';
-      Text119@1029 : TextConst 'ENU=Purchase Credit Memo Approval;ESP=Aprobaci¢n abono compra;DEA=Einkaufsgutschriftgenehmigung';
-      Text120@1028 : TextConst 'ENU=P-RETURN ORDER;ESP=PEDIDO DEVOLUCI‡N-C;DEA=E-REKLAMATION';
-      Text121@1027 : TextConst 'ENU=Purchase Return Order Approval;ESP=Aprobaci¢n pedido dev. compra;DEA=Einkaufsreklamationsgenehmigung';
-      Text122@1026 : TextConst 'ENU=P-BLANKET ORDER;ESP=PEDIDO ABIERTO-C;DEA=RAHMENBESTELLUNG';
-      Text123@1025 : TextConst 'ENU=Purchase Blanket Order Approval;ESP=Aprobaci¢n pedido abierto compra;DEA=Rahmenbestellungsgenehmigung';
-      Text124@1051 : TextConst 'ENU=S-O-CREDITLIMIT;ESP=LIMITECREDITO-P-V;DEA=V-A-KREDITLIMIT';
-      Text125@1052 : TextConst 'ENU=Sales Order Credit Limit Apporval;ESP=Aprobaci¢n l°mite crÇdito pedido venta;DEA=Verkaufsauftrags-Kreditlimitgenehmigung';
-      Text126@1053 : TextConst 'ENU=S-I-CREDITLIMIT;ESP=LIMITECREDITO-F-V;DEA=V-R-KREDITLIMIT';
-      Text127@1054 : TextConst 'ENU=Sales Invoice Credit Limit Apporval;ESP=Aprobaci¢n l°mite crÇdito factura venta;DEA=Verkaufsrechnungs-Kreditlimitgenehmigung';
-      Text128@1055 : TextConst 'ENU=%1 %2 has been automatically approved. Status changed to Pending Prepayment.;ESP=El documento de %1 %2 se ha aprobado autom†ticamente. El estado cambi¢ a Prepago pendiente.;DEA=%1 %2 wurde automatisch genehmigt. Der Status wurde in ''Vorauszahlung ausstehend'' geÑndert.';
-      Text129@1004 : TextConst 'ENU=No Approval Templates are enabled for document type %1.;ESP=No hay ninguna plantilla de aprobaci¢n activada para tipo documento %1.;DEA=FÅr Belegart %1 sind keine Genehmigungsvorlagen aktiviert.';
+      Text023@1019 : TextConst 'DEU="Eine Vorlage mit leerer Genehmigungsart oder mit der EinschrÑnkungsart ""Kreditlimit"" muss zusÑtzliche Genehmiger aufweisen. ";ENU="A template with a blank Approval Type or with Limit Type ""Credit Limit"", must have additional approvers. "';
+      Text024@1021 : TextConst 'DEU=%1 sind nur fÅr Bestellungsanforderungen.;ENU=%1 are only for purchase request orders.';
+      Text025@1022 : TextConst 'DEU=%1 ist keine gÅltige Grenzwertart fÅr %2 %3.;ENU=%1 is not a valid limit type for %2 %3.';
+      Text026@1023 : TextConst 'DEU=%1 ist nur eine gÅltige Grenzwertart fÅr %2.;ENU=%1 is only a valid limit type for %2.';
+      Text027@1024 : TextConst 'DEU=Wenn die Genehmigungsart leer ist, mÅssen der Vorlage weitere Genehmiger hinzugefÅgt werden.;ENU=When Approval Type is blank, additional approvers must be added to the template.';
+      Text028@1012 : TextConst 'DEU=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation;ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order';
+      Text100@1048 : TextConst 'DEU=V-ANGEBOT;ENU=S-QUOTE';
+      Text101@1047 : TextConst 'DEU=Verkaufsangebotsgenehmigung;ENU=Sales Quote Approval';
+      Text102@1046 : TextConst 'DEU=V-AUFTRAG;ENU=S-ORDER';
+      Text103@1045 : TextConst 'DEU=Verkaufsauftragsgenehmigung;ENU=Sales Order Approval';
+      Text104@1044 : TextConst 'DEU=V-RECHNUNG;ENU=S-INVOICE';
+      Text105@1043 : TextConst 'DEU=Verkaufsrechnungsgenehmigung;ENU=Sales Invoice Approval';
+      Text106@1042 : TextConst 'DEU=V-GUTSCHRIFT;ENU=S-CREDIT MEMO';
+      Text107@1041 : TextConst 'DEU=Verkaufsgutschriftgenehmigung;ENU=Sales Credit Memo Approval';
+      Text108@1040 : TextConst 'DEU=V-REKLAMATION;ENU=S-RETURN ORDER';
+      Text109@1039 : TextConst 'DEU=Verkaufsreklamationsgenehmigung;ENU=Sales Return Order Approval';
+      Text110@1038 : TextConst 'DEU=V-RAHMENAUFTRAG;ENU=S-BLANKET ORDER';
+      Text111@1037 : TextConst 'DEU=Verkaufs-Rahmenauftragsgenehmigung;ENU=Sales Blanket Order Approval';
+      Text112@1036 : TextConst 'DEU=E-ANFRAGE;ENU=P-QUOTE';
+      Text113@1035 : TextConst 'DEU=Einkaufsanfragengenehmigung;ENU=Purchase Quote Approval';
+      Text114@1034 : TextConst 'DEU=BESTELLUNG;ENU=P-ORDER';
+      Text115@1033 : TextConst 'DEU=Bestellungsgenehmigung;ENU=Purchase Order Approval';
+      Text116@1032 : TextConst 'DEU=E-RECHNUNG;ENU=P-INVOICE';
+      Text117@1031 : TextConst 'DEU=Einkaufsrechnungsgenehmigung;ENU=Purchase Invoice Approval';
+      Text118@1030 : TextConst 'DEU=E-GUTSCHRIFT;ENU=P-CREDIT MEMO';
+      Text119@1029 : TextConst 'DEU=Einkaufsgutschriftgenehmigung;ENU=Purchase Credit Memo Approval';
+      Text120@1028 : TextConst 'DEU=E-REKLAMATION;ENU=P-RETURN ORDER';
+      Text121@1027 : TextConst 'DEU=Einkaufsreklamationsgenehmigung;ENU=Purchase Return Order Approval';
+      Text122@1026 : TextConst 'DEU=RAHMENBESTELLUNG;ENU=P-BLANKET ORDER';
+      Text123@1025 : TextConst 'DEU=Rahmenbestellungsgenehmigung;ENU=Purchase Blanket Order Approval';
+      Text124@1051 : TextConst 'DEU=V-A-KREDITLIMIT;ENU=S-O-CREDITLIMIT';
+      Text125@1052 : TextConst 'DEU=Verkaufsauftrags-Kreditlimitgenehmigung;ENU=Sales Order Credit Limit Apporval';
+      Text126@1053 : TextConst 'DEU=V-R-KREDITLIMIT;ENU=S-I-CREDITLIMIT';
+      Text127@1054 : TextConst 'DEU=Verkaufsrechnungs-Kreditlimitgenehmigung;ENU=Sales Invoice Credit Limit Apporval';
+      Text128@1055 : TextConst 'DEU=%1 %2 wurde automatisch genehmigt. Der Status wurde in ''Vorauszahlung ausstehend'' geÑndert.;ENU=%1 %2 has been automatically approved. Status changed to Pending Prepayment.';
+      Text129@1004 : TextConst 'DEU=FÅr Belegart %1 sind keine Genehmigungsvorlagen aktiviert.;ENU=No Approval Templates are enabled for document type %1.';
       IsOpenStatusSet@1017 : Boolean;
-      Text130@1010 : TextConst 'ENU=The approval request cannot be canceled because the order has already been released. To  modify this order, you must reopen it.;ESP=No se puede cancelar la solicitud de aprobaci¢n porque el pedido ya se ha emitido. Para modificarlo, debe volver a abrirlo.;DEA=Die Genehmigungsanforderung kann nicht storniert werden, da der Beleg bereits freigegeben wurde. Eine énderung des Belegs ist nur nach ZurÅcksetzen des Status mîglich.';
+      Text130@1010 : TextConst 'DEU=Die Genehmigungsanforderung kann nicht storniert werden, da der Beleg bereits freigegeben wurde. Eine énderung des Belegs ist nur nach ZurÅcksetzen des Status mîglich.;ENU=The approval request cannot be canceled because the order has already been released. To  modify this order, you must reopen it.';
 
     PROCEDURE SendSalesApprovalRequest@1(VAR SalesHeader@1000 : Record 36) : Boolean;
     VAR

@@ -2,16 +2,15 @@ OBJECT Page 9308 Purchase Invoices
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Purchase Invoices;
-               ESP=Facturas compra;
-               DEA=Einkaufsrechnungen];
+    CaptionML=[DEU=Einkaufsrechnungen;
+               ENU=Purchase Invoices];
     SourceTable=Table38;
     SourceTableView=WHERE(Document Type=CONST(Invoice));
     PageType=List;
@@ -29,16 +28,14 @@ OBJECT Page 9308 Purchase Invoices
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1102601017;1 ;ActionGroup;
-                      CaptionML=[ENU=&Invoice;
-                                 ESP=&Factura;
-                                 DEA=R&echnung];
+                      CaptionML=[DEU=R&echnung;
+                                 ENU=&Invoice];
                       Image=Invoice }
       { 1102601019;2 ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -49,9 +46,8 @@ OBJECT Page 9308 Purchase Invoices
                                END;
                                 }
       { 1102601021;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 66;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
@@ -59,18 +55,16 @@ OBJECT Page 9308 Purchase Invoices
                       Image=ViewComments }
       { 1102601022;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
                                END;
                                 }
       { 1102601023;2 ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Image=Approvals;
                       OnAction=VAR
                                  ApprovalEntries@1001 : Page 658;
@@ -82,15 +76,13 @@ OBJECT Page 9308 Purchase Invoices
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 1102601015;2 ;Action    ;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Image=ReleaseDoc;
                       OnAction=VAR
                                  ReleasePurchDoc@1000 : Codeunit 415;
@@ -99,9 +91,8 @@ OBJECT Page 9308 Purchase Invoices
                                END;
                                 }
       { 1102601016;2 ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleasePurchDoc@1001 : Codeunit 415;
@@ -110,14 +101,12 @@ OBJECT Page 9308 Purchase Invoices
                                END;
                                 }
       { 1102601000;1 ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=F&unciones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 1102601012;2 ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -126,9 +115,8 @@ OBJECT Page 9308 Purchase Invoices
                                END;
                                 }
       { 1102601013;2 ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -138,15 +126,13 @@ OBJECT Page 9308 Purchase Invoices
                                 }
       { 1102601014;2 ;Separator  }
       { 50      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=R&egistro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 52      ;2   ;Action    ;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=R&egistrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -157,9 +143,8 @@ OBJECT Page 9308 Purchase Invoices
                                 }
       { 51      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintPurchHeader(Rec);
@@ -167,9 +152,8 @@ OBJECT Page 9308 Purchase Invoices
                                 }
       { 53      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -180,9 +164,8 @@ OBJECT Page 9308 Purchase Invoices
                                 }
       { 54      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Promoted=Yes;
                       Image=PostBatch;
                       PromotedCategory=Process;
@@ -192,9 +175,8 @@ OBJECT Page 9308 Purchase Invoices
                                END;
                                 }
       { 3       ;2   ;Action    ;
-                      CaptionML=[ENU=Remove From Job Queue;
-                                 ESP=Quitar de cola de proyecto;
-                                 DEA=Aus Aufgabenwarteschlange entfernen];
+                      CaptionML=[DEU=Aus Aufgabenwarteschlange entfernen;
+                                 ENU=Remove From Job Queue];
                       Visible=JobQueueActive;
                       Image=RemoveLine;
                       OnAction=BEGIN

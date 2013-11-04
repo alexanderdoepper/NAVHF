@@ -2,15 +2,14 @@ OBJECT Report 37 Balance Comp. - Prev. Year
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Balance Comp. - Prev. Year;
-               ESP=Comp. de saldo - A§o anterior;
-               DEA=Saldenvergleich - Vorjahr];
+    CaptionML=[DEU=Saldenvergleich - Vorjahr;
+               ENU=Balance Comp. - Prev. Year];
     OnPreReport=BEGIN
                   GLFilter := "G/L Account".GETFILTERS;
                   PeriodText := "G/L Account".GETFILTER("Date Filter");
@@ -139,8 +138,8 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                SourceExpr=COMPANYNAME }
 
     { 1005;1   ;Column  ;STRSUBSTNO_Text016_Indent_;
-               OptionCaptionML=[ENU=None,0,1,2,3,4,5;
-                                DEA=None,0,1,2,3,4,5];
+               OptionCaptionML=[DEU=None,0,1,2,3,4,5;
+                                ENU=None,0,1,2,3,4,5];
                OptionString=None,0,1,2,3,4,5;
                SourceExpr=STRSUBSTNO(IndentationLevelCap,SELECTSTR(Indent + 1,IndentTxt)) }
 
@@ -288,15 +287,13 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1049;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=PeriodStartingDate;
                   OnValidate=BEGIN
                                SetEndingDate;
@@ -305,9 +302,8 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                               }
 
       { 1053;2   ;Field     ;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=PeriodEndingDate;
                   OnValidate=BEGIN
                                SetPreviousDates;
@@ -315,9 +311,8 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                               }
 
       { 1055;2   ;Field     ;
-                  CaptionML=[ENU=Previous Starting Date;
-                             ESP=Fecha inicial anterior;
-                             DEA=Vorheriges Startdatum];
+                  CaptionML=[DEU=Vorheriges Startdatum;
+                             ENU=Previous Starting Date];
                   SourceExpr=PreviousStartingDate;
                   OnValidate=BEGIN
                                CheckDates;
@@ -325,9 +320,8 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                               }
 
       { 1057;2   ;Field     ;
-                  CaptionML=[ENU=Previous Ending Date;
-                             ESP=Fecha final anterior;
-                             DEA=Vorheriges Enddatum];
+                  CaptionML=[DEU=Vorheriges Enddatum;
+                             ENU=Previous Ending Date];
                   SourceExpr=PreviousEndingDate;
                   OnValidate=BEGIN
                                CheckDates;
@@ -335,21 +329,17 @@ OBJECT Report 37 Balance Comp. - Prev. Year
                               }
 
       { 1051;2   ;Field     ;
-                  CaptionML=[ENU=Rounding Factor;
-                             ESP=Factor redondeo;
-                             DEA=Rundungsfaktor];
-                  OptionCaptionML=[ENU=None,1,1000,1000000;
-                                   ESP=No,1,1000,1000000;
-                                   DEA=Kein,1,1000,1000000];
+                  CaptionML=[DEU=Rundungsfaktor;
+                             ENU=Rounding Factor];
+                  OptionCaptionML=[DEU=Kein,1,1000,1000000;
+                                   ENU=None,1,1000,1000000];
                   SourceExpr=RoundingFactor }
 
       { 1059;2   ;Field     ;
-                  CaptionML=[ENU=Indentation Level;
-                             ESP=Nivel sangr°a;
-                             DEA=EinrÅckungsebene];
-                  OptionCaptionML=[ENU=None,0,1,2,3,4,5;
-                                   ESP=Ninguno,0,1,2,3,4,5;
-                                   DEA=Keine,0,1,2,3,4,5];
+                  CaptionML=[DEU=EinrÅckungsebene;
+                             ENU=Indentation Level];
+                  OptionCaptionML=[DEU=Keine,0,1,2,3,4,5;
+                                   ENU=None,0,1,2,3,4,5];
                   SourceExpr=Indent;
                   OnValidate=BEGIN
                                CheckIndent;
@@ -380,36 +370,36 @@ OBJECT Report 37 Balance Comp. - Prev. Year
       PreviousEndingDate@1074 : Date;
       FYStartingDate@1075 : Date;
       LastPage@1079 : Boolean;
-      Text000@1081 : TextConst 'ENU=Period: %1..%2;ESP=Periodo: %1..%2;DEA=Periode: %1..%2';
-      Text002@1083 : TextConst 'ENU=Fiscal Year Starting Date: %1;ESP=Fecha inicial ejercicio : %1;DEA=Startdatum des GeschÑftsjahres : %1';
-      Text004@1085 : TextConst 'ENU=Enter the starting date for the first period.;ESP=Introduzca la fecha inicial del primer periodo.;DEA=Geben Sie das Startdatum fÅr die erste Periode ein.';
-      Text005@1086 : TextConst 'ENU=Enter the ending date for the first period.;ESP=Introduzca la fecha final del primer periodo.;DEA=Geben Sie das Enddatum fÅr die erste Periode ein.';
-      Text006@1087 : TextConst 'ENU=<-1Y>;ESP=<-1Y>;DEA=<-1Y>';
-      Text008@1089 : TextConst 'ENU=<Precision,;ESP=<Precision,;DEA=<Precision,';
-      Text009@1090 : TextConst 'ENU=><Standard Format,0>;ESP=><Standard Format,0>;DEA=><Standard Format,0>';
-      Text010@1091 : TextConst 'ENU=<Precision,1><Standard Format,0>;ESP=<Precision,1><Standard Format,0>;DEA=<Precision,1><Standard Format,0>';
-      Text011@1092 : TextConst 'ENU=Amounts are rounded to 1;ESP=Los importes se redondean a 1;DEA=BetrÑge sind zu 1 gerundet';
-      Text012@1093 : TextConst 'ENU=Amounts are in whole 1000s;ESP=Importes en miles;DEA=BetrÑge sind in ganzen 1000ern';
-      Text013@1094 : TextConst 'ENU=Amounts are in whole 1000000s;ESP=Importes en millones;DEA=BetrÑge sind in ganzen 1000000en';
-      Text014@1095 : TextConst 'ENU=%1 and %2 do not belong to the same fiscal year.;ESP=%1 y %2 no pertenecen al mismo ejercicio.;DEA=%1 und %2 gehîren nicht zum gleichen GeschÑftsjahr.';
-      Text015@1096 : TextConst 'ENU=Indentation Level %1 is not used in the Chart of Accounts. This Chart of Accounts uses max. %2 levels.;ESP=El nivel %1 de sangr°a no se utiliza en el Plan de cuentas. Este Plan de cuentas utiliza un m†ximo de %2 niveles.;DEA=Die EinrÅckungsebene ''%1'' wird im Kontenplan nicht verwendet. Dieser Kontenplan verwendet maximal %2 Ebenen.';
-      IndentTxt@1003 : TextConst 'ENU=None,0,1,2,3,4,5;ESP=Ninguno,0,1,2,3,4,5;DEA=Keine,0,1,2,3,4,5';
+      Text000@1081 : TextConst 'DEU=Periode: %1..%2;ENU=Period: %1..%2';
+      Text002@1083 : TextConst 'DEU=Startdatum des GeschÑftsjahres : %1;ENU=Fiscal Year Starting Date: %1';
+      Text004@1085 : TextConst 'DEU=Geben Sie das Startdatum fÅr die erste Periode ein.;ENU=Enter the starting date for the first period.';
+      Text005@1086 : TextConst 'DEU=Geben Sie das Enddatum fÅr die erste Periode ein.;ENU=Enter the ending date for the first period.';
+      Text006@1087 : TextConst 'DEU=<-1Y>;ENU=<-1Y>';
+      Text008@1089 : TextConst 'DEU=<Precision,;ENU=<Precision,';
+      Text009@1090 : TextConst 'DEU=><Standard Format,0>;ENU=><Standard Format,0>';
+      Text010@1091 : TextConst 'DEU=<Precision,1><Standard Format,0>;ENU=<Precision,1><Standard Format,0>';
+      Text011@1092 : TextConst 'DEU=BetrÑge sind zu 1 gerundet;ENU=Amounts are rounded to 1';
+      Text012@1093 : TextConst 'DEU=BetrÑge sind in ganzen 1000ern;ENU=Amounts are in whole 1000s';
+      Text013@1094 : TextConst 'DEU=BetrÑge sind in ganzen 1000000en;ENU=Amounts are in whole 1000000s';
+      Text014@1095 : TextConst 'DEU=%1 und %2 gehîren nicht zum gleichen GeschÑftsjahr.;ENU=%1 and %2 do not belong to the same fiscal year.';
+      Text015@1096 : TextConst 'DEU=Die EinrÅckungsebene ''%1'' wird im Kontenplan nicht verwendet. Dieser Kontenplan verwendet maximal %2 Ebenen.;ENU=Indentation Level %1 is not used in the Chart of Accounts. This Chart of Accounts uses max. %2 levels.';
+      IndentTxt@1003 : TextConst 'DEU=Keine,0,1,2,3,4,5;ENU=None,0,1,2,3,4,5';
       Indent@1100 : 'None,0,1,2,3,4,5';
       MaxIndent@1101 : Text[5];
       PageGroupNo@1001 : Integer;
       NextPageGroupNo@1002 : Integer;
-      IndentationLevelCap@2383 : TextConst 'ENU=Indentation Level : %1;ESP=Nivel sangr°a: %1;DEA=EinrÅckungsebene: %1';
-      LastPageCap@7009 : TextConst 'ENU=/ Last Page;ESP=/ Èltima p†gina;DEA=/ Letzte Seite';
-      ContinuedCap@3026 : TextConst 'ENU=/ Continued;ESP=/ Suma y Sigue;DEA=/ Fortsetzung';
-      PageCap@2074 : TextConst 'ENU=Page {0} {1};ESP=P†gina {0} {1};DEA=Seite {0} {1}';
-      Balance_Comparison___Previous_YearCaptionLbl@7357 : TextConst 'ENU=Balance Comparison - Previous Year;ESP=Comparaci¢n balance - A§o anterior;DEA=Bilanzvergleich - Vorjahr';
-      NameCap@4187 : TextConst 'ENU=Name;ESP=Nombre;DEA=Name';
-      DebitCaptionLbl@7067 : TextConst 'ENU=Debit;ESP=Debe;DEA=Soll';
-      CreditCaptionLbl@2805 : TextConst 'ENU=Credit;ESP=Haber;DEA=Haben';
-      This_periodCaptionLbl@8163 : TextConst 'ENU=This period;ESP=Periodo actual;DEA=Diese Periode';
-      This_Year_toCaptionLbl@5846 : TextConst 'ENU=This Year to;ESP=A§o actual hasta;DEA=Dieses Jahr bis';
-      Previous_Year_toCaptionLbl@5898 : TextConst 'ENU=Previous Year to;ESP=A§o anterior hasta;DEA=Vorjahr bis';
-      Previous_Year_PeriodCaptionLbl@4064 : TextConst 'ENU=Previous Year Period;ESP=Periodo a§o anterior;DEA=Periode Vorjahr';
+      IndentationLevelCap@2383 : TextConst 'DEU=EinrÅckungsebene: %1;ENU=Indentation Level : %1';
+      LastPageCap@7009 : TextConst 'DEU=/ Letzte Seite;ENU=/ Last Page';
+      ContinuedCap@3026 : TextConst 'DEU=/ Fortsetzung;ENU=/ Continued';
+      PageCap@2074 : TextConst 'DEU=Seite {0} {1};ENU=Page {0} {1}';
+      Balance_Comparison___Previous_YearCaptionLbl@7357 : TextConst 'DEU=Bilanzvergleich - Vorjahr;ENU=Balance Comparison - Previous Year';
+      NameCap@4187 : TextConst 'DEU=Name;ENU=Name';
+      DebitCaptionLbl@7067 : TextConst 'DEU=Soll;ENU=Debit';
+      CreditCaptionLbl@2805 : TextConst 'DEU=Haben;ENU=Credit';
+      This_periodCaptionLbl@8163 : TextConst 'DEU=Diese Periode;ENU=This period';
+      This_Year_toCaptionLbl@5846 : TextConst 'DEU=Dieses Jahr bis;ENU=This Year to';
+      Previous_Year_toCaptionLbl@5898 : TextConst 'DEU=Vorjahr bis;ENU=Previous Year to';
+      Previous_Year_PeriodCaptionLbl@4064 : TextConst 'DEU=Periode Vorjahr;ENU=Previous Year Period';
 
     PROCEDURE SetEndingDate@1102();
     BEGIN

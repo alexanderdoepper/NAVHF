@@ -2,9 +2,9 @@ OBJECT Table 302 Finance Charge Memo Header
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -57,9 +57,8 @@ OBJECT Table 302 Finance Charge Memo Header
                END;
              END;
 
-    CaptionML=[ENU=Finance Charge Memo Header;
-               ESP=Cab. doc. interÇs;
-               DEA=Zinsrechnungskopf];
+    CaptionML=[DEU=Zinsrechnungskopf;
+               ENU=Finance Charge Memo Header];
     LookupPageID=Page448;
     DrillDownPageID=Page448;
   }
@@ -74,9 +73,8 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                 "Posting Description" := STRSUBSTNO(Text000,"No.");
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 2   ;   ;Customer No.        ;Code20        ;TableRelation=Customer;
                                                    OnValidate=BEGIN
                                                                 IF CurrFieldNo = FIELDNO("Customer No.") THEN
@@ -112,21 +110,16 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                 CreateDim(DATABASE::Customer,"Customer No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Customer No.;
-                                                              ESP=Nß cliente;
-                                                              DEA=Debitorennr.] }
-    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Debitorennr.;
+                                                              ENU=Customer No.] }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -135,9 +128,8 @@ OBJECT Table 302 Finance Charge Memo Header
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
     { 8   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -146,20 +138,16 @@ OBJECT Table 302 Finance Charge Memo Header
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
-    { 9   ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
+    { 9   ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 10  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 11  ;   ;Language Code       ;Code10        ;TableRelation=Language;
-                                                   CaptionML=[ENU=Language Code;
-                                                              ESP=C¢d. idioma;
-                                                              DEA=Sprachcode] }
+                                                   CaptionML=[DEU=Sprachcode;
+                                                              ENU=Language Code] }
     { 12  ;   ;Currency Code       ;Code10        ;TableRelation=Currency;
                                                    OnValidate=BEGIN
                                                                 IF CurrFieldNo = FIELDNO("Currency Code") THEN
@@ -169,37 +157,31 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                   END;
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
-    { 13  ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
-    { 14  ;   ;Your Reference      ;Text35        ;CaptionML=[ENU=Your Reference;
-                                                              ESP=Su/Ntra. ref.;
-                                                              DEA=Ihre Referenz] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
+    { 13  ;   ;Contact             ;Text50        ;CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
+    { 14  ;   ;Your Reference      ;Text35        ;CaptionML=[DEU=Ihre Referenz;
+                                                              ENU=Your Reference] }
     { 15  ;   ;Shortcut Dimension 1 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Shortcut Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 1 Code;
-                                                              ESP=C¢d. dim. acceso dir. 1;
-                                                              DEA=Shortcutdimensionscode 1];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 1;
+                                                              ENU=Shortcut Dimension 1 Code];
                                                    CaptionClass='1,2,1' }
     { 16  ;   ;Shortcut Dimension 2 Code;Code20   ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Shortcut Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Shortcut Dimension 2 Code;
-                                                              ESP=C¢d. dim. acceso dir. 2;
-                                                              DEA=Shortcutdimensionscode 2];
+                                                   CaptionML=[DEU=Shortcutdimensionscode 2;
+                                                              ENU=Shortcut Dimension 2 Code];
                                                    CaptionClass='1,2,2' }
     { 17  ;   ;Customer Posting Group;Code10      ;TableRelation="Customer Posting Group";
-                                                   CaptionML=[ENU=Customer Posting Group;
-                                                              ESP=Grupo contable cliente;
-                                                              DEA=Debitorenbuchungsgruppe];
+                                                   CaptionML=[DEU=Debitorenbuchungsgruppe;
+                                                              ENU=Customer Posting Group];
                                                    Editable=No }
     { 18  ;   ;Gen. Bus. Posting Group;Code10     ;TableRelation="Gen. Business Posting Group";
                                                    OnValidate=BEGIN
@@ -208,20 +190,16 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                     VALIDATE("VAT Bus. Posting Group",GenBusPostingGrp."Def. VAT Bus. Posting Group");
                                                               END;
 
-                                                   CaptionML=[ENU=Gen. Bus. Posting Group;
-                                                              ESP=Grupo contable negocio;
-                                                              DEA=GeschÑftsbuchungsgruppe];
+                                                   CaptionML=[DEU=GeschÑftsbuchungsgruppe;
+                                                              ENU=Gen. Bus. Posting Group];
                                                    Editable=No }
-    { 19  ;   ;VAT Registration No.;Text20        ;CaptionML=[ENU=VAT Registration No.;
-                                                              ESP=CIF/NIF;
-                                                              DEA=USt-IdNr.] }
+    { 19  ;   ;VAT Registration No.;Text20        ;CaptionML=[DEU=USt-IdNr.;
+                                                              ENU=VAT Registration No.] }
     { 20  ;   ;Reason Code         ;Code10        ;TableRelation="Reason Code";
-                                                   CaptionML=[ENU=Reason Code;
-                                                              ESP=C¢d. auditor°a;
-                                                              DEA=Ursachencode] }
-    { 21  ;   ;Posting Date        ;Date          ;CaptionML=[ENU=Posting Date;
-                                                              ESP=Fecha registro;
-                                                              DEA=Buchungsdatum] }
+                                                   CaptionML=[DEU=Ursachencode;
+                                                              ENU=Reason Code] }
+    { 21  ;   ;Posting Date        ;Date          ;CaptionML=[DEU=Buchungsdatum;
+                                                              ENU=Posting Date] }
     { 22  ;   ;Document Date       ;Date          ;OnValidate=BEGIN
                                                                 IF CurrFieldNo = FIELDNO("Document Date") THEN
                                                                   IF Undo THEN BEGIN
@@ -231,12 +209,10 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                 VALIDATE("Fin. Charge Terms Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Document Date;
-                                                              ESP=Fecha emisi¢n documento;
-                                                              DEA=Belegdatum] }
-    { 23  ;   ;Due Date            ;Date          ;CaptionML=[ENU=Due Date;
-                                                              ESP=Fecha vencimiento;
-                                                              DEA=FÑlligkeitsdatum] }
+                                                   CaptionML=[DEU=Belegdatum;
+                                                              ENU=Document Date] }
+    { 23  ;   ;Due Date            ;Date          ;CaptionML=[DEU=FÑlligkeitsdatum;
+                                                              ENU=Due Date] }
     { 25  ;   ;Fin. Charge Terms Code;Code10      ;TableRelation="Finance Charge Terms";
                                                    OnValidate=BEGIN
                                                                 IF CurrFieldNo = FIELDNO("Fin. Charge Terms Code") THEN
@@ -253,63 +229,53 @@ OBJECT Table 302 Finance Charge Memo Header
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Fin. Charge Terms Code;
-                                                              ESP=C¢d. interÇs;
-                                                              DEA=Zinskonditionencode] }
-    { 26  ;   ;Post Interest       ;Boolean       ;CaptionML=[ENU=Post Interest;
-                                                              ESP=Registrar interÇs;
-                                                              DEA=Zinsen buchen] }
-    { 27  ;   ;Post Additional Fee ;Boolean       ;CaptionML=[ENU=Post Additional Fee;
-                                                              ESP=Registrar recargo fijo;
-                                                              DEA=GebÅhren buchen] }
-    { 29  ;   ;Posting Description ;Text50        ;CaptionML=[ENU=Posting Description;
-                                                              ESP=Texto de registro;
-                                                              DEA=Buchungsbeschreibung] }
+                                                   CaptionML=[DEU=Zinskonditionencode;
+                                                              ENU=Fin. Charge Terms Code] }
+    { 26  ;   ;Post Interest       ;Boolean       ;CaptionML=[DEU=Zinsen buchen;
+                                                              ENU=Post Interest] }
+    { 27  ;   ;Post Additional Fee ;Boolean       ;CaptionML=[DEU=GebÅhren buchen;
+                                                              ENU=Post Additional Fee] }
+    { 29  ;   ;Posting Description ;Text50        ;CaptionML=[DEU=Buchungsbeschreibung;
+                                                              ENU=Posting Description] }
     { 30  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Fin. Charge Comment Line" WHERE (Type=CONST(Finance Charge Memo),
                                                                                                        No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
     { 31  ;   ;Remaining Amount    ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Finance Charge Memo Line"."Remaining Amount" WHERE (Finance Charge Memo No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Remaining Amount;
-                                                              ESP=Importe pendiente;
-                                                              DEA=Restbetrag];
+                                                   CaptionML=[DEU=Restbetrag;
+                                                              ENU=Remaining Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 32  ;   ;Interest Amount     ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Finance Charge Memo Line".Amount WHERE (Finance Charge Memo No.=FIELD(No.),
                                                                                                             Type=CONST(Customer Ledger Entry)));
-                                                   CaptionML=[ENU=Interest Amount;
-                                                              ESP=Importe interÇs;
-                                                              DEA=Zinsbetrag];
+                                                   CaptionML=[DEU=Zinsbetrag;
+                                                              ENU=Interest Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 33  ;   ;Additional Fee      ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Finance Charge Memo Line".Amount WHERE (Finance Charge Memo No.=FIELD(No.),
                                                                                                             Type=CONST(G/L Account)));
-                                                   CaptionML=[ENU=Additional Fee;
-                                                              ESP=Recargo fijo;
-                                                              DEA=GebÅhr];
+                                                   CaptionML=[DEU=GebÅhr;
+                                                              ENU=Additional Fee];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 34  ;   ;VAT Amount          ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Finance Charge Memo Line"."VAT Amount" WHERE (Finance Charge Memo No.=FIELD(No.)));
-                                                   CaptionML=[ENU=VAT Amount;
-                                                              ESP=Importe IVA;
-                                                              DEA=MwSt.-Betrag];
+                                                   CaptionML=[DEU=MwSt.-Betrag;
+                                                              ENU=VAT Amount];
                                                    Editable=No;
                                                    AutoFormatType=1;
                                                    AutoFormatExpr="Currency Code" }
     { 37  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 38  ;   ;Issuing No. Series  ;Code10        ;TableRelation="No. Series";
                                                    OnValidate=BEGIN
@@ -334,36 +300,29 @@ OBJECT Table 302 Finance Charge Memo Header
                                                               END;
                                                             END;
 
-                                                   CaptionML=[ENU=Issuing No. Series;
-                                                              ESP=Nß serie emisi¢n;
-                                                              DEA=Nr.-Serien registrieren] }
-    { 39  ;   ;Issuing No.         ;Code20        ;CaptionML=[ENU=Issuing No.;
-                                                              ESP=Nß emisi¢n;
-                                                              DEA=Nr. registrieren] }
+                                                   CaptionML=[DEU=Nr.-Serien registrieren;
+                                                              ENU=Issuing No. Series] }
+    { 39  ;   ;Issuing No.         ;Code20        ;CaptionML=[DEU=Nr. registrieren;
+                                                              ENU=Issuing No.] }
     { 41  ;   ;Tax Area Code       ;Code20        ;TableRelation="Tax Area";
-                                                   CaptionML=[ENU=Tax Area Code;
-                                                              ESP=C¢d. †rea impuesto;
-                                                              DEA=Steuergebietscode] }
-    { 42  ;   ;Tax Liable          ;Boolean       ;CaptionML=[ENU=Tax Liable;
-                                                              ESP=Sujeto a impuesto;
-                                                              DEA=Steuerpflichtig] }
+                                                   CaptionML=[DEU=Steuergebietscode;
+                                                              ENU=Tax Area Code] }
+    { 42  ;   ;Tax Liable          ;Boolean       ;CaptionML=[DEU=Steuerpflichtig;
+                                                              ENU=Tax Liable] }
     { 43  ;   ;VAT Bus. Posting Group;Code10      ;TableRelation="VAT Business Posting Group";
-                                                   CaptionML=[ENU=VAT Bus. Posting Group;
-                                                              ESP=Grupo registro IVA neg.;
-                                                              DEA=MwSt.-GeschÑftsbuchungsgruppe] }
+                                                   CaptionML=[DEU=MwSt.-GeschÑftsbuchungsgruppe;
+                                                              ENU=VAT Bus. Posting Group] }
     { 480 ;   ;Dimension Set ID    ;Integer       ;TableRelation="Dimension Set Entry";
                                                    OnLookup=BEGIN
                                                               ShowDocDim;
                                                             END;
 
-                                                   CaptionML=[ENU=Dimension Set ID;
-                                                              ESP=Id. grupo dimensiones;
-                                                              DEA=Dimensionssatz-ID];
+                                                   CaptionML=[DEU=Dimensionssatz-ID;
+                                                              ENU=Dimension Set ID];
                                                    Editable=No }
     { 9000;   ;Assigned User ID    ;Code50        ;TableRelation="User Setup";
-                                                   CaptionML=[ENU=Assigned User ID;
-                                                              ESP=Id. usuario asignado;
-                                                              DEA=Zugewiesene Benutzer-ID] }
+                                                   CaptionML=[DEU=Zugewiesene Benutzer-ID;
+                                                              ENU=Assigned User ID] }
   }
   KEYS
   {
@@ -377,13 +336,13 @@ OBJECT Table 302 Finance Charge Memo Header
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Finance Charge Memo %1;ESP=Doc. interÇs %1;DEA=Zinsrechnung %1';
-      Text001@1001 : TextConst 'ENU=Do you want to print finance charge memo %1?;ESP=®Confirma que desea imprimir el documento de interÇs %1?;DEA=Mîchten Sie die Zinsrechnung %1 drucken?';
-      Text002@1002 : TextConst 'ENU=This change will cause the existing lines to be deleted for this finance charge memo.\\;ESP=Este cambio provocar† que se borren las l°neas existentes para este doc. de interÇs.\\;DEA=Diese énderung lîscht alle Zeilen dieser Zinsrechnung.\\';
-      Text003@1003 : TextConst 'ENU=Do you want to continue?;ESP=®Confirma que desea continuar?;DEA=Mîchten Sie fortfahren?';
-      Text004@1004 : TextConst 'ENU=There is not enough space to insert the text.;ESP=No hay espacio suficiente para a§adir el texto.;DEA=Es ist nicht genÅgend Platz, um den Text einzufÅgen.';
-      Text005@1005 : TextConst 'ENU=Deleting this document will cause a gap in the number series for finance charge memos.;ESP=Si borra el documento, se provocar† una discontinuidad en la numeraci¢n de la serie de doc. de interÇs.;DEA=Das Lîschen dieses Belegs verursacht eine LÅcke in der Nummernserie fÅr Zinsrechnungen.';
-      Text006@1006 : TextConst 'ENU=An empty finance charge memo %1 will be created to fill this gap in the number series.\\;ESP=Se crear† un doc. de interÇs en blanco %1 para completar la misma.\\;DEA=Die leere Zinsrechnung %1 wird erstellt, um die LÅcke in der Nummernserie auszufÅllen.\\';
+      Text000@1000 : TextConst 'DEU=Zinsrechnung %1;ENU=Finance Charge Memo %1';
+      Text001@1001 : TextConst 'DEU=Mîchten Sie die Zinsrechnung %1 drucken?;ENU=Do you want to print finance charge memo %1?';
+      Text002@1002 : TextConst 'DEU=Diese énderung lîscht alle Zeilen dieser Zinsrechnung.\\;ENU=This change will cause the existing lines to be deleted for this finance charge memo.\\';
+      Text003@1003 : TextConst 'DEU=Mîchten Sie fortfahren?;ENU=Do you want to continue?';
+      Text004@1004 : TextConst 'DEU=Es ist nicht genÅgend Platz, um den Text einzufÅgen.;ENU=There is not enough space to insert the text.';
+      Text005@1005 : TextConst 'DEU=Das Lîschen dieses Belegs verursacht eine LÅcke in der Nummernserie fÅr Zinsrechnungen.;ENU=Deleting this document will cause a gap in the number series for finance charge memos.';
+      Text006@1006 : TextConst 'DEU=Die leere Zinsrechnung %1 wird erstellt, um die LÅcke in der Nummernserie auszufÅllen.\\;ENU=An empty finance charge memo %1 will be created to fill this gap in the number series.\\';
       SalesSetup@1007 : Record 311;
       CustPostingGr@1008 : Record 92;
       FinChrgTerms@1009 : Record 5;

@@ -2,16 +2,15 @@ OBJECT Report 1401 Check
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Permissions=TableData 270=m;
-    CaptionML=[ENU=Check;
-               ESP=Cheque;
-               DEA=Scheck];
+    CaptionML=[DEU=Scheck;
+               ENU=Check];
     OnPreReport=BEGIN
                   InitTextVariable;
                 END;
@@ -793,14 +792,13 @@ OBJECT Report 1401 Check
                   ContainerType=ContentArea }
 
       { 1140000;1;Group     ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=BankAccount;
-                  CaptionML=[ENU=Bank Account;
-                             ESP=Banco;
-                             DEA=Bankkonto];
+                  CaptionML=[DEU=Bankkonto;
+                             ENU=Bank Account];
                   SourceExpr=BankAcc2."No.";
                   TableRelation="Bank Account";
                   OnValidate=BEGIN
@@ -810,37 +808,32 @@ OBJECT Report 1401 Check
 
       { 3   ;2   ;Field     ;
                   Name=LastCheckNo;
-                  CaptionML=[ENU=Last Check No.;
-                             ESP=Èlt. nß cheque;
-                             DEA=Letzte Schecknummer];
+                  CaptionML=[DEU=Letzte Schecknummer;
+                             ENU=Last Check No.];
                   SourceExpr=UseCheckNo }
 
       { 11  ;2   ;Field     ;
                   Name=OneCheckPerVendorPerDocumentNo;
-                  CaptionML=[ENU=One Check per Vendor per Document No.;
-                             ESP=Un cheque por proveedor y nß documento;
-                             DEA=Ein Scheck pro Kreditor pro Belegnr.];
+                  CaptionML=[DEU=Ein Scheck pro Kreditor pro Belegnr.;
+                             ENU=One Check per Vendor per Document No.];
                   SourceExpr=OneCheckPrVendor;
                   MultiLine=Yes }
 
       { 5   ;2   ;Field     ;
                   Name=ReprintChecks;
-                  CaptionML=[ENU=Reprint Checks;
-                             ESP=Reimprimir cheques;
-                             DEA=Schecknachdruck];
+                  CaptionML=[DEU=Schecknachdruck;
+                             ENU=Reprint Checks];
                   SourceExpr=ReprintChecks }
 
       { 9   ;2   ;Field     ;
                   Name=TestPrinting;
-                  CaptionML=[ENU=Test Print;
-                             ESP=Test impresi¢n;
-                             DEA=Testdruck];
+                  CaptionML=[DEU=Testdruck;
+                             ENU=Test Print];
                   SourceExpr=TestPrint }
 
       { 13  ;2   ;Field     ;
-                  CaptionML=[ENU=Preprinted Stub;
-                             ESP=Serie preimpresa;
-                             DEA=Vordruck Formular];
+                  CaptionML=[DEU=Vordruck Formular;
+                             ENU=Preprinted Stub];
                   SourceExpr=PreprintedStub }
 
     }
@@ -851,67 +844,67 @@ OBJECT Report 1401 Check
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Preview is not allowed.;ESP=No est† permitida la vista preliminar.;DEA=Seitenansicht ist nicht mîglich.';
-      Text001@1001 : TextConst 'ENU=Last Check No. must be filled in.;ESP=Debe rellenar el £lt. nß cheque.;DEA=Letzte Schecknr. muss ausgefÅllt sein.';
-      Text002@1002 : TextConst 'ENU=Filters on %1 and %2 are not allowed.;ESP=No est†n permitidos filtros en %1 y %2.;DEA=Filter auf %1 und %2 sind nicht erlaubt.';
-      Text003@1003 : TextConst 'ENU=XXXXXXXXXXXXXXXX;ESP=XXXXXXXXXXXXXXXX;DEA=XXXXXXXXXXXXXXXX';
-      Text004@1004 : TextConst 'ENU=must be entered.;ESP=se debe introducir.;DEA=muss eingegeben werden.';
-      Text005@1005 : TextConst 'ENU=The Bank Account and the General Journal Line must have the same currency.;ESP=El banco y la cuenta contable deben tener la misma divisa.;DEA=Das Bankkonto und die Fibu Buch.-Blattzeile mÅssen dieselbe WÑhrung haben.';
-      Text006@1006 : TextConst 'ENU=Salesperson;ESP=Vendedor;DEA=VerkÑufer';
-      Text007@1007 : TextConst 'ENU=Purchaser;ESP=Comprador;DEA=EinkÑufer';
-      Text008@1008 : TextConst 'ENU=Both Bank Accounts must have the same currency.;ESP=Ambos bancos deben tener la misma divisa.;DEA=Beide Bankkonten mÅssen die gleiche WÑhrung haben.';
-      Text009@1009 : TextConst 'ENU=Our Contact;ESP=Ntro. contacto;DEA=Unser Kontakt';
-      Text010@1010 : TextConst 'ENU=XXXXXXXXXX;ESP=XXXXXXXXXX;DEA=XXXXXXXXXX';
-      Text011@1011 : TextConst 'ENU=XXXX;ESP=XXXX;DEA=XXXX';
-      Text012@1012 : TextConst 'ENU=XX.XXXXXXXXXX.XXXX;ESP=XX.XXXXXXXXXX.XXXX;DEA=XX.XXXXXXXXXX.XXXX';
-      Text013@1013 : TextConst 'ENU=%1 already exists.;ESP=Ya existe %1.;DEA=%1 ist schon vorhanden.';
-      Text014@1014 : TextConst 'ENU=Check for %1 %2;ESP=Cheque para %1 %2;DEA=Scheck fÅr %1 %2';
-      Text015@1015 : TextConst 'ENU=Payment;ESP=Pago;DEA=Zahlung';
-      Text016@1016 : TextConst 'ENU=In the Check report, One Check per Vendor and Document No.\must not be activated when Applies-to ID is specified in the journal lines.;ESP=En el informe Cheque, Un cheque por proveedor y nß documento\no se debe activar cuando se ha especificado Liq. por id. en las l°neas de diario.;DEA=Im Scheckbericht darf ''Ein Scheck pro Kreditor pro Belegnr.''\nicht aktiviert werden, wenn in den Buch.-Blattzeilen ''Ausgleichs-ID'' angegeben ist.';
-      Text018@1018 : TextConst 'ENU=XXX;ESP=XXX;DEA=XXX';
-      Text019@1019 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
-      Text020@1020 : TextConst 'ENU=The total amount of check %1 is %2. The amount must be positive.;ESP=El importe del cheque %1 es %2. El importe debe ser positivo.;DEA=Der Gesamtbetrag von Scheck %1 ist %2. Der Betrag muss positiv sein.';
-      Text021@1021 : TextConst 'ENU=VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID;ESP=ANULADO ANULADO ANULADO ANULADO ANULADO ANULADO ANULADO ANULADO ANULADO ANULADO;DEA=ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT';
-      Text022@1022 : TextConst 'ENU=NON-NEGOTIABLE;ESP=NO NEGOCIABLE;DEA=NICHT öBERTRAGBAR';
-      Text023@1023 : TextConst 'ENU=Test print;ESP=Test impresi¢n;DEA=Testdruck';
-      Text024@1024 : TextConst 'ENU=XXXX.XX;ESP=XXXX.XX;DEA=XXXX.XX';
-      Text025@1025 : TextConst 'ENU=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;ESP=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;DEA=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
-      Text026@1026 : TextConst 'ENU=ZERO;ESP=CERO;DEA=NULL';
-      Text027@1027 : TextConst 'ENU=HUNDRED;ESP=CIEN;DEA=HUNDERT';
-      Text028@1028 : TextConst 'ENU=AND;ESP=Y;DEA=UND';
-      Text029@1029 : TextConst 'ENU=%1 results in a written number that is too long.;ESP=El resultado de %1 es un n£mero escrito demasiado largo.;DEA=%1 ist das Ergebnis einer zu langen Nummer.';
-      Text030@1030 : TextConst 'ENU=" is already applied to %1 %2 for customer %3.";ESP=" ya hay sido liquidado por %1 %2 para el cliente %3.";DEA=" Ist bereits ausgeglichen mit %1 %2 fÅr Debitor %3."';
-      Text031@1031 : TextConst 'ENU=" is already applied to %1 %2 for vendor %3.";ESP=" ya se ha liquidado a %1 %2 para el proveedor %3.";DEA=" ist bereits mit %1 %2 fÅr den Kreditor %3 ausgeglichen."';
-      Text032@1032 : TextConst 'ENU=ONE;ESP=UN;DEA=EINS';
-      Text033@1033 : TextConst 'ENU=TWO;ESP=DOS;DEA=ZWEI';
-      Text034@1034 : TextConst 'ENU=THREE;ESP=TRES;DEA=DREI';
-      Text035@1035 : TextConst 'ENU=FOUR;ESP=CUATRO;DEA=VIER';
-      Text036@1036 : TextConst 'ENU=FIVE;ESP=CINCO;DEA=FöNF';
-      Text037@1037 : TextConst 'ENU=SIX;ESP=SEIS;DEA=SECHS';
-      Text038@1038 : TextConst 'ENU=SEVEN;ESP=SIETE;DEA=SIEBEN';
-      Text039@1039 : TextConst 'ENU=EIGHT;ESP=OCHO;DEA=ACHT';
-      Text040@1040 : TextConst 'ENU=NINE;ESP=NUEVE;DEA=NEUN';
-      Text041@1041 : TextConst 'ENU=TEN;ESP=DIEZ;DEA=ZEHN';
-      Text042@1042 : TextConst 'ENU=ELEVEN;ESP=ONCE;DEA=ELF';
-      Text043@1043 : TextConst 'ENU=TWELVE;ESP=DOCE;DEA=ZWôLF';
-      Text044@1044 : TextConst 'ENU=THIRTEEN;ESP=TRECE;DEA=DREIZEHN';
-      Text045@1045 : TextConst 'ENU=FOURTEEN;ESP=CATORCE;DEA=VIERZEHN';
-      Text046@1046 : TextConst 'ENU=FIFTEEN;ESP=QUINCE;DEA=FöNFZEHN';
-      Text047@1047 : TextConst 'ENU=SIXTEEN;ESP=DIECISêIS;DEA=SECHZEHN';
-      Text048@1048 : TextConst 'ENU=SEVENTEEN;ESP=DIECISIETE;DEA=SIEBZEHN';
-      Text049@1049 : TextConst 'ENU=EIGHTEEN;ESP=DIECIOCHO;DEA=ACHTZEHN';
-      Text050@1050 : TextConst 'ENU=NINETEEN;ESP=DIECINUEVE;DEA=NEUNZEHN';
-      Text051@1051 : TextConst 'ENU=TWENTY;ESP=VEINTE;DEA=ZWANZIG';
-      Text052@1052 : TextConst 'ENU=THIRTY;ESP=TREINTA;DEA=DREI·IG';
-      Text053@1053 : TextConst 'ENU=FORTY;ESP=CUARENTA;DEA=VIERZIG';
-      Text054@1054 : TextConst 'ENU=FIFTY;ESP=CINCUENTA;DEA=FöNFZIG';
-      Text055@1055 : TextConst 'ENU=SIXTY;ESP=SESENTA;DEA=SECHZIG';
-      Text056@1056 : TextConst 'ENU=SEVENTY;ESP=SETENTA;DEA=SIEBZIG';
-      Text057@1057 : TextConst 'ENU=EIGHTY;ESP=OCHENTA;DEA=ACHTZIG';
-      Text058@1058 : TextConst 'ENU=NINETY;ESP=NOVENTA;DEA=NEUNZIG';
-      Text059@1059 : TextConst 'ENU=THOUSAND;ESP=MIL;DEA=TAUSEND';
-      Text060@1060 : TextConst 'ENU=MILLION;ESP=MILL‡N;DEA=MILLION';
-      Text061@1061 : TextConst 'ENU=BILLION;ESP=MIL MILLONES;DEA=MILLIARDE';
+      Text000@1000 : TextConst 'DEU=Seitenansicht ist nicht mîglich.;ENU=Preview is not allowed.';
+      Text001@1001 : TextConst 'DEU=Letzte Schecknr. muss ausgefÅllt sein.;ENU=Last Check No. must be filled in.';
+      Text002@1002 : TextConst 'DEU=Filter auf %1 und %2 sind nicht erlaubt.;ENU=Filters on %1 and %2 are not allowed.';
+      Text003@1003 : TextConst 'DEU=XXXXXXXXXXXXXXXX;ENU=XXXXXXXXXXXXXXXX';
+      Text004@1004 : TextConst 'DEU=muss eingegeben werden.;ENU=must be entered.';
+      Text005@1005 : TextConst 'DEU=Das Bankkonto und die Fibu Buch.-Blattzeile mÅssen dieselbe WÑhrung haben.;ENU=The Bank Account and the General Journal Line must have the same currency.';
+      Text006@1006 : TextConst 'DEU=VerkÑufer;ENU=Salesperson';
+      Text007@1007 : TextConst 'DEU=EinkÑufer;ENU=Purchaser';
+      Text008@1008 : TextConst 'DEU=Beide Bankkonten mÅssen die gleiche WÑhrung haben.;ENU=Both Bank Accounts must have the same currency.';
+      Text009@1009 : TextConst 'DEU=Unser Kontakt;ENU=Our Contact';
+      Text010@1010 : TextConst 'DEU=XXXXXXXXXX;ENU=XXXXXXXXXX';
+      Text011@1011 : TextConst 'DEU=XXXX;ENU=XXXX';
+      Text012@1012 : TextConst 'DEU=XX.XXXXXXXXXX.XXXX;ENU=XX.XXXXXXXXXX.XXXX';
+      Text013@1013 : TextConst 'DEU=%1 ist schon vorhanden.;ENU=%1 already exists.';
+      Text014@1014 : TextConst 'DEU=Scheck fÅr %1 %2;ENU=Check for %1 %2';
+      Text015@1015 : TextConst 'DEU=Zahlung;ENU=Payment';
+      Text016@1016 : TextConst 'DEU=Im Scheckbericht darf ''Ein Scheck pro Kreditor pro Belegnr.''\nicht aktiviert werden, wenn in den Buch.-Blattzeilen ''Ausgleichs-ID'' angegeben ist.;ENU=In the Check report, One Check per Vendor and Document No.\must not be activated when Applies-to ID is specified in the journal lines.';
+      Text018@1018 : TextConst 'DEU=XXX;ENU=XXX';
+      Text019@1019 : TextConst 'DEU=Gesamt;ENU=Total';
+      Text020@1020 : TextConst 'DEU=Der Gesamtbetrag von Scheck %1 ist %2. Der Betrag muss positiv sein.;ENU=The total amount of check %1 is %2. The amount must be positive.';
+      Text021@1021 : TextConst 'DEU=ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT ANNULLIERT;ENU=VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID VOID';
+      Text022@1022 : TextConst 'DEU=NICHT öBERTRAGBAR;ENU=NON-NEGOTIABLE';
+      Text023@1023 : TextConst 'DEU=Testdruck;ENU=Test print';
+      Text024@1024 : TextConst 'DEU=XXXX.XX;ENU=XXXX.XX';
+      Text025@1025 : TextConst 'DEU=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX;ENU=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX';
+      Text026@1026 : TextConst 'DEU=NULL;ENU=ZERO';
+      Text027@1027 : TextConst 'DEU=HUNDERT;ENU=HUNDRED';
+      Text028@1028 : TextConst 'DEU=UND;ENU=AND';
+      Text029@1029 : TextConst 'DEU=%1 ist das Ergebnis einer zu langen Nummer.;ENU=%1 results in a written number that is too long.';
+      Text030@1030 : TextConst 'DEU=" Ist bereits ausgeglichen mit %1 %2 fÅr Debitor %3.";ENU=" is already applied to %1 %2 for customer %3."';
+      Text031@1031 : TextConst 'DEU=" ist bereits mit %1 %2 fÅr den Kreditor %3 ausgeglichen.";ENU=" is already applied to %1 %2 for vendor %3."';
+      Text032@1032 : TextConst 'DEU=EINS;ENU=ONE';
+      Text033@1033 : TextConst 'DEU=ZWEI;ENU=TWO';
+      Text034@1034 : TextConst 'DEU=DREI;ENU=THREE';
+      Text035@1035 : TextConst 'DEU=VIER;ENU=FOUR';
+      Text036@1036 : TextConst 'DEU=FöNF;ENU=FIVE';
+      Text037@1037 : TextConst 'DEU=SECHS;ENU=SIX';
+      Text038@1038 : TextConst 'DEU=SIEBEN;ENU=SEVEN';
+      Text039@1039 : TextConst 'DEU=ACHT;ENU=EIGHT';
+      Text040@1040 : TextConst 'DEU=NEUN;ENU=NINE';
+      Text041@1041 : TextConst 'DEU=ZEHN;ENU=TEN';
+      Text042@1042 : TextConst 'DEU=ELF;ENU=ELEVEN';
+      Text043@1043 : TextConst 'DEU=ZWôLF;ENU=TWELVE';
+      Text044@1044 : TextConst 'DEU=DREIZEHN;ENU=THIRTEEN';
+      Text045@1045 : TextConst 'DEU=VIERZEHN;ENU=FOURTEEN';
+      Text046@1046 : TextConst 'DEU=FöNFZEHN;ENU=FIFTEEN';
+      Text047@1047 : TextConst 'DEU=SECHZEHN;ENU=SIXTEEN';
+      Text048@1048 : TextConst 'DEU=SIEBZEHN;ENU=SEVENTEEN';
+      Text049@1049 : TextConst 'DEU=ACHTZEHN;ENU=EIGHTEEN';
+      Text050@1050 : TextConst 'DEU=NEUNZEHN;ENU=NINETEEN';
+      Text051@1051 : TextConst 'DEU=ZWANZIG;ENU=TWENTY';
+      Text052@1052 : TextConst 'DEU=DREI·IG;ENU=THIRTY';
+      Text053@1053 : TextConst 'DEU=VIERZIG;ENU=FORTY';
+      Text054@1054 : TextConst 'DEU=FöNFZIG;ENU=FIFTY';
+      Text055@1055 : TextConst 'DEU=SECHZIG;ENU=SIXTY';
+      Text056@1056 : TextConst 'DEU=SIEBZIG;ENU=SEVENTY';
+      Text057@1057 : TextConst 'DEU=ACHTZIG;ENU=EIGHTY';
+      Text058@1058 : TextConst 'DEU=NEUNZIG;ENU=NINETY';
+      Text059@1059 : TextConst 'DEU=TAUSEND;ENU=THOUSAND';
+      Text060@1060 : TextConst 'DEU=MILLION;ENU=MILLION';
+      Text061@1061 : TextConst 'DEU=MILLIARDE;ENU=BILLION';
       CompanyInfo@1062 : Record 79;
       SalesPurchPerson@1063 : Record 13;
       GenJnlLine2@1064 : Record 81;
@@ -962,24 +955,24 @@ OBJECT Report 1401 Check
       TotalText@1108 : Text[10];
       DocDate@1109 : Date;
       i@1110 : Integer;
-      Text062@1111 : TextConst 'ENU=G/L Account,Customer,Vendor,Bank Account;ESP=Cuenta,Cliente,Proveedor,Banco;DEA=Sachkonto,Debitor,Kreditor,Bankkonto';
+      Text062@1111 : TextConst 'DEU=Sachkonto,Debitor,Kreditor,Bankkonto;ENU=G/L Account,Customer,Vendor,Bank Account';
       CurrencyCode2@1112 : Code[10];
       NetAmount@1114 : Text[30];
       CurrencyExchangeRate@1115 : Record 330;
       LineAmount2@1116 : Decimal;
-      Text063@1117 : TextConst 'ENU=Net Amount %1;ESP=Importe neto %1;DEA=Nettobetrag %1';
+      Text063@1117 : TextConst 'DEU=Nettobetrag %1;ENU=Net Amount %1';
       GLSetup@1118 : Record 98;
-      Text064@1113 : TextConst 'ENU=%1 must not be %2 for %3 %4.;ESP=%1 no debe ser %2 para %3 %4.;DEA=FÅr %3 %4 darf %1 nicht %2 sein.';
-      Text065@1120 : TextConst 'ENU=Subtotal;ESP=Subtotal;DEA=Zw.summe';
-      CheckNoTextCaptionLbl@6359 : TextConst 'ENU=Check No.;ESP=Nß cheque;DEA=Schecknummer';
-      LineAmountCaptionLbl@5261 : TextConst 'ENU=Net Amount;ESP=Importe neto;DEA=Nettobetrag';
-      LineDiscountCaptionLbl@3244 : TextConst 'ENU=Discount;ESP=Descuento;DEA=Rabatt';
-      AmountCaptionLbl@7794 : TextConst 'ENU=Amount;ESP=Importe;DEA=Betrag';
-      DocNoCaptionLbl@2117 : TextConst 'ENU=Document No.;ESP=Nß documento;DEA=Belegnr.';
-      DocDateCaptionLbl@6175 : TextConst 'ENU=Document Date;ESP=Fecha emisi¢n documento;DEA=Belegdatum';
-      CurrencyCodeCaptionLbl@2455 : TextConst 'ENU=Currency Code;ESP=C¢d. divisa;DEA=WÑhrungscode';
-      YourDocNoCaptionLbl@4226 : TextConst 'ENU=Your Doc. No.;ESP=Su n.ß documento;DEA=Ihre Belegnr.';
-      TransportCaptionLbl@2440 : TextConst 'ENU=Transport;ESP=Transporte;DEA=Transport';
+      Text064@1113 : TextConst 'DEU=FÅr %3 %4 darf %1 nicht %2 sein.;ENU=%1 must not be %2 for %3 %4.';
+      Text065@1120 : TextConst 'DEU=Zw.summe;ENU=Subtotal';
+      CheckNoTextCaptionLbl@6359 : TextConst 'DEU=Schecknummer;ENU=Check No.';
+      LineAmountCaptionLbl@5261 : TextConst 'DEU=Nettobetrag;ENU=Net Amount';
+      LineDiscountCaptionLbl@3244 : TextConst 'DEU=Rabatt;ENU=Discount';
+      AmountCaptionLbl@7794 : TextConst 'DEU=Betrag;ENU=Amount';
+      DocNoCaptionLbl@2117 : TextConst 'DEU=Belegnr.;ENU=Document No.';
+      DocDateCaptionLbl@6175 : TextConst 'DEU=Belegdatum;ENU=Document Date';
+      CurrencyCodeCaptionLbl@2455 : TextConst 'DEU=WÑhrungscode;ENU=Currency Code';
+      YourDocNoCaptionLbl@4226 : TextConst 'DEU=Ihre Belegnr.;ENU=Your Doc. No.';
+      TransportCaptionLbl@2440 : TextConst 'DEU=Transport;ENU=Transport';
 
     PROCEDURE FormatNoText@1(VAR NoText@1000 : ARRAY [2] OF Text[80];No@1001 : Decimal;CurrencyCode@1002 : Code[10]);
     VAR

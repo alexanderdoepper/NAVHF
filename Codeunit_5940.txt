@@ -2,9 +2,9 @@ OBJECT Codeunit 5940 ServContractManagement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -21,12 +21,12 @@ OBJECT Codeunit 5940 ServContractManagement
   CODE
   {
     VAR
-      Text000@1015 : TextConst 'ENU=%1 cannot be created for service contract  %2, because %3 and %4 are not equal.;ESP=%1 no se puede crear para contrato serv.  %2, porque %3 y %4 no son iguales.;DEA=FÅr den Servicevertrag %2 kînnen keine %1 erstellt werden, da sich die Werte in den Feldern %3 und %4 nicht entsprechen.';
-      Text002@1016 : TextConst 'ENU=Service Contract: %1;ESP=Contrato servicio: %1;DEA=Servicevertrag: %1';
-      Text003@1018 : TextConst 'ENU=Service contract line(s) included in:;ESP=Se ha/n incluido l°nea/s contrato servicio en:;DEA=Servicevertragszeile(n) enthalten in:';
-      Text004@1019 : TextConst 'ENU=A credit memo cannot be created, because the %1 %2 is after the work date.;ESP=No puede crear un abono, porque el %1 %2 es posterior a la fecha de trabajo.;DEA=Es kann keine Gutschrift erstellt werden, da das %1 %2 nach dem Arbeitsdatum liegt.';
-      Text005@1020 : TextConst 'ENU=%1 %2 removed;ESP=Eliminado %1 %2;DEA=%1 %2 entfernt';
-      Text006@1021 : TextConst 'ENU=Do you want to create a service invoice for the period %1 .. %2 ?;ESP=®Desea crear una factura de servicio para el periodo %1 .. %2?;DEA=Mîchten Sie fÅr das Intervall %1 .. %2 eine Servicerechnung erstellen?';
+      Text000@1015 : TextConst 'DEU=FÅr den Servicevertrag %2 kînnen keine %1 erstellt werden, da sich die Werte in den Feldern %3 und %4 nicht entsprechen.;ENU=%1 cannot be created for service contract  %2, because %3 and %4 are not equal.';
+      Text002@1016 : TextConst 'DEU=Servicevertrag: %1;ENU=Service Contract: %1';
+      Text003@1018 : TextConst 'DEU=Servicevertragszeile(n) enthalten in:;ENU=Service contract line(s) included in:';
+      Text004@1019 : TextConst 'DEU=Es kann keine Gutschrift erstellt werden, da das %1 %2 nach dem Arbeitsdatum liegt.;ENU=A credit memo cannot be created, because the %1 %2 is after the work date.';
+      Text005@1020 : TextConst 'DEU=%1 %2 entfernt;ENU=%1 %2 removed';
+      Text006@1021 : TextConst 'DEU=Mîchten Sie fÅr das Intervall %1 .. %2 eine Servicerechnung erstellen?;ENU=Do you want to create a service invoice for the period %1 .. %2 ?';
       GlAcc@1003 : Record 15;
       ServMgtSetup@1022 : Record 5911;
       ServLedgEntry@1029 : Record 5907;
@@ -43,22 +43,22 @@ OBJECT Codeunit 5940 ServContractManagement
       ServLineNo@1055 : Integer;
       NextEntry@1056 : Integer;
       AppliedEntry@1062 : Integer;
-      Text007@1064 : TextConst 'ENU=Invoice cannot be created because amount to invoice for this invoice period is zero.;ESP=No se puede crear la factura porque el importe a facturar para este periodo factura es cero.;DEA=Die Rechnung kann nicht erstellt werden, da der zu fakturierende Betrag fÅr dieses Fakturierungsintervall Null ist.';
-      Text008@1068 : TextConst 'ENU=The combination of dimensions used in %1 %2 is blocked. %3;ESP=La combinaci¢n de dimensiones utilizada en %1 %2 est† bloqueada. %3;DEA=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3';
-      Text009@1066 : TextConst 'ENU=The dimensions used in %1 %2 are invalid. %3;ESP=Las dimensiones usadas en %1 %2 no son v†lidas. %3;DEA=Die Dimensionen, die in %1 %2 verwendet werden, sind ungÅltig. %3';
+      Text007@1064 : TextConst 'DEU=Die Rechnung kann nicht erstellt werden, da der zu fakturierende Betrag fÅr dieses Fakturierungsintervall Null ist.;ENU=Invoice cannot be created because amount to invoice for this invoice period is zero.';
+      Text008@1068 : TextConst 'DEU=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3;ENU=The combination of dimensions used in %1 %2 is blocked. %3';
+      Text009@1066 : TextConst 'DEU=Die Dimensionen, die in %1 %2 verwendet werden, sind ungÅltig. %3;ENU=The dimensions used in %1 %2 are invalid. %3';
       InvoicingStartingPeriod@1002 : Boolean;
-      Text010@1006 : TextConst 'ENU=You cannot create an invoice for contract %1 before the service under this contract is completed because the %2 check box is selected.;ESP=No puede crear una factura para el contrato %1 antes de que se haya completado el servicio de este contrato porque la casilla de %2 est† activada.;DEA=Sie kînnen vor Abschluss des Services im Rahmen des Vertrags %1  keine Vertragsrechnung erstellen, da das KontrollkÑstchen %2 aktiviert wurde.';
-      Text012@1070 : TextConst 'ENU=You must fill in the New Customer No. field.;ESP=Debe rellenar el campo Nß cliente nuevo.;DEA=Sie mÅssen das Feld Neue Debitorennr. ausfÅllen.';
-      Text013@1007 : TextConst 'ENU=%1 cannot be created because the %2 is too long. Please shorten the %3 %4 %5 by removing %6 character(s).;ESP=%1 no se puede crear porque %2 es demasiado largo. Acorte %3 %4 %5 eliminando %6 caracteres.;DEA=%1 kann nicht erstellt werden, weil %2 zu lang ist. KÅrzen Sie %3 %4 %5, indem Sie %6 Zeichen entfernen.';
+      Text010@1006 : TextConst 'DEU=Sie kînnen vor Abschluss des Services im Rahmen des Vertrags %1  keine Vertragsrechnung erstellen, da das KontrollkÑstchen %2 aktiviert wurde.;ENU=You cannot create an invoice for contract %1 before the service under this contract is completed because the %2 check box is selected.';
+      Text012@1070 : TextConst 'DEU=Sie mÅssen das Feld Neue Debitorennr. ausfÅllen.;ENU=You must fill in the New Customer No. field.';
+      Text013@1007 : TextConst 'DEU=%1 kann nicht erstellt werden, weil %2 zu lang ist. KÅrzen Sie %3 %4 %5, indem Sie %6 Zeichen entfernen.;ENU=%1 cannot be created because the %2 is too long. Please shorten the %3 %4 %5 by removing %6 character(s).';
       TempServLineDescription@1008 : Text[250];
-      Text014@1009 : TextConst 'ENU=A %1 cannot be created because %2 %3 has at least one unposted %4 linked to it.;ESP=No se puede crear un %1 porque %2 %3 tiene al menos un %4 no registrado vinculado.;DEA=Es kann kein(e) %1 erstellt werden, weil mit %2 %3 mindestens ein(e) nicht gebuchte(r) %4 verknÅpft ist.';
-      Text015@1005 : TextConst '@@@=Location Code SILVER for the existing Service Credit Memo 1001 for Service Contract 1002 differs from the newly calculated Location Code BLUE. Do you want to use the existing Location Code?;ENU=%1 %2 for the existing %3 %4 for %5 %6 differs from the newly calculated %1 %7. Do you want to use the existing %1?;ESP=%1 %2 para el %3 %4 existente para el %5 %6 es diferente del %1 %7 calculado. ®Desea utilizar el %1 existente?;DEA=''%1 %2'' fÅr das vorhandene Element vom Typ ''%3 %4'' fÅr ''%5 %6'' entspricht nicht dem neu berechneten Wert fÅr ''%1 %7''. Mîchten Sie das vorhandene Element vom Typ ''%1'' verwenden?';
+      Text014@1009 : TextConst 'DEU=Es kann kein(e) %1 erstellt werden, weil mit %2 %3 mindestens ein(e) nicht gebuchte(r) %4 verknÅpft ist.;ENU=A %1 cannot be created because %2 %3 has at least one unposted %4 linked to it.';
+      Text015@1005 : TextConst '@@@=Location Code SILVER for the existing Service Credit Memo 1001 for Service Contract 1002 differs from the newly calculated Location Code BLUE. Do you want to use the existing Location Code?;DEU=''%1 %2'' fÅr das vorhandene Element vom Typ ''%3 %4'' fÅr ''%5 %6'' entspricht nicht dem neu berechneten Wert fÅr ''%1 %7''. Mîchten Sie das vorhandene Element vom Typ ''%1'' verwenden?;ENU=%1 %2 for the existing %3 %4 for %5 %6 differs from the newly calculated %1 %7. Do you want to use the existing %1?';
       AppliedGLAccount@1001 : Code[20];
       CheckMParts@1050 : Boolean;
-      CombinedCurrenciesErr1@1010 : TextConst 'ENU=Customer %1 has service contracts with different currency codes %2 and %3, which cannot be combined on one invoice.;DEA=Debitor %1 verfÅgt Åber ServicevertrÑge mit den unterschiedlichen WÑhrungscodes %2 und %3, die nicht in einer Rechnung kombiniert werden kînnen.';
-      CombinedCurrenciesErr2@1012 : TextConst 'ENU=Limit the Create Contract Invoices batch job to certain currency codes or unselect the Combine Invoices field on the involved service contracts;DEA=BeschrÑnken Sie den Stapelverarbeitungsauftrag ''Rechnungen fÅr VertrÑge erstellen'' auf bestimmte WÑhrungscodes, oder heben Sie die Auswahl des Felds ''Rechnungen zusammenfassen'' fÅr die betroffenen ServicevertrÑge auf.';
-      BlankTxt@1011 : TextConst 'ENU=<blank>;DEA=<leer>';
-      ErrorSplitErr@1013 : TextConst 'ENU=%1\\%2.;DEA=%1\\%2.';
+      CombinedCurrenciesErr1@1010 : TextConst 'DEU=Customer %1 has service contracts with different currency codes %2 and %3, which cannot be combined on one invoice.;ENU=Customer %1 has service contracts with different currency codes %2 and %3, which cannot be combined on one invoice.';
+      CombinedCurrenciesErr2@1012 : TextConst 'DEU=Limit the Create Contract Invoices batch job to certain currency codes or unselect the Combine Invoices field on the involved service contracts;ENU=Limit the Create Contract Invoices batch job to certain currency codes or unselect the Combine Invoices field on the involved service contracts';
+      BlankTxt@1011 : TextConst 'DEU=<blank>;ENU=<blank>';
+      ErrorSplitErr@1013 : TextConst 'DEU=%1\\%2.;ENU=%1\\%2.';
 
     PROCEDURE CreateInvoice@3(ServContractToInvoice@1001 : Record 5965) InvNo@1000 : Code[20];
     VAR

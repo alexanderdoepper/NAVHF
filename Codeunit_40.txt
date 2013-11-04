@@ -2,9 +2,9 @@ OBJECT Codeunit 40 LogInManagement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -17,11 +17,11 @@ OBJECT Codeunit 40 LogInManagement
   CODE
   {
     VAR
-      Text000@1002 : TextConst '@@@="{Locked} ";ENU=CRONUS;ESP=CRONUS;DEA=CRONUS';
-      Text019@1001 : TextConst 'ENU=End User License Agreement has not been accepted.;ESP=No se ha aceptado el contrato de licencia para el usuario final.;DEA=Der Endbenutzer-Lizenzvertrag (EULA) wurde nicht akzeptiert.';
-      Text020@1000 : TextConst 'ENU=The Go Live date is %1.;ESP=La fecha de publicaci｢n es %1.;DEA=Aktivierungsdatum: %1.';
-      Text021@1010 : TextConst 'ENU=This is the demonstration company %1\\You can try out program features on the data in the demonstration company before you use the features with your real data.\The work date has been set to %2.;ESP=Esta es la empresa de demostraci｢n %1\\Puede probar caracter｡sticas del programa en los datos de la empresa de demostraci｢n antes de usar las caracter｡sticas con los datos reales.\La fecha de trabajo se estableci｢ en %2.;DEA=Dies ist der Demomandant %1.\\Sie k馬nen Programmfeatures anhand der Daten des Demomandanten ausprobieren, bevor Sie sie mit Ihren echten Daten verwenden.\Das Arbeitsdatum wurde auf %2 festgelegt.';
-      Text022@1007 : TextConst 'ENU=You must change password before you can continue.;ESP=Debe cambiar la contrase､a antes de poder continuar.;DEA=Sie m《sen das Kennwort �ndern, um fortfahren zu k馬nen.';
+      Text000@1002 : TextConst '@@@="{Locked} ";DEU=CRONUS;ENU=CRONUS';
+      Text019@1001 : TextConst 'DEU=Der Endbenutzer-Lizenzvertrag (EULA) wurde nicht akzeptiert.;ENU=End User License Agreement has not been accepted.';
+      Text020@1000 : TextConst 'DEU=Aktivierungsdatum: %1.;ENU=The Go Live date is %1.';
+      Text021@1010 : TextConst 'DEU=Dies ist der Demomandant %1.\\Sie k馬nen Programmfeatures anhand der Daten des Demomandanten ausprobieren, bevor Sie sie mit Ihren echten Daten verwenden.\Das Arbeitsdatum wurde auf %2 festgelegt.;ENU=This is the demonstration company %1\\You can try out program features on the data in the demonstration company before you use the features with your real data.\The work date has been set to %2.';
+      Text022@1007 : TextConst 'DEU=Sie m《sen das Kennwort �ndern, um fortfahren zu k馬nen.;ENU=You must change password before you can continue.';
       GLSetup@1011 : Record 98;
       User@1003 : Record 2000000120 SECURITYFILTERING(Filtered);
       LogInWorkDate@1006 : Date;

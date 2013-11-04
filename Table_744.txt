@@ -2,9 +2,9 @@ OBJECT Table 744 VAT Report Line Relation
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587,NAVDE7.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,33 +18,25 @@ OBJECT Table 744 VAT Report Line Relation
                  TESTFIELD("Table No.",VATReportLineRelation."Table No.");
              END;
 
-    CaptionML=[ENU=VAT Report Line Relation;
-               ESP=Relaci¢n l¡nea informe IVA;
-               DEA=MwSt.-Berichtszeile - Beziehung];
+    CaptionML=[DEU=MwSt.-Berichtszeile - Beziehung;
+               ENU=VAT Report Line Relation];
   }
   FIELDS
   {
     { 1   ;   ;VAT Report No.      ;Code20        ;TableRelation="VAT Report Header".No.;
-                                                   CaptionML=[ENU=VAT Report No.;
-                                                              ESP=N.§ informe IVA;
-                                                              DEA=MwSt.-Berichtsnr.] }
+                                                   CaptionML=[DEU=MwSt.-Berichtsnr.;
+                                                              ENU=VAT Report No.] }
     { 2   ;   ;VAT Report Line No. ;Integer       ;TableRelation="VAT Report Line"."Line No.";
-                                                   CaptionML=[ENU=VAT Report Line No.;
-                                                              ESP=N.§ l¡nea informe IVA;
-                                                              DEA=MwSt.-Berichtszeilennr.] }
-    { 3   ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              ESP=N§ l¡nea;
-                                                              DEA=Zeilennr.] }
-    { 10  ;   ;Table No.           ;Integer       ;CaptionML=[ENU=Table No.;
-                                                              ESP=N§ tabla;
-                                                              DEA=Tabellennr.] }
-    { 11  ;   ;Entry No.           ;Integer       ;CaptionML=[ENU=Entry No.;
-                                                              ESP=N§ mov.;
-                                                              DEA=Lfd. Nr.] }
+                                                   CaptionML=[DEU=MwSt.-Berichtszeilennr.;
+                                                              ENU=VAT Report Line No.] }
+    { 10  ;   ;Table No.           ;Integer       ;CaptionML=[DEU=Tabellennr.;
+                                                              ENU=Table No.] }
+    { 11  ;   ;Entry No.           ;Integer       ;CaptionML=[DEU=Lfd. Nr.;
+                                                              ENU=Entry No.] }
   }
   KEYS
   {
-    {    ;VAT Report No.,VAT Report Line No.,Line No.;
+    {    ;VAT Report No.,VAT Report Line No.,Table No.,Entry No.;
                                                    Clustered=Yes }
   }
   FIELDGROUPS

@@ -2,9 +2,9 @@ OBJECT Codeunit 448 Job Queue Dispatcher
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -27,6 +27,7 @@ OBJECT Codeunit 448 Job Queue Dispatcher
               EXIT;
             END;
 
+            AdjustJobQueueEntries;
             JobQueue.UpdateHeartbeat;
             COMMIT;
 
@@ -45,9 +46,9 @@ OBJECT Codeunit 448 Job Queue Dispatcher
   {
     VAR
       JobQueue@1000 : Record 470;
-      Text001@1001 : TextConst 'ENU=The job has been canceled.;ESP=El proyecto se ha cancelado.;DEA=Das Projekt wurde storniert.';
-      Text002@1002 : TextConst 'ENU=The user process has terminated unexpectedly. Check the Windows Event Viewer for more information.;ESP=El proceso del usuario se ha interrumpido de manera inesperada. Consulte el Visor de eventos de Windows para obtener m s informaci¢n.;DEA=Der Benutzerprozess wurde unerwartet beendet. Weitere Informationen finden Sie in der Windows-Ereignisanzeige.';
-      Text003@1003 : TextConst 'ENU=The job has timed out.;ESP=El tiempo de espera del proyecto caduc¢.;DEA=Timeout fr Projekt.';
+      Text001@1001 : TextConst 'DEU=Das Projekt wurde storniert.;ENU=The job has been canceled.';
+      Text002@1002 : TextConst 'DEU=Der Benutzerprozess wurde unerwartet beendet. Weitere Informationen finden Sie in der Windows-Ereignisanzeige.;ENU=The user process has terminated unexpectedly. Check the Windows Event Viewer for more information.';
+      Text003@1003 : TextConst 'DEU=Timeout fr Projekt.;ENU=The job has timed out.';
 
     LOCAL PROCEDURE JobQueueLoop@10();
     BEGIN
@@ -289,6 +290,23 @@ OBJECT Codeunit 448 Job Queue Dispatcher
       ActiveSession.SETRANGE("Session ID",JobQueueEntry."User Session ID");
       ActiveSession.SETRANGE("Client Type",ActiveSession."Client Type"::Background);
       EXIT(NOT ActiveSession.ISEMPTY);
+    END;
+
+    PROCEDURE AdjustJobQueueEntries@3();
+    VAR
+      JobQueueEntry@1000 : Record 472;
+    BEGIN
+      WITH JobQueueEntry DO BEGIN
+        SETFILTER("Expiration Date/Time",'>%1|%2',CURRENTDATETIME,CREATEDATETIME(0D,0T));
+        SETFILTER("Earliest Start Date/Time",'<=%1',CURRENTDATETIME);
+        SETFILTER("Ending Time",'<%1',DT2TIME(CURRENTDATETIME));
+        SETFILTER("Recurring Job",'=%1',TRUE);
+        IF FINDSET(TRUE) THEN
+          REPEAT
+            "Earliest Start Date/Time" := CalcNextRunTimeForRecurringJob(JobQueueEntry,CURRENTDATETIME);
+            MODIFY;
+          UNTIL NEXT = 0;
+      END;
     END;
 
     BEGIN

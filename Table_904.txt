@@ -2,58 +2,47 @@ OBJECT Table 904 Assemble-to-Order Link
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Assemble-to-Order Link;
-               ESP=V°nculo ensamblar para pedido;
-               DEA=Programmfertigungslink];
+    CaptionML=[DEU=Programmfertigungslink;
+               ENU=Assemble-to-Order Link];
   }
   FIELDS
   {
-    { 1   ;   ;Assembly Document Type;Option      ;CaptionML=[ENU=Assembly Document Type;
-                                                              ESP=Tipo documento de ensamblado;
-                                                              DEA=Montagedokumentart];
-                                                   OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ESP=Oferta,Pedido,Factura,Abono,Pedido abierto,Devoluci¢n;
-                                                                    DEA=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation];
+    { 1   ;   ;Assembly Document Type;Option      ;CaptionML=[DEU=Montagedokumentart;
+                                                              ENU=Assembly Document Type];
+                                                   OptionCaptionML=[DEU=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation;
+                                                                    ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
                                                    OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
     { 2   ;   ;Assembly Document No.;Code20       ;TableRelation="Assembly Header" WHERE (Document Type=FIELD(Assembly Document Type),
                                                                                           No.=FIELD(Assembly Document No.));
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Assembly Document No.;
-                                                              ESP=Nß documento de ensamblado;
-                                                              DEA=Montagedokumentnr.] }
-    { 11  ;   ;Type                ;Option        ;CaptionML=[ENU=Type;
-                                                              ESP=Tipo;
-                                                              DEA=Art];
-                                                   OptionCaptionML=[ENU=" ,Sale";
-                                                                    ESP=" ,Venta";
-                                                                    DEA=" ,Verkauf"];
+                                                   CaptionML=[DEU=Montagedokumentnr.;
+                                                              ENU=Assembly Document No.] }
+    { 11  ;   ;Type                ;Option        ;CaptionML=[DEU=Art;
+                                                              ENU=Type];
+                                                   OptionCaptionML=[DEU=" ,Verkauf";
+                                                                    ENU=" ,Sale"];
                                                    OptionString=[ ,Sale] }
-    { 12  ;   ;Document Type       ;Option        ;CaptionML=[ENU=Document Type;
-                                                              ESP=Tipo documento;
-                                                              DEA=Belegart];
-                                                   OptionCaptionML=[ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order;
-                                                                    ESP=Oferta,Pedido,Factura,Abono,Pedido abierto,Devoluci¢n;
-                                                                    DEA=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation];
+    { 12  ;   ;Document Type       ;Option        ;CaptionML=[DEU=Belegart;
+                                                              ENU=Document Type];
+                                                   OptionCaptionML=[DEU=Angebot,Auftrag,Rechnung,Gutschrift,Rahmenauftrag,Reklamation;
+                                                                    ENU=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order];
                                                    OptionString=Quote,Order,Invoice,Credit Memo,Blanket Order,Return Order }
     { 13  ;   ;Document No.        ;Code20        ;TableRelation=IF (Type=CONST(Sale)) "Sales Line" WHERE (Document Type=FIELD(Document Type),
                                                                                                            Document No.=FIELD(Document No.),
                                                                                                            Line No.=FIELD(Document Line No.));
-                                                   CaptionML=[ENU=Document No.;
-                                                              ESP=Nß documento;
-                                                              DEA=Belegnr.] }
-    { 14  ;   ;Document Line No.   ;Integer       ;CaptionML=[ENU=Document Line No.;
-                                                              ESP=Nß l°n. documento;
-                                                              DEA=Belegzeilennr.] }
-    { 20  ;   ;Assembled Quantity  ;Decimal       ;CaptionML=[ENU=Assembled Quantity;
-                                                              ESP=Cantidad ensamblada;
-                                                              DEA=Zusammengesetzte Menge];
+                                                   CaptionML=[DEU=Belegnr.;
+                                                              ENU=Document No.] }
+    { 14  ;   ;Document Line No.   ;Integer       ;CaptionML=[DEU=Belegzeilennr.;
+                                                              ENU=Document Line No.] }
+    { 20  ;   ;Assembled Quantity  ;Decimal       ;CaptionML=[DEU=Zusammengesetzte Menge;
+                                                              ENU=Assembled Quantity];
                                                    DecimalPlaces=0:5 }
   }
   KEYS
@@ -69,15 +58,15 @@ OBJECT Table 904 Assemble-to-Order Link
   {
     VAR
       AsmHeader@1000 : Record 900;
-      Text000@1001 : TextConst '@@@="%1 = Table caption of SalesLine or WhseShptLine or InvtPickLine, %2 = Key text of SalesLine or WhseShptLine or InvtPickLine, %3 = Table caption of Assembly header, %4 = Key text of assembly header";ENU=Synchronizing...\  from: %1 with %2\  to: %3 with %4.;ESP=Sincronizando...\  desde: %1 con %2\  hasta: %3 con %4.;DEA=Synchronisieren...\  Quelle: %1 mit %2\ Ziel: %3 mit %4.';
-      Text001@1002 : TextConst 'ENU=Do you want to roll up the price from the assembly components?;ESP=®Desea distribuir el precio de los componentes del ensamblado?;DEA=Mîchten Sie den Preis auf der Grundlage der Montagekomponenten berechnen?';
-      Text002@1003 : TextConst 'ENU=Do you want to roll up the cost from the assembly components?;ESP=®Desea distribuir el coste de los componentes del ensamblado?;DEA=Mîchten Sie die Kosten auf der Grundlage der Montagekomponenten berechnen?';
-      Text003@1004 : TextConst '@@@="%1 = Document Type, %2 = No.";ENU=The item tracking defined on Assembly Header with Document Type %1, No. %2 exceeds %3 on Sales Line with Document Type %4, Document No. %5, Line No. %6.\\ You must adjust the existing item tracking before you can reenter the new quantity.;ESP=El seguimiento de productos definido en la cabecera de ensamblado con el tipo de documento %1, Nß %2 excede %3 en la l°nea de ventas con el tipo de documento %4, Nß documento %5, Nß l°nea %6.\\ Debe ajustar el seguim. prod. actual antes de volver a introducir la nueva cantidad.;DEA="Die im Montagekopf mit der Belegart ''%1'' (Nr. %2) definierte Artikelverfolgung ist grî·er als ''%3'' in der Verkaufszeile mit der Belegart ''%4'' (Belegnr. %5; Zeilennr. %6).\\ Passen Sie die vorhandene Artikelverfolgung an, um die neue Menge eingeben zu kînnen."';
-      Text004@1005 : TextConst 'ENU=%1 cannot be lower than %2 or higher than %3.\These limits may be defined by constraints calculated from the %4 field on the related %5. Refer to the field help for more information.;ESP=%1 no puede ser inferior a %2 ni superior a %3.\Estos l°mites pueden definirse por restricciones calculadas a partir del campo %4 del %5 relacionado. Consulte la ayuda del campo para obtener m†s informaci¢n.;DEA=''%1'' muss zwischen %2 und %3 liegen.\Diese Grenzwerte kînnen durch EinschrÑnkungen definiert werden, die auf der Grundlage des Felds ''%4'' im zugehîrigen Element vom Typ ''%5'' berechnet werden. Weitere Informationen finden Sie in der Hilfe zum Feld.';
-      Text005@1006 : TextConst 'ENU=One or more %1 lines exist for the %2.;ESP=Existen una o m†s l°neas %1 para %2.;DEA=FÅr ''%2'' ist mindestens eine Zeile vom Typ ''%1'' vorhanden.';
-      Text006@1007 : TextConst 'ENU=The status of the linked assembly order will be changed to %1. Do you want to continue?;ESP=El estado del pedido de ensamblado vinculado se cambiar† a %1. ®Desea continuar?;DEA=Der Status des verknÅpften Montageauftrags wird in ''%1'' geÑndert. Soll der Vorgang fortgesetzt werden?';
-      Text007@1008 : TextConst 'ENU=A %1 exists for the %2. \\If you want to record and post a different %3, then you must do this in the %4 field on the related %1.;ESP=Existe un %1 para el %2. \\Si desea registrar un %3 distinto, debe hacerlo en el campo %4 del %1 relacionado.;DEA=FÅr ''%2'' ist ein Element vom Typ ''%1'' vorhanden. \\Wenn Sie einen anderen Wert vom Typ ''%3'' erfassen und buchen mîchten, verwenden Sie hierzu das Feld ''%4'' des zugehîrigen Elements vom Typ ''%1''.';
-      Text008@1009 : TextConst '@@@="Key Value, say: %1=Line No. %2=10000";ENU=%1 %2;ESP=%1 %2;DEA=%1 %2';
+      Text000@1001 : TextConst '@@@="%1 = Table caption of SalesLine or WhseShptLine or InvtPickLine, %2 = Key text of SalesLine or WhseShptLine or InvtPickLine, %3 = Table caption of Assembly header, %4 = Key text of assembly header";DEU=Synchronisieren...\  Quelle: %1 mit %2\ Ziel: %3 mit %4.;ENU=Synchronizing...\  from: %1 with %2\  to: %3 with %4.';
+      Text001@1002 : TextConst 'DEU=Mîchten Sie den Preis auf der Grundlage der Montagekomponenten berechnen?;ENU=Do you want to roll up the price from the assembly components?';
+      Text002@1003 : TextConst 'DEU=Mîchten Sie die Kosten auf der Grundlage der Montagekomponenten berechnen?;ENU=Do you want to roll up the cost from the assembly components?';
+      Text003@1004 : TextConst '@@@="%1 = Document Type, %2 = No.";DEU="Die im Montagekopf mit der Belegart ''%1'' (Nr. %2) definierte Artikelverfolgung ist grî·er als ''%3'' in der Verkaufszeile mit der Belegart ''%4'' (Belegnr. %5; Zeilennr. %6).\\ Passen Sie die vorhandene Artikelverfolgung an, um die neue Menge eingeben zu kînnen.";ENU=The item tracking defined on Assembly Header with Document Type %1, No. %2 exceeds %3 on Sales Line with Document Type %4, Document No. %5, Line No. %6.\\ You must adjust the existing item tracking before you can reenter the new quantity.';
+      Text004@1005 : TextConst 'DEU=''%1'' muss zwischen %2 und %3 liegen.\Diese Grenzwerte kînnen durch EinschrÑnkungen definiert werden, die auf der Grundlage des Felds ''%4'' im zugehîrigen Element vom Typ ''%5'' berechnet werden. Weitere Informationen finden Sie in der Hilfe zum Feld.;ENU=%1 cannot be lower than %2 or higher than %3.\These limits may be defined by constraints calculated from the %4 field on the related %5. Refer to the field help for more information.';
+      Text005@1006 : TextConst 'DEU=FÅr ''%2'' ist mindestens eine Zeile vom Typ ''%1'' vorhanden.;ENU=One or more %1 lines exist for the %2.';
+      Text006@1007 : TextConst 'DEU=Der Status des verknÅpften Montageauftrags wird in ''%1'' geÑndert. Soll der Vorgang fortgesetzt werden?;ENU=The status of the linked assembly order will be changed to %1. Do you want to continue?';
+      Text007@1008 : TextConst 'DEU=FÅr ''%2'' ist ein Element vom Typ ''%1'' vorhanden. \\Wenn Sie einen anderen Wert vom Typ ''%3'' erfassen und buchen mîchten, verwenden Sie hierzu das Feld ''%4'' des zugehîrigen Elements vom Typ ''%1''.;ENU=A %1 exists for the %2. \\If you want to record and post a different %3, then you must do this in the %4 field on the related %1.';
+      Text008@1009 : TextConst '@@@="Key Value, say: %1=Line No. %2=10000";DEU=%1 %2;ENU=%1 %2';
 
     PROCEDURE UpdateAsmFromSalesLine@1(VAR NewSalesLine@1001 : Record 37);
     VAR

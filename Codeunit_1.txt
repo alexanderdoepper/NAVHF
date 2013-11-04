@@ -2,9 +2,9 @@ OBJECT Codeunit 1 ApplicationManagement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -57,12 +57,12 @@ OBJECT Codeunit 1 ApplicationManagement
 
     PROCEDURE ApplicationVersion@2() : Text[80];
     BEGIN
-      EXIT('AT Dynamics NAV 7.0');
+      EXIT('DE Dynamics NAV 7.0');
     END;
 
     PROCEDURE ApplicationBuild@3() : Text[80];
     BEGIN
-      EXIT('34543');
+      EXIT('34587');
     END;
 
     PROCEDURE ApplicationLanguage@4() : Integer;

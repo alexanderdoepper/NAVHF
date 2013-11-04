@@ -2,15 +2,14 @@ OBJECT Report 119 Customer - Sales List
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Customer - Sales List;
-               ESP=Lista ventas - cliente;
-               DEA=Debitor - VerkaufsÅbersicht];
+    CaptionML=[DEU=Debitor - VerkaufsÅbersicht;
+               ENU=Customer - Sales List];
     OnPreReport=BEGIN
                   CustFilter := Customer.GETFILTERS;
                 END;
@@ -124,21 +123,18 @@ OBJECT Report 119 Customer - Sales List
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
-                  CaptionML=[ENU=Amounts (LCY) Greater Than;
-                             ESP=Importes (DL) mayores de;
-                             DEA=BetrÑge (MW) hîher als];
+                  CaptionML=[DEU=BetrÑge (MW) hîher als;
+                             ENU=Amounts (LCY) Greater Than];
                   SourceExpr=MinAmtLCY;
                   AutoFormatType=1 }
 
       { 5   ;2   ;Field     ;
-                  CaptionML=[ENU=Hide Address Detail;
-                             ESP=Ocultar detalle direcci¢n;
-                             DEA=Adressdetails ausblenden];
+                  CaptionML=[DEU=Adressdetails ausblenden;
+                             ENU=Hide Address Detail];
                   SourceExpr=HideAddress }
 
     }
@@ -154,11 +150,11 @@ OBJECT Report 119 Customer - Sales List
       AmtSalesLCY@1000 : Decimal;
       CustAddr@1004 : ARRAY [8] OF Text[50];
       CustFilter@1001 : Text[250];
-      Customer___Sales_ListCaptionLbl@5820 : TextConst 'ENU=Customer - Sales List;ESP=Lista ventas - cliente;DEA=Debitor - VerkaufsÅbersicht';
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      MinAmtLCYCaptionLbl@8901 : TextConst 'ENU=Amounts (LCY) greater than;ESP=Importes (DL) mayores de;DEA=BetrÑge (MW) hîher als';
-      AmtSalesLCYCaptionLbl@1480 : TextConst 'ENU=Amount of Sales (LCY);ESP=Importe ventas (DL);DEA=Verkaufsbetrag (MW)';
-      Total_Reported_Amount_of_Sales__LCY_CaptionLbl@5446 : TextConst 'ENU=Total Reported Amount of Sales (LCY);ESP=Importe total declarado de las ventas (DL);DEA=Berichteter Verkaufsbetrag gesamt (MW)';
+      Customer___Sales_ListCaptionLbl@5820 : TextConst 'DEU=Debitor - VerkaufsÅbersicht;ENU=Customer - Sales List';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      MinAmtLCYCaptionLbl@8901 : TextConst 'DEU=BetrÑge (MW) hîher als;ENU=Amounts (LCY) greater than';
+      AmtSalesLCYCaptionLbl@1480 : TextConst 'DEU=Verkaufsbetrag (MW);ENU=Amount of Sales (LCY)';
+      Total_Reported_Amount_of_Sales__LCY_CaptionLbl@5446 : TextConst 'DEU=Berichteter Verkaufsbetrag gesamt (MW);ENU=Total Reported Amount of Sales (LCY)';
 
     LOCAL PROCEDURE CalculateAmtOfSaleLCY@4() : Decimal;
     VAR

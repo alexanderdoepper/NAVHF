@@ -2,15 +2,14 @@ OBJECT Page 5935 Service Credit Memo
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Service Credit Memo;
-               ESP=Abono servicio;
-               DEA=Servicegutschrift];
+    CaptionML=[DEU=Servicegutschrift;
+               ENU=Service Credit Memo];
     SourceTable=Table5900;
     PopulateAllFields=Yes;
     SourceTableView=WHERE(Document Type=FILTER(Credit Memo));
@@ -44,16 +43,14 @@ OBJECT Page 5935 Service Credit Memo
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 49      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Cr. Memo;
-                                 ESP=A&bono;
-                                 DEA=&Gutschrift];
+                      CaptionML=[DEU=&Gutschrift;
+                                 ENU=&Cr. Memo];
                       Image=CreditMemo }
       { 51      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -65,16 +62,14 @@ OBJECT Page 5935 Service Credit Memo
                                 }
       { 52      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Customer No.);
                       Image=EditLines }
       { 53      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 5911;
                       RunPageLink=Table Name=CONST(Service Header),
                                   Table Subtype=FIELD(Document Type),
@@ -83,9 +78,8 @@ OBJECT Page 5935 Service Credit Memo
                       Image=ViewComments }
       { 105     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -94,9 +88,8 @@ OBJECT Page 5935 Service Credit Memo
                                 }
       { 27      ;2   ;Separator  }
       { 30      ;2   ;Action    ;
-                      CaptionML=[ENU=Service Document Lo&g;
-                                 ESP=&Registro pedido servicio;
-                                 DEA=Servicebele&gprotokoll];
+                      CaptionML=[DEU=Servicebele&gprotokoll;
+                                 ENU=Service Document Lo&g];
                       Image=Log;
                       OnAction=VAR
                                  ServDocLog@1001 : Record 5912;
@@ -124,14 +117,13 @@ OBJECT Page 5935 Service Credit Memo
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 58      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 114     ;2   ;Action    ;
                       Name=Calculate Invoice Discount;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrabatt berechnen];
+                      CaptionML=[DEU=&Rechnungsrabatt berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -141,9 +133,8 @@ OBJECT Page 5935 Service Credit Memo
       { 121     ;2   ;Action    ;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       Image=ApplyEntries;
                       OnAction=BEGIN
                                  CODEUNIT.RUN(CODEUNIT::"Service Header Apply",Rec);
@@ -152,9 +143,8 @@ OBJECT Page 5935 Service Credit Memo
       { 126     ;2   ;Separator  }
       { 112     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get St&d. Service Codes;
-                                 ESP=Traer c¢&d. servicio est nd.;
-                                 DEA=St&d.-Servicecodes abrufen];
+                      CaptionML=[DEU=St&d.-Servicecodes abrufen;
+                                 ENU=Get St&d. Service Codes];
                       Image=ServiceCode;
                       OnAction=VAR
                                  StdServCode@1001 : Record 5996;
@@ -164,9 +154,8 @@ OBJECT Page 5935 Service Credit Memo
                                 }
       { 128     ;2   ;Separator  }
       { 120     ;2   ;Action    ;
-                      CaptionML=[ENU=Get Prepaid Contract E&ntries;
-                                 ESP=Traer movs. contrato prepa&go;
-                                 DEA=V&orausbez. Vertragsposten abrufen];
+                      CaptionML=[DEU=V&orausbez. Vertragsposten abrufen;
+                                 ENU=Get Prepaid Contract E&ntries];
                       Image=ContractPayment;
                       OnAction=BEGIN
                                  CLEAR(GetPrepaidTransactions);
@@ -176,15 +165,13 @@ OBJECT Page 5935 Service Credit Memo
                                END;
                                 }
       { 59      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 60      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintServiceHeader(Rec);
@@ -193,9 +180,8 @@ OBJECT Page 5935 Service Credit Memo
       { 61      ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -208,9 +194,8 @@ OBJECT Page 5935 Service Credit Memo
                                 }
       { 62      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -223,9 +208,8 @@ OBJECT Page 5935 Service Credit Memo
                                 }
       { 63      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Service Cr. Memos",TRUE,TRUE,Rec);
@@ -240,9 +224,8 @@ OBJECT Page 5935 Service Credit Memo
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -315,9 +298,8 @@ OBJECT Page 5935 Service Credit Memo
                 PagePartID=Page5936 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 18  ;2   ;Field     ;
                 SourceExpr="Bill-to Customer No.";
@@ -381,9 +363,8 @@ OBJECT Page 5935 Service Credit Memo
                             }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env¡o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 32  ;2   ;Field     ;
                 SourceExpr="Ship-to Name" }
@@ -407,9 +388,8 @@ OBJECT Page 5935 Service Credit Memo
                 SourceExpr="Location Code" }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Auáenhandel] }
+                CaptionML=[DEU=Auáenhandel;
+                           ENU=Foreign Trade] }
 
     { 91  ;2   ;Field     ;
                 SourceExpr="Currency Code";
@@ -443,9 +423,8 @@ OBJECT Page 5935 Service Credit Memo
                 SourceExpr=Area }
 
     { 1904409301;1;Group  ;
-                CaptionML=[ENU=Application;
-                           ESP=Liquidaci¢n;
-                           DEA=Ausgleich] }
+                CaptionML=[DEU=Ausgleich;
+                           ENU=Application] }
 
     { 14  ;2   ;Field     ;
                 SourceExpr="Applies-to Doc. Type" }

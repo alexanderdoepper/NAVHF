@@ -2,16 +2,15 @@ OBJECT Table 330 Currency Exchange Rate
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     DataCaptionFields=Currency Code;
-    CaptionML=[ENU=Currency Exchange Rate;
-               ESP=Tipo cambio divisa;
-               DEA=W„hrungswechselkurs];
+    CaptionML=[DEU=W„hrungswechselkurs;
+               ENU=Currency Exchange Rate];
     LookupPageID=Page483;
     DrillDownPageID=Page483;
   }
@@ -24,22 +23,19 @@ OBJECT Table 330 Currency Exchange Rate
                                                                     Text000,FIELDCAPTION("Currency Code"),FIELDCAPTION("Relational Currency Code"));
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=W„hrungscode];
+                                                   CaptionML=[DEU=W„hrungscode;
+                                                              ENU=Currency Code];
                                                    NotBlank=Yes;
                                                    Editable=No }
-    { 2   ;   ;Starting Date       ;Date          ;CaptionML=[ENU=Starting Date;
-                                                              ESP=Fecha inicial;
-                                                              DEA=Startdatum];
+    { 2   ;   ;Starting Date       ;Date          ;CaptionML=[DEU=Startdatum;
+                                                              ENU=Starting Date];
                                                    NotBlank=Yes }
     { 3   ;   ;Exchange Rate Amount;Decimal       ;OnValidate=BEGIN
                                                                 TESTFIELD("Exchange Rate Amount");
                                                               END;
 
-                                                   CaptionML=[ENU=Exchange Rate Amount;
-                                                              ESP=Valor tipo cambio divisa;
-                                                              DEA=Wechselkursbetrag];
+                                                   CaptionML=[DEU=Wechselkursbetrag;
+                                                              ENU=Exchange Rate Amount];
                                                    DecimalPlaces=1:6;
                                                    MinValue=0 }
     { 4   ;   ;Adjustment Exch. Rate Amount;Decimal;
@@ -47,9 +43,8 @@ OBJECT Table 330 Currency Exchange Rate
                                                                 TESTFIELD("Adjustment Exch. Rate Amount");
                                                               END;
 
-                                                   CaptionML=[ENU=Adjustment Exch. Rate Amount;
-                                                              ESP=Valor t. c. ajustes divisa;
-                                                              DEA=Regulierung Wechselkursbetrag];
+                                                   CaptionML=[DEU=Regulierung Wechselkursbetrag;
+                                                              ENU=Adjustment Exch. Rate Amount];
                                                    DecimalPlaces=1:6;
                                                    MinValue=0 }
     { 5   ;   ;Relational Currency Code;Code10    ;TableRelation=Currency;
@@ -59,34 +54,29 @@ OBJECT Table 330 Currency Exchange Rate
                                                                     Text000,FIELDCAPTION("Currency Code"),FIELDCAPTION("Relational Currency Code"));
                                                               END;
 
-                                                   CaptionML=[ENU=Relational Currency Code;
-                                                              ESP=C¢d. divisa relacionada;
-                                                              DEA=Bezug auf W„hrungscode] }
+                                                   CaptionML=[DEU=Bezug auf W„hrungscode;
+                                                              ENU=Relational Currency Code] }
     { 6   ;   ;Relational Exch. Rate Amount;Decimal;
                                                    OnValidate=BEGIN
                                                                 TESTFIELD("Relational Exch. Rate Amount");
                                                               END;
 
-                                                   CaptionML=[ENU=Relational Exch. Rate Amount;
-                                                              ESP=Valor t.c. divisa relacionada;
-                                                              DEA=Bezug auf Wechselkursbetrag];
+                                                   CaptionML=[DEU=Bezug auf Wechselkursbetrag;
+                                                              ENU=Relational Exch. Rate Amount];
                                                    DecimalPlaces=1:6;
                                                    MinValue=0 }
-    { 7   ;   ;Fix Exchange Rate Amount;Option    ;CaptionML=[ENU=Fix Exchange Rate Amount;
-                                                              ESP=Valor tipo cambio fijo;
-                                                              DEA=Fester Wechselkursbetrag];
-                                                   OptionCaptionML=[ENU=Currency,Relational Currency,Both;
-                                                                    ESP=Divisa,Divisa relacionada,Ambos;
-                                                                    DEA=W„hrung,Bezug auf W„hrung,Beide];
+    { 7   ;   ;Fix Exchange Rate Amount;Option    ;CaptionML=[DEU=Fester Wechselkursbetrag;
+                                                              ENU=Fix Exchange Rate Amount];
+                                                   OptionCaptionML=[DEU=W„hrung,Bezug auf W„hrung,Beide;
+                                                                    ENU=Currency,Relational Currency,Both];
                                                    OptionString=Currency,Relational Currency,Both }
     { 8   ;   ;Relational Adjmt Exch Rate Amt;Decimal;
                                                    OnValidate=BEGIN
                                                                 TESTFIELD("Relational Adjmt Exch Rate Amt");
                                                               END;
 
-                                                   CaptionML=[ENU=Relational Adjmt Exch Rate Amt;
-                                                              ESP=Valor t.c. ajustes divisa rel.;
-                                                              DEA=Bez. a. Reg.-Wechselkursbetrag];
+                                                   CaptionML=[DEU=Bez. a. Reg.-Wechselkursbetrag;
+                                                              ENU=Relational Adjmt Exch Rate Amt];
                                                    DecimalPlaces=1:6;
                                                    MinValue=0 }
   }
@@ -100,7 +90,7 @@ OBJECT Table 330 Currency Exchange Rate
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=The currency code in the %1 field and the %2 field cannot be the same.;ESP=El c¢digo de divisa no puede ser el mismo en los campos %1 y %2.;DEA=Der W„hrungscode im Feld %1 und im Feld %2 kann nicht der selbe sein.';
+      Text000@1000 : TextConst 'DEU=Der W„hrungscode im Feld %1 und im Feld %2 kann nicht der selbe sein.;ENU=The currency code in the %1 field and the %2 field cannot be the same.';
       CurrencyExchRate2@1001 : ARRAY [2] OF Record 330;
       CurrencyExchRate3@1002 : ARRAY [3] OF Record 330;
       RelExchangeRateAmt@1003 : Decimal;

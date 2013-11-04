@@ -2,9 +2,9 @@ OBJECT Codeunit 1001 Job Post-Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -19,10 +19,10 @@ OBJECT Codeunit 1001 Job Post-Line
     VAR
       JobJnlPostLine@1003 : Codeunit 1012;
       JobTransferLine@1001 : Codeunit 1004;
-      Text000@1011 : TextConst 'ENU="has been changed (initial a %1: %2= %3, %4= %5)";ESP="se ha cambiado (inicial a %1: %2= %3, %4= %5)";DEA="wurde geÑndert (ursprÅnglich %1: %2= %3, %4= %5)"';
-      Text003@1000 : TextConst 'ENU=You cannot change the sales line because it is linked to\;ESP=No puede cambiar la l°n. venta porque est† vinculada a\;DEA=Die Verkaufszeile kann nicht geÑndert werden, weil sie verknÅpft ist mit\';
-      Text004@1014 : TextConst 'ENU=" %1: %2= %3, %4= %5.";ESP=" %1: %2= %3, %4= %5.";DEA=" %1: %2= %3, %4= %5."';
-      Text005@1015 : TextConst 'ENU="You must post more usage or credit the sale of %1 %2 in %3 %4 before you can post purchase credit memo %5 %6 = %7.";ESP="Debe registrar m†s uso o ingresar la venta de %1 %2 en %3 %4 antes de registrar el abono compra %5 %6 = %7.";DEA="Sie mÅssen mehr Verbrauch buchen oder den Verkauf von %1 %2 in %3 %4 gutschreiben, bevor Sie die Einkaufsgutschrift %5 %6 = %7 buchen kînnen."';
+      Text000@1011 : TextConst 'DEU="wurde geÑndert (ursprÅnglich %1: %2= %3, %4= %5)";ENU="has been changed (initial a %1: %2= %3, %4= %5)"';
+      Text003@1000 : TextConst 'DEU=Die Verkaufszeile kann nicht geÑndert werden, weil sie verknÅpft ist mit\;ENU=You cannot change the sales line because it is linked to\';
+      Text004@1014 : TextConst 'DEU=" %1: %2= %3, %4= %5.";ENU=" %1: %2= %3, %4= %5."';
+      Text005@1015 : TextConst 'DEU="Sie mÅssen mehr Verbrauch buchen oder den Verkauf von %1 %2 in %3 %4 gutschreiben, bevor Sie die Einkaufsgutschrift %5 %6 = %7 buchen kînnen.";ENU="You must post more usage or credit the sale of %1 %2 in %3 %4 before you can post purchase credit memo %5 %6 = %7."';
 
     PROCEDURE InsertPlanningLine@8(JobJnlLine@1003 : Record 210);
     VAR

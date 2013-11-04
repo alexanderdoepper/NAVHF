@@ -2,9 +2,9 @@ OBJECT Codeunit 90 Purch.-Post
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -1773,40 +1773,40 @@ OBJECT Codeunit 90 Purch.-Post
   CODE
   {
     VAR
-      Text001@1000 : TextConst 'ENU=There is nothing to post.;ESP=No hay nada que registrar.;DEA=Es gibt nichts zu buchen.';
-      Text002@1001 : TextConst 'ENU=A drop shipment from a purchase order cannot be received and invoiced at the same time.;ESP=Un env¡o directo desde un pedido de compras no se puede recibir y facturar a la vez.;DEA=Eine Direktlieferung einer Bestellung kann nicht gleichzeitig geliefert und fakturiert werden.';
-      Text003@1002 : TextConst 'ENU="You cannot invoice this purchase order before the associated sales orders have been invoiced. ";ESP="Antes de facturar este pedido de compra hay que registrar los pedidos de venta asociados. ";DEA="Sie k”nnen diese Bestellung nicht fakturieren, solange die entsprechenden Auftr„ge nicht fakturiert sind. "';
-      Text004@1003 : TextConst 'ENU=Please invoice sales order %1 before invoicing this purchase order.;ESP=Facture el pedido de venta %1 antes de facturar este pedido de compra.;DEA=Bitte fakturieren Sie Auftrag %1, bevor Sie diese Bestellung fakturieren.';
-      Text005@1004 : TextConst 'ENU=Posting lines              #2######\;ESP=Registrando l¡neas         #2######\;DEA=Zeilen buchen              #2######\';
-      Text006@1005 : TextConst 'ENU=Posting purchases and VAT  #3######\;ESP=Registrando compra e IVA   #3######\;DEA=Einkauf und MwSt. buchen   #3######\';
-      Text007@1006 : TextConst 'ENU=Posting to vendors         #4######\;ESP=Registrando proveedor      #4######\;DEA=Kreditorenposten buchen    #4######\';
-      Text008@1007 : TextConst 'ENU=Posting to bal. account    #5######;DEA=Buchung an Gegenkonto      #5######';
-      Text009@1008 : TextConst 'ENU=Posting lines         #2######;ESP=Registrando l¡neas         #2######;DEA=Zeilen buchen              #2######';
-      Text010@1009 : TextConst 'ENU=%1 %2 -> Invoice %3;ESP=%1 %2 -> Factura %3;DEA=%1 %2 -> Rechnung %3';
-      Text011@1010 : TextConst 'ENU=%1 %2 -> Credit Memo %3;ESP=%1 %2 -> Abono %3;DEA=%1 %2 -> Gutschrift %3';
-      Text012@1011 : TextConst 'ENU=must have the same sign as the receipt;ESP=debe tener el mismo signo que el albar n de compra;DEA=muss dasselbe Vorzeichen haben wie die Lieferung';
-      Text014@1012 : TextConst 'ENU=Receipt lines have been deleted.;ESP=Se han borrado las l¡neas del albar n de compra.;DEA=Die Lieferzeilen sind gel”scht worden.';
-      Text015@1013 : TextConst 'ENU=You cannot purchase resources.;ESP=No se pueden comprar recursos.;DEA=Ressourcen k”nnen nicht eingekauft werden.';
-      Text016@1014 : TextConst 'ENU=Purchase %1 %2 already exists for this vendor.;ESP=El documento de compra %1 %2 ya existe para este proveedor.;DEA=Einkauf %1 %2 existiert bereits fr diesen Kreditor.';
-      Text017@1015 : TextConst 'ENU=You cannot invoice order %1 for more than you have received.;ESP=En el pedido %1 no se puede facturar m s de lo recibido.;DEA=Sie k”nnen aus Bestellung %1 nicht mehr berechnen als geliefert wurde.';
-      Text018@1016 : TextConst 'ENU="You cannot post this purchase order before the associated sales orders have been invoiced. ";ESP="Antes de registrar este pedido de compra hay que registrar los pedidos de venta asociados. ";DEA="Sie k”nnen diese Bestellung nicht buchen, solange die dazugeh”rigen Auftr„ge nicht fakturiert sind. "';
-      Text021@1017 : TextConst 'ENU=VAT Amount;ESP=Importe IVA;DEA=MwSt.-Betrag';
-      Text022@1018 : TextConst 'ENU=%1% VAT;ESP=%1% IVA;DEA=%1% MwSt.';
-      Text023@1019 : TextConst 'ENU=in the associated blanket order must not be greater than %1;ESP=en el pedido abierto asociado no debe ser superior a %1;DEA=im verknpften Rahmenauftrag darf nicht gr”áer als %1 sein.';
-      Text024@1020 : TextConst 'ENU=in the associated blanket order must be reduced.;ESP=en el pedido abierto asociado se debe reducir.;DEA=in der verknpften Rahmenbestellung muss reduziert werden.';
-      Text025@1021 : TextConst 'ENU=Please enter "Yes" in %1 and/or %2 and/or %3.;ESP=Introduzca "Si" en %1 y/¢ %2 y/¢ %3.;DEA=Bitte geben Sie "Ja" in %1 und/oder in %2 und/oder in %3 ein.';
-      Text026@1022 : TextConst 'ENU="Warehouse handling is required for %1 = %2, %3 = %4, %5 = %6.";ESP="Manipulaci¢n almac‚n requerido para %1 = %2, %3 = %4, %5 = %6.";DEA="Lagerdurchlauf ist notwendig fr %1 = %2, %3 = %4, %5 = %6."';
-      Text028@1024 : TextConst 'ENU=must have the same sign as the return shipment;ESP=debe tener el mismo signo que el env¡o devoluci¢n;DEA=muss dasselbe Vorzeichen haben wie die Rcklieferung';
-      Text029@1025 : TextConst 'ENU=Line %1 of the return shipment %2, which you are attempting to invoice, has already been invoiced.;ESP=L¡nea %1 del env¡o dev. %2, que esta intentando facturar, ya se ha facturado.;DEA=Die Zeile %1 aus Rcklieferung %2, die Sie fakturieren m”chten, wurde bereits fakturiert.';
-      Text030@1026 : TextConst 'ENU=Line %1 of the receipt %2, which you are attempting to invoice, has already been invoiced.;ESP=L¡nea %1 del recibo %2,que est  intentando facturar,ha sido ya facturado.;DEA=Die Zeile %1 aus Lieferung %2, welche Sie fakturieren m”chten, wurde bereits fakturiert.';
-      Text031@1027 : TextConst 'ENU=The quantity you are attempting to invoice is greater than the quantity in receipt %1;ESP=La cantidad que est  intentando facturar es m s grande que la del recibo %1;DEA=Die Menge, die Sie jetzt fakturieren m”chten, ist gr”áer als die Menge in Lieferung %1.';
-      Text032@1028 : TextConst 'ENU=The combination of dimensions used in %1 %2 is blocked. %3;ESP=La combinaci¢n de dimensiones utilizada en %1 %2 est  bloqueada. %3;DEA=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3';
-      Text033@1029 : TextConst 'ENU=The combination of dimensions used in %1 %2, line no. %3 is blocked. %4;ESP=La combinaci¢n de dimensiones utilizada en %1 %2, n§ l¡nea %3 est  bloqueada. %4;DEA=Die Kombination der in %1 %2, Zeilennr. %3, verwendeten Dimensionen ist gesperrt. %4';
-      Text034@1030 : TextConst 'ENU=The dimensions used in %1 %2 are invalid. %3;ESP=Las dimensiones usadas en %1 %2 no son v lidas. %3;DEA=Die Dimensionen, die in %1 %2 verwendet werden, sind ungltig. %3';
-      Text035@1031 : TextConst 'ENU=The dimensions used in %1 %2, line no. %3 are invalid. %4;ESP=Las dim. usadas en %1 %2, n§ l¡n. %3 no son v lidas. %4;DEA=Die Dimensionen, die in %1 %2, Zeilennr. %3, verwendet werden, sind ungltig. %4';
-      Text036@1032 : TextConst 'ENU="You cannot assign more than %1 units in %2 = %3,%4 = %5,%6 = %7.";ESP="No puede asignar m s que %1 unidades en %2 = %3,%4 = %5,%6 = %7.";DEA="Sie k”nnen nicht mehr als %1 Einheiten in der %2 = %3, %4 = %5, %6 = %7 zuweisen."';
-      Text037@1033 : TextConst 'ENU=You must assign all item charges, if you invoice everything.;ESP=Si factura todo, debe asignar todos los cargos prod.;DEA=Sie mssen alle Artikel Zu-/Abschl„ge zuweisen, wenn Sie alles fakturieren.';
-      Text038@1034 : TextConst 'ENU="You cannot assign item charges to the %1 %2 = %3,%4 = %5, %6 = %7, because it has been invoiced.";ESP="No puede asignar cargos de prod. al %1 %2 = %3,%4 = %5, %6 = %7,porque ya se ha facturado.";DEA="Sie k”nnen keine Artikel Zu-/Abschl„ge fr %1 %2 = %3, %4 = %5, %6 = %7 zuweisen, da sie bereits fakturiert wurde."';
+      Text001@1000 : TextConst 'DEU=Es gibt nichts zu buchen.;ENU=There is nothing to post.';
+      Text002@1001 : TextConst 'DEU=Eine Direktlieferung einer Bestellung kann nicht gleichzeitig geliefert und fakturiert werden.;ENU=A drop shipment from a purchase order cannot be received and invoiced at the same time.';
+      Text003@1002 : TextConst 'DEU="Sie k”nnen diese Bestellung nicht fakturieren, solange die entsprechenden Auftr„ge nicht fakturiert sind. ";ENU="You cannot invoice this purchase order before the associated sales orders have been invoiced. "';
+      Text004@1003 : TextConst 'DEU=Bitte fakturieren Sie Auftrag %1, bevor Sie diese Bestellung fakturieren.;ENU=Please invoice sales order %1 before invoicing this purchase order.';
+      Text005@1004 : TextConst 'DEU=Zeilen buchen              #2######\;ENU=Posting lines              #2######\';
+      Text006@1005 : TextConst 'DEU=Einkauf und MwSt. buchen   #3######\;ENU=Posting purchases and VAT  #3######\';
+      Text007@1006 : TextConst 'DEU=Kreditorenposten buchen    #4######\;ENU=Posting to vendors         #4######\';
+      Text008@1007 : TextConst 'DEU=Buchung an Gegenkonto      #5######;ENU=Posting to bal. account    #5######';
+      Text009@1008 : TextConst 'DEU=Zeilen buchen              #2######;ENU=Posting lines         #2######';
+      Text010@1009 : TextConst 'DEU=%1 %2 -> Rechnung %3;ENU=%1 %2 -> Invoice %3';
+      Text011@1010 : TextConst 'DEU=%1 %2 -> Gutschrift %3;ENU=%1 %2 -> Credit Memo %3';
+      Text012@1011 : TextConst 'DEU=muss dasselbe Vorzeichen haben wie die Lieferung;ENU=must have the same sign as the receipt';
+      Text014@1012 : TextConst 'DEU=Die Lieferzeilen sind gel”scht worden.;ENU=Receipt lines have been deleted.';
+      Text015@1013 : TextConst 'DEU=Ressourcen k”nnen nicht eingekauft werden.;ENU=You cannot purchase resources.';
+      Text016@1014 : TextConst 'DEU=Einkauf %1 %2 existiert bereits fr diesen Kreditor.;ENU=Purchase %1 %2 already exists for this vendor.';
+      Text017@1015 : TextConst 'DEU=Sie k”nnen aus Bestellung %1 nicht mehr berechnen als geliefert wurde.;ENU=You cannot invoice order %1 for more than you have received.';
+      Text018@1016 : TextConst 'DEU="Sie k”nnen diese Bestellung nicht buchen, solange die dazugeh”rigen Auftr„ge nicht fakturiert sind. ";ENU="You cannot post this purchase order before the associated sales orders have been invoiced. "';
+      Text021@1017 : TextConst 'DEU=MwSt.-Betrag;ENU=VAT Amount';
+      Text022@1018 : TextConst 'DEU=%1% MwSt.;ENU=%1% VAT';
+      Text023@1019 : TextConst 'DEU=im verknpften Rahmenauftrag darf nicht gr”áer als %1 sein.;ENU=in the associated blanket order must not be greater than %1';
+      Text024@1020 : TextConst 'DEU=in der verknpften Rahmenbestellung muss reduziert werden.;ENU=in the associated blanket order must be reduced.';
+      Text025@1021 : TextConst 'DEU=Bitte geben Sie "Ja" in %1 und/oder in %2 und/oder in %3 ein.;ENU=Please enter "Yes" in %1 and/or %2 and/or %3.';
+      Text026@1022 : TextConst 'DEU="Lagerdurchlauf ist notwendig fr %1 = %2, %3 = %4, %5 = %6.";ENU="Warehouse handling is required for %1 = %2, %3 = %4, %5 = %6."';
+      Text028@1024 : TextConst 'DEU=muss dasselbe Vorzeichen haben wie die Rcklieferung;ENU=must have the same sign as the return shipment';
+      Text029@1025 : TextConst 'DEU=Die Zeile %1 aus Rcklieferung %2, die Sie fakturieren m”chten, wurde bereits fakturiert.;ENU=Line %1 of the return shipment %2, which you are attempting to invoice, has already been invoiced.';
+      Text030@1026 : TextConst 'DEU=Die Zeile %1 aus Lieferung %2, welche Sie fakturieren m”chten, wurde bereits fakturiert.;ENU=Line %1 of the receipt %2, which you are attempting to invoice, has already been invoiced.';
+      Text031@1027 : TextConst 'DEU=Die Menge, die Sie jetzt fakturieren m”chten, ist gr”áer als die Menge in Lieferung %1.;ENU=The quantity you are attempting to invoice is greater than the quantity in receipt %1';
+      Text032@1028 : TextConst 'DEU=Die Kombination der in %1 %2 verwendeten Dimensionen ist gesperrt. %3;ENU=The combination of dimensions used in %1 %2 is blocked. %3';
+      Text033@1029 : TextConst 'DEU=Die Kombination der in %1 %2, Zeilennr. %3, verwendeten Dimensionen ist gesperrt. %4;ENU=The combination of dimensions used in %1 %2, line no. %3 is blocked. %4';
+      Text034@1030 : TextConst 'DEU=Die Dimensionen, die in %1 %2 verwendet werden, sind ungltig. %3;ENU=The dimensions used in %1 %2 are invalid. %3';
+      Text035@1031 : TextConst 'DEU=Die Dimensionen, die in %1 %2, Zeilennr. %3, verwendet werden, sind ungltig. %4;ENU=The dimensions used in %1 %2, line no. %3 are invalid. %4';
+      Text036@1032 : TextConst 'DEU="Sie k”nnen nicht mehr als %1 Einheiten in der %2 = %3, %4 = %5, %6 = %7 zuweisen.";ENU="You cannot assign more than %1 units in %2 = %3,%4 = %5,%6 = %7."';
+      Text037@1033 : TextConst 'DEU=Sie mssen alle Artikel Zu-/Abschl„ge zuweisen, wenn Sie alles fakturieren.;ENU=You must assign all item charges, if you invoice everything.';
+      Text038@1034 : TextConst 'DEU="Sie k”nnen keine Artikel Zu-/Abschl„ge fr %1 %2 = %3, %4 = %5, %6 = %7 zuweisen, da sie bereits fakturiert wurde.";ENU="You cannot assign item charges to the %1 %2 = %3,%4 = %5, %6 = %7, because it has been invoiced."';
       CurrExchRate@1036 : Record 330;
       PurchSetup@1037 : Record 312;
       GLSetup@1038 : Record 98;
@@ -1933,17 +1933,17 @@ OBJECT Codeunit 90 Purch.-Post
       TempRcpt@1127 : Boolean;
       TempReturn@1128 : Boolean;
       GLSetupRead@1130 : Boolean;
-      Text039@1098 : TextConst 'ENU=The quantity you are attempting to invoice is greater than the quantity in return shipment %1;ESP=La cantidad que est  intentando facturar es mayor que la cantidad en env¡o dev. %1;DEA=Die Menge, die Sie jetzt fakturieren m”chten, ist gr”áer als die Menge der Rcklieferung %1.';
-      Text040@1099 : TextConst 'ENU=Return shipment lines have been deleted.;ESP=Se han borrado las l¡ns. env¡o devoluci¢n;DEA=Die Rcklieferzeilen wurden gel”scht.';
-      Text041@1132 : TextConst 'ENU=You cannot invoice return order %1 for more than you have shipped.;ESP=No puede facturar la devoluci¢n %1 por m s de lo que ha enviado.;DEA=Sie k”nnen aus Reklamation %1 nicht mehr berechnen als geliefert wurde.';
-      Text99000000@1035 : TextConst 'ENU=Post sales order %1 before posting this purchase order.;ESP=Registre ped. venta %1 antes de reg. este pedido compra.;DEA=Bitte Verkaufsauftrag %1 buchen, bevor diese Bestellung gebucht wird.';
-      Text042@1165 : TextConst 'ENU=Related item ledger entries cannot be found.;ESP=No se encuentran los movs. pdto. relacionados.;DEA=Es k”nnen keine zugeh”rigen Artikelposten gefunden werden.';
-      Text043@1173 : TextConst 'ENU=Item Tracking is signed wrongly.;ESP=Seguim. pdto. no est  bien definido.;DEA=Falsche Angabe fr die Artikelverfolgung.';
-      Text044@1163 : TextConst 'ENU=Item Tracking does not match.;ESP=Seguimiento prod. no coincide.;DEA=Die Artikelverfolgung stimmt nicht berein.';
-      Text045@1155 : TextConst 'ENU=is not within your range of allowed posting dates.;ESP=no est  dentro del intervalo de fechas de registro permitidas.;DEA=liegt nicht innerhalb des zugelassenen Buchungszeitraums.';
-      Text046@1144 : TextConst 'ENU=The %1 does not match the quantity defined in item tracking.;ESP=%1 no coincide con la cantidad definida en el seguimiento de productos.;DEA=%1 entspricht nicht der in der Artikelverfolgung definierten Menge.';
-      Text047@1141 : TextConst 'ENU=cannot be more than %1.;ESP=no puede ser superior a %1.;DEA=kann nicht mehr als %1 sein.';
-      Text048@1129 : TextConst 'ENU=must be at least %1.;ESP=debe ser al menos %1.;DEA=muss mindestens %1 sein.';
+      Text039@1098 : TextConst 'DEU=Die Menge, die Sie jetzt fakturieren m”chten, ist gr”áer als die Menge der Rcklieferung %1.;ENU=The quantity you are attempting to invoice is greater than the quantity in return shipment %1';
+      Text040@1099 : TextConst 'DEU=Die Rcklieferzeilen wurden gel”scht.;ENU=Return shipment lines have been deleted.';
+      Text041@1132 : TextConst 'DEU=Sie k”nnen aus Reklamation %1 nicht mehr berechnen als geliefert wurde.;ENU=You cannot invoice return order %1 for more than you have shipped.';
+      Text99000000@1035 : TextConst 'DEU=Bitte Verkaufsauftrag %1 buchen, bevor diese Bestellung gebucht wird.;ENU=Post sales order %1 before posting this purchase order.';
+      Text042@1165 : TextConst 'DEU=Es k”nnen keine zugeh”rigen Artikelposten gefunden werden.;ENU=Related item ledger entries cannot be found.';
+      Text043@1173 : TextConst 'DEU=Falsche Angabe fr die Artikelverfolgung.;ENU=Item Tracking is signed wrongly.';
+      Text044@1163 : TextConst 'DEU=Die Artikelverfolgung stimmt nicht berein.;ENU=Item Tracking does not match.';
+      Text045@1155 : TextConst 'DEU=liegt nicht innerhalb des zugelassenen Buchungszeitraums.;ENU=is not within your range of allowed posting dates.';
+      Text046@1144 : TextConst 'DEU=%1 entspricht nicht der in der Artikelverfolgung definierten Menge.;ENU=The %1 does not match the quantity defined in item tracking.';
+      Text047@1141 : TextConst 'DEU=kann nicht mehr als %1 sein.;ENU=cannot be more than %1.';
+      Text048@1129 : TextConst 'DEU=muss mindestens %1 sein.;ENU=must be at least %1.';
       ItemChargeAssgntOnly@1133 : Boolean;
       ItemJnlRollRndg@1134 : Boolean;
       WhseReceive@1113 : Boolean;
@@ -1952,22 +1952,22 @@ OBJECT Codeunit 90 Purch.-Post
       JobItem@1189 : Boolean;
       PositiveWhseEntrycreated@1191 : Boolean;
       ICGenJnlLineNo@11165 : Integer;
-      Text050@1177 : TextConst 'ENU=The total %1 cannot be more than %2.;ESP=El total %1 no puede ser m s de %2.;DEA=Summe %1 darf nicht ber %2 liegen.';
-      Text051@1178 : TextConst 'ENU=The total %1 must be at least %2.;ESP=El total %1 debe ser al menos %2.;DEA=Summe %1 muss mindestens %2 sein.';
-      Text052@1175 : TextConst 'ENU=An unposted invoice for order %1 exists. To avoid duplicate postings, delete order %1 or invoice %2.\Do you still want to post order %1?;ESP=Existe una factura sin registrar para el pedido %1. Para evitar registros duplicados, elimine el pedido %1 o la factura %2.\¨A£n desea registrar el pedido %1?;DEA=Fr Auftrag %1 ist eine nicht gebuchte Rechnung vorhanden. Um doppelte Buchungen zu vermeiden, l”schen Sie Auftrag %1 oder Rechnung %2.\M”chten Sie Auftrag %1 dennoch buchen?';
-      Text053@1176 : TextConst 'ENU=An invoice for order %1 exists in the IC inbox. To avoid duplicate postings, cancel invoice %2 in the IC inbox.\Do you still want to post order %1?;ESP=Existe una factura para el pedido %1 en la bandeja de entrada IC. Para evitar registros duplicados, cancele la factura %2 en la bandeja de entrada IC.\¨A£n desea registrar el pedido %1?;DEA=Fr Auftrag %1 ist im IC-Eingang eine Rechnung vorhanden. Um doppelte Buchungen zu vermeiden, stornieren Sie Rechnung %2 im IC-Eingang.\M”chten Sie Auftrag %1 dennoch buchen?';
-      Text054@1179 : TextConst 'ENU=Posted invoice %1 already exists for order %2. To avoid duplicate postings, do not post order %2.\Do you still want to post order %2?;ESP=La factura registrada %1 ya existe para el pedido %2. Para evitar registros duplicados, no registre el pedido %2.\¨A£n desea registrar el pedido %2?;DEA=Fr Auftrag %2 ist bereits die gebuchte Rechnung %1 vorhanden. Um doppelte Buchungen zu vermeiden, buchen Sie nicht Auftrag %2.\M”chten Sie Auftrag %2 dennoch buchen?';
-      Text055@1180 : TextConst 'ENU=Order %1 originates from the same IC transaction as invoice %2. To avoid duplicate postings, delete order %1 or invoice %2.\Do you still want to post invoice %2?;ESP=El pedido %1 se origina desde la misma transacci¢n IC que la factura %2. Para evitar registros duplicados, elimine el pedido %1 o la factura %2.\¨A£n desea registrar la factura %2?;DEA=Auftrag %1 stammt aus der gleichen IC-Transaktion wie Rechnung %2. Um doppelte Buchungen zu vermeiden, l”schen Sie Auftrag %1 oder Rechnung %2.\M”chten Sie Rechnung %2 dennoch buchen?';
-      Text056@1181 : TextConst 'ENU=A document originating from the same IC transaction as document %1 exists in the IC inbox. To avoid duplicate postings, cancel document %2 in the IC inbox.\Do you still want to post document %1?;ESP=Un documento que se origina en la misma transacci¢n IC que el documento %1 ya existe en la bandeja de entrada IC. Para evitar registros duplicados, cancele el documento %2 en la bandeja de entrada IC.\¨A£n desea registrar el documento %1?;DEA=Im IC-Eingang ist ein Beleg vorhanden, der aus der gleichen IC-Transaktion wie Beleg %1 stammt. Um doppelte Buchungen zu vermeiden, stornieren Sie Beleg %2 im IC-Eingang.\M”chten Sie Beleg %1 dennoch buchen?';
-      Text057@1182 : TextConst 'ENU=Posted invoice %1 originates from the same IC transaction as invoice %2. To avoid duplicate postings, do not post invoice %2.\Do you still want to post invoice %2?;ESP=La factura registrada %1 se origina en la misma transacci¢n IC que la factura %2. Para evitar registros duplicados, no registre la factura %2.\¨A£n desea registrar la factura %2?;DEA=Die gebuchte Rechnung %1 stammt aus der gleichen IC-Transaktion wie Rechnung %2. Um doppelte Buchungen zu vermeiden, buchen Sie nicht Rechnung %2.\M”chten Sie Rechnung %2 dennoch buchen?';
-      Text058@1183 : TextConst 'ENU=This is an IC document. If you post this document and the invoice you receive from your IC partner, it will result in duplicate postings.\Are you sure you want to post this document?;ESP=Es un documento IC. Si registra este documento y la factura que reciba de su socio IC, esto provocar  registros duplicados.\¨Est  seguro de que desea registrar este documento?;DEA=Dies ist ein IC-Beleg. Wenn Sie diesen Beleg und die vom IC-Partner erhaltene Rechnung buchen, liegen doppelte Buchungen vor.\M”chten Sie diesen Beleg wirklich buchen?';
+      Text050@1177 : TextConst 'DEU=Summe %1 darf nicht ber %2 liegen.;ENU=The total %1 cannot be more than %2.';
+      Text051@1178 : TextConst 'DEU=Summe %1 muss mindestens %2 sein.;ENU=The total %1 must be at least %2.';
+      Text052@1175 : TextConst 'DEU=Fr Auftrag %1 ist eine nicht gebuchte Rechnung vorhanden. Um doppelte Buchungen zu vermeiden, l”schen Sie Auftrag %1 oder Rechnung %2.\M”chten Sie Auftrag %1 dennoch buchen?;ENU=An unposted invoice for order %1 exists. To avoid duplicate postings, delete order %1 or invoice %2.\Do you still want to post order %1?';
+      Text053@1176 : TextConst 'DEU=Fr Auftrag %1 ist im IC-Eingang eine Rechnung vorhanden. Um doppelte Buchungen zu vermeiden, stornieren Sie Rechnung %2 im IC-Eingang.\M”chten Sie Auftrag %1 dennoch buchen?;ENU=An invoice for order %1 exists in the IC inbox. To avoid duplicate postings, cancel invoice %2 in the IC inbox.\Do you still want to post order %1?';
+      Text054@1179 : TextConst 'DEU=Fr Auftrag %2 ist bereits die gebuchte Rechnung %1 vorhanden. Um doppelte Buchungen zu vermeiden, buchen Sie nicht Auftrag %2.\M”chten Sie Auftrag %2 dennoch buchen?;ENU=Posted invoice %1 already exists for order %2. To avoid duplicate postings, do not post order %2.\Do you still want to post order %2?';
+      Text055@1180 : TextConst 'DEU=Auftrag %1 stammt aus der gleichen IC-Transaktion wie Rechnung %2. Um doppelte Buchungen zu vermeiden, l”schen Sie Auftrag %1 oder Rechnung %2.\M”chten Sie Rechnung %2 dennoch buchen?;ENU=Order %1 originates from the same IC transaction as invoice %2. To avoid duplicate postings, delete order %1 or invoice %2.\Do you still want to post invoice %2?';
+      Text056@1181 : TextConst 'DEU=Im IC-Eingang ist ein Beleg vorhanden, der aus der gleichen IC-Transaktion wie Beleg %1 stammt. Um doppelte Buchungen zu vermeiden, stornieren Sie Beleg %2 im IC-Eingang.\M”chten Sie Beleg %1 dennoch buchen?;ENU=A document originating from the same IC transaction as document %1 exists in the IC inbox. To avoid duplicate postings, cancel document %2 in the IC inbox.\Do you still want to post document %1?';
+      Text057@1182 : TextConst 'DEU=Die gebuchte Rechnung %1 stammt aus der gleichen IC-Transaktion wie Rechnung %2. Um doppelte Buchungen zu vermeiden, buchen Sie nicht Rechnung %2.\M”chten Sie Rechnung %2 dennoch buchen?;ENU=Posted invoice %1 originates from the same IC transaction as invoice %2. To avoid duplicate postings, do not post invoice %2.\Do you still want to post invoice %2?';
+      Text058@1183 : TextConst 'DEU=Dies ist ein IC-Beleg. Wenn Sie diesen Beleg und die vom IC-Partner erhaltene Rechnung buchen, liegen doppelte Buchungen vor.\M”chten Sie diesen Beleg wirklich buchen?;ENU=This is an IC document. If you post this document and the invoice you receive from your IC partner, it will result in duplicate postings.\Are you sure you want to post this document?';
       TotalChargeAmt@1184 : Decimal;
       TotalChargeAmtLCY@1185 : Decimal;
       TotalChargeAmt2@1186 : Decimal;
       TotalChargeAmtLCY2@1187 : Decimal;
-      Text059@1102601000 : TextConst 'ENU=You must assign item charge %1 if you want to invoice it.;ESP=Debe asignar un cargo prod. de %1 si quiere facturarlo.;DEA=Weisen Sie den Artikelzuschlag/-abschlag ''%1'' zu, wenn Sie ihn fakturieren m”chten.';
-      Text060@1102601001 : TextConst 'ENU=You can not invoice item charge %1 because there is no item ledger entry to assign it to.;ESP=No puede facturar un cargo prod. de %1 porque no existe mov. producto al que asignarlo.;DEA=Der Artikelzuschlag/-abschlag ''%1'' kann nicht fakturiert werden, da kein Artikelposten fr die Zuweisung vorhanden ist.';
-      Text061@1188 : TextConst 'ENU=Type should be blank for comment text: %1.;ESP=El tipo debe estar en blanco para el texto de comentario: %1.;DEA=Die Art muss fr Bemerkungen frei bleiben: %1.';
+      Text059@1102601000 : TextConst 'DEU=Weisen Sie den Artikelzuschlag/-abschlag ''%1'' zu, wenn Sie ihn fakturieren m”chten.;ENU=You must assign item charge %1 if you want to invoice it.';
+      Text060@1102601001 : TextConst 'DEU=Der Artikelzuschlag/-abschlag ''%1'' kann nicht fakturiert werden, da kein Artikelposten fr die Zuweisung vorhanden ist.;ENU=You can not invoice item charge %1 because there is no item ledger entry to assign it to.';
+      Text061@1188 : TextConst 'DEU=Die Art muss fr Bemerkungen frei bleiben: %1.;ENU=Type should be blank for comment text: %1.';
       PurchaseLinesProcessed@1080 : Boolean;
 
     PROCEDURE SetPostingDate@1(NewReplacePostingDate@1000 : Boolean;NewReplaceDocumentDate@1001 : Boolean;NewPostingDate@1002 : Date);
@@ -2512,18 +2512,11 @@ OBJECT Codeunit 90 Purch.-Post
       ReturnShptLine.GET(
         TempItemChargeAssgntPurch."Applies-to Doc. No.",TempItemChargeAssgntPurch."Applies-to Doc. Line No.");
       ReturnShptLine.TESTFIELD("Job No.",'');
-      CASE PurchLine."Document Type" OF
-        PurchLine."Document Type"::Order,PurchLine."Document Type"::Invoice:
-          IF PurchLine."Line Amount" > 0 THEN
-            Sign := -1
-          ELSE
-            Sign := 1;
-        PurchLine."Document Type"::"Return Order",PurchLine."Document Type"::"Credit Memo":
-          IF PurchLine."Line Amount" > 0 THEN
-            Sign := 1
-          ELSE
-            Sign := -1;
-      END;
+
+      IF PurchLine."Line Amount" > 0 THEN
+        Sign := -1
+      ELSE
+        Sign := 1;
 
       IF ReturnShptLine."Item Shpt. Entry No." <> 0 THEN
         DistributeCharge :=
@@ -2717,10 +2710,18 @@ OBJECT Codeunit 90 Purch.-Post
       THEN
         ERROR(Text042);
       SalesShptLine.TESTFIELD("Job No.",'');
-      IF SalesShptLine."Quantity (Base)" < 0 THEN
-        Sign := 1
-      ELSE
-        Sign := -1;
+      CASE PurchLine."Document Type" OF
+        PurchLine."Document Type"::Order,PurchLine."Document Type"::Invoice:
+          IF SalesShptLine."Quantity (Base)" < 0 THEN
+            Sign := 1
+          ELSE
+            Sign := -1;
+        PurchLine."Document Type"::"Return Order",PurchLine."Document Type"::"Credit Memo":
+          IF SalesShptLine."Quantity (Base)" < 0 THEN
+            Sign := -1
+          ELSE
+            Sign := 1;
+      END;
 
       IF SalesShptLine."Item Shpt. Entry No." <> 0 THEN
         DistributeCharge :=

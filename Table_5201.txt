@@ -2,16 +2,15 @@ OBJECT Table 5201 Alternative Address
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     DataCaptionFields=Employee No.,Name,Code;
-    CaptionML=[ENU=Alternative Address;
-               ESP=Direcci¢n alternativa;
-               DEA=Alternative Adresse];
+    CaptionML=[DEU=Alternative Adresse;
+               ENU=Alternative Address];
     LookupPageID=Page5204;
     DrillDownPageID=Page5204;
   }
@@ -23,26 +22,20 @@ OBJECT Table 5201 Alternative Address
                                                                 Name := Employee."Last Name";
                                                               END;
 
-                                                   CaptionML=[ENU=Employee No.;
-                                                              ESP=N§ empleado;
-                                                              DEA=Mitarbeiternr.];
+                                                   CaptionML=[DEU=Mitarbeiternr.;
+                                                              ENU=Employee No.];
                                                    NotBlank=Yes }
-    { 2   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+    { 2   ;   ;Code                ;Code10        ;CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 3   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 5   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+    { 3   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 4   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 5   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 6   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 7   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -51,9 +44,8 @@ OBJECT Table 5201 Alternative Address
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 8   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -62,35 +54,28 @@ OBJECT Table 5201 Alternative Address
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 9   ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 9   ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 10  ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=N§ tel‚fono;
-                                                              DEA=Telefonnr.] }
-    { 11  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=N§ fax;
-                                                              DEA=Faxnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 11  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
     { 12  ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 13  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Human Resource Comment Line" WHERE (Table Name=CONST(Alternative Address),
                                                                                                           No.=FIELD(Employee No.),
                                                                                                           Alternative Address Code=FIELD(Code)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
     { 14  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa¡s/regi¢n;
-                                                              DEA=L„nder-/Regionscode] }
+                                                   CaptionML=[DEU=L„nder-/Regionscode;
+                                                              ENU=Country/Region Code] }
   }
   KEYS
   {

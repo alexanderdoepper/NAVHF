@@ -2,14 +2,14 @@ OBJECT Page 5005271 Delivery Reminder Sub.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Lines;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     SourceTable=Table5005271;
     PageType=ListPart;
     AutoSplitKey=Yes;
@@ -18,13 +18,13 @@ OBJECT Page 5005271 Delivery Reminder Sub.
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1906587504;1 ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 1907721904;2 ;Action    ;
                       Name=InsertExtTexts;
-                      CaptionML=[ENU=Insert &Ext. Texts;
-                                 DEA=Textbausteine &einfÅgen];
+                      CaptionML=[DEU=Textbausteine &einfÅgen;
+                                 ENU=Insert &Ext. Texts];
                       Image=Text;
                       OnAction=BEGIN
                                  // This functionality was copied from page #5005270. Unsupported part was commented. Please check it.

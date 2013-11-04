@@ -2,15 +2,14 @@ OBJECT Page 5114 Contact Profile Answers
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Contact Profile Answers;
-               ESP=Respuestas perfil contacto;
-               DEA=Kontakt Profilantworten];
+    CaptionML=[DEU=Kontakt Profilantworten;
+               ENU=Contact Profile Answers];
     SaveValues=Yes;
     InsertAllowed=No;
     DeleteAllowed=No;
@@ -118,9 +117,8 @@ OBJECT Page 5114 Contact Profile Answers
                 ContainerType=ContentArea }
 
     { 11  ;1   ;Field     ;
-                CaptionML=[ENU=Profile Questionnaire Code;
-                           ESP=C¢d. cuestionario perfil;
-                           DEA=Profilbefragungscode];
+                CaptionML=[DEU=Profilbefragungscode;
+                           ENU=Profile Questionnaire Code];
                 SourceExpr=CurrentQuestionsChecklistCode;
                 OnValidate=BEGIN
                              ProfileManagement.CheckName(CurrentQuestionsChecklistCode,Cont);
@@ -156,9 +154,8 @@ OBJECT Page 5114 Contact Profile Answers
                 Visible=FALSE }
 
     { 15  ;2   ;Field     ;
-                CaptionML=[ENU=Set;
-                           ESP=Selecciona;
-                           DEA=Ausgew„hlt];
+                CaptionML=[DEU=Ausgew„hlt;
+                           ENU=Set];
                 SourceExpr=Set;
                 OnValidate=BEGIN
                              UpdateProfileAnswer;

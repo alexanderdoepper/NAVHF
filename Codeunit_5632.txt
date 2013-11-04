@@ -2,9 +2,9 @@ OBJECT Codeunit 5632 FA Jnl.-Post Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,9 +18,9 @@ OBJECT Codeunit 5632 FA Jnl.-Post Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU="%2 must not be %3 in %4 %5 = %6 for %1.";ESP="%2 no debe ser %3 en %4 %5 = %6 para %1.";DEA="%2 darf nicht %3 in %4 %5 = %6 fÅr %1 sein."';
-      Text001@1001 : TextConst 'ENU="%2 = %3 must be canceled first for %1.";ESP="Se debe cancelar primero %2 = %3 para %1.";DEA="%2 = %3 muss vor %1 storniert werden."';
-      Text002@1002 : TextConst 'ENU=%1 is not a %2.;ESP=%1 no es un/a %2.;DEA=%1 ist kein %2.';
+      Text000@1000 : TextConst 'DEU="%2 darf nicht %3 in %4 %5 = %6 fÅr %1 sein.";ENU="%2 must not be %3 in %4 %5 = %6 for %1."';
+      Text001@1001 : TextConst 'DEU="%2 = %3 muss vor %1 storniert werden.";ENU="%2 = %3 must be canceled first for %1."';
+      Text002@1002 : TextConst 'DEU=%1 ist kein %2.;ENU=%1 is not a %2.';
       FA@1003 : Record 5600;
       FA2@1004 : Record 5600;
       DeprBook@1005 : Record 5611;
@@ -46,7 +46,7 @@ OBJECT Codeunit 5632 FA Jnl.-Post Line
       DeprAcqCost@1027 : Boolean;
       ErrorEntryNo@1028 : Integer;
       ResultOnDisposal@1029 : Integer;
-      Text003@1031 : TextConst 'ENU="%1 = %2 already exists for %5 (%3 = %4).";ESP="%1 = %2 ya existe para %5 (%3 = %4).";DEA="%1 = %2 ist fÅr %5 (%3 = %4) bereits vorhanden."';
+      Text003@1031 : TextConst 'DEU="%1 = %2 ist fÅr %5 (%3 = %4) bereits vorhanden.";ENU="%1 = %2 already exists for %5 (%3 = %4)."';
 
     PROCEDURE FAJnlPostLine@11(FAJnlLine@1000 : Record 5621;CheckLine@1001 : Boolean);
     BEGIN

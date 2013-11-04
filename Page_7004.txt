@@ -2,15 +2,14 @@ OBJECT Page 7004 Sales Line Discounts
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Line Discounts;
-               ESP=Descuentos l¡nea ventas;
-               DEA=VK-Zeilenrabatte];
+    CaptionML=[DEU=VK-Zeilenrabatte;
+               ENU=Sales Line Discounts];
     SaveValues=Yes;
     SourceTable=Table7004;
     DataCaptionExpr=GetCaption;
@@ -38,17 +37,14 @@ OBJECT Page 7004 Sales Line Discounts
                 ContainerType=ContentArea }
 
     { 20  ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 28  ;2   ;Field     ;
-                CaptionML=[ENU=Sales Type Filter;
-                           ESP=Filtro tipo ventas;
-                           DEA=Verkaufsartenfilter];
-                OptionCaptionML=[ENU=Customer,Customer Discount Group,All Customers,Campaign,None;
-                                 ESP=Cliente,Grupo descuento cliente,Todos los clientes,Campa¤a,Ninguno;
-                                 DEA=Debitor,Debitorenrabattgruppe,Alle Debitoren,Kampagne,Kein];
+                CaptionML=[DEU=Verkaufsartenfilter;
+                           ENU=Sales Type Filter];
+                OptionCaptionML=[DEU=Debitor,Debitorenrabattgruppe,Alle Debitoren,Kampagne,Kein;
+                                 ENU=Customer,Customer Discount Group,All Customers,Campaign,None];
                 SourceExpr=SalesTypeFilter;
                 OnValidate=BEGIN
                              SalesTypeFilterOnAfterValidate;
@@ -57,9 +53,8 @@ OBJECT Page 7004 Sales Line Discounts
 
     { 26  ;2   ;Field     ;
                 Name=SalesCodeFilterCtrl;
-                CaptionML=[ENU=Sales Code Filter;
-                           ESP=Filtro c¢d. ventas;
-                           DEA=Verkaufscodefilter];
+                CaptionML=[DEU=Verkaufscodefilter;
+                           ENU=Sales Code Filter];
                 SourceExpr=SalesCodeFilter;
                 Enabled=SalesCodeFilterCtrlEnable;
                 OnValidate=BEGIN
@@ -106,9 +101,8 @@ OBJECT Page 7004 Sales Line Discounts
                           }
 
     { 34  ;2   ;Field     ;
-                CaptionML=[ENU=Starting Date Filter;
-                           ESP=Filtro fecha inicio;
-                           DEA=Startdatumsfilter];
+                CaptionML=[DEU=Startdatumsfilter;
+                           ENU=Starting Date Filter];
                 SourceExpr=StartingDateFilter;
                 OnValidate=VAR
                              ApplicationMgt@1000 : Codeunit 1;
@@ -119,12 +113,10 @@ OBJECT Page 7004 Sales Line Discounts
                             }
 
     { 10  ;2   ;Field     ;
-                CaptionML=[ENU=Type Filter;
-                           ESP=Filtro tipo;
-                           DEA=Artenfilter];
-                OptionCaptionML=[ENU=Item,Item Discount Group,None;
-                                 ESP=Producto,Grupo dto. producto,Ninguno;
-                                 DEA=Artikel,Artikelrabattgruppe,Kein];
+                CaptionML=[DEU=Artenfilter;
+                           ENU=Type Filter];
+                OptionCaptionML=[DEU=Artikel,Artikelrabattgruppe,Kein;
+                                 ENU=Item,Item Discount Group,None];
                 SourceExpr=ItemTypeFilter;
                 OnValidate=BEGIN
                              ItemTypeFilterOnAfterValidate;
@@ -133,9 +125,8 @@ OBJECT Page 7004 Sales Line Discounts
 
     { 40  ;2   ;Field     ;
                 Name=CodeFilterCtrl;
-                CaptionML=[ENU=Code Filter;
-                           ESP=Filtro C¢digo;
-                           DEA=Codefilter];
+                CaptionML=[DEU=Codefilter;
+                           ENU=Code Filter];
                 SourceExpr=CodeFilter;
                 Enabled=CodeFilterCtrlEnable;
                 OnValidate=BEGIN
@@ -171,9 +162,8 @@ OBJECT Page 7004 Sales Line Discounts
 
     { 16  ;2   ;Field     ;
                 Name=SalesCodeFilterCtrl2;
-                CaptionML=[ENU=Currency Code Filter;
-                           ESP=Filtro c¢d. divisa;
-                           DEA=W„hrungscodefilter];
+                CaptionML=[DEU=W„hrungscodefilter;
+                           ENU=Currency Code Filter];
                 SourceExpr=CurrencyCodeFilter;
                 OnValidate=BEGIN
                              CurrencyCodeFilterOnAfterValid;
@@ -258,7 +248,7 @@ OBJECT Page 7004 Sales Line Discounts
       ItemTypeFilter@1012 : 'Item,Item Discount Group,None';
       CodeFilter@1011 : Text[250];
       StartingDateFilter@1006 : Text[30];
-      Text000@1007 : TextConst 'ENU=All Customers;ESP=Todos clientes;DEA=Alle Debitoren';
+      Text000@1007 : TextConst 'DEU=Alle Debitoren;ENU=All Customers';
       CurrencyCodeFilter@1002 : Text[250];
       "Sales CodeEditable"@19031640 : Boolean INDATASET;
       SalesCodeFilterCtrlEnable@19013164 : Boolean INDATASET;

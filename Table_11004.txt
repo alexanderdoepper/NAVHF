@@ -2,9 +2,9 @@ OBJECT Table 11004 Data Export Record Source
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -45,18 +45,18 @@ OBJECT Table 11004 Data Export Record Source
                ERROR(Text11000,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Data Export Record Source;
-               DEA=Datensatzquelle fÅr Datenexport];
+    CaptionML=[DEU=Datenexport - Datensatzquelle;
+               ENU=Data Export Record Source];
   }
   FIELDS
   {
     { 1   ;   ;Data Export Code    ;Code10        ;TableRelation="Data Export";
-                                                   CaptionML=[ENU=Data Export Code;
-                                                              DEA=Datenexportcode];
+                                                   CaptionML=[DEU=Datenexportcode;
+                                                              ENU=Data Export Code];
                                                    NotBlank=Yes }
     { 2   ;   ;Data Exp. Rec. Type Code;Code10    ;TableRelation="Data Export Record Type";
-                                                   CaptionML=[ENU=Data Export Record Type Code;
-                                                              DEA=Datensatztypcode fÅr Datenexport];
+                                                   CaptionML=[DEU=Datenexport - Datensatz-Typcode;
+                                                              ENU=Data Export Record Type Code];
                                                    NotBlank=Yes }
     { 3   ;   ;Table No.           ;Integer       ;TableRelation=Object.ID WHERE (Type=CONST(Table));
                                                    OnValidate=VAR
@@ -68,15 +68,15 @@ OBJECT Table 11004 Data Export Record Source
                                                                 FindDataFilterField;
                                                               END;
 
-                                                   CaptionML=[ENU=Table No.;
-                                                              DEA=Tabellennr.];
+                                                   CaptionML=[DEU=Tabellennr.;
+                                                              ENU=Table No.];
                                                    NotBlank=Yes;
                                                    BlankZero=Yes }
     { 4   ;   ;Table Name          ;Text80        ;FieldClass=FlowField;
                                                    CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Table),
                                                                                                                 Object ID=FIELD(Table No.)));
-                                                   CaptionML=[ENU=Table Name;
-                                                              DEA=Tabellenname];
+                                                   CaptionML=[DEU=Tabellenname;
+                                                              ENU=Table Name];
                                                    Editable=No }
     { 5   ;   ;Indentation         ;Integer       ;OnValidate=VAR
                                                                 GDPdUMgt@1140000 : Codeunit 11000;
@@ -88,25 +88,25 @@ OBJECT Table 11004 Data Export Record Source
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Indentation;
-                                                              DEA=EinrÅckung];
+                                                   CaptionML=[DEU=EinrÅckung;
+                                                              ENU=Indentation];
                                                    MinValue=0 }
     { 6   ;   ;Fields Selected     ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Data Exp. Rec. Field" WHERE (Data Export Code=FIELD(Data Export Code),
                                                                                                    Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code),
                                                                                                    Table No.=FIELD(Table No.)));
-                                                   CaptionML=[ENU=Fields Selected;
-                                                              DEA=Felder ausgewÑhlt];
+                                                   CaptionML=[DEU=Felder ausgewÑhlt;
+                                                              ENU=Fields Selected];
                                                    Editable=No }
     { 7   ;   ;Relation To Table No.;Integer      ;TableRelation=Object.ID WHERE (Type=CONST(Table));
-                                                   CaptionML=[ENU=Relation To Table No.;
-                                                              DEA=Relation zu Tabellennr.];
+                                                   CaptionML=[DEU=Relation zu Tabellennr.;
+                                                              ENU=Relation To Table No.];
                                                    BlankZero=Yes }
     { 8   ;   ;Relation To Table Name;Text80      ;FieldClass=FlowField;
                                                    CalcFormula=Lookup(AllObjWithCaption."Object Caption" WHERE (Object Type=CONST(Table),
                                                                                                                 Object ID=FIELD(Relation To Table No.)));
-                                                   CaptionML=[ENU=Relation To Table Name;
-                                                              DEA=Relation zu Tabellenname];
+                                                   CaptionML=[DEU=Relation zu Tabellenname;
+                                                              ENU=Relation To Table Name];
                                                    Editable=No }
     { 9   ;   ;Period Field No.    ;Integer       ;TableRelation=Field.No. WHERE (TableNo=FIELD(Table No.),
                                                                                   Type=FILTER(Date),
@@ -126,25 +126,25 @@ OBJECT Table 11004 Data Export Record Source
                                                                 VALIDATE("Period Field No.",Field."No.");
                                                             END;
 
-                                                   CaptionML=[ENU=Period Field No.;
-                                                              DEA=Periodenfeldnummer];
+                                                   CaptionML=[DEU=Periodenfeldnr.;
+                                                              ENU=Period Field No.];
                                                    BlankZero=Yes }
     { 10  ;   ;Period Field Name   ;Text80        ;FieldClass=FlowField;
                                                    CalcFormula=Lookup(Field."Field Caption" WHERE (TableNo=FIELD(Table No.),
                                                                                                    No.=FIELD(Period Field No.)));
-                                                   CaptionML=[ENU=Period Field Name;
-                                                              DEA=Periodenfeldname];
+                                                   CaptionML=[DEU=Periodenfeldname;
+                                                              ENU=Period Field Name];
                                                    Editable=No }
     { 11  ;   ;Table Relation Defined;Boolean     ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Data Exp. Table Relationship" WHERE (Data Export Code=FIELD(Data Export Code),
                                                                                                            Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code),
                                                                                                            To Table No.=FIELD(Table No.),
                                                                                                            From Table No.=FIELD(Relation To Table No.)));
-                                                   CaptionML=[ENU=Table Relation Defined;
-                                                              DEA=Tabellenrelation definiert];
+                                                   CaptionML=[DEU=Tabellenrelation definiert;
+                                                              ENU=Table Relation Defined];
                                                    Editable=No }
-    { 12  ;   ;Line No.            ;Integer       ;CaptionML=[ENU=Line No.;
-                                                              DEA=Zeilennr.] }
+    { 12  ;   ;Line No.            ;Integer       ;CaptionML=[DEU=Zeilennr.;
+                                                              ENU=Line No.] }
     { 13  ;   ;Export File Name    ;Text250       ;OnValidate=VAR
                                                                 FileMgmt@1140000 : Codeunit 419;
                                                               BEGIN
@@ -153,8 +153,8 @@ OBJECT Table 11004 Data Export Record Source
                                                                   ERROR(Text11003,"Export File Name");
                                                               END;
 
-                                                   CaptionML=[ENU=Export File Name;
-                                                              DEA=Exportdateiname] }
+                                                   CaptionML=[DEU=Exportdateiname;
+                                                              ENU=Export File Name] }
     { 20  ;   ;No. Of Sessions     ;Integer       ;OnValidate=BEGIN
                                                                 IF "No. Of Sessions" < 0 THEN
                                                                   ERROR(Text11002,FIELDCAPTION("No. Of Sessions"));
@@ -164,15 +164,15 @@ OBJECT Table 11004 Data Export Record Source
                                                                   TESTFIELD(Indentation,0);
                                                               END;
 
-                                                   CaptionML=[ENU=No. Of Sessions;
-                                                              DEA=Anzahl Sitzungen] }
+                                                   CaptionML=[DEU=Anzahl Sessions;
+                                                              ENU=No. Of Sessions] }
     { 30  ;   ;Table Filter        ;TableFilter   ;OnValidate=BEGIN
                                                                 CheckPeriodFieldInTableFilter;
                                                               END;
 
                                                    TableIDExpr="Table No.";
-                                                   CaptionML=[ENU=Table Filter;
-                                                              DEA=Tabellenfilter] }
+                                                   CaptionML=[DEU=Tabellenfilter;
+                                                              ENU=Table Filter] }
     { 31  ;   ;Key No.             ;Integer       ;OnValidate=VAR
                                                                 Key@1101100000 : Record 2000000063;
                                                               BEGIN
@@ -204,22 +204,22 @@ OBJECT Table 11004 Data Export Record Source
                                                               END;
                                                             END;
 
-                                                   CaptionML=[ENU=Key No.;
-                                                              DEA=SchlÅsselnummer] }
+                                                   CaptionML=[DEU=SchlÅsselnr.;
+                                                              ENU=Key No.] }
     { 32  ;   ;Date Filter Field No.;Integer      ;TableRelation=Field.No. WHERE (TableNo=FIELD(Table No.),
                                                                                   Type=CONST(Date),
                                                                                   Class=CONST(FlowFilter));
-                                                   CaptionML=[ENU=Date Filter Field No.;
-                                                              DEA=Feldnummer Datumsfilter] }
-    { 41  ;   ;Active Key Seq. No. ;Integer       ;CaptionML=[ENU=Active Key Seq. No.;
-                                                              DEA=Sequenznummer aktiver SchlÅssel] }
+                                                   CaptionML=[DEU=Feldnummer Datumsfilter;
+                                                              ENU=Date Filter Field No.] }
+    { 41  ;   ;Active Key Seq. No. ;Integer       ;CaptionML=[DEU=Aktiver SchlÅssel - Reihenfolge;
+                                                              ENU=Active Key Seq. No.] }
     { 50  ;   ;Export Table Name   ;Text20        ;OnValidate=BEGIN
                                                                 TESTFIELD("Export Table Name");
                                                                 VALIDATE("Export File Name","Export Table Name" + '.txt');
                                                               END;
 
-                                                   CaptionML=[ENU=Export Table Name;
-                                                              DEA=Tabellenname exportieren] }
+                                                   CaptionML=[DEU=Tabellenname exportieren;
+                                                              ENU=Export Table Name] }
   }
   KEYS
   {
@@ -234,14 +234,14 @@ OBJECT Table 11004 Data Export Record Source
   CODE
   {
     VAR
-      Text11000@1140000 : TextConst 'ENU=You must not rename a %1.;DEA=Sie dÅrfen eine %1 nicht umbenennen.';
-      Text11001@1140001 : TextConst 'ENU=The record already exists.;DEA=Der Datensatz existiert bereits.';
+      Text11000@1140000 : TextConst 'DEU=Sie dÅrfen eine %1 nicht umbenennen.;ENU=You must not rename a %1.';
+      Text11001@1140001 : TextConst 'DEU=Der Datensatz existiert bereits.;ENU=The record already exists.';
       GDPdURecDefTable@1140002 : Record 11004;
       GDPdURecDefField@1140003 : Record 11005;
       GDPdUTableRelation@1140004 : Record 11006;
-      Text11002@1140005 : TextConst 'ENU=The %1 field cannot be negative.;DEA=Das %1 Feld darf nicht negativ sein.';
-      Text11003@1140006 : TextConst 'ENU=%1 is not a valid file name.;DEA=%1 ist kein gÅltiger Dateiname.';
-      Text11004@1140007 : TextConst 'ENU=You cannot use the period field %1 in the table filter.;DEA=Sie kînnen das Periodenfeld %1 im Tabellenfilter nicht verwenden.';
+      Text11002@1140005 : TextConst 'DEU=Das Feld %1 kann nicht negativ sein.;ENU=The %1 field cannot be negative.';
+      Text11003@1140006 : TextConst 'DEU=%1 ist kein gÅltiger Dateiname.;ENU=%1 is not a valid file name.';
+      Text11004@1140007 : TextConst 'DEU=Sie kînnen das Periodenfeld %1 nicht im Tabellenfilter verwenden.;ENU=You cannot use the period field %1 in the table filter.';
       DataExportManagement@1140008 : Codeunit 11000;
 
     LOCAL PROCEDURE CheckTableID@1140000();

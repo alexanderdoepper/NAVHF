@@ -2,16 +2,15 @@ OBJECT Page 27 Vendor List
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Vendor List;
-               ESP=Lista de proveedores;
-               DEA=KreditorenÅbersicht];
+    CaptionML=[DEU=KreditorenÅbersicht;
+               ENU=Vendor List];
     SourceTable=Table23;
     PageType=List;
     CardPageID=Vendor Card;
@@ -20,28 +19,24 @@ OBJECT Page 27 Vendor List
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 16      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Ven&dor;
-                                 ESP=&Proveedor;
-                                 DEA=&Kreditor];
+                      CaptionML=[DEU=&Kreditor;
+                                 ENU=Ven&dor];
                       Image=Vendor }
       { 44      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions }
       { 84      ;3   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions-Single;
-                                 ESP=Dimensiones-Individual;
-                                 DEA=Zuordnung fÅr aktuellen Datensatz];
+                      CaptionML=[DEU=Zuordnung fÅr aktuellen Datensatz;
+                                 ENU=Dimensions-Single];
                       RunObject=Page 540;
                       RunPageLink=Table ID=CONST(23),
                                   No.=FIELD(No.);
                       Image=Dimensions }
       { 43      ;3   ;Action    ;
-                      CaptionML=[ENU=Dimensions-&Multiple;
-                                 ESP=Dimensiones-&M£ltiple;
-                                 DEA=Zuordnung fÅr &markierte DatensÑtze];
+                      CaptionML=[DEU=Zuordnung fÅr &markierte DatensÑtze;
+                                 ENU=Dimensions-&Multiple];
                       Image=DimensionSets;
                       OnAction=VAR
                                  Vend@1001 : Record 23;
@@ -53,16 +48,14 @@ OBJECT Page 27 Vendor List
                                END;
                                 }
       { 54      ;2   ;Action    ;
-                      CaptionML=[ENU=Bank Accounts;
-                                 ESP=Bancos;
-                                 DEA=Bankkonten];
+                      CaptionML=[DEU=Bankkonten;
+                                 ENU=Bank Accounts];
                       RunObject=Page 426;
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=BankAccount }
       { 56      ;2   ;Action    ;
-                      CaptionML=[ENU=C&ontact;
-                                 ESP=&Contacto;
-                                 DEA=Ko&ntakt];
+                      CaptionML=[DEU=Ko&ntakt;
+                                 ENU=C&ontact];
                       Image=ContactPerson;
                       OnAction=BEGIN
                                  ShowContact;
@@ -70,24 +63,21 @@ OBJECT Page 27 Vendor List
                                 }
       { 55      ;2   ;Separator  }
       { 53      ;2   ;Action    ;
-                      CaptionML=[ENU=Order &Addresses;
-                                 ESP=D&irecciones pedido;
-                                 DEA=Bestell&adressen];
+                      CaptionML=[DEU=Bestell&adressen;
+                                 ENU=Order &Addresses];
                       RunObject=Page 369;
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=Addresses }
       { 20      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 124;
                       RunPageLink=Table Name=CONST(Vendor),
                                   No.=FIELD(No.);
                       Image=ViewComments }
       { 62      ;2   ;Action    ;
-                      CaptionML=[ENU=Cross Re&ferences;
-                                 ESP=Referencias cru&zadas;
-                                 DEA=Re&ferenzen];
+                      CaptionML=[DEU=Re&ferenzen;
+                                 ENU=Cross Re&ferences];
                       RunObject=Page 5723;
                       RunPageView=SORTING(Cross-Reference Type,Cross-Reference Type No.);
                       RunPageLink=Cross-Reference Type=CONST(Vendor),
@@ -95,103 +85,89 @@ OBJECT Page 27 Vendor List
                       Image=Change }
       { 61      ;2   ;Separator  }
       { 23      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Purchases;
-                                 ESP=&Compras;
-                                 DEA=&Einkauf];
+                      CaptionML=[DEU=&Einkauf;
+                                 ENU=&Purchases];
                       Image=Purchasing }
       { 66      ;2   ;Action    ;
-                      CaptionML=[ENU=Items;
-                                 ESP=Productos;
-                                 DEA=Artikel];
+                      CaptionML=[DEU=Artikel;
+                                 ENU=Items];
                       RunObject=Page 297;
                       RunPageView=SORTING(Vendor No.);
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=Item }
       { 25      ;2   ;Action    ;
-                      CaptionML=[ENU=Invoice &Discounts;
-                                 ESP=Dto. &factura;
-                                 DEA=&Rechnungsrabatte];
+                      CaptionML=[DEU=&Rechnungsrabatte;
+                                 ENU=Invoice &Discounts];
                       RunObject=Page 28;
                       RunPageLink=Code=FIELD(Invoice Disc. Code);
                       Image=CalculateInvoiceDiscount }
       { 24      ;2   ;Action    ;
-                      CaptionML=[ENU=Prices;
-                                 ESP=Precios;
-                                 DEA=Preise];
+                      CaptionML=[DEU=Preise;
+                                 ENU=Prices];
                       RunObject=Page 7012;
                       RunPageView=SORTING(Vendor No.);
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=Price }
       { 64      ;2   ;Action    ;
-                      CaptionML=[ENU=Line Discounts;
-                                 ESP=Descuentos l°nea;
-                                 DEA=Zeilenrabatte];
+                      CaptionML=[DEU=Zeilenrabatte;
+                                 ENU=Line Discounts];
                       RunObject=Page 7014;
                       RunPageView=SORTING(Vendor No.);
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=LineDiscount }
       { 70      ;2   ;Action    ;
-                      CaptionML=[ENU=Prepa&yment Percentages;
-                                 ESP=Porcentajes &prepago;
-                                 DEA=&VorauszahlungsprozentsÑtze];
+                      CaptionML=[DEU=&VorauszahlungsprozentsÑtze;
+                                 ENU=Prepa&yment Percentages];
                       RunObject=Page 665;
                       RunPageView=SORTING(Vendor No.);
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=PrepaymentPercentages }
       { 67      ;2   ;Action    ;
-                      CaptionML=[ENU=S&td. Vend. Purchase Codes;
-                                 ESP=&C¢d. est†nd. comp. prov.;
-                                 DEA=S&td.-Kreditoreinkaufscodes];
+                      CaptionML=[DEU=S&td.-Kreditoreinkaufscodes;
+                                 ENU=S&td. Vend. Purchase Codes];
                       RunObject=Page 178;
                       RunPageLink=Vendor No.=FIELD(No.);
                       Image=CodesList }
       { 11      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Documents;
-                                 ESP=Documentos;
-                                 DEA=Belege];
+                      CaptionML=[DEU=Belege;
+                                 ENU=Documents];
                       Image=Administration }
       { 26      ;2   ;Action    ;
-                      CaptionML=[ENU=Quotes;
-                                 ESP=Ofertas;
-                                 DEA=Anfragen];
+                      CaptionML=[DEU=Anfragen;
+                                 ENU=Quotes];
                       RunObject=Page 9306;
                       RunPageView=SORTING(Document Type,Buy-from Vendor No.);
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Image=Quote }
       { 27      ;2   ;Action    ;
-                      CaptionML=[ENU=Orders;
-                                 ESP=Pedidos;
-                                 DEA=Bestellungen];
+                      CaptionML=[DEU=Bestellungen;
+                                 ENU=Orders];
                       RunObject=Page 9307;
                       RunPageView=SORTING(Document Type,Buy-from Vendor No.);
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Image=Document }
       { 63      ;2   ;Action    ;
-                      CaptionML=[ENU=Return Orders;
-                                 ESP=Devoluciones;
-                                 DEA=Reklamationen];
+                      CaptionML=[DEU=Reklamationen;
+                                 ENU=Return Orders];
                       RunObject=Page 9311;
                       RunPageView=SORTING(Document Type,Buy-from Vendor No.);
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Image=ReturnOrder }
       { 58      ;2   ;Action    ;
-                      CaptionML=[ENU=Blanket Orders;
-                                 ESP=Pedidos abiertos;
-                                 DEA=Rahmenbestellungen];
+                      CaptionML=[DEU=Rahmenbestellungen;
+                                 ENU=Blanket Orders];
                       RunObject=Page 9310;
                       RunPageView=SORTING(Document Type,Buy-from Vendor No.);
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Image=BlanketOrder }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=History;
-                                 ESP=Historial;
-                                 DEA=Historie];
+                      CaptionML=[DEU=Historie;
+                                 ENU=History];
                       Image=History }
       { 22      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=Ledger E&ntries];
                       RunObject=Page 29;
                       RunPageView=SORTING(Vendor No.);
                       RunPageLink=Vendor No.=FIELD(No.);
@@ -200,9 +176,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=Process }
       { 18      ;2   ;Action    ;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       RunObject=Page 152;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -212,18 +187,16 @@ OBJECT Page 27 Vendor List
                       Image=Statistics;
                       PromotedCategory=Process }
       { 21      ;2   ;Action    ;
-                      CaptionML=[ENU=Purchases;
-                                 ESP=Compras;
-                                 DEA=Einkauf];
+                      CaptionML=[DEU=Einkauf;
+                                 ENU=Purchases];
                       RunObject=Page 156;
                       RunPageLink=No.=FIELD(No.),
                                   Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
                                   Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
                       Image=Purchase }
       { 19      ;2   ;Action    ;
-                      CaptionML=[ENU=Entry Statistics;
-                                 ESP=Estad°sticas documentos;
-                                 DEA=Buchungsstatistik];
+                      CaptionML=[DEU=Buchungsstatistik;
+                                 ENU=Entry Statistics];
                       RunObject=Page 303;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -231,9 +204,8 @@ OBJECT Page 27 Vendor List
                                   Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
                       Image=EntryStatistics }
       { 57      ;2   ;Action    ;
-                      CaptionML=[ENU=Statistics by C&urrencies;
-                                 ESP=Estad°sticas por di&visas;
-                                 DEA=Statistik nach &WÑhrungen];
+                      CaptionML=[DEU=Statistik nach &WÑhrungen;
+                                 ENU=Statistics by C&urrencies];
                       RunObject=Page 482;
                       RunPageLink=No.=FIELD(No.),
                                   Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
@@ -241,9 +213,8 @@ OBJECT Page 27 Vendor List
                                   Date Filter=FIELD(Date Filter);
                       Image=Currencies }
       { 6500    ;2   ;Action    ;
-                      CaptionML=[ENU=Item &Tracking Entries;
-                                 ESP=Movs. &seguim. prod.;
-                                 DEA=Artikel&verfolgungsposten];
+                      CaptionML=[DEU=Artikel&verfolgungsposten;
+                                 ENU=Item &Tracking Entries];
                       Image=ItemTrackingLedger;
                       OnAction=VAR
                                  ItemTrackingMgt@1001 : Codeunit 6500;
@@ -254,9 +225,8 @@ OBJECT Page 27 Vendor List
       { 1900000005;0 ;ActionContainer;
                       ActionContainerType=NewDocumentItems }
       { 1903213705;1 ;Action    ;
-                      CaptionML=[ENU=Blanket Purchase Order;
-                                 ESP=Pedido abierto compra;
-                                 DEA=Rahmenbestellung];
+                      CaptionML=[DEU=Rahmenbestellung;
+                                 ENU=Blanket Purchase Order];
                       RunObject=Page 509;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=No;
@@ -264,9 +234,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1901469405;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Quote;
-                                 ESP=Oferta compra;
-                                 DEA=Einkaufsanfrage];
+                      CaptionML=[DEU=Einkaufsanfrage;
+                                 ENU=Purchase Quote];
                       RunObject=Page 49;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=No;
@@ -274,9 +243,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1907709505;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Invoice;
-                                 ESP=Factura compra;
-                                 DEA=Einkaufsrechnung];
+                      CaptionML=[DEU=Einkaufsrechnung;
+                                 ENU=Purchase Invoice];
                       RunObject=Page 51;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=Yes;
@@ -284,9 +252,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1907375405;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Order;
-                                 ESP=Pedido compra;
-                                 DEA=Bestellung];
+                      CaptionML=[DEU=Bestellung;
+                                 ENU=Purchase Order];
                       RunObject=Page 50;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=Yes;
@@ -294,9 +261,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1905024805;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Credit Memo;
-                                 ESP=Abono compra;
-                                 DEA=Einkaufsgutschrift];
+                      CaptionML=[DEU=Einkaufsgutschrift;
+                                 ENU=Purchase Credit Memo];
                       RunObject=Page 52;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=No;
@@ -304,9 +270,8 @@ OBJECT Page 27 Vendor List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1904749705;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Return Order;
-                                 ESP=Devoluci¢n compra;
-                                 DEA=Einkaufsreklamation];
+                      CaptionML=[DEU=Einkaufsreklamation;
+                                 ENU=Purchase Return Order];
                       RunObject=Page 6640;
                       RunPageLink=Buy-from Vendor No.=FIELD(No.);
                       Promoted=No;
@@ -316,17 +281,15 @@ OBJECT Page 27 Vendor List
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1902327104;1 ;Action    ;
-                      CaptionML=[ENU=Payment Journal;
-                                 ESP=Diario pagos;
-                                 DEA=Zahlungsausgangs Buch.-Blatt];
+                      CaptionML=[DEU=Zahlungsausgangs Buch.-Blatt;
+                                 ENU=Payment Journal];
                       RunObject=Page 256;
                       Promoted=Yes;
                       Image=PaymentJournal;
                       PromotedCategory=Process }
       { 1906371704;1 ;Action    ;
-                      CaptionML=[ENU=Purchase Journal;
-                                 ESP=Diario compras;
-                                 DEA=Einkaufs Buch.-Blatt];
+                      CaptionML=[DEU=Einkaufs Buch.-Blatt;
+                                 ENU=Purchase Journal];
                       RunObject=Page 254;
                       Promoted=No;
                       Image=Journals;
@@ -334,148 +297,128 @@ OBJECT Page 27 Vendor List
       { 1900000006;0 ;ActionContainer;
                       ActionContainerType=Reports }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=General;
-                                 ESP=General;
-                                 DEA=Allgemein] }
+                      CaptionML=[DEU=Allgemein;
+                                 ENU=General] }
       { 1900518506;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - List;
-                                 ESP=Proveedor - Listado;
-                                 DEA=Kreditor - Liste];
+                      CaptionML=[DEU=Kreditor - Liste;
+                                 ENU=Vendor - List];
                       RunObject=Report 301;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906328906;2 ;Action    ;
-                      CaptionML=[ENU=Vendor Register;
-                                 ESP=Registro movs. proveedor;
-                                 DEA=Kreditorenjournal];
+                      CaptionML=[DEU=Kreditorenjournal;
+                                 ENU=Vendor Register];
                       RunObject=Report 303;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906643406;2 ;Action    ;
-                      CaptionML=[ENU=Vendor Item Catalog;
-                                 ESP=Lista productos proveedores;
-                                 DEA=Kreditoren/Artikel Katalog];
+                      CaptionML=[DEU=Kreditoren/Artikel Katalog;
+                                 ENU=Vendor Item Catalog];
                       RunObject=Report 320;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1905916106;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Labels;
-                                 ESP=Proveedor - Etiquetas;
-                                 DEA=Kreditor - Etiketten];
+                      CaptionML=[DEU=Kreditor - Etiketten;
+                                 ENU=Vendor - Labels];
                       RunObject=Report 310;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1900497106;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Top 10 List;
-                                 ESP=Proveedor - Listado 10 mejores;
-                                 DEA=Kreditor - Top 10 Liste];
+                      CaptionML=[DEU=Kreditor - Top 10 Liste;
+                                 ENU=Vendor - Top 10 List];
                       RunObject=Report 311;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 5       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Orders;
-                                 ESP=Pedidos;
-                                 DEA=AuftrÑge];
+                      CaptionML=[DEU=AuftrÑge;
+                                 ENU=Orders];
                       Image=Report }
       { 1906294906;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Order Summary;
-                                 ESP=Proveedor - Total pedidos;
-                                 DEA=Kreditor - BestellungsÅbers.];
+                      CaptionML=[DEU=Kreditor - BestellungsÅbers.;
+                                 ENU=Vendor - Order Summary];
                       RunObject=Report 307;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1904076306;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Order Detail;
-                                 ESP=Proveedor - L°neas pedidos;
-                                 DEA=Kreditor - Bestellungen];
+                      CaptionML=[DEU=Kreditor - Bestellungen;
+                                 ENU=Vendor - Order Detail];
                       RunObject=Report 308;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Purchase;
-                                 ESP=Compra;
-                                 DEA=Einkauf];
+                      CaptionML=[DEU=Einkauf;
+                                 ENU=Purchase];
                       Image=Purchase }
       { 1907303206;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Purchase List;
-                                 ESP=Lista compras - Proveedor;
-                                 DEA=Kreditor - EinkaufsÅbersicht];
+                      CaptionML=[DEU=Kreditor - EinkaufsÅbersicht;
+                                 ENU=Vendor - Purchase List];
                       RunObject=Report 309;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1904498706;2 ;Action    ;
-                      CaptionML=[ENU=Vendor/Item Purchases;
-                                 ESP=Compras prov./producto;
-                                 DEA=Kreditor/Artikel EinkÑufe];
+                      CaptionML=[DEU=Kreditor/Artikel EinkÑufe;
+                                 ENU=Vendor/Item Purchases];
                       RunObject=Report 313;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1905448306;2 ;Action    ;
-                      CaptionML=[ENU=Purchase Statistics;
-                                 ESP=Estad°sticas compras;
-                                 DEA=Einkaufsstatistik];
+                      CaptionML=[DEU=Einkaufsstatistik;
+                                 ENU=Purchase Statistics];
                       RunObject=Report 312;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 9       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Financial Management;
-                                 ESP=Gesti¢n financiera;
-                                 DEA=Finanzmanagement];
+                      CaptionML=[DEU=Finanzmanagement;
+                                 ENU=Financial Management];
                       Image=Report }
       { 1905766406;2 ;Action    ;
-                      CaptionML=[ENU=Payments on Hold;
-                                 ESP=Pagos retenidos;
-                                 DEA=Kreditor - Zahlung abwarten];
+                      CaptionML=[DEU=Kreditor - Zahlung abwarten;
+                                 ENU=Payments on Hold];
                       RunObject=Report 319;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1905685906;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Summary Aging;
-                                 ESP=Proveedor - Pagos por periodos;
-                                 DEA=Kreditor - Saldo nach Perioden];
+                      CaptionML=[DEU=Kreditor - Saldo nach Perioden;
+                                 ENU=Vendor - Summary Aging];
                       RunObject=Report 305;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1905388206;2 ;Action    ;
-                      CaptionML=[ENU=Aged Accounts Payable;
-                                 ESP=AntigÅedad pagos;
-                                 DEA=Kreditor - SaldenrÅckblick];
+                      CaptionML=[DEU=Kreditor - SaldenrÅckblick;
+                                 ENU=Aged Accounts Payable];
                       RunObject=Report 322;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1904504206;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Balance to Date;
-                                 ESP=Proveedor - Saldo por fechas;
-                                 DEA=Kreditorenposten per];
+                      CaptionML=[DEU=Kreditorenposten per;
+                                 ENU=Vendor - Balance to Date];
                       RunObject=Report 321;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906387606;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Trial Balance;
-                                 ESP=Proveedor - Balance sumas y saldos;
-                                 DEA=Kreditor - Saldenliste];
+                      CaptionML=[DEU=Kreditor - Saldenliste;
+                                 ENU=Vendor - Trial Balance];
                       RunObject=Report 329;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1900639206;2 ;Action    ;
-                      CaptionML=[ENU=Vendor - Detail Trial Balance;
-                                 ESP=Proveedor - Balance de comprobaci¢n detallado;
-                                 DEA=Kreditor - Kontoblatt];
+                      CaptionML=[DEU=Kreditor - Kontoblatt;
+                                 ENU=Vendor - Detail Trial Balance];
                       RunObject=Report 304;
                       Promoted=No;
                       Image=Report;

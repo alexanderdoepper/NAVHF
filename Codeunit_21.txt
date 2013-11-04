@@ -2,9 +2,9 @@ OBJECT Codeunit 21 Item Jnl.-Check Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,16 +18,16 @@ OBJECT Codeunit 21 Item Jnl.-Check Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=cannot be a closing date;ESP=no puede ser una fecha £ltima;DEA=darf kein Ultimodatum sein';
-      Text001@1001 : TextConst 'ENU=is not within your range of allowed posting dates;ESP=no est† dentro del periodo de fechas de registro permitidas;DEA=liegt nicht innerhalb des zugelassenen Buchungszeitraums.';
-      Text003@1002 : TextConst 'ENU=must not be negative when %1 is %2;ESP=no puede ser negativo cuando %1 es %2;DEA=darf nicht negativ sein, wenn %1 %2 ist';
-      Text004@1003 : TextConst 'ENU=must have the same value as %1;ESP=debe tener el mismo valor que %1;DEA=muss denselben Wert wie %1 haben';
-      Text005@1004 : TextConst 'ENU=must be %1 or %2 when %3 is %4;ESP=debe ser %1 o %2 cuando %3 sea %4.;DEA=muss %1 oder %2 sein, wenn %3 %4 ist';
-      Text006@1005 : TextConst 'ENU=must equal %1 - %2 when %3 is %4 and %5 is %6;ESP=debe igualar %1 - %2 cuando %3 es %4 y %5 es %6;DEA=muss gleich wie %1 - %2 sein, wenn %3 %4 ist und %5 %6';
-      Text007@1006 : TextConst 'ENU="You cannot post these lines because you have not entered a quantity on one or more of the lines. ";ESP="No puede registrar estas l°neas porque no ha insertado la cantidad en una o m†s l°neas. ";DEA="Diese Zeilen kînnen nicht gebucht werden, da Sie in einer oder mehreren Zeilen keine Menge angegeben haben. "';
-      Text009@1008 : TextConst 'ENU=The combination of dimensions used in %1 %2, %3, %4 is blocked. %5;ESP=La combin. de dimensiones utilizada en %1 %2, %3, %4 est† bloq. %5;DEA=Die Kombination der im %1 %2, %3, %4 verwendeten Dimensionen ist gesperrt. %5';
-      Text010@1009 : TextConst 'ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5;ESP=La dimensi¢n util. en %1 %2, %3, %4 ha causado error. %5;DEA=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5';
-      Text011@1019 : TextConst 'ENU=%1 must not be equal to %2;ESP=%1 no debe ser igual a %2;DEA=Die Werte von %1 und %2 dÅrfen nicht identisch sein';
+      Text000@1000 : TextConst 'DEU=darf kein Ultimodatum sein;ENU=cannot be a closing date';
+      Text001@1001 : TextConst 'DEU=liegt nicht innerhalb des zugelassenen Buchungszeitraums.;ENU=is not within your range of allowed posting dates';
+      Text003@1002 : TextConst 'DEU=darf nicht negativ sein, wenn %1 %2 ist;ENU=must not be negative when %1 is %2';
+      Text004@1003 : TextConst 'DEU=muss denselben Wert wie %1 haben;ENU=must have the same value as %1';
+      Text005@1004 : TextConst 'DEU=muss %1 oder %2 sein, wenn %3 %4 ist;ENU=must be %1 or %2 when %3 is %4';
+      Text006@1005 : TextConst 'DEU=muss gleich wie %1 - %2 sein, wenn %3 %4 ist und %5 %6;ENU=must equal %1 - %2 when %3 is %4 and %5 is %6';
+      Text007@1006 : TextConst 'DEU="Diese Zeilen kînnen nicht gebucht werden, da Sie in einer oder mehreren Zeilen keine Menge angegeben haben. ";ENU="You cannot post these lines because you have not entered a quantity on one or more of the lines. "';
+      Text009@1008 : TextConst 'DEU=Die Kombination der im %1 %2, %3, %4 verwendeten Dimensionen ist gesperrt. %5;ENU=The combination of dimensions used in %1 %2, %3, %4 is blocked. %5';
+      Text010@1009 : TextConst 'DEU=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5;ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5';
+      Text011@1019 : TextConst 'DEU=Die Werte von %1 und %2 dÅrfen nicht identisch sein;ENU=%1 must not be equal to %2';
       Location@1018 : Record 14;
       InvtSetup@1010 : Record 313;
       GLSetup@1011 : Record 98;
@@ -39,12 +39,12 @@ OBJECT Codeunit 21 Item Jnl.-Check Line
       DimMgt@1015 : Codeunit 408;
       AllowPostingFrom@1016 : Date;
       AllowPostingTo@1017 : Date;
-      Text012@1021 : TextConst 'ENU="Warehouse handling is required for %1 = %2, %3 = %4, %5 = %6.";ESP="Manipulaci¢n almacÇn requerido para %1 = %2, %3 = %4, %5 = %6.";DEA="Lagerdurchlauf ist notwendig fÅr %1 = %2, %3 = %4, %5 = %6."';
+      Text012@1021 : TextConst 'DEU="Lagerdurchlauf ist notwendig fÅr %1 = %2, %3 = %4, %5 = %6.";ENU="Warehouse handling is required for %1 = %2, %3 = %4, %5 = %6."';
       CalledFromInvtPutawayPick@1022 : Boolean;
       CalledFromAdjustment@1020 : Boolean;
       SalesSetup@1150002 : Record 311;
       Item@1150001 : Record 27;
-      Text11500@1150003 : TextConst 'ENU=Item %1 cannot be shipped because inventory at location "%2", bin "%3", variant "%4" is only %5.;DEA=Artikel %1 kann nicht geliefert werden, weil der Bestand an Lagerort "%2", Lagerplatz "%3", Variante "%4" nur %5 betrÑgt.';
+      Text11500@1150003 : TextConst 'DEU=Artikel %1 kann nicht geliefert werden, weil der Bestand an Lagerort "%2", Lagerplatz "%3", Variante "%4" nur %5 betrÑgt.;ENU=Item %1 cannot be shipped because inventory at location "%2", bin "%3", variant "%4" is only %5.';
 
     PROCEDURE RunCheck@1(VAR ItemJnlLine@1000 : Record 83);
     VAR
@@ -324,6 +324,9 @@ OBJECT Codeunit 21 Item Jnl.-Check Line
     LOCAL PROCEDURE CheckWarehouse@7301(ItemJnlLine@1000 : Record 83);
     VAR
       AssemblyLine@1001 : Record 901;
+      ReservationEntry@1004 : Record 337;
+      ItemJnlLineReserve@1005 : Codeunit 99000835;
+      ReservEngineMgt@1006 : Codeunit 99000831;
       WhseValidateSourceLine@1003 : Codeunit 5777;
       ShowError@1002 : Boolean;
     BEGIN
@@ -342,13 +345,19 @@ OBJECT Codeunit 21 Item Jnl.-Check Line
       CASE ItemJnlLine."Entry Type" OF
         ItemJnlLine."Entry Type"::Output:
           IF WhseOrderHandlingReqd(ItemJnlLine,Location) THEN
-            IF ItemJnlLine."Operation No." <> '' THEN
-              ShowError := ItemJnlLine.LastOutputOperation(ItemJnlLine)
-            ELSE
-              ShowError := WhseValidateSourceLine.WhseLinesExist(DATABASE::"Prod. Order Line",
-                  3,ItemJnlLine."Order No.",
-                  ItemJnlLine."Order Line No.",
-                  0,ItemJnlLine.Quantity);
+            IF ItemJnlLine."Applies-to Entry" = 0 THEN BEGIN
+              ReservEngineMgt.InitFilterAndSortingLookupFor(ReservationEntry,FALSE);
+              ItemJnlLineReserve.FilterReservFor(ReservationEntry,ItemJnlLine);
+              ReservationEntry.SETRANGE("Serial No."); // Ignore Serial No
+              ReservationEntry.SETRANGE("Lot No."); // Ignore Lot No
+              IF ReservationEntry.FINDSET THEN
+                REPEAT
+                  IF ReservationEntry."Appl.-to Item Entry" = 0 THEN
+                    ShowError := TRUE;
+                UNTIL (ReservationEntry.NEXT = 0) OR ShowError
+              ELSE
+                ShowError := ItemJnlLine.LastOutputOperation(ItemJnlLine);
+            END;
         ItemJnlLine."Entry Type"::Consumption:
           IF WhseOrderHandlingReqd(ItemJnlLine,Location) THEN
             IF WhseValidateSourceLine.WhseLinesExist(

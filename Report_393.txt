@@ -2,15 +2,14 @@ OBJECT Report 393 Suggest Vendor Payments
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Suggest Vendor Payments;
-               ESP=Proponer pagos a proveedores;
-               DEA=Zahlungsvorschlag];
+    CaptionML=[DEU=Zahlungsvorschlag;
+               ENU=Suggest Vendor Payments];
     ProcessingOnly=Yes;
     OnPreReport=BEGIN
                   VendorLedgEntryTemp.DELETEALL;
@@ -192,36 +191,31 @@ OBJECT Report 393 Suggest Vendor Payments
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen];
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options];
                   GroupType=Group }
 
       { 4   ;2   ;Group     ;
-                  CaptionML=[ENU=Find Payments;
-                             ESP=Buscar pagos;
-                             DEA=Zahlungen suchen];
+                  CaptionML=[DEU=Zahlungen suchen;
+                             ENU=Find Payments];
                   GroupType=Group }
 
       { 1   ;3   ;Field     ;
                   Name=LastPaymentDate;
-                  CaptionML=[ENU=Last Payment Date;
-                             ESP=Èlt. fecha pago;
-                             DEA=Letztes FÑlligkeitsdatum];
+                  CaptionML=[DEU=Letztes FÑlligkeitsdatum;
+                             ENU=Last Payment Date];
                   SourceExpr=LastDueDateToPayReq }
 
       { 2   ;3   ;Field     ;
-                  CaptionML=[ENU=Find Payment Discounts;
-                             ESP=Buscar dtos. P.P.;
-                             DEA=Skonto finden];
+                  CaptionML=[DEU=Skonto finden;
+                             ENU=Find Payment Discounts];
                   SourceExpr=UsePaymentDisc;
                   MultiLine=Yes }
 
       { 3   ;3   ;Field     ;
                   Name=UseVendorPriority;
-                  CaptionML=[ENU=Use Vendor Priority;
-                             ESP=Utilizar prioridad prov.;
-                             DEA=KreditorenprioritÑt verwenden];
+                  CaptionML=[DEU=KreditorenprioritÑt verwenden;
+                             ENU=Use Vendor Priority];
                   SourceExpr=UsePriority;
                   OnValidate=BEGIN
                                IF NOT UsePriority AND (AmountAvailable <> 0) THEN
@@ -230,9 +224,8 @@ OBJECT Report 393 Suggest Vendor Payments
                               }
 
       { 11  ;3   ;Field     ;
-                  CaptionML=[ENU=Available Amount (LCY);
-                             ESP=Importe disponible (DL);
-                             DEA=VerfÅgbarer Betrag (MW)];
+                  CaptionML=[DEU=VerfÅgbarer Betrag (MW);
+                             ENU=Available Amount (LCY)];
                   SourceExpr=AmountAvailable;
                   OnValidate=BEGIN
                                IF AmountAvailable <> 0 THEN
@@ -241,23 +234,20 @@ OBJECT Report 393 Suggest Vendor Payments
                               }
 
       { 7   ;2   ;Group     ;
-                  CaptionML=[ENU=Summarize Results;
-                             ESP=Resumir resultados;
-                             DEA=Ergebnisse zusammenfassen];
+                  CaptionML=[DEU=Ergebnisse zusammenfassen;
+                             ENU=Summarize Results];
                   GroupType=Group }
 
       { 6   ;3   ;Field     ;
                   Name=SummarizePerVendor;
-                  CaptionML=[ENU=Summarize per Vendor;
-                             ESP=Una l°nea por proveedor;
-                             DEA=Pro Kreditor summieren];
+                  CaptionML=[DEU=Pro Kreditor summieren;
+                             ENU=Summarize per Vendor];
                   SourceExpr=SummarizePerVend }
 
       { 17  ;3   ;Field     ;
                   Name=SummarizePerDimText;
-                  CaptionML=[ENU=By Dimension;
-                             ESP=Por dimensi¢n;
-                             DEA=Nach Dimension];
+                  CaptionML=[DEU=Nach Dimension;
+                             ENU=By Dimension];
                   SourceExpr=SummarizePerDimText;
                   Enabled=SummarizePerDimTextEnable;
                   Editable=FALSE;
@@ -269,15 +259,13 @@ OBJECT Report 393 Suggest Vendor Payments
                                 }
 
       { 8   ;2   ;Group     ;
-                  CaptionML=[ENU=Fill in Journal Lines;
-                             ESP=Rellenar l°neas de diario;
-                             DEA=Buchungsblattzeilen ausfÅllen];
+                  CaptionML=[DEU=Buchungsblattzeilen ausfÅllen;
+                             ENU=Fill in Journal Lines];
                   GroupType=Group }
 
       { 5   ;3   ;Field     ;
-                  CaptionML=[ENU=Posting Date;
-                             ESP=Fecha registro;
-                             DEA=Buchungsdatum];
+                  CaptionML=[DEU=Buchungsdatum;
+                             ENU=Posting Date];
                   SourceExpr=PostingDate;
                   OnValidate=BEGIN
                                ValidatePostingDate;
@@ -286,9 +274,8 @@ OBJECT Report 393 Suggest Vendor Payments
 
       { 9   ;3   ;Field     ;
                   Name=StartingDocumentNo;
-                  CaptionML=[ENU=Starting Document No.;
-                             ESP=Nß documento incial;
-                             DEA=Start von Belegnr.];
+                  CaptionML=[DEU=Start von Belegnr.;
+                             ENU=Starting Document No.];
                   SourceExpr=NextDocNo;
                   OnValidate=BEGIN
                                IF NextDocNo <> '' THEN
@@ -298,9 +285,8 @@ OBJECT Report 393 Suggest Vendor Payments
                               }
 
       { 18  ;3   ;Field     ;
-                  CaptionML=[ENU=New Doc. No. per Line;
-                             ESP=Nuevo nß doc. por l°nea;
-                             DEA=Neue Belegnr. pro Zeile];
+                  CaptionML=[DEU=Neue Belegnr. pro Zeile;
+                             ENU=New Doc. No. per Line];
                   SourceExpr=DocNoPerLine;
                   OnValidate=BEGIN
                                IF NOT UsePriority AND (AmountAvailable <> 0) THEN
@@ -310,12 +296,10 @@ OBJECT Report 393 Suggest Vendor Payments
 
       { 10  ;3   ;Field     ;
                   Name=BalAccountType;
-                  CaptionML=[ENU=Bal. Account Type;
-                             ESP=Tipo contrapartida;
-                             DEA=Gegenkontoart];
-                  OptionCaptionML=[ENU=G/L Account,,,Bank Account;
-                                   ESP=Cuenta,,,Banco;
-                                   DEA=Sachkonto,,,Bankkonto];
+                  CaptionML=[DEU=Gegenkontoart;
+                             ENU=Bal. Account Type];
+                  OptionCaptionML=[DEU=Sachkonto,,,Bankkonto;
+                                   ENU=G/L Account,,,Bank Account];
                   SourceExpr=GenJnlLine2."Bal. Account Type";
                   OnValidate=BEGIN
                                GenJnlLine2."Bal. Account No." := '';
@@ -324,9 +308,8 @@ OBJECT Report 393 Suggest Vendor Payments
 
       { 12  ;3   ;Field     ;
                   Name=BalAccountNo;
-                  CaptionML=[ENU=Bal. Account No.;
-                             ESP=Cta. contrapartida;
-                             DEA=Gegenkontonr.];
+                  CaptionML=[DEU=Gegenkontonr.;
+                             ENU=Bal. Account No.];
                   SourceExpr=GenJnlLine2."Bal. Account No.";
                   OnValidate=BEGIN
                                IF GenJnlLine2."Bal. Account No." <> '' THEN
@@ -355,12 +338,10 @@ OBJECT Report 393 Suggest Vendor Payments
                             }
 
       { 14  ;3   ;Field     ;
-                  CaptionML=[ENU=Bank Payment Type;
-                             ESP=Tipo pago por banco;
-                             DEA=Bankkontozahlungsart];
-                  OptionCaptionML=[ENU=" ,Computer Check,Manual Check";
-                                   ESP=" ,Cheque autom†tico,Cheque manual,,,,,Pago electr¢nico";
-                                   DEA=" ,Computer Scheck,Manueller Scheck"];
+                  CaptionML=[DEU=Bankkontozahlungsart;
+                             ENU=Bank Payment Type];
+                  OptionCaptionML=[DEU=" ,Computer Scheck,Manueller Scheck";
+                                   ENU=" ,Computer Check,Manual Check"];
                   SourceExpr=GenJnlLine2."Bank Payment Type";
                   OnValidate=BEGIN
                                IF (GenJnlLine2."Bal. Account Type" <> GenJnlLine2."Bal. Account Type"::"Bank Account") AND
@@ -381,26 +362,26 @@ OBJECT Report 393 Suggest Vendor Payments
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=In the Last Payment Date field, specify the last possible date that payments must be made.;ESP=En el campo Èlt. fecha pago, especifique la £ltima fecha posible en la que se deben realizar los pagos.;DEA=Geben Sie im Feld ''Letztes FÑlligkeitsdatum'' das letzte mîgliche Zahlungsdatum an.';
-      Text001@1001 : TextConst 'ENU=In the Posting Date field, specify the date that will be used as the posting date for the journal entries.;ESP=En el campo Fecha registro, especifique la fecha que se usar† como fecha de registro para los movimientos del diario.;DEA=Geben Sie im Feld ''Buchungsdatum'' das Datum an, das als Buchungsdatum fÅr die Buch.-Blattposten verwendet werden soll.';
-      Text002@1002 : TextConst 'ENU=In the Starting Document No. field, specify the first document number to be used.;ESP=En el campo Nß documento inicial, especifique el primer n£mero de documento que se debe usar.;DEA=Geben Sie im Feld ''Start von Belegnr.'' die erste zu verwendende Belegnummer ein.';
-      Text003@1003 : TextConst '@@@=%1 is a date;ENU=The payment date is earlier than %1.\\Do you still want to run the batch job?;ESP=La fecha de pago es anterior a %1\.\®Desea ejecutar el trabajo por lotes?;DEA=Das Zahlungsdatum liegt vor dem %1.\\Mîchten Sie den Batchauftrag dennoch ausfÅhren?';
-      Text005@1005 : TextConst 'ENU=The batch job was interrupted.;ESP=El proceso se ha interrumpido.;DEA=Die Stapelverarbeitung wurde abgebrochen.';
-      Text006@1006 : TextConst 'ENU=Processing vendors     #1##########;ESP=Procesando proveedores                   #1##########;DEA=Kreditoren werden durchgelesen               #1##########';
-      Text007@1007 : TextConst 'ENU=Processing vendors for payment discounts #1##########;ESP=Procesando proveedores para dto. P.P.    #1##########;DEA=Bearbeite Kreditoren fÅr Skonto              #1##########';
-      Text008@1008 : TextConst 'ENU=Inserting payment journal lines #1##########;ESP=Insertando l°ns. diario pagos            #1##########;DEA=FÅge Zahlungsausgangs Buch.-Blatt Zeilen ein #1##########';
-      Text009@1009 : TextConst 'ENU=%1 must be G/L Account or Bank Account.;ESP=%1 deber°a ser una cuenta o banco.;DEA=%1 muss Sachkonto oder Bankkonto sein.';
-      Text010@1010 : TextConst 'ENU=%1 must be filled only when %2 is Bank Account.;ESP=S¢lo se debe completar %1 si %2 es un banco.;DEA=%1 muss nur dann gefÅllt werden, wenn %2 ein Bankkonto ist.';
-      Text011@1011 : TextConst 'ENU=Use Vendor Priority must be activated when the value in the Amount Available field is not 0.;ESP=Se debe activar utilizar prioridad prov. si el valor en el campo importe disponible no es igual a cero.;DEA=KreditorenprioritÑt verwenden muss aktiviert sein, wenn der Wert des Feldes VerfÅgbarer Betrag nicht 0 ist.';
-      Text012@1012 : TextConst 'ENU=Starting Document No. must contain a number.;ESP=Nß documento incial debe contener un n£mero.;DEA=Die Start von Belegnr. muss eine Nummer enthalten.';
-      Text013@1013 : TextConst 'ENU=Use Vendor Priority must be activated when the value in the Amount Available Amount (LCY) field is not 0.;ESP=Se debe activar Utilizar prioridad prov. si el valor en el campo Importe disponible (DL) es distinto de cero;DEA=KreditorenprioritÑt verwenden muss aktiviert sein, wenn der Wert des Feldes VerfÅgbarer Betrag (MW) nicht 0 ist.';
-      Text014@1014 : TextConst 'ENU=Payment to vendor %1;ESP=Pago a proveedor %1;DEA=Zahlung an Kreditor %1';
-      Text015@1015 : TextConst 'ENU=Payment of %1 %2;ESP=Pago de %1 %2;DEA=Zahlung von %1 %2';
-      Text016@1016 : TextConst 'ENU=" is already applied to %1 %2 for vendor %3.";ESP=" ya se ha liquidado a %1 %2 para el proveedor %3.";DEA=" ist bereits mit %1 %2 fÅr den Kreditor %3 ausgeglichen."';
-      Text017@1017 : TextConst '@@@="If Bank Payment Type = Computer Check and you have not selected the Summarize per Vendor field,\ then you must select the New Doc. No. per Line.";ENU="If %1 = %2 and you have not selected the Summarize per Vendor field,\ then you must select the New Doc. No. per Line.";ESP="Si %1 = %2 y no ha seleccionado el campo Resumir por proveedor,\ debe seleccionar Nuevo nß doc. por l°nea.";DEA="Wenn die %1 = %2 ist und Sie das Feld ''Pro Kreditor summieren'' nicht aktiviert haben,\ mÅssen Sie ''Neue Belegnr. pro Zeile'' aktivieren."';
-      Text020@1020 : TextConst '@@@=You have only created suggested vendor payment lines for the Currency Code EUR.\ However, there are other open vendor ledger entries in currencies other than EUR.;ENU=You have only created suggested vendor payment lines for the %1 %2.\ However, there are other open vendor ledger entries in currencies other than %2.;ESP=Solo ha creado l°neas de pago de proveedor sugeridas para el %1 %2.\ Hay, sin embargo, otros movimientos de proveedor abiertos en divisas diferentes que %2.;DEA=Sie haben nur die empfohlenen Kreditorenposten fÅr %1 %2 erstellt.\ Es sind aber auch noch offene Kreditorenposten in anderen WÑhrungen als %2 vorhanden.';
-      Text021@1021 : TextConst 'ENU=You have only created suggested vendor payment lines for the %1 %2.\ There are no other open vendor ledger entries in other currencies.;ESP=Solo ha creado l°neas de pago de proveedor sugeridas para el %1 %2.\ No hay otros movimientos de proveedor abiertos en otras divisas.;DEA=Sie haben nur die empfohlenen Kreditorenposten fÅr %1 %2 erstellt.\ Es sind keine offenen Kreditorenposten in anderen WÑhrungen vorhanden.';
-      Text022@1022 : TextConst 'ENU=You have created suggested vendor payment lines for all currencies.;ESP=Ha creado l°neas pago proveedor sugeridas para todas las divisas.;DEA=Sie haben Zahlungsvorschlagszeilen fÅr alle WÑhrungen erstellt.';
+      Text000@1000 : TextConst 'DEU=Geben Sie im Feld ''Letztes FÑlligkeitsdatum'' das letzte mîgliche Zahlungsdatum an.;ENU=In the Last Payment Date field, specify the last possible date that payments must be made.';
+      Text001@1001 : TextConst 'DEU=Geben Sie im Feld ''Buchungsdatum'' das Datum an, das als Buchungsdatum fÅr die Buch.-Blattposten verwendet werden soll.;ENU=In the Posting Date field, specify the date that will be used as the posting date for the journal entries.';
+      Text002@1002 : TextConst 'DEU=Geben Sie im Feld ''Start von Belegnr.'' die erste zu verwendende Belegnummer ein.;ENU=In the Starting Document No. field, specify the first document number to be used.';
+      Text003@1003 : TextConst '@@@=%1 is a date;DEU=Das Zahlungsdatum liegt vor dem %1.\\Mîchten Sie den Batchauftrag dennoch ausfÅhren?;ENU=The payment date is earlier than %1.\\Do you still want to run the batch job?';
+      Text005@1005 : TextConst 'DEU=Die Stapelverarbeitung wurde abgebrochen.;ENU=The batch job was interrupted.';
+      Text006@1006 : TextConst 'DEU=Kreditoren werden durchgelesen               #1##########;ENU=Processing vendors     #1##########';
+      Text007@1007 : TextConst 'DEU=Bearbeite Kreditoren fÅr Skonto              #1##########;ENU=Processing vendors for payment discounts #1##########';
+      Text008@1008 : TextConst 'DEU=FÅge Zahlungsausgangs Buch.-Blatt Zeilen ein #1##########;ENU=Inserting payment journal lines #1##########';
+      Text009@1009 : TextConst 'DEU=%1 muss Sachkonto oder Bankkonto sein.;ENU=%1 must be G/L Account or Bank Account.';
+      Text010@1010 : TextConst 'DEU=%1 muss nur dann gefÅllt werden, wenn %2 ein Bankkonto ist.;ENU=%1 must be filled only when %2 is Bank Account.';
+      Text011@1011 : TextConst 'DEU=KreditorenprioritÑt verwenden muss aktiviert sein, wenn der Wert des Feldes VerfÅgbarer Betrag nicht 0 ist.;ENU=Use Vendor Priority must be activated when the value in the Amount Available field is not 0.';
+      Text012@1012 : TextConst 'DEU=Die Start von Belegnr. muss eine Nummer enthalten.;ENU=Starting Document No. must contain a number.';
+      Text013@1013 : TextConst 'DEU=KreditorenprioritÑt verwenden muss aktiviert sein, wenn der Wert des Feldes VerfÅgbarer Betrag (MW) nicht 0 ist.;ENU=Use Vendor Priority must be activated when the value in the Amount Available Amount (LCY) field is not 0.';
+      Text014@1014 : TextConst 'DEU=Zahlung an Kreditor %1;ENU=Payment to vendor %1';
+      Text015@1015 : TextConst 'DEU=Zahlung von %1 %2;ENU=Payment of %1 %2';
+      Text016@1016 : TextConst 'DEU=" ist bereits mit %1 %2 fÅr den Kreditor %3 ausgeglichen.";ENU=" is already applied to %1 %2 for vendor %3."';
+      Text017@1017 : TextConst '@@@="If Bank Payment Type = Computer Check and you have not selected the Summarize per Vendor field,\ then you must select the New Doc. No. per Line.";DEU="Wenn die %1 = %2 ist und Sie das Feld ''Pro Kreditor summieren'' nicht aktiviert haben,\ mÅssen Sie ''Neue Belegnr. pro Zeile'' aktivieren.";ENU="If %1 = %2 and you have not selected the Summarize per Vendor field,\ then you must select the New Doc. No. per Line."';
+      Text020@1020 : TextConst '@@@=You have only created suggested vendor payment lines for the Currency Code EUR.\ However, there are other open vendor ledger entries in currencies other than EUR.;DEU=Sie haben nur die empfohlenen Kreditorenposten fÅr %1 %2 erstellt.\ Es sind aber auch noch offene Kreditorenposten in anderen WÑhrungen als %2 vorhanden.;ENU=You have only created suggested vendor payment lines for the %1 %2.\ However, there are other open vendor ledger entries in currencies other than %2.';
+      Text021@1021 : TextConst 'DEU=Sie haben nur die empfohlenen Kreditorenposten fÅr %1 %2 erstellt.\ Es sind keine offenen Kreditorenposten in anderen WÑhrungen vorhanden.;ENU=You have only created suggested vendor payment lines for the %1 %2.\ There are no other open vendor ledger entries in other currencies.';
+      Text022@1022 : TextConst 'DEU=Sie haben Zahlungsvorschlagszeilen fÅr alle WÑhrungen erstellt.;ENU=You have created suggested vendor payment lines for all currencies.';
       Vend2@1023 : Record 23;
       GenJnlTemplate@1024 : Record 80;
       GenJnlBatch@1025 : Record 232;
@@ -442,10 +423,10 @@ OBJECT Report 393 Suggest Vendor Payments
       MessageText@1058 : Text[250];
       GenJnlLineInserted@1059 : Boolean;
       SeveralCurrencies@1060 : Boolean;
-      Text023@1061 : TextConst 'ENU=" ,Computer Check,Manual Check";ESP=" ,Cheque autom†tico,Cheque manual";DEA=" ,Computer Scheck,Manueller Scheck"';
-      Text024@1102601001 : TextConst 'ENU=There are one or more entries for which no payment suggestions have been made because the posting dates of the entries are later than the posting date in the Suggest Vendor Payments batch job request window. Do you want to see the entries?;ESP=Existen uno o m†s movimientos para los que se realizaron sugerencias de pago porque las fechas de registro de dichos movimientos son posteriores a la fecha de publicaci¢n en la ventana de solicitud del proceso Proponer pagos a proveedores. ®Desea ver los movimientos?;DEA=Es ist mindestens ein Eintrag vorhanden, fÅr den keine ZahlungsvorschlÑge gemacht wurden, weil das Buchungsdatum des betreffenden Eintrags spÑter liegt als das Buchungsdatum im Anforderungsfenster der Stapelverarbeitung ''Zahlungsvorschlag''. Mîchten Sie die betreffenden EintrÑge anzeigen?';
+      Text023@1061 : TextConst 'DEU=" ,Computer Scheck,Manueller Scheck";ENU=" ,Computer Check,Manual Check"';
+      Text024@1102601001 : TextConst 'DEU=Es ist mindestens ein Eintrag vorhanden, fÅr den keine ZahlungsvorschlÑge gemacht wurden, weil das Buchungsdatum des betreffenden Eintrags spÑter liegt als das Buchungsdatum im Anforderungsfenster der Stapelverarbeitung ''Zahlungsvorschlag''. Mîchten Sie die betreffenden EintrÑge anzeigen?;ENU=There are one or more entries for which no payment suggestions have been made because the posting dates of the entries are later than the posting date in the Suggest Vendor Payments batch job request window. Do you want to see the entries?';
       SummarizePerDimTextEnable@19039578 : Boolean INDATASET;
-      Text025@1063 : TextConst 'ENU=The %1 with the number %2 has a %3 with the number %4.;ESP=El %1 con el n£mero %2 tiene un %3 con el n£mero %4.;DEA=Das Element ''%1'' mit der Nummer %2 besitzt Folgendes: %3 (Nummer: %4).';
+      Text025@1063 : TextConst 'DEU=Das Element ''%1'' mit der Nummer %2 besitzt Folgendes: %3 (Nummer: %4).;ENU=The %1 with the number %2 has a %3 with the number %4.';
       VendorBalance@1065 : Decimal;
 
     PROCEDURE SetGenJnlLine@1(NewGenJnlLine@1000 : Record 81);

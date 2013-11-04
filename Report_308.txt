@@ -2,15 +2,14 @@ OBJECT Report 308 Vendor - Order Detail
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Vendor - Order Detail;
-               ESP=Proveedor - L°neas pedidos;
-               DEA=Kreditor - Bestellungen];
+    CaptionML=[DEU=Kreditor - Bestellungen;
+               ENU=Vendor - Order Detail];
     OnPreReport=BEGIN
                   VendFilter := Vendor.GETFILTERS;
                   PurchLineFilter := "Purchase Line".GETFILTERS;
@@ -102,8 +101,8 @@ OBJECT Report 308 Vendor - Order Detail
                DataItemTableView=SORTING(Document Type,Pay-to Vendor No.,Currency Code)
                                  WHERE(Document Type=CONST(Order),
                                        Outstanding Quantity=FILTER(<>0));
-               ReqFilterHeadingML=[ENU=Purchase Order Line;
-                                   DEA=Purchase Order Line];
+               ReqFilterHeadingML=[DEU=Purchase Order Line;
+                                   ENU=Purchase Order Line];
                OnPreDataItem=BEGIN
                                CurrReport.CREATETOTALS(PurchOrderAmountLCY,PurchOrderAmount);
                              END;
@@ -291,20 +290,17 @@ OBJECT Report 308 Vendor - Order Detail
                   ContainerType=ContentArea }
 
       { 3   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Show Amounts in LCY;
-                             ESP=Muestra importes en DL;
-                             DEA=BetrÑge in MW anzeigen];
+                  CaptionML=[DEU=BetrÑge in MW anzeigen;
+                             ENU=Show Amounts in LCY];
                   SourceExpr=PrintAmountsInLCY }
 
       { 2   ;2   ;Field     ;
-                  CaptionML=[ENU=New Page per Vendor;
-                             ESP=P†gina nueva por proveedor;
-                             DEA=Neue Seite pro Kreditor];
+                  CaptionML=[DEU=Neue Seite pro Kreditor;
+                             ENU=New Page per Vendor];
                   SourceExpr=PrintOnlyOnePerPage }
 
     }
@@ -315,8 +311,8 @@ OBJECT Report 308 Vendor - Order Detail
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Receiving Date: %1;ESP=Fecha albar†n : %1;DEA=Wareneingangsdatum: %1';
-      Text001@1001 : TextConst 'ENU=Purchase Order Line: %1;ESP=L°nea pedido compra: %1;DEA=Bestellzeile: %1';
+      Text000@1000 : TextConst 'DEU=Wareneingangsdatum: %1;ENU=Receiving Date: %1';
+      Text001@1001 : TextConst 'DEU=Bestellzeile: %1;ENU=Purchase Order Line: %1';
       CurrExchRate@1002 : Record 330;
       CurrencyTotalBuffer@1003 : TEMPORARY Record 332;
       CurrencyTotalBuffer2@1004 : TEMPORARY Record 332;
@@ -335,16 +331,16 @@ OBJECT Report 308 Vendor - Order Detail
       Counter1@1016 : Integer;
       CurrencyCode2@1017 : Code[10];
       PageGroupNo@1019 : Integer;
-      VendorOrderDetailCaptionLbl@5350 : TextConst 'ENU=Vendor - Order Detail;ESP=Proveedor - L°neas pedidos;DEA=Kreditor - Bestellungen';
-      PageCaptionLbl@6215 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      AllamountsareinLCYCaptionLbl@3692 : TextConst 'ENU=All amounts are in LCY;ESP=Importes en divisa local;DEA=Alle BetrÑge in MW';
-      ExpectedDateCaptionLbl@7183 : TextConst 'ENU=Expected Date;ESP=Fecha esperada;DEA=Erwartetes Datum';
-      BackOrderQtyCaptionLbl@6263 : TextConst 'ENU=Quantity on Back Order;ESP=Cdad. pedidos pendientes;DEA=BestellrÅckstandsmenge';
-      LineDiscountPercentageCaptionLbl@1969 : TextConst 'ENU=Line Disc. %;ESP=% descuento l°nea;DEA=Zeilenrabatt %';
-      InvDiscountAmountCaptionLbl@9792 : TextConst 'ENU=Inv. Discount Amount;ESP=Importe dto. factura;DEA=Rechnungsrabattbetrag';
-      OutstandingOrdersCaptionLbl@5291 : TextConst 'ENU=Outstanding Orders;ESP=Importe pedidos pendientes;DEA=Auftragsbestand';
-      OrderNoCaptionLbl@5963 : TextConst 'ENU=Order No.;ESP=Nß pedido;DEA=Auftragsnr.';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      VendorOrderDetailCaptionLbl@5350 : TextConst 'DEU=Kreditor - Bestellungen;ENU=Vendor - Order Detail';
+      PageCaptionLbl@6215 : TextConst 'DEU=Seite;ENU=Page';
+      AllamountsareinLCYCaptionLbl@3692 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All amounts are in LCY';
+      ExpectedDateCaptionLbl@7183 : TextConst 'DEU=Erwartetes Datum;ENU=Expected Date';
+      BackOrderQtyCaptionLbl@6263 : TextConst 'DEU=BestellrÅckstandsmenge;ENU=Quantity on Back Order';
+      LineDiscountPercentageCaptionLbl@1969 : TextConst 'DEU=Zeilenrabatt %;ENU=Line Disc. %';
+      InvDiscountAmountCaptionLbl@9792 : TextConst 'DEU=Rechnungsrabattbetrag;ENU=Inv. Discount Amount';
+      OutstandingOrdersCaptionLbl@5291 : TextConst 'DEU=Auftragsbestand;ENU=Outstanding Orders';
+      OrderNoCaptionLbl@5963 : TextConst 'DEU=Auftragsnr.;ENU=Order No.';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     PROCEDURE InitializeRequest@1(NewPrintAmountsInLCY@1000 : Boolean;NewPrintOnlyOnePerPage@1001 : Boolean);
     BEGIN

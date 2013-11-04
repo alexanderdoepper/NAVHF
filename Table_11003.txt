@@ -2,9 +2,9 @@ OBJECT Table 11003 Data Export Record Definition
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -21,15 +21,15 @@ OBJECT Table 11003 Data Export Record Definition
                ERROR(Text1140000,TABLECAPTION);
              END;
 
-    CaptionML=[ENU=Data Export Record Definition;
-               DEA=Datensatzdefinition fÅr Datenexport];
+    CaptionML=[DEU=Datenexport - Datensatzdefinition;
+               ENU=Data Export Record Definition];
     LookupPageID=Page11003;
   }
   FIELDS
   {
     { 1   ;   ;Data Export Code    ;Code10        ;TableRelation="Data Export";
-                                                   CaptionML=[ENU=Data Export Code;
-                                                              DEA=Datenexportcode];
+                                                   CaptionML=[DEU=Datenexportcode;
+                                                              ENU=Data Export Code];
                                                    NotBlank=Yes }
     { 2   ;   ;Data Exp. Rec. Type Code;Code10    ;TableRelation="Data Export Record Type";
                                                    OnValidate=VAR
@@ -39,11 +39,11 @@ OBJECT Table 11003 Data Export Record Definition
                                                                   Description := GDPdURecorfCode.Description;
                                                               END;
 
-                                                   CaptionML=[ENU=Data Export Record Type Code;
-                                                              DEA=Datensatztypcode fÅr Datenexport];
+                                                   CaptionML=[DEU=Datenexport - Datensatz-Typcode;
+                                                              ENU=Data Export Record Type Code];
                                                    NotBlank=Yes }
-    { 3   ;   ;Description         ;Text50        ;CaptionML=[ENU=Description;
-                                                              DEA=Beschreibung] }
+    { 3   ;   ;Description         ;Text50        ;CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
     { 4   ;   ;Export Path         ;Text250       ;OnValidate=BEGIN
                                                                 IF ISCLEAR(FileSysObject) THEN
                                                                   CREATE(FileSysObject,FALSE,TRUE);
@@ -53,13 +53,13 @@ OBJECT Table 11003 Data Export Record Definition
                                                                     FileSysObject.CreateFolder("Export Path")
                                                               END;
 
-                                                   CaptionML=[ENU=Export Path;
-                                                              DEA=Exportpfad] }
-    { 5   ;   ;DTD File Name       ;Text50        ;CaptionML=[ENU=DTD File Name;
-                                                              DEA=Name der DTD-Datei];
+                                                   CaptionML=[DEU=Exportpfad;
+                                                              ENU=Export Path] }
+    { 5   ;   ;DTD File Name       ;Text50        ;CaptionML=[DEU=DTD-Dateiname;
+                                                              ENU=DTD File Name];
                                                    Editable=No }
-    { 6   ;   ;DTD File            ;BLOB          ;CaptionML=[ENU=DTD File;
-                                                              DEA=DTD-Datei] }
+    { 6   ;   ;DTD File            ;BLOB          ;CaptionML=[DEU=DTD-Datei;
+                                                              ENU=DTD File] }
   }
   KEYS
   {
@@ -72,15 +72,15 @@ OBJECT Table 11003 Data Export Record Definition
   CODE
   {
     VAR
-      Text1140000@1140000 : TextConst 'ENU=You must not rename a %1.;DEA=Sie dÅrfen eine %1 nicht umbenennen.';
-      Text1140001@1140001 : TextConst 'ENU=Do you want to create the folder %1?;DEA=Mîchten Sie das Verzeichnis %1 anlegen?';
+      Text1140000@1140000 : TextConst 'DEU=Sie dÅrfen eine %1 nicht umbenennen.;ENU=You must not rename a %1.';
+      Text1140001@1140001 : TextConst 'DEU=Mîchten Sie das Verzeichnis %1 anlegen?;ENU=Do you want to create the folder %1?';
       FileMgt@1140006 : Codeunit 419;
       FileSysObject@1140002 : Automation "{420B2830-E718-11CF-893D-00A0C9054228} 1.0:{0D43FE01-F093-11CF-8940-00A0C9054228}:'Microsoft Scripting Runtime'.FileSystemObject";
-      Text1140002@1140003 : TextConst 'ENU=The %1 field is not the first field that is specified for the %2 table. You must change the data export setup to list the primary key field first.;DEA=Das Feld %1 ist nicht das erste Feld, das fÅr die Tabelle %2 angegeben ist. Sie mÅssen die Datenexporteinrichtung erst Ñndern, damit das PrimÑrschlÅsselfeld aufgelistet wird.';
-      Text1140003@1140004 : TextConst 'ENU=You cannot include the period field %1 in the table filter expression for the %2 table.;DEA=Sie kînnen das Periodenfeld %1 im Tabellenfilterausdruck fÅr die Tabelle %2 nicht einfÅgen.';
-      Text1140004@1140005 : TextConst 'ENU=The data export record source validated correctly.;DEA=Die Datensatzquelle fÅr den Datenexport wurde ordnungsgemÑ· ÅberprÅft.';
-      Text1140006@1140012 : TextConst 'ENU=Select DTD File;DEA=DTD-Datei auswÑhlen';
-      Text1140007@1140011 : TextConst 'ENU=DTD Files|*.dtd|All Files|*.*;DEA=DTD-Dateien|*.dtd|Alle Dateien|*.*';
+      Text1140002@1140003 : TextConst 'DEU=Das Feld %1 ist nicht das erste Feld, das fÅr die Tabelle %2 angegeben ist. éndern Sie die Datenexporteinrichtung, um das primÑre SchlÅsselfeld zuerst aufzufÅhren.;ENU=The %1 field is not the first field that is specified for the %2 table. You must change the data export setup to list the primary key field first.';
+      Text1140003@1140004 : TextConst 'DEU=Sie kînnen das Periodenfeld %1 nicht in den Tabellenfilterausdruck fÅr die Tabelle %2 aufnehmen.;ENU=You cannot include the period field %1 in the table filter expression for the %2 table.';
+      Text1140004@1140005 : TextConst 'DEU=Die Datensatzquelle fÅr den Datenexport wurde ordnungsgemÑ· geprÅft.;ENU=The data export record source validated correctly.';
+      Text1140006@1140012 : TextConst 'DEU=DTD-Datei auswÑhlen;ENU=Select DTD File';
+      Text1140007@1140011 : TextConst 'DEU=DTD-Dateien|*.dtd|Alle Dateien|*.*;ENU=DTD Files|*.dtd|All Files|*.*';
 
     PROCEDURE ValidateExportSources@1140001();
     VAR

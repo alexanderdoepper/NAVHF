@@ -2,16 +2,15 @@ OBJECT Page 22 Customer List
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Customer List;
-               ESP=Lista de clientes;
-               DEA=DebitorenÅbersicht];
+    CaptionML=[DEU=DebitorenÅbersicht;
+               ENU=Customer List];
     SourceTable=Table18;
     PageType=List;
     CardPageID=Customer Card;
@@ -20,36 +19,31 @@ OBJECT Page 22 Customer List
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 16      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Customer;
-                                 ESP=&Cliente;
-                                 DEA=D&ebitor];
+                      CaptionML=[DEU=D&ebitor;
+                                 ENU=&Customer];
                       Image=Customer }
       { 20      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 124;
                       RunPageLink=Table Name=CONST(Customer),
                                   No.=FIELD(No.);
                       Image=ViewComments }
       { 66      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions }
       { 84      ;3   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions-Single;
-                                 ESP=Dimensiones-Individual;
-                                 DEA=Zuordnung fÅr aktuellen Datensatz];
+                      CaptionML=[DEU=Zuordnung fÅr aktuellen Datensatz;
+                                 ENU=Dimensions-Single];
                       RunObject=Page 540;
                       RunPageLink=Table ID=CONST(18),
                                   No.=FIELD(No.);
                       Image=Dimensions }
       { 42      ;3   ;Action    ;
-                      CaptionML=[ENU=Dimensions-&Multiple;
-                                 ESP=Dimensiones-&M£ltiple;
-                                 DEA=Zuordnung fÅr &markierte DatensÑtze];
+                      CaptionML=[DEU=Zuordnung fÅr &markierte DatensÑtze;
+                                 ENU=Dimensions-&Multiple];
                       Image=DimensionSets;
                       OnAction=VAR
                                  Cust@1001 : Record 18;
@@ -61,32 +55,28 @@ OBJECT Page 22 Customer List
                                END;
                                 }
       { 58      ;2   ;Action    ;
-                      CaptionML=[ENU=Bank Accounts;
-                                 ESP=Bancos;
-                                 DEA=Bankkonten];
+                      CaptionML=[DEU=Bankkonten;
+                                 ENU=Bank Accounts];
                       RunObject=Page 424;
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=BankAccount }
       { 23      ;2   ;Action    ;
-                      CaptionML=[ENU=Ship-&to Addresses;
-                                 ESP=Di&recci¢n env°o;
-                                 DEA=L&ief. an Adressen];
+                      CaptionML=[DEU=L&ief. an Adressen;
+                                 ENU=Ship-&to Addresses];
                       RunObject=Page 301;
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=ShipAddress }
       { 60      ;2   ;Action    ;
-                      CaptionML=[ENU=C&ontact;
-                                 ESP=&Contacto;
-                                 DEA=Ko&ntakt];
+                      CaptionML=[DEU=Ko&ntakt;
+                                 ENU=C&ontact];
                       Image=ContactPerson;
                       OnAction=BEGIN
                                  ShowContact;
                                END;
                                 }
       { 45      ;2   ;Action    ;
-                      CaptionML=[ENU=Cross Re&ferences;
-                                 ESP=Referencias cru&zadas;
-                                 DEA=Re&ferenzen];
+                      CaptionML=[DEU=Re&ferenzen;
+                                 ENU=Cross Re&ferences];
                       RunObject=Page 5723;
                       RunPageView=SORTING(Cross-Reference Type,Cross-Reference Type No.);
                       RunPageLink=Cross-Reference Type=CONST(Customer),
@@ -94,15 +84,13 @@ OBJECT Page 22 Customer List
                       Image=Change }
       { 17      ;2   ;Separator  }
       { 9       ;1   ;ActionGroup;
-                      CaptionML=[ENU=History;
-                                 ESP=Historial;
-                                 DEA=Historie];
+                      CaptionML=[DEU=Historie;
+                                 ENU=History];
                       Image=History }
       { 22      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=Ledger E&ntries];
                       RunObject=Page 25;
                       RunPageView=SORTING(Customer No.);
                       RunPageLink=Customer No.=FIELD(No.);
@@ -111,9 +99,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=Process }
       { 18      ;2   ;Action    ;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       RunObject=Page 151;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -123,18 +110,16 @@ OBJECT Page 22 Customer List
                       Image=Statistics;
                       PromotedCategory=Process }
       { 21      ;2   ;Action    ;
-                      CaptionML=[ENU=S&ales;
-                                 ESP=Ve&ntas;
-                                 DEA=&Verkauf];
+                      CaptionML=[DEU=&Verkauf;
+                                 ENU=S&ales];
                       RunObject=Page 155;
                       RunPageLink=No.=FIELD(No.),
                                   Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
                                   Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
                       Image=Sales }
       { 19      ;2   ;Action    ;
-                      CaptionML=[ENU=Entry Statistics;
-                                 ESP=Estad°sticas documentos;
-                                 DEA=Buchungsstatistik];
+                      CaptionML=[DEU=Buchungsstatistik;
+                                 ENU=Entry Statistics];
                       RunObject=Page 302;
                       RunPageLink=No.=FIELD(No.),
                                   Date Filter=FIELD(Date Filter),
@@ -142,9 +127,8 @@ OBJECT Page 22 Customer List
                                   Global Dimension 2 Filter=FIELD(Global Dimension 2 Filter);
                       Image=EntryStatistics }
       { 63      ;2   ;Action    ;
-                      CaptionML=[ENU=Statistics by C&urrencies;
-                                 ESP=Estad°sticas por di&visas;
-                                 DEA=Statistik nach &WÑhrungen];
+                      CaptionML=[DEU=Statistik nach &WÑhrungen;
+                                 ENU=Statistics by C&urrencies];
                       RunObject=Page 481;
                       RunPageLink=No.=FIELD(No.),
                                   Global Dimension 1 Filter=FIELD(Global Dimension 1 Filter),
@@ -152,9 +136,8 @@ OBJECT Page 22 Customer List
                                   Date Filter=FIELD(Date Filter);
                       Image=Currencies }
       { 6500    ;2   ;Action    ;
-                      CaptionML=[ENU=Item &Tracking Entries;
-                                 ESP=Movs. &seguim. prod.;
-                                 DEA=Artikel&verfolgungsposten];
+                      CaptionML=[DEU=Artikel&verfolgungsposten;
+                                 ENU=Item &Tracking Entries];
                       Image=ItemTrackingLedger;
                       OnAction=VAR
                                  ItemTrackingMgt@1001 : Codeunit 6500;
@@ -163,158 +146,136 @@ OBJECT Page 22 Customer List
                                END;
                                 }
       { 24      ;1   ;ActionGroup;
-                      CaptionML=[ENU=S&ales;
-                                 ESP=Ve&ntas;
-                                 DEA=&Verkauf];
+                      CaptionML=[DEU=&Verkauf;
+                                 ENU=S&ales];
                       Image=Sales }
       { 25      ;2   ;Action    ;
-                      CaptionML=[ENU=Invoice &Discounts;
-                                 ESP=Dto. &factura;
-                                 DEA=&Rechnungsrabatte];
+                      CaptionML=[DEU=&Rechnungsrabatte;
+                                 ENU=Invoice &Discounts];
                       RunObject=Page 23;
                       RunPageLink=Code=FIELD(Invoice Disc. Code);
                       Image=CalculateInvoiceDiscount }
       { 26      ;2   ;Action    ;
-                      CaptionML=[ENU=Prices;
-                                 ESP=Precios;
-                                 DEA=Preise];
+                      CaptionML=[DEU=Preise;
+                                 ENU=Prices];
                       RunObject=Page 7002;
                       RunPageView=SORTING(Sales Type,Sales Code);
                       RunPageLink=Sales Type=CONST(Customer),
                                   Sales Code=FIELD(No.);
                       Image=Price }
       { 71      ;2   ;Action    ;
-                      CaptionML=[ENU=Line Discounts;
-                                 ESP=Descuentos l°nea;
-                                 DEA=Zeilenrabatte];
+                      CaptionML=[DEU=Zeilenrabatte;
+                                 ENU=Line Discounts];
                       RunObject=Page 7004;
                       RunPageView=SORTING(Sales Type,Sales Code);
                       RunPageLink=Sales Type=CONST(Customer),
                                   Sales Code=FIELD(No.);
                       Image=LineDiscount }
       { 82      ;2   ;Action    ;
-                      CaptionML=[ENU=Prepa&yment Percentages;
-                                 ESP=Porcentajes &prepago;
-                                 DEA=&VorauszahlungsprozentsÑtze];
+                      CaptionML=[DEU=&VorauszahlungsprozentsÑtze;
+                                 ENU=Prepa&yment Percentages];
                       RunObject=Page 664;
                       RunPageView=SORTING(Sales Type,Sales Code);
                       RunPageLink=Sales Type=CONST(Customer),
                                   Sales Code=FIELD(No.);
                       Image=PrepaymentPercentages }
       { 75      ;2   ;Action    ;
-                      CaptionML=[ENU=S&td. Cust. Sales Codes;
-                                 ESP=&C¢d. est†nd. vtas. clie.;
-                                 DEA=S&td.-Debitorverkaufscodes];
+                      CaptionML=[DEU=S&td.-Debitorverkaufscodes;
+                                 ENU=S&td. Cust. Sales Codes];
                       RunObject=Page 173;
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=CodesList }
       { 11      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Documents;
-                                 ESP=Documentos;
-                                 DEA=Belege];
+                      CaptionML=[DEU=Belege;
+                                 ENU=Documents];
                       Image=Documents }
       { 27      ;2   ;Action    ;
-                      CaptionML=[ENU=Quotes;
-                                 ESP=Ofertas;
-                                 DEA=Angebote];
+                      CaptionML=[DEU=Angebote;
+                                 ENU=Quotes];
                       RunObject=Page 9300;
                       RunPageView=SORTING(Sell-to Customer No.);
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Image=Quote }
       { 28      ;2   ;Action    ;
-                      CaptionML=[ENU=Orders;
-                                 ESP=Pedidos;
-                                 DEA=AuftrÑge];
+                      CaptionML=[DEU=AuftrÑge;
+                                 ENU=Orders];
                       RunObject=Page 9305;
                       RunPageView=SORTING(Sell-to Customer No.);
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Image=Document }
       { 70      ;2   ;Action    ;
-                      CaptionML=[ENU=Return Orders;
-                                 ESP=Devoluciones;
-                                 DEA=Reklamationen];
+                      CaptionML=[DEU=Reklamationen;
+                                 ENU=Return Orders];
                       RunObject=Page 9304;
                       RunPageView=SORTING(Sell-to Customer No.);
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Image=ReturnOrder }
       { 76      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Issued Documents;
-                                 ESP=Documentos emitidos;
-                                 DEA=Registrierte Belege];
+                      CaptionML=[DEU=Registrierte Belege;
+                                 ENU=Issued Documents];
                       Image=Documents }
       { 77      ;3   ;Action    ;
-                      CaptionML=[ENU=Issued &Reminders;
-                                 ESP=A&visos emitidos;
-                                 DEA=Registrierte &Mahnungen];
+                      CaptionML=[DEU=Registrierte &Mahnungen;
+                                 ENU=Issued &Reminders];
                       RunObject=Page 440;
                       RunPageView=SORTING(Customer No.,Posting Date);
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=OrderReminder }
       { 78      ;3   ;Action    ;
-                      CaptionML=[ENU=Issued &Finance Charge Memos;
-                                 ESP=Docs. de &financiaci¢n emitidos;
-                                 DEA=Registrierte &Zinsrechnungen];
+                      CaptionML=[DEU=Registrierte &Zinsrechnungen;
+                                 ENU=Issued &Finance Charge Memos];
                       RunObject=Page 452;
                       RunPageView=SORTING(Customer No.,Posting Date);
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=FinChargeMemo }
       { 65      ;2   ;Action    ;
-                      CaptionML=[ENU=Blanket Orders;
-                                 ESP=Pedidos abiertos;
-                                 DEA=RahmenauftrÑge];
+                      CaptionML=[DEU=RahmenauftrÑge;
+                                 ENU=Blanket Orders];
                       RunObject=Page 9303;
                       RunPageView=SORTING(Document Type,Sell-to Customer No.);
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Image=BlanketOrder }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Credit Card;
-                                 ESP=Tarjeta de crÇdito;
-                                 DEA=Kreditkarte];
+                      CaptionML=[DEU=Kreditkarte;
+                                 ENU=Credit Card];
                       Image=CreditCard }
       { 15      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Credit Cards;
-                                 ESP=Tarjetas de crÇdito;
-                                 DEA=Kreditkarten];
+                      CaptionML=[DEU=Kreditkarten;
+                                 ENU=Credit Cards];
                       Image=CreditCard }
       { 85      ;3   ;Action    ;
-                      CaptionML=[ENU=C&redit Cards;
-                                 ESP=Tarjetas de c&rÇdito;
-                                 DEA=K&reditkarten];
+                      CaptionML=[DEU=K&reditkarten;
+                                 ENU=C&redit Cards];
                       RunObject=Page 828;
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=CreditCard }
       { 86      ;3   ;Action    ;
-                      CaptionML=[ENU=Credit Cards Transaction Lo&g Entries;
-                                 ESP=Movimientos de re&gistro de transacci¢n de tarjetas de crÇdito;
-                                 DEA=Transaktionspro&tokolleintrÑge fÅr Kreditkarten];
+                      CaptionML=[DEU=Transaktionspro&tokolleintrÑge fÅr Kreditkarten;
+                                 ENU=Credit Cards Transaction Lo&g Entries];
                       RunObject=Page 829;
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=CreditCardLog }
       { 14      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Service;
-                                 ESP=Servicio;
-                                 DEA=Service];
+                      CaptionML=[DEU=Service;
+                                 ENU=Service];
                       Image=ServiceItem }
       { 81      ;2   ;Action    ;
-                      CaptionML=[ENU=Service Orders;
-                                 ESP=Pedidos servicio;
-                                 DEA=ServiceauftrÑge];
+                      CaptionML=[DEU=ServiceauftrÑge;
+                                 ENU=Service Orders];
                       RunObject=Page 9318;
                       RunPageView=SORTING(Document Type,Customer No.);
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=Document }
       { 68      ;2   ;Action    ;
-                      CaptionML=[ENU=Ser&vice Contracts;
-                                 ESP=Con&tratos servicios;
-                                 DEA=S&ervicevertrÑge];
+                      CaptionML=[DEU=S&ervicevertrÑge;
+                                 ENU=Ser&vice Contracts];
                       RunObject=Page 6065;
                       RunPageView=SORTING(Customer No.,Ship-to Code);
                       RunPageLink=Customer No.=FIELD(No.);
                       Image=ServiceAgreement }
       { 69      ;2   ;Action    ;
-                      CaptionML=[ENU=Service &Items;
-                                 ESP=&Productos servicio;
-                                 DEA=Service&artikel];
+                      CaptionML=[DEU=Service&artikel;
+                                 ENU=Service &Items];
                       RunObject=Page 5988;
                       RunPageView=SORTING(Customer No.,Ship-to Code,Item No.,Serial No.);
                       RunPageLink=Customer No.=FIELD(No.);
@@ -322,9 +283,8 @@ OBJECT Page 22 Customer List
       { 1900000005;0 ;ActionContainer;
                       ActionContainerType=NewDocumentItems }
       { 1902575205;1 ;Action    ;
-                      CaptionML=[ENU=Blanket Sales Order;
-                                 ESP=Pedido abierto venta;
-                                 DEA=Rahmenauftrag];
+                      CaptionML=[DEU=Rahmenauftrag;
+                                 ENU=Blanket Sales Order];
                       RunObject=Page 507;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=No;
@@ -332,9 +292,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1900246505;1 ;Action    ;
-                      CaptionML=[ENU=Sales Quote;
-                                 ESP=Oferta venta;
-                                 DEA=Verkaufsangebot];
+                      CaptionML=[DEU=Verkaufsangebot;
+                                 ENU=Sales Quote];
                       RunObject=Page 41;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=Yes;
@@ -342,9 +301,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1906384905;1 ;Action    ;
-                      CaptionML=[ENU=Sales Invoice;
-                                 ESP=Factura venta;
-                                 DEA=Verkaufsrechnung];
+                      CaptionML=[DEU=Verkaufsrechnung;
+                                 ENU=Sales Invoice];
                       RunObject=Page 43;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=Yes;
@@ -352,9 +310,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1904747105;1 ;Action    ;
-                      CaptionML=[ENU=Sales Order;
-                                 ESP=Pedido venta;
-                                 DEA=Verkaufsauftrag];
+                      CaptionML=[DEU=Verkaufsauftrag;
+                                 ENU=Sales Order];
                       RunObject=Page 42;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=Yes;
@@ -362,9 +319,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1902583505;1 ;Action    ;
-                      CaptionML=[ENU=Sales Credit Memo;
-                                 ESP=Abono venta;
-                                 DEA=Verkaufsgutschrift];
+                      CaptionML=[DEU=Verkaufsgutschrift;
+                                 ENU=Sales Credit Memo];
                       RunObject=Page 44;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=No;
@@ -372,9 +328,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1905163705;1 ;Action    ;
-                      CaptionML=[ENU=Sales Return Order;
-                                 ESP=Devoluci¢n venta;
-                                 DEA=Verkaufsreklamation];
+                      CaptionML=[DEU=Verkaufsreklamation;
+                                 ENU=Sales Return Order];
                       RunObject=Page 6630;
                       RunPageLink=Sell-to Customer No.=FIELD(No.);
                       Promoted=No;
@@ -382,9 +337,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1905185205;1 ;Action    ;
-                      CaptionML=[ENU=Service Quote;
-                                 ESP=Oferta servicio;
-                                 DEA=Serviceangebot];
+                      CaptionML=[DEU=Serviceangebot;
+                                 ENU=Service Quote];
                       RunObject=Page 5964;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=No;
@@ -392,9 +346,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1902079405;1 ;Action    ;
-                      CaptionML=[ENU=Service Invoice;
-                                 ESP=Factura servicio;
-                                 DEA=Servicerechnung];
+                      CaptionML=[DEU=Servicerechnung;
+                                 ENU=Service Invoice];
                       RunObject=Page 5933;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=No;
@@ -402,9 +355,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1907102005;1 ;Action    ;
-                      CaptionML=[ENU=Service Order;
-                                 ESP=Pedido servicio;
-                                 DEA=Serviceauftrag];
+                      CaptionML=[DEU=Serviceauftrag;
+                                 ENU=Service Order];
                       RunObject=Page 5900;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=No;
@@ -412,9 +364,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1901662105;1 ;Action    ;
-                      CaptionML=[ENU=Service Credit Memo;
-                                 ESP=Abono servicio;
-                                 DEA=Servicegutschrift];
+                      CaptionML=[DEU=Servicegutschrift;
+                                 ENU=Service Credit Memo];
                       RunObject=Page 5935;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=No;
@@ -422,9 +373,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1903839805;1 ;Action    ;
-                      CaptionML=[ENU=Reminder;
-                                 ESP=Recordatorio;
-                                 DEA=Mahnung];
+                      CaptionML=[DEU=Mahnung;
+                                 ENU=Reminder];
                       RunObject=Page 434;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=Yes;
@@ -432,9 +382,8 @@ OBJECT Page 22 Customer List
                       PromotedCategory=New;
                       RunPageMode=Create }
       { 1901102005;1 ;Action    ;
-                      CaptionML=[ENU=Financial Charge Memo;
-                                 ESP=Documento de interÇs;
-                                 DEA=Zinsrechnung];
+                      CaptionML=[DEU=Zinsrechnung;
+                                 ENU=Financial Charge Memo];
                       RunObject=Page 446;
                       RunPageLink=Customer No.=FIELD(No.);
                       Promoted=No;
@@ -444,17 +393,15 @@ OBJECT Page 22 Customer List
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1900839804;1 ;Action    ;
-                      CaptionML=[ENU=Cash Receipt Journal;
-                                 ESP=Diario cobros;
-                                 DEA=Zahlungseingangs Buch.-Blatt];
+                      CaptionML=[DEU=Zahlungseingangs Buch.-Blatt;
+                                 ENU=Cash Receipt Journal];
                       RunObject=Page 255;
                       Promoted=Yes;
                       Image=CashReceiptJournal;
                       PromotedCategory=Process }
       { 1905171704;1 ;Action    ;
-                      CaptionML=[ENU=Sales Journal;
-                                 ESP=Diario ventas;
-                                 DEA=Verkaufs Buch.-Blatt];
+                      CaptionML=[DEU=Verkaufs Buch.-Blatt;
+                                 ENU=Sales Journal];
                       RunObject=Page 253;
                       Promoted=Yes;
                       Image=Journals;
@@ -462,151 +409,131 @@ OBJECT Page 22 Customer List
       { 1900000006;0 ;ActionContainer;
                       ActionContainerType=Reports }
       { 3       ;1   ;ActionGroup;
-                      CaptionML=[ENU=General;
-                                 ESP=General;
-                                 DEA=Allgemein] }
+                      CaptionML=[DEU=Allgemein;
+                                 ENU=General] }
       { 1905562606;2 ;Action    ;
-                      CaptionML=[ENU=Customer List;
-                                 ESP=Lista de clientes;
-                                 DEA=DebitorenÅbersicht];
+                      CaptionML=[DEU=DebitorenÅbersicht;
+                                 ENU=Customer List];
                       RunObject=Report 101;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1901007206;2 ;Action    ;
-                      CaptionML=[ENU=Customer Register;
-                                 ESP=Registro movs. cliente;
-                                 DEA=Debitorenjournal];
+                      CaptionML=[DEU=Debitorenjournal;
+                                 ENU=Customer Register];
                       RunObject=Report 103;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1907152806;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Top 10 List;
-                                 ESP=Cliente - Listado 10 mejores;
-                                 DEA=Debitor - Top 10 Liste];
+                      CaptionML=[DEU=Debitor - Top 10 Liste;
+                                 ENU=Customer - Top 10 List];
                       RunObject=Report 111;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 5       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Sales;
-                                 ESP=Ventas;
-                                 DEA=Verkauf];
+                      CaptionML=[DEU=Verkauf;
+                                 ENU=Sales];
                       Image=Sales }
       { 1905727106;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Order Summary;
-                                 ESP=Cliente - Total pedidos;
-                                 DEA=Debitor - AuftragsÅbersicht];
+                      CaptionML=[DEU=Debitor - AuftragsÅbersicht;
+                                 ENU=Customer - Order Summary];
                       RunObject=Report 107;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1900172506;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Order Detail;
-                                 ESP=Cliente - L°neas pedidos;
-                                 DEA=Debitor - AuftrÑge];
+                      CaptionML=[DEU=Debitor - AuftrÑge;
+                                 ENU=Customer - Order Detail];
                       RunObject=Report 108;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906073506;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Sales List;
-                                 ESP=Lista ventas - cliente;
-                                 DEA=Debitor - VerkaufsÅbersicht];
+                      CaptionML=[DEU=Debitor - VerkaufsÅbersicht;
+                                 ENU=Customer - Sales List];
                       RunObject=Report 119;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1904190506;2 ;Action    ;
-                      CaptionML=[ENU=Sales Statistics;
-                                 ESP=Estad°sticas ventas;
-                                 DEA=Verkaufsstatistik];
+                      CaptionML=[DEU=Verkaufsstatistik;
+                                 ENU=Sales Statistics];
                       RunObject=Report 112;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1900760706;2 ;Action    ;
-                      CaptionML=[ENU=Customer/Item Sales;
-                                 ESP=Cliente - Ventas por productos;
-                                 DEA=Debitor/Artikel Statistik];
+                      CaptionML=[DEU=Debitor/Artikel Statistik;
+                                 ENU=Customer/Item Sales];
                       RunObject=Report 113;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 7       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Financial Management;
-                                 ESP=Gesti¢n financiera;
-                                 DEA=Finanzmanagement];
+                      CaptionML=[DEU=Finanzmanagement;
+                                 ENU=Financial Management];
                       Image=Report }
       { 1906871306;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Detail Trial Bal.;
-                                 ESP=Cliente - Movimientos;
-                                 DEA=Debitor - Kontoblatt];
+                      CaptionML=[DEU=Debitor - Kontoblatt;
+                                 ENU=Customer - Detail Trial Bal.];
                       RunObject=Report 104;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1907944606;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Summary Aging;
-                                 ESP=Deuda cliente por vencimientos;
-                                 DEA=Debitor - Saldo nach Perioden];
+                      CaptionML=[DEU=Debitor - Saldo nach Perioden;
+                                 ENU=Customer - Summary Aging];
                       RunObject=Report 105;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906813206;2 ;Action    ;
-                      CaptionML=[ENU=Customer Detailed Aging;
-                                 ESP=Deuda pendiente cliente;
-                                 DEA=Debitor - FÑllige Posten];
+                      CaptionML=[DEU=Debitor - FÑllige Posten;
+                                 ENU=Customer Detailed Aging];
                       RunObject=Report 106;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906768606;2 ;Action    ;
-                      CaptionML=[ENU=Statement;
-                                 ESP=Extracto;
-                                 DEA=Kontoauszug];
+                      CaptionML=[DEU=Kontoauszug;
+                                 ENU=Statement];
                       RunObject=Report 116;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1903839806;2 ;Action    ;
-                      CaptionML=[ENU=Reminder;
-                                 ESP=Recordatorio;
-                                 DEA=Mahnung];
+                      CaptionML=[DEU=Mahnung;
+                                 ENU=Reminder];
                       RunObject=Report 117;
                       Promoted=No;
                       Image=Reminder;
                       PromotedCategory=Report }
       { 1900711606;2 ;Action    ;
-                      CaptionML=[ENU=Aged Accounts Receivable;
-                                 ESP=AntigÅedad cobros;
-                                 DEA=Debitor - SaldenrÅckblick];
+                      CaptionML=[DEU=Debitor - SaldenrÅckblick;
+                                 ENU=Aged Accounts Receivable];
                       RunObject=Report 120;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1902299006;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Balance to Date;
-                                 ESP=Cliente - Saldo por fechas;
-                                 DEA=Debitorenposten per];
+                      CaptionML=[DEU=Debitorenposten per;
+                                 ENU=Customer - Balance to Date];
                       RunObject=Report 121;
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Report }
       { 1906359306;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Trial Balance;
-                                 ESP=Cliente - Balance sumas y saldos;
-                                 DEA=Debitor - Saldenliste];
+                      CaptionML=[DEU=Debitor - Saldenliste;
+                                 ENU=Customer - Trial Balance];
                       RunObject=Report 129;
                       Promoted=No;
                       Image=Report;
                       PromotedCategory=Report }
       { 1904039606;2 ;Action    ;
-                      CaptionML=[ENU=Customer - Payment Receipt;
-                                 ESP=Clientes - Pagos recibidos;
-                                 DEA=Debitor - Zahlungseingang];
+                      CaptionML=[DEU=Debitor - Zahlungseingang;
+                                 ENU=Customer - Payment Receipt];
                       RunObject=Report 211;
                       Promoted=Yes;
                       Image=Report;

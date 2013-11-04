@@ -2,9 +2,9 @@ OBJECT Codeunit 9180 Generic Chart Mgt
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,24 +15,24 @@ OBJECT Codeunit 9180 Generic Chart Mgt
   CODE
   {
     VAR
-      Text001@1018 : TextConst 'ENU=You must select the %1.;ESP=Debe seleccionar el %1.;DEA=Sie mÅssen %1 auswÑhlen.';
-      Text002@1000 : TextConst 'ENU=(No filters selected);ESP=(No hay filtros seleccionados);DEA=(Keine Filter ausgewÑhlt)';
-      Text003@1001 : TextConst 'ENU=You cannot select more than %1 measures when using the Customize Chart option.;ESP=No se puede seleccionar m†s de %1 medidas al usar la opci¢n Personalizar gr†fico.;DEA=Bei Verwendung der Option ''Diagramm anpassen'' kînnen Sie nicht mehr als %1 Kennzahlen auswÑhlen.';
-      Text004@1002 : TextConst 'ENU=You cannot select Count for this chart because the source query does not support this aggregation method.;ESP=No se puede seleccionar Recuento para este gr†fico porque la consulta de origen no admite este tipo de agregaci¢n.;DEA=Sie kînnen keine Anzahl fÅr dieses Diagramm auswÑhlen, weil die Quellanfrage diese Aggregationsmethode nicht unterstÅtzt.';
-      Text005@1003 : TextConst 'ENU=The aggregation type %1 can only be selected for columns of type Decimal.;ESP=El tipo de agregaci¢n %1 solo se puede seleccionar para columnas de tipo Decimal.;DEA=Die Aggregationsart %1 kann nur fÅr Spalten vom Typ ''Dezimal'' ausgewÑhlt werden.';
-      DescriptionTok@1004 : TextConst '@@@=DESCR.;ENU=DESCR.;ESP=DESCR.;DEA=BESCHR.';
-      XAxisTitleTok@1005 : TextConst '@@@=X-AXIS;ENU=X-TITLE;ESP=T÷TULO X;DEA=X-TITEL';
-      YAxisTitleTok@1006 : TextConst '@@@=Y-AXIS;ENU=Y-TITLE;ESP=T÷TULO Y;DEA=Y-TITEL';
-      ZAxisTitleTok@1015 : TextConst '@@@=Y-AXIS;ENU=Z-TITLE;ESP=T÷TULO Z;DEA=Z-TITEL';
-      XAxisCaptionTok@1014 : TextConst '@@@=X-AXIS;ENU=X-CAPTION;ESP=T÷TULO X;DEA=X-CAPTION';
-      ZAxisCaptionTok@1013 : TextConst '@@@=Y-AXIS;ENU=Z-CAPTION;ESP=T÷TULO Z;DEA=Z-CAPTION';
-      RequiredTok@1007 : TextConst '@@@=REQUIRED;ENU=REQUIRED;ESP=REQUERIDO;DEA=ERFORDERL.';
-      Optional1Tok@1008 : TextConst '@@@=OPTIONAL1;ENU=OPTIONAL1;ESP=OPCIONAL1;DEA=OPTIONAL1';
-      Optional2Tok@1009 : TextConst '@@@=OPTIONAL2;ENU=OPTIONAL2;ESP=OPCIONAL2;DEA=OPTIONAL2';
-      Optional3Tok@1010 : TextConst '@@@=OPTIONAL3;ENU=OPTIONAL3;ESP=OPCIONAL3;DEA=OPTIONAL3';
-      Optional4Tok@1011 : TextConst '@@@=OPTIONAL4;ENU=OPTIONAL4;ESP=OPCIONAL4;DEA=OPTIONAL4';
-      Optional5Tok@1012 : TextConst '@@@=OPTIONAL5;ENU=OPTIONAL5;ESP=OPCIONAL5;DEA=OPTIONAL5';
-      AggregationTxt@1016 : TextConst 'ENU=None,Count,Sum,Min,Max,Avg;ESP=Ninguno,Recuento,Suma,M°n,M†x,Medio;DEA=Kein,Anzahl,Summe,Min,Max,Durchschn';
+      Text001@1018 : TextConst 'DEU=Sie mÅssen %1 auswÑhlen.;ENU=You must select the %1.';
+      Text002@1000 : TextConst 'DEU=(Keine Filter ausgewÑhlt);ENU=(No filters selected)';
+      Text003@1001 : TextConst 'DEU=Bei Verwendung der Option ''Diagramm anpassen'' kînnen Sie nicht mehr als %1 Kennzahlen auswÑhlen.;ENU=You cannot select more than %1 measures when using the Customize Chart option.';
+      Text004@1002 : TextConst 'DEU=Sie kînnen keine Anzahl fÅr dieses Diagramm auswÑhlen, weil die Quellanfrage diese Aggregationsmethode nicht unterstÅtzt.;ENU=You cannot select Count for this chart because the source query does not support this aggregation method.';
+      Text005@1003 : TextConst 'DEU=Die Aggregationsart %1 kann nur fÅr Spalten vom Typ ''Dezimal'' ausgewÑhlt werden.;ENU=The aggregation type %1 can only be selected for columns of type Decimal.';
+      DescriptionTok@1004 : TextConst '@@@=DESCR.;DEU=BESCHR.;ENU=DESCR.';
+      XAxisTitleTok@1005 : TextConst '@@@=X-AXIS;DEU=X-TITEL;ENU=X-TITLE';
+      YAxisTitleTok@1006 : TextConst '@@@=Y-AXIS;DEU=Y-TITEL;ENU=Y-TITLE';
+      ZAxisTitleTok@1015 : TextConst '@@@=Y-AXIS;DEU=Z-TITEL;ENU=Z-TITLE';
+      XAxisCaptionTok@1014 : TextConst '@@@=X-AXIS;DEU=X-CAPTION;ENU=X-CAPTION';
+      ZAxisCaptionTok@1013 : TextConst '@@@=Y-AXIS;DEU=Z-CAPTION;ENU=Z-CAPTION';
+      RequiredTok@1007 : TextConst '@@@=REQUIRED;DEU=ERFORDERL.;ENU=REQUIRED';
+      Optional1Tok@1008 : TextConst '@@@=OPTIONAL1;DEU=OPTIONAL1;ENU=OPTIONAL1';
+      Optional2Tok@1009 : TextConst '@@@=OPTIONAL2;DEU=OPTIONAL2;ENU=OPTIONAL2';
+      Optional3Tok@1010 : TextConst '@@@=OPTIONAL3;DEU=OPTIONAL3;ENU=OPTIONAL3';
+      Optional4Tok@1011 : TextConst '@@@=OPTIONAL4;DEU=OPTIONAL4;ENU=OPTIONAL4';
+      Optional5Tok@1012 : TextConst '@@@=OPTIONAL5;DEU=OPTIONAL5;ENU=OPTIONAL5';
+      AggregationTxt@1016 : TextConst 'DEU=Kein,Anzahl,Summe,Min,Max,Durchschn;ENU=None,Count,Sum,Min,Max,Avg';
 
     PROCEDURE RetrieveXML@2(VAR Chart@1003 : Record 2000000078;VAR TempGenericChartSetup@1007 : TEMPORARY Record 9180;VAR TempGenericChartYAxis@1008 : TEMPORARY Record 9182;VAR TempGenericChartCaptionsBuf@1004 : TEMPORARY Record 9185;VAR TempGenericChartMemoBuf@1001 : TEMPORARY Record 9186;VAR TempGenericChartFilter@1009 : TEMPORARY Record 9181);
     VAR

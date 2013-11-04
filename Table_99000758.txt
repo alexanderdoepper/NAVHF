@@ -2,9 +2,9 @@ OBJECT Table 99000758 Machine Center
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -60,37 +60,30 @@ OBJECT Table 99000758 Machine Center
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Machine Center;
-               ESP=Centro m†quina;
-               DEA=Arbeitsplatz];
+    CaptionML=[DEU=Arbeitsplatz;
+               ENU=Machine Center];
     LookupPageID=Page99000761;
     DrillDownPageID=Page99000761;
   }
   FIELDS
   {
     { 1   ;   ;No.                 ;Code20        ;AltSearchField=Search Name;
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
     { 3   ;   ;Name                ;Text50        ;OnValidate=BEGIN
                                                                 "Search Name" := Name;
                                                               END;
 
-                                                   CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 4   ;   ;Search Name         ;Code50        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 5   ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 6   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 7   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 4   ;   ;Search Name         ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 5   ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 6   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 7   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 8   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -99,9 +92,8 @@ OBJECT Table 99000758 Machine Center
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 9   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -110,9 +102,8 @@ OBJECT Table 99000758 Machine Center
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
     { 14  ;   ;Work Center No.     ;Code20        ;TableRelation="Work Center";
                                                    OnValidate=VAR
                                                                 WorkCenter@1000 : Record 99000754;
@@ -223,16 +214,14 @@ OBJECT Table 99000758 Machine Center
                                                                 Window.CLOSE;
                                                               END;
 
-                                                   CaptionML=[ENU=Work Center No.;
-                                                              ESP=Nß centro trabajo;
-                                                              DEA=Arbeitsplatzgruppennr.] }
+                                                   CaptionML=[DEU=Arbeitsplatzgruppennr.;
+                                                              ENU=Work Center No.] }
     { 19  ;   ;Direct Unit Cost    ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Indirect Cost %");
                                                               END;
 
-                                                   CaptionML=[ENU=Direct Unit Cost;
-                                                              ESP=Coste unit. directo;
-                                                              DEA=EK-Preis];
+                                                   CaptionML=[DEU=EK-Preis;
+                                                              ENU=Direct Unit Cost];
                                                    MinValue=0;
                                                    AutoFormatType=2 }
     { 20  ;   ;Indirect Cost %     ;Decimal       ;OnValidate=BEGIN
@@ -243,9 +232,8 @@ OBJECT Table 99000758 Machine Center
                                                                     GLSetup."Unit-Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Indirect Cost %;
-                                                              ESP=% Coste indirecto;
-                                                              DEA=Indirekte Kosten %];
+                                                   CaptionML=[DEU=Indirekte Kosten %;
+                                                              ENU=Indirect Cost %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 21  ;   ;Unit Cost           ;Decimal       ;OnValidate=BEGIN
@@ -255,74 +243,61 @@ OBJECT Table 99000758 Machine Center
                                                                     GLSetup."Unit-Amount Rounding Precision");
                                                               END;
 
-                                                   CaptionML=[ENU=Unit Cost;
-                                                              ESP=Coste unitario;
-                                                              DEA=Einstandspreis];
+                                                   CaptionML=[DEU=Einstandspreis;
+                                                              ENU=Unit Cost];
                                                    DecimalPlaces=2:5;
                                                    MinValue=0;
                                                    AutoFormatType=2 }
-    { 22  ;   ;Queue Time          ;Decimal       ;CaptionML=[ENU=Queue Time;
-                                                              ESP=Tiempo cola;
-                                                              DEA=Warteschlangenzeit];
+    { 22  ;   ;Queue Time          ;Decimal       ;CaptionML=[DEU=Warteschlangenzeit;
+                                                              ENU=Queue Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 23  ;   ;Queue Time Unit of Meas. Code;Code10;
                                                    TableRelation="Capacity Unit of Measure";
-                                                   CaptionML=[ENU=Queue Time Unit of Meas. Code;
-                                                              ESP=C¢d. udad. medida tiempo cola;
-                                                              DEA=Warteschlangezeiteinheitencode] }
-    { 26  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+                                                   CaptionML=[DEU=Warteschlangezeiteinheitencode;
+                                                              ENU=Queue Time Unit of Meas. Code] }
+    { 26  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 27  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Manufacturing Comment Line" WHERE (Table Name=CONST(Machine Center),
                                                                                                          No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 31  ;   ;Capacity            ;Decimal       ;CaptionML=[ENU=Capacity;
-                                                              ESP=Capacidad;
-                                                              DEA=KapazitÑt];
+    { 31  ;   ;Capacity            ;Decimal       ;CaptionML=[DEU=KapazitÑt;
+                                                              ENU=Capacity];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 32  ;   ;Efficiency          ;Decimal       ;InitValue=100;
-                                                   CaptionML=[ENU=Efficiency;
-                                                              ESP=Eficiencia;
-                                                              DEA=EffektivitÑt];
+                                                   CaptionML=[DEU=EffektivitÑt;
+                                                              ENU=Efficiency];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 33  ;   ;Maximum Efficiency  ;Decimal       ;CaptionML=[ENU=Maximum Efficiency;
-                                                              ESP=Eficiencia m†xima;
-                                                              DEA=Maximale EffektivitÑt];
+    { 33  ;   ;Maximum Efficiency  ;Decimal       ;CaptionML=[DEU=Maximale EffektivitÑt;
+                                                              ENU=Maximum Efficiency];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 34  ;   ;Minimum Efficiency  ;Decimal       ;CaptionML=[ENU=Minimum Efficiency;
-                                                              ESP=Eficiencia m°nima;
-                                                              DEA=Minimale EffektivitÑt];
+    { 34  ;   ;Minimum Efficiency  ;Decimal       ;CaptionML=[DEU=Minimale EffektivitÑt;
+                                                              ENU=Minimum Efficiency];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 38  ;   ;Blocked             ;Boolean       ;CaptionML=[ENU=Blocked;
-                                                              ESP=Bloqueado;
-                                                              DEA=Gesperrt] }
+    { 38  ;   ;Blocked             ;Boolean       ;CaptionML=[DEU=Gesperrt;
+                                                              ENU=Blocked] }
     { 39  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 40  ;   ;Work Shift Filter   ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation="Work Shift";
-                                                   CaptionML=[ENU=Work Shift Filter;
-                                                              ESP=Filtro turno trabajo;
-                                                              DEA=Schichtfilter] }
+                                                   CaptionML=[DEU=Schichtfilter;
+                                                              ENU=Work Shift Filter] }
     { 41  ;   ;Capacity (Total)    ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Calendar Entry"."Capacity (Total)" WHERE (Capacity Type=CONST(Machine Center),
                                                                                                               No.=FIELD(No.),
                                                                                                               Work Shift Code=FIELD(Work Shift Filter),
                                                                                                               Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Capacity (Total);
-                                                              ESP=Capacidad (Total);
-                                                              DEA=KapazitÑt (Total)];
+                                                   CaptionML=[DEU=KapazitÑt (Total);
+                                                              ENU=Capacity (Total)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 42  ;   ;Capacity (Effective);Decimal       ;FieldClass=FlowField;
@@ -330,9 +305,8 @@ OBJECT Table 99000758 Machine Center
                                                                                                                   No.=FIELD(No.),
                                                                                                                   Work Shift Code=FIELD(Work Shift Filter),
                                                                                                                   Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Capacity (Effective);
-                                                              ESP=Capacidad (efectiva);
-                                                              DEA=KapazitÑt (effektiv)];
+                                                   CaptionML=[DEU=KapazitÑt (effektiv);
+                                                              ENU=Capacity (Effective)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 44  ;   ;Prod. Order Need (Qty.);Decimal    ;FieldClass=FlowField;
@@ -341,133 +315,107 @@ OBJECT Table 99000758 Machine Center
                                                                                                                        Status=FIELD(Prod. Order Status Filter),
                                                                                                                        Date=FIELD(Date Filter),
                                                                                                                        Requested Only=CONST(No)));
-                                                   CaptionML=[ENU=Prod. Order Need (Qty.);
-                                                              ESP=Nec. ord. prod. (cdad.);
-                                                              DEA=FA-Zeitbedarf];
+                                                   CaptionML=[DEU=FA-Zeitbedarf;
+                                                              ENU=Prod. Order Need (Qty.)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 45  ;   ;Prod. Order Need Amount;Decimal    ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Prod. Order Routing Line"."Expected Operation Cost Amt." WHERE (Type=CONST(Machine Center),
                                                                                                                                     No.=FIELD(No.),
                                                                                                                                     Status=FIELD(Prod. Order Status Filter)));
-                                                   CaptionML=[ENU=Prod. Order Need Amount;
-                                                              ESP=Importe nec. ord. prod.;
-                                                              DEA=FA-Zeitbedarf (Betrag)];
+                                                   CaptionML=[DEU=FA-Zeitbedarf (Betrag);
+                                                              ENU=Prod. Order Need Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 47  ;   ;Prod. Order Status Filter;Option   ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Prod. Order Status Filter;
-                                                              ESP=Filtro estado ord. prod.;
-                                                              DEA=FA-Statusfilter];
-                                                   OptionCaptionML=[ENU=Simulated,Planned,Firm Planned,Released,Finished;
-                                                                    ESP=Simulada,Planificada,Planif. en firme,Lanzada,Terminada;
-                                                                    DEA=Simuliert,Geplant,Fest geplant,Freigegeben,Beendet];
+                                                   CaptionML=[DEU=FA-Statusfilter;
+                                                              ENU=Prod. Order Status Filter];
+                                                   OptionCaptionML=[DEU=Simuliert,Geplant,Fest geplant,Freigegeben,Beendet;
+                                                                    ENU=Simulated,Planned,Firm Planned,Released,Finished];
                                                    OptionString=Simulated,Planned,Firm Planned,Released,Finished }
-    { 50  ;   ;Setup Time          ;Decimal       ;CaptionML=[ENU=Setup Time;
-                                                              ESP=Tiempo preparaci¢n;
-                                                              DEA=RÅstzeit];
+    { 50  ;   ;Setup Time          ;Decimal       ;CaptionML=[DEU=RÅstzeit;
+                                                              ENU=Setup Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 52  ;   ;Wait Time           ;Decimal       ;CaptionML=[ENU=Wait Time;
-                                                              ESP=Tiempo espera;
-                                                              DEA=Wartezeit];
+    { 52  ;   ;Wait Time           ;Decimal       ;CaptionML=[DEU=Wartezeit;
+                                                              ENU=Wait Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 53  ;   ;Move Time           ;Decimal       ;CaptionML=[ENU=Move Time;
-                                                              ESP=Tiempo movimiento;
-                                                              DEA=Transportzeit];
+    { 53  ;   ;Move Time           ;Decimal       ;CaptionML=[DEU=Transportzeit;
+                                                              ENU=Move Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 54  ;   ;Fixed Scrap Quantity;Decimal       ;CaptionML=[ENU=Fixed Scrap Quantity;
-                                                              ESP=Cdad. rechazo fija;
-                                                              DEA=Fixe Ausschussmenge];
+    { 54  ;   ;Fixed Scrap Quantity;Decimal       ;CaptionML=[DEU=Fixe Ausschussmenge;
+                                                              ENU=Fixed Scrap Quantity];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 55  ;   ;Scrap %             ;Decimal       ;CaptionML=[ENU=Scrap %;
-                                                              ESP=% Rechazo;
-                                                              DEA=Ausschuss %];
+    { 55  ;   ;Scrap %             ;Decimal       ;CaptionML=[DEU=Ausschuss %;
+                                                              ENU=Scrap %];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 56  ;   ;Setup Time Unit of Meas. Code;Code10;
                                                    TableRelation="Capacity Unit of Measure";
-                                                   CaptionML=[ENU=Setup Time Unit of Meas. Code;
-                                                              ESP=C¢d. ud. medida tiempo prep.;
-                                                              DEA=RÅstzeiteinheitencode] }
+                                                   CaptionML=[DEU=RÅstzeiteinheitencode;
+                                                              ENU=Setup Time Unit of Meas. Code] }
     { 57  ;   ;Wait Time Unit of Meas. Code;Code10;TableRelation="Capacity Unit of Measure";
-                                                   CaptionML=[ENU=Wait Time Unit of Meas. Code;
-                                                              ESP=C¢d. ud. medida tiempo espera;
-                                                              DEA=Wartezeiteinheitencode] }
-    { 58  ;   ;Send-Ahead Quantity ;Decimal       ;CaptionML=[ENU=Send-Ahead Quantity;
-                                                              ESP=Cdad. a adelantar;
-                                                              DEA=Weitergabemenge];
+                                                   CaptionML=[DEU=Wartezeiteinheitencode;
+                                                              ENU=Wait Time Unit of Meas. Code] }
+    { 58  ;   ;Send-Ahead Quantity ;Decimal       ;CaptionML=[DEU=Weitergabemenge;
+                                                              ENU=Send-Ahead Quantity];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 59  ;   ;Move Time Unit of Meas. Code;Code10;TableRelation="Capacity Unit of Measure";
-                                                   CaptionML=[ENU=Move Time Unit of Meas. Code;
-                                                              ESP=C¢d. ud. medida tiempo mov.;
-                                                              DEA=Transportzeiteinheitencode] }
+                                                   CaptionML=[DEU=Transportzeiteinheitencode;
+                                                              ENU=Move Time Unit of Meas. Code] }
     { 60  ;   ;Flushing Method     ;Option        ;InitValue=Manual;
-                                                   CaptionML=[ENU=Flushing Method;
-                                                              ESP=MÇtodo de baja;
-                                                              DEA=Buchungsmethode];
-                                                   OptionCaptionML=[ENU=Manual,Forward,Backward;
-                                                                    ESP=Manual,Anticipada,Retroactiva;
-                                                                    DEA=Manuell,VorwÑrts,RÅckwÑrts];
+                                                   CaptionML=[DEU=Buchungsmethode;
+                                                              ENU=Flushing Method];
+                                                   OptionCaptionML=[DEU=Manuell,VorwÑrts,RÅckwÑrts;
+                                                                    ENU=Manual,Forward,Backward];
                                                    OptionString=Manual,Forward,Backward }
-    { 62  ;   ;Minimum Process Time;Decimal       ;CaptionML=[ENU=Minimum Process Time;
-                                                              ESP=Tiempo proceso m°nimo;
-                                                              DEA=Minimale Prozesszeit];
+    { 62  ;   ;Minimum Process Time;Decimal       ;CaptionML=[DEU=Minimale Prozesszeit;
+                                                              ENU=Minimum Process Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 63  ;   ;Maximum Process Time;Decimal       ;CaptionML=[ENU=Maximum Process Time;
-                                                              ESP=Tiempo proceso m†ximo;
-                                                              DEA=Maximale Prozesszeit];
+    { 63  ;   ;Maximum Process Time;Decimal       ;CaptionML=[DEU=Maximale Prozesszeit;
+                                                              ENU=Maximum Process Time];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
-    { 64  ;   ;Concurrent Capacities;Decimal      ;CaptionML=[ENU=Concurrent Capacities;
-                                                              ESP=Capacidades concurrentes;
-                                                              DEA=Gleichzeitig zu belasten];
+    { 64  ;   ;Concurrent Capacities;Decimal      ;CaptionML=[DEU=Gleichzeitig zu belasten;
+                                                              ENU=Concurrent Capacities];
                                                    DecimalPlaces=0:5;
                                                    MinValue=0 }
     { 65  ;   ;Item Filter         ;Code20        ;FieldClass=FlowFilter;
                                                    TableRelation=Item;
-                                                   CaptionML=[ENU=Item Filter;
-                                                              ESP=Filtro producto;
-                                                              DEA=Artikelfilter] }
+                                                   CaptionML=[DEU=Artikelfilter;
+                                                              ENU=Item Filter] }
     { 66  ;   ;Stop Code Filter    ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation=Stop;
-                                                   CaptionML=[ENU=Stop Code Filter;
-                                                              ESP=Filtro c¢d. paro;
-                                                              DEA=Stillstandcodefilter] }
+                                                   CaptionML=[DEU=Stillstandcodefilter;
+                                                              ENU=Stop Code Filter] }
     { 67  ;   ;Scrap Code Filter   ;Code10        ;FieldClass=FlowFilter;
                                                    TableRelation=Scrap;
-                                                   CaptionML=[ENU=Scrap Code Filter;
-                                                              ESP=Filtro c¢d. rechazo;
-                                                              DEA=Ausschusscodefilter] }
+                                                   CaptionML=[DEU=Ausschusscodefilter;
+                                                              ENU=Scrap Code Filter] }
     { 80  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 81  ;   ;Overhead Rate       ;Decimal       ;OnValidate=BEGIN
                                                                 VALIDATE("Indirect Cost %");
                                                               END;
 
-                                                   CaptionML=[ENU=Overhead Rate;
-                                                              ESP=Tasa costes generales;
-                                                              DEA=Gemeinkostensatz];
+                                                   CaptionML=[DEU=Gemeinkostensatz;
+                                                              ENU=Overhead Rate];
                                                    AutoFormatType=2 }
     { 82  ;   ;Gen. Prod. Posting Group;Code10    ;TableRelation="Gen. Product Posting Group";
-                                                   CaptionML=[ENU=Gen. Prod. Posting Group;
-                                                              ESP=Grupo contable producto;
-                                                              DEA=Produktbuchungsgruppe] }
-    { 83  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=Produktbuchungsgruppe;
+                                                              ENU=Gen. Prod. Posting Group] }
+    { 83  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 84  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 7300;   ;Location Code       ;Code10        ;TableRelation=Location.Code WHERE (Use As In-Transit=CONST(No),
                                                                                       Bin Mandatory=CONST(Yes));
                                                    OnValidate=VAR
@@ -499,9 +447,8 @@ OBJECT Table 99000758 Machine Center
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almacÇn;
-                                                              DEA=Lagerortcode];
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code];
                                                    Editable=No }
     { 7301;   ;Open Shop Floor Bin Code;Code20    ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
                                                    OnValidate=VAR
@@ -513,9 +460,8 @@ OBJECT Table 99000758 Machine Center
                                                                   DATABASE::"Machine Center","No.");
                                                               END;
 
-                                                   CaptionML=[ENU=Open Shop Floor Bin Code;
-                                                              ESP=Abre ubic. aprovision. manual;
-                                                              DEA=Off. Fert.-Ber.-Lagerpl.-Code] }
+                                                   CaptionML=[DEU=Off. Fert.-Ber.-Lagerpl.-Code;
+                                                              ENU=Open Shop Floor Bin Code] }
     { 7302;   ;To-Production Bin Code;Code20      ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -526,9 +472,8 @@ OBJECT Table 99000758 Machine Center
                                                                   DATABASE::"Machine Center","No.");
                                                               END;
 
-                                                   CaptionML=[ENU=To-Production Bin Code;
-                                                              ESP=C¢d. ubic. para producci¢n;
-                                                              DEA=Fert.-Bereitst.-Lagerplatzcode] }
+                                                   CaptionML=[DEU=Fert.-Bereitst.-Lagerplatzcode;
+                                                              ENU=To-Production Bin Code] }
     { 7303;   ;From-Production Bin Code;Code20    ;TableRelation=Bin.Code WHERE (Location Code=FIELD(Location Code));
                                                    OnValidate=VAR
                                                                 WhseIntegrationMgt@1000 : Codeunit 7317;
@@ -539,9 +484,8 @@ OBJECT Table 99000758 Machine Center
                                                                   DATABASE::"Machine Center","No.");
                                                               END;
 
-                                                   CaptionML=[ENU=From-Production Bin Code;
-                                                              ESP=C¢d. ubic. desde producci¢n;
-                                                              DEA=Fert.-Ausgangslagerplatzcode] }
+                                                   CaptionML=[DEU=Fert.-Ausgangslagerplatzcode;
+                                                              ENU=From-Production Bin Code] }
   }
   KEYS
   {
@@ -555,12 +499,12 @@ OBJECT Table 99000758 Machine Center
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=The Machine Center is being used on production orders.;ESP=Centro m†quina utiliz†ndose con ¢rdenes de producci¢n.;DEA=Der Arbeitsplatz wird von FertigungsauftrÑgen verwendet.';
-      Text001@1001 : TextConst 'ENU=Do you want to change %1?;ESP=®Confirma que desea cambiar %1?;DEA=Mîchten Sie %1 Ñndern?';
-      Text002@1002 : TextConst 'ENU=Work Center No. is corrected on\\;ESP=Se ha corregido nß centro trabajo en\\;DEA=Arbeitsplatzgruppennr. wurde geÑndert auf\\';
-      Text003@1003 : TextConst 'ENU=Calendar Entry    #1###### @2@@@@@@@@@@@@@\;ESP=Mov. calendario   #1###### @2@@@@@@@@@@@@@\;DEA=Kalenderposten          #1###### @2@@@@@@@@@@@@@\';
-      Text004@1004 : TextConst 'ENU=Calendar Absent.  #3###### @4@@@@@@@@@@@@@\;ESP=Absent. calenda.  #3###### @4@@@@@@@@@@@@@\;DEA=nicht verf. Arbeitstage #3###### @4@@@@@@@@@@@@@\';
-      Text006@1005 : TextConst 'ENU=Prod. Order Need  #7###### @8@@@@@@@@@@@@@;ESP=Nec. ord. prod.   #7###### @8@@@@@@@@@@@@@;DEA=FA-Bedarf               #7###### @8@@@@@@@@@@@@@';
+      Text000@1000 : TextConst 'DEU=Der Arbeitsplatz wird von FertigungsauftrÑgen verwendet.;ENU=The Machine Center is being used on production orders.';
+      Text001@1001 : TextConst 'DEU=Mîchten Sie %1 Ñndern?;ENU=Do you want to change %1?';
+      Text002@1002 : TextConst 'DEU=Arbeitsplatzgruppennr. wurde geÑndert auf\\;ENU=Work Center No. is corrected on\\';
+      Text003@1003 : TextConst 'DEU=Kalenderposten          #1###### @2@@@@@@@@@@@@@\;ENU=Calendar Entry    #1###### @2@@@@@@@@@@@@@\';
+      Text004@1004 : TextConst 'DEU=nicht verf. Arbeitstage #3###### @4@@@@@@@@@@@@@\;ENU=Calendar Absent.  #3###### @4@@@@@@@@@@@@@\';
+      Text006@1005 : TextConst 'DEU=FA-Bedarf               #7###### @8@@@@@@@@@@@@@;ENU=Prod. Order Need  #7###### @8@@@@@@@@@@@@@';
       PostCode@1020 : Record 225;
       MfgSetup@1006 : Record 99000765;
       MachineCenter@1007 : Record 99000758;
@@ -575,9 +519,9 @@ OBJECT Table 99000758 Machine Center
       i@1015 : Integer;
       NoOfRecords@1016 : Integer;
       GLSetupRead@1018 : Boolean;
-      Text007@1019 : TextConst 'ENU=You cannot delete %1 %2 because there exists at least one %3 associated with it.;ESP=No puede borrar %1 %2 porque existe al menos %3 asociado a Çl.;DEA=Sie kînnen den %1 %2 nicht lîschen, da mindestens ein zugehîriger %3 vorhanden ist.';
-      Text008@1021 : TextConst 'ENU=You cannot change the %1 on %2 unless it is linked to a %3.;ESP=No puede cambiar el %1 en el %2 a menos que estÇ vinculado a un %3.;DEA=''%1'' fÅr ''%2'' kann nur geÑndert werden, wenn eine VerknÅpfung mit einem Element vom Typ ''%3'' besteht.';
-      Text009@1022 : TextConst 'ENU=If you change the %1, then all bin codes on the %2 will be removed. Are you sure that you want to continue?;ESP=Si cambia %1, todos los c¢digos de ubicaci¢n del %2 se eliminar†n. ®Est† seguro de que desea continuar?;DEA=Wenn Sie ''%1'' Ñndern, werden alle Lagerplatzcodes fÅr ''%2'' entfernt. Mîchten Sie den Vorgang wirklich fortsetzen?';
+      Text007@1019 : TextConst 'DEU=Sie kînnen den %1 %2 nicht lîschen, da mindestens ein zugehîriger %3 vorhanden ist.;ENU=You cannot delete %1 %2 because there exists at least one %3 associated with it.';
+      Text008@1021 : TextConst 'DEU=''%1'' fÅr ''%2'' kann nur geÑndert werden, wenn eine VerknÅpfung mit einem Element vom Typ ''%3'' besteht.;ENU=You cannot change the %1 on %2 unless it is linked to a %3.';
+      Text009@1022 : TextConst 'DEU=Wenn Sie ''%1'' Ñndern, werden alle Lagerplatzcodes fÅr ''%2'' entfernt. Mîchten Sie den Vorgang wirklich fortsetzen?;ENU=If you change the %1, then all bin codes on the %2 will be removed. Are you sure that you want to continue?';
 
     PROCEDURE AssistEdit@2(OldMachineCenter@1000 : Record 99000758) : Boolean;
     BEGIN

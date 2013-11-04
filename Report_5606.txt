@@ -2,15 +2,14 @@ OBJECT Report 5606 Fixed Asset - Book Value 02
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Fixed Asset - Book Value 02;
-               ESP=A/F - Valor neto 02;
-               DEA=Anlagenspiegel];
+    CaptionML=[DEU=Anlagenspiegel;
+               ENU=Fixed Asset - Book Value 02];
     OnPreReport=BEGIN
                   FAGenReport.ValidateDates(StartingDate,EndingDate);
                   DeprBook.GET(DeprBookCode);
@@ -1269,61 +1268,52 @@ OBJECT Report 5606 Fixed Asset - Book Value 02
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
                   Name=DeprBookCode;
-                  CaptionML=[ENU=Depreciation Book;
-                             ESP=Libro amortizaci¢n;
-                             DEA=AfA-Buch];
+                  CaptionML=[DEU=AfA-Buch;
+                             ENU=Depreciation Book];
                   SourceExpr=DeprBookCode;
                   TableRelation="Depreciation Book" }
 
       { 14  ;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=StartingDate }
 
       { 15  ;2   ;Field     ;
                   Name=EndingDate;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=EndingDate }
 
       { 2   ;2   ;Field     ;
                   Name=GroupTotals;
-                  CaptionML=[ENU=Group Totals;
-                             ESP=Totales grupo;
-                             DEA=Gruppensummen];
-                  OptionCaptionML=[ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group";
-                                   ESP=" ,A/F Clase,A/F Subclase,A/F Almac‚n,Activo principal,Dimensi¢n Global 1,Dimensi¢n Global 2,Grupos contables A/F";
-                                   DEA=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe"];
+                  CaptionML=[DEU=Gruppensummen;
+                             ENU=Group Totals];
+                  OptionCaptionML=[DEU=" ,Anl.-Klasse,Anl.-Sachgruppe,Anl.-Standort,Hauptanl.,Globale Dimension 1,Globale Dimension 2,Anlagenbuchungsgruppe";
+                                   ENU=" ,FA Class,FA Subclass,FA Location,Main Asset,Global Dimension 1,Global Dimension 2,FA Posting Group"];
                   SourceExpr=GroupTotals }
 
       { 21  ;2   ;Field     ;
                   Name=PrintDetails;
-                  CaptionML=[ENU=Print per Fixed Asset;
-                             ESP=Imprimir por activo;
-                             DEA=Druck pro Anlage];
+                  CaptionML=[DEU=Druck pro Anlage;
+                             ENU=Print per Fixed Asset];
                   SourceExpr=PrintDetails }
 
       { 24  ;2   ;Field     ;
                   Name=BudgetReport;
-                  CaptionML=[ENU=Budget Report;
-                             ESP=Informe presupuesto;
-                             DEA=Planbericht];
+                  CaptionML=[DEU=Planbericht;
+                             ENU=Budget Report];
                   SourceExpr=BudgetReport }
 
       { 5   ;2   ;Field     ;
                   Name=IncludeReclassification;
-                  CaptionML=[ENU=Include Reclassification;
-                             ESP=Incluye reclasificaci¢n;
-                             DEA=Inklusive Umbuchungen];
+                  CaptionML=[DEU=Inklusive Umbuchungen;
+                             ENU=Include Reclassification];
                   SourceExpr=Reclassify }
 
     }
@@ -1334,14 +1324,14 @@ OBJECT Report 5606 Fixed Asset - Book Value 02
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Fixed Asset - Book Value 02;ESP=A/F - Valor neto 02;DEA=Anlagenspiegel';
-      Text001@1001 : TextConst 'ENU=(Budget Report);ESP=(Informe ppto);DEA=(Planbericht)';
-      Text002@1002 : TextConst 'ENU=Group Totals;ESP=Totales grupo;DEA=Gruppensummen';
-      Text003@1003 : TextConst 'ENU=Reclassification;ESP=Reclasificaci¢n;DEA=Umbuchung';
-      Text004@1004 : TextConst 'ENU=Addition in Period;ESP=Adici¢n en periodo;DEA=Zugang in der Periode';
-      Text005@1005 : TextConst 'ENU=Disposal in Period;ESP=Venta/Baja en el periodo;DEA=Verkauf in der Periode';
-      Text006@1006 : TextConst 'ENU=Group Total;ESP=Total grupo;DEA=Gruppensumme';
-      Text007@1007 : TextConst 'ENU=%1 has been modified in fixed asset %2;ESP=%1 ha sido modif. en activos fijos %2;DEA=Die %1 wurde in Anlage %2 ge„ndert.';
+      Text000@1000 : TextConst 'DEU=Anlagenspiegel;ENU=Fixed Asset - Book Value 02';
+      Text001@1001 : TextConst 'DEU=(Planbericht);ENU=(Budget Report)';
+      Text002@1002 : TextConst 'DEU=Gruppensummen;ENU=Group Totals';
+      Text003@1003 : TextConst 'DEU=Umbuchung;ENU=Reclassification';
+      Text004@1004 : TextConst 'DEU=Zugang in der Periode;ENU=Addition in Period';
+      Text005@1005 : TextConst 'DEU=Verkauf in der Periode;ENU=Disposal in Period';
+      Text006@1006 : TextConst 'DEU=Gruppensumme;ENU=Group Total';
+      Text007@1007 : TextConst 'DEU=Die %1 wurde in Anlage %2 ge„ndert.;ENU=%1 has been modified in fixed asset %2';
       FASetup@1008 : Record 5603;
       DeprBook@1009 : Record 5611;
       FADeprBook@1010 : Record 5612;
@@ -1397,8 +1387,8 @@ OBJECT Report 5606 Fixed Asset - Book Value 02
       EndingAmount@1061 : Decimal;
       AcquisitionDate@1062 : Date;
       DisposalDate@1063 : Date;
-      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'ENU=Page;ESP=P g.;DEA=Seite';
-      TotalCaptionLbl@1909 : TextConst 'ENU=Total;ESP=Total;DEA=Gesamt';
+      CurrReport_PAGENOCaptionLbl@8565 : TextConst 'DEU=Seite;ENU=Page';
+      TotalCaptionLbl@1909 : TextConst 'DEU=Gesamt;ENU=Total';
 
     LOCAL PROCEDURE SkipRecord@5() : Boolean;
     BEGIN

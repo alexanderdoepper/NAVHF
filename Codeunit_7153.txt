@@ -2,9 +2,9 @@ OBJECT Codeunit 7153 Item Analysis Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,15 +15,15 @@ OBJECT Codeunit 7153 Item Analysis Management
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
-      Text001@1008 : TextConst 'ENU=<Sign><Integer Thousand><Decimals,2>;ESP=<Sign><Integer Thousand><Decimals,2>;DEA=<Sign><Integer Thousand><Decimals,2>';
-      Text003@1006 : TextConst 'ENU=%1 is not a valid line definition.;ESP=%1 no es una def. de l°nea v†lida.;DEA=%1 ist keine gÅltige Zeilendefinition.';
-      Text004@1005 : TextConst 'ENU=%1 is not a valid column definition.;ESP=%1 no es una def. de columna v†lida.;DEA=%1 ist keine gÅltige Spaltendefinition.';
-      Text005@1004 : TextConst 'ENU=1,6,,Dimension 1 Filter;ESP=1,6,,Filtro dimensi¢n 1;DEA=1,6,,Dimensionsfilter 1';
-      Text006@1003 : TextConst 'ENU=1,6,,Dimension 2 Filter;ESP=1,6,,Filtro dimensi¢n 2;DEA=1,6,,Dimensionsfilter 2';
-      Text007@1002 : TextConst 'ENU=1,6,,Dimension 3 Filter;ESP=1,6,,Filtro dimensi¢n 3;DEA=1,6,,Dimensionsfilter 3';
-      Text008@1009 : TextConst 'ENU=DEFAULT;ESP=GENERICO;DEA=STANDARD';
-      Text009@1001 : TextConst 'ENU=Default analysis view;ESP=Vista de an†lisis predeterminada;DEA=Standardanalyseansicht';
+      Text000@1000 : TextConst 'DEU=Periode;ENU=Period';
+      Text001@1008 : TextConst 'DEU=<Sign><Integer Thousand><Decimals,2>;ENU=<Sign><Integer Thousand><Decimals,2>';
+      Text003@1006 : TextConst 'DEU=%1 ist keine gÅltige Zeilendefinition.;ENU=%1 is not a valid line definition.';
+      Text004@1005 : TextConst 'DEU=%1 ist keine gÅltige Spaltendefinition.;ENU=%1 is not a valid column definition.';
+      Text005@1004 : TextConst 'DEU=1,6,,Dimensionsfilter 1;ENU=1,6,,Dimension 1 Filter';
+      Text006@1003 : TextConst 'DEU=1,6,,Dimensionsfilter 2;ENU=1,6,,Dimension 2 Filter';
+      Text007@1002 : TextConst 'DEU=1,6,,Dimensionsfilter 3;ENU=1,6,,Dimension 3 Filter';
+      Text008@1009 : TextConst 'DEU=STANDARD;ENU=DEFAULT';
+      Text009@1001 : TextConst 'DEU=Standardanalyseansicht;ENU=Default analysis view';
       PrevItemAnalysisView@1010 : Record 7152;
 
     LOCAL PROCEDURE DimCodeNotAllowed@24(DimCode@1000 : Text[30];ItemAnalysisView@1001 : Record 7152) : Boolean;

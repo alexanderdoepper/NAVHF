@@ -2,15 +2,14 @@ OBJECT Page 9233 G/L Balance by Dim. Matrix
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=G/L Balance by Dim. Matrix;
-               ESP=Matriz saldo cuenta por dim.;
-               DEA=Saldo nach Dim.-Matrix];
+    CaptionML=[DEU=Saldo nach Dim.-Matrix;
+               ENU=G/L Balance by Dim. Matrix];
     InsertAllowed=No;
     DeleteAllowed=No;
     LinksAllowed=No;
@@ -141,9 +140,8 @@ OBJECT Page 9233 G/L Balance by Dim. Matrix
 
     { 24  ;2   ;Field     ;
                 Name=TotalAmount;
-                CaptionML=[ENU=Total Amount;
-                           ESP=Importe total;
-                           DEA=Gesamtbetrag];
+                CaptionML=[DEU=Gesamtbetrag;
+                           ENU=Total Amount];
                 BlankZero=Yes;
                 SourceExpr=+Amount;
                 Style=Strong;
@@ -637,7 +635,7 @@ OBJECT Page 9233 G/L Balance by Dim. Matrix
   CODE
   {
     VAR
-      Text001@1186 : TextConst 'ENU=Period;ESP=Periodo;DEA=Periode';
+      Text001@1186 : TextConst 'DEU=Periode;ENU=Period';
       GLSetup@1189 : Record 98;
       GLAcc@1190 : Record 15;
       DimCodAmtBuf@1191 : TEMPORARY Record 375;

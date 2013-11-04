@@ -2,16 +2,14 @@ OBJECT Page 50 Purchase Order
 {
   OBJECT-PROPERTIES
   {
-    Date=12.09.13;
-    Time=13:28:24;
-    Modified=Yes;
-    Version List=NAVW17.00,NAVDACH7.00,CIC001;
+    Date=05.04.13;
+    Time=12:00:00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Purchase Order;
-               ESP=Pedido compra;
-               DEA=Einkaufsbestellung];
+    CaptionML=[DEU=Einkaufsbestellung;
+               ENU=Purchase Order];
     SourceTable=Table38;
     SourceTableView=WHERE(Document Type=FILTER(Order));
     PageType=Document;
@@ -42,15 +40,13 @@ OBJECT Page 50 Purchase Order
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 61      ;1   ;ActionGroup;
-                      CaptionML=[ENU=O&rder;
-                                 ESP=&Pedido;
-                                 DEA=Bes&tellung];
+                      CaptionML=[DEU=Bes&tellung;
+                                 ENU=O&rder];
                       Image=Order }
       { 129     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Promoted=No;
                       PromotedIsBig=No;
                       Image=Dimensions;
@@ -62,9 +58,8 @@ OBJECT Page 50 Purchase Order
       { 63      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad°sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=Statistics;
@@ -77,18 +72,16 @@ OBJECT Page 50 Purchase Order
                                 }
       { 64      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Page 26;
                       RunPageLink=No.=FIELD(Buy-from Vendor No.);
                       Promoted=No;
                       PromotedIsBig=No;
                       Image=EditLines }
       { 220     ;2   ;Action    ;
-                      CaptionML=[ENU=Approvals;
-                                 ESP=Aprobaciones;
-                                 DEA=Genehmigungen];
+                      CaptionML=[DEU=Genehmigungen;
+                                 ENU=Approvals];
                       Promoted=No;
                       PromotedIsBig=No;
                       Image=Approvals;
@@ -100,31 +93,27 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 65      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 66;
                       RunPageLink=Document Type=FIELD(Document Type),
                                   No.=FIELD(No.),
                                   Document Line No.=CONST(0);
                       Image=ViewComments }
       { 9       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Documents;
-                                 ESP=Documentos;
-                                 DEA=Belege];
+                      CaptionML=[DEU=Belege;
+                                 ENU=Documents];
                       Image=Documents }
       { 66      ;2   ;Action    ;
-                      CaptionML=[ENU=Receipts;
-                                 ESP=Albaranes compra;
-                                 DEA=Lieferungen];
+                      CaptionML=[DEU=Lieferungen;
+                                 ENU=Receipts];
                       RunObject=Page 145;
                       RunPageView=SORTING(Order No.);
                       RunPageLink=Order No.=FIELD(No.);
                       Image=PostedReceipts }
       { 67      ;2   ;Action    ;
-                      CaptionML=[ENU=Invoices;
-                                 ESP=Facturas;
-                                 DEA=Rechnungen];
+                      CaptionML=[DEU=Rechnungen;
+                                 ENU=Invoices];
                       RunObject=Page 146;
                       RunPageView=SORTING(Order No.);
                       RunPageLink=Order No.=FIELD(No.);
@@ -132,40 +121,35 @@ OBJECT Page 50 Purchase Order
                       PromotedIsBig=No;
                       Image=Invoice }
       { 205     ;2   ;Action    ;
-                      CaptionML=[ENU=Prepa&yment Invoices;
-                                 ESP=&Facturas prepago;
-                                 DEA=&Vorauszahlungsrechnungen];
+                      CaptionML=[DEU=&Vorauszahlungsrechnungen;
+                                 ENU=Prepa&yment Invoices];
                       RunObject=Page 146;
                       RunPageView=SORTING(Prepayment Order No.);
                       RunPageLink=Prepayment Order No.=FIELD(No.);
                       Image=PrepaymentInvoice }
       { 206     ;2   ;Action    ;
-                      CaptionML=[ENU=Prepayment Credi&t Memos;
-                                 ESP=&Abonos prepago;
-                                 DEA=Vorauszahlungsgu&tschriften];
+                      CaptionML=[DEU=Vorauszahlungsgu&tschriften;
+                                 ENU=Prepayment Credi&t Memos];
                       RunObject=Page 147;
                       RunPageView=SORTING(Prepayment Order No.);
                       RunPageLink=Prepayment Order No.=FIELD(No.);
                       Image=PrepaymentCreditMemo }
       { 11      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Warehouse;
-                                 ESP=AlmacÇn;
-                                 DEA=Lager];
+                      CaptionML=[DEU=Lager;
+                                 ENU=Warehouse];
                       Image=Warehouse }
       { 181     ;2   ;Separator  }
       { 180     ;2   ;Action    ;
-                      CaptionML=[ENU=In&vt. Put-away/Pick Lines;
-                                 ESP=L°neas ubicac./ pic&k exist.;
-                                 DEA=Lager&belegzeilen];
+                      CaptionML=[DEU=Lager&belegzeilen;
+                                 ENU=In&vt. Put-away/Pick Lines];
                       RunObject=Page 5774;
                       RunPageView=SORTING(Source Document,Source No.,Location Code);
                       RunPageLink=Source Document=CONST(Purchase Order),
                                   Source No.=FIELD(No.);
                       Image=PickLines }
       { 148     ;2   ;Action    ;
-                      CaptionML=[ENU=Whse. Receipt Lines;
-                                 ESP=L°neas recep. alm.;
-                                 DEA=Wareneingangszeilen];
+                      CaptionML=[DEU=Wareneingangszeilen;
+                                 ENU=Whse. Receipt Lines];
                       RunObject=Page 7342;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.,Source Line No.);
                       RunPageLink=Source Type=CONST(39),
@@ -174,25 +158,21 @@ OBJECT Page 50 Purchase Order
                       Image=ReceiptLines }
       { 182     ;2   ;Separator  }
       { 183     ;2   ;ActionGroup;
-                      CaptionML=[ENU=Dr&op Shipment;
-                                 ESP=En&v°o directo;
-                                 DEA=Dir&ektlieferung];
+                      CaptionML=[DEU=Dir&ektlieferung;
+                                 ENU=Dr&op Shipment];
                       Image=Delivery }
       { 226     ;3   ;Action    ;
-                      CaptionML=[ENU=Get &Sales Order;
-                                 ESP=Traer pedido &venta;
-                                 DEA=A&uftrag holen];
+                      CaptionML=[DEU=A&uftrag holen;
+                                 ENU=Get &Sales Order];
                       RunObject=Codeunit 76;
                       Image=Order }
       { 227     ;2   ;ActionGroup;
-                      CaptionML=[ENU=Speci&al Order;
-                                 ESP=&Pedido especial;
-                                 DEA=Spezi&alauftrag];
+                      CaptionML=[DEU=Spezi&alauftrag;
+                                 ENU=Speci&al Order];
                       Image=SpecialOrder }
       { 228     ;3   ;Action    ;
-                      CaptionML=[ENU=Get &Sales Order;
-                                 ESP=Traer pedido &venta;
-                                 DEA=A&uftrag holen];
+                      CaptionML=[DEU=A&uftrag holen;
+                                 ENU=Get &Sales Order];
                       Image=Order;
                       OnAction=VAR
                                  PurchHeader@1000 : Record 38;
@@ -206,17 +186,15 @@ OBJECT Page 50 Purchase Order
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 13      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Release;
-                                 ESP=Lanzar;
-                                 DEA=Freigeben];
+                      CaptionML=[DEU=Freigeben;
+                                 ENU=Release];
                       Image=ReleaseDoc }
       { 73      ;2   ;Separator  }
       { 137     ;2   ;Action    ;
                       Name=Release;
                       ShortCutKey=Ctrl+F9;
-                      CaptionML=[ENU=Re&lease;
-                                 ESP=Lan&zar;
-                                 DEA=&Freigeben];
+                      CaptionML=[DEU=&Freigeben;
+                                 ENU=Re&lease];
                       Promoted=Yes;
                       Image=ReleaseDoc;
                       PromotedCategory=Process;
@@ -227,9 +205,8 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 138     ;2   ;Action    ;
-                      CaptionML=[ENU=Re&open;
-                                 ESP=&Volver a abrir;
-                                 DEA=Stat&us zurÅcksetzen];
+                      CaptionML=[DEU=Stat&us zurÅcksetzen;
+                                 ENU=Re&open];
                       Image=ReOpen;
                       OnAction=VAR
                                  ReleasePurchDoc@1001 : Codeunit 415;
@@ -239,13 +216,12 @@ OBJECT Page 50 Purchase Order
                                 }
       { 611     ;2   ;Separator  }
       { 68      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 69      ;2   ;Action    ;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrab. berechnen];
+                      CaptionML=[DEU=&Rechnungsrab. berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -254,9 +230,8 @@ OBJECT Page 50 Purchase Order
       { 190     ;2   ;Separator  }
       { 179     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get St&d. Vend. Purchase Codes;
-                                 ESP=&Obtener c¢digos compra est. prov.;
-                                 DEA=Std.-Kred.-Einkaufscodes &holen];
+                      CaptionML=[DEU=Std.-Kred.-Einkaufscodes &holen;
+                                 ENU=Get St&d. Vend. Purchase Codes];
                       Image=VendorCode;
                       OnAction=VAR
                                  StdVendPurchCode@1000 : Record 175;
@@ -268,9 +243,8 @@ OBJECT Page 50 Purchase Order
       { 70      ;2   ;Action    ;
                       Name=CopyDocument;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Copy Document;
-                                 ESP=Copiar l°neas;
-                                 DEA=Beleg kopieren];
+                      CaptionML=[DEU=Beleg kopieren;
+                                 ENU=Copy Document];
                       Promoted=Yes;
                       Image=CopyDocument;
                       PromotedCategory=Process;
@@ -282,9 +256,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 142     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Move Negative Lines;
-                                 ESP=Mover l°neas negativas;
-                                 DEA=Negative Zeilen Åbertragen];
+                      CaptionML=[DEU=Negative Zeilen Åbertragen;
+                                 ENU=Move Negative Lines];
                       Image=MoveNegativeLines;
                       OnAction=BEGIN
                                  CLEAR(MoveNegPurchLines);
@@ -294,25 +267,21 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 225     ;2   ;ActionGroup;
-                      CaptionML=[ENU=Dr&op Shipment;
-                                 ESP=&Env°o directo;
-                                 DEA=Dir&ektlieferung];
+                      CaptionML=[DEU=Dir&ektlieferung;
+                                 ENU=Dr&op Shipment];
                       Image=Delivery }
       { 184     ;3   ;Action    ;
-                      CaptionML=[ENU=Get &Sales Order;
-                                 ESP=Traer pedido &venta;
-                                 DEA=A&uftrag holen];
+                      CaptionML=[DEU=A&uftrag holen;
+                                 ENU=Get &Sales Order];
                       RunObject=Codeunit 76;
                       Image=Order }
       { 186     ;2   ;ActionGroup;
-                      CaptionML=[ENU=Speci&al Order;
-                                 ESP=&Pedido especial;
-                                 DEA=Spezi&alauftrag];
+                      CaptionML=[DEU=Spezi&alauftrag;
+                                 ENU=Speci&al Order];
                       Image=SpecialOrder }
       { 187     ;3   ;Action    ;
-                      CaptionML=[ENU=Get &Sales Order;
-                                 ESP=Traer pedido &venta;
-                                 DEA=A&uftrag holen];
+                      CaptionML=[DEU=A&uftrag holen;
+                                 ENU=Get &Sales Order];
                       Image=Order;
                       OnAction=VAR
                                  DistIntegration@1001 : Codeunit 5702;
@@ -325,8 +294,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 1140000 ;2   ;Separator  }
       { 1140001 ;2   ;Action    ;
-                      CaptionML=[ENU=Deliv. Reminder Ledger &Entries;
-                                 DEA=&Lieferanmahnungsposten];
+                      CaptionML=[DEU=&Lieferanmahnungsposten;
+                                 ENU=Deliv. Reminder Ledger &Entries];
                       RunObject=Page 5005276;
                       RunPageView=SORTING(Order No.,Order Line No.,Posting Date)
                                   ORDER(Ascending);
@@ -334,9 +303,8 @@ OBJECT Page 50 Purchase Order
                       Image=ReceiptReminder }
       { 173     ;2   ;Action    ;
                       Name=Archive Document;
-                      CaptionML=[ENU=Archi&ve Document;
-                                 ESP=&Archivar documento;
-                                 DEA=Beleg ar&chivieren];
+                      CaptionML=[DEU=Beleg ar&chivieren;
+                                 ENU=Archi&ve Document];
                       Image=Archive;
                       OnAction=BEGIN
                                  ArchiveManagement.ArchivePurchDocument(Rec);
@@ -344,9 +312,8 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 195     ;2   ;Action    ;
-                      CaptionML=[ENU=Send IC Purchase Order;
-                                 ESP=Env. ped. compra IC;
-                                 DEA=IC-Bestellung senden];
+                      CaptionML=[DEU=IC-Bestellung senden;
+                                 ENU=Send IC Purchase Order];
                       Image=IntercompanyOrder;
                       OnAction=VAR
                                  ICInOutboxMgt@1000 : Codeunit 427;
@@ -359,19 +326,16 @@ OBJECT Page 50 Purchase Order
                                 }
       { 189     ;2   ;Separator  }
       { 15      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 21      ;2   ;ActionGroup;
-                      CaptionML=[ENU=Approval;
-                                 ESP=Aprobaci¢n;
-                                 DEA=Genehmigung];
+                      CaptionML=[DEU=Genehmigung;
+                                 ENU=Approval];
                       Image=Approval }
       { 221     ;3   ;Action    ;
-                      CaptionML=[ENU=Send A&pproval Request;
-                                 ESP=Enviar solicitud a&probaci¢n;
-                                 DEA=&Genehmigungsanforderung senden];
+                      CaptionML=[DEU=&Genehmigungsanforderung senden;
+                                 ENU=Send A&pproval Request];
                       Image=SendApprovalRequest;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -380,9 +344,8 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 222     ;3   ;Action    ;
-                      CaptionML=[ENU=Cancel Approval Re&quest;
-                                 ESP=&Cancelar solicitud aprobaci¢n;
-                                 DEA=&Genehmigungsanforderung stornieren];
+                      CaptionML=[DEU=&Genehmigungsanforderung stornieren;
+                                 ENU=Cancel Approval Re&quest];
                       Image=Cancel;
                       OnAction=VAR
                                  ApprovalMgt@1001 : Codeunit 439;
@@ -391,14 +354,12 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 17      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Warehouse;
-                                 ESP=AlmacÇn;
-                                 DEA=Lager];
+                      CaptionML=[DEU=Lager;
+                                 ENU=Warehouse];
                       Image=Warehouse }
       { 149     ;2   ;Action    ;
-                      CaptionML=[ENU=Create &Whse. Receipt;
-                                 ESP=Crear &recibo almacÇn;
-                                 DEA=&Wareneingang erstellen];
+                      CaptionML=[DEU=&Wareneingang erstellen;
+                                 ENU=Create &Whse. Receipt];
                       Image=NewReceipt;
                       OnAction=VAR
                                  GetSourceDocInbound@1001 : Codeunit 5751;
@@ -411,9 +372,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 150     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Create Inventor&y Put-away / Pick;
-                                 ESP=Crear &ubicac./ pick. inventario;
-                                 DEA=La&gerbelege erstellen];
+                      CaptionML=[DEU=La&gerbelege erstellen;
+                                 ENU=Create Inventor&y Put-away / Pick];
                       Promoted=Yes;
                       Image=CreateInventoryPickup;
                       PromotedCategory=Process;
@@ -426,17 +386,15 @@ OBJECT Page 50 Purchase Order
                                 }
       { 74      ;2   ;Separator  }
       { 77      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 79      ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -448,9 +406,8 @@ OBJECT Page 50 Purchase Order
       { 80      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -461,9 +418,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 78      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintPurchHeader(Rec);
@@ -471,9 +427,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 81      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Purchase Orders",TRUE,TRUE,Rec);
@@ -481,9 +436,8 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 5       ;2   ;Action    ;
-                      CaptionML=[ENU=Remove From Job Queue;
-                                 ESP=Quitar de cola de proyecto;
-                                 DEA=Aus Aufgabenwarteschlange entfernen];
+                      CaptionML=[DEU=Aus Aufgabenwarteschlange entfernen;
+                                 ENU=Remove From Job Queue];
                       Visible=JobQueueVisible;
                       Image=RemoveLine;
                       OnAction=BEGIN
@@ -492,15 +446,13 @@ OBJECT Page 50 Purchase Order
                                 }
       { 201     ;2   ;Separator  }
       { 209     ;2   ;ActionGroup;
-                      CaptionML=[ENU=Prepa&yment;
-                                 ESP=&Prepago;
-                                 DEA=&Vorauszahlung];
+                      CaptionML=[DEU=&Vorauszahlung;
+                                 ENU=Prepa&yment];
                       Image=Prepayment }
       { 202     ;3   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Prepayment Test &Report;
-                                 ESP=Informe prue&ba prepago;
-                                 DEA=Vorauszahlungs&testbericht];
+                      CaptionML=[DEU=Vorauszahlungs&testbericht;
+                                 ENU=Prepayment Test &Report];
                       Image=PrepaymentSimulation;
                       OnAction=BEGIN
                                  ReportPrint.PrintPurchHeaderPrepmt(Rec);
@@ -509,9 +461,8 @@ OBJECT Page 50 Purchase Order
       { 203     ;3   ;Action    ;
                       Name=PostPrepaymentInvoice;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post Prepayment &Invoice;
-                                 ESP=&Registrar factura prepago;
-                                 DEA=&Vorauszahlungsrechnung buchen];
+                      CaptionML=[DEU=&Vorauszahlungsrechnung buchen;
+                                 ENU=Post Prepayment &Invoice];
                       Image=PrepaymentPost;
                       OnAction=VAR
                                  SalesHeader@1003 : Record 36;
@@ -524,9 +475,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 210     ;3   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post and Print Prepmt. Invoic&e;
-                                 ESP=&Registrar e imprimir factura prepago;
-                                 DEA=Vorauszahlungsr&echnung buchen und drucken];
+                      CaptionML=[DEU=Vorauszahlungsr&echnung buchen und drucken;
+                                 ENU=Post and Print Prepmt. Invoic&e];
                       Image=PrepaymentPostPrint;
                       OnAction=VAR
                                  SalesHeader@1003 : Record 36;
@@ -540,9 +490,8 @@ OBJECT Page 50 Purchase Order
       { 204     ;3   ;Action    ;
                       Name=PostPrepaymentCreditMemo;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post Prepayment &Credit Memo;
-                                 ESP=&Registrar abono prepago;
-                                 DEA=Vorauszahlungsguts&chrift buchen];
+                      CaptionML=[DEU=Vorauszahlungsguts&chrift buchen;
+                                 ENU=Post Prepayment &Credit Memo];
                       Image=PrepaymentPost;
                       OnAction=VAR
                                  SalesHeader@1003 : Record 36;
@@ -555,9 +504,8 @@ OBJECT Page 50 Purchase Order
                                 }
       { 211     ;3   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post and Print Prepmt. Cr. Mem&o;
-                                 ESP=Registrar e imprimir abon&o prepago;
-                                 DEA=V&orauszahlungsgutschrift buchen und drucken];
+                      CaptionML=[DEU=V&orauszahlungsgutschrift buchen und drucken;
+                                 ENU=Post and Print Prepmt. Cr. Mem&o];
                       Image=PrepaymentPostPrint;
                       OnAction=VAR
                                  SalesHeader@1003 : Record 36;
@@ -569,15 +517,13 @@ OBJECT Page 50 Purchase Order
                                END;
                                 }
       { 19      ;1   ;ActionGroup;
-                      CaptionML=[ENU=Print;
-                                 ESP=Imprimir;
-                                 DEA=Drucken];
+                      CaptionML=[DEU=Drucken;
+                                 ENU=Print];
                       Image=Print }
       { 82      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Promoted=Yes;
                       Image=Print;
                       PromotedCategory=Process;
@@ -593,9 +539,8 @@ OBJECT Page 50 Purchase Order
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -645,9 +590,6 @@ OBJECT Page 50 Purchase Order
 
     { 12  ;2   ;Field     ;
                 SourceExpr="Posting Date" }
-
-    { 1000000000;2;Field  ;
-                SourceExpr="Posting Description" }
 
     { 14  ;2   ;Field     ;
                 SourceExpr="Order Date";
@@ -703,9 +645,8 @@ OBJECT Page 50 Purchase Order
                 PagePartID=Page54 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 22  ;2   ;Field     ;
                 SourceExpr="Pay-to Vendor No.";
@@ -788,9 +729,8 @@ OBJECT Page 50 Purchase Order
                 SourceExpr="VAT Bus. Posting Group" }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env°o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 42  ;2   ;Field     ;
                 SourceExpr="Ship-to Name" }
@@ -845,9 +785,8 @@ OBJECT Page 50 Purchase Order
                 SourceExpr="Ship-to Code" }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Au·enhandel] }
+                CaptionML=[DEU=Au·enhandel;
+                           ENU=Foreign Trade] }
 
     { 119 ;2   ;Field     ;
                 SourceExpr="Currency Code";
@@ -886,9 +825,8 @@ OBJECT Page 50 Purchase Order
                 SourceExpr=Area }
 
     { 1900201301;1;Group  ;
-                CaptionML=[ENU=Prepayment;
-                           ESP=Prepago;
-                           DEA=Vorauszahlung] }
+                CaptionML=[DEU=Vorauszahlung;
+                           ENU=Prepayment] }
 
     { 197 ;2   ;Field     ;
                 SourceExpr="Prepayment %";
@@ -1047,12 +985,6 @@ OBJECT Page 50 Purchase Order
     END;
 
     BEGIN
-    {
-      CICERO CONSULTING
-
-      VERSION TICKET NAME DATE       DESCRIPTION
-      CIC001  xxxxxx ALD  2013-09-09 Added field Posting Description
-    }
     END.
   }
 }

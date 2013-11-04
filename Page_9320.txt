@@ -2,16 +2,15 @@ OBJECT Page 9320 Service Credit Memos
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Service Credit Memos;
-               ESP=Abonos servicio;
-               DEA=Servicegutschriften];
+    CaptionML=[DEU=Servicegutschriften;
+               ENU=Service Credit Memos];
     SourceTable=Table5900;
     SourceTableView=WHERE(Document Type=CONST(Credit Memo));
     PageType=List;
@@ -25,16 +24,14 @@ OBJECT Page 9320 Service Credit Memos
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 1102601005;1 ;ActionGroup;
-                      CaptionML=[ENU=&Cr. Memo;
-                                 ESP=A&bono;
-                                 DEA=&Gutschrift];
+                      CaptionML=[DEU=&Gutschrift;
+                                 ENU=&Cr. Memo];
                       Image=CreditMemo }
       { 1102601007;2 ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -45,9 +42,8 @@ OBJECT Page 9320 Service Credit Memos
                                END;
                                 }
       { 1102601009;2 ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=Co&mentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 5911;
                       RunPageLink=Table Name=CONST(Service Header),
                                   Table Subtype=FIELD(Document Type),
@@ -56,9 +52,8 @@ OBJECT Page 9320 Service Credit Memos
                       Image=ViewComments }
       { 1102601010;2 ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -67,9 +62,8 @@ OBJECT Page 9320 Service Credit Memos
                                 }
       { 1102601011;2 ;Separator  }
       { 1102601012;2 ;Action    ;
-                      CaptionML=[ENU=Service Document Lo&g;
-                                 ESP=&Registro pedido servicio;
-                                 DEA=Servicebele&gprotokoll];
+                      CaptionML=[DEU=Servicebele&gprotokoll;
+                                 ENU=Service Document Lo&g];
                       Image=Log;
                       OnAction=VAR
                                  ServDocLog@1001 : Record 5912;
@@ -97,15 +91,13 @@ OBJECT Page 9320 Service Credit Memos
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1102601000;1 ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=R&egistro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 1102601002;2 ;Action    ;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=R&egistrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -118,9 +110,8 @@ OBJECT Page 9320 Service Credit Memos
                                 }
       { 1102601003;2 ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -133,9 +124,8 @@ OBJECT Page 9320 Service Credit Memos
                                 }
       { 1102601004;2 ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Service Cr. Memos",TRUE,TRUE,Rec);

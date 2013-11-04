@@ -2,9 +2,9 @@ OBJECT Codeunit 333 Req. Wksh.-Make Order
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -20,16 +20,16 @@ OBJECT Codeunit 333 Req. Wksh.-Make Order
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Worksheet Name                     #1##########\\;ESP=Nombre hoja                        #1##########\\;DEA=Buch.-Blattname                    #1##########\\';
-      Text001@1001 : TextConst 'ENU=Checking worksheet lines           #2######\;ESP=Comprobando l°neas hoja            #2######\;DEA=Zeilen prÅfen                      #2######\';
-      Text002@1002 : TextConst 'ENU=Creating purchase orders           #3######\;ESP=Creando pedidos de compra          #3######\;DEA=Bestellungen generieren            #3######\';
-      Text003@1003 : TextConst 'ENU=Creating purchase lines            #4######\;ESP=Creando l°neas de compra           #4######\;DEA=Bestellzeilen generieren           #4######\';
-      Text004@1004 : TextConst 'ENU=Updating worksheet lines           #5######;ESP=Actualizando l°neas hoja           #5######;DEA=Vorschlagzeilen aktualisieren      #5######';
-      Text005@1005 : TextConst 'ENU=Deleting worksheet lines           #5######;ESP=Borrando l°neas hoja               #5######;DEA=Vorschlagszeilen lîschen           #5######';
-      Text006@1006 : TextConst 'ENU=%1 on sales order %2 is already associated with purchase order %3.;ESP=En el pedido de venta %2, %1 est† asociado con el pedido de compra %3.;DEA=%1 des Auftrags %2 ist bereits der Bestellung %3 zugeordnet.';
-      Text007@1007 : TextConst 'ENU=<Month Text>;ESP=<Month Text>;DEA=<Month Text>';
-      Text008@1008 : TextConst 'ENU=The combination of dimensions used in %1 %2, %3, %4 is blocked. %5;ESP=La combin. de dimensiones utilizada en %1 %2, %3, %4 est† bloq. %5;DEA=Die Kombination der im %1 %2, %3, %4 verwendeten Dimensionen ist gesperrt. %5';
-      Text009@1009 : TextConst 'ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5;ESP=La dimensi¢n util. en %1 %2, %3, %4 ha causado error. %5;DEA=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5';
+      Text000@1000 : TextConst 'DEU=Buch.-Blattname                    #1##########\\;ENU=Worksheet Name                     #1##########\\';
+      Text001@1001 : TextConst 'DEU=Zeilen prÅfen                      #2######\;ENU=Checking worksheet lines           #2######\';
+      Text002@1002 : TextConst 'DEU=Bestellungen generieren            #3######\;ENU=Creating purchase orders           #3######\';
+      Text003@1003 : TextConst 'DEU=Bestellzeilen generieren           #4######\;ENU=Creating purchase lines            #4######\';
+      Text004@1004 : TextConst 'DEU=Vorschlagzeilen aktualisieren      #5######;ENU=Updating worksheet lines           #5######';
+      Text005@1005 : TextConst 'DEU=Vorschlagszeilen lîschen           #5######;ENU=Deleting worksheet lines           #5######';
+      Text006@1006 : TextConst 'DEU=%1 des Auftrags %2 ist bereits der Bestellung %3 zugeordnet.;ENU=%1 on sales order %2 is already associated with purchase order %3.';
+      Text007@1007 : TextConst 'DEU=<Month Text>;ENU=<Month Text>';
+      Text008@1008 : TextConst 'DEU=Die Kombination der im %1 %2, %3, %4 verwendeten Dimensionen ist gesperrt. %5;ENU=The combination of dimensions used in %1 %2, %3, %4 is blocked. %5';
+      Text009@1009 : TextConst 'DEU=Eine im %1 %2, %3, %4 verwendete Dimension hat einen Fehler hervorgerufen. %5;ENU=A dimension used in %1 %2, %3, %4 has caused an error. %5';
       ReservEntry@1050 : Record 337;
       PurchSetup@1010 : Record 312;
       ReqTemplate@1011 : Record 244;
@@ -67,7 +67,7 @@ OBJECT Codeunit 333 Req. Wksh.-Make Order
       PrevPurchCode@1047 : Code[10];
       PrevShipToCode@1017 : Code[10];
       "0DF"@1048 : DateFormula;
-      Text010@1049 : TextConst 'ENU=must match %1 on Sales Order %2, Line %3;ESP=debe coincidir %1 en Ped. venta %2, L°nea %3;DEA=muss mit dem %1 aus Zeile %3 des Verkaufsauftrags %2 Åbereinstimmen';
+      Text010@1049 : TextConst 'DEU=muss mit dem %1 aus Zeile %3 des Verkaufsauftrags %2 Åbereinstimmen;ENU=must match %1 on Sales Order %2, Line %3';
       PrevChangedDocOrderType@1013 : Option;
       PrevChangedDocOrderNo@1014 : Code[20];
 

@@ -2,9 +2,9 @@ OBJECT Table 5714 Responsibility Center
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -12,27 +12,22 @@ OBJECT Table 5714 Responsibility Center
                DimMgt.DeleteDefaultDim(DATABASE::"Responsibility Center",Code);
              END;
 
-    CaptionML=[ENU=Responsibility Center;
-               ESP=Centro responsabilidad;
-               DEA=Zust„ndigkeitseinheit];
+    CaptionML=[DEU=Zust„ndigkeitseinheit;
+               ENU=Responsibility Center];
     LookupPageID=Page5715;
     DrillDownPageID=Page5715;
   }
   FIELDS
   {
-    { 1   ;   ;Code                ;Code10        ;CaptionML=[ENU=Code;
-                                                              ESP=C¢digo;
-                                                              DEA=Code];
+    { 1   ;   ;Code                ;Code10        ;CaptionML=[DEU=Code;
+                                                              ENU=Code];
                                                    NotBlank=Yes }
-    { 2   ;   ;Name                ;Text50        ;CaptionML=[ENU=Name;
-                                                              ESP=Nombre;
-                                                              DEA=Name] }
-    { 3   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 4   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+    { 2   ;   ;Name                ;Text50        ;CaptionML=[DEU=Name;
+                                                              ENU=Name] }
+    { 3   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 4   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 5   ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -41,9 +36,8 @@ OBJECT Table 5714 Responsibility Center
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 6   ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -52,69 +46,55 @@ OBJECT Table 5714 Responsibility Center
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
     { 7   ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa¡s/regi¢n;
-                                                              DEA=L„nder-/Regionscode] }
+                                                   CaptionML=[DEU=L„nder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 8   ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=N§ tel‚fono;
-                                                              DEA=Telefonnr.] }
-    { 9   ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=N§ fax;
-                                                              DEA=Faxnr.] }
-    { 10  ;   ;Name 2              ;Text50        ;CaptionML=[ENU=Name 2;
-                                                              ESP=Nombre 2;
-                                                              DEA=Name 2] }
-    { 11  ;   ;Contact             ;Text50        ;CaptionML=[ENU=Contact;
-                                                              ESP=Contacto;
-                                                              DEA=Kontakt] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
+    { 9   ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 10  ;   ;Name 2              ;Text50        ;CaptionML=[DEU=Name 2;
+                                                              ENU=Name 2] }
+    { 11  ;   ;Contact             ;Text50        ;CaptionML=[DEU=Kontakt;
+                                                              ENU=Contact] }
     { 12  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 13  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Global Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
     { 14  ;   ;Location Code       ;Code10        ;TableRelation=Location WHERE (Use As In-Transit=CONST(No));
-                                                   CaptionML=[ENU=Location Code;
-                                                              ESP=C¢d. almac‚n;
-                                                              DEA=Lagerortcode] }
-    { 15  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=Lagerortcode;
+                                                              ENU=Location Code] }
+    { 15  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 102 ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 103 ;   ;Home Page           ;Text90        ;ExtendedDatatype=URL;
-                                                   CaptionML=[ENU=Home Page;
-                                                              ESP=P gina Web;
-                                                              DEA=Homepage] }
+                                                   CaptionML=[DEU=Homepage;
+                                                              ENU=Home Page] }
     { 5900;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 5901;   ;Contract Gain/Loss Amount;Decimal  ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Contract Gain/Loss Entry".Amount WHERE (Responsibility Center=FIELD(Code),
                                                                                                             Change Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Contract Gain/Loss Amount;
-                                                              ESP=Imp. p‚rdidas/gananc. contrato;
-                                                              DEA=Gewinn-/Verlustbetrag (Vertr.)];
+                                                   CaptionML=[DEU=Gewinn-/Verlustbetrag (Vertr.);
+                                                              ENU=Contract Gain/Loss Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
   }

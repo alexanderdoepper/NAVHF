@@ -2,9 +2,9 @@ OBJECT Codeunit 5054 WordManagement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,35 +15,35 @@ OBJECT Codeunit 5054 WordManagement
   CODE
   {
     VAR
-      Text003@1003 : TextConst 'ENU=Merging Microsoft Word Documents...\\;ESP=Fusionando documentos Microsoft Word...\\;DEA=Microsoft Word-Dokumente werden verbunden ...\\';
-      Text004@1004 : TextConst 'ENU=Preparing;ESP=Preparando;DEA=In Vorbereitung';
-      Text005@1005 : TextConst 'ENU=Program status;ESP=Estado programa;DEA=Programmstatus';
-      Text006@1006 : TextConst 'ENU=Preparing Merge...;ESP=Preparando fusi¢n...;DEA=Seriendruck wird vorbereitet ...';
-      Text007@1007 : TextConst 'ENU=Waiting for print job...;ESP=Esperando trabajo impresi¢n...;DEA=Warte auf Druckauftrag...';
-      Text008@1008 : TextConst 'ENU=Transferring %1 data to Microsoft Word...;ESP=Transfiriendo datos %1 a Microsoft Word...;DEA=%1 Daten werden an Microsoft Word Åbertragen...';
-      Text009@1049 : TextConst 'ENU=Sending individual email messages...;ESP=Enviando mensajes de correo electr¢nico individuales...;DEA=Individuelle E-Mails werden gesendet...';
-      Text010@1010 : TextConst '@@@=Attachment No. must have File Extension DOC or DOCX.;ENU=%1 %2 must have %3 DOC or DOCX.;ESP=%1 %2 debe tener %3 DOC o DOCX.;DEA=%1 %2 muss die %3 ''.doc'' oder ''.docx'' besitzen.';
-      Text011@1011 : TextConst 'ENU=Attachment file error;ESP=Archivo error anexo;DEA=Fehler in Dateianhang';
-      Text012@1012 : TextConst 'ENU=Creating merge source...;ESP=Creando origen fusi¢n...;DEA=Datenquelle fÅr Seriendruck wird erstellt ...';
-      Text013@1013 : TextConst 'ENU=Microsoft Word is opening merge source...;ESP=Microsoft Word est† abriendo origen fusi¢n...;DEA=Datenquelle fÅr Microsoft Word-Seriendruck wird geîffnet ...';
-      Text014@1014 : TextConst 'ENU=Merging %1 in Microsoft Word...;ESP=Fusionando %1 en Microsoft Word...;DEA=%1 wird in Microsoft Word verbunden ...';
-      Text015@1015 : TextConst 'ENU=FaxMailTo;ESP=AFaxMail;DEA=FaxMailAn';
-      Text017@1017 : TextConst 'ENU=The merge source file is locked by another process.\;ESP=El origen de la fusi¢n est† bloqueado por otro proceso.\;DEA=Datenquelle fÅr Seriendruck wird von einem anderen Vorgang gesperrt.\';
-      Text018@1018 : TextConst 'ENU=Please try again later.;ESP=Por favor, intÇntelo m†s tarde.;DEA=Bitte versuchen Sie es spÑter erneut.';
-      Text019@1019 : TextConst 'ENU=" Mail Address";ESP=" Direcci¢n mail";DEA=" Adresskopf"';
-      Text020@1020 : TextConst 'ENU="Document ";ESP="Documento ";DEA="Dokument "';
-      Text021@1021 : TextConst 'ENU="Import attachment ";ESP="Importar anexo ";DEA="Dateianhang importieren: "';
-      Text022@1022 : TextConst 'ENU=Delete %1?;ESP=®Borrar %1?;DEA=%1 lîschen?';
-      Text023@1023 : TextConst 'ENU=Another user has modified the record for this %1\after you retrieved it from the database.\\Enter the changes again in the updated document.;ESP=Otro usuario ha modificado el registro para este %1\despuÇs de que lo recuperara de la base datos.\\Vuelva a especificar los cambios en el documento actualizado.;DEA=Ein anderer Benutzer hat den Datensatz fÅr diesen %1\verÑndert, nachdem Sie ihn aus der Datenbank abgerufen haben.\\Geben Sie die énderungen im aktualisierten Dokument erneut ein.';
+      Text003@1003 : TextConst 'DEU=Microsoft Word-Dokumente werden verbunden ...\\;ENU=Merging Microsoft Word Documents...\\';
+      Text004@1004 : TextConst 'DEU=In Vorbereitung;ENU=Preparing';
+      Text005@1005 : TextConst 'DEU=Programmstatus;ENU=Program status';
+      Text006@1006 : TextConst 'DEU=Seriendruck wird vorbereitet ...;ENU=Preparing Merge...';
+      Text007@1007 : TextConst 'DEU=Warte auf Druckauftrag...;ENU=Waiting for print job...';
+      Text008@1008 : TextConst 'DEU=%1 Daten werden an Microsoft Word Åbertragen...;ENU=Transferring %1 data to Microsoft Word...';
+      Text009@1049 : TextConst 'DEU=Individuelle E-Mails werden gesendet...;ENU=Sending individual email messages...';
+      Text010@1010 : TextConst '@@@=Attachment No. must have File Extension DOC or DOCX.;DEU=%1 %2 muss die %3 ''.doc'' oder ''.docx'' besitzen.;ENU=%1 %2 must have %3 DOC or DOCX.';
+      Text011@1011 : TextConst 'DEU=Fehler in Dateianhang;ENU=Attachment file error';
+      Text012@1012 : TextConst 'DEU=Datenquelle fÅr Seriendruck wird erstellt ...;ENU=Creating merge source...';
+      Text013@1013 : TextConst 'DEU=Datenquelle fÅr Microsoft Word-Seriendruck wird geîffnet ...;ENU=Microsoft Word is opening merge source...';
+      Text014@1014 : TextConst 'DEU=%1 wird in Microsoft Word verbunden ...;ENU=Merging %1 in Microsoft Word...';
+      Text015@1015 : TextConst 'DEU=FaxMailAn;ENU=FaxMailTo';
+      Text017@1017 : TextConst 'DEU=Datenquelle fÅr Seriendruck wird von einem anderen Vorgang gesperrt.\;ENU=The merge source file is locked by another process.\';
+      Text018@1018 : TextConst 'DEU=Bitte versuchen Sie es spÑter erneut.;ENU=Please try again later.';
+      Text019@1019 : TextConst 'DEU=" Adresskopf";ENU=" Mail Address"';
+      Text020@1020 : TextConst 'DEU="Dokument ";ENU="Document "';
+      Text021@1021 : TextConst 'DEU="Dateianhang importieren: ";ENU="Import attachment "';
+      Text022@1022 : TextConst 'DEU=%1 lîschen?;ENU=Delete %1?';
+      Text023@1023 : TextConst 'DEU=Ein anderer Benutzer hat den Datensatz fÅr diesen %1\verÑndert, nachdem Sie ihn aus der Datenbank abgerufen haben.\\Geben Sie die énderungen im aktualisierten Dokument erneut ein.;ENU=Another user has modified the record for this %1\after you retrieved it from the database.\\Enter the changes again in the updated document.';
       FileMgt@1038 : Codeunit 419;
       AttachmentManagement@1035 : Codeunit 5052;
       WordHelper@1037 : DotNet "'Microsoft.Dynamics.Nav.Integration.Office, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35'.Microsoft.Dynamics.Nav.Integration.Office.Word.WordHelper" RUNONCLIENT;
       Window@1034 : Dialog;
-      Text030@1001 : TextConst 'ENU=Formal Salutation;ESP=Saludo formal;DEA=Formelle Anrede';
-      Text031@1000 : TextConst 'ENU=Informal Salutation;ESP=Saludo informal;DEA=Informelle Anrede';
+      Text030@1001 : TextConst 'DEU=Formelle Anrede;ENU=Formal Salutation';
+      Text031@1000 : TextConst 'DEU=Informelle Anrede;ENU=Informal Salutation';
       MergeSourceBufferFileName@1002 : Text;
       MergeSourceBufferFile@1016 : File;
-      Text032@1024 : TextConst 'ENU=*.htm|*.htm;ESP=*.htm|*.htm;DEA=*.htm|*.htm';
+      Text032@1024 : TextConst 'DEU=*.htm|*.htm;ENU=*.htm|*.htm';
       AttachmentLanguageCode@1009 : Code[10];
 
     PROCEDURE CreateWordAttachment@13(WordCaption@1001 : Text[260]) NewAttachNo@1000 : Integer;

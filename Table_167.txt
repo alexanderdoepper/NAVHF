@@ -2,9 +2,9 @@ OBJECT Table 167 Job
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -75,9 +75,8 @@ OBJECT Table 167 Job
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Job;
-               ESP=Proyecto;
-               DEA=Projekt];
+    CaptionML=[DEU=Projekt;
+               ENU=Job];
     LookupPageID=Page89;
     DrillDownPageID=Page89;
   }
@@ -92,23 +91,19 @@ OBJECT Table 167 Job
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
-    { 2   ;   ;Search Description  ;Code50        ;CaptionML=[ENU=Search Description;
-                                                              ESP=Descripci¢n alias;
-                                                              DEA=Suchbegriff] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
+    { 2   ;   ;Search Description  ;Code50        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Description] }
     { 3   ;   ;Description         ;Text50        ;OnValidate=BEGIN
                                                                 IF ("Search Description" = UPPERCASE(xRec.Description)) OR ("Search Description" = '') THEN
                                                                   "Search Description" := Description;
                                                               END;
 
-                                                   CaptionML=[ENU=Description;
-                                                              ESP=Descripci¢n;
-                                                              DEA=Beschreibung] }
-    { 4   ;   ;Description 2       ;Text50        ;CaptionML=[ENU=Description 2;
-                                                              ESP=Descripci¢n 2;
-                                                              DEA=Beschreibung 2] }
+                                                   CaptionML=[DEU=Beschreibung;
+                                                              ENU=Description] }
+    { 4   ;   ;Description 2       ;Text50        ;CaptionML=[DEU=Beschreibung 2;
+                                                              ENU=Description 2] }
     { 5   ;   ;Bill-to Customer No.;Code20        ;TableRelation=Customer;
                                                    OnValidate=BEGIN
                                                                 IF ("Bill-to Customer No." = '') OR ("Bill-to Customer No." <> xRec."Bill-to Customer No.") THEN
@@ -117,27 +112,23 @@ OBJECT Table 167 Job
                                                                 UpdateCust;
                                                               END;
 
-                                                   CaptionML=[ENU=Bill-to Customer No.;
-                                                              ESP=Factura-a Nß cliente;
-                                                              DEA=Rech. an Deb.-Nr.] }
-    { 12  ;   ;Creation Date       ;Date          ;CaptionML=[ENU=Creation Date;
-                                                              ESP=Fecha creaci¢n;
-                                                              DEA=Errichtungsdatum];
+                                                   CaptionML=[DEU=Rech. an Deb.-Nr.;
+                                                              ENU=Bill-to Customer No.] }
+    { 12  ;   ;Creation Date       ;Date          ;CaptionML=[DEU=Errichtungsdatum;
+                                                              ENU=Creation Date];
                                                    Editable=No }
     { 13  ;   ;Starting Date       ;Date          ;OnValidate=BEGIN
                                                                 CheckDate;
                                                               END;
 
-                                                   CaptionML=[ENU=Starting Date;
-                                                              ESP=Fecha inicial;
-                                                              DEA=Startdatum] }
+                                                   CaptionML=[DEU=Startdatum;
+                                                              ENU=Starting Date] }
     { 14  ;   ;Ending Date         ;Date          ;OnValidate=BEGIN
                                                                 CheckDate;
                                                               END;
 
-                                                   CaptionML=[ENU=Ending Date;
-                                                              ESP=Fecha final;
-                                                              DEA=Enddatum] }
+                                                   CaptionML=[DEU=Enddatum;
+                                                              ENU=Ending Date] }
     { 19  ;   ;Status              ;Option        ;InitValue=Order;
                                                    OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
@@ -158,26 +149,22 @@ OBJECT Table 167 Job
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Status;
-                                                              ESP=Estado;
-                                                              DEA=Status];
-                                                   OptionCaptionML=[ENU=Planning,Quote,Order,Completed;
-                                                                    ESP=Presupuesto,Oferta,Pedido,Terminado;
-                                                                    DEA=Planung,Angebot,Auftrag,Abgeschlossen];
+                                                   CaptionML=[DEU=Status;
+                                                              ENU=Status];
+                                                   OptionCaptionML=[DEU=Planung,Angebot,Auftrag,Abgeschlossen;
+                                                                    ENU=Planning,Quote,Order,Completed];
                                                    OptionString=Planning,Quote,Order,Completed }
     { 20  ;   ;Person Responsible  ;Code20        ;TableRelation=Resource WHERE (Type=CONST(Person));
-                                                   CaptionML=[ENU=Person Responsible;
-                                                              ESP=C¢d. responsable;
-                                                              DEA=Verantwortlich] }
+                                                   CaptionML=[DEU=Verantwortlich;
+                                                              ENU=Person Responsible] }
     { 21  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                                 MODIFY;
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 22  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
@@ -185,93 +172,75 @@ OBJECT Table 167 Job
                                                                 MODIFY;
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
     { 23  ;   ;Job Posting Group   ;Code10        ;TableRelation="Job Posting Group";
-                                                   CaptionML=[ENU=Job Posting Group;
-                                                              ESP=Grupo contable proyecto;
-                                                              DEA=Projektbuchungsgruppe] }
-    { 24  ;   ;Blocked             ;Option        ;CaptionML=[ENU=Blocked;
-                                                              ESP=Bloqueado;
-                                                              DEA=Gesperrt];
-                                                   OptionCaptionML=[ENU=" ,Posting,All";
-                                                                    ESP=" ,Registro,Todos";
-                                                                    DEA=" ,Buchen,Alle"];
+                                                   CaptionML=[DEU=Projektbuchungsgruppe;
+                                                              ENU=Job Posting Group] }
+    { 24  ;   ;Blocked             ;Option        ;CaptionML=[DEU=Gesperrt;
+                                                              ENU=Blocked];
+                                                   OptionCaptionML=[DEU=" ,Buchen,Alle";
+                                                                    ENU=" ,Posting,All"];
                                                    OptionString=[ ,Posting,All] }
-    { 29  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+    { 29  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 30  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Comment Line" WHERE (Table Name=CONST(Job),
                                                                                            No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
     { 31  ;   ;Customer Disc. Group;Code20        ;TableRelation="Customer Discount Group";
-                                                   CaptionML=[ENU=Customer Disc. Group;
-                                                              ESP=Grupo dto. cliente;
-                                                              DEA=Debitorenrabattgruppe] }
+                                                   CaptionML=[DEU=Debitorenrabattgruppe;
+                                                              ENU=Customer Disc. Group] }
     { 32  ;   ;Customer Price Group;Code10        ;TableRelation="Customer Price Group";
-                                                   CaptionML=[ENU=Customer Price Group;
-                                                              ESP=Grupo precio cliente;
-                                                              DEA=Debitorenpreisgruppe] }
+                                                   CaptionML=[DEU=Debitorenpreisgruppe;
+                                                              ENU=Customer Price Group] }
     { 41  ;   ;Language Code       ;Code10        ;TableRelation=Language;
-                                                   CaptionML=[ENU=Language Code;
-                                                              ESP=C¢d. idioma;
-                                                              DEA=Sprachcode] }
+                                                   CaptionML=[DEU=Sprachcode;
+                                                              ENU=Language Code] }
     { 49  ;   ;Scheduled Res. Qty. ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Planning Line"."Quantity (Base)" WHERE (Job No.=FIELD(No.),
                                                                                                                 Schedule Line=CONST(Yes),
                                                                                                                 Type=CONST(Resource),
                                                                                                                 No.=FIELD(Resource Filter),
                                                                                                                 Planning Date=FIELD(Planning Date Filter)));
-                                                   CaptionML=[ENU=Scheduled Res. Qty.;
-                                                              ESP=Cdad. recurso programada;
-                                                              DEA=Geplante Res.-Menge];
+                                                   CaptionML=[DEU=Geplante Res.-Menge;
+                                                              ENU=Scheduled Res. Qty.];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
     { 50  ;   ;Resource Filter     ;Code20        ;FieldClass=FlowFilter;
                                                    TableRelation=Resource;
-                                                   CaptionML=[ENU=Resource Filter;
-                                                              ESP=Filtro recurso;
-                                                              DEA=Ressourcenfilter] }
+                                                   CaptionML=[DEU=Ressourcenfilter;
+                                                              ENU=Resource Filter] }
     { 51  ;   ;Posting Date Filter ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Posting Date Filter;
-                                                              ESP=Filtro fecha registro;
-                                                              DEA=Buchungsdatumsfilter] }
+                                                   CaptionML=[DEU=Buchungsdatumsfilter;
+                                                              ENU=Posting Date Filter] }
     { 55  ;   ;Resource Gr. Filter ;Code20        ;FieldClass=FlowFilter;
                                                    TableRelation="Resource Group";
-                                                   CaptionML=[ENU=Resource Gr. Filter;
-                                                              ESP=Filtro fam. recurso;
-                                                              DEA=Res.-Gruppenfilter] }
+                                                   CaptionML=[DEU=Res.-Gruppenfilter;
+                                                              ENU=Resource Gr. Filter] }
     { 56  ;   ;Scheduled Res. Gr. Qty.;Decimal    ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Planning Line"."Quantity (Base)" WHERE (Job No.=FIELD(No.),
                                                                                                                 Schedule Line=CONST(Yes),
                                                                                                                 Type=CONST(Resource),
                                                                                                                 Resource Group No.=FIELD(Resource Gr. Filter),
                                                                                                                 Planning Date=FIELD(Planning Date Filter)));
-                                                   CaptionML=[ENU=Scheduled Res. Gr. Qty.;
-                                                              ESP=Cdad. fam. recurso programada;
-                                                              DEA=Geplante Res.-Grp.-Menge];
+                                                   CaptionML=[DEU=Geplante Res.-Grp.-Menge;
+                                                              ENU=Scheduled Res. Gr. Qty.];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 57  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+    { 57  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
-    { 58  ;   ;Bill-to Name        ;Text50        ;CaptionML=[ENU=Bill-to Name;
-                                                              ESP=Fact. a-Nombre;
-                                                              DEA=Rech. an Name] }
-    { 59  ;   ;Bill-to Address     ;Text50        ;CaptionML=[ENU=Bill-to Address;
-                                                              ESP=Fact. a-Direcci¢n;
-                                                              DEA=Rech. an Adresse] }
-    { 60  ;   ;Bill-to Address 2   ;Text50        ;CaptionML=[ENU=Bill-to Address 2;
-                                                              ESP=Fact. a-Direcci¢n 2;
-                                                              DEA=Rech. an Adresse 2] }
+    { 58  ;   ;Bill-to Name        ;Text50        ;CaptionML=[DEU=Rech. an Name;
+                                                              ENU=Bill-to Name] }
+    { 59  ;   ;Bill-to Address     ;Text50        ;CaptionML=[DEU=Rech. an Adresse;
+                                                              ENU=Bill-to Address] }
+    { 60  ;   ;Bill-to Address 2   ;Text50        ;CaptionML=[DEU=Rech. an Adresse 2;
+                                                              ENU=Bill-to Address 2] }
     { 61  ;   ;Bill-to City        ;Text30        ;TableRelation=IF (Bill-to Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Bill-to Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Bill-to Country/Region Code));
                                                    OnValidate=BEGIN
@@ -281,12 +250,10 @@ OBJECT Table 167 Job
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Bill-to City;
-                                                              ESP=Fact. a-Poblaci¢n;
-                                                              DEA=Rech. an Ort] }
-    { 63  ;   ;Bill-to County      ;Text30        ;CaptionML=[ENU=Bill-to County;
-                                                              ESP=Fact. a-Provincia;
-                                                              DEA=Rech. an Bundesregion] }
+                                                   CaptionML=[DEU=Rech. an Ort;
+                                                              ENU=Bill-to City] }
+    { 63  ;   ;Bill-to County      ;Text30        ;CaptionML=[DEU=Rech. an Bundesregion;
+                                                              ENU=Bill-to County] }
     { 64  ;   ;Bill-to Post Code   ;Code20        ;TableRelation=IF (Bill-to Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Bill-to Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Bill-to Country/Region Code));
                                                    OnValidate=BEGIN
@@ -296,28 +263,22 @@ OBJECT Table 167 Job
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Bill-to Post Code;
-                                                              ESP=Fact. a-C.P.;
-                                                              DEA=Rech. an PLZ-Code] }
+                                                   CaptionML=[DEU=Rech. an PLZ-Code;
+                                                              ENU=Bill-to Post Code] }
     { 66  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 67  ;   ;Bill-to Country/Region Code;Code10 ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Bill-to Country/Region Code;
-                                                              ESP=Fact. a-C¢d. pa°s/regi¢n;
-                                                              DEA=Rech. an LÑnder-/Regionscode];
+                                                   CaptionML=[DEU=Rech. an LÑnder-/Regionscode;
+                                                              ENU=Bill-to Country/Region Code];
                                                    Editable=Yes }
-    { 68  ;   ;Bill-to Name 2      ;Text50        ;CaptionML=[ENU=Bill-to Name 2;
-                                                              ESP=Fact. a-Nombre 2;
-                                                              DEA=Rech. an Name 2] }
-    { 117 ;   ;Reserve             ;Option        ;CaptionML=[ENU=Reserve;
-                                                              ESP=Reserva;
-                                                              DEA=Reservieren];
-                                                   OptionCaptionML=[ENU=Never,Optional,Always;
-                                                                    ESP=Nunca,Opcional,Siempre;
-                                                                    DEA=Nie,Optional,Immer];
+    { 68  ;   ;Bill-to Name 2      ;Text50        ;CaptionML=[DEU=Rech. an Name 2;
+                                                              ENU=Bill-to Name 2] }
+    { 117 ;   ;Reserve             ;Option        ;CaptionML=[DEU=Reservieren;
+                                                              ENU=Reserve];
+                                                   OptionCaptionML=[DEU=Nie,Optional,Immer;
+                                                                    ENU=Never,Optional,Always];
                                                    OptionString=Never,Optional,Always }
     { 1000;   ;WIP Method          ;Code20        ;TableRelation="Job WIP Method".Code WHERE (Valid=CONST(Yes));
                                                    OnValidate=VAR
@@ -339,9 +300,8 @@ OBJECT Table 167 Job
                                                                     JobTask.MODIFYALL("WIP Method","WIP Method",TRUE);
                                                               END;
 
-                                                   CaptionML=[ENU=WIP Method;
-                                                              ESP=MÇtodo WIP;
-                                                              DEA=WIP-Methode] }
+                                                   CaptionML=[DEU=WIP-Methode;
+                                                              ENU=WIP Method] }
     { 1001;   ;Currency Code       ;Code10        ;TableRelation=Currency;
                                                    OnValidate=BEGIN
                                                                 IF "Currency Code" <> xRec."Currency Code" THEN
@@ -352,9 +312,8 @@ OBJECT Table 167 Job
                                                                     ERROR(Text000,FIELDCAPTION("Currency Code"),TABLECAPTION);
                                                               END;
 
-                                                   CaptionML=[ENU=Currency Code;
-                                                              ESP=C¢d. divisa;
-                                                              DEA=WÑhrungscode] }
+                                                   CaptionML=[DEU=WÑhrungscode;
+                                                              ENU=Currency Code] }
     { 1002;   ;Bill-to Contact No. ;Code20        ;OnValidate=BEGIN
                                                                 IF Blocked >= Blocked::Posting THEN
                                                                   ERROR(Text000,FIELDCAPTION("Bill-to Contact No."),TABLECAPTION);
@@ -404,23 +363,19 @@ OBJECT Table 167 Job
                                                               END;
                                                             END;
 
-                                                   CaptionML=[ENU=Bill-to Contact No.;
-                                                              ESP=Fact. a-Nß contacto;
-                                                              DEA=Rech. an Kontaktnr.] }
-    { 1003;   ;Bill-to Contact     ;Text50        ;CaptionML=[ENU=Bill-to Contact;
-                                                              ESP=Fact. a-Atenci¢n;
-                                                              DEA=Rech. an Kontakt] }
+                                                   CaptionML=[DEU=Rech. an Kontaktnr.;
+                                                              ENU=Bill-to Contact No.] }
+    { 1003;   ;Bill-to Contact     ;Text50        ;CaptionML=[DEU=Rech. an Kontakt;
+                                                              ENU=Bill-to Contact] }
     { 1004;   ;Planning Date Filter;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Planning Date Filter;
-                                                              ESP=Filtro fecha planif.;
-                                                              DEA=Planungsdatumsfilter] }
+                                                   CaptionML=[DEU=Planungsdatumsfilter;
+                                                              ENU=Planning Date Filter] }
     { 1005;   ;Total WIP Cost Amount;Decimal      ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Job WIP Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                               Job Complete=CONST(No),
                                                                                                               Type=FILTER(Accrued Costs|Applied Costs|Recognized Costs)));
-                                                   CaptionML=[ENU=Total WIP Cost Amount;
-                                                              ESP=Total importe coste WIP;
-                                                              DEA=WIP-Einstandsbetrag (gesamt)];
+                                                   CaptionML=[DEU=WIP-Einstandsbetrag (gesamt);
+                                                              ENU=Total WIP Cost Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1006;   ;Total WIP Cost G/L Amount;Decimal  ;FieldClass=FlowField;
@@ -428,98 +383,82 @@ OBJECT Table 167 Job
                                                                                                                   Reversed=CONST(No),
                                                                                                                   Job Complete=CONST(No),
                                                                                                                   Type=FILTER(Accrued Costs|Applied Costs|Recognized Costs)));
-                                                   CaptionML=[ENU=Total WIP Cost G/L Amount;
-                                                              ESP=Total importe C/G coste WIP;
-                                                              DEA=WIP-Einstandsbetrag fÅr Sachkonten (gesamt)];
+                                                   CaptionML=[DEU=WIP-Einstandsbetrag fÅr Sachkonten (gesamt);
+                                                              ENU=Total WIP Cost G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1007;   ;WIP Entries Exist   ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Job WIP Entry" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=WIP Entries Exist;
-                                                              ESP=Hay movs. WIP;
-                                                              DEA=WIP-Posten vorhanden] }
-    { 1008;   ;WIP Posting Date    ;Date          ;CaptionML=[ENU=WIP Posting Date;
-                                                              ESP=Fecha registro WIP;
-                                                              DEA=WIP-Buchungsdatum];
+                                                   CaptionML=[DEU=WIP-Posten vorhanden;
+                                                              ENU=WIP Entries Exist] }
+    { 1008;   ;WIP Posting Date    ;Date          ;CaptionML=[DEU=WIP-Buchungsdatum;
+                                                              ENU=WIP Posting Date];
                                                    Editable=No }
     { 1009;   ;WIP G/L Posting Date;Date          ;FieldClass=FlowField;
                                                    CalcFormula=Min("Job WIP G/L Entry"."WIP Posting Date" WHERE (Reversed=CONST(No),
                                                                                                                  Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=WIP G/L Posting Date;
-                                                              ESP=Fecha registro C/G WIP;
-                                                              DEA=Buchungsdatum WIP auf Sachposten];
+                                                   CaptionML=[DEU=Buchungsdatum WIP auf Sachposten;
+                                                              ENU=WIP G/L Posting Date];
                                                    Editable=No }
     { 1011;   ;Invoice Currency Code;Code10       ;TableRelation=Currency;
-                                                   CaptionML=[ENU=Invoice Currency Code;
-                                                              ESP=C¢digo divisa factura;
-                                                              DEA=WÑhrungscode Rechnung] }
-    { 1012;   ;Exch. Calculation (Cost);Option    ;CaptionML=[ENU=Exch. Calculation (Cost);
-                                                              ESP=C†lculo cambio (coste);
-                                                              DEA=Wechselkursberechnung (Einstandspreis)];
-                                                   OptionCaptionML=[ENU=Fixed FCY,Fixed LCY;
-                                                                    ESP=DL fijada,Otra divisa fijada;
-                                                                    DEA=FW fest,MW fest];
+                                                   CaptionML=[DEU=WÑhrungscode Rechnung;
+                                                              ENU=Invoice Currency Code] }
+    { 1012;   ;Exch. Calculation (Cost);Option    ;CaptionML=[DEU=Wechselkursberechnung (Einstandspreis);
+                                                              ENU=Exch. Calculation (Cost)];
+                                                   OptionCaptionML=[DEU=FW fest,MW fest;
+                                                                    ENU=Fixed FCY,Fixed LCY];
                                                    OptionString=Fixed FCY,Fixed LCY }
-    { 1013;   ;Exch. Calculation (Price);Option   ;CaptionML=[ENU=Exch. Calculation (Price);
-                                                              ESP=C†lculo cambio (precio);
-                                                              DEA=Wechselkursberechnung (Verkaufspreis)];
-                                                   OptionCaptionML=[ENU=Fixed FCY,Fixed LCY;
-                                                                    ESP=DL fijada,Otra divisa fijada;
-                                                                    DEA=FW fest,MW fest];
+    { 1013;   ;Exch. Calculation (Price);Option   ;CaptionML=[DEU=Wechselkursberechnung (Verkaufspreis);
+                                                              ENU=Exch. Calculation (Price)];
+                                                   OptionCaptionML=[DEU=FW fest,MW fest;
+                                                                    ENU=Fixed FCY,Fixed LCY];
                                                    OptionString=Fixed FCY,Fixed LCY }
     { 1014;   ;Allow Schedule/Contract Lines;Boolean;
-                                                   CaptionML=[ENU=Allow Schedule/Contract Lines;
-                                                              ESP=Permitir l°neas planif./contrato;
-                                                              DEA=Plan-/Vertragszeilen zulassen] }
+                                                   CaptionML=[DEU=Plan-/Vertragszeilen zulassen;
+                                                              ENU=Allow Schedule/Contract Lines] }
     { 1015;   ;Complete            ;Boolean       ;OnValidate=BEGIN
                                                                 IF Complete <> xRec.Complete THEN
                                                                   ChangeJobCompletionStatus;
                                                               END;
 
-                                                   CaptionML=[ENU=Complete;
-                                                              ESP=Completo;
-                                                              DEA=Komplettlieferung] }
+                                                   CaptionML=[DEU=Komplettlieferung;
+                                                              ENU=Complete] }
     { 1017;   ;Recog. Sales Amount ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Job WIP Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                               Type=FILTER(Recognized Sales)));
-                                                   CaptionML=[ENU=Recog. Sales Amount;
-                                                              ESP=Importe ventas reconoc.;
-                                                              DEA=Deaktivierter Verkaufsbetrag];
+                                                   CaptionML=[DEU=Deaktivierter Verkaufsbetrag;
+                                                              ENU=Recog. Sales Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1018;   ;Recog. Sales G/L Amount;Decimal    ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Job WIP G/L Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                                   Reversed=CONST(No),
                                                                                                                   Type=FILTER(Recognized Sales)));
-                                                   CaptionML=[ENU=Recog. Sales G/L Amount;
-                                                              ESP=Importe C/G ventas reconoc.;
-                                                              DEA=Deaktivierter Verkaufsbetrag in Sachkonten];
+                                                   CaptionML=[DEU=Deaktivierter Verkaufsbetrag in Sachkonten;
+                                                              ENU=Recog. Sales G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1019;   ;Recog. Costs Amount ;Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job WIP Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                              Type=FILTER(Recognized Costs)));
-                                                   CaptionML=[ENU=Recog. Costs Amount;
-                                                              ESP=Importe costes reconoc.;
-                                                              DEA=Deaktivierter Einstandsbetrag];
+                                                   CaptionML=[DEU=Deaktivierter Einstandsbetrag;
+                                                              ENU=Recog. Costs Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1020;   ;Recog. Costs G/L Amount;Decimal    ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job WIP G/L Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                                  Reversed=CONST(No),
                                                                                                                  Type=FILTER(Recognized Costs)));
-                                                   CaptionML=[ENU=Recog. Costs G/L Amount;
-                                                              ESP=Importe C/G costes reconoc.;
-                                                              DEA=Deaktivierter Einstandsbetrag auf Sachkonten];
+                                                   CaptionML=[DEU=Deaktivierter Einstandsbetrag auf Sachkonten;
+                                                              ENU=Recog. Costs G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1021;   ;Total WIP Sales Amount;Decimal     ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job WIP Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                              Job Complete=CONST(No),
                                                                                                              Type=FILTER(Accrued Sales|Applied Sales|Recognized Sales)));
-                                                   CaptionML=[ENU=Total WIP Sales Amount;
-                                                              ESP=Total importe ventas WIP;
-                                                              DEA=WIP-Rechnungswert gesamt];
+                                                   CaptionML=[DEU=WIP-Rechnungswert gesamt;
+                                                              ENU=Total WIP Sales Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1022;   ;Total WIP Sales G/L Amount;Decimal ;FieldClass=FlowField;
@@ -527,24 +466,21 @@ OBJECT Table 167 Job
                                                                                                                  Reversed=CONST(No),
                                                                                                                  Job Complete=CONST(No),
                                                                                                                  Type=FILTER(Accrued Sales|Applied Sales|Recognized Sales)));
-                                                   CaptionML=[ENU=Total WIP Sales G/L Amount;
-                                                              ESP=Total importe C/G ventas WIP;
-                                                              DEA=WIP-Rechnungswert gesamt in Sachkonten];
+                                                   CaptionML=[DEU=WIP-Rechnungswert gesamt in Sachkonten;
+                                                              ENU=Total WIP Sales G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1023;   ;WIP Completion Calculated;Boolean  ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Job WIP Entry" WHERE (Job No.=FIELD(No.),
                                                                                             Job Complete=CONST(Yes)));
-                                                   CaptionML=[ENU=WIP Completion Calculated;
-                                                              ESP=Finaliz. WIP calculada;
-                                                              DEA=WIP-Abschluss berechnet] }
+                                                   CaptionML=[DEU=WIP-Abschluss berechnet;
+                                                              ENU=WIP Completion Calculated] }
     { 1024;   ;Next Invoice Date   ;Date          ;FieldClass=FlowField;
                                                    CalcFormula=Min("Job Planning Line"."Planning Date" WHERE (Job No.=FIELD(No.),
                                                                                                               Contract Line=CONST(Yes),
                                                                                                               Qty. Invoiced=CONST(0)));
-                                                   CaptionML=[ENU=Next Invoice Date;
-                                                              ESP=Siguiente fecha factura;
-                                                              DEA=NÑchstes Rechnungsdatum] }
+                                                   CaptionML=[DEU=NÑchstes Rechnungsdatum;
+                                                              ENU=Next Invoice Date] }
     { 1025;   ;Apply Usage Link    ;Boolean       ;OnValidate=VAR
                                                                 JobPlanningLine@1000 : Record 1003;
                                                                 JobLedgerEntry@1001 : Record 169;
@@ -573,14 +509,12 @@ OBJECT Table 167 Job
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=Apply Usage Link;
-                                                              ESP=Aplicar v°nculo utiliz.;
-                                                              DEA=Verbrauchslink anwenden] }
+                                                   CaptionML=[DEU=Verbrauchslink anwenden;
+                                                              ENU=Apply Usage Link] }
     { 1026;   ;WIP Warnings        ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Job WIP Warning" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=WIP Warnings;
-                                                              ESP=Avisos WIP;
-                                                              DEA=WIP-Warnungen];
+                                                   CaptionML=[DEU=WIP-Warnungen;
+                                                              ENU=WIP Warnings];
                                                    Editable=No }
     { 1027;   ;WIP Posting Method  ;Option        ;OnValidate=VAR
                                                                 JobLedgerEntry@1000 : Record 169;
@@ -607,21 +541,18 @@ OBJECT Table 167 Job
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=WIP Posting Method;
-                                                              ESP=MÇtodo registro WIP;
-                                                              DEA=WIP-Buchungsmethode];
-                                                   OptionCaptionML=[ENU=Per Job,Per Job Ledger Entry;
-                                                                    ESP=Por proyecto,Por mov. proyecto;
-                                                                    DEA=Pro Projekt,Pro Projektposten];
+                                                   CaptionML=[DEU=WIP-Buchungsmethode;
+                                                              ENU=WIP Posting Method];
+                                                   OptionCaptionML=[DEU=Pro Projekt,Pro Projektposten;
+                                                                    ENU=Per Job,Per Job Ledger Entry];
                                                    OptionString=Per Job,Per Job Ledger Entry }
     { 1028;   ;Applied Costs G/L Amount;Decimal   ;FieldClass=FlowField;
                                                    CalcFormula=-Sum("Job WIP G/L Entry"."WIP Entry Amount" WHERE (Job No.=FIELD(No.),
                                                                                                                   Reverse=CONST(No),
                                                                                                                   Job Complete=CONST(No),
                                                                                                                   Type=FILTER(Applied Costs)));
-                                                   CaptionML=[ENU=Applied Costs G/L Amount;
-                                                              ESP=Importe contab. costes liq.;
-                                                              DEA=Ausgeglichener Einstandsbetrag auf Sachkonten];
+                                                   CaptionML=[DEU=Ausgeglichener Einstandsbetrag auf Sachkonten;
+                                                              ENU=Applied Costs G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1029;   ;Applied Sales G/L Amount;Decimal   ;FieldClass=FlowField;
@@ -629,47 +560,41 @@ OBJECT Table 167 Job
                                                                                                                   Reverse=CONST(No),
                                                                                                                   Job Complete=CONST(No),
                                                                                                                   Type=FILTER(Applied Sales)));
-                                                   CaptionML=[ENU=Applied Sales G/L Amount;
-                                                              ESP=Importe contab. ventas liq.;
-                                                              DEA=Ausgeglichener Verkaufsbetrag auf Sachkonten];
+                                                   CaptionML=[DEU=Ausgeglichener Verkaufsbetrag auf Sachkonten;
+                                                              ENU=Applied Sales G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1030;   ;Calc. Recog. Sales Amount;Decimal  ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Task"."Recognized Sales Amount" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Calc. Recog. Sales Amount;
-                                                              ESP=Calc. importe ventas reconoc.;
-                                                              DEA=Berechn. deaktivierter Verkaufsbetrag];
+                                                   CaptionML=[DEU=Berechn. deaktivierter Verkaufsbetrag;
+                                                              ENU=Calc. Recog. Sales Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1031;   ;Calc. Recog. Costs Amount;Decimal  ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Task"."Recognized Costs Amount" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Calc. Recog. Costs Amount;
-                                                              ESP=Calc. importe costes reconoc.;
-                                                              DEA=Berechn. deaktivierter Einstandsbetrag];
+                                                   CaptionML=[DEU=Berechn. deaktivierter Einstandsbetrag;
+                                                              ENU=Calc. Recog. Costs Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1032;   ;Calc. Recog. Sales G/L Amount;Decimal;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Task"."Recognized Sales G/L Amount" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Calc. Recog. Sales G/L Amount;
-                                                              ESP=Calc. importe contab. ventas reconoc.;
-                                                              DEA=Berechneter deaktivierter Verkaufsbetrag auf Sachkonten];
+                                                   CaptionML=[DEU=Berechneter deaktivierter Verkaufsbetrag auf Sachkonten;
+                                                              ENU=Calc. Recog. Sales G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1033;   ;Calc. Recog. Costs G/L Amount;Decimal;
                                                    FieldClass=FlowField;
                                                    CalcFormula=Sum("Job Task"."Recognized Costs G/L Amount" WHERE (Job No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Calc. Recog. Costs G/L Amount;
-                                                              ESP=Calc. importe contab. costes reconoc.;
-                                                              DEA=Berechneter deaktivierter Einstandsbetrag auf Sachkonten];
+                                                   CaptionML=[DEU=Berechneter deaktivierter Einstandsbetrag auf Sachkonten;
+                                                              ENU=Calc. Recog. Costs G/L Amount];
                                                    Editable=No;
                                                    AutoFormatType=1 }
     { 1034;   ;WIP Completion Posted;Boolean      ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Job WIP G/L Entry" WHERE (Job No.=FIELD(No.),
                                                                                                 Job Complete=CONST(Yes)));
-                                                   CaptionML=[ENU=WIP Completion Posted;
-                                                              ESP=Finaliz. WIP registrada;
-                                                              DEA=WIP-Abschluss gebucht] }
+                                                   CaptionML=[DEU=WIP-Abschluss gebucht;
+                                                              ENU=WIP Completion Posted] }
   }
   KEYS
   {
@@ -686,7 +611,7 @@ OBJECT Table 167 Job
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=You cannot change %1 because one or more entries are associated with this %2.;ESP=No puede cambiar el %1 porque hay uno o m†s movimientos asociados con este %2.;DEA=%1 kann nicht geÑndert werden, weil mindestens ein Eintrag mit %2 verknÅpft ist.';
+      Text000@1000 : TextConst 'DEU=%1 kann nicht geÑndert werden, weil mindestens ein Eintrag mit %2 verknÅpft ist.;ENU=You cannot change %1 because one or more entries are associated with this %2.';
       JobsSetup@1004 : Record 315;
       PostCode@1015 : Record 225;
       Job@1014 : Record 167;
@@ -695,23 +620,23 @@ OBJECT Table 167 Job
       ContBusinessRelation@1001 : Record 5054;
       NoSeriesMgt@1010 : Codeunit 396;
       DimMgt@1012 : Codeunit 408;
-      Text003@1022 : TextConst 'ENU=You must run the %1 and %2 functions to create and post the completion entries for this job.;ESP=Debe ejecutar las funciones %1 y %2 para crear y registrar los movimientos completados para este proyecto.;DEA=Sie mÅssen die Funktionen ''%1'' und ''%2'' ausfÅhren, um die Abschlussposten fÅr dieses Projekt zu erstellen und zu buchen.';
-      Text004@1017 : TextConst 'ENU=This will delete any unposted WIP entries for this job and allow you to reverse the completion postings for this job.\\Do you wish to continue?;ESP=De esta manera eliminar† cualquier movimiento WIP no registrado para este proyecto y podr† revertir los registros completados para este proyecto.\\®Desea continuar?;DEA=Hierdurch werden alle nicht gebuchten WIP-Posten fÅr dieses Projekt gelîscht, und Sie kînnen die Abschlussbuchungen fÅr das Projekt stornieren.\\Mîchten Sie den Vorgang fortsetzen?';
-      Text005@1019 : TextConst 'ENU=Contact %1 %2 is related to a different company than customer %3.;ESP=Contacto %1 %2 est† relacionado con una empresa diferente al cliente %3.;DEA=Kontakt %1 %2 ist mit einem anderen Unternehmen als Debitor %3 verknÅpft.';
-      Text006@1018 : TextConst 'ENU=Contact %1 %2 is not related to customer %3.;ESP=Contacto %1 %2 no est† relacionado con el cliente %3.;DEA=Kontakt %1 %2 ist nicht mit Debitor %3 verknÅpft.';
-      Text007@1009 : TextConst 'ENU=Contact %1 %2 is not related to a customer.;ESP=Contacto %1 %2 no est† relacionado con un cliente.;DEA=Kontakt %1 %2 ist nicht mit einem Debitor verknÅpft.';
-      Text008@1002 : TextConst 'ENU=%1 %2 must not be blocked with type %3.;ESP=El %1 %2 no debe estar bloqueado con el tipo %3.;DEA=%1 %2 darf nicht mit Typ %3 gesperrt werden.';
-      Text009@1008 : TextConst 'ENU=You must run the %1 function to reverse the completion entries that have already been posted for this job.;ESP=Debe ejecutar la funci¢n %1 para revertir los movimientos completados registrados para este proyecto.;DEA=Sie mÅssen die %1-Funktion ausfÅhren, um die fÅr dieses Projekt bereits erstellten Abschlussposten zu stornieren.';
+      Text003@1022 : TextConst 'DEU=Sie mÅssen die Funktionen ''%1'' und ''%2'' ausfÅhren, um die Abschlussposten fÅr dieses Projekt zu erstellen und zu buchen.;ENU=You must run the %1 and %2 functions to create and post the completion entries for this job.';
+      Text004@1017 : TextConst 'DEU=Hierdurch werden alle nicht gebuchten WIP-Posten fÅr dieses Projekt gelîscht, und Sie kînnen die Abschlussbuchungen fÅr das Projekt stornieren.\\Mîchten Sie den Vorgang fortsetzen?;ENU=This will delete any unposted WIP entries for this job and allow you to reverse the completion postings for this job.\\Do you wish to continue?';
+      Text005@1019 : TextConst 'DEU=Kontakt %1 %2 ist mit einem anderen Unternehmen als Debitor %3 verknÅpft.;ENU=Contact %1 %2 is related to a different company than customer %3.';
+      Text006@1018 : TextConst 'DEU=Kontakt %1 %2 ist nicht mit Debitor %3 verknÅpft.;ENU=Contact %1 %2 is not related to customer %3.';
+      Text007@1009 : TextConst 'DEU=Kontakt %1 %2 ist nicht mit einem Debitor verknÅpft.;ENU=Contact %1 %2 is not related to a customer.';
+      Text008@1002 : TextConst 'DEU=%1 %2 darf nicht mit Typ %3 gesperrt werden.;ENU=%1 %2 must not be blocked with type %3.';
+      Text009@1008 : TextConst 'DEU=Sie mÅssen die %1-Funktion ausfÅhren, um die fÅr dieses Projekt bereits erstellten Abschlussposten zu stornieren.;ENU=You must run the %1 function to reverse the completion entries that have already been posted for this job.';
       MoveEntries@1003 : Codeunit 361;
-      Text010@1007 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
-      Text011@1023 : TextConst 'ENU=%1 must be equal to or earlier than %2.;ESP=%1 debe ser igual o anterior a %2.;DEA=%1 muss mit %2 Åbereinstimmen oder davor liegen.';
-      Text012@1011 : TextConst 'ENU=You cannot set %1 to %2, as this %3 has set %4 to %5.;ESP=No puede establecer %1 en %2, puesto que este %3 ha establecido %4 en %5.;DEA=''%1'' kann nicht auf ''%2'' festgelegt werden, da ''%4'' durch ''%3'' auf ''%5'' festgelegt wurde.';
-      Text013@1013 : TextConst 'ENU=A usage link cannot be enabled for the entire %1 because usage without the usage link already has been posted.;ESP=No se puede activar un v°nculo de uso para el %1 completo porque ya se ha registrado el uso sin v°nculo de uso.;DEA=Ein Verbrauchslink kann nicht fÅr ''%1'' (gesamt) aktiviert werden, da bereits Verbrauch ohne den Verbrauchslink gebucht wurde.';
-      Text014@1016 : TextConst 'ENU=Do you want to set the %1 on every %2 of type %3?;ESP=®Desea establecer el %1 en cada %2 de tipo %3?;DEA=Mîchten Sie ''%1'' fÅr alle %2-Elemente vom Typ ''%3'' festlegen?';
-      Text015@1020 : TextConst 'ENU=%1 must be %2 because job WIP general ledger entries already were posted with this setting.;ESP=%1 debe ser %2 porque los Movs. contabilidad WIP proyecto ya se registraron con esta configuraci¢n.;DEA=''%1'' muss ''%2'' sein, da bereits WIP-Projektsachposten mit dieser Einstellung gebucht wurden.';
-      Text016@1021 : TextConst 'ENU=%1 cannot be modified because the job has associated job WIP entries.;ESP=%1 no se puede modificar porque el proyecto se ha asociado a Movs. WIP proyecto.;DEA=''%1'' kann nicht geÑndert werden, da dem Projekt WIP-Projektposten zugeordnet sind.';
-      Text017@1024 : TextConst 'ENU=The selected %1 requires the %2 to have %3 enabled.;ESP=El %1 seleccionado requiere que %2 tenga %3 activado.;DEA=Aufgrund des ausgewÑhlten Elements vom Typ ''%1'' muss fÅr ''%2'' die Option ''%3'' aktiviert sein.';
-      Text018@1025 : TextConst 'ENU=%1 is set to %2.;ESP=%1 se establece en %2.;DEA=''%1'' wird auf ''%2'' festgelegt.';
+      Text010@1007 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
+      Text011@1023 : TextConst 'DEU=%1 muss mit %2 Åbereinstimmen oder davor liegen.;ENU=%1 must be equal to or earlier than %2.';
+      Text012@1011 : TextConst 'DEU=''%1'' kann nicht auf ''%2'' festgelegt werden, da ''%4'' durch ''%3'' auf ''%5'' festgelegt wurde.;ENU=You cannot set %1 to %2, as this %3 has set %4 to %5.';
+      Text013@1013 : TextConst 'DEU=Ein Verbrauchslink kann nicht fÅr ''%1'' (gesamt) aktiviert werden, da bereits Verbrauch ohne den Verbrauchslink gebucht wurde.;ENU=A usage link cannot be enabled for the entire %1 because usage without the usage link already has been posted.';
+      Text014@1016 : TextConst 'DEU=Mîchten Sie ''%1'' fÅr alle %2-Elemente vom Typ ''%3'' festlegen?;ENU=Do you want to set the %1 on every %2 of type %3?';
+      Text015@1020 : TextConst 'DEU=''%1'' muss ''%2'' sein, da bereits WIP-Projektsachposten mit dieser Einstellung gebucht wurden.;ENU=%1 must be %2 because job WIP general ledger entries already were posted with this setting.';
+      Text016@1021 : TextConst 'DEU=''%1'' kann nicht geÑndert werden, da dem Projekt WIP-Projektposten zugeordnet sind.;ENU=%1 cannot be modified because the job has associated job WIP entries.';
+      Text017@1024 : TextConst 'DEU=Aufgrund des ausgewÑhlten Elements vom Typ ''%1'' muss fÅr ''%2'' die Option ''%3'' aktiviert sein.;ENU=The selected %1 requires the %2 to have %3 enabled.';
+      Text018@1025 : TextConst 'DEU=''%1'' wird auf ''%2'' festgelegt.;ENU=%1 is set to %2.';
 
     PROCEDURE AssistEdit@2(OldJob@1000 : Record 167) : Boolean;
     BEGIN

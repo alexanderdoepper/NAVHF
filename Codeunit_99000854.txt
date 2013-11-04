@@ -2,9 +2,9 @@ OBJECT Codeunit 99000854 Inventory Profile Offsetting
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -48,22 +48,22 @@ OBJECT Codeunit 99000854 Inventory Profile Offsetting
       PlainMPS@1023 : Boolean;
       SpecificLotTracking@1001 : Boolean;
       SpecificSNTracking@1024 : Boolean;
-      Text001@1029 : TextConst 'ENU=Assertion failed: %1.;ESP=Error de aserci¢n: %1.;DEA=Durchsetzung fehlgeschlagen, %1.';
+      Text001@1029 : TextConst 'DEU=Durchsetzung fehlgeschlagen, %1.;ENU=Assertion failed: %1.';
       UseParm@1030 : Boolean;
       PlanningResilicency@1002 : Boolean;
-      Text002@1033 : TextConst 'ENU=The %1 from ''%2'' to ''%3'' does not exist.;ESP=No existe %1 entre ''%2'' y ''%3''.;DEA=%1 von ''%2'' nach ''%3'' ist nicht vorhanden.';
-      Text003@1032 : TextConst 'ENU=The %1 for %2 %3 %4 %5 does not exist.;ESP=No existe %1 para %2 %3 %4 %5.;DEA=%1 fr %2 %3 %4 %5 ist nicht vorhanden.';
-      Text004@1026 : TextConst 'ENU=%1 must not be %2 in %3 %4 %5 %6 when %7 is %8.;ESP=%1 no debe ser %2 en %3 %4 %5 %6 cuando %7 es %8.;DEA=%1 darf nicht %2 in %3 %4 %5 %6 sein, wenn %7 gleich %8 ist.';
-      Text005@1027 : TextConst 'ENU=%1 must not be %2 in %3 %4 when %5 is %6.;ESP=%1 no debe ser %2 en %3 %4 cuando %5 es %6.;DEA=%1 darf nicht %2 in %3 %4 sein, wenn %5 gleich %6 ist.';
-      Text006@1037 : TextConst 'ENU=%1: The projected available inventory is %2 on the planning starting date %3.;ESP=%1: el inventario disponible proyectado es %2 en la fecha de inicio de planificaci¢n %3.;DEA=%1: Der voraussichtlich verfgbare Lagerbestand ist %2 am geplanten Startdatum %3.';
-      Text007@1038 : TextConst 'ENU=%1: The projected available inventory is below %2 %3 on %4.;ESP=%1: el inventario disponible proyectado est  por debajo de %2 %3 en %4.;DEA=%1: Der voraussichtlich verfgbare Lagerbestand liegt unter %2 %3 auf %4.';
-      Text008@1039 : TextConst 'ENU=%1: The %2 %3 is before the work date %4.;ESP=%1: %2 %3 es anterior a la fecha de trabajo %4.;DEA=%1: %2 %3 liegt vor dem Arbeitsdatum %4.';
-      Text009@1040 : TextConst 'ENU=%1: The %2 of %3 %4 is %5.;ESP=%1: %2 de %3 %4 es %5.;DEA=%1: %2 von %3 %4 ist %5.';
-      Text010@1043 : TextConst 'ENU=The projected inventory %1 is higher than the overflow level %2 on %3.;ESP=El inventario proyectado %1 es superior al nivel de desbordamiento %2 en %3.;DEA=Der voraussichtliche Lagerbestand %1 bersteigt das šberlauflevel %2 fr %3.';
+      Text002@1033 : TextConst 'DEU=%1 von ''%2'' nach ''%3'' ist nicht vorhanden.;ENU=The %1 from ''%2'' to ''%3'' does not exist.';
+      Text003@1032 : TextConst 'DEU=%1 fr %2 %3 %4 %5 ist nicht vorhanden.;ENU=The %1 for %2 %3 %4 %5 does not exist.';
+      Text004@1026 : TextConst 'DEU=%1 darf nicht %2 in %3 %4 %5 %6 sein, wenn %7 gleich %8 ist.;ENU=%1 must not be %2 in %3 %4 %5 %6 when %7 is %8.';
+      Text005@1027 : TextConst 'DEU=%1 darf nicht %2 in %3 %4 sein, wenn %5 gleich %6 ist.;ENU=%1 must not be %2 in %3 %4 when %5 is %6.';
+      Text006@1037 : TextConst 'DEU=%1: Der voraussichtlich verfgbare Lagerbestand ist %2 am geplanten Startdatum %3.;ENU=%1: The projected available inventory is %2 on the planning starting date %3.';
+      Text007@1038 : TextConst 'DEU=%1: Der voraussichtlich verfgbare Lagerbestand liegt unter %2 %3 auf %4.;ENU=%1: The projected available inventory is below %2 %3 on %4.';
+      Text008@1039 : TextConst 'DEU=%1: %2 %3 liegt vor dem Arbeitsdatum %4.;ENU=%1: The %2 %3 is before the work date %4.';
+      Text009@1040 : TextConst 'DEU=%1: %2 von %3 %4 ist %5.;ENU=%1: The %2 of %3 %4 is %5.';
+      Text010@1043 : TextConst 'DEU=Der voraussichtliche Lagerbestand %1 bersteigt das šberlauflevel %2 fr %3.;ENU=The projected inventory %1 is higher than the overflow level %2 on %3.';
       PlanToDate@1045 : Date;
       OverflowLevel@1046 : Decimal;
       ExceedROPqty@1015 : Decimal;
-      NextStateTxt@1036 : TextConst 'ENU=StartOver,MatchDates,MatchQty,CreateSupply,ReduceSupply,CloseDemand,CloseSupply,CloseLoop;ESP=StartOver,MatchDates,MatchQty,CreateSupply,ReduceSupply,CloseDemand,CloseSupply,CloseLoop;DEA=StartOver,MatchDates,MatchQty,CreateSupply,ReduceSupply,CloseDemand,CloseSupply,CloseLoop';
+      NextStateTxt@1036 : TextConst 'DEU=StartOver,MatchDates,MatchQty,CreateSupply,ReduceSupply,CloseDemand,CloseSupply,CloseLoop;ENU=StartOver,MatchDates,MatchQty,CreateSupply,ReduceSupply,CloseDemand,CloseSupply,CloseLoop';
 
     PROCEDURE CalculatePlanFromWorksheet@3(VAR Item@1000 : Record 27;ManufacturingSetup2@1001 : Record 99000765;TemplateName@1002 : Code[10];WorksheetName@1003 : Code[10];OrderDate@1004 : Date;ToDate@1005 : Date;MPSPlanning@1006 : Boolean;RespectPlanningParm@1008 : Boolean);
     VAR
@@ -1049,10 +1049,11 @@ OBJECT Codeunit 99000854 Inventory Profile Offsetting
       NewSupplyDate@1005 : Date;
       SupplyExists@1004 : Boolean;
       CanBeRescheduled@1008 : Boolean;
+      ItemInventoryExists@1006 : Boolean;
     BEGIN
       xDemand.COPYFILTERS(Demand);
       xSupply.COPYFILTERS(Supply);
-
+      ItemInventoryExists := CheckItemInventoryExists(Supply);
       Demand.SETRANGE("Attribute Priority",1,7);
 
       IF Demand.FINDSET(TRUE) THEN
@@ -1070,7 +1071,7 @@ OBJECT Codeunit 99000854 Inventory Profile Offsetting
           ELSE
             Supply.SETRANGE("Serial No.");
           SupplyExists := Supply.FINDFIRST;
-          WHILE Demand."Untracked Quantity" > 0 DO BEGIN
+          WHILE (Demand."Untracked Quantity" > 0) AND (NOT ApplyUntrackedQuantityToItemInventory(SupplyExists,ItemInventoryExists)) DO BEGIN
             IF SupplyExists AND (Demand.Binding = Demand.Binding::"Order-to-Order") THEN BEGIN
               NewSupplyDate := Supply."Due Date";
               IF (Supply."Due Date" > Demand."Due Date") OR
@@ -3940,6 +3941,24 @@ OBJECT Codeunit 99000854 Inventory Profile Offsetting
           OrderQty := ExceedROPqty;
         ReorderQty := OrderQty;
       UNTIL OrderQty <= 0; // Create supplies until Safety Stock is met or Reorder point is exceeded
+    END;
+
+    LOCAL PROCEDURE CheckItemInventoryExists@94(VAR InventoryProfile@1000 : Record 99000853) ItemInventoryExists : Boolean;
+    BEGIN
+      WITH InventoryProfile DO BEGIN
+        SETRANGE("Source Type",DATABASE::"Item Ledger Entry");
+        SETFILTER(Binding,'<>%1',Binding::"Order-to-Order");
+        ItemInventoryExists := NOT ISEMPTY;
+        SETRANGE("Source Type");
+        SETRANGE(Binding);
+      END;
+    END;
+
+    LOCAL PROCEDURE ApplyUntrackedQuantityToItemInventory@96(SupplyExists@1001 : Boolean;ItemInventoryExists@1000 : Boolean) : Boolean;
+    BEGIN
+      IF SupplyExists THEN
+        EXIT(FALSE);
+      EXIT(ItemInventoryExists);
     END;
 
     BEGIN

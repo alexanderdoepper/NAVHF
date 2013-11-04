@@ -2,14 +2,14 @@ OBJECT Report 11106 Intrastat - Disk Tax Auth AT
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Intrastat - Disk Tax Auth AT;
-               DEA=Intrastat - Diskette AT];
+    CaptionML=[DEU=Intrastat - Diskette AT;
+               ENU=Intrastat - Disk Tax Auth AT];
     ProcessingOnly=Yes;
     OnPreReport=BEGIN
                   CompanyInfo.GET;
@@ -632,8 +632,8 @@ OBJECT Report 11106 Intrastat - Disk Tax Auth AT
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1140000;2;Group      }
 
@@ -648,13 +648,13 @@ OBJECT Report 11106 Intrastat - Disk Tax Auth AT
                   MultiLine=Yes }
 
       { 1   ;2   ;Field     ;
-                  CaptionML=[ENU=Drive for files;
-                             DEA=Laufwerk fÅr Dateien];
+                  CaptionML=[DEU=Laufwerk fÅr Dateien;
+                             ENU=Drive for files];
                   SourceExpr=Drive }
 
       { 6   ;2   ;Field     ;
-                  CaptionML=[ENU=Contactperson;
-                             DEA=Kontaktperson];
+                  CaptionML=[DEU=Kontaktperson;
+                             ENU=Contactperson];
                   SourceExpr=Contactperson }
 
     }
@@ -665,68 +665,68 @@ OBJECT Report 11106 Intrastat - Disk Tax Auth AT
   CODE
   {
     VAR
-      Text000@1160000 : TextConst 'ENU=<Year,2><Month,2><Day,2>;DEA=<Year,2><Month,2><Day,2>';
-      Text001@1160001 : TextConst 'ENU=<Year4,4><Month,2><Day,2>;DEA=<Year4,4><Month,2><Day,2>';
-      Text002@1160002 : TextConst 'ENU=<Hours24,2><Minutes,2>;DEA=<Hours24,2><Minutes,2>';
-      Text003@1160003 : TextConst 'ENU=UID in Companyinfo must be 11 digits;DEA=UID in Firmeninfo muss 11 Stellen haben';
-      Text004@1160004 : TextConst 'ENU=Statisticperiod %1 may only include digits.;DEA=Statistikperiode %1 darf nur Ziffern enthalten.';
-      Text005@1160005 : TextConst 'ENU=<year,2><month,2>;DEA=<year,2><month,2>';
-      Text006@1160006 : TextConst 'ENU=Date % of Intrastatjournalline doesn''t fit with \\;DEA=Datum % von Intrastat-Buchungsblattzeile deckt sich nicht mit \\';
-      Text007@1160007 : TextConst 'ENU=period of Intrastatbatchname %3;DEA=Periode von Intrastat-Blattname %3';
-      Text008@1160008 : TextConst 'ENU=Tariffno. in Line %1 must be 8 digits.;DEA=Zollpos. in Zeile %1 muss 8 Stellen haben.';
-      Text009@1160009 : TextConst 'ENU=%1 must be one digit.;DEA=%1 muss eine Stelle haben.';
-      Text010@1160010 : TextConst 'ENU=%1 must be one digit.;DEA=%1 muss eine Stelle haben.';
-      Text011@1160011 : TextConst 'ENU=Transaction Specification must be 5 digits.;DEA=Verfahren muss 5 Stellen haben.';
-      Text012@1160012 : TextConst 'ENU=.EDI;DEA=.EDI';
-      Text013@1160013 : TextConst 'ENU=Insert Disk in Drive\\;DEA=Diskette in Laufwerk einlegen\\';
-      Text014@1160014 : TextConst 'ENU="File name: ";DEA="Dateiname: "';
-      Text015@1160015 : TextConst 'ENU=Number of Records Receipt processed\;DEA=Anzahl verarbeiteter DatensÑtze Eingang\';
-      Text016@1160016 : TextConst 'ENU="UNA:+,? ";DEA="UNA:+,? "';
-      Text017@1160017 : TextConst 'ENU=UNB+UNOC:3+;DEA=UNB+UNOC:3+';
-      Text018@1160018 : TextConst 'ENU=-000+OESTAT::INTRASTAT+;DEA=-000+OESTAT::INTRASTAT+';
-      Text019@1160019 : TextConst 'ENU=UNH+;DEA=UNH+';
-      Text020@1160020 : TextConst 'ENU=+CUSDEC:D:97B:UN:INSTAT;DEA=+CUSDEC:D:97B:UN:INSTAT';
-      Text021@1160021 : TextConst 'ENU=BGM+896+;DEA=BGM+896+';
-      Text022@1160022 : TextConst 'ENU=DTM+320:;DEA=DTM+320:';
-      Text023@1160023 : TextConst 'ENU=DTM+137:;DEA=DTM+137:';
-      Text024@1160024 : TextConst 'ENU=RFF+ACD:NAVATT::3.60.D.97B;DEA=RFF+ACD:NAVATT::3.60.D.97B';
-      Text025@1160025 : TextConst 'ENU=NAD+DT+;DEA=NAD+DT+';
-      Text026@1160026 : TextConst 'ENU=COM+;DEA=COM+';
-      Text027@1160027 : TextConst 'ENU=:TE;DEA=:TE';
-      Text028@1160028 : TextConst 'ENU=:FX;DEA=:FX';
-      Text029@1160029 : TextConst 'ENU=NAD+DO+OESTAT;DEA=NAD+DO+OESTAT';
-      Text030@1160030 : TextConst 'ENU=MOA+ZZZ::EUR;DEA=MOA+ZZZ::EUR';
-      Text032@1160032 : TextConst 'ENU=UNS+D;DEA=UNS+D';
-      Text033@1160033 : TextConst 'ENU=UNS+S;DEA=UNS+S';
-      Text034@1160034 : TextConst 'ENU=CNT+2:;DEA=CNT+2:';
-      Text035@1160035 : TextConst 'ENU=CNT+18:;DEA=CNT+18:';
-      Text036@1160036 : TextConst 'ENU=CNT+19:;DEA=CNT+19:';
-      Text037@1160037 : TextConst 'ENU=CNT+20:;DEA=CNT+20:';
-      Text038@1160038 : TextConst 'ENU=CNT+22:;DEA=CNT+22:';
-      Text039@1160039 : TextConst 'ENU=AUT+;DEA=AUT+';
-      Text040@1160040 : TextConst 'ENU=DTM+187:;DEA=DTM+187:';
-      Text041@1160041 : TextConst 'ENU=UNT+;DEA=UNT+';
-      Text042@1160042 : TextConst 'ENU=UNZ+1+;DEA=UNZ+1+';
-      Text043@1160043 : TextConst 'ENU=Countrycode %1 must be 2 digits.;DEA=LÑndercode %1 muss 2 Stellen haben.';
-      Text044@1160044 : TextConst 'ENU=Intrastatcode %1 must be 2 digits.;DEA=Intrastat-Code %1 muss 2 Stellen haben.';
-      Text045@1160045 : TextConst 'ENU=CST+;DEA=CST+';
-      Text046@1160046 : TextConst 'ENU=:122+A:176+;DEA=:122+A:176+';
-      Text047@1160047 : TextConst 'ENU=FTX+AAA+++;DEA=FTX+AAA+++';
-      Text048@1160048 : TextConst 'ENU=LOC+35+;DEA=LOC+35+';
-      Text049@1160049 : TextConst 'ENU=LOC+27+;DEA=LOC+27+';
-      Text050@1160050 : TextConst 'ENU=MEA+WT++KGM:;DEA=MEA+WT++KGM:';
-      Text051@1160051 : TextConst 'ENU=MEA+AAE++PCE:;DEA=MEA+AAE++PCE:';
-      Text052@1160052 : TextConst 'ENU=TDT+2++;DEA=TDT+2++';
-      Text053@1160053 : TextConst 'ENU=MOA+38:;DEA=MOA+38:';
-      Text054@1160054 : TextConst 'ENU=MOA+123:;DEA=MOA+123:';
-      Text055@1160055 : TextConst 'ENU=Insert Disk,\\;DEA=Diskette einlegen,\\';
-      Text056@1160056 : TextConst 'ENU="Filename is: ";DEA="Dateiname lautet: "';
-      Text057@1160057 : TextConst 'ENU=Number of Records Shipment processed\;DEA=Anzahl verarbeiteter DatensÑtze Lieferung\';
-      Text058@1160058 : TextConst 'ENU=Intrastat Code %1 must be 2 digits.;DEA=Intrastat-Code %1 muss 2 Stellen haben.';
-      Text059@1160059 : TextConst 'ENU=:122+D:176+;DEA=:122+D:176+';
-      Text060@1160060 : TextConst 'ENU=LOC+36+;DEA=LOC+36+';
-      Text061@1160061 : TextConst 'ENU=A:;DEA=A:';
-      Text062@1160062 : TextConst 'ENU=You cannot display %1 in a field of length %2.;DEA=%1 kînnen Sie in einem Feld der LÑnge %2 nicht anzeigen.';
+      Text000@1160000 : TextConst 'DEU=<Year,2><Month,2><Day,2>;ENU=<Year,2><Month,2><Day,2>';
+      Text001@1160001 : TextConst 'DEU=<Year4,4><Month,2><Day,2>;ENU=<Year4,4><Month,2><Day,2>';
+      Text002@1160002 : TextConst 'DEU=<Hours24,2><Minutes,2>;ENU=<Hours24,2><Minutes,2>';
+      Text003@1160003 : TextConst 'DEU=UID in Mandanteninfo muss 11 Stellen haben;ENU=UID in Companyinfo must be 11 digits';
+      Text004@1160004 : TextConst 'DEU=Statistikperiode %1 darf nur Ziffern enthalten.;ENU=Statisticperiod %1 may only include digits.';
+      Text005@1160005 : TextConst 'DEU=<year,2><month,2>;ENU=<year,2><month,2>';
+      Text006@1160006 : TextConst 'DEU=Datum % von Intrastat-Buchungsblattzeile deckt sich nicht mit \\;ENU=Date % of Intrastatjournalline doesn''t fit with \\';
+      Text007@1160007 : TextConst 'DEU=Periode von Intrastat-Blattname %3;ENU=period of Intrastatbatchname %3';
+      Text008@1160008 : TextConst 'DEU=Zollpos. in Zeile %1 muss 8 Stellen haben.;ENU=Tariffno. in Line %1 must be 8 digits.';
+      Text009@1160009 : TextConst 'DEU=%1 muss eine Stelle haben.;ENU=%1 must be one digit.';
+      Text010@1160010 : TextConst 'DEU=%1 muss eine Stelle haben.;ENU=%1 must be one digit.';
+      Text011@1160011 : TextConst 'DEU=Verfahren muss 5 Stellen haben.;ENU=Transaction Specification must be 5 digits.';
+      Text012@1160012 : TextConst 'DEU=.EDI;ENU=.EDI';
+      Text013@1160013 : TextConst 'DEU=Diskette in Laufwerk einlegen\\;ENU=Insert Disk in Drive\\';
+      Text014@1160014 : TextConst 'DEU="Dateiname: ";ENU="File name: "';
+      Text015@1160015 : TextConst 'DEU=Anzahl verarbeiteter DatensÑtze Eingang\;ENU=Number of Records Receipt processed\';
+      Text016@1160016 : TextConst 'DEU="UNA:+,? ";ENU="UNA:+,? "';
+      Text017@1160017 : TextConst 'DEU=UNB+UNOC:3+;ENU=UNB+UNOC:3+';
+      Text018@1160018 : TextConst 'DEU=-000+OESTAT::INTRASTAT+;ENU=-000+OESTAT::INTRASTAT+';
+      Text019@1160019 : TextConst 'DEU=UNH+;ENU=UNH+';
+      Text020@1160020 : TextConst 'DEU=+CUSDEC:D:97B:UN:INSTAT;ENU=+CUSDEC:D:97B:UN:INSTAT';
+      Text021@1160021 : TextConst 'DEU=BGM+896+;ENU=BGM+896+';
+      Text022@1160022 : TextConst 'DEU=DTM+320:;ENU=DTM+320:';
+      Text023@1160023 : TextConst 'DEU=DTM+137:;ENU=DTM+137:';
+      Text024@1160024 : TextConst 'DEU=RFF+ACD:NAVATT::3.60.D.97B;ENU=RFF+ACD:NAVATT::3.60.D.97B';
+      Text025@1160025 : TextConst 'DEU=NAD+DT+;ENU=NAD+DT+';
+      Text026@1160026 : TextConst 'DEU=COM+;ENU=COM+';
+      Text027@1160027 : TextConst 'DEU=:TE;ENU=:TE';
+      Text028@1160028 : TextConst 'DEU=:FX;ENU=:FX';
+      Text029@1160029 : TextConst 'DEU=NAD+DO+OESTAT;ENU=NAD+DO+OESTAT';
+      Text030@1160030 : TextConst 'DEU=MOA+ZZZ::EUR;ENU=MOA+ZZZ::EUR';
+      Text032@1160032 : TextConst 'DEU=UNS+D;ENU=UNS+D';
+      Text033@1160033 : TextConst 'DEU=UNS+S;ENU=UNS+S';
+      Text034@1160034 : TextConst 'DEU=CNT+2:;ENU=CNT+2:';
+      Text035@1160035 : TextConst 'DEU=CNT+18:;ENU=CNT+18:';
+      Text036@1160036 : TextConst 'DEU=CNT+19:;ENU=CNT+19:';
+      Text037@1160037 : TextConst 'DEU=CNT+20:;ENU=CNT+20:';
+      Text038@1160038 : TextConst 'DEU=CNT+22:;ENU=CNT+22:';
+      Text039@1160039 : TextConst 'DEU=AUT+;ENU=AUT+';
+      Text040@1160040 : TextConst 'DEU=DTM+187:;ENU=DTM+187:';
+      Text041@1160041 : TextConst 'DEU=UNT+;ENU=UNT+';
+      Text042@1160042 : TextConst 'DEU=UNZ+1+;ENU=UNZ+1+';
+      Text043@1160043 : TextConst 'DEU=LÑndercode %1 muss 2 Stellen haben.;ENU=Countrycode %1 must be 2 digits.';
+      Text044@1160044 : TextConst 'DEU=Intrastat-Code %1 muss 2 Stellen haben.;ENU=Intrastatcode %1 must be 2 digits.';
+      Text045@1160045 : TextConst 'DEU=CST+;ENU=CST+';
+      Text046@1160046 : TextConst 'DEU=:122+A:176+;ENU=:122+A:176+';
+      Text047@1160047 : TextConst 'DEU=FTX+AAA+++;ENU=FTX+AAA+++';
+      Text048@1160048 : TextConst 'DEU=LOC+35+;ENU=LOC+35+';
+      Text049@1160049 : TextConst 'DEU=LOC+27+;ENU=LOC+27+';
+      Text050@1160050 : TextConst 'DEU=MEA+WT++KGM:;ENU=MEA+WT++KGM:';
+      Text051@1160051 : TextConst 'DEU=MEA+AAE++PCE:;ENU=MEA+AAE++PCE:';
+      Text052@1160052 : TextConst 'DEU=TDT+2++;ENU=TDT+2++';
+      Text053@1160053 : TextConst 'DEU=MOA+38:;ENU=MOA+38:';
+      Text054@1160054 : TextConst 'DEU=MOA+123:;ENU=MOA+123:';
+      Text055@1160055 : TextConst 'DEU=Diskette einlegen,\\;ENU=Insert Disk,\\';
+      Text056@1160056 : TextConst 'DEU="Dateiname lautet: ";ENU="Filename is: "';
+      Text057@1160057 : TextConst 'DEU=Anzahl verarbeiteter DatensÑtze Lieferung\;ENU=Number of Records Shipment processed\';
+      Text058@1160058 : TextConst 'DEU=Intrastat-Code %1 muss 2 Stellen haben.;ENU=Intrastat Code %1 must be 2 digits.';
+      Text059@1160059 : TextConst 'DEU=:122+D:176+;ENU=:122+D:176+';
+      Text060@1160060 : TextConst 'DEU=LOC+36+;ENU=LOC+36+';
+      Text061@1160061 : TextConst 'DEU=A:;ENU=A:';
+      Text062@1160062 : TextConst 'DEU=%1 kînnen Sie in einem Feld der LÑnge %2 nicht anzeigen.;ENU=You cannot display %1 in a field of length %2.';
       CompanyInfo@1160063 : Record 79;
       Country@1160064 : Record 9;
       IntraFile@1160065 : File;
@@ -764,9 +764,9 @@ OBJECT Report 11106 Intrastat - Disk Tax Auth AT
       FilenameForReceipts@1160099 : Text[250];
       CurrentType@1160103 : 'Receipt,Shipment';
       IntrastatJnlLine@1160104 : Record 263;
-      Text19031129@19014169 : TextConst 'ENU=The filenames are created as follows:;DEA=Die Dateinamen werden wie folgt erzeugt:';
-      Text19070121@19073178 : TextConst 'ENU=Purch. Authorized No. + Statisticperiod + .EDI for Receipts;DEA=Eink.-Material Nummer + Statistikperiode + .EDI fÅr EingÑnge';
-      Text19015047@19011635 : TextConst 'ENU=Sales Authorized No. + Statisticperiod + .EDI for Shipments;DEA=Verk.-Material Nummer + Statistikperiode + .EDI fÅr Lieferungen';
+      Text19031129@19014169 : TextConst 'DEU=Die Dateinamen werden wie folgt erzeugt:;ENU=The filenames are created as follows:';
+      Text19070121@19073178 : TextConst 'DEU=Eink.-Material Nummer + Statistikperiode + .EDI fÅr EingÑnge;ENU=Purch. Authorized No. + Statisticperiod + .EDI for Receipts';
+      Text19015047@19011635 : TextConst 'DEU=Verk.-Material Nummer + Statistikperiode + .EDI fÅr Lieferungen;ENU=Sales Authorized No. + Statisticperiod + .EDI for Shipments';
 
     PROCEDURE DecimalZeroFormat@1(DecimalNumber@1160000 : Decimal;Lenght@1160001 : Integer) : Text[250];
     BEGIN

@@ -2,9 +2,9 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,11 +18,11 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=%1 must be greater than 0.;ESP=%1 debe ser mayor que 0.;DEA=%1 muss grî·er als 0 sein.';
-      Text001@1001 : TextConst 'ENU=%1 must be less than 0.;ESP=%1 debe ser menor que 0.;DEA=%1 muss kleiner als 0 sein.';
-      Text002@1002 : TextConst 'ENU=Use Cancel Reservation.;ESP=Utilice cancelar reserva.;DEA=Verwenden Sie Reservierung stornieren.';
-      Text003@1003 : TextConst 'ENU=%1 can only be reduced.;ESP=%1 s¢lo se puede reducir.;DEA=%1 kann nur reduziert werden.';
-      Text005@1004 : TextConst 'ENU=Outbound,Inbound;ESP=Salida,Entrada;DEA=Ausgehend,Eingehend';
+      Text000@1000 : TextConst 'DEU=%1 muss grî·er als 0 sein.;ENU=%1 must be greater than 0.';
+      Text001@1001 : TextConst 'DEU=%1 muss kleiner als 0 sein.;ENU=%1 must be less than 0.';
+      Text002@1002 : TextConst 'DEU=Verwenden Sie Reservierung stornieren.;ENU=Use Cancel Reservation.';
+      Text003@1003 : TextConst 'DEU=%1 kann nur reduziert werden.;ENU=%1 can only be reduced.';
+      Text005@1004 : TextConst 'DEU=Ausgehend,Eingehend;ENU=Outbound,Inbound';
       CalcSalesLine@1005 : Record 37;
       CalcPurchLine@1012 : Record 39;
       CalcItemJnlLine@1006 : Record 83;
@@ -36,11 +36,11 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
       TempSortRec3@1014 : TEMPORARY Record 337;
       TempSortRec4@1013 : TEMPORARY Record 337;
       ReservMgt@1008 : Codeunit 99000845;
-      Text006@1011 : TextConst 'ENU=Signing mismatch.;ESP=Acepta no coincidencia.;DEA=Fehler in Vorzeichen.';
-      Text007@1017 : TextConst 'ENU=Renaming reservation entries...;ESP=Renombrando movs. reserva...;DEA=Reservierungsposten werden umbenannt ...';
+      Text006@1011 : TextConst 'DEU=Fehler in Vorzeichen.;ENU=Signing mismatch.';
+      Text007@1017 : TextConst 'DEU=Reservierungsposten werden umbenannt ...;ENU=Renaming reservation entries...';
       CalcJobJnlLine@1018 : Record 210;
       LostReservationQty@1019 : Decimal;
-      Text008@1020 : TextConst 'ENU="You cannot state %1 or %2 on a demand when it is linked to a supply by %3 = %4.";ESP="No puede establecer %1 ni %2 en una demanda cuando Çsta est† vinculada a un suministro (%3 = %4)á.";DEA="%1 oder %2 kann nicht fÅr eine Nachfrage angegeben werden, wenn eine VerknÅpfung mit einem Angebot von %3 = %4 besteht."';
+      Text008@1020 : TextConst 'DEU="%1 oder %2 kann nicht fÅr eine Nachfrage angegeben werden, wenn eine VerknÅpfung mit einem Angebot von %3 = %4 besteht.";ENU="You cannot state %1 or %2 on a demand when it is linked to a supply by %3 = %4."';
       ReservationsModified@1021 : Boolean;
       IsPick@1022 : Boolean;
 
@@ -195,7 +195,7 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
     PROCEDURE CreateText@1(ReservEntry@1001 : Record 337) @1000 : Text[80];
     VAR
       SourceType@1002 : ' ,Sales,Requisition Line,Purchase,Item Journal,BOM Journal,Item Ledger Entry,Prod. Order Line,Prod. Order Component,Planning Line,Planning Component,Transfer,Service,Job Journal,Job,Assembly Header,Assembly Line';
-      SourceTypeText@1003 : TextConst 'ENU=Sales,Requisition Line,Purchase,Item Journal,BOM Journal,Item Ledger Entry,Prod. Order Line,Prod. Order Component,Planning Line,Planning Component,Transfer,Service,Job Journal,Job,Assembly Header,Assembly Line;ESP=Ventas,L°n. repos.,Compras,Diario prod.,Diario L.M.,Mov. prod.,L°n. orden producc.,Comp. orden producc.,Planif. l°n.,Planif. componente,Transfer.,Servicio,Diario proyecto,Proyecto,Encabezado ensamblado,L°nea ensamblado;DEA=Verkauf,Bestellvorschlagszeile,Einkauf,Artikel Buch.-Blatt,StÅckliste Buch.-Blatt,Artikelposten,FA-Zeile,FA-Komponente,Planungszeile,Planungskomponente,Umlagerung,Service,Projekt Buch.-Blatt,Projekt,Montagekopf,Montagezeile';
+      SourceTypeText@1003 : TextConst 'DEU=Verkauf,Bestellvorschlagszeile,Einkauf,Artikel Buch.-Blatt,StÅckliste Buch.-Blatt,Artikelposten,FA-Zeile,FA-Komponente,Planungszeile,Planungskomponente,Umlagerung,Service,Projekt Buch.-Blatt,Projekt,Montagekopf,Montagezeile;ENU=Sales,Requisition Line,Purchase,Item Journal,BOM Journal,Item Ledger Entry,Prod. Order Line,Prod. Order Component,Planning Line,Planning Component,Transfer,Service,Job Journal,Job,Assembly Header,Assembly Line';
     BEGIN
       WITH ReservEntry DO BEGIN
         CASE "Source Type" OF
@@ -387,6 +387,7 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
       ManufacturingSetup@1003 : Record 99000765;
       FirstDate@1004 : Date;
       NextEntryNo@1005 : Integer;
+      DateFormula@1006 : DateFormula;
     BEGIN
       IF NOT (ReservEntry."Source Type" IN [DATABASE::"Prod. Order Line",
                                             DATABASE::"Purchase Line"])
@@ -428,8 +429,8 @@ OBJECT Codeunit 99000831 Reservation Engine Mgt.
       IF FirstDate = 0D THEN
         EXIT;
 
-      IF CALCDATE('<-' + FORMAT(ManufacturingSetup."Default Dampener Period") + '>',FirstDate) <= ReservEntry."Expected Receipt Date"
-      THEN
+      EVALUATE(DateFormula,STRSUBSTNO('%1%2','-',FORMAT(ManufacturingSetup."Default Dampener Period")));
+      IF CALCDATE(DateFormula,FirstDate) <= ReservEntry."Expected Receipt Date" THEN
         EXIT;
 
       IF ReservEntry."Planning Flexibility" = ReservEntry."Planning Flexibility"::None THEN

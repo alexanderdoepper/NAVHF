@@ -2,15 +2,14 @@ OBJECT Page 5933 Service Invoice
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Service Invoice;
-               ESP=Factura servicio;
-               DEA=Servicerechnung];
+    CaptionML=[DEU=Servicerechnung;
+               ENU=Service Invoice];
     SourceTable=Table5900;
     PopulateAllFields=Yes;
     SourceTableView=WHERE(Document Type=FILTER(Invoice));
@@ -44,16 +43,14 @@ OBJECT Page 5933 Service Invoice
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 57      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Invoice;
-                                 ESP=&Factura;
-                                 DEA=R&echnung];
+                      CaptionML=[DEU=R&echnung;
+                                 ENU=&Invoice];
                       Image=Invoice }
       { 59      ;2   ;Action    ;
                       Name=Statistics;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       Promoted=Yes;
                       Image=Statistics;
                       PromotedCategory=Process;
@@ -65,16 +62,14 @@ OBJECT Page 5933 Service Invoice
                                 }
       { 60      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Page 21;
                       RunPageLink=No.=FIELD(Customer No.);
                       Image=EditLines }
       { 61      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 5911;
                       RunPageLink=Table Name=CONST(Service Header),
                                   Table Subtype=FIELD(Document Type),
@@ -83,9 +78,8 @@ OBJECT Page 5933 Service Invoice
                       Image=ViewComments }
       { 116     ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=&Dimensions;
-                                 ESP=&Dimensiones;
-                                 DEA=&Dimensionen];
+                      CaptionML=[DEU=&Dimensionen;
+                                 ENU=&Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -94,9 +88,8 @@ OBJECT Page 5933 Service Invoice
                                 }
       { 64      ;2   ;Separator  }
       { 67      ;2   ;Action    ;
-                      CaptionML=[ENU=Service Document Lo&g;
-                                 ESP=&Registro pedido servicio;
-                                 DEA=Servicebele&gprotokoll];
+                      CaptionML=[DEU=Servicebele&gprotokoll;
+                                 ENU=Service Document Lo&g];
                       Image=Log;
                       OnAction=VAR
                                  ServDocLog@1002 : Record 5912;
@@ -124,14 +117,13 @@ OBJECT Page 5933 Service Invoice
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 62      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 63      ;2   ;Action    ;
                       Name=Calculate Invoice Discount;
-                      CaptionML=[ENU=Calculate &Invoice Discount;
-                                 DEA=&Rechnungsrabatt berechnen];
+                      CaptionML=[DEU=&Rechnungsrabatt berechnen;
+                                 ENU=Calculate &Invoice Discount];
                       Image=CalculateInvoiceDiscount;
                       OnAction=BEGIN
                                  ApproveCalcInvDisc;
@@ -140,9 +132,8 @@ OBJECT Page 5933 Service Invoice
       { 142     ;2   ;Separator  }
       { 134     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Get St&d. Service Codes;
-                                 ESP=Traer c¢&d. servicio est nd.;
-                                 DEA=St&d.-Servicecodes abrufen];
+                      CaptionML=[DEU=St&d.-Servicecodes abrufen;
+                                 ENU=Get St&d. Service Codes];
                       Promoted=Yes;
                       Image=ServiceCode;
                       PromotedCategory=Process;
@@ -153,15 +144,13 @@ OBJECT Page 5933 Service Invoice
                                END;
                                 }
       { 69      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 70      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintServiceHeader(Rec);
@@ -170,9 +159,8 @@ OBJECT Page 5933 Service Invoice
       { 71      ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -185,9 +173,8 @@ OBJECT Page 5933 Service Invoice
                                 }
       { 72      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -200,9 +187,8 @@ OBJECT Page 5933 Service Invoice
                                 }
       { 73      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Post &Batch;
-                                 ESP=Registrar por &lotes;
-                                 DEA=&Stapelbuchen];
+                      CaptionML=[DEU=&Stapelbuchen;
+                                 ENU=Post &Batch];
                       Image=PostBatch;
                       OnAction=BEGIN
                                  REPORT.RUNMODAL(REPORT::"Batch Post Service Invoices",TRUE,TRUE,Rec);
@@ -217,9 +203,8 @@ OBJECT Page 5933 Service Invoice
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 2   ;2   ;Field     ;
                 SourceExpr="No.";
@@ -292,9 +277,8 @@ OBJECT Page 5933 Service Invoice
                 PagePartID=Page5934 }
 
     { 1905885101;1;Group  ;
-                CaptionML=[ENU=Invoicing;
-                           ESP=Facturaci¢n;
-                           DEA=Fakturierung] }
+                CaptionML=[DEU=Fakturierung;
+                           ENU=Invoicing] }
 
     { 14  ;2   ;Field     ;
                 SourceExpr="Bill-to Customer No.";
@@ -361,9 +345,8 @@ OBJECT Page 5933 Service Invoice
                             }
 
     { 1906801201;1;Group  ;
-                CaptionML=[ENU=Shipping;
-                           ESP=Env¡o;
-                           DEA=Lieferung] }
+                CaptionML=[DEU=Lieferung;
+                           ENU=Shipping] }
 
     { 34  ;2   ;Field     ;
                 SourceExpr="Ship-to Code";
@@ -394,9 +377,8 @@ OBJECT Page 5933 Service Invoice
                 SourceExpr="Location Code" }
 
     { 1907468901;1;Group  ;
-                CaptionML=[ENU=Foreign Trade;
-                           ESP=Comercio exterior;
-                           DEA=Auáenhandel] }
+                CaptionML=[DEU=Auáenhandel;
+                           ENU=Foreign Trade] }
 
     { 107 ;2   ;Field     ;
                 SourceExpr="Currency Code";

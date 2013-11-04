@@ -1,0 +1,365 @@
+OBJECT Report 11008 Export VIES Report
+{
+  OBJECT-PROPERTIES
+  {
+    Date=05.04.13;
+    Time=12:00:00;
+    Version List=NAVDE7.00.00.34587;
+  }
+  PROPERTIES
+  {
+    CaptionML=[DEU=VIES-Bericht exportieren;
+               ENU=Export VIES Report];
+    ProcessingOnly=Yes;
+    OnInitReport=BEGIN
+                   VATReportSetup.GET;
+                 END;
+
+  }
+  DATASET
+  {
+    { 1140000; ;DataItem;                    ;
+               DataItemTable=Table740;
+               OnPreDataItem=BEGIN
+                               NextLineNo := 0;
+                               IF ExportFolderName = '' THEN
+                                 ERROR(Text006);
+                             END;
+
+               OnAfterGetRecord=BEGIN
+                                  MakeHeaderRecord("VAT Report Header");
+
+                                  VATReportLine.SETRANGE("VAT Report No.","No.");
+                                  VATReportLine.SETRANGE("Line Type",VATReportLine."Line Type"::New);
+                                  IF VATReportLine.FINDSET THEN
+                                    REPEAT
+                                      MakeLineRecord("VAT Report Header",VATReportLine);
+                                    UNTIL VATReportLine.NEXT = 0;
+
+                                  IF VATReportSetup."Export Cancellation Lines" THEN
+                                    VATReportLine.SETFILTER("Line Type",'<>%1',VATReportLine."Line Type"::New)
+                                  ELSE
+                                    VATReportLine.SETRANGE("Line Type",VATReportLine."Line Type"::Correction);
+
+                                  IF VATReportLine.FINDSET THEN
+                                    REPEAT
+                                      MakeLineRecord("VAT Report Header",VATReportLine);
+                                    UNTIL VATReportLine.NEXT = 0;
+
+                                  MakeTotalRecord("VAT Report Header");
+                                END;
+
+               OnPostDataItem=VAR
+                                GeneralMgt@1140001 : Codeunit 11501;
+                                ExportStream@1140000 : OutStream;
+                                ExportConfirmed@1140002 : Boolean;
+                              BEGIN
+                                IF TestMode THEN
+                                  EXIT;
+
+                                IF TempDataExportBuffer.FINDSET THEN BEGIN
+                                  ServerFileName := FileMgt.ServerTempFileName('');
+                                  ExportFile.CREATE(ServerFileName);
+                                  ExportFile.TEXTMODE(FALSE);
+                                  ExportFile.CREATEOUTSTREAM(ExportStream);
+                                  REPEAT
+                                    ExportStream.WRITETEXT(GeneralMgt.Ascii2Ansi(TempDataExportBuffer."Field Value"),STRLEN(TempDataExportBuffer."Field Value"));
+                                  UNTIL TempDataExportBuffer.NEXT = 0;
+                                  ExportFile.CLOSE;
+                                  IF ExportFolderName[STRLEN(ExportFolderName)] <> '\' THEN
+                                    ExportFolderName := ExportFolderName + '\';
+                                  ClientFileName := ExportFolderName + MakeFileName("VAT Report Header");
+                                  ExportConfirmed := TRUE;
+                                  IF EXISTS(ClientFileName) THEN
+                                    IF NOT CONFIRM(Text004,TRUE,ClientFileName) THEN
+                                      ExportConfirmed := FALSE;
+                                  IF ExportConfirmed THEN BEGIN
+                                    FileMgt.DownloadToFile(ServerFileName,ClientFileName);
+                                    Status := Status::Exported;
+                                    IF MODIFY THEN
+                                      MESSAGE(Text003,ClientFileName);
+                                  END ELSE
+                                    MESSAGE(Text005);
+                                END;
+                              END;
+
+               ReqFilterFields=No. }
+
+  }
+  REQUESTPAGE
+  {
+    PROPERTIES
+    {
+      SaveValues=Yes;
+      OnOpenPage=BEGIN
+                   IF VATReportSetup."Default Export Folder" <> '' THEN
+                     ExportFolderName := VATReportSetup."Default Export Folder";
+                 END;
+
+    }
+    CONTROLS
+    {
+      { 1140000; ;Container ;
+                  Name=ExportParameters;
+                  ContainerType=ContentArea }
+
+      { 1140001;1;Field     ;
+                  Name=Export Folder;
+                  SourceExpr=ExportFolderName;
+                  OnValidate=BEGIN
+                               IF ExportFolderName <> '' THEN
+                                 IF NOT FileMgt.ClientDirectoryExists(ExportFolderName) THEN
+                                   ERROR(Text002,ExportFolderName);
+                             END;
+
+                  OnAssistEdit=BEGIN
+                                 ExportFolderName := FileMgt.BrowseForFolderDialog(Text001,ExportFolderName,TRUE);
+                               END;
+                                }
+
+    }
+  }
+  LABELS
+  {
+  }
+  CODE
+  {
+    VAR
+      TempDataExportBuffer@1140000 : TEMPORARY Record 11008;
+      VATReportLine@1140001 : Record 741;
+      VATReportSetup@1140005 : Record 743;
+      FileMgt@1140003 : Codeunit 419;
+      ExportFile@1140008 : File;
+      ServerFileName@1140006 : Text;
+      ClientFileName@1140007 : Text;
+      ExportFolderName@1140011 : Text;
+      NextLineNo@1140002 : Integer;
+      TestMode@1140010 : Boolean;
+      Text001@1140009 : TextConst 'DEU=W„hlen Sie einen Exportordner;ENU=Select Export Folder';
+      Text002@1140004 : TextConst 'DEU=Ordner %1 ist nicht vorhanden.;ENU=Folder %1 does not exist.';
+      Text003@1140012 : TextConst 'DEU=Die Datei %1 wurde exportiert.;ENU=File %1 exported.';
+      Text004@1140013 : TextConst 'DEU=Die Datei %1 existiert bereits. šberschreiben?;ENU=File %1 already exist. Overwrite?';
+      Text005@1140014 : TextConst 'DEU=Exportieren abgebrochen.;ENU=Export canceled.';
+      Text006@1140015 : TextConst 'DEU=Bitte geben Sie den Export-Ordner an.;ENU=Please enter export folder.';
+
+    PROCEDURE GetBuffer@1140000(VAR TempDataExportBuffer2@1140000 : TEMPORARY Record 11008);
+    BEGIN
+      TempDataExportBuffer2.DELETEALL;
+      TempDataExportBuffer2.RESET;
+      IF TempDataExportBuffer.FINDSET THEN
+        REPEAT
+          TempDataExportBuffer2 := TempDataExportBuffer;
+          TempDataExportBuffer2.INSERT;
+        UNTIL TempDataExportBuffer.NEXT = 0;
+    END;
+
+    PROCEDURE MakeHeaderRecord@1140003(VATReportHeader@1140000 : Record 740);
+    BEGIN
+      TempDataExportBuffer."Entry No." := NextLineNo;
+      TempDataExportBuffer."Field Value" :=
+        GetRecordType('0') +
+        PADSTR(VATReportSetup."Registration ID",6) +
+        FORMAT(VATReportHeader."Processing Date",8,'<Year4><Month,2><Day,2>') +
+        PADSTR(VATReportHeader."Company Name",45,' ') +
+        PADSTR(VATReportHeader."Company Address",25,' ') +
+        PADSTR(VATReportHeader."Post Code",5,' ') +
+        PADSTR(VATReportHeader.City,25,' ') +
+        PADSTR('',5);
+      TempDataExportBuffer.INSERT;
+      NextLineNo := NextLineNo + 1;
+    END;
+
+    PROCEDURE MakeLineRecord@1140004(VATReportHeader@1140001 : Record 740;VATReportLine@1140000 : Record 741);
+    BEGIN
+      TempDataExportBuffer."Entry No." := NextLineNo;
+      TempDataExportBuffer."Field Value" :=
+        GetRecordType('1') +
+        PADSTR(VATReportHeader."VAT Registration No.",11) +
+        GetReportType(VATReportLine) +
+        GetReportPeriod(VATReportHeader) +
+        PADSTR(VATReportLine.GetVATRegNo,14) +
+        FormatBaseForExport(VATReportLine,12) +
+        GetTurnoverType(VATReportLine) +
+        GetNotice(VATReportHeader) +
+        GetRevocation(VATReportHeader) +
+        PADSTR('',71);
+      TempDataExportBuffer.INSERT;
+      NextLineNo := NextLineNo + 1;
+    END;
+
+    PROCEDURE MakeTotalRecord@1140005(VATReportHeader@1140000 : Record 740);
+    BEGIN
+      TempDataExportBuffer."Entry No." := NextLineNo;
+      VATReportHeader.CALCFIELDS("Total Base","Total Base","Total Number of Lines");
+      TempDataExportBuffer."Field Value" :=
+        GetRecordType('2') +
+        PADSTR(VATReportHeader."VAT Registration No.",11) +
+        GetReportPeriod(VATReportHeader) +
+        FormatAmountForExport(VATReportHeader."Total Base",14) +
+        FormatAmountForExport(VATReportHeader."Total Number of Lines",5) +
+        PADSTR('',85);
+      TempDataExportBuffer.INSERT;
+      NextLineNo := NextLineNo + 1;
+    END;
+
+    PROCEDURE MakeFileName@1140001(VATReportHeader@1140000 : Record 740) : Text[250];
+    BEGIN
+      VATReportSetup.TESTFIELD("Source Identifier");
+      VATReportSetup.TESTFIELD("Transmission Process ID");
+      VATReportSetup.TESTFIELD("Supplier ID");
+
+      EXIT(
+        STRSUBSTNO('m5_zm_%1_%2%3_v01_z%4_%5_%6%7.eg%8',
+          VATReportSetup."Source Identifier",
+          VATReportSetup."Transmission Process ID",
+          VATReportSetup."Supplier ID",
+          FormatDate(VATReportHeader."Start Date"),
+          FormatProcessingDate(VATReportHeader),
+          GetCodepage,
+          GetFileOrderNo,
+          GetTestExport(VATReportHeader."Test Export")));
+    END;
+
+    PROCEDURE GetRecordType@1140006(RecordType@1140000 : Text[1]) : Text[1];
+    BEGIN
+      EXIT(RecordType);
+    END;
+
+    PROCEDURE GetReportType@1140007(VATReportLine@1140000 : Record 741) : Text[2];
+    BEGIN
+      CASE VATReportLine."Line Type" OF
+        VATReportLine."Line Type"::New:
+          EXIT('10');
+        VATReportLine."Line Type"::Cancellation,
+        VATReportLine."Line Type"::Correction:
+          EXIT('11');
+      END;
+    END;
+
+    PROCEDURE GetReportPeriod@1140009(VATReportHeader@1140000 : Record 740) ReportPeriod : Text[4];
+    BEGIN
+      WITH VATReportHeader DO BEGIN
+        CASE "Report Period Type" OF
+          "Report Period Type"::Quarter:
+            ReportPeriod := '0' + FORMAT("Report Period No.");
+          "Report Period Type"::Month:
+            ReportPeriod := FORMAT("Report Period No." + 20);
+          "Report Period Type"::Year:
+            ReportPeriod := '05';
+          "Report Period Type"::"Bi-Monthly":
+            ReportPeriod := FORMAT("Report Period No." + 10);
+        END;
+        ReportPeriod := ReportPeriod + FORMAT("Report Year" - 2000);
+      END;
+    END;
+
+    PROCEDURE GetTurnoverType@1140011(VATReportLine@1140000 : Record 741) : Text[1];
+    BEGIN
+      IF VATReportLine."EU Service" THEN
+        EXIT('S');
+
+      IF VATReportLine."EU 3-Party Trade" THEN
+        EXIT('D');
+
+      EXIT(' ');
+    END;
+
+    PROCEDURE GetNotice@1140012(VATReportHeader@1140000 : Record 740) : Text[2];
+    BEGIN
+      IF VATReportHeader.Notice THEN
+        EXIT('11');
+
+      EXIT('10');
+    END;
+
+    PROCEDURE GetRevocation@1140013(VATReportHeader@1140000 : Record 740) : Text[2];
+    BEGIN
+      IF VATReportHeader.Revocation THEN
+        EXIT('11');
+
+      EXIT('10');
+    END;
+
+    PROCEDURE GetCodepage@1140010() : Text[1];
+    BEGIN
+      IF VATReportSetup.Codepage = VATReportSetup.Codepage::"IBM-850" THEN
+        EXIT('c');
+
+      EXIT('e');
+    END;
+
+    PROCEDURE GetFileOrderNo@1140014() : Text[1];
+    BEGIN
+      EXIT('a');
+    END;
+
+    PROCEDURE GetDateNumber@1140017(CurrDate@1140000 : Date) : Text[3];
+    VAR
+      DateNumber@1140002 : Integer;
+      FromDate@1140001 : Date;
+    BEGIN
+      FromDate := DMY2DATE(1,1,DATE2DMY(CurrDate,3));
+      DateNumber := CurrDate - FromDate + 1;
+      CASE TRUE OF
+        (DateNumber > 0) AND (DateNumber < 10):
+          EXIT('00' + FORMAT(DateNumber));
+        (DateNumber >= 10) AND (DateNumber < 100):
+          EXIT('0' + FORMAT(DateNumber));
+        (DateNumber >= 100):
+          EXIT(FORMAT(DateNumber,3));
+      END;
+    END;
+
+    PROCEDURE GetTestExport@1140018(TestExport@1140000 : Boolean) : Text[1];
+    BEGIN
+      IF TestExport THEN
+        EXIT('t');
+
+      EXIT('p');
+    END;
+
+    PROCEDURE FormatDate@1140002(Date@1140000 : Date) : Text[8];
+    BEGIN
+      EXIT(FORMAT(Date,8,'<Year4><Month,2><Day,2>'));
+    END;
+
+    PROCEDURE FormatProcessingDate@1140008(VATReportHeader@1140000 : Record 740) : Text[6];
+    BEGIN
+      WITH VATReportHeader DO
+        CASE "Report Period Type" OF
+          "Report Period Type"::Month:
+            EXIT(STRSUBSTNO('m%1%2',COPYSTR(FORMAT(DATE2DMY("Processing Date",3),4),3,2),GetDateNumber("Processing Date")));
+          "Report Period Type"::Quarter:
+            EXIT(STRSUBSTNO('q%1%2',COPYSTR(FORMAT(DATE2DMY("Processing Date",3),4),3,2),GetDateNumber("Processing Date")));
+          "Report Period Type"::Year:
+            EXIT(STRSUBSTNO('y%1%2',COPYSTR(FORMAT(DATE2DMY("Processing Date",3),4),3,2),GetDateNumber("Processing Date")));
+        END;
+    END;
+
+    PROCEDURE SetExportMode@1140015(NewTestMode@1140000 : Boolean);
+    BEGIN
+      TestMode := NewTestMode;
+    END;
+
+    PROCEDURE FormatAmountForExport@1140016(Amount@1140000 : Decimal;Length@1140003 : Integer) AmtText : Text[20];
+    BEGIN
+      AmtText := FORMAT(ROUND(Amount),0,'<Integer><Sign>');
+      AmtText := PADSTR('', Length - STRLEN(AmtText),'0') + AmtText;
+    END;
+
+    PROCEDURE FormatBaseForExport@1140019(VATReportLine@1140000 : Record 741;Length@1140001 : Integer) : Text[20];
+    BEGIN
+      IF VATReportLine."Line Type" = VATReportLine."Line Type"::Cancellation THEN
+        EXIT(FormatAmountForExport(0,Length))
+      ELSE
+        EXIT(FormatAmountForExport(VATReportLine.Base,Length));
+    END;
+
+    BEGIN
+    END.
+  }
+  RDLDATA
+  {
+  }
+}
+

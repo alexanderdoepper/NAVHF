@@ -2,9 +2,9 @@ OBJECT Codeunit 7322 Create Inventory Pick/Movement
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -22,7 +22,7 @@ OBJECT Codeunit 7322 Create Inventory Pick/Movement
     VAR
       WhseRequest@1009 : Record 5765;
       WhseActivHeader@1000 : Record 5766;
-      Text000@1001 : TextConst 'ENU=There is nothing to handle.;ESP=No hay nada que manipular.;DEA=Es gibt nichts zu bewegen.';
+      Text000@1001 : TextConst 'DEU=Es gibt nichts zu bewegen.;ENU=There is nothing to handle.';
       TempHandlingSpecification@1006 : TEMPORARY Record 336;
       Location@1019 : Record 14;
       Item@1018 : Record 27;
@@ -41,18 +41,18 @@ OBJECT Codeunit 7322 Create Inventory Pick/Movement
       HideDialog@1008 : Boolean;
       SNRequired@1005 : Boolean;
       LNRequired@1004 : Boolean;
-      Text001@1007 : TextConst 'ENU=Quantity available to pick is not sufficient to fulfill shipping advise %1 for sales line with Document Type %2, Document No. %3, Line No. %4.;ESP=La cantidad disponible para picking no es suficiente para cumplir el aviso de env°o %1 para la l°nea de venta con Tipo documento %2, Nß documento %3, Nß l°nea %4.;DEA=Die zur VerfÅgung stehende Kommissioniermenge reicht nicht aus, um die Versandanweisung ''%1'' fÅr die Verkaufszeile mit der Belegart ''%2'', der Belegnr. %3 und der Zeilennr. %4 zu erfÅllen.';
+      Text001@1007 : TextConst 'DEU=Die zur VerfÅgung stehende Kommissioniermenge reicht nicht aus, um die Versandanweisung ''%1'' fÅr die Verkaufszeile mit der Belegart ''%2'', der Belegnr. %3 und der Zeilennr. %4 zu erfÅllen.;ENU=Quantity available to pick is not sufficient to fulfill shipping advise %1 for sales line with Document Type %2, Document No. %3, Line No. %4.';
       CheckLineExist@1014 : Boolean;
       AutoCreation@1015 : Boolean;
       LineCreated@1020 : Boolean;
       CompleteShipment@1022 : Boolean;
       PrintDocument@1036 : Boolean;
       ShowError@1023 : Boolean;
-      Text002@1025 : TextConst 'ENU=Quantity available to pick is not sufficient to fulfill shipping advise %1 for transfer line with Document No. %2, Line No. %3.;ESP=La cantidad disponible para picking no es suficiente para cumplir el aviso de env°o %1 para la l°nea de transferencia con Tipo documento %2, Nß l°nea %3.;DEA=Die zur VerfÅgung stehende Kommissioniermenge reicht nicht aus, um die Versandanweisung ''%1'' fÅr die Umlagerungszeile mit der Belegnr. %2 und der Zeilennr. %3 zu erfÅllen.';
+      Text002@1025 : TextConst 'DEU=Die zur VerfÅgung stehende Kommissioniermenge reicht nicht aus, um die Versandanweisung ''%1'' fÅr die Umlagerungszeile mit der Belegnr. %2 und der Zeilennr. %3 zu erfÅllen.;ENU=Quantity available to pick is not sufficient to fulfill shipping advise %1 for transfer line with Document No. %2, Line No. %3.';
       IsInvtMovement@1026 : Boolean;
       IsBlankInvtMovement@1027 : Boolean;
-      Text003@1029 : TextConst 'ENU=%1 activity no. %2 has been created.;ESP=Se ha creado %1 actividad nß %2.;DEA=%1 mit der AktivitÑtsnr. %2 wurde erstellt.';
-      Text004@1030 : TextConst 'ENU=Do you want to create Inventory Movement?;ESP=®Desea crear un movimiento de inventario?;DEA=Mîchten Sie eine Lagerbewegung erstellen?';
+      Text003@1029 : TextConst 'DEU=%1 mit der AktivitÑtsnr. %2 wurde erstellt.;ENU=%1 activity no. %2 has been created.';
+      Text004@1030 : TextConst 'DEU=Mîchten Sie eine Lagerbestandsumlagerung erstellen?;ENU=Do you want to create Inventory Movement?';
       FromBinCode@1031 : Code[20];
       HasExpiredItems@1033 : Boolean;
       ExpiredItemMessageText@1034 : Text[100];

@@ -2,9 +2,9 @@ OBJECT Codeunit 13 Gen. Jnl.-Post Batch
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -20,34 +20,34 @@ OBJECT Codeunit 13 Gen. Jnl.-Post Batch
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=cannot exceed %1 characters;ESP=no puede superar %1 caracteres;DEA=kann nicht %1 Zeichen Åberschreiten';
-      Text001@1001 : TextConst 'ENU=Journal Batch Name    #1##########\\;ESP=Nombre secci¢n diario #1##########\\;DEA=Buch.-Blattname       #1##########\\';
-      Text002@1002 : TextConst 'ENU=Checking lines        #2######\;ESP=Comprobando l°neas    #2######\;DEA=Zeilen prÅfen         #2######\';
-      Text003@1003 : TextConst 'ENU=Checking balance      #3###### @4@@@@@@@@@@@@@\;ESP=Comprobando saldo     #3###### @4@@@@@@@@@@@@@\;DEA=Saldo prÅfen          #3###### @4@@@@@@@@@@@@@\';
-      Text004@1004 : TextConst 'ENU=Posting lines         #5###### @6@@@@@@@@@@@@@\;ESP=Registrando l°neas    #5###### @6@@@@@@@@@@@@@\;DEA=Zeilen buchen         #5###### @6@@@@@@@@@@@@@\';
-      Text005@1005 : TextConst 'ENU=Posting revers. lines #7###### @8@@@@@@@@@@@@@\;ESP=Regs. l°ns. reversi¢n #7###### @8@@@@@@@@@@@@@\;DEA=Umgek. Zeilen buchen  #7###### @8@@@@@@@@@@@@@\';
-      Text006@1006 : TextConst 'ENU=Updating lines        #9###### @10@@@@@@@@@@@@;ESP=Actualizando l°neas   #9###### @10@@@@@@@@@@@@;DEA=Zeilen aktualisieren  #9###### @10@@@@@@@@@@@@';
-      Text007@1007 : TextConst 'ENU=Posting lines         #5###### @6@@@@@@@@@@@@@;ESP=Registrando l°neas    #5###### @6@@@@@@@@@@@@@;DEA=Zeilen buchen         #5###### @6@@@@@@@@@@@@@';
-      Text008@1008 : TextConst 'ENU=must be the same on all lines for the same document.;DEA=muss auf allen Zeilen desselben Belegs gesetzt sein.';
-      Text009@1009 : TextConst 'ENU="%1 %2 posted on %3 includes more than one customer or vendor. ";ESP="%1 %2 registrado en %3 incluye m†s de un cliente o proveedor. ";DEA="%1 %2 gebucht am %3 enthÑlt mehr als einen Debitoren oder Kreditoren. "';
-      Text010@1010 : TextConst 'ENU=In order for the program to calculate VAT, the entries must be separated by another document number or by an empty line.;ESP=Para el c†lculo de IVA, los movs. se deben separar por otro n£mero de documento o por una l°nea en blanco.;DEA=Damit das Programm die MwSt. ermitteln kann, mÅssen die Buchungen durch eine andere Belegnummer oder eine Leerzeile getrennt werden.';
-      Text012@1012 : TextConst 'ENU="%5 %2 is out of balance by %1. ";ESP="%5 %2 tiene un descuadre de %1. ";DEA="%5 %2 Saldo stimmt nicht um %1. "';
-      Text013@1013 : TextConst 'ENU=Please check that %3, %4, %5 and %6 are correct for each line.;ESP=Compruebe que son correctos para cada l°nea %3, %4, %5 y %6.;DEA=Bitte prÅfen, ob %3, %4, %5 und %6 fÅr jede Zeile korrekt sind.';
-      Text014@1014 : TextConst 'ENU="The lines in %1 are out of balance by %2. ";ESP="Hay un descuadre de %2 en las l°neas de %1. ";DEA="Der Saldo fÅr die Zeilen in %1 stimmen nicht um %2. "';
-      Text015@1015 : TextConst 'ENU=Check that %3 and %4 are correct for each line.;ESP=Compruebe que %3 y/e %4 son correctos para cada l°nea.;DEA=Bitte prÅfen, dass %3 und %4 fÅr jede Zeile korrekt sind.';
-      Text016@1016 : TextConst 'ENU="Your reversing entries in %4 %2 are out of balance by %1. ";ESP="Hay un descuadre de %1 en los movs. del contraasiento de %4 %2. ";DEA="Der Saldo der umgekehrten Buchungen in %4 %2 stimmen um %1 nicht Åberein. "';
-      Text017@1017 : TextConst 'ENU=Please check whether %3 is correct for each line for this %4.;ESP=Compruebe que la %3 es correcta para este/a %4.;DEA=PrÅfen Sie, ob %3 fÅr jede Zeile mit diesem %4 korrekt ist.';
-      Text018@1018 : TextConst 'ENU="Your reversing entries for %1 are out of balance by %2. ";ESP="Hay un descuadre de %2 en los movs. de contraasiento del %1. ";DEA="Der Saldo der umgekehrten Buchungen fÅr %1 stimmt um %2 nicht. "';
-      Text019@1019 : TextConst 'ENU="%3 %1 is out of balance due to the additional reporting currency. ";ESP="%3 %1 no cuadra debido a la divisa adicional. ";DEA="%3 %1 ist der Saldo fÅr die BerichtswÑhrung nicht ausgeglichen. "';
-      Text020@1020 : TextConst 'ENU=Please check that %2 is correct for each line.;ESP=Compruebe que %2 es correcto para cada l°nea.;DEA=Bitte ÅberprÅfen Sie, dass der %2 in jeder Zeile korrekt erfasst ist.';
-      Text021@1021 : TextConst 'ENU=cannot be specified when using recurring journals.;ESP=no se puede utilizar en diarios peri¢dicos.;DEA=kann nicht in wiederkehrenden Buch.-BlÑttern angegeben werden.';
-      Text022@1022 : TextConst 'ENU=The Balance and Reversing Balance recurring methods can be used only for G/L accounts.;ESP=Los mÇtodos recurrentes Saldo y Contrasiento saldo s¢lo se pueden com movs. de tipo Cuenta.;DEA=Die Wiederholungsart Ausgleich und umgekehrter Ausgleich kann nur fÅr Sachkonten verwendet werden.';
-      Text023@1023 : TextConst 'ENU=Allocations can only be used with recurring journals.;ESP=Distribuciones s¢lo se permiten en diarios peri¢dicos.;DEA=Verteilungen kînnen nur in wiederkehrenden Buch.-BlÑttern verwendet werden.';
-      Text024@1024 : TextConst 'ENU=<Month Text>;ESP=<Month Text>;DEA=<Month Text>';
-      Text025@1025 : TextConst 'ENU=A maximum of %1 posting number series can be used in each journal.;ESP=Se puede utilizar un m†ximo de %1 n£meros de serie de registro en cada diario.;DEA=Ein Maximum von %1 Buchungsnr.-Serien';
-      Text026@1026 : TextConst 'ENU="%5 %2 is out of balance by %1 %7. ";ESP="%5 %2 descuadra por %1 %7. ";DEA="%5 %2 Saldo stimmt nicht um %1 %7. "';
-      Text027@1027 : TextConst 'ENU="The lines in %1 are out of balance by %2 %5. ";ESP="Las l°neas en %1 descuadran por %2 %5. ";DEA="In den Zeilen fÅr den %1 stimmt der Saldo um %2 %5 nicht. "';
-      Text028@1028 : TextConst 'ENU=The Balance and Reversing Balance recurring methods can be used only with Allocations.;ESP=Los mÇtodos rec. de saldo y saldo rev. pueden usarse s¢lo con cuotas.;DEA=Die Wiederholungsart Ausgleich und umgekehrter Ausgleich kann nur fÅr Verteilungen verwendet werden.';
+      Text000@1000 : TextConst 'DEU=kann nicht %1 Zeichen Åberschreiten;ENU=cannot exceed %1 characters';
+      Text001@1001 : TextConst 'DEU=Buch.-Blattname       #1##########\\;ENU=Journal Batch Name    #1##########\\';
+      Text002@1002 : TextConst 'DEU=Zeilen prÅfen         #2######\;ENU=Checking lines        #2######\';
+      Text003@1003 : TextConst 'DEU=Saldo prÅfen          #3###### @4@@@@@@@@@@@@@\;ENU=Checking balance      #3###### @4@@@@@@@@@@@@@\';
+      Text004@1004 : TextConst 'DEU=Zeilen buchen         #5###### @6@@@@@@@@@@@@@\;ENU=Posting lines         #5###### @6@@@@@@@@@@@@@\';
+      Text005@1005 : TextConst 'DEU=Umgek. Zeilen buchen  #7###### @8@@@@@@@@@@@@@\;ENU=Posting revers. lines #7###### @8@@@@@@@@@@@@@\';
+      Text006@1006 : TextConst 'DEU=Zeilen aktualisieren  #9###### @10@@@@@@@@@@@@;ENU=Updating lines        #9###### @10@@@@@@@@@@@@';
+      Text007@1007 : TextConst 'DEU=Zeilen buchen         #5###### @6@@@@@@@@@@@@@;ENU=Posting lines         #5###### @6@@@@@@@@@@@@@';
+      Text008@1008 : TextConst 'DEU=muss auf allen Zeilen desselben Belegs gesetzt sein.;ENU=must be the same on all lines for the same document.';
+      Text009@1009 : TextConst 'DEU="%1 %2 gebucht am %3 enthÑlt mehr als einen Debitoren oder Kreditoren. ";ENU="%1 %2 posted on %3 includes more than one customer or vendor. "';
+      Text010@1010 : TextConst 'DEU=Damit das Programm die MwSt. ermitteln kann, mÅssen die Buchungen durch eine andere Belegnummer oder eine Leerzeile getrennt werden.;ENU=In order for the program to calculate VAT, the entries must be separated by another document number or by an empty line.';
+      Text012@1012 : TextConst 'DEU="%5 %2 Saldo stimmt nicht um %1. ";ENU="%5 %2 is out of balance by %1. "';
+      Text013@1013 : TextConst 'DEU=Bitte prÅfen, ob %3, %4, %5 und %6 fÅr jede Zeile korrekt sind.;ENU=Please check that %3, %4, %5 and %6 are correct for each line.';
+      Text014@1014 : TextConst 'DEU="Der Saldo fÅr die Zeilen in %1 stimmen nicht um %2. ";ENU="The lines in %1 are out of balance by %2. "';
+      Text015@1015 : TextConst 'DEU=Bitte prÅfen, dass %3 und %4 fÅr jede Zeile korrekt sind.;ENU=Check that %3 and %4 are correct for each line.';
+      Text016@1016 : TextConst 'DEU="Der Saldo der umgekehrten Buchungen in %4 %2 stimmen um %1 nicht Åberein. ";ENU="Your reversing entries in %4 %2 are out of balance by %1. "';
+      Text017@1017 : TextConst 'DEU=PrÅfen Sie, ob %3 fÅr jede Zeile mit diesem %4 korrekt ist.;ENU=Please check whether %3 is correct for each line for this %4.';
+      Text018@1018 : TextConst 'DEU="Der Saldo der umgekehrten Buchungen fÅr %1 stimmt um %2 nicht. ";ENU="Your reversing entries for %1 are out of balance by %2. "';
+      Text019@1019 : TextConst 'DEU="%3 %1 ist der Saldo fÅr die BerichtswÑhrung nicht ausgeglichen. ";ENU="%3 %1 is out of balance due to the additional reporting currency. "';
+      Text020@1020 : TextConst 'DEU=Bitte ÅberprÅfen Sie, dass der %2 in jeder Zeile korrekt erfasst ist.;ENU=Please check that %2 is correct for each line.';
+      Text021@1021 : TextConst 'DEU=kann nicht in wiederkehrenden Buch.-BlÑttern angegeben werden.;ENU=cannot be specified when using recurring journals.';
+      Text022@1022 : TextConst 'DEU=Die Wiederholungsart Ausgleich und umgekehrter Ausgleich kann nur fÅr Sachkonten verwendet werden.;ENU=The Balance and Reversing Balance recurring methods can be used only for G/L accounts.';
+      Text023@1023 : TextConst 'DEU=Verteilungen kînnen nur in wiederkehrenden Buch.-BlÑttern verwendet werden.;ENU=Allocations can only be used with recurring journals.';
+      Text024@1024 : TextConst 'DEU=<Month Text>;ENU=<Month Text>';
+      Text025@1025 : TextConst 'DEU=Ein Maximum von %1 Buchungsnr.-Serien;ENU=A maximum of %1 posting number series can be used in each journal.';
+      Text026@1026 : TextConst 'DEU="%5 %2 Saldo stimmt nicht um %1 %7. ";ENU="%5 %2 is out of balance by %1 %7. "';
+      Text027@1027 : TextConst 'DEU="In den Zeilen fÅr den %1 stimmt der Saldo um %2 %5 nicht. ";ENU="The lines in %1 are out of balance by %2 %5. "';
+      Text028@1028 : TextConst 'DEU=Die Wiederholungsart Ausgleich und umgekehrter Ausgleich kann nur fÅr Verteilungen verwendet werden.;ENU=The Balance and Reversing Balance recurring methods can be used only with Allocations.';
       GenJnlTemplate@1029 : Record 80;
       GenJnlBatch@1030 : Record 232;
       GenJnlLine@1031 : Record 81;
@@ -94,9 +94,9 @@ OBJECT Codeunit 13 Gen. Jnl.-Post Batch
       LastCurrencyCode@1075 : Code[10];
       CurrencyBalance@1076 : Decimal;
       "0DF"@1077 : DateFormula;
-      Text029@1041 : TextConst 'ENU="%1 %2 posted on %3 includes more than one customer, vendor or IC Partner. ";ESP="%1 %2, registrado el %3, incluye m†s de un cliente, proveedor o IC asociada. ";DEA="%1 %2, gebucht am %3, enthÑlt mehrere Debitoren, Kreditoren oder IC-Partner. "';
-      Text030@1011 : TextConst 'ENU=You cannot enter G/L Account or Bank Account in both %1 and %2.;ESP=No puede introducir una cuenta o una cuenta bancaria en %1 y en %2.;DEA=Sie kînnen nicht sowohl in %1 als auch in %2 ein Sach- bzw. Bankkonto eingeben.';
-      Text031@1040 : TextConst 'ENU=Line No. %1 does not contain a G/L Account or Bank Account. When the %2 field contains an account number, either the %3 field or the %4 field must contain a G/L Account or Bank Account.;ESP=La l°nea nß %1 no incluye una cuenta o una cuenta bancaria. Si el campo %2 contiene un n£mero de cuenta, el campo %3 o el campo %4 deben contener una cuenta o una cuenta bancaria.;DEA=Zeile Nr. %1 enthÑlt kein Sach- oder Bankkonto. Wenn Feld %2 eine Kontonummer enthÑlt, muss entweder Feld %3 oder Feld %4 ein Sach- bzw. Bankkonto enthalten.';
+      Text029@1041 : TextConst 'DEU="%1 %2, gebucht am %3, enthÑlt mehrere Debitoren, Kreditoren oder IC-Partner. ";ENU="%1 %2 posted on %3 includes more than one customer, vendor or IC Partner. "';
+      Text030@1011 : TextConst 'DEU=Sie kînnen nicht sowohl in %1 als auch in %2 ein Sach- bzw. Bankkonto eingeben.;ENU=You cannot enter G/L Account or Bank Account in both %1 and %2.';
+      Text031@1040 : TextConst 'DEU=Zeile Nr. %1 enthÑlt kein Sach- oder Bankkonto. Wenn Feld %2 eine Kontonummer enthÑlt, muss entweder Feld %3 oder Feld %4 ein Sach- bzw. Bankkonto enthalten.;ENU=Line No. %1 does not contain a G/L Account or Bank Account. When the %2 field contains an account number, either the %3 field or the %4 field must contain a G/L Account or Bank Account.';
       GLSetupFound@1079 : Boolean;
 
     LOCAL PROCEDURE Code@7();

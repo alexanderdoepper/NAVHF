@@ -2,9 +2,9 @@ OBJECT Codeunit 8617 Config. Validate Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,10 +15,10 @@ OBJECT Codeunit 8617 Config. Validate Management
   CODE
   {
     VAR
-      Text001@1010 : TextConst 'ENU=Field %2 in table %1 can only contain %3 characters (%4).;ESP=El campo %2 de la tabla %1 solo puede contener %3 caracteres (%4).;DEA=Feld %2 in Tabelle %1 darf nur %3 Zeichen (%4) enthalten.';
-      Text002@1009 : TextConst 'ENU=%1 is not a supported data type.;ESP=%1 no es un tipo de datos compatible.;DEA=%1 ist kein unterstÅtzter Datentyp.';
-      Text003@1008 : TextConst 'ENU=%1 is not a valid %2.;ESP=%1 no es un %2 v†lido.;DEA=%1 ist kein gÅltiger %2.';
-      Text004@1011 : TextConst 'ENU=%1 is not a valid option.\Valid options are %2.;ESP=%1 no es una opci¢n v†lida.\Las opciones v†lidas son %2.;DEA=%1 ist keine gÅltige Option.\GÅltige Optionen sind %2.';
+      Text001@1010 : TextConst 'DEU=Feld %2 in Tabelle %1 darf nur %3 Zeichen (%4) enthalten.;ENU=Field %2 in table %1 can only contain %3 characters (%4).';
+      Text002@1009 : TextConst 'DEU=%1 ist kein unterstÅtzter Datentyp.;ENU=%1 is not a supported data type.';
+      Text003@1008 : TextConst 'DEU=%1 ist kein gÅltiger %2.;ENU=%1 is not a valid %2.';
+      Text004@1011 : TextConst 'DEU=%1 ist keine gÅltige Option.\GÅltige Optionen sind %2.;ENU=%1 is not a valid option.\Valid options are %2.';
 
     PROCEDURE ValidateFieldValue@16(VAR RecRef@1015 : RecordRef;VAR FieldRef@1000 : FieldRef;Value@1001 : Text;SkipValidation@1003 : Boolean);
     VAR

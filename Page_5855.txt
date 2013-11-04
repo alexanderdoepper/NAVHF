@@ -2,15 +2,14 @@ OBJECT Page 5855 Posted Purchase Document Lines
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Posted Purchase Document Lines;
-               ESP=Hist¢rico l°neas doc. compras;
-               DEA=Gebuchte EK-Belegzeilen];
+    CaptionML=[DEU=Gebuchte EK-Belegzeilen;
+               ENU=Posted Purchase Document Lines];
     SaveValues=Yes;
     InsertAllowed=No;
     DeleteAllowed=No;
@@ -45,15 +44,13 @@ OBJECT Page 5855 Posted Purchase Document Lines
                 ContainerType=ContentArea }
 
     { 46  ;1   ;Group     ;
-                CaptionML=[ENU=Options;
-                           ESP=Opciones;
-                           DEA=Optionen] }
+                CaptionML=[DEU=Optionen;
+                           ENU=Options] }
 
     { 63  ;2   ;Field     ;
                 Name=ShowRevLine;
-                CaptionML=[ENU=Show Reversible Lines Only;
-                           ESP=Mostrar s¢lo l°neas reversibles;
-                           DEA=Nur stornierbare Zeilen anzeigen];
+                CaptionML=[DEU=Nur stornierbare Zeilen anzeigen;
+                           ENU=Show Reversible Lines Only];
                 SourceExpr=ShowRevLinesOnly;
                 Enabled=ShowRevLineEnable;
                 OnValidate=BEGIN
@@ -74,9 +71,8 @@ OBJECT Page 5855 Posted Purchase Document Lines
                             }
 
     { 2   ;2   ;Field     ;
-                CaptionML=[ENU=Return Original Quantity;
-                           ESP=Devolver cantidad original;
-                           DEA=UrsprÅngliche Menge zurÅckgeben];
+                CaptionML=[DEU=UrsprÅngliche Menge zurÅckgeben;
+                           ENU=Return Original Quantity];
                 SourceExpr=OriginalQuantity }
 
     { 19  ;1   ;Group      }
@@ -85,9 +81,8 @@ OBJECT Page 5855 Posted Purchase Document Lines
 
     { 15  ;3   ;Field     ;
                 Name=PostedReceiptsBtn;
-                OptionCaptionML=[ENU=Posted Receipts,Posted Invoices,Posted Return Shipments,Posted Cr. Memos;
-                                 ESP=Recepciones registradas,Facturas registradas,Env°os devoluci¢n registrados,Abonos registrados;
-                                 DEA=Gebuchte WareneingÑnge,Gebuchte Rechnungen,Gebuchte RÅcklieferungen,Gebuchte Gutschriften];
+                OptionCaptionML=[DEU=Gebuchte WareneingÑnge,Gebuchte Rechnungen,Gebuchte RÅcklieferungen,Gebuchte Gutschriften;
+                                 ENU=Posted Receipts,Posted Invoices,Posted Return Shipments,Posted Cr. Memos];
                 SourceExpr=CurrentMenuTypeOpt;
                 CaptionClass=OptionCaptionServiceTier;
                 OnValidate=BEGIN
@@ -103,30 +98,26 @@ OBJECT Page 5855 Posted Purchase Document Lines
                             }
 
     { 16  ;3   ;Field     ;
-                CaptionML=[ENU=&Posted Receipts;
-                           ESP=&Hist¢rico albaranes;
-                           DEA=&Gebuchte WareneingÑnge];
+                CaptionML=[DEU=&Gebuchte WareneingÑnge;
+                           ENU=&Posted Receipts];
                 SourceExpr=STRSUBSTNO('(%1)',"No. of Pstd. Receipts");
                 Editable=FALSE }
 
     { 14  ;3   ;Field     ;
-                CaptionML=[ENU=Posted I&nvoices;
-                           ESP=&Facturas contabilizadas;
-                           DEA=Geb. &Rechnungen];
+                CaptionML=[DEU=Geb. &Rechnungen;
+                           ENU=Posted I&nvoices];
                 SourceExpr=STRSUBSTNO('(%1)',"No. of Pstd. Invoices");
                 Editable=FALSE }
 
     { 41  ;3   ;Field     ;
-                CaptionML=[ENU=Posted Ret&urn Shipments;
-                           ESP=&Hist¢rico env°os devoluci¢n;
-                           DEA=Geb&uchte RÅcklieferungen];
+                CaptionML=[DEU=Geb&uchte RÅcklieferungen;
+                           ENU=Posted Ret&urn Shipments];
                 SourceExpr=STRSUBSTNO('(%1)',"No. of Pstd. Return Shipments");
                 Editable=FALSE }
 
     { 11  ;3   ;Field     ;
-                CaptionML=[ENU=Posted Cr. &Memos;
-                           ESP=&Abonos contabilizados;
-                           DEA=Geb. Gut&schriften];
+                CaptionML=[DEU=Geb. Gut&schriften;
+                           ENU=Posted Cr. &Memos];
                 SourceExpr=STRSUBSTNO('(%1)',"No. of Pstd. Credit Memos");
                 Editable=FALSE }
 
@@ -176,9 +167,9 @@ OBJECT Page 5855 Posted Purchase Document Lines
       LinesNotCopied@1008 : Integer;
       ShowRevLinesOnly@1004 : Boolean;
       MissingExCostRevLink@1006 : Boolean;
-      Text000@1009 : TextConst 'ENU=The document line(s) with a G/L account where direct posting is not allowed have not been copied to the new document.;ESP=Las l°neas del documento con una cuenta donde no est† permitido el registro directo no se han copiado en el nuevo documento.;DEA=Die Belegzeile(n) mit einem Sachkonto, das kein direktes Buchen zulÑsst, wurden nicht in den neuen Beleg kopiert.';
+      Text000@1009 : TextConst 'DEU=Die Belegzeile(n) mit einem Sachkonto, das kein direktes Buchen zulÑsst, wurden nicht in den neuen Beleg kopiert.;ENU=The document line(s) with a G/L account where direct posting is not allowed have not been copied to the new document.';
       OriginalQuantity@1003 : Boolean;
-      Text002@1091 : TextConst 'ENU=Document Type Filter;ESP=Filtro de tipo de documento;DEA=Belegartfilter';
+      Text002@1091 : TextConst 'DEU=Belegartfilter;ENU=Document Type Filter';
       PostedRcptsVisible@19051516 : Boolean INDATASET;
       PostedInvoicesVisible@19029596 : Boolean INDATASET;
       PostedReturnShptsVisible@19040725 : Boolean INDATASET;
@@ -199,7 +190,7 @@ OBJECT Page 5855 Posted Purchase Document Lines
         0:
           BEGIN
             CurrPage.PostedRcpts.PAGE.GetSelectedLine(FromPurchRcptLine);
-            CopyDocMgt.SetProperties(FALSE,TRUE,FALSE,FALSE,TRUE,TRUE,OriginalQuantity);
+            CopyDocMgt.SetProperties(FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,OriginalQuantity);
             CopyDocMgt.CopyPurchRcptLinesToDoc(
               ToPurchHeader,FromPurchRcptLine,LinesNotCopied,MissingExCostRevLink);
           END;

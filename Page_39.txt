@@ -2,15 +2,14 @@ OBJECT Page 39 General Journal
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=General Journal;
-               ESP=Diario general;
-               DEA=Fibu Buch.-Blatt];
+    CaptionML=[DEU=Fibu Buch.-Blatt;
+               ENU=General Journal];
     SaveValues=Yes;
     SourceTable=Table81;
     DataCaptionExpr=DataCaption;
@@ -59,16 +58,14 @@ OBJECT Page 39 General Journal
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 75      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Line;
-                                 ESP=&L°nea;
-                                 DEA=&Zeile];
+                      CaptionML=[DEU=&Zeile;
+                                 ENU=&Line];
                       Image=Line }
       { 76      ;2   ;Action    ;
                       Name=Dimensions;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Promoted=Yes;
                       Image=Dimensions;
                       PromotedCategory=Process;
@@ -78,22 +75,19 @@ OBJECT Page 39 General Journal
                                END;
                                 }
       { 43      ;1   ;ActionGroup;
-                      CaptionML=[ENU=A&ccount;
-                                 ESP=&Cuenta;
-                                 DEA=&Konto];
+                      CaptionML=[DEU=&Konto;
+                                 ENU=A&ccount];
                       Image=ChartOfAccounts }
       { 44      ;2   ;Action    ;
                       ShortCutKey=Shift+F7;
-                      CaptionML=[ENU=Card;
-                                 ESP=Ficha;
-                                 DEA=Karte];
+                      CaptionML=[DEU=Karte;
+                                 ENU=Card];
                       RunObject=Codeunit 15;
                       Image=EditLines }
       { 45      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Ledger E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=Ledger E&ntries];
                       RunObject=Codeunit 14;
                       Promoted=No;
                       Image=GLRegisters;
@@ -101,36 +95,31 @@ OBJECT Page 39 General Journal
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 46      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 91      ;2   ;Action    ;
                       Name=Apply Entries;
                       ShortCutKey=Shift+F11;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Apply Entries;
-                                 ESP=Liquidar movs.;
-                                 DEA=Posten ausgleichen];
+                      CaptionML=[DEU=Posten ausgleichen;
+                                 ENU=Apply Entries];
                       RunObject=Codeunit 225;
                       Promoted=Yes;
                       Image=ApplyEntries;
                       PromotedCategory=Process }
       { 92      ;2   ;Action    ;
-                      CaptionML=[ENU=Insert Conv. LCY Rndg. Lines;
-                                 ESP=Insertar l°n. conv. redon. DL;
-                                 DEA=Rundungszeilen f. MW-Konvertierung einfÅgen];
+                      CaptionML=[DEU=Rundungszeilen f. MW-Konvertierung einfÅgen;
+                                 ENU=Insert Conv. LCY Rndg. Lines];
                       RunObject=Codeunit 407;
                       Image=InsertCurrency }
       { 107     ;2   ;Separator ;
-                      CaptionML=[ENU=-;
-                                 ESP=-;
-                                 DEA=-] }
+                      CaptionML=[DEU=-;
+                                 ENU=-] }
       { 109     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Get Standard Journals;
-                                 ESP=&Obtener diarios est†ndar;
-                                 DEA=&Standard Buch.-Blatt abrufen];
+                      CaptionML=[DEU=&Standard Buch.-Blatt abrufen;
+                                 ENU=&Get Standard Journals];
                       Promoted=Yes;
                       Image=GetStandardJournal;
                       PromotedCategory=Process;
@@ -151,9 +140,8 @@ OBJECT Page 39 General Journal
                                 }
       { 108     ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Save as Standard Journal;
-                                 ESP=&Guardar como diario est†ndar;
-                                 DEA=Als &Standard Buch.-Blatt speichern];
+                      CaptionML=[DEU=Als &Standard Buch.-Blatt speichern;
+                                 ENU=&Save as Standard Journal];
                       Promoted=Yes;
                       Image=SaveasStandardJournal;
                       PromotedCategory=Process;
@@ -178,15 +166,13 @@ OBJECT Page 39 General Journal
                                END;
                                 }
       { 47      ;1   ;ActionGroup;
-                      CaptionML=[ENU=P&osting;
-                                 ESP=&Registro;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&osting];
                       Image=Post }
       { 48      ;2   ;Action    ;
                       ShortCutKey=Ctrl+F11;
-                      CaptionML=[ENU=Reconcile;
-                                 ESP=Control;
-                                 DEA=Abstimmen];
+                      CaptionML=[DEU=Abstimmen;
+                                 ENU=Reconcile];
                       Image=Reconcile;
                       OnAction=BEGIN
                                  GLReconcile.SetGenJnlLine(Rec);
@@ -195,9 +181,8 @@ OBJECT Page 39 General Journal
                                 }
       { 49      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Test Report;
-                                 ESP=Informe prueba;
-                                 DEA=Testbericht];
+                      CaptionML=[DEU=Testbericht;
+                                 ENU=Test Report];
                       Image=TestReport;
                       OnAction=BEGIN
                                  ReportPrint.PrintGenJnlLine(Rec);
@@ -206,9 +191,8 @@ OBJECT Page 39 General Journal
       { 50      ;2   ;Action    ;
                       Name=Post;
                       ShortCutKey=F9;
-                      CaptionML=[ENU=P&ost;
-                                 ESP=&Registrar;
-                                 DEA=Bu&chen];
+                      CaptionML=[DEU=Bu&chen;
+                                 ENU=P&ost];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostOrder;
@@ -221,9 +205,8 @@ OBJECT Page 39 General Journal
                                 }
       { 51      ;2   ;Action    ;
                       ShortCutKey=Shift+F9;
-                      CaptionML=[ENU=Post and &Print;
-                                 ESP=Registrar e &imprimir;
-                                 DEA=Buchen und d&rucken];
+                      CaptionML=[DEU=Buchen und d&rucken;
+                                 ENU=Post and &Print];
                       Promoted=Yes;
                       PromotedIsBig=Yes;
                       Image=PostPrint;
@@ -243,9 +226,8 @@ OBJECT Page 39 General Journal
 
     { 39  ;1   ;Field     ;
                 Lookup=Yes;
-                CaptionML=[ENU=Batch Name;
-                           ESP=Nombre secci¢n;
-                           DEA=Buch.-Blattname];
+                CaptionML=[DEU=Buch.-Blattname;
+                           ENU=Batch Name];
                 SourceExpr=CurrentJnlBatchName;
                 OnValidate=BEGIN
                              GenJnlManagement.CheckName(CurrentJnlBatchName,Rec);
@@ -529,51 +511,44 @@ OBJECT Page 39 General Journal
                 GroupType=FixedLayout }
 
     { 1900545301;3;Group  ;
-                CaptionML=[ENU=Account Name;
-                           ESP=Nombre cuenta;
-                           DEA=Kontoname] }
+                CaptionML=[DEU=Kontoname;
+                           ENU=Account Name] }
 
     { 35  ;4   ;Field     ;
                 SourceExpr=AccName;
                 Editable=FALSE }
 
     { 1900295701;3;Group  ;
-                CaptionML=[ENU=Bal. Account Name;
-                           ESP=Nombre contrapartida;
-                           DEA=Gegenkontoname] }
+                CaptionML=[DEU=Gegenkontoname;
+                           ENU=Bal. Account Name] }
 
     { 37  ;4   ;Field     ;
-                CaptionML=[ENU=Bal. Account Name;
-                           ESP=Nombre contrapartida;
-                           DEA=Gegenkontoname];
+                CaptionML=[DEU=Gegenkontoname;
+                           ENU=Bal. Account Name];
                 SourceExpr=BalAccName;
                 Editable=FALSE }
 
     { 1902759701;3;Group  ;
-                CaptionML=[ENU=Balance;
-                           ESP=Saldo;
-                           DEA=Saldo] }
+                CaptionML=[DEU=Saldo;
+                           ENU=Balance] }
 
     { 31  ;4   ;Field     ;
                 Name=Balance;
-                CaptionML=[ENU=Balance;
-                           ESP=Saldo;
-                           DEA=Saldo];
+                CaptionML=[DEU=Saldo;
+                           ENU=Balance];
                 SourceExpr=Balance + "Balance (LCY)" - xRec."Balance (LCY)";
                 AutoFormatType=1;
                 Visible=BalanceVisible;
                 Editable=FALSE }
 
     { 1901652501;3;Group  ;
-                CaptionML=[ENU=Total Balance;
-                           ESP=Saldo total;
-                           DEA=Gesamtsaldo] }
+                CaptionML=[DEU=Gesamtsaldo;
+                           ENU=Total Balance] }
 
     { 33  ;4   ;Field     ;
                 Name=TotalBalance;
-                CaptionML=[ENU=Total Balance;
-                           ESP=Saldo total;
-                           DEA=Gesamtsaldo];
+                CaptionML=[DEU=Gesamtsaldo;
+                           ENU=Total Balance];
                 SourceExpr=TotalBalance + "Balance (LCY)" - xRec."Balance (LCY)";
                 AutoFormatType=1;
                 Visible=TotalBalanceVisible;
@@ -614,8 +589,8 @@ OBJECT Page 39 General Journal
       ShowBalance@1009 : Boolean;
       ShowTotalBalance@1010 : Boolean;
       ShortcutDimCode@1011 : ARRAY [8] OF Code[20];
-      Text000@1012 : TextConst 'ENU=General Journal lines have been successfully inserted from Standard General Journal %1.;ESP=Las l°neas del Diario general se insertaron correctamente desde el Diario general est†ndar %1.;DEA=Fibu Buch.-Blattzeilen wurden erfolgreich aus dem Standard Fibu Buch.-Blatt %1 eingefÅgt.';
-      Text001@1013 : TextConst 'ENU=Standard General Journal %1 has been successfully created.;ESP=El Diario general est†ndar %1 se cre¢ correctamente.;DEA=Das Standard Fibu Buch.-Blatt ''%1'' wurde erfolgreich erstellt.';
+      Text000@1012 : TextConst 'DEU=Fibu Buch.-Blattzeilen wurden erfolgreich aus dem Standard Fibu Buch.-Blatt %1 eingefÅgt.;ENU=General Journal lines have been successfully inserted from Standard General Journal %1.';
+      Text001@1013 : TextConst 'DEU=Das Standard Fibu Buch.-Blatt ''%1'' wurde erfolgreich erstellt.;ENU=Standard General Journal %1 has been successfully created.';
       OpenedFromBatch@1014 : Boolean;
       BalanceVisible@19073040 : Boolean INDATASET;
       TotalBalanceVisible@19063333 : Boolean INDATASET;

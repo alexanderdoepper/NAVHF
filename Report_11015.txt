@@ -2,14 +2,14 @@ OBJECT Report 11015 Export Business Data
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Export Business Data;
-               DEA=Unternehmensdaten exportieren];
+    CaptionML=[DEU=GeschÑftsdaten exportieren;
+               ENU=Export Business Data];
     ProcessingOnly=Yes;
     OnInitReport=VAR
                    AccPeriod@1140000 : Record 50;
@@ -99,22 +99,22 @@ OBJECT Report 11015 Export Business Data
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1140000;2;Field     ;
-                  CaptionML=[ENU=Starting Date;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=Startdate }
 
       { 1140002;2;Field     ;
-                  CaptionML=[ENU=Ending Date;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=Enddate }
 
       { 1140084;2;Field     ;
-                  CaptionML=[ENU=Include Closing Date;
-                             DEA=Ultimodatum einschlie·en];
+                  CaptionML=[DEU=Ultimodatum einschlie·en;
+                             ENU=Include Closing Date];
                   SourceExpr=CloseDate }
 
     }
@@ -161,32 +161,32 @@ OBJECT Report 11015 Export Business Data
       FolderExist@1140093 : Boolean;
       CheckPath@1140060 : Boolean;
       TextStreamIsOpen@1140018 : Boolean;
-      Text1140001@1140001 : TextConst 'ENU="""";DEA=""""';
-      Text1140004@1140004 : TextConst 'ENU=The export path does not exist.;DEA=Der Exportpfad existiert nicht.';
-      Text1140005@1140005 : TextConst 'ENU=Creating XML File...;DEA=Erstelle XML Datei...';
-      Text1140006@1140006 : TextConst 'ENU=Choose DTD File;DEA=DTD Datei auswÑhlen';
-      Text1140007@1140007 : TextConst 'ENU=DTD Files|*.dtd|All Files|*.*;DEA=DTD Dateien|*.dtd|Alle Dateien|*.*';
-      Text1140008@1140008 : TextConst 'ENU=You must enter a starting date.;DEA=Sie mÅssen ein Startdatum angeben.';
-      Text1140009@1140009 : TextConst 'ENU=You must enter an ending date.;DEA=Sie mÅssen ein Enddatum angeben.';
-      Text1140010@1140010 : TextConst 'ENU=You must define a %1 for table %2.;DEA=FÅr die Tabelle ''%2'' muss eine %1 definiert werden.';
-      Text1140012@1140012 : TextConst 'ENU=The DTD file does not exist.;DEA=Die DTD Datei existiert nicht.';
-      Text1140037@1140037 : TextConst 'ENU=Important Notice:;DEA=Wichtiger Hinweis:';
-      Text1140038@1140038 : TextConst 'ENU=The %1 for table %2 you defined contains primary key fields which are not specified at the top of the list.;DEA=Der %1 fÅr die von Ihnen definierte Tabelle %2 enthÑlt PrimÑrschlÅsselfelder, die nicht oben in der Liste angegeben sind.';
-      Text1140039@1140039 : TextConst 'ENU=Please keep in mind that in this case the order of the fields to be exported won''t match the order stated in the XML file.;DEA=Beachten Sie, dass in diesem Fall die Reihenfolge der zu exportierenden Felder nicht mit der in der XML-Datei angegebenen Reihenfolge Åbereinstimmt.';
-      Text1140040@1140040 : TextConst 'ENU=If you want to use the exported data for GDPdU purposes please make sure that primary key fields are specified first and then ordinary fields.;DEA=Wenn Sie die exportierten Daten fÅr GDPdU-Zwecke verwenden mîchten, stellen Sie sicher, dass die PrimÑrschlÅsselfelder zuerst und die gewîhnlichen Felder daran anschlie·end angegeben werden.';
-      Text1140041@1140041 : TextConst 'ENU=Do you want to continue?;DEA=Soll der Vorgang fortgesetzt werden?';
-      Text1140042@1140042 : TextConst 'ENU=Table Name:       #1#################\;DEA=Tabellenname:                   #1#################\';
-      Text1140046@1140046 : TextConst 'ENU=Creating Log File...;DEA=Protokolldatei wird erstellt...';
-      Text1140047@1140047 : TextConst 'ENU="Table ";DEA="Tabelle "';
-      Text1140050@1140050 : TextConst 'ENU="Number of defined tables:  ";DEA="Anzahl der definierten Tabellen:  "';
-      Text1140051@1140051 : TextConst 'ENU="Number of empty tables:  ";DEA="Anzahl der leeren Tabellen:  "';
-      Text1140052@1140052 : TextConst 'ENU=,;DEA=,';
-      Text1140053@1140053 : TextConst 'ENU="A file / folder with the same name already exist. Would you like to overwrite it? ";DEA="Eine Datei bzw. ein Ordner mit dem gleichen Namen ist bereits vorhanden. öberschreiben? "';
-      Text1140086@1140086 : TextConst 'ENU=" file(s) created";DEA=" erstellte Datei(en)"';
-      Text1140089@1140089 : TextConst 'ENU=Progress:         @5@@@@@@@@@@@@@@@@@\;DEA=Status:                         @5@@@@@@@@@@@@@@@@@\';
-      Text1140090@1140090 : TextConst 'ENU=" data records exported,";DEA=" DatensÑtze exportiert,"';
-      FlowFilterFieldsErr@1140000 : TextConst 'ENU=You cannot export data because the %1 data export uses filters for fields that are not included in the data export.;DEA=Sie kînnen keine Daten exportieren, da beim %1-Datenexport Filter fÅr Felder verwendet werden, die nicht im Datenexport enthalten sind.';
-      NoExportFieldsErr@1140002 : TextConst 'ENU=You cannot export data because no fields have been defined for one or more tables in the %1 data export.;DEA=Sie kînnen keine Daten exportieren, da im %1-Datenexport fÅr mindestens eine Tabelle keine Felder definiert sind.';
+      Text1140001@1140001 : TextConst 'DEU="""";ENU=""""';
+      Text1140004@1140004 : TextConst 'DEU=Der Exportpfad existiert nicht.;ENU=The export path does not exist.';
+      Text1140005@1140005 : TextConst 'DEU=Erstelle XML Datei...;ENU=Creating XML File...';
+      Text1140006@1140006 : TextConst 'DEU=DTD Datei auswÑhlen;ENU=Choose DTD File';
+      Text1140007@1140007 : TextConst 'DEU=DTD Dateien|*.dtd|Alle Dateien|*.*;ENU=DTD Files|*.dtd|All Files|*.*';
+      Text1140008@1140008 : TextConst 'DEU=Sie mÅssen ein Startdatum angeben.;ENU=You must enter a starting date.';
+      Text1140009@1140009 : TextConst 'DEU=Sie mÅssen ein Enddatum angeben.;ENU=You must enter an ending date.';
+      Text1140010@1140010 : TextConst 'DEU=FÅr die Tabelle ''%2'' muss eine %1 definiert werden.;ENU=You must define a %1 for table %2.';
+      Text1140012@1140012 : TextConst 'DEU=Die DTD Datei existiert nicht.;ENU=The DTD file does not exist.';
+      Text1140037@1140037 : TextConst 'DEU=Wichtiger Hinweis:;ENU=Important Notice:';
+      Text1140038@1140038 : TextConst 'DEU=Der %1 fÅr die von Ihnen definierte Tabelle %2 enthÑlt PrimÑrschlÅsselfelder, die nicht oben in der Liste angegeben sind.;ENU=The %1 for table %2 you defined contains primary key fields which are not specified at the top of the list.';
+      Text1140039@1140039 : TextConst 'DEU=Beachten Sie, dass in diesem Fall die Reihenfolge der zu exportierenden Felder nicht mit der in der XML-Datei angegebenen Reihenfolge Åbereinstimmt.;ENU=Please keep in mind that in this case the order of the fields to be exported won''t match the order stated in the XML file.';
+      Text1140040@1140040 : TextConst 'DEU=Wenn Sie die exportierten Daten fÅr GDPdU-Zwecke verwenden mîchten, stellen Sie sicher, dass die PrimÑrschlÅsselfelder zuerst und die gewîhnlichen Felder daran anschlie·end angegeben werden.;ENU=If you want to use the exported data for GDPdU purposes please make sure that primary key fields are specified first and then ordinary fields.';
+      Text1140041@1140041 : TextConst 'DEU=Soll der Vorgang fortgesetzt werden?;ENU=Do you want to continue?';
+      Text1140042@1140042 : TextConst 'DEU=Tabellenname:                   #1#################\;ENU=Table Name:       #1#################\';
+      Text1140046@1140046 : TextConst 'DEU=Protokolldatei wird erstellt...;ENU=Creating Log File...';
+      Text1140047@1140047 : TextConst 'DEU="Tabelle ";ENU="Table "';
+      Text1140050@1140050 : TextConst 'DEU="Anzahl der definierten Tabellen:  ";ENU="Number of defined tables:  "';
+      Text1140051@1140051 : TextConst 'DEU="Anzahl der leeren Tabellen:  ";ENU="Number of empty tables:  "';
+      Text1140052@1140052 : TextConst 'DEU=,;ENU=,';
+      Text1140053@1140053 : TextConst 'DEU="Eine Datei bzw. ein Ordner mit dem gleichen Namen ist bereits vorhanden. öberschreiben? ";ENU="A file / folder with the same name already exist. Would you like to overwrite it? "';
+      Text1140086@1140086 : TextConst 'DEU=" erstellte Datei(en)";ENU=" file(s) created"';
+      Text1140089@1140089 : TextConst 'DEU=Status:                         @5@@@@@@@@@@@@@@@@@\;ENU=Progress:         @5@@@@@@@@@@@@@@@@@\';
+      Text1140090@1140090 : TextConst 'DEU=" DatensÑtze exportiert,";ENU=" data records exported,"';
+      FlowFilterFieldsErr@1140000 : TextConst 'DEU=Sie kînnen keine Daten exportieren, da fÅr den Datenexport %1 Filter fÅr Felder verwendet werden, die nicht im Datenexport enthalten sind.;ENU=You cannot export data because the %1 data export uses filters for fields that are not included in the data export.';
+      NoExportFieldsErr@1140002 : TextConst 'DEU=Sie kînnen keine Daten exportieren, da fÅr mindestens eine Tabelle im Datenexport %1 keine Felder definiert wurden.;ENU=You cannot export data because no fields have been defined for one or more tables in the %1 data export.';
 
     PROCEDURE InitializeRequest@1140020(FromDate@1140000 : Date;ToDate@1140001 : Date;NewDTDFileName@1140002 : Text);
     BEGIN

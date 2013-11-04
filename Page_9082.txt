@@ -2,15 +2,14 @@ OBJECT Page 9082 Customer Statistics FactBox
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Customer Statistics - Bill-to Customer;
-               ESP=Estad¡sticas cliente - Cliente de facturaci¢n;
-               DEA=Debitorenstatistik - Rech. an Deb.];
+    CaptionML=[DEU=Debitorenstatistik - Rech. an Deb.;
+               ENU=Customer Statistics - Bill-to Customer];
     SourceTable=Table18;
     PageType=CardPart;
     OnAfterGetRecord=BEGIN
@@ -24,9 +23,8 @@ OBJECT Page 9082 Customer Statistics FactBox
                 ContainerType=ContentArea }
 
     { 19  ;1   ;Field     ;
-                CaptionML=[ENU=Customer No.;
-                           ESP=N§ cliente;
-                           DEA=Debitorennr.];
+                CaptionML=[DEU=Debitorennr.;
+                           ENU=Customer No.];
                 SourceExpr="No.";
                 OnDrillDown=BEGIN
                               ShowDetails;
@@ -49,20 +47,18 @@ OBJECT Page 9082 Customer Statistics FactBox
 
     { 5   ;1   ;Group     ;
                 Name=Sales;
-                CaptionML=[ENU=Sales;
-                           ESP=Ventas;
-                           DEA=Verkauf];
+                CaptionML=[DEU=Verkauf;
+                           ENU=Sales];
                 GroupType=Group }
 
     { 14  ;2   ;Field     ;
-                CaptionML=[ENU=Outstanding Orders (LCY);
-                           DEA=Auftragsbestand (MW)];
+                CaptionML=[DEU=Outstanding Orders (LCY);
+                           ENU=Outstanding Orders (LCY)];
                 SourceExpr="Outstanding Orders (LCY)" - CalcInvoicedPrepmtAmountLCY }
 
     { 15  ;2   ;Field     ;
-                CaptionML=[ENU=Shipped Not Invd. (LCY);
-                           ESP=Enviado no factur. (DL);
-                           DEA=Nicht fakt. Lieferungen (MW)];
+                CaptionML=[DEU=Nicht fakt. Lieferungen (MW);
+                           ENU=Shipped Not Invd. (LCY)];
                 SourceExpr="Shipped Not Invoiced (LCY)" }
 
     { 2   ;2   ;Field     ;
@@ -70,9 +66,8 @@ OBJECT Page 9082 Customer Statistics FactBox
 
     { 1   ;1   ;Group     ;
                 Name=Service;
-                CaptionML=[ENU=Service;
-                           ESP=Servicio;
-                           DEA=Service];
+                CaptionML=[DEU=Service;
+                           ENU=Service];
                 GroupType=Group }
 
     { 7   ;2   ;Field     ;
@@ -86,9 +81,8 @@ OBJECT Page 9082 Customer Statistics FactBox
 
     { 10  ;1   ;Field     ;
                 Name=Total (LCY);
-                CaptionML=[ENU=Total (LCY);
-                           ESP=Total (DL);
-                           DEA=Gesamt (MW)];
+                CaptionML=[DEU=Gesamt (MW);
+                           ENU=Total (LCY)];
                 SourceExpr=GetTotalAmountLCY;
                 AutoFormatType=1;
                 Importance=Promoted;
@@ -116,9 +110,8 @@ OBJECT Page 9082 Customer Statistics FactBox
 
     { 4   ;1   ;Field     ;
                 Name=Sales (LCY);
-                CaptionML=[ENU=Total Sales (LCY);
-                           ESP=Ventas totales (DL);
-                           DEA=Gesamtverkauf (MW)];
+                CaptionML=[DEU=Gesamtverkauf (MW);
+                           ENU=Total Sales (LCY)];
                 SourceExpr=GetSalesLCY;
                 OnDrillDown=VAR
                               CustLedgEntry@1000 : Record 21;
@@ -136,7 +129,7 @@ OBJECT Page 9082 Customer Statistics FactBox
   CODE
   {
     VAR
-      Text000@1024 : TextConst 'ENU=Overdue Amounts (LCY) as of %1;ESP=Importes vencidos (DL) a %1;DEA=F„llige Betr„ge (MW) per %1';
+      Text000@1024 : TextConst 'DEU=F„llige Betr„ge (MW) per %1;ENU=Overdue Amounts (LCY) as of %1';
 
     PROCEDURE ShowDetails@1102601000();
     BEGIN

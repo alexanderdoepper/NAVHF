@@ -2,15 +2,14 @@ OBJECT Report 7319 Warehouse Bin List
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Warehouse Bin List;
-               ESP=Lista ubicaci¢n almacÇn;
-               DEA=LagerplatzÅbersicht];
+    CaptionML=[DEU=LagerplatzÅbersicht;
+               ENU=Warehouse Bin List];
     OnPreReport=BEGIN
                   BinFilter := Bin.GETFILTERS;
                 END;
@@ -156,9 +155,8 @@ OBJECT Report 7319 Warehouse Bin List
   {
     PROPERTIES
     {
-      CaptionML=[ENU=Whse. Structure List;
-                 ESP=Lista estructura almacÇn;
-                 DEA=LagerstrukturÅbersicht];
+      CaptionML=[DEU=LagerstrukturÅbersicht;
+                 ENU=Whse. Structure List];
     }
     CONTROLS
     {
@@ -166,15 +164,13 @@ OBJECT Report 7319 Warehouse Bin List
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 3   ;2   ;Field     ;
                   Name=ShowBinContents;
-                  CaptionML=[ENU=Show Bin Contents;
-                             ESP=Muestra contenidos ubicaci¢n;
-                             DEA=Lagerplatzinhalt anzeigen];
+                  CaptionML=[DEU=Lagerplatzinhalt anzeigen;
+                             ENU=Show Bin Contents];
                   SourceExpr=BinCont }
 
     }
@@ -189,12 +185,12 @@ OBJECT Report 7319 Warehouse Bin List
       BinFilter@1002 : Text[250];
       ItemDescription@1000 : Text[50];
       BinCont@1001 : Boolean;
-      WarehouseBinListCaptionLbl@2124 : TextConst 'ENU=Warehouse Bin List;ESP=Lista ubicaci¢n almacÇn;DEA=LagerplatzÅbersicht';
-      PageCaptionLbl@6215 : TextConst 'ENU=Page;ESP=P†g.;DEA=Seite';
-      ItemDescriptionCaptionLbl@5694 : TextConst 'ENU=Item Description;ESP=Descripci¢n producto;DEA=Artikelbeschreibung';
-      QuantityCaptionLbl@7263 : TextConst 'ENU=Quantity;ESP=Cantidad;DEA=Menge';
-      PutawayQtyCaptionLbl@7140 : TextConst 'ENU=Put-away Quantity;ESP=Cantidad ubicaci¢n;DEA=Menge fÅr Einlagerung';
-      PickQuantityCaptionLbl@6855 : TextConst 'ENU=Pick Quantity;ESP=Cantidad picking;DEA=Menge fÅr Kommissionierung';
+      WarehouseBinListCaptionLbl@2124 : TextConst 'DEU=LagerplatzÅbersicht;ENU=Warehouse Bin List';
+      PageCaptionLbl@6215 : TextConst 'DEU=Seite;ENU=Page';
+      ItemDescriptionCaptionLbl@5694 : TextConst 'DEU=Artikelbeschreibung;ENU=Item Description';
+      QuantityCaptionLbl@7263 : TextConst 'DEU=Menge;ENU=Quantity';
+      PutawayQtyCaptionLbl@7140 : TextConst 'DEU=Menge fÅr Einlagerung;ENU=Put-away Quantity';
+      PickQuantityCaptionLbl@6855 : TextConst 'DEU=Menge fÅr Kommissionierung;ENU=Pick Quantity';
 
     BEGIN
     END.

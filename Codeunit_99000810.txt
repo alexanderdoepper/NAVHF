@@ -2,9 +2,9 @@ OBJECT Codeunit 99000810 Calculate Planning Route Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -22,11 +22,11 @@ OBJECT Codeunit 99000810 Calculate Planning Route Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Error when calculating %1. Calendar is not available %2 %3 for %4 %5.;ESP=Error al calcular %1. No esta disponible el calendario %2 %3 para %4 %5.;DEA=Fehler beim Berechnen von %1. Kalender ist fÅr %2 %3 nicht verfÅgbar fÅr %4 %5.';
-      Text001@1001 : TextConst 'ENU=backward;ESP=atr†s;DEA=RÅckwÑrts';
-      Text002@1002 : TextConst 'ENU=before;ESP=antes;DEA=Vorher';
-      Text003@1003 : TextConst 'ENU=forward;ESP=adelante;DEA=vorwÑrts';
-      Text004@1004 : TextConst 'ENU=after;ESP=despues;DEA=nach';
+      Text000@1000 : TextConst 'DEU=Fehler beim Berechnen von %1. Kalender ist fÅr %2 %3 nicht verfÅgbar fÅr %4 %5.;ENU=Error when calculating %1. Calendar is not available %2 %3 for %4 %5.';
+      Text001@1001 : TextConst 'DEU=RÅckwÑrts;ENU=backward';
+      Text002@1002 : TextConst 'DEU=Vorher;ENU=before';
+      Text003@1003 : TextConst 'DEU=vorwÑrts;ENU=forward';
+      Text004@1004 : TextConst 'DEU=nach;ENU=after';
       MfgSetup@1005 : Record 99000765;
       Item@1006 : Record 27;
       WorkCenter@1007 : Record 99000754;

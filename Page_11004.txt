@@ -2,22 +2,22 @@ OBJECT Page 11004 Data Export Record Source
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Data Export Record Source;
-               DEA=Datensatzquelle f〉 Datenexport];
+    CaptionML=[DEU=Datenexport - Datensatzherkunft;
+               ENU=Data Export Record Source];
     SourceTable=Table11004;
     DelayedInsert=Yes;
     PopulateAllFields=Yes;
     DataCaptionFields=Data Exp. Rec. Type Code,Data Exp. Rec. Type Code;
     PageType=List;
     AutoSplitKey=Yes;
-    PromotedActionCategoriesML=[ENU=New,Process,Report,Indentation;
-                                DEA=Neu,Prozess,Bericht,Einr…kung];
+    PromotedActionCategoriesML=[DEU=Neu,Verarbeiten,Bericht,Einr…kung;
+                                ENU=New,Process,Report,Indentation];
     OnOpenPage=BEGIN
                  MoveFiltersToFilterGroup(2);
                END;
@@ -27,12 +27,12 @@ OBJECT Page 11004 Data Export Record Source
       { 1900000003;  ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 1140023 ;1   ;ActionGroup;
-                      CaptionML=[ENU=Process;
-                                 DEA=Vorgang];
+                      CaptionML=[DEU=Vorgang;
+                                 ENU=Process];
                       Image=Setup }
       { 1140024 ;2   ;Action    ;
-                      CaptionML=[ENU=Validate;
-                                 DEA=喘erpr’en];
+                      CaptionML=[DEU=喘erpr’en;
+                                 ENU=Validate];
                       Promoted=Yes;
                       Image=Approve;
                       PromotedCategory=Process;
@@ -45,13 +45,13 @@ OBJECT Page 11004 Data Export Record Source
                                 }
       { 1140010 ;1   ;ActionGroup;
                       Name=Indentation;
-                      CaptionML=[ENU=Indentation;
-                                 DEA=Einr…kung] }
+                      CaptionML=[DEU=Einr…kung;
+                                 ENU=Indentation] }
       { 1140021 ;2   ;Action    ;
-                      CaptionML=[ENU=Indent;
-                                 DEA=Einr…ken];
-                      ToolTipML=[ENU=Indent;
-                                 DEA=Einr…ken];
+                      CaptionML=[DEU=Einr…ken;
+                                 ENU=Indent];
+                      ToolTipML=[DEU=Einr…ken;
+                                 ENU=Indent];
                       Promoted=Yes;
                       Image=Indent;
                       PromotedCategory=Category4;
@@ -61,10 +61,10 @@ OBJECT Page 11004 Data Export Record Source
                                END;
                                 }
       { 1140022 ;2   ;Action    ;
-                      CaptionML=[ENU=Unindent;
-                                 DEA=Ausr…ken];
-                      ToolTipML=[ENU=Unindent;
-                                 DEA=Ausr…ken];
+                      CaptionML=[DEU=Ausr…ken;
+                                 ENU=Unindent];
+                      ToolTipML=[DEU=Ausr…ken;
+                                 ENU=Unindent];
                       Promoted=Yes;
                       Image=CancelIndent;
                       PromotedCategory=Category4;
@@ -74,8 +74,8 @@ OBJECT Page 11004 Data Export Record Source
                                END;
                                 }
       { 1140012 ;2   ;Action    ;
-                      CaptionML=[ENU=Relationships;
-                                 DEA=Verbindungen];
+                      CaptionML=[DEU=Verbindungen;
+                                 ENU=Relationships];
                       Promoted=Yes;
                       Image=Relationship;
                       PromotedCategory=Category4;
@@ -169,8 +169,8 @@ OBJECT Page 11004 Data Export Record Source
 
     { 1140002;1;Part      ;
                 Name=Fields;
-                CaptionML=[ENU=Fields;
-                           DEA=Felder];
+                CaptionML=[DEU=Felder;
+                           ENU=Fields];
                 SubPageLink=Data Export Code=FIELD(Data Export Code),
                             Data Exp. Rec. Type Code=FIELD(Data Exp. Rec. Type Code),
                             Table No.=FIELD(Table No.);

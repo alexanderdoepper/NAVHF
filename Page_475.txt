@@ -2,16 +2,15 @@ OBJECT Page 475 VAT Statement Preview Line
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Editable=No;
-    CaptionML=[ENU=Lines;
-               ESP=L¡neas;
-               DEA=Zeilen];
+    CaptionML=[DEU=Zeilen;
+               ENU=Lines];
     LinksAllowed=No;
     SourceTable=Table256;
     PageType=ListPart;
@@ -64,8 +63,8 @@ OBJECT Page 475 VAT Statement Preview Line
 
     { 1140000;2;Field     ;
                 DrillDown=Yes;
-                CaptionML=[ENU=Amount;
-                           DEA=Betrag];
+                CaptionML=[DEU=Betrag;
+                           ENU=Amount];
                 BlankZero=Yes;
                 SourceExpr=TotalEmpty;
                 AutoFormatType=1;
@@ -79,8 +78,8 @@ OBJECT Page 475 VAT Statement Preview Line
 
     { 1140002;2;Field     ;
                 DrillDown=Yes;
-                CaptionML=[ENU=Base Amount;
-                           DEA=Bemessungsgrundlage];
+                CaptionML=[DEU=Bemessungsgrundlage;
+                           ENU=Base Amount];
                 BlankZero=Yes;
                 SourceExpr=TotalBase;
                 AutoFormatType=1;
@@ -91,8 +90,8 @@ OBJECT Page 475 VAT Statement Preview Line
 
     { 1140004;2;Field     ;
                 DrillDown=Yes;
-                CaptionML=[ENU=VAT Amount;
-                           DEA=MwSt.-Betrag];
+                CaptionML=[DEU=MwSt.-Betrag;
+                           ENU=VAT Amount];
                 BlankZero=Yes;
                 SourceExpr=TotalAmount;
                 AutoFormatType=1;
@@ -103,8 +102,8 @@ OBJECT Page 475 VAT Statement Preview Line
 
     { 1140006;2;Field     ;
                 DrillDown=Yes;
-                CaptionML=[ENU=Unrealized Base Amount;
-                           DEA=Unrealisierte Bemessungsgrundlage];
+                CaptionML=[DEU=Unrealisierte Bemessungsgrundlage;
+                           ENU=Unrealized Base Amount];
                 BlankZero=Yes;
                 SourceExpr=TotalUnrealizedBase;
                 AutoFormatType=1;
@@ -116,8 +115,8 @@ OBJECT Page 475 VAT Statement Preview Line
     { 1140008;2;Field     ;
                 Name=UnrealizedVATAmount;
                 DrillDown=Yes;
-                CaptionML=[ENU=Unrealized VAT Amount;
-                           DEA=Unrealisierter MwSt.-Betrag];
+                CaptionML=[DEU=Unrealisierter MwSt.-Betrag;
+                           ENU=Unrealized VAT Amount];
                 BlankZero=Yes;
                 SourceExpr=TotalUnrealizedAmount;
                 AutoFormatType=1;
@@ -130,7 +129,7 @@ OBJECT Page 475 VAT Statement Preview Line
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Drilldown not possible when %1 is %2.;ESP=No se puede utilizar AssistButton cuando %1 es %2;DEA=Drilldown nicht m”glich, wenn %1 %2 ist.';
+      Text000@1000 : TextConst 'DEU=Drilldown nicht m”glich, wenn %1 %2 ist.;ENU=Drilldown not possible when %1 is %2.';
       GLEntry@1001 : Record 17;
       VATEntry@1002 : Record 254;
       Selection@1006 : 'Open,Closed,Open and Closed';

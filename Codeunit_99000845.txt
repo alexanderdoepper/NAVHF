@@ -2,9 +2,9 @@ OBJECT Codeunit 99000845 Reservation Management
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -18,12 +18,12 @@ OBJECT Codeunit 99000845 Reservation Management
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Firm Planned %1;ESP=Planif. firme %1;DEA=Fest geplante %1';
-      Text001@1001 : TextConst 'ENU=Released %1;ESP=Lanzada %1;DEA=Freigegebene %1';
-      Text003@1002 : TextConst 'ENU=CU99000845: CalculateRemainingQty - Source type missing;ESP=CU99000845: CalculateRemainingQty - Source type missing;DEA=CU99000845: CalculateRemainingQty - Source type missing';
-      Text004@1003 : TextConst 'ENU=Codeunit 99000845: Illegal FieldFilter parameter;ESP=Codeunit 99000845: Illegal FieldFilter parameter;DEA=Codeunit 99000845: Illegal FieldFilter parameter';
-      Text006@1005 : TextConst 'ENU=Outbound,Inbound;ESP=Salida,Entrada;DEA=Ausgehend,Eingehend';
-      Text007@1006 : TextConst 'ENU=CU99000845 DeleteReservEntries2: Surplus order tracking double record detected.;ESP=CU99000845 DeleteReservEntries2: Surplus order tracking double record detected.;DEA=CU99000845 DeleteReservEntries2: Surplus order tracking double record detected.';
+      Text000@1000 : TextConst 'DEU=Fest geplante %1;ENU=Firm Planned %1';
+      Text001@1001 : TextConst 'DEU=Freigegebene %1;ENU=Released %1';
+      Text003@1002 : TextConst 'DEU=CU99000845: CalculateRemainingQty - Source type missing;ENU=CU99000845: CalculateRemainingQty - Source type missing';
+      Text004@1003 : TextConst 'DEU=Codeunit 99000845: Illegal FieldFilter parameter;ENU=Codeunit 99000845: Illegal FieldFilter parameter';
+      Text006@1005 : TextConst 'DEU=Ausgehend,Eingehend;ENU=Outbound,Inbound';
+      Text007@1006 : TextConst 'DEU=CU99000845 DeleteReservEntries2: Surplus order tracking double record detected.;ENU=CU99000845 DeleteReservEntries2: Surplus order tracking double record detected.';
       CalcReservEntry@1007 : Record 337;
       CalcReservEntry2@1008 : Record 337;
       ForItemLedgEntry@1009 : Record 32;
@@ -84,15 +84,15 @@ OBJECT Codeunit 99000845 Reservation Management
       ValueArray@1049 : ARRAY [18] OF Integer;
       CurrentBinding@1050 : ',Order-to-Order';
       ItemTrackingHandling@1051 : 'None,Allow deletion,Match';
-      Text008@1053 : TextConst 'ENU=Item tracking defined for item %1 in the %2 accounts for more than the quantity you have entered.\You must adjust the existing item tracking and then reenter the new quantity.;ESP=Seguim. prod. definido para el producto %1 en las cuentas de %2 tiene una cdad. mayor que la que ha introducido.\Debe ajustar el seguim. prod. actual y volver a introducir la nueva cantidad.;DEA=Es wurde eine Artikelverfolgung fÅr den Artikel %1 in den %2-Konten mit einer grî·eren Menge definiert, als Sie eingegeben haben.\Sie mÅssen die vorhandene Artikelverfolgung regulieren und dann die neue Menge noch einmal eingeben.';
-      Text009@1052 : TextConst 'ENU=Item Tracking cannot be fully matched.\Serial No.: %1, Lot No.: %2, outstanding quantity: %3.;ESP=Seguim. producto no coincide totalmente.\Nß serie: %1, Nß lote: %2, cdad. pendiente: %3.;DEA=Die Artikelverfolgung konnte nicht vollstÑndig zugeordnet werden.\Seriennr.: %1, Chargennr.: %2, Restmenge: %3.';
-      Text010@1054 : TextConst 'ENU=Item tracking is defined for item %1 in the %2.\You must delete the existing item tracking before modifying or deleting the %2.;ESP=Seguim. prod. est† definido para el producto %1 en las cuentas del %2.\Debe eliminar el seguim. prod. actual antes de modificar o eliminar el %2.;DEA=FÅr Artikel %1 in %2 wurde Artikelverfolgung definiert.\Sie mÅssen die vorhandene Artikelverfolgung lîschen, bevor die %1 bearbeitet oder gelîscht werden kînnen.';
+      Text008@1053 : TextConst 'DEU=Es wurde eine Artikelverfolgung fÅr den Artikel %1 in den %2-Konten mit einer grî·eren Menge definiert, als Sie eingegeben haben.\Sie mÅssen die vorhandene Artikelverfolgung regulieren und dann die neue Menge noch einmal eingeben.;ENU=Item tracking defined for item %1 in the %2 accounts for more than the quantity you have entered.\You must adjust the existing item tracking and then reenter the new quantity.';
+      Text009@1052 : TextConst 'DEU=Die Artikelverfolgung konnte nicht vollstÑndig zugeordnet werden.\Seriennr.: %1, Chargennr.: %2, Restmenge: %3.;ENU=Item Tracking cannot be fully matched.\Serial No.: %1, Lot No.: %2, outstanding quantity: %3.';
+      Text010@1054 : TextConst 'DEU=FÅr Artikel %1 in %2 wurde Artikelverfolgung definiert.\Sie mÅssen die vorhandene Artikelverfolgung lîschen, bevor die %1 bearbeitet oder gelîscht werden kînnen.;ENU=Item tracking is defined for item %1 in the %2.\You must delete the existing item tracking before modifying or deleting the %2.';
       TotalAvailQty@1062 : Decimal;
       QtyAllocInWhse@1057 : Decimal;
       QtyOnOutBound@1059 : Decimal;
-      Text011@1063 : TextConst 'ENU=Item tracking is defined for item %1 in the %2.\Do you want to delete the %2 and the item tracking lines?;ESP=Seguim. prod. est† definido para el producto %1 en las cuentas del %2.\®Desea eliminar el %2 y las l°ns. seguim. prod.?;DEA=Artikelverfolgung wurde fÅr Artikel %1 in %2 definiert.\Mîchten Sie %2 und die Artikelverfolgungszeilen lîschen?';
+      Text011@1063 : TextConst 'DEU=Artikelverfolgung wurde fÅr Artikel %1 in %2 definiert.\Mîchten Sie %2 und die Artikelverfolgungszeilen lîschen?;ENU=Item tracking is defined for item %1 in the %2.\Do you want to delete the %2 and the item tracking lines?';
       QtyReservedOnPickShip@1069 : Decimal;
-      Text012@1076 : TextConst 'ENU=Assembly;ESP=Ensamblado;DEA=Montage';
+      Text012@1076 : TextConst 'DEU=Montage;ENU=Assembly';
 
     PROCEDURE IsPositive@18() : Boolean;
     BEGIN
@@ -3153,6 +3153,7 @@ OBJECT Codeunit 99000845 Reservation Management
       Found@1009 : Boolean;
       FreeBinding@1010 : Boolean;
       NoMoreData@1011 : Boolean;
+      DateFormula@1012 : DateFormula;
     BEGIN
       SurplusEntry.TESTFIELD("Quantity (Base)");
       IF SurplusEntry."Reservation Status" < SurplusEntry."Reservation Status"::Surplus THEN
@@ -3287,9 +3288,8 @@ OBJECT Codeunit 99000845 Reservation Management
             THEN
               EVALUATE(MfgSetup."Default Dampener Period",'<0D>');
 
-            IF CALCDATE(
-                 '<-' + FORMAT(MfgSetup."Default Dampener Period") + '>',FirstDate) > ReservEntry2."Expected Receipt Date"
-            THEN BEGIN
+            EVALUATE(DateFormula,STRSUBSTNO('%1%2','-',FORMAT(MfgSetup."Default Dampener Period")));
+            IF CALCDATE(DateFormula,FirstDate) > ReservEntry2."Expected Receipt Date" THEN BEGIN
               ActionMessageEntry2.SETCURRENTKEY(
                 "Source Type","Source Subtype","Source ID","Source Batch Name","Source Prod. Order Line","Source Ref. No.");
               ActionMessageEntry2.SETRANGE("Source Type",ActionMessageEntry."Source Type");

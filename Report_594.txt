@@ -2,16 +2,15 @@ OBJECT Report 594 Get Item Ledger Entries
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
     Permissions=TableData 252=imd;
-    CaptionML=[ENU=Get Item Ledger Entries;
-               ESP=Traer movs. productos;
-               DEA=Intrastat Art.-Posten holen];
+    CaptionML=[DEU=Intrastat Art.-Posten holen;
+               ENU=Get Item Ledger Entries];
     ProcessingOnly=Yes;
     OnInitReport=BEGIN
                    CompanyInfo.FINDFIRST;
@@ -206,28 +205,25 @@ OBJECT Report 594 Get Item Ledger Entries
                   ContainerType=ContentArea }
 
       { 1900000002;1;Group  ;
-                  CaptionML=[ENU=Options;
-                             ESP=Opciones;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=StartingDate;
-                  CaptionML=[ENU=Starting Date;
-                             ESP=Fecha inicial;
-                             DEA=Startdatum];
+                  CaptionML=[DEU=Startdatum;
+                             ENU=Starting Date];
                   SourceExpr=StartDate }
 
       { 2   ;2   ;Field     ;
                   Name=EndingDate;
-                  CaptionML=[ENU=Ending Date;
-                             ESP=Fecha final;
-                             DEA=Enddatum];
+                  CaptionML=[DEU=Enddatum;
+                             ENU=Ending Date];
                   SourceExpr=EndDate }
 
       { 1140000;2;Field     ;
                   Name=AmountInclItemCharges;
-                  CaptionML=[ENU=Amount incl. Item Charges;
-                             DEA=Betrag einschl. Artikel Zu-/Abschl„ge];
+                  CaptionML=[DEU=Betrag einschl. Artikel Zu-/Abschl„ge;
+                             ENU=Amount incl. Item Charges];
                   SourceExpr=AmountInclItemCharges;
                   OnValidate=BEGIN
                                IF AmountInclItemCharges THEN
@@ -241,28 +237,27 @@ OBJECT Report 594 Get Item Ledger Entries
 
       { 3   ;2   ;Field     ;
                   Name=Cost Regulation %;
-                  CaptionML=[ENU=Cost Regulation %;
-                             ESP=% Coste territorio nacional;
-                             DEA=Kosten Zu-/Abschlag %];
+                  CaptionML=[DEU=Kosten Zu-/Abschlag %;
+                             ENU=Cost Regulation %];
                   DecimalPlaces=0:5;
                   SourceExpr=IndirectCostPctReq;
                   Enabled="Cost Regulation %Enable" }
 
       { 6   ;1   ;Group     ;
-                  CaptionML=[ENU=Additional;
-                             DEA=Additional];
+                  CaptionML=[DEU=Additional;
+                             ENU=Additional];
                   GroupType=Group }
 
       { 4   ;2   ;Field     ;
                   Name=SkippingRecalcForZeros;
-                  CaptionML=[ENU=Skip recalculation for zero amounts;
-                             DEA=Skip recalculation for zero amounts];
+                  CaptionML=[DEU=Skip recalculation for zero amounts;
+                             ENU=Skip recalculation for zero amounts];
                   SourceExpr=SkipRecalcZeroAmounts }
 
       { 5   ;2   ;Field     ;
                   Name=SkippingZeros;
-                  CaptionML=[ENU=Skip zero amounts;
-                             DEA=Skip zero amounts];
+                  CaptionML=[DEU=Skip zero amounts;
+                             ENU=Skip zero amounts];
                   SourceExpr=SkipZeroAmounts }
 
     }
@@ -273,7 +268,7 @@ OBJECT Report 594 Get Item Ledger Entries
   CODE
   {
     VAR
-      Text000@1000 : TextConst 'ENU=Prices including VAT cannot be calculated when %1 is %2.;ESP=No se pueden calcular precios IVA incluido cuando %1 es %2.;DEA=Preise inkl. MwSt. k”nnen nicht berechnet werden, wenn %1 %2 ist.';
+      Text000@1000 : TextConst 'DEU=Preise inkl. MwSt. k”nnen nicht berechnet werden, wenn %1 %2 ist.;ENU=Prices including VAT cannot be calculated when %1 is %2.';
       IntraJnlTemplate@1002 : Record 261;
       IntrastatJnlBatch@1003 : Record 262;
       IntrastatJnlLine@1004 : Record 263;

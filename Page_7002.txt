@@ -2,15 +2,14 @@ OBJECT Page 7002 Sales Prices
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Sales Prices;
-               ESP=Precios ventas;
-               DEA=Verkaufspreise];
+    CaptionML=[DEU=Verkaufspreise;
+               ENU=Sales Prices];
     SaveValues=Yes;
     SourceTable=Table7002;
     DataCaptionExpr=GetCaption;
@@ -37,17 +36,14 @@ OBJECT Page 7002 Sales Prices
                 ContainerType=ContentArea }
 
     { 20  ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 28  ;2   ;Field     ;
-                CaptionML=[ENU=Sales Type Filter;
-                           ESP=Filtro tipo ventas;
-                           DEA=Verkaufsartenfilter];
-                OptionCaptionML=[ENU=Customer,Customer Price Group,All Customers,Campaign,None;
-                                 ESP=Cliente,Grupo precio cliente,Todos los clientes,Campa¤a,Ninguno;
-                                 DEA=Debitor,Debitorenpreisgruppe,Alle Debitoren,Kampagne,Keine];
+                CaptionML=[DEU=Verkaufsartenfilter;
+                           ENU=Sales Type Filter];
+                OptionCaptionML=[DEU=Debitor,Debitorenpreisgruppe,Alle Debitoren,Kampagne,Keine;
+                                 ENU=Customer,Customer Price Group,All Customers,Campaign,None];
                 SourceExpr=SalesTypeFilter;
                 OnValidate=BEGIN
                              SalesTypeFilterOnAfterValidate;
@@ -56,9 +52,8 @@ OBJECT Page 7002 Sales Prices
 
     { 26  ;2   ;Field     ;
                 Name=SalesCodeFilterCtrl;
-                CaptionML=[ENU=Sales Code Filter;
-                           ESP=Filtro c¢d. ventas;
-                           DEA=Verkaufscodefilter];
+                CaptionML=[DEU=Verkaufscodefilter;
+                           ENU=Sales Code Filter];
                 SourceExpr=SalesCodeFilter;
                 Enabled=SalesCodeFilterCtrlEnable;
                 OnValidate=BEGIN
@@ -106,9 +101,8 @@ OBJECT Page 7002 Sales Prices
 
     { 10  ;2   ;Field     ;
                 Name=ItemNoFilterCtrl;
-                CaptionML=[ENU=Item No. Filter;
-                           ESP=Filtro n§ prod.;
-                           DEA=Artikelnr. Filter];
+                CaptionML=[DEU=Artikelnr. Filter;
+                           ENU=Item No. Filter];
                 SourceExpr=ItemNoFilter;
                 OnValidate=BEGIN
                              ItemNoFilterOnAfterValidate;
@@ -128,9 +122,8 @@ OBJECT Page 7002 Sales Prices
                           }
 
     { 34  ;2   ;Field     ;
-                CaptionML=[ENU=Starting Date Filter;
-                           ESP=Filtro fecha inicio;
-                           DEA=Startdatumsfilter];
+                CaptionML=[DEU=Startdatumsfilter;
+                           ENU=Starting Date Filter];
                 SourceExpr=StartingDateFilter;
                 OnValidate=VAR
                              ApplicationMgt@1030 : Codeunit 1;
@@ -142,9 +135,8 @@ OBJECT Page 7002 Sales Prices
 
     { 38  ;2   ;Field     ;
                 Name=SalesCodeFilterCtrl2;
-                CaptionML=[ENU=Currency Code Filter;
-                           ESP=Filtro c¢d. divisa;
-                           DEA=W„hrungscodefilter];
+                CaptionML=[DEU=W„hrungscodefilter;
+                           ENU=Currency Code Filter];
                 SourceExpr=CurrencyCodeFilter;
                 OnValidate=BEGIN
                              CurrencyCodeFilterOnAfterValid;
@@ -240,8 +232,8 @@ OBJECT Page 7002 Sales Prices
       ItemNoFilter@1011 : Text[250];
       StartingDateFilter@1006 : Text[30];
       CurrencyCodeFilter@1002 : Text[250];
-      Text000@1007 : TextConst 'ENU=All Customers;ESP=Todos clientes;DEA=Alle Debitoren';
-      Text001@1009 : TextConst 'ENU=No %1 within the filter %2.;ESP=El filtro %2 no contiene %1.;DEA=Kein Element vom Typ ''%1'' innerhalb des Filters ''%2''.';
+      Text000@1007 : TextConst 'DEU=Alle Debitoren;ENU=All Customers';
+      Text001@1009 : TextConst 'DEU=Kein Element vom Typ ''%1'' innerhalb des Filters ''%2''.;ENU=No %1 within the filter %2.';
       "Sales CodeEditable"@19031640 : Boolean INDATASET;
       SalesCodeFilterCtrlEnable@19013164 : Boolean INDATASET;
 

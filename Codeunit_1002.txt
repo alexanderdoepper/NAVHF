@@ -2,9 +2,9 @@ OBJECT Codeunit 1002 Job Create-Invoice
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -20,21 +20,21 @@ OBJECT Codeunit 1002 Job Create-Invoice
       SalesHeader2@1006 : Record 36;
       SalesLine@1000 : Record 37;
       TempJobPlanningLine@1017 : TEMPORARY Record 1003;
-      Text000@1008 : TextConst 'ENU=The lines were successfully transferred to an invoice.;ESP=Las l°neas se transfirieron correctamente a una factura.;DEA=Die Zeilen wurden erfolgreich in eine Rechnung Åbertragen.';
-      Text001@1009 : TextConst 'ENU=The lines were not transferred to an invoice.;ESP=Las l°neas no se transfirieron a una factura.;DEA=Die Zeilen wurden nicht in eine Rechnung Åbertragen.';
-      Text002@1010 : TextConst 'ENU=There was no %1 with a %2 larger than 0. No lines were transferred.;ESP=No hay ning£n %1 con un %2 mayor que 0. No se transferir† ninguna l°nea.;DEA=Es war kein Element vom Typ ''%1'' vorhanden, dessen Wert fÅr ''%2'' grî·er null ist. Es wurden keine Zeilen Åbertragen.';
-      Text003@1011 : TextConst 'ENU=%1 may not be lower than %2 and may not exceed %3.;ESP=%1 no puede ser inferior a %2 ni puede superar %3.;DEA=%1 darf nicht kleiner als %2 und nicht grî·er als %3 sein.';
-      Text004@1015 : TextConst 'ENU=You must specify Invoice No. or New Invoice.;ESP=Debe especificar nß factura o nueva factura.;DEA=Sie mÅssen ''Rechnungsnr.'' oder ''Neue Rechnung'' angeben.';
-      Text005@1014 : TextConst 'ENU=You must specify Credit Memo No. or New Invoice.;ESP=Debe especificar nß abono o nueva factura.;DEA=Sie mÅssen ''Gutschriftsnr.'' oder ''Neue Rechnung'' angeben.';
-      Text007@1012 : TextConst 'ENU=You must specify %1.;ESP=Se debe indicar %1.;DEA=%1 muss angegeben werden.';
+      Text000@1008 : TextConst 'DEU=Die Zeilen wurden erfolgreich in eine Rechnung Åbertragen.;ENU=The lines were successfully transferred to an invoice.';
+      Text001@1009 : TextConst 'DEU=Die Zeilen wurden nicht in eine Rechnung Åbertragen.;ENU=The lines were not transferred to an invoice.';
+      Text002@1010 : TextConst 'DEU=Es war kein Element vom Typ ''%1'' vorhanden, dessen Wert fÅr ''%2'' grî·er null ist. Es wurden keine Zeilen Åbertragen.;ENU=There was no %1 with a %2 larger than 0. No lines were transferred.';
+      Text003@1011 : TextConst 'DEU=%1 darf nicht kleiner als %2 und nicht grî·er als %3 sein.;ENU=%1 may not be lower than %2 and may not exceed %3.';
+      Text004@1015 : TextConst 'DEU=Sie mÅssen ''Rechnungsnr.'' oder ''Neue Rechnung'' angeben.;ENU=You must specify Invoice No. or New Invoice.';
+      Text005@1014 : TextConst 'DEU=Sie mÅssen ''Gutschriftsnr.'' oder ''Neue Rechnung'' angeben.;ENU=You must specify Credit Memo No. or New Invoice.';
+      Text007@1012 : TextConst 'DEU=%1 muss angegeben werden.;ENU=You must specify %1.';
       TransferExtendedText@1016 : Codeunit 378;
       JobInvCurrency@1002 : Boolean;
       UpdateExchangeRates@1019 : Boolean;
-      Text008@1018 : TextConst 'ENU=The lines were successfully transferred to a credit memo.;ESP=Las l°neas se transfirieron correctamente a un abono.;DEA=Die Posten wurden erfolgreich in eine Gutschrift Åbertragen.';
-      Text009@1003 : TextConst 'ENU=The selected planning lines must have the same %1.;ESP=Las l°neas de planificaci¢n seleccionadas deben tener el mismo %1.;DEA=%1 muss fÅr die ausgewÑhlten Planungszeilen gleich sein %1.';
-      Text010@1004 : TextConst 'ENU=The currency dates on all planning lines will be updated based on the invoice posting date because there is a difference in currency exchange rates. Recalculations will be based on the Exch. Calculation setup for the Cost and Price values for the job. Do you want to continue?;ESP=Las fechas de divisa de todas las l°neas de planificaci¢n se actualizar†n en funci¢n de la fecha de registro de la factura porque existe una diferencia en los tipos de cambio de divisa. Los nuevos c†lculos se basar†n en la opci¢n C†lculo cambio de los valores de Coste y Precio del proyecto. ®Desea continuar?;DEA=Die WÑhrungsdatumsangaben fÅr alle Planungszeilen werden auf Basis des Rechnungsbuchungsdatums aktualisiert, da ein Unterschied bei den Wechselkursen besteht. Neuberechnungen basieren auf den Wechselkursberechnungseinstellungen fÅr die Einstandspreis- und Preiswerte fÅr das Projekt. Mîchten Sie den Vorgang fortsetzen?';
-      Text011@1007 : TextConst 'ENU=The currency exchange rate on all planning lines will be updated based on the exchange rate on the sales invoice. Do you want to continue?;ESP=El tipo cambio divisa de todas las l°neas de planificaci¢n se actualizar† en funci¢n del tipo de cambio de la factura de venta. ®Desea continuar?;DEA=Der WÑhrungswechselkurs fÅr alle Planungszeilen wird auf der Grundlage des Wechselkurses aus der Verkaufsrechnung aktualisiert. Soll der Vorgang fortgesetzt werden?';
-      Text012@1013 : TextConst '@@@=The Sales Invoice Header 103001 does not exist in the system anymore. A printed copy of the document was created before deletion.;ENU=The %1 %2 does not exist anymore. A printed copy of the document was created before the document was deleted.;ESP=Ya no existe %1 %2. Se cre¢ una copia impresa del documento antes de que se eliminara.;DEA=Folgendes ist nicht mehr vorhanden: %1 %2. Vor dem Lîschen des Belegs wurde eine gedruckte Kopie erstellt.';
+      Text008@1018 : TextConst 'DEU=Die Posten wurden erfolgreich in eine Gutschrift Åbertragen.;ENU=The lines were successfully transferred to a credit memo.';
+      Text009@1003 : TextConst 'DEU=%1 muss fÅr die ausgewÑhlten Planungszeilen gleich sein %1.;ENU=The selected planning lines must have the same %1.';
+      Text010@1004 : TextConst 'DEU=Die WÑhrungsdatumsangaben fÅr alle Planungszeilen werden auf Basis des Rechnungsbuchungsdatums aktualisiert, da ein Unterschied bei den Wechselkursen besteht. Neuberechnungen basieren auf den Wechselkursberechnungseinstellungen fÅr die Einstandspreis- und Preiswerte fÅr das Projekt. Mîchten Sie den Vorgang fortsetzen?;ENU=The currency dates on all planning lines will be updated based on the invoice posting date because there is a difference in currency exchange rates. Recalculations will be based on the Exch. Calculation setup for the Cost and Price values for the job. Do you want to continue?';
+      Text011@1007 : TextConst 'DEU=Der WÑhrungswechselkurs fÅr alle Planungszeilen wird auf der Grundlage des Wechselkurses aus der Verkaufsrechnung aktualisiert. Soll der Vorgang fortgesetzt werden?;ENU=The currency exchange rate on all planning lines will be updated based on the exchange rate on the sales invoice. Do you want to continue?';
+      Text012@1013 : TextConst '@@@=The Sales Invoice Header 103001 does not exist in the system anymore. A printed copy of the document was created before deletion.;DEU=Folgendes ist nicht mehr vorhanden: %1 %2. Vor dem Lîschen des Belegs wurde eine gedruckte Kopie erstellt.;ENU=The %1 %2 does not exist anymore. A printed copy of the document was created before the document was deleted.';
       NoOfSalesLinesCreated@1020 : Integer;
 
     PROCEDURE CreateSalesInvoice@9(VAR JobPlanningLine@1011 : Record 1003;CrMemo@1000 : Boolean);

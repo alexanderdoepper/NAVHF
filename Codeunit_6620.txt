@@ -2,9 +2,9 @@ OBJECT Codeunit 6620 Copy Document Mgt.
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00,NAVDACH7.00;
+    Version List=NAVW17.00.00.34587,NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
@@ -15,13 +15,13 @@ OBJECT Codeunit 6620 Copy Document Mgt.
   CODE
   {
     VAR
-      Text000@1034 : TextConst 'ENU=Please enter a Document No.;ESP=Introduzca un nß documento.;DEA=Bitte geben Sie eine Belegnr. ein.';
-      Text001@1033 : TextConst 'ENU=%1 %2 cannot be copied onto itself.;ESP=%1 %2. No se puede copiar sobre si misma.;DEA=%1 %2 kann nicht in sich selbst kopiert werden.';
-      Text002@1032 : TextConst 'ENU=The existing lines for %1 %2 will be deleted.\\;ESP=Se eliminar†n las l°neas existentes para %1 %2.\\;DEA=FÅr %1 %2 werden die bestehenden Zeilen gelîscht.\\';
-      Text003@1031 : TextConst 'ENU=Do you want to continue?;ESP=®Confirma que desea continuar?;DEA=Mîchten Sie fortfahren?';
-      Text004@1030 : TextConst 'ENU=The document line(s) with a G/L account where direct posting is not allowed have not been copied to the new document by the Copy Document batch job.;ESP=La l°nea(s) del doc. con una cta. contable donde no est† permitida la entrada directa no tienen que copiarse a un nuevo doc. por el proceso Copiar doc.;DEA=Die Belegzeile(n) mit einem Sachkonto, das nicht direkt bebuchbar ist, wurde(n) durch die Stapelverarbeitung Beleg kopieren nicht in den neuen Beleg Åbertragen.';
-      Text006@1028 : TextConst 'ENU=NOTE: A Payment Discount was Granted by %1 %2.;ESP=NOTA: Un descuento P.P. fue concedido %1 %2.;DEA=HINWEIS: Es wurde Skonto auf %1 %2 gewÑhrt.';
-      Text007@1027 : TextConst 'ENU=Quote,Blanket Order,Order,Invoice,Credit Memo,Posted Shipment,Posted Invoice,Posted Credit Memo,Posted Return Receipt;ESP=Oferta,Pedido abierto,Pedido,Factura,Abono,Albar†n registrado,Factura registrada,Abono registrado,Recep. devol. regis.;DEA=Angebot,Rahmenauftrag,Auftrag,Rechnung,Gutschrift,Geb. Lieferung,Geb. Rechnung,Geb. Gutschrift,Geb. RÅcksendung';
+      Text000@1034 : TextConst 'DEU=Bitte geben Sie eine Belegnr. ein.;ENU=Please enter a Document No.';
+      Text001@1033 : TextConst 'DEU=%1 %2 kann nicht in sich selbst kopiert werden.;ENU=%1 %2 cannot be copied onto itself.';
+      Text002@1032 : TextConst 'DEU=FÅr %1 %2 werden die bestehenden Zeilen gelîscht.\\;ENU=The existing lines for %1 %2 will be deleted.\\';
+      Text003@1031 : TextConst 'DEU=Mîchten Sie fortfahren?;ENU=Do you want to continue?';
+      Text004@1030 : TextConst 'DEU=Die Belegzeile(n) mit einem Sachkonto, das nicht direkt bebuchbar ist, wurde(n) durch die Stapelverarbeitung Beleg kopieren nicht in den neuen Beleg Åbertragen.;ENU=The document line(s) with a G/L account where direct posting is not allowed have not been copied to the new document by the Copy Document batch job.';
+      Text006@1028 : TextConst 'DEU=HINWEIS: Es wurde Skonto auf %1 %2 gewÑhrt.;ENU=NOTE: A Payment Discount was Granted by %1 %2.';
+      Text007@1027 : TextConst 'DEU=Angebot,Rahmenauftrag,Auftrag,Rechnung,Gutschrift,Geb. Lieferung,Geb. Rechnung,Geb. Gutschrift,Geb. RÅcksendung;ENU=Quote,Blanket Order,Order,Invoice,Credit Memo,Posted Shipment,Posted Invoice,Posted Credit Memo,Posted Return Receipt';
       Currency@1024 : Record 4;
       Item@1023 : Record 27;
       AsmHeader@1049 : Record 900;
@@ -43,44 +43,36 @@ OBJECT Codeunit 6620 Copy Document Mgt.
       IncludeHeader@1001 : Boolean;
       RecalculateLines@1000 : Boolean;
       MoveNegLines@1009 : Boolean;
-      Text008@1010 : TextConst 'ENU=There are no negative sales lines to move.;ESP=No hay l°neas ventas negativas para mover.;DEA=Es gibt keine negativen Verkaufszeilen zu Åbertragen.';
-      Text009@1007 : TextConst 'ENU=NOTE: A Payment Discount was Received by %1 %2.;ESP=NOTA: Un descuento P.P. fue recibido por %1 %2.;DEA=HINWEIS: Es wurde Skonto auf %1 %2 gewÑhrt.';
-      Text010@1008 : TextConst 'ENU=There are no negative purchase lines to move.;ESP=No hay l°neas compra negativas para mover.;DEA=Es gibt keine negativen Einkaufszeilen zu Åbertragen.';
+      Text008@1010 : TextConst 'DEU=Es gibt keine negativen Verkaufszeilen zu Åbertragen.;ENU=There are no negative sales lines to move.';
+      Text009@1007 : TextConst 'DEU=HINWEIS: Es wurde Skonto auf %1 %2 gewÑhrt.;ENU=NOTE: A Payment Discount was Received by %1 %2.';
+      Text010@1008 : TextConst 'DEU=Es gibt keine negativen Einkaufszeilen zu Åbertragen.;ENU=There are no negative purchase lines to move.';
       CreateToHeader@1011 : Boolean;
-      Text011@1012 : TextConst 'ENU=Please enter a Vendor No.;ESP=Introduzca un nß proveedor;DEA=Bitte geben Sie eine Kreditorennr. ein.';
+      Text011@1012 : TextConst 'DEU=Bitte geben Sie eine Kreditorennr. ein.;ENU=Please enter a Vendor No.';
       HideDialog@1013 : Boolean;
-      Text012@1014 : TextConst 'ENU=There are no sales lines to copy.;ESP=No hay l°neas venta para copiar.;DEA=Es gibt keine Verkaufszeilen zu kopieren.';
-      Text013@1018 : TextConst 'ENU=Shipment No.,Invoice No.,Return Receipt No.,Credit Memo No.;ESP=Nß env°o,Nß factura,Nß recep. devol.,Nß abono;DEA=Lieferungsnr.,Rechnungsnr.,RÅcksendungsnr.,Gutschriftsnr.';
-      Text014@1022 : TextConst 'ENU=Receipt No.,Invoice No.,Return Shipment No.,Credit Memo No.;ESP=Nß recibo,Nß factura,Nß env°o devol.,Nß abono;DEA=Wareneingangsnr.,Rechnungsnr.,RÅcksendungsnr.,Gutschriftsnr.';
-      Text015@1019 : TextConst 'ENU=%1 %2:;ESP=%1 %2:;DEA=%1 %2:';
-      Text016@1026 : TextConst 'ENU="Inv. No. ,Shpt. No. ,Cr. Memo No. ,Rtrn. Rcpt. No. ";ESP="Nß fac.,Nß env°o ,Nß abono,Nß recep. devol. ";DEA="Re.-Nr. ,Lief.-Nr. ,Gutschrift-Nr.  ,RÅcksendungs-Nr. "';
-      Text017@1035 : TextConst 'ENU="Inv. No. ,Rcpt. No. ,Cr. Memo No. ,Rtrn. Shpt. No. ";ESP="Nß fac.,Nß recep.,Nß abono,Nß env°o devol. ";DEA="Re.-Nr. ,Wareneing.-Nr. ,Gutschrift-Nr.  ,RÅcksendungs-Nr. "';
-      Text018@1029 : TextConst 'ENU=%1 - %2:;ESP=%1 - %2:;DEA=%1 - %2:';
-      Text019@1037 : TextConst 'ENU=Exact Cost Reversing Link has not been created for all copied document lines.;ESP=El v°nculo de reversi¢n de coste exacto no se ha creado para todas las l°neas de documento copiadas.;DEA=Die VerknÅpfung mit der exakten Einstandspreisstornierung wurde nicht fÅr alle kopierten Belegzeilen erstellt.';
-      Text020@1036 : TextConst 'ENU=\;ESP=\;DEA=\';
-      Text022@1039 : TextConst 'ENU=Copying document lines...\;ESP=Copiando l°ns. documento...\;DEA=Belegzeilen werden kopiert...\';
-      Text023@1041 : TextConst 'ENU=Processing source lines      #1######\;ESP=Procesando l°neas origen     #1######\;DEA=Herkunftszeilen werden verarbeitet      #1######\';
-      Text024@1040 : TextConst 'ENU=Creating new lines           #2######;ESP=Creando nuevas l°neas        #2######;DEA=Neue Zeilen werden erstellt             #2######';
+      Text012@1014 : TextConst 'DEU=Es gibt keine Verkaufszeilen zu kopieren.;ENU=There are no sales lines to copy.';
+      Text013@1018 : TextConst 'DEU=Lieferungsnr.,Rechnungsnr.,RÅcksendungsnr.,Gutschriftsnr.;ENU=Shipment No.,Invoice No.,Return Receipt No.,Credit Memo No.';
+      Text014@1022 : TextConst 'DEU=Wareneingangsnr.,Rechnungsnr.,RÅcksendungsnr.,Gutschriftsnr.;ENU=Receipt No.,Invoice No.,Return Shipment No.,Credit Memo No.';
+      Text015@1019 : TextConst 'DEU=%1 %2:;ENU=%1 %2:';
+      Text016@1026 : TextConst 'DEU="Re.-Nr. ,Lief.-Nr. ,Gutschrift-Nr.  ,RÅcksendungs-Nr. ";ENU="Inv. No. ,Shpt. No. ,Cr. Memo No. ,Rtrn. Rcpt. No. "';
+      Text017@1035 : TextConst 'DEU="Re.-Nr. ,Wareneing.-Nr. ,Gutschrift-Nr.  ,RÅcksendungs-Nr. ";ENU="Inv. No. ,Rcpt. No. ,Cr. Memo No. ,Rtrn. Shpt. No. "';
+      Text018@1029 : TextConst 'DEU=%1 - %2:;ENU=%1 - %2:';
+      Text019@1037 : TextConst 'DEU=Die VerknÅpfung mit der exakten Einstandspreisstornierung wurde nicht fÅr alle kopierten Belegzeilen erstellt.;ENU=Exact Cost Reversing Link has not been created for all copied document lines.';
+      Text020@1036 : TextConst 'DEU=\;ENU=\';
+      Text022@1039 : TextConst 'DEU=Belegzeilen werden kopiert...\;ENU=Copying document lines...\';
+      Text023@1041 : TextConst 'DEU=Herkunftszeilen werden verarbeitet      #1######\;ENU=Processing source lines      #1######\';
+      Text024@1040 : TextConst 'DEU=Neue Zeilen werden erstellt             #2######;ENU=Creating new lines           #2######';
       ExactCostRevMandatory@1042 : Boolean;
       ApplyFully@1017 : Boolean;
       AskApply@1020 : Boolean;
       ReappDone@1021 : Boolean;
-
-      Text025@1046 : TextConst
-        'ENU=For one or more return document lines, you chose to return the original quantity, which is already fully applied. Therefore, when you post the return document, the program will reapply relevant entries. Beware that this may change the cost of existing entries. To avoid this, you must delete the affected return document lines before posting.',
-        'ESP=Para una o m†s l°neas de documentos de devoluci¢n, ha elegido devolver la cantidad original, que ya est† totalmente liquidada. Por lo tanto, cuando registre el documento de devoluci¢n, el programa volver† a liquidar las entradas relevantes. Tenga en cuenta que esto puede modificar el coste de las entradas existentes. Para evitarlo, debe eliminar las l°neas afectadas del documento de devoluci¢n antes del registro.',
-        'DEA=FÅr mindestens eine der Retourenbelegzeilen wurde die RÅckgabe der ursprÅnglichen Menge festgelegt, die bereits vollstÑndig ausgeglichen wurde. Daher werden beim Buchen des Retourenbelegs die relevanten Posten erneut ausgeglichen. Beachten Sie, dass hierdurch die Kosten vorhandener Posten geÑndert werden kînnen. Um dies zu vermeiden, lîschen Sie vor der Buchung die entsprechenden Zeilen des Retourenbelegs.';
+      Text025@1046 : TextConst 'DEU=FÅr mindestens eine der Retourenbelegzeilen wurde die RÅckgabe der ursprÅnglichen Menge festgelegt, die bereits vollstÑndig ausgeglichen wurde. Daher werden beim Buchen des Retourenbelegs die relevanten Posten erneut ausgeglichen. Beachten Sie, dass hierdurch die Kosten vorhandener Posten geÑndert werden kînnen. Um dies zu vermeiden, lîschen Sie vor der Buchung die entsprechenden Zeilen des Retourenbelegs.;ENU=For one or more return document lines, you chose to return the original quantity, which is already fully applied. Therefore, when you post the return document, the program will reapply relevant entries. Beware that this may change the cost of existing entries. To avoid this, you must delete the affected return document lines before posting.';
       SkippedLine@1047 : Boolean;
-
-      Text029@1048 : TextConst
-        'ENU=One or more return document lines were not inserted or they contain only the remaining quantity of the original document line. This is because quantities on the posted document line are already fully or partially applied. If you want to reverse the full quantity, you must select Return Original Quantity before getting the posted document lines.',
-        'ESP=No se han insertado una o m†s l°neas del documento de devoluci¢n o contienen s¢lo la cantidad restante de la l°nea de documento original. Esto se debe a que las cantidades en la l°nea de documento registrada ya est†n total o parcialmente liquidadas. Si desea invertir la cantidad °ntegra, debe seleccionar Devolver cantidad original antes de obtener las l°neas de documento registradas.',
-        'DEA=Mindestens eine Retourenbelegzeile wurde nicht eingefÅgt oder enthÑlt nur die Restmenge der ursprÅnglichen Belegzeile. Der Grund hierfÅr ist, dass die Mengen in der gebuchten Belegzeile bereits teilweise oder vollstÑndig ausgeglichen wurden. Wenn Sie die ursprÅngliche Menge zurÅckbuchen mîchten, wÑhlen Sie vor dem Abrufen der gebuchten Belegzeilen ''UrsprÅngliche Menge zurÅckgeben'' aus.';
-      Text030@1025 : TextConst 'ENU=%1 %2, line no. %3 is not copied because the full quantity on the posted document line is already manually applied.;ESP=%1 %2, l°nea nß %3 no se ha copiado porque la cantidad completa de la l°nea del documento registrado ya se ha liquidado manualmente.;DEA=%1 %2, Zeilennummer %3 wurde nicht kopiert, da die vollstÑndige Menge in der gebuchten Belegzeile bereits manuell ausgeglichen wurde.';
-      Text031@1038 : TextConst 'ENU=Return document line contains only the original document line quantity, that is not already manually applied.;ESP=La l°nea de documento de devoluci¢n s¢lo contiene la cantidad de l°nea del documento original, que no se ha liquidado manualmente a£n.;DEA=Retourenbelegzeile enthÑlt nur die ursprÅngliche Menge der Belegzeile, die noch nicht manuell ausgeglichen wurde.';
+      Text029@1048 : TextConst 'DEU=Mindestens eine Retourenbelegzeile wurde nicht eingefÅgt oder enthÑlt nur die Restmenge der ursprÅnglichen Belegzeile. Der Grund hierfÅr ist, dass die Mengen in der gebuchten Belegzeile bereits teilweise oder vollstÑndig ausgeglichen wurden. Wenn Sie die ursprÅngliche Menge zurÅckbuchen mîchten, wÑhlen Sie vor dem Abrufen der gebuchten Belegzeilen ''UrsprÅngliche Menge zurÅckgeben'' aus.;ENU=One or more return document lines were not inserted or they contain only the remaining quantity of the original document line. This is because quantities on the posted document line are already fully or partially applied. If you want to reverse the full quantity, you must select Return Original Quantity before getting the posted document lines.';
+      Text030@1025 : TextConst 'DEU=%1 %2, Zeilennummer %3 wurde nicht kopiert, da die vollstÑndige Menge in der gebuchten Belegzeile bereits manuell ausgeglichen wurde.;ENU=%1 %2, line no. %3 is not copied because the full quantity on the posted document line is already manually applied.';
+      Text031@1038 : TextConst 'DEU=Retourenbelegzeile enthÑlt nur die ursprÅngliche Menge der Belegzeile, die noch nicht manuell ausgeglichen wurde.;ENU=Return document line contains only the original document line quantity, that is not already manually applied.';
       SomeAreFixed@1045 : Boolean;
       AsmHdrExistsForFromDocLine@1050 : Boolean;
-      Text032@1054 : TextConst 'ENU=The posted sales invoice %1 covers more than one shipment of linked assembly orders that potentially have different assembly components. Select Posted Shipment as document type, and then select a specific shipment of assembled items.;ESP=La factura de venta registrada %1 cubre m†s de un env°o de pedidos de ensamblado vinculados que potencialmente tienen componentes del ensamblado diferentes. Seleccione Env°o regis. como tipo de documento y, a continuaci¢n, seleccione un env°o espec°fico de productos ensamblados.;DEA=Die gebuchte Verkaufsrechnung %1 deckt mehrere WarenausgÑnge fÅr verknÅpfte MontageauftrÑge ab, die unter UmstÑnden unterschiedliche Montagekomponenten besitzen. WÑhlen Sie als Dokumenttyp die Option ''Geb. Warenausgang'' und anschlie·end einen bestimmten Warenausgang von montierten Artikeln aus.';
+      Text032@1054 : TextConst 'DEU=Die gebuchte Verkaufsrechnung %1 deckt mehrere WarenausgÑnge fÅr verknÅpfte MontageauftrÑge ab, die unter UmstÑnden unterschiedliche Montagekomponenten besitzen. WÑhlen Sie als Dokumenttyp die Option ''Geb. Warenausgang'' und anschlie·end einen bestimmten Warenausgang von montierten Artikeln aus.;ENU=The posted sales invoice %1 covers more than one shipment of linked assembly orders that potentially have different assembly components. Select Posted Shipment as document type, and then select a specific shipment of assembled items.';
       FromDocOccurrenceNo@1140000 : Integer;
       FromDocVersionNo@1140001 : Integer;
 
@@ -1192,6 +1184,10 @@ OBJECT Codeunit 6620 Copy Document Mgt.
       ToSalesLine."Document Type" := ToSalesHeader."Document Type";
       ToSalesLine."Document No." := ToSalesHeader."No.";
       ToSalesLine."Line No." := NextLineNo;
+      IF (ToSalesLine.Type <> ToSalesLine.Type::" ") AND
+         (ToSalesLine."Document Type" IN [ToSalesLine."Document Type"::"Return Order",ToSalesLine."Document Type"::"Credit Memo"])
+      THEN
+        ToSalesLine.VALIDATE("Line Discount %");
       ToSalesLine.VALIDATE("Currency Code",FromSalesHeader."Currency Code");
       IF RecalculateLines AND NOT FromSalesLine."System-Created Entry" THEN BEGIN
         ToSalesLine.VALIDATE(Type,FromSalesLine.Type);
@@ -1447,6 +1443,8 @@ OBJECT Codeunit 6620 Copy Document Mgt.
       ToPurchLine."Document Type" := ToPurchHeader."Document Type";
       ToPurchLine."Document No." := ToPurchHeader."No.";
       ToPurchLine."Line No." := NextLineNo;
+      IF ToPurchLine.Type <> ToPurchLine.Type::" " THEN
+        ToPurchLine.VALIDATE("Line Discount %");
       ToPurchLine.VALIDATE("Currency Code",FromPurchHeader."Currency Code");
 
       IF RecalculateLines AND NOT FromPurchLine."System-Created Entry" THEN BEGIN

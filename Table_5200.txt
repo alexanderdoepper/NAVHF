@@ -2,9 +2,9 @@ OBJECT Table 5200 Employee
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
@@ -58,9 +58,8 @@ OBJECT Table 5200 Employee
                "Last Date Modified" := TODAY;
              END;
 
-    CaptionML=[ENU=Employee;
-               ESP=Empleado;
-               DEA=Mitarbeiter];
+    CaptionML=[DEU=Mitarbeiter;
+               ENU=Employee];
     LookupPageID=Page5201;
     DrillDownPageID=Page5201;
   }
@@ -75,38 +74,29 @@ OBJECT Table 5200 Employee
                                                                 END;
                                                               END;
 
-                                                   CaptionML=[ENU=No.;
-                                                              ESP=Nß;
-                                                              DEA=Nr.] }
-    { 2   ;   ;First Name          ;Text30        ;CaptionML=[ENU=First Name;
-                                                              ESP=Nombre;
-                                                              DEA=Vorname] }
-    { 3   ;   ;Middle Name         ;Text30        ;CaptionML=[ENU=Middle Name;
-                                                              ESP=Segundo apellido;
-                                                              DEA=Vorname 2] }
-    { 4   ;   ;Last Name           ;Text30        ;CaptionML=[ENU=Last Name;
-                                                              ESP=Primer apellido;
-                                                              DEA=Nachname] }
+                                                   CaptionML=[DEU=Nr.;
+                                                              ENU=No.] }
+    { 2   ;   ;First Name          ;Text30        ;CaptionML=[DEU=Vorname;
+                                                              ENU=First Name] }
+    { 3   ;   ;Middle Name         ;Text30        ;CaptionML=[DEU=Vorname 2;
+                                                              ENU=Middle Name] }
+    { 4   ;   ;Last Name           ;Text30        ;CaptionML=[DEU=Nachname;
+                                                              ENU=Last Name] }
     { 5   ;   ;Initials            ;Text30        ;OnValidate=BEGIN
                                                                 IF ("Search Name" = UPPERCASE(xRec.Initials)) OR ("Search Name" = '') THEN
                                                                   "Search Name" := Initials;
                                                               END;
 
-                                                   CaptionML=[ENU=Initials;
-                                                              ESP=Iniciales;
-                                                              DEA=Initialen] }
-    { 6   ;   ;Job Title           ;Text30        ;CaptionML=[ENU=Job Title;
-                                                              ESP=Cargo;
-                                                              DEA=Funktion] }
-    { 7   ;   ;Search Name         ;Code30        ;CaptionML=[ENU=Search Name;
-                                                              ESP=Alias;
-                                                              DEA=Suchbegriff] }
-    { 8   ;   ;Address             ;Text50        ;CaptionML=[ENU=Address;
-                                                              ESP=Direcci¢n;
-                                                              DEA=Adresse] }
-    { 9   ;   ;Address 2           ;Text50        ;CaptionML=[ENU=Address 2;
-                                                              ESP=Direcci¢n 2;
-                                                              DEA=Adresse 2] }
+                                                   CaptionML=[DEU=Initialen;
+                                                              ENU=Initials] }
+    { 6   ;   ;Job Title           ;Text30        ;CaptionML=[DEU=Funktion;
+                                                              ENU=Job Title] }
+    { 7   ;   ;Search Name         ;Code30        ;CaptionML=[DEU=Suchbegriff;
+                                                              ENU=Search Name] }
+    { 8   ;   ;Address             ;Text50        ;CaptionML=[DEU=Adresse;
+                                                              ENU=Address] }
+    { 9   ;   ;Address 2           ;Text50        ;CaptionML=[DEU=Adresse 2;
+                                                              ENU=Address 2] }
     { 10  ;   ;City                ;Text30        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code".City
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code".City WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -115,9 +105,8 @@ OBJECT Table 5200 Employee
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=City;
-                                                              ESP=Poblaci¢n;
-                                                              DEA=Ort] }
+                                                   CaptionML=[DEU=Ort;
+                                                              ENU=City] }
     { 11  ;   ;Post Code           ;Code20        ;TableRelation=IF (Country/Region Code=CONST()) "Post Code"
                                                                  ELSE IF (Country/Region Code=FILTER(<>'')) "Post Code" WHERE (Country/Region Code=FIELD(Country/Region Code));
                                                    OnValidate=BEGIN
@@ -126,121 +115,93 @@ OBJECT Table 5200 Employee
 
                                                    ValidateTableRelation=No;
                                                    TestTableRelation=No;
-                                                   CaptionML=[ENU=Post Code;
-                                                              ESP=C.P.;
-                                                              DEA=PLZ-Code] }
-    { 12  ;   ;County              ;Text30        ;CaptionML=[ENU=County;
-                                                              ESP=Provincia;
-                                                              DEA=Bundesregion] }
+                                                   CaptionML=[DEU=PLZ-Code;
+                                                              ENU=Post Code] }
+    { 12  ;   ;County              ;Text30        ;CaptionML=[DEU=Bundesregion;
+                                                              ENU=County] }
     { 13  ;   ;Phone No.           ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Phone No.;
-                                                              ESP=Nß telÇfono;
-                                                              DEA=Telefonnr.] }
+                                                   CaptionML=[DEU=Telefonnr.;
+                                                              ENU=Phone No.] }
     { 14  ;   ;Mobile Phone No.    ;Text30        ;ExtendedDatatype=Phone No.;
-                                                   CaptionML=[ENU=Mobile Phone No.;
-                                                              ESP=Nß telÇfono m¢vil;
-                                                              DEA=Mobiltelefonnr.] }
+                                                   CaptionML=[DEU=Mobiltelefonnr.;
+                                                              ENU=Mobile Phone No.] }
     { 15  ;   ;E-Mail              ;Text80        ;ExtendedDatatype=E-Mail;
-                                                   CaptionML=[ENU=E-Mail;
-                                                              ESP=Correo electr¢nico;
-                                                              DEA=E-Mail] }
+                                                   CaptionML=[DEU=E-Mail;
+                                                              ENU=E-Mail] }
     { 16  ;   ;Alt. Address Code   ;Code10        ;TableRelation="Alternative Address".Code WHERE (Employee No.=FIELD(No.));
-                                                   CaptionML=[ENU=Alt. Address Code;
-                                                              ESP=C¢d. direcci¢n alt.;
-                                                              DEA=Alt. Adresscode] }
-    { 17  ;   ;Alt. Address Start Date;Date       ;CaptionML=[ENU=Alt. Address Start Date;
-                                                              ESP=Fecha inicio direc. alter.;
-                                                              DEA=Alt. Adresse Anfangsdatum] }
-    { 18  ;   ;Alt. Address End Date;Date         ;CaptionML=[ENU=Alt. Address End Date;
-                                                              ESP=Fecha fin direc. alter.;
-                                                              DEA=Alt. Adresse Enddatum] }
-    { 19  ;   ;Picture             ;BLOB          ;CaptionML=[ENU=Picture;
-                                                              ESP=Imagen;
-                                                              DEA=Bild];
+                                                   CaptionML=[DEU=Alt. Adresscode;
+                                                              ENU=Alt. Address Code] }
+    { 17  ;   ;Alt. Address Start Date;Date       ;CaptionML=[DEU=Alt. Adresse Anfangsdatum;
+                                                              ENU=Alt. Address Start Date] }
+    { 18  ;   ;Alt. Address End Date;Date         ;CaptionML=[DEU=Alt. Adresse Enddatum;
+                                                              ENU=Alt. Address End Date] }
+    { 19  ;   ;Picture             ;BLOB          ;CaptionML=[DEU=Bild;
+                                                              ENU=Picture];
                                                    SubType=Bitmap }
-    { 20  ;   ;Birth Date          ;Date          ;CaptionML=[ENU=Birth Date;
-                                                              ESP=Fecha nacimiento;
-                                                              DEA=Geburtsdatum] }
-    { 21  ;   ;Social Security No. ;Text30        ;CaptionML=[ENU=Social Security No.;
-                                                              ESP=Nß seguridad social;
-                                                              DEA=Soz.-Versicherungsnr.] }
+    { 20  ;   ;Birth Date          ;Date          ;CaptionML=[DEU=Geburtsdatum;
+                                                              ENU=Birth Date] }
+    { 21  ;   ;Social Security No. ;Text30        ;CaptionML=[DEU=Soz.-Versicherungsnr.;
+                                                              ENU=Social Security No.] }
     { 22  ;   ;Union Code          ;Code10        ;TableRelation=Union;
-                                                   CaptionML=[ENU=Union Code;
-                                                              ESP=C¢d. sindicato;
-                                                              DEA=Gewerkschaftscode] }
-    { 23  ;   ;Union Membership No.;Text30        ;CaptionML=[ENU=Union Membership No.;
-                                                              ESP=Nß afiliado sindicato;
-                                                              DEA=Gewerkschaftsmitgliedsnr.] }
-    { 24  ;   ;Gender              ;Option        ;CaptionML=[ENU=Gender;
-                                                              ESP=GÇnero;
-                                                              DEA=Geschlecht];
-                                                   OptionCaptionML=[ENU=" ,Female,Male";
-                                                                    ESP=" ,Mujer,Var¢n";
-                                                                    DEA=" ,Weiblich,MÑnnlich"];
+                                                   CaptionML=[DEU=Gewerkschaftscode;
+                                                              ENU=Union Code] }
+    { 23  ;   ;Union Membership No.;Text30        ;CaptionML=[DEU=Gewerkschaftsmitgliedsnr.;
+                                                              ENU=Union Membership No.] }
+    { 24  ;   ;Gender              ;Option        ;CaptionML=[DEU=Geschlecht;
+                                                              ENU=Gender];
+                                                   OptionCaptionML=[DEU=" ,Weiblich,MÑnnlich";
+                                                                    ENU=" ,Female,Male"];
                                                    OptionString=[ ,Female,Male] }
     { 25  ;   ;Country/Region Code ;Code10        ;TableRelation=Country/Region;
-                                                   CaptionML=[ENU=Country/Region Code;
-                                                              ESP=C¢d. pa°s/regi¢n;
-                                                              DEA=LÑnder-/Regionscode] }
+                                                   CaptionML=[DEU=LÑnder-/Regionscode;
+                                                              ENU=Country/Region Code] }
     { 26  ;   ;Manager No.         ;Code20        ;TableRelation=Employee;
-                                                   CaptionML=[ENU=Manager No.;
-                                                              ESP=Nß director;
-                                                              DEA=Managernr.] }
+                                                   CaptionML=[DEU=Managernr.;
+                                                              ENU=Manager No.] }
     { 27  ;   ;Emplymt. Contract Code;Code10      ;TableRelation="Employment Contract";
-                                                   CaptionML=[ENU=Emplymt. Contract Code;
-                                                              ESP=C¢d. contrato laboral;
-                                                              DEA=Arbeitsvertragscode] }
+                                                   CaptionML=[DEU=Arbeitsvertragscode;
+                                                              ENU=Emplymt. Contract Code] }
     { 28  ;   ;Statistics Group Code;Code10       ;TableRelation="Employee Statistics Group";
-                                                   CaptionML=[ENU=Statistics Group Code;
-                                                              ESP=C¢d. grupo estad°stico;
-                                                              DEA=Statistikgruppencode] }
-    { 29  ;   ;Employment Date     ;Date          ;CaptionML=[ENU=Employment Date;
-                                                              ESP=Fecha contrataci¢n;
-                                                              DEA=Anstellungsdatum] }
+                                                   CaptionML=[DEU=Statistikgruppencode;
+                                                              ENU=Statistics Group Code] }
+    { 29  ;   ;Employment Date     ;Date          ;CaptionML=[DEU=Anstellungsdatum;
+                                                              ENU=Employment Date] }
     { 31  ;   ;Status              ;Option        ;OnValidate=BEGIN
                                                                 EmployeeQualification.SETRANGE("Employee No.","No.");
                                                                 EmployeeQualification.MODIFYALL("Employee Status",Status);
                                                                 MODIFY;
                                                               END;
 
-                                                   CaptionML=[ENU=Status;
-                                                              ESP=Estado;
-                                                              DEA=Status];
-                                                   OptionCaptionML=[ENU=Active,Inactive,Terminated;
-                                                                    ESP=Activo,Inactivo,Terminado;
-                                                                    DEA=Aktiv,Inaktiv,Beendet];
+                                                   CaptionML=[DEU=Status;
+                                                              ENU=Status];
+                                                   OptionCaptionML=[DEU=Aktiv,Inaktiv,Beendet;
+                                                                    ENU=Active,Inactive,Terminated];
                                                    OptionString=Active,Inactive,Terminated }
-    { 32  ;   ;Inactive Date       ;Date          ;CaptionML=[ENU=Inactive Date;
-                                                              ESP=Fecha inactividad;
-                                                              DEA=Datum InaktivitÑt] }
+    { 32  ;   ;Inactive Date       ;Date          ;CaptionML=[DEU=Datum InaktivitÑt;
+                                                              ENU=Inactive Date] }
     { 33  ;   ;Cause of Inactivity Code;Code10    ;TableRelation="Cause of Inactivity";
-                                                   CaptionML=[ENU=Cause of Inactivity Code;
-                                                              ESP=C¢d. causa inactividad;
-                                                              DEA=Grund InaktivitÑtscode] }
-    { 34  ;   ;Termination Date    ;Date          ;CaptionML=[ENU=Termination Date;
-                                                              ESP=Fecha terminaci¢n;
-                                                              DEA=Datum BeschÑftigungsende] }
+                                                   CaptionML=[DEU=Grund InaktivitÑtscode;
+                                                              ENU=Cause of Inactivity Code] }
+    { 34  ;   ;Termination Date    ;Date          ;CaptionML=[DEU=Datum BeschÑftigungsende;
+                                                              ENU=Termination Date] }
     { 35  ;   ;Grounds for Term. Code;Code10      ;TableRelation="Grounds for Termination";
-                                                   CaptionML=[ENU=Grounds for Term. Code;
-                                                              ESP=C¢d. motivo terminaci¢n;
-                                                              DEA=Grund BeschÑftigungsendecode] }
+                                                   CaptionML=[DEU=Grund BeschÑftigungsendecode;
+                                                              ENU=Grounds for Term. Code] }
     { 36  ;   ;Global Dimension 1 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(1,"Global Dimension 1 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 1 Code;
-                                                              ESP=C¢d. dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionscode 1];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 1;
+                                                              ENU=Global Dimension 1 Code];
                                                    CaptionClass='1,1,1' }
     { 37  ;   ;Global Dimension 2 Code;Code20     ;TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
                                                    OnValidate=BEGIN
                                                                 ValidateShortcutDimCode(2,"Global Dimension 2 Code");
                                                               END;
 
-                                                   CaptionML=[ENU=Global Dimension 2 Code;
-                                                              ESP=C¢d. dimensi¢n global 2;
-                                                              DEA=Globaler Dimensionscode 2];
+                                                   CaptionML=[DEU=Globaler Dimensionscode 2;
+                                                              ENU=Global Dimension 2 Code];
                                                    CaptionClass='1,1,2' }
     { 38  ;   ;Resource No.        ;Code20        ;TableRelation=Resource WHERE (Type=CONST(Person));
                                                    OnValidate=BEGIN
@@ -248,87 +209,69 @@ OBJECT Table 5200 Employee
                                                                   EmployeeResUpdate.ResUpdate(Rec)
                                                               END;
 
-                                                   CaptionML=[ENU=Resource No.;
-                                                              ESP=Nß recurso;
-                                                              DEA=Ressourcennr.] }
+                                                   CaptionML=[DEU=Ressourcennr.;
+                                                              ENU=Resource No.] }
     { 39  ;   ;Comment             ;Boolean       ;FieldClass=FlowField;
                                                    CalcFormula=Exist("Human Resource Comment Line" WHERE (Table Name=CONST(Employee),
                                                                                                           No.=FIELD(No.)));
-                                                   CaptionML=[ENU=Comment;
-                                                              ESP=Comentario;
-                                                              DEA=Bemerkung];
+                                                   CaptionML=[DEU=Bemerkung;
+                                                              ENU=Comment];
                                                    Editable=No }
-    { 40  ;   ;Last Date Modified  ;Date          ;CaptionML=[ENU=Last Date Modified;
-                                                              ESP=Fecha £lt. modificaci¢n;
-                                                              DEA=Korrigiert am];
+    { 40  ;   ;Last Date Modified  ;Date          ;CaptionML=[DEU=Korrigiert am;
+                                                              ENU=Last Date Modified];
                                                    Editable=No }
     { 41  ;   ;Date Filter         ;Date          ;FieldClass=FlowFilter;
-                                                   CaptionML=[ENU=Date Filter;
-                                                              ESP=Filtro fecha;
-                                                              DEA=Datumsfilter] }
+                                                   CaptionML=[DEU=Datumsfilter;
+                                                              ENU=Date Filter] }
     { 42  ;   ;Global Dimension 1 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(1));
-                                                   CaptionML=[ENU=Global Dimension 1 Filter;
-                                                              ESP=Filtro dimensi¢n global 1;
-                                                              DEA=Globaler Dimensionsfilter 1];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 1;
+                                                              ENU=Global Dimension 1 Filter];
                                                    CaptionClass='1,3,1' }
     { 43  ;   ;Global Dimension 2 Filter;Code20   ;FieldClass=FlowFilter;
                                                    TableRelation="Dimension Value".Code WHERE (Global Dimension No.=CONST(2));
-                                                   CaptionML=[ENU=Global Dimension 2 Filter;
-                                                              ESP=Filtro dimensi¢n global  2;
-                                                              DEA=Globaler Dimensionsfilter 2];
+                                                   CaptionML=[DEU=Globaler Dimensionsfilter 2;
+                                                              ENU=Global Dimension 2 Filter];
                                                    CaptionClass='1,3,2' }
     { 44  ;   ;Cause of Absence Filter;Code10     ;FieldClass=FlowFilter;
                                                    TableRelation="Cause of Absence";
-                                                   CaptionML=[ENU=Cause of Absence Filter;
-                                                              ESP=Filtro causa ausencia;
-                                                              DEA=Abwesenheitsgrundfilter] }
+                                                   CaptionML=[DEU=Abwesenheitsgrundfilter;
+                                                              ENU=Cause of Absence Filter] }
     { 45  ;   ;Total Absence (Base);Decimal       ;FieldClass=FlowField;
                                                    CalcFormula=Sum("Employee Absence"."Quantity (Base)" WHERE (Employee No.=FIELD(No.),
                                                                                                                Cause of Absence Code=FIELD(Cause of Absence Filter),
                                                                                                                From Date=FIELD(Date Filter)));
-                                                   CaptionML=[ENU=Total Absence (Base);
-                                                              ESP=Ausencia total (base);
-                                                              DEA=Abwesenheit gesamt (Basis)];
+                                                   CaptionML=[DEU=Abwesenheit gesamt (Basis);
+                                                              ENU=Total Absence (Base)];
                                                    DecimalPlaces=0:5;
                                                    Editable=No }
-    { 46  ;   ;Extension           ;Text30        ;CaptionML=[ENU=Extension;
-                                                              ESP=Extensi¢n;
-                                                              DEA=Durchwahl] }
+    { 46  ;   ;Extension           ;Text30        ;CaptionML=[DEU=Durchwahl;
+                                                              ENU=Extension] }
     { 47  ;   ;Employee No. Filter ;Code20        ;FieldClass=FlowFilter;
                                                    TableRelation=Employee;
-                                                   CaptionML=[ENU=Employee No. Filter;
-                                                              ESP=Filtro nß empleado;
-                                                              DEA=Mitarbeiternr. Filter] }
-    { 48  ;   ;Pager               ;Text30        ;CaptionML=[ENU=Pager;
-                                                              ESP=Nß buscapersona;
-                                                              DEA=Pager] }
-    { 49  ;   ;Fax No.             ;Text30        ;CaptionML=[ENU=Fax No.;
-                                                              ESP=Nß fax;
-                                                              DEA=Faxnr.] }
-    { 50  ;   ;Company E-Mail      ;Text80        ;CaptionML=[ENU=Company E-Mail;
-                                                              ESP=Correo electr¢nico empresa;
-                                                              DEA=Firma E-Mail] }
-    { 51  ;   ;Title               ;Text30        ;CaptionML=[ENU=Title;
-                                                              ESP=T°tulo;
-                                                              DEA=Titel] }
+                                                   CaptionML=[DEU=Mitarbeiternr. Filter;
+                                                              ENU=Employee No. Filter] }
+    { 48  ;   ;Pager               ;Text30        ;CaptionML=[DEU=Pager;
+                                                              ENU=Pager] }
+    { 49  ;   ;Fax No.             ;Text30        ;CaptionML=[DEU=Faxnr.;
+                                                              ENU=Fax No.] }
+    { 50  ;   ;Company E-Mail      ;Text80        ;CaptionML=[DEU=Firma E-Mail;
+                                                              ENU=Company E-Mail] }
+    { 51  ;   ;Title               ;Text30        ;CaptionML=[DEU=Titel;
+                                                              ENU=Title] }
     { 52  ;   ;Salespers./Purch. Code;Code10      ;TableRelation=Salesperson/Purchaser;
-                                                   CaptionML=[ENU=Salespers./Purch. Code;
-                                                              ESP=C¢d. vendedor/comprador;
-                                                              DEA=Verk.-/EinkÑufercode] }
+                                                   CaptionML=[DEU=Verk.-/EinkÑufercode;
+                                                              ENU=Salespers./Purch. Code] }
     { 53  ;   ;No. Series          ;Code10        ;TableRelation="No. Series";
-                                                   CaptionML=[ENU=No. Series;
-                                                              ESP=Nos. serie;
-                                                              DEA=Nummernserie];
+                                                   CaptionML=[DEU=Nummernserie;
+                                                              ENU=No. Series];
                                                    Editable=No }
     { 1100;   ;Cost Center Code    ;Code20        ;TableRelation="Cost Center";
-                                                   CaptionML=[ENU=Cost Center Code;
-                                                              ESP=C¢digo centro coste;
-                                                              DEA=Kostenstellencode] }
+                                                   CaptionML=[DEU=Kostenstellencode;
+                                                              ENU=Cost Center Code] }
     { 1101;   ;Cost Object Code    ;Code20        ;TableRelation="Cost Object";
-                                                   CaptionML=[ENU=Cost Object Code;
-                                                              ESP=C¢digo objeto coste;
-                                                              DEA=KostentrÑgercode] }
+                                                   CaptionML=[DEU=KostentrÑgercode;
+                                                              ENU=Cost Object Code] }
   }
   KEYS
   {
@@ -361,7 +304,7 @@ OBJECT Table 5200 Employee
       EmployeeResUpdate@1013 : Codeunit 5200;
       EmployeeSalespersonUpdate@1014 : Codeunit 5201;
       DimMgt@1015 : Codeunit 408;
-      Text000@1016 : TextConst 'ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.;ESP=Para poder usar Online Map, primero debe rellenar la ventana Configuraci¢n Online Map.\Consulte Configuraci¢n de Online Map en la Ayuda.;DEA=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.';
+      Text000@1016 : TextConst 'DEU=Bevor Sie Online Map verwenden kînnen, mÅssen Sie die Felder des Fensters ''Online Map-Einrichtung'' ausfÅllen.\Informationen hierzu finden Sie in der Hilfe zum Einrichten von Online Map.;ENU=Before you can use Online Map, you must fill in the Online Map Setup window.\See Setting Up Online Map in Help.';
 
     PROCEDURE AssistEdit@2(OldEmployee@1000 : Record 5200) : Boolean;
     BEGIN

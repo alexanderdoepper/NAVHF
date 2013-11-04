@@ -2,15 +2,14 @@ OBJECT Report 120 Aged Accounts Receivable
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Aged Accounts Receivable;
-               ESP=AntigÅedad cobros;
-               DEA=Debitor - SaldenrÅckblick];
+    CaptionML=[DEU=Debitor - SaldenrÅckblick;
+               ENU=Aged Accounts Receivable];
     OnPreReport=BEGIN
                   CustFilter := Customer.GETFILTERS;
 
@@ -639,75 +638,65 @@ OBJECT Report 120 Aged Accounts Receivable
                   ContainerType=ContentArea }
 
       { 2   ;1   ;Group     ;
-                  CaptionML=[ENU=Options;
-                             DEA=Optionen] }
+                  CaptionML=[DEU=Optionen;
+                             ENU=Options] }
 
       { 1   ;2   ;Field     ;
                   Name=AgedAsOf;
-                  CaptionML=[ENU=Aged As Of;
-                             ESP=Vencido desde;
-                             DEA=RÅckblick per];
+                  CaptionML=[DEU=RÅckblick per;
+                             ENU=Aged As Of];
                   SourceExpr=EndingDate }
 
       { 3   ;2   ;Field     ;
                   Name=Agingby;
-                  CaptionML=[ENU=Aging by;
-                             ESP=AntigÅedad por;
-                             DEA=RÅckblick nach];
-                  OptionCaptionML=[ENU=Due Date,Posting Date,Document Date;
-                                   ESP=Fecha vencimiento,Fecha registro,Fecha documento;
-                                   DEA=FÑlligkeitsdatum,Buchungsdatum,Belegdatum];
+                  CaptionML=[DEU=RÅckblick nach;
+                             ENU=Aging by];
+                  OptionCaptionML=[DEU=FÑlligkeitsdatum,Buchungsdatum,Belegdatum;
+                                   ENU=Due Date,Posting Date,Document Date];
                   SourceExpr=AgingBy }
 
       { 7   ;2   ;Field     ;
                   Name=PeriodLength;
-                  CaptionML=[ENU=Period Length;
-                             ESP=Longitud periodo;
-                             DEA=PeriodenlÑnge];
+                  CaptionML=[DEU=PeriodenlÑnge;
+                             ENU=Period Length];
                   SourceExpr=PeriodLength }
 
       { 9   ;2   ;Field     ;
                   Name=AmountsinLCY;
-                  CaptionML=[ENU=Print Amounts in LCY;
-                             ESP=Imprimir importes en DL;
-                             DEA=BetrÑge in MW drucken];
+                  CaptionML=[DEU=BetrÑge in MW drucken;
+                             ENU=Print Amounts in LCY];
                   SourceExpr=PrintAmountInLCY }
 
       { 11  ;2   ;Field     ;
-                  CaptionML=[ENU=Print Details;
-                             ESP=Imprimir detalles;
-                             DEA=Details drucken];
+                  CaptionML=[DEU=Details drucken;
+                             ENU=Print Details];
                   SourceExpr=PrintDetails }
 
       { 15  ;2   ;Field     ;
-                  CaptionML=[ENU=Heading Type;
-                             ESP=Tipo cabecera;
-                             DEA=öberschriftsart];
-                  OptionCaptionML=[ENU=Date Interval,Number of Days;
-                                   ESP=Intervalo fecha,N£mero de d°as;
-                                   DEA=Datumsintervall,Anzahl Tage];
+                  CaptionML=[DEU=öberschriftsart;
+                             ENU=Heading Type];
+                  OptionCaptionML=[DEU=Datumsintervall,Anzahl Tage;
+                                   ENU=Date Interval,Number of Days];
                   SourceExpr=HeadingType }
 
       { 13  ;2   ;Field     ;
                   Name=perCustomer;
-                  CaptionML=[ENU=New Page per Customer;
-                             ESP=P†gina nueva por cliente;
-                             DEA=Neue Seite pro Debitor];
+                  CaptionML=[DEU=Neue Seite pro Debitor;
+                             ENU=New Page per Customer];
                   SourceExpr=NewPagePercustomer }
 
       { 17  ;2   ;Field     ;
                   Name=PrintToExcel;
-                  CaptionML=[ENU=Print to Excel;
-                             ESP=Imprimir en Excel;
-                             DEA=Ausgabe in Excel];
+                  CaptionML=[DEU=Ausgabe in Excel;
+                             ENU=Print to Excel];
                   SourceExpr=PrintToExcel }
 
     }
   }
   LABELS
   {
-    { 74  ;BalanceCaption      ;CaptionML=[ENU=Balance;
-                                           DEA=Saldo] }
+    { 74  ;BalanceCaption      ;CaptionML=[DEU=Saldo;
+                                           ENU=Balance] }
   }
   CODE
   {
@@ -734,45 +723,45 @@ OBJECT Report 120 Aged Accounts Receivable
       PeriodStartDate@1004 : ARRAY [5] OF Date;
       PeriodEndDate@1005 : ARRAY [5] OF Date;
       HeaderText@1006 : ARRAY [5] OF Text[30];
-      Text000@1007 : TextConst 'ENU=Not Due;ESP=No vencido;DEA=Nicht fÑllig';
-      Text001@1008 : TextConst 'ENU=Before;ESP=Antes;DEA=Vor dem';
+      Text000@1007 : TextConst 'DEU=Nicht fÑllig;ENU=Not Due';
+      Text001@1008 : TextConst 'DEU=Vor dem;ENU=Before';
       CurrencyCode@1016 : Code[10];
-      Text002@1020 : TextConst 'ENU=days;ESP=d°as;DEA=Tage';
-      Text003@1021 : TextConst 'ENU=More than;ESP=M†s de;DEA=Mehr als';
-      Text004@1017 : TextConst 'ENU=Aged by %1;ESP=Vencido por %1;DEA=RÅckblick nach %1';
-      Text005@1023 : TextConst 'ENU=Total for %1;ESP=Total para %1;DEA=Total fÅr %1';
-      Text006@1024 : TextConst 'ENU=Aged as of %1;ESP=Vencido desde %1;DEA=RÅckblick per %1';
-      Text007@1025 : TextConst 'ENU=Aged by %1;ESP=Vencido por %1;DEA=RÅckblick nach %1';
-      Text008@1026 : TextConst 'ENU=All Amounts in LCY;ESP=Todos importes en DL;DEA=Alle BetrÑge in MW';
+      Text002@1020 : TextConst 'DEU=Tage;ENU=days';
+      Text003@1021 : TextConst 'DEU=Mehr als;ENU=More than';
+      Text004@1017 : TextConst 'DEU=RÅckblick nach %1;ENU=Aged by %1';
+      Text005@1023 : TextConst 'DEU=Total fÅr %1;ENU=Total for %1';
+      Text006@1024 : TextConst 'DEU=RÅckblick per %1;ENU=Aged as of %1';
+      Text007@1025 : TextConst 'DEU=RÅckblick nach %1;ENU=Aged by %1';
+      Text008@1026 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All Amounts in LCY';
       NumberOfCurrencies@1028 : Integer;
-      Text009@1031 : TextConst 'ENU=Due Date,Posting Date,Document Date;ESP=Fecha vencimiento,Fecha registro,Fecha documento;DEA=FÑlligkeitsdatum,Buchungsdatum,Belegdatum';
-      Text010@1032 : TextConst 'ENU=The Date Formula %1 cannot be used. Try to restate it. E.g. 1M+CM instead of CM+1M.;ESP=La f¢rmula de fecha %1 no puede usarse. Intente redefinirla. Por ej. 1M+PM en lugar de PM+1M.;DEA=Die Datumsformel %1 kann nicht verwendet werden. Bitte korrigieren  Sie Ihre Angabe, z. B. 1M+LM anstatt LM+1M.';
+      Text009@1031 : TextConst 'DEU=FÑlligkeitsdatum,Buchungsdatum,Belegdatum;ENU=Due Date,Posting Date,Document Date';
+      Text010@1032 : TextConst 'DEU=Die Datumsformel %1 kann nicht verwendet werden. Bitte korrigieren  Sie Ihre Angabe, z. B. 1M+LM anstatt LM+1M.;ENU=The Date Formula %1 cannot be used. Try to restate it. E.g. 1M+CM instead of CM+1M.';
       PageGroupNo@1035 : Integer;
       NextPageGroupNo@1036 : Integer;
       PrintToExcel@1034 : Boolean;
-      Text011@1046 : TextConst 'ENU=Data;ESP=Datos;DEA=Daten';
-      Text012@1045 : TextConst 'ENU=Aged Accounts Receivable;ESP=AntigÅedad cobros;DEA=SaldenrÅckblick';
-      Text013@1044 : TextConst 'ENU=Company Name;ESP=Nombre empresa;DEA=Mandant';
-      Text014@1043 : TextConst 'ENU=Report No.;ESP=Nß informe;DEA=Berichtsnr.';
-      Text015@1042 : TextConst 'ENU=Report Name;ESP=Nombre informe;DEA=Berichtsname';
-      Text016@1041 : TextConst 'ENU=User ID;ESP=Id. usuario;DEA=Benutzer-ID';
-      Text017@1040 : TextConst 'ENU=Date;ESP=Fecha;DEA=Datum';
-      Text018@1039 : TextConst 'ENU=Customer Filters;ESP=Filtros cliente;DEA=Debitorenfilter';
-      Text019@1038 : TextConst 'ENU=Cust. Ledger Entry Filters;ESP=Filtros mov. cliente;DEA=Debitorenpostenfilter';
+      Text011@1046 : TextConst 'DEU=Daten;ENU=Data';
+      Text012@1045 : TextConst 'DEU=SaldenrÅckblick;ENU=Aged Accounts Receivable';
+      Text013@1044 : TextConst 'DEU=Mandant;ENU=Company Name';
+      Text014@1043 : TextConst 'DEU=Berichtsnr.;ENU=Report No.';
+      Text015@1042 : TextConst 'DEU=Berichtsname;ENU=Report Name';
+      Text016@1041 : TextConst 'DEU=Benutzer-ID;ENU=User ID';
+      Text017@1040 : TextConst 'DEU=Datum;ENU=Date';
+      Text018@1039 : TextConst 'DEU=Debitorenfilter;ENU=Customer Filters';
+      Text019@1038 : TextConst 'DEU=Debitorenpostenfilter;ENU=Cust. Ledger Entry Filters';
       CustFilterCheck@1037 : Boolean;
-      Text032@1059 : TextConst '@@@=Negating the period length: %1 is the period length;ENU=-%1;DEA=-%1';
-      AgedAccReceivableCptnLbl@5173 : TextConst 'ENU=Aged Accounts Receivable;DEA=Debitor - SaldenrÅckblick';
-      CurrReportPageNoCptnLbl@6074 : TextConst 'ENU=Page;DEA=Seite';
-      AllAmtinLCYCptnLbl@8265 : TextConst 'ENU=All Amounts in LCY;DEA=Alle BetrÑge in MW';
-      AgedOverdueAmtCptnLbl@2837 : TextConst 'ENU=Aged Overdue Amounts;DEA=RÅckblick ÅberfÑllige BetrÑge';
-      CLEEndDateAmtLCYCptnLbl@3633 : TextConst 'ENU="Original Amount ";DEA="Ursprungsbetrag "';
-      CLEEndDateDueDateCptnLbl@1514 : TextConst 'ENU=Due Date;DEA=FÑlligkeitsdatum';
-      CLEEndDateDocNoCptnLbl@1511 : TextConst 'ENU=Document No.;DEA=Belegnr.';
-      CLEEndDatePstngDateCptnLbl@4115 : TextConst 'ENU=Posting Date;DEA=Buchungsdatum';
-      CLEEndDateDocTypeCptnLbl@7645 : TextConst 'ENU=Document Type;DEA=Belegart';
-      OriginalAmtCptnLbl@4991 : TextConst 'ENU=Currency Code;DEA=WÑhrungscode';
-      TotalLCYCptnLbl@4055 : TextConst 'ENU=Total (LCY);DEA=Gesamt (MW)';
-      CurrSpecificationCptnLbl@3382 : TextConst 'ENU=Currency Specification;DEA=WÑhrungsspezifikation';
+      Text032@1059 : TextConst '@@@=Negating the period length: %1 is the period length;DEU=-%1;ENU=-%1';
+      AgedAccReceivableCptnLbl@5173 : TextConst 'DEU=Debitor - SaldenrÅckblick;ENU=Aged Accounts Receivable';
+      CurrReportPageNoCptnLbl@6074 : TextConst 'DEU=Seite;ENU=Page';
+      AllAmtinLCYCptnLbl@8265 : TextConst 'DEU=Alle BetrÑge in MW;ENU=All Amounts in LCY';
+      AgedOverdueAmtCptnLbl@2837 : TextConst 'DEU=RÅckblick ÅberfÑllige BetrÑge;ENU=Aged Overdue Amounts';
+      CLEEndDateAmtLCYCptnLbl@3633 : TextConst 'DEU="Ursprungsbetrag ";ENU="Original Amount "';
+      CLEEndDateDueDateCptnLbl@1514 : TextConst 'DEU=FÑlligkeitsdatum;ENU=Due Date';
+      CLEEndDateDocNoCptnLbl@1511 : TextConst 'DEU=Belegnr.;ENU=Document No.';
+      CLEEndDatePstngDateCptnLbl@4115 : TextConst 'DEU=Buchungsdatum;ENU=Posting Date';
+      CLEEndDateDocTypeCptnLbl@7645 : TextConst 'DEU=Belegart;ENU=Document Type';
+      OriginalAmtCptnLbl@4991 : TextConst 'DEU=WÑhrungscode;ENU=Currency Code';
+      TotalLCYCptnLbl@4055 : TextConst 'DEU=Gesamt (MW);ENU=Total (LCY)';
+      CurrSpecificationCptnLbl@3382 : TextConst 'DEU=WÑhrungsspezifikation;ENU=Currency Specification';
 
     LOCAL PROCEDURE CalcDates@5();
     VAR

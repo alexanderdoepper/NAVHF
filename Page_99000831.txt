@@ -2,15 +2,14 @@ OBJECT Page 99000831 Released Production Order
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVW17.00;
+    Version List=NAVW17.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Released Production Order;
-               ESP=Orden producci¢n lanzada;
-               DEA=Freigegebener FA];
+    CaptionML=[DEU=Freigegebener FA;
+               ENU=Released Production Order];
     SourceTable=Table5405;
     SourceTableView=WHERE(Status=CONST(Released));
     PageType=Document;
@@ -19,47 +18,41 @@ OBJECT Page 99000831 Released Production Order
       { 1900000003;0 ;ActionContainer;
                       ActionContainerType=RelatedInformation }
       { 49      ;1   ;ActionGroup;
-                      CaptionML=[ENU=O&rder;
-                                 ESP=&Pedido;
-                                 DEA=Auf&trag];
+                      CaptionML=[DEU=Auf&trag;
+                                 ENU=O&rder];
                       Image=Order }
       { 55      ;2   ;ActionGroup;
-                      CaptionML=[ENU=E&ntries;
-                                 ESP=&Movimientos;
-                                 DEA=&Posten];
+                      CaptionML=[DEU=&Posten;
+                                 ENU=E&ntries];
                       Image=Entries }
       { 66      ;3   ;Action    ;
                       ShortCutKey=Ctrl+F7;
-                      CaptionML=[ENU=Item Ledger E&ntries;
-                                 ESP=Movs. &producto;
-                                 DEA=&Artikelposten];
+                      CaptionML=[DEU=&Artikelposten;
+                                 ENU=Item Ledger E&ntries];
                       RunObject=Page 38;
                       RunPageView=SORTING(Order Type,Order No.);
                       RunPageLink=Order Type=CONST(Production),
                                   Order No.=FIELD(No.);
                       Image=ItemLedger }
       { 69      ;3   ;Action    ;
-                      CaptionML=[ENU=Capacity Ledger Entries;
-                                 ESP=Movs. capacidad;
-                                 DEA=Kapazit„tsposten];
+                      CaptionML=[DEU=Kapazit„tsposten;
+                                 ENU=Capacity Ledger Entries];
                       RunObject=Page 5832;
                       RunPageView=SORTING(Order Type,Order No.);
                       RunPageLink=Order Type=CONST(Production),
                                   Order No.=FIELD(No.);
                       Image=CapacityLedger }
       { 70      ;3   ;Action    ;
-                      CaptionML=[ENU=Value Entries;
-                                 ESP=Movimientos valor;
-                                 DEA=Wertposten];
+                      CaptionML=[DEU=Wertposten;
+                                 ENU=Value Entries];
                       RunObject=Page 5802;
                       RunPageView=SORTING(Order Type,Order No.);
                       RunPageLink=Order Type=CONST(Production),
                                   Order No.=FIELD(No.);
                       Image=ValueLedger }
       { 7300    ;3   ;Action    ;
-                      CaptionML=[ENU=&Warehouse Entries;
-                                 ESP=Movs. &almac‚n;
-                                 DEA=&Lagerplatzposten];
+                      CaptionML=[DEU=&Lagerplatzposten;
+                                 ENU=&Warehouse Entries];
                       RunObject=Page 7318;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.);
                       RunPageLink=Source Type=FILTER(83|5406|5407),
@@ -68,9 +61,8 @@ OBJECT Page 99000831 Released Production Order
                       Image=BinLedger }
       { 76      ;2   ;Action    ;
                       ShortCutKey=Shift+Ctrl+D;
-                      CaptionML=[ENU=Dimensions;
-                                 ESP=Dimensiones;
-                                 DEA=Dimensionen];
+                      CaptionML=[DEU=Dimensionen;
+                                 ENU=Dimensions];
                       Image=Dimensions;
                       OnAction=BEGIN
                                  ShowDocDim;
@@ -79,9 +71,8 @@ OBJECT Page 99000831 Released Production Order
       { 75      ;2   ;Separator  }
       { 90      ;2   ;Action    ;
                       Name=Planning;
-                      CaptionML=[ENU=Plannin&g;
-                                 ESP=&Planificaci¢n;
-                                 DEA=Planun&g];
+                      CaptionML=[DEU=Planun&g;
+                                 ENU=Plannin&g];
                       Image=Planning;
                       OnAction=VAR
                                  OrderPlanning@1000 : Page 5522;
@@ -93,9 +84,8 @@ OBJECT Page 99000831 Released Production Order
       { 77      ;2   ;Separator  }
       { 78      ;2   ;Action    ;
                       ShortCutKey=F7;
-                      CaptionML=[ENU=Statistics;
-                                 ESP=Estad¡sticas;
-                                 DEA=Statistik];
+                      CaptionML=[DEU=Statistik;
+                                 ENU=Statistics];
                       RunObject=Page 99000816;
                       RunPageLink=Status=FIELD(Status),
                                   No.=FIELD(No.),
@@ -105,17 +95,15 @@ OBJECT Page 99000831 Released Production Order
                       PromotedCategory=Process }
       { 79      ;2   ;Separator  }
       { 71      ;2   ;Action    ;
-                      CaptionML=[ENU=Co&mments;
-                                 ESP=C&omentarios;
-                                 DEA=Be&merkungen];
+                      CaptionML=[DEU=Be&merkungen;
+                                 ENU=Co&mments];
                       RunObject=Page 99000838;
                       RunPageLink=Status=FIELD(Status),
                                   Prod. Order No.=FIELD(No.);
                       Image=ViewComments }
       { 7301    ;2   ;Action    ;
-                      CaptionML=[ENU=Put-away/Pick Lines/Movement Lines;
-                                 ESP=L¡ns. ubic./picking/L¡neas movimiento;
-                                 DEA=Einlagerungs-/Kommissionierzeilen/Umlagerungszeilen];
+                      CaptionML=[DEU=Einlagerungs-/Kommissionierzeilen/Umlagerungszeilen;
+                                 ENU=Put-away/Pick Lines/Movement Lines];
                       RunObject=Page 5785;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.,Source Line No.,Source Subline No.,Unit of Measure Code,Action Type,Breakbulk No.,Original Breakbulk);
                       RunPageLink=Source Type=FILTER(5406|5407),
@@ -123,9 +111,8 @@ OBJECT Page 99000831 Released Production Order
                                   Source No.=FIELD(No.);
                       Image=PutawayLines }
       { 7302    ;2   ;Action    ;
-                      CaptionML=[ENU=Registered P&ick Lines;
-                                 ESP=L¡ns. pic&king registradas;
-                                 DEA=&Registrierte Kommissionierzeilen];
+                      CaptionML=[DEU=&Registrierte Kommissionierzeilen;
+                                 ENU=Registered P&ick Lines];
                       RunObject=Page 7364;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.,Source Line No.,Source Subline No.);
                       RunPageLink=Source Type=CONST(5407),
@@ -133,9 +120,8 @@ OBJECT Page 99000831 Released Production Order
                                   Source No.=FIELD(No.);
                       Image=RegisteredDocs }
       { 7303    ;2   ;Action    ;
-                      CaptionML=[ENU=Registered Invt. Movement Lines;
-                                 ESP=L¡neas mov. invent. registrado;
-                                 DEA=Registrierte Lagerbestandsumlagerungszeilen];
+                      CaptionML=[DEU=Registrierte Lagerbestandsumlagerungszeilen;
+                                 ENU=Registered Invt. Movement Lines];
                       RunObject=Page 7387;
                       RunPageView=SORTING(Source Type,Source Subtype,Source No.,Source Line No.,Source Subline No.);
                       RunPageLink=Source Type=CONST(5407),
@@ -145,16 +131,14 @@ OBJECT Page 99000831 Released Production Order
       { 1900000004;0 ;ActionContainer;
                       ActionContainerType=ActionItems }
       { 22      ;1   ;ActionGroup;
-                      CaptionML=[ENU=F&unctions;
-                                 ESP=Acci&ones;
-                                 DEA=F&unktion];
+                      CaptionML=[DEU=F&unktion;
+                                 ENU=F&unctions];
                       Image=Action }
       { 24      ;2   ;Action    ;
                       Name=RefreshProductionOrder;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Re&fresh Production Order;
-                                 ESP=Ac&tualizar orden producci¢n;
-                                 DEA=&Fertigungsauftrag aktualisieren];
+                      CaptionML=[DEU=&Fertigungsauftrag aktualisieren;
+                                 ENU=Re&fresh Production Order];
                       Promoted=Yes;
                       Image=Refresh;
                       PromotedCategory=Process;
@@ -168,9 +152,8 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 25      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Re&plan;
-                                 ESP=Repla&nificar;
-                                 DEA=&Neu planen];
+                      CaptionML=[DEU=&Neu planen;
+                                 ENU=Re&plan];
                       Promoted=Yes;
                       Image=Replan;
                       PromotedCategory=Process;
@@ -185,9 +168,8 @@ OBJECT Page 99000831 Released Production Order
       { 36      ;2   ;Separator  }
       { 53      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Change &Status;
-                                 ESP=Cambiar &estado;
-                                 DEA=S&tatus „ndern];
+                      CaptionML=[DEU=S&tatus „ndern;
+                                 ENU=Change &Status];
                       Promoted=Yes;
                       Image=ChangeStatus;
                       PromotedCategory=Process;
@@ -200,9 +182,8 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 57      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=&Update Unit Cost;
-                                 ESP=A&ctualizar coste unitario;
-                                 DEA=Einstan&dspreis aktualisieren];
+                      CaptionML=[DEU=Einstan&dspreis aktualisieren;
+                                 ENU=&Update Unit Cost];
                       Promoted=Yes;
                       Image=UpdateUnitCost;
                       PromotedCategory=Process;
@@ -217,9 +198,8 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 58      ;2   ;Separator  }
       { 72      ;2   ;Action    ;
-                      CaptionML=[ENU=&Reserve;
-                                 ESP=&Reserva;
-                                 DEA=&Reservieren];
+                      CaptionML=[DEU=&Reservieren;
+                                 ENU=&Reserve];
                       Image=Reserve;
                       OnAction=BEGIN
                                  CurrPage.ProdOrderLines.PAGE.ShowReservation;
@@ -227,24 +207,21 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 73      ;2   ;Action    ;
                       Name=OrderTracking;
-                      CaptionML=[ENU=Order &Tracking;
-                                 ESP=Seguimiento &pedido;
-                                 DEA=&Bedarfsverursacher];
+                      CaptionML=[DEU=&Bedarfsverursacher;
+                                 ENU=Order &Tracking];
                       Image=OrderTracking;
                       OnAction=BEGIN
                                  CurrPage.ProdOrderLines.PAGE.ShowTracking;
                                END;
                                 }
       { 23      ;2   ;Separator ;
-                      CaptionML=[ENU="";
-                                 ESP="";
-                                 DEA=""] }
+                      CaptionML=[DEU="";
+                                 ENU=""] }
       { 87      ;2   ;Separator  }
       { 74      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=C&opy Prod. Order Document;
-                                 ESP=C&opiar documento O.P.;
-                                 DEA=FA-Beleg &kopieren];
+                      CaptionML=[DEU=FA-Beleg &kopieren;
+                                 ENU=C&opy Prod. Order Document];
                       Image=CopyDocument;
                       OnAction=BEGIN
                                  CopyProdOrderDoc.SetProdOrder(Rec);
@@ -253,24 +230,21 @@ OBJECT Page 99000831 Released Production Order
                                END;
                                 }
       { 5       ;1   ;ActionGroup;
-                      CaptionML=[ENU=Warehouse;
-                                 ESP=Almac‚n;
-                                 DEA=Lager];
+                      CaptionML=[DEU=Lager;
+                                 ENU=Warehouse];
                       Image=Worksheets }
       { 48      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Create Inventor&y Put-away/Pick/Movement;
-                                 ESP=Crear &ubicaci¢n/picking/movimiento inventario;
-                                 DEA=Ein&lagerung/Kommissionierung/Umlagerung erstellen];
+                      CaptionML=[DEU=Ein&lagerung/Kommissionierung/Umlagerung erstellen;
+                                 ENU=Create Inventor&y Put-away/Pick/Movement];
                       Image=CreatePutAway;
                       OnAction=BEGIN
                                  CreateInvtPutAwayPick;
                                END;
                                 }
       { 80      ;2   ;Action    ;
-                      CaptionML=[ENU=Create I&nbound Whse. Request;
-                                 ESP=Crear &petici¢n entrada alm.;
-                                 DEA=&Lagereinlag.-Anforderung erstellen];
+                      CaptionML=[DEU=&Lagereinlag.-Anforderung erstellen;
+                                 ENU=Create I&nbound Whse. Request];
                       Image=NewToDo;
                       OnAction=VAR
                                  WhseOutputProdRelease@1000 : Codeunit 7325;
@@ -287,9 +261,8 @@ OBJECT Page 99000831 Released Production Order
                                END;
                                 }
       { 62      ;2   ;Action    ;
-                      CaptionML=[ENU=Create Whse. Pick;
-                                 ESP=Crear picking alm.;
-                                 DEA=Kommissionierung erstellen];
+                      CaptionML=[DEU=Kommissionierung erstellen;
+                                 ENU=Create Whse. Pick];
                       Image=CreateWarehousePick;
                       OnAction=BEGIN
                                  SetHideValidationDialog(FALSE);
@@ -297,15 +270,13 @@ OBJECT Page 99000831 Released Production Order
                                END;
                                 }
       { 20      ;1   ;ActionGroup;
-                      CaptionML=[ENU=&Print;
-                                 ESP=&Imprimir;
-                                 DEA=D&rucken];
+                      CaptionML=[DEU=D&rucken;
+                                 ENU=&Print];
                       Image=Print }
       { 21      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Job Card;
-                                 ESP=Ficha trabajo;
-                                 DEA=Arbeitsschein];
+                      CaptionML=[DEU=Arbeitsschein;
+                                 ENU=Job Card];
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Process;
@@ -315,9 +286,8 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 37      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Mat. &Requisition;
-                                 ESP=Solicit&ar materiales;
-                                 DEA=&Materialbedarfsliste];
+                      CaptionML=[DEU=&Materialbedarfsliste;
+                                 ENU=Mat. &Requisition];
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Process;
@@ -327,9 +297,8 @@ OBJECT Page 99000831 Released Production Order
                                 }
       { 46      ;2   ;Action    ;
                       Ellipsis=Yes;
-                      CaptionML=[ENU=Shortage List;
-                                 ESP=Lista carencias;
-                                 DEA=Fehlteileliste];
+                      CaptionML=[DEU=Fehlteileliste;
+                                 ENU=Shortage List];
                       Promoted=Yes;
                       Image=Report;
                       PromotedCategory=Process;
@@ -340,9 +309,8 @@ OBJECT Page 99000831 Released Production Order
       { 1900000006;0 ;ActionContainer;
                       ActionContainerType=Reports }
       { 1906187306;1 ;Action    ;
-                      CaptionML=[ENU=Subcontractor - Dispatch List;
-                                 ESP=Subcontratista - Prioridades;
-                                 DEA=Fremdbearbeiter - Versandliste];
+                      CaptionML=[DEU=Fremdbearbeiter - Versandliste;
+                                 ENU=Subcontractor - Dispatch List];
                       RunObject=Report 99000789;
                       Promoted=No;
                       Image=Report;
@@ -355,9 +323,8 @@ OBJECT Page 99000831 Released Production Order
                 ContainerType=ContentArea }
 
     { 1   ;1   ;Group     ;
-                CaptionML=[ENU=General;
-                           ESP=General;
-                           DEA=Allgemein] }
+                CaptionML=[DEU=Allgemein;
+                           ENU=General] }
 
     { 16  ;2   ;Field     ;
                 Lookup=No;
@@ -418,9 +385,8 @@ OBJECT Page 99000831 Released Production Order
                 PagePartID=Page99000832 }
 
     { 1907170701;1;Group  ;
-                CaptionML=[ENU=Schedule;
-                           ESP=Previsi¢n;
-                           DEA=Plan] }
+                CaptionML=[DEU=Plan;
+                           ENU=Schedule] }
 
     { 28  ;2   ;Field     ;
                 SourceExpr="Starting Time";
@@ -439,9 +405,8 @@ OBJECT Page 99000831 Released Production Order
                 Importance=Promoted }
 
     { 1904784501;1;Group  ;
-                CaptionML=[ENU=Posting;
-                           ESP=Registro;
-                           DEA=Buchen] }
+                CaptionML=[DEU=Buchen;
+                           ENU=Posting] }
 
     { 81  ;2   ;Field     ;
                 SourceExpr="Inventory Posting Group";
@@ -494,9 +459,9 @@ OBJECT Page 99000831 Released Production Order
     VAR
       CopyProdOrderDoc@1000 : Report 99003802;
       ManuPrintReport@1001 : Codeunit 99000817;
-      Text000@1002 : TextConst 'ENU=Inbound Whse. Requests are created.;ESP=Se han creado peticiones entrada alm.;DEA=Es werden Lagereinlagerungs-Anforderungen erstellt.';
-      Text001@1003 : TextConst 'ENU=No Inbound Whse. Request is created.;ESP=No se han creado peticiones entrada alm.;DEA=Es wurden keine Lagereinlagerungs-Anforderungen erstellt.';
-      Text002@1004 : TextConst 'ENU=Inbound Whse. Requests have already been created.;ESP=Ya se han creado las solicitudes de entrada para el almac‚n.;DEA=Es wurden bereits Lagereinlagerungsanforderungen erstellt.';
+      Text000@1002 : TextConst 'DEU=Es werden Lagereinlagerungs-Anforderungen erstellt.;ENU=Inbound Whse. Requests are created.';
+      Text001@1003 : TextConst 'DEU=Es wurden keine Lagereinlagerungs-Anforderungen erstellt.;ENU=No Inbound Whse. Request is created.';
+      Text002@1004 : TextConst 'DEU=Es wurden bereits Lagereinlagerungsanforderungen erstellt.;ENU=Inbound Whse. Requests have already been created.';
 
     LOCAL PROCEDURE ShortcutDimension1CodeOnAfterV@19029405();
     BEGIN

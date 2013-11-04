@@ -2,14 +2,14 @@ OBJECT Report 11012 Intrastat - Form DE
 {
   OBJECT-PROPERTIES
   {
-    Date=28.03.13;
+    Date=05.04.13;
     Time=12:00:00;
-    Version List=NAVDACH7.00;
+    Version List=NAVDACH7.00.00.34587;
   }
   PROPERTIES
   {
-    CaptionML=[ENU=Intrastat - Form DE;
-               DEA=Intrastat - Formular DE];
+    CaptionML=[DEU=Intrastat - Formular DE;
+               ENU=Intrastat - Form DE];
     OnPreReport=BEGIN
                   IntraJnlLineFilter := "Intrastat Jnl. Line".GETFILTERS;
                   IF NOT ("Intrastat Jnl. Line".GETRANGEMIN(Type) = "Intrastat Jnl. Line".GETRANGEMAX(Type)) THEN
@@ -278,9 +278,9 @@ OBJECT Report 11012 Intrastat - Form DE
   CODE
   {
     VAR
-      Text1140000@1140000 : TextConst 'ENU=must be either Receipt or Shipment;DEA=muss entweder Eingang oder Lieferung sein';
-      Text1140002@1140002 : TextConst 'ENU=Statistics Period: %1;DEA=Statistikperiode: %1';
-      Text1140003@1140003 : TextConst 'ENU=All amounts are in %1;DEA=Alle Betr„ge in %1';
+      Text1140000@1140000 : TextConst 'DEU=muss entweder Eingang oder Lieferung sein;ENU=must be either Receipt or Shipment';
+      Text1140002@1140002 : TextConst 'DEU=Statistikperiode: %1;ENU=Statistics Period: %1';
+      Text1140003@1140003 : TextConst 'DEU=Alle Betr„ge in %1;ENU=All amounts are in %1';
       CompanyInfo@1140004 : Record 79;
       Country@1140005 : Record 9;
       GLSetup@1140006 : Record 98;
@@ -292,18 +292,18 @@ OBJECT Report 11012 Intrastat - Form DE
       VATIDNo@1140011 : Code[11];
       SumTotalWeight@1140012 : Decimal;
       Transctotal@1140018 : Decimal;
-      Intrastat___FormCaptionLbl@1140920 : TextConst 'ENU=Intrastat - Form;DEA=Intrastat - Formular';
-      CurrReport_PAGENOCaptionLbl@1143005 : TextConst 'ENU=Page;DEA=Seite';
-      VATIDNoCaptionLbl@1146767 : TextConst 'ENU=VAT Reg. No.;DEA=USt-IdNr.';
-      AreaCaptionLbl@1140564 : TextConst 'ENU=Area;DEA=Ursprungsregion';
-      Intrastat_Jnl__Line__Tariff_No__CaptionLbl@1146884 : TextConst 'ENU=Tariff No.;DEA=Zollpos.';
-      Country__Intrastat_Code_CaptionLbl@1144491 : TextConst 'ENU=Country Code;DEA=L„ndercode';
-      Intrastat_Jnl__Line__Transaction_Type_CaptionLbl@1141495 : TextConst 'ENU=Transaction Type;DEA=Art des Gesch„ftes';
-      Intrastat_Jnl__Line__Transport_Method_CaptionLbl@1142179 : TextConst 'ENU=Transport Method;DEA=Verkehrszweig';
-      Intrastat_Jnl__Line__Total_Weight_CaptionLbl@1147835 : TextConst 'ENU=Total Weight;DEA=Totalgewicht';
-      OriginCountry__Intrastat_Code_CaptionLbl@1144419 : TextConst 'ENU=Country of Origin Code;DEA=Ursprungsland';
-      Intrastat_Jnl__Line__Total__Caption_Control1140036Lbl@1144616 : TextConst 'ENU=Total;DEA=Gesamt';
-      NoOfRecordsCaptionLbl@1145677 : TextConst 'ENU=No. of Entries;DEA=Anzahl Posten';
+      Intrastat___FormCaptionLbl@1140920 : TextConst 'DEU=Intrastat - Formular;ENU=Intrastat - Form';
+      CurrReport_PAGENOCaptionLbl@1143005 : TextConst 'DEU=Seite;ENU=Page';
+      VATIDNoCaptionLbl@1146767 : TextConst 'DEU=USt-IdNr.;ENU=VAT Reg. No.';
+      AreaCaptionLbl@1140564 : TextConst 'DEU=Bundesland;ENU=Area';
+      Intrastat_Jnl__Line__Tariff_No__CaptionLbl@1146884 : TextConst 'DEU=Zollpos.;ENU=Tariff No.';
+      Country__Intrastat_Code_CaptionLbl@1144491 : TextConst 'DEU=L„ndercode;ENU=Country Code';
+      Intrastat_Jnl__Line__Transaction_Type_CaptionLbl@1141495 : TextConst 'DEU=Art des Gesch„ftes;ENU=Transaction Type';
+      Intrastat_Jnl__Line__Transport_Method_CaptionLbl@1142179 : TextConst 'DEU=Verkehrszweig;ENU=Transport Method';
+      Intrastat_Jnl__Line__Total_Weight_CaptionLbl@1147835 : TextConst 'DEU=Gesamtgewicht;ENU=Total Weight';
+      OriginCountry__Intrastat_Code_CaptionLbl@1144419 : TextConst 'DEU=Ursprungsland;ENU=Country of Origin Code';
+      Intrastat_Jnl__Line__Total__Caption_Control1140036Lbl@1144616 : TextConst 'DEU=Gesamt;ENU=Total';
+      NoOfRecordsCaptionLbl@1145677 : TextConst 'DEU=Anzahl Posten;ENU=No. of Entries';
 
     BEGIN
     END.
